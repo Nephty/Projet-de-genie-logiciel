@@ -1,0 +1,89 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+
+\begin{document}
+
+\section{Introduction}
+En se basant sur le \emph{use case diagram}, il est possible d'établir un \emph{interaction overview diagram}, décrivant plutôt la structure et le \emph{flow} général d'exécution du programme. Ce diagramme ne va pas dans les détails de chaque cas d'utilisation (cette tâche est réservées à chacun des \emph{sequence diagrams} associés à chaque \emph{use case}) mais décrit plutôt le chemin que l'utilisateur peut suivre durant l'exécution de l'application, en faisant usage des fonctionnalités mises à disposition. Par exemple, au démarrage de l'application, l'utilisateur peut se connecter, afficher la liste de ses portefeuilles, afficher l'historique d'un portefeuille et l'exporter au format JSON, puis sélectionner un nouveau portefeuille et le désactiver, et enfin se déconnecter de l'application avant de fermer cette-dernière. Il est possible de suivre ce chemin d'exécution dans l'\emph{interaction overview diagram}, et si l'on souhaite obtenir plus de détails sur le fonctionnement de l'exportation de l'historique, on peut suivre la référence au \emph{sequence diagram} associé.
+\\
+\\
+\indent Par la suite, \emph{interaction overview diagram}, \emph{use case diagram} et \emph{sequence diagram} seront respectivement abrégés \emph{IOD}, \emph{UCD} et \emph{SD}.
+
+
+\section{Structure de l'\emph{IOD} (application client)}
+\noindent
+L'\emph{IOD client} est divisé en deux grandes parties :
+\begin{enumerate}
+\item L'authentification ;
+\item L'accès à l'application en tant que client.
+\end{enumerate}
+\paragraph{Authentification} La première partie est accessible à tous, même aux institutions, aux personnes qui ne sont pas enregistrées dans la base de données... Cette partie ne communique avec la base de données que lors de l'inscription, afin de vérifier si, par exemple, l'adresse email n'est pas déjà enregistrée dans cette-dernière, ou afin d'enregistrer un nouvel utilisateur. La seule table à laquelle l'application accèdera durant l'exécution de cette partie est la table \emph{Users}, ce qui permet d'empêcher d'accéder aux tables contenant des informations sensibles sans être connecté à son compte.
+\paragraph{Accès à l'application en tant que client}La seconde partie n'est accessible qu'en se connectant avec les identifiants d'un compte enregistré dans la base de données. Lors de la connexion, l'utilisateur arrive sur l'écran principal, et peut, depuis celui-ci, accéder à toutes les fonctionnalités.
+
+
+\subsection{Authentification}
+Lors de l'ouverture de l'application, si aucune connexion n'a été enregistrée (c'est-à-dire si on accède à l'application sans s'être précédemment connecté), l'utilisateur arrive sur la fenêtre d'authentification. Depuis celle-ci, il peut effectuer plusieurs actions :
+\begin{enumerate}
+\item Changer la langue ;
+\item Se connecter ;
+\item Créer un compte.
+\end{enumerate}
+\begin{footnotesize}
+\textit{\emph{Quitter l'application} est considéré comme un comportement trivial.}
+\end{footnotesize}
+
+
+\subsubsection{Changer la langue}
+L'utilisateur peut accéder à une interface lui permettant de changer sa langue préférée. Cela mettra à jour sa langue préférée dans la base de données et adaptera la langue de l'interface.\\
+\indent Un menu déroulant affichera chaque fichier situé dans le répertoire dédié dont le nom respecte la forme \emph{LL.json}, à savoir deux lettres déterminant la langue (par exemple \emph{fr}, \emph{en}, \emph{de}, \emph{nl}, \emph{es}...) et au format JSON.
+
+
+\subsection{Accès à l'application en tant que client}
+Après s'être connecté, le client peut effectuer plusieurs actions :
+\begin{enumerate}
+\item Accéder à la liste de ses produits financiers
+\item Introduire une demande
+\end{enumerate}
+\textit{\emph{Quitter l'application}, \emph{Changer la langue} et \emph{Se déconnecter} sont considéré comme des comportements triviaux.}
+
+
+\subsubsection{Accéder à la liste de ses produits financiers}
+La liste des produits financiers de l'utilisateur s'affiche à l'écran, et les fonctionnalités sont accessibles si l'utilisateur sélectionne un produit.
+
+
+\subsubsection{Sélectionner un produit}
+Lorsque l'utilisateur a sélectionné un produit, de nouvelles fonctionnalités deviennent utilisables :
+\begin{enumerate}
+\item Modifier un portefeuille ;
+\item Effectuer un virement ;
+\item Voir l'historique d'un portefeuille.
+\end{enumerate}
+
+
+\subsubsection{Modifier un portefeuille}
+La modification du portefeuille permet à l'utilisateur de basculer (\emph{toggle}) l'état du portefeuille sélectionner. Si le portefeuille est activé, l'utilisateur pourra le désactiver, et si le portefeuille est désactivé, l'utilisateur pourra le ré-activer. Après avoir basculé l'état du portefeuille, l'utilisateur est envoyé sur l'écran précédent, à savoir la sélection d'un portefeuille.
+
+
+\subsubsection{Effectuer un virement}
+Si le client souhaite effectuer un virement, il en a la possibilité en accédant à cette étape du flot d'exécution.
+
+
+\subsubsection{Voir l'historique d'un portefeuille}
+Après avoir sélectionné un portefeuille, l'utlisateur peut demander à visualiser l'historique de manière plus détaillée. Pour cela, deux techniques sont mises à sa disposition :
+\begin{enumerate}
+\item La visualisation en liste, qui affiche une liste détaillée des transactions d'un ou plusieurs portefeuilles à intervalles de temps différentes ;
+\item La visualisation graphique qui permet d'afficher des graphiques représentant ce même historique, mais de manière plus condensée et \emph{user-friendly}. L'utilisateur peut aussi visualiser un ou plusieurs portefeuilles, à intervalles de temps différentes.
+\end{enumerate}
+
+
+\subsubsection{Introduire une demande}
+En retournant à l'accès à l'application en tant qu'utilisateur, le client peut aussi introduire une demande. Deux types de demandes sont supportés :
+\begin{enumerate}
+\item Demande de permission de virement : l'utilisateur peut demander à une institution la permission d'effectuer des virements depuis l'application ;
+\item Demande d'ajout de produit financier : l'utilisateur peut demander à une institution la permission d'afficher des produits financiers dans l'application.
+\end{enumerate}
+
+\end{document}

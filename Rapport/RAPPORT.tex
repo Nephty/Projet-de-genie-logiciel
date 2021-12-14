@@ -1,0 +1,497 @@
+\documentclass[]{report}
+
+% Use utf-8 encoding for foreign characters
+\usepackage[utf8]{inputenc}
+% For euro symbol
+\usepackage{eurosym}
+% for http links
+\usepackage[hidelinks]{hyperref}
+
+% Setup for fullpage use
+\usepackage{fullpage}
+%\usepackage{graphicx}
+%\usepackage{subfig}
+%\usepackage{float}
+%\usepackage{listings}
+
+\usepackage[francais]{babel}
+
+\usepackage{times}
+%\usepackage{rotate}
+%\usepackage{lscape}
+
+\usepackage{color}
+\usepackage{placeins}
+
+\usepackage{forest}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{subfiles}
+\usepackage{geometry}
+
+
+\makeatletter
+\DeclareRobustCommand{\genericinterval}[2]{%
+	\@ifstar{\genericinterval@star{#1}{#2}}{\genericinterval@nostar{#1}{#2}}}
+\newcommand{\genericinterval@star}[4]{\mathopen{}\mathclose{\left#1#3:#4\right#2}}
+\newcommand{\genericinterval@nostar}[4]{\mathopen{#1}#3:#4\mathclose{#2}}
+\newcommand{\intervalcc}{\genericinterval[]}
+\newcommand{\intervaloo}{\genericinterval][}
+\newcommand{\intervaloc}{\genericinterval]]}
+\newcommand{\intervalco}{\genericinterval[[}
+\makeatother
+
+\newcommand{\placeholder}[1]{{\noindent \color{red}[ #1 ]}}
+\newcommand{\comp}[1]{\mathcal{O}(#1)}
+\def\Li{\par\leavevmode\par}
+
+\newcommand{\navbutton}[2]{Le bouton \emph{#1} : envoie l'utilisateur sur la fenêtre \emph{#2}}
+\newcommand{\textfield}[2]{Le champ de texte \emph{#1} : permet à l'utilisateur d'entrer #2}
+\newcommand{\passwordfield}[2]{Le champ de mot de passe \emph{#1} : permet à l'utilisateur d'entrer #2 de manière discrète}
+\newcommand{\access}[1]{\ \\ \noindent\textbf{Accès} : #1 \\}
+\newcommand{\content}[1]{\textbf{Contenu} : #1}
+
+%-----Commandes pour page de garde UMons
+\usepackage[fs]{umons-coverpage}
+\umonsAuthor{
+	Augustin \textsc{Houba} \\
+	Arnaud \textsc{Moreau} \\
+	Cyril \textsc{Moreau} \\
+	François \textsc{Vion}
+}
+\umonsTitle{Projet de Génie Logiciel}
+\umonsSubtitle{S-INFO-015}
+\umonsDocumentType{Rapport de modélisation\\
+7 décembre 2021}
+\umonsSupervisor{ \\
+	Prof. Tom \textsc{Mens}\\
+} 
+% The date (or academic year)
+\umonsDate{Année académique 2021-2022}
+
+\begin{document}
+%\tikzset
+%	every label/.append style={font=\scriptsize},
+%	my edge labels/.style={font=\scriptsize},
+%	dominant/.append style={label=below:$dominant$},
+%}
+%\frontmatter          % for the preliminaries
+%\pagestyle{headings}  % switches on printing of running heads
+%\mainmatter              % start of the contributions
+
+%\umonsCoverPage
+
+\subfile{subfiles/Titlepage.tex}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\chapter{Partie commune}
+
+
+\newpage
+
+
+
+
+\section{Introduction aux diagrammes de conception UML}
+
+
+
+\subsection{Interaction overview diagrams}
+
+\subfile{subfiles/Interaction Overview Intro & Auth.tex}
+
+
+
+
+\section{Diagrammes de conception UML : application client}
+
+
+
+\subsection{Use case diagram}
+
+\newpage
+
+\subsection{Interaction overview diagram}
+
+\subfile{subfiles/Interaction Overview Client.tex}
+
+\begin{figure}[h!]
+\hbox{
+	\centering\includegraphics[width=\linewidth]{img/Interaction Overview Client.pdf}
+}
+\caption{Interaction overview diagram : application client}
+\end{figure}
+
+\newpage
+
+
+\subsection{Class diagram}
+
+\newpage
+
+\subsection{Sequence diagram}
+
+\newpage
+
+
+
+\section{Diagrammes de conception UML : application institution}
+
+
+
+\subsection{Use case diagram}
+
+\newpage
+
+\subsection{Interaction overview diagram}
+
+\subfile{subfiles/Interaction Overview Institution.tex}
+
+\vspace{2.5cm}
+\begin{figure}[h!]
+\hbox{
+	\centering\includegraphics[width=\linewidth]{img/Interaction Overview Institution.pdf}
+}
+\caption{Interaction overview diagram : application institution}
+\end{figure}
+
+\newpage
+
+\subsection{Class diagram}
+
+\newpage
+
+\subsection{Sequence diagram}
+
+\newpage
+
+
+
+\section{Modèle de données}
+
+
+\newpage
+
+
+\section{Design du REST API}
+
+
+\newpage
+
+
+\section{Maquette de l'interface utilisateur : application client}
+
+\subfile{subfiles/UI Client.tex}
+
+\vspace*{\fill}
+
+\paragraph{Illustration du diagramme} Par souci de clareté, ce diagramme est disponible en annexe du rapport.
+
+\newpage
+
+
+
+\section{Maquette de l'interface utilisateur : application institution}
+
+\subfile{subfiles/UI Institution.tex}
+
+\vspace*{\fill}
+
+\paragraph{Illustration du diagramme} Par souci de clareté, ce diagramme est disponible en annexe du rapport.
+
+\newpage
+
+
+
+
+
+\chapter{Extension A : Gestion de cartes - Augustin \textsc{Houba}}
+
+
+\newpage
+
+
+\section{Diagrammes de conception UML : application client}
+
+
+
+\subsection{Use case diagram}
+
+\newpage
+
+\subsection{Interaction overview diagram}
+
+\newpage
+
+\subsection{Class diagram}
+
+\newpage
+
+\subsection{Sequence diagram}
+
+\newpage
+
+
+
+\section{Diagrammes de conception UML : application institution}
+
+
+
+\subsection{Use case diagram}
+
+\newpage
+
+\subsection{Interaction overview diagram}
+
+\newpage
+
+\subsection{Class diagram}
+
+\newpage
+
+\subsection{Sequence diagram}
+
+\newpage
+
+
+
+
+
+\chapter{Extension B : Gestion de devises et virements internationaux - Cyril \textsc{Moreau}}
+
+
+
+\newpage
+
+
+
+\section{Diagrammes de conception UML : application client}
+
+
+
+\subsection{Use case diagram}
+
+\newpage
+
+\subsection{Interaction overview diagram}
+
+\newpage
+
+\subsection{Class diagram}
+
+\newpage
+
+\subsection{Sequence diagram}
+
+\newpage
+
+
+
+\section{Diagrammes de conception UML : application institution}
+
+
+
+\subsection{Use case diagram}
+
+\newpage
+
+\subsection{Interaction overview diagram}
+
+\newpage
+
+\subsection{Class diagram}
+
+\newpage
+
+\subsection{Sequence diagram}
+
+\newpage
+
+
+
+
+
+
+\chapter{Extension C : Gestion des contrats d’assurance - François \textsc{Vion}}
+
+
+
+\newpage
+
+
+
+\section{Diagrammes de conception UML : application client}
+
+
+
+\subsection{Use case diagram}
+
+\newpage
+
+\subsection{Interaction overview diagram}
+
+\newpage
+
+\subsection{Class diagram}
+
+\newpage
+
+\subsection{Sequence diagram}
+
+\newpage
+
+
+
+\section{Diagrammes de conception UML : application institution}
+
+
+
+\subsection{Use case diagram}
+
+\newpage
+
+\subsection{Interaction overview diagram}
+
+\newpage
+
+\subsection{Class diagram}
+
+\newpage
+
+\subsection{Sequence diagram}
+
+\newpage
+
+
+
+
+
+\chapter{Extension D : Paiements et gestion de fraudes - Arnaud \textsc{Moreau}}
+
+
+
+
+
+\newpage
+
+
+
+
+\section{Diagrammes de conception UML : application client}
+
+
+
+
+\subsection{Use case diagram}
+
+\begin{figure}[h!]
+\vspace{2cm}
+\hspace{-1cm}
+\hbox{
+%	\rotatebox{90}{
+		%\hspace{-2.5cm}
+		\includegraphics[scale=0.45]{img/Use Case Client - Extension 6.pdf}
+%	}
+}
+\end{figure}
+
+\subfile{subfiles/Semi detailed description Client - Extension 6.tex}
+
+\newpage
+
+\subsection{Interaction overview diagram}
+
+\begin{figure}[h!]
+\hspace{-3cm}
+\hbox{
+%	\rotatebox{90}{
+%		\hspace{-2.5cm}
+		\includegraphics[scale=0.5]{img/Interaction Overview Client - Extension 6.pdf}
+%	}
+}
+\end{figure}
+
+\newpage
+
+\subsection{Class diagram}
+
+\newpage
+
+\subsection{Sequence diagram}
+
+\newpage
+
+
+
+
+\section{Diagrammes de conception UML : application institution}
+
+
+
+
+\subsection{Use case diagram}
+
+\begin{figure}[h!]
+\vspace{2cm}
+\hspace{-1cm}
+\hbox{
+	\includegraphics[scale=0.55]{img/Use Case Institution - Extension 6.pdf}
+}
+\end{figure}
+
+\subfile{subfiles/Semi detailed description Institution - Extension 6.tex}
+
+\newpage
+
+\subsection{Interaction overview diagram}
+
+\begin{figure}[h!]
+\hspace{-3cm}
+\hbox{
+	\includegraphics[scale=0.5]{img/Interaction Overview Institution - Extension 6.pdf}
+}
+\end{figure}
+
+\newpage
+
+\subsection{Class diagram}
+
+\newpage
+
+\subsection{Sequence diagram}
+
+\newpage
+
+
+
+
+\section{Maquette de l'interface utilisateur}
+
+\subfile{subfiles/UI Client - Extension 6.tex}
+
+\vspace*{\fill}
+
+\paragraph{Illustration du diagramme} Par souci de clareté, ce diagramme est disponible en annexe du rapport.
+
+\newpage
+
+
+\section{Maquette de l'interface institution}
+
+\subfile{subfiles/UI Institution - Extension 6.tex}
+
+\vspace*{\fill}
+
+\paragraph{Illustration du diagramme} Par souci de clareté, ce diagramme est disponible en annexe du rapport.
+
+
+
+
+\end{document}

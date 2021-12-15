@@ -1,0 +1,39 @@
+\paragraph{Nouvelles références :}
+\begin{itemize}
+\item Créer une demande de paiement via QR code ;
+\item Effectuer un paiement via QR code ;
+\item Voir l'historique des transactions suspectes ;
+\item Infirmer une suspicion de fraude ;
+\item Confirmer une suspicion de fraude ;
+\item Voir les paiements à effectuer ;
+\item Sélectionner un paiement à effectuer ;
+\item Payer avec contact ;
+\item Payer sans contact.
+\end{itemize}
+
+
+\subparagraph{Créer une demande de paiement via QR code} L'utilisateur a la possibilité de créer une image contenant un QR code, qui pourra transmettre des données (montant, destinataire et message) et qui pourra plus tard être utilisé par un autre utilisateur afin d'effectuer une transaction correspondant aux données.
+
+
+\subparagraph{Effectuer un paiement via QR code} L'utilisateur peut aussi sélectionner une image dans ses fichiers locaux contenant un QR code créé par un autre utilisateur auparavant. Ce QR code pourra alors être lu et une transaction pourra avoir lieu.
+
+
+\subparagraph{Voir l'historique des transactions suspectes} Le client peut visualiser l'ensemble des transactions qui auront été marquées comme suspectes dans la base de données. Par la suite, il pourra confirmer ou infirmer cette suspicion.
+
+
+\subparagraph{Infirmer une suspicion de fraude} Le client ayant accédé aux transactions suspectes, il pourra infirmer cette suspicion et baisser le niveau de sécurité de son compte. Typiquement, plus ce niveau est élevé, plus l'utilisateur est restreint, afin d'empêcher toute utilisation frauduleuse de son compte.
+
+
+\subparagraph{Confirmer une suspicion de fraude} Le client ayant accédé aux transactions suspectes, il pourra confirmer cette suspicion et augmenter le niveau de sécurité de son compte.
+
+
+\subparagraph{Voir les paiements à effectuer} L'utilisateur peut accéder à une liste de paiements prévus, situés dans un fichier local au format JSON. Cette liste de paiements peut être réglée, moyennant un ou plusieurs paiements avec ou sans contact.
+
+
+\subparagraph{Sélectionner un paiement à effectuer} L'utilisateur peut sélectionner un paiement parmi ceux proposés dans la liste, afin d'effectuer la transaction.
+
+
+\subparagraph{Payer avec contact} Après avoir sélectionner le paiement qu'il souhaite effectuer, l'utilisateur a la possibilité de payer avec contact, ce qui signifie qu'il devra entrer son code PIN afin de confirmer le paiement.
+
+
+\subparagraph{Payer sans contact} Après avoir sélectionner le paiement qu'il souhaite effectuer, l'utilisateur a la possibilité de payer sans contact, ce qui signifie que le paiement sera effectuer sans avoir besoin d'entrer le code PIN. Ce moyen de paiement sera soumis à plus de restrictions (notamment une limite, comme explicité pour l'\emph{Interaction Overview Diagram} de l'application institution) afin d'éviter les utilisations frauduleuses.

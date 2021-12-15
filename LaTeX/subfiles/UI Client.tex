@@ -1,0 +1,238 @@
+\paragraph{Fenêtres disponibles}
+\begin{itemize}
+\item Auth ;
+\item Sign in ;
+\item Sign up ;
+\item Change password ;
+\item Change language ;
+\item Main screen ;
+\item Financial products ;
+\item Toggle product ;
+\item Enter PIN to confirm ;
+\item Details ;
+\item Transaction history ;
+\item Visualize history ;
+\item Export history ;
+\item Transfer ;
+\item Requests ;
+\item Request transfer permission ;
+\item Request new portfolio ;
+\item Requests status ;
+\item Notifications.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Auth}}
+\access{en ouvrant l'application sans être connecté, en cliquant sur les boutons \emph{Back} des fenêtres \emph{Sign in} et \emph{Sign up} ou en cliquant sur le bouton \emph{Sign out} de la fenêtre \emph{Main screen}.}
+\content{les boutons \emph{Sign in}, \emph{Sign up} et \emph{Language}.}
+\begin{itemize}
+\item \navbutton{Sign in}{Sign in} ;
+\item \navbutton{Sign up}{Sign up} ;
+\item \navbutton{Language}{Change language}.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Sign in}}
+\access{en cliquant sur le bouton \emph{Sign in} de la fenêtre \emph{Auth} ou en créant un compte sur la fenêtre \emph{Sign up}.}
+\content{les boutons \emph{Back}, \emph{Sign in} et \emph{Language}, le champ de texte \emph{Username or email...} et le champ de mot de passe \emph{Password...} .}
+\begin{itemize}
+\item \navbutton{Back}{Auth} ;
+\item Bouton \emph{Sign in} : si les identifiants sont corrects, connecte l'utilisateur et l'envoie sur la fenêtre \emph{Main screen}, sinon, affiche une erreur ;
+\item \navbutton{Language}{Change language} ;
+\item \textfield{Username or email...}{son nom d'utilisateur ou son email} ;
+\item \passwordfield{Password...}{son mot de passe}.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Sign up}}
+\access{en cliquant sur le bouton \emph{Sign up} de la fenêtre \emph{Auth}.}
+\content{les boutons \emph{Back}, \emph{Sign up} et \emph{Language}, les champs de texte \emph{Last name...}, \emph{First name...}, \emph{NRN...}, \emph{Email address...}, \emph{Username...}, les champs de mot de passe \emph{Password...} et \emph{Confirm password...}, le label \emph{Favorite language}, le menu déroulant \emph{Language} et la case à cocher \emph{Confirmation} .}
+\begin{itemize}
+\item \navbutton{Back}{Auth} ;
+\item Bouton \emph{Sign up} : si l'adresse email est au format correct, l'adresse email et le nom d'utilisateur ne sont pas déjà pris par un autre utilisateur, le numéro national est correctement formatté, le mot de passe est confirmé et la case à cocher est cochée, enregistre un nouveau profil dans la base de données et envoie l'utilisateur sur la fenêtre \emph{Sign in} avec le champ de texte \emph{Username or email...} pré-complété ;
+\item \navbutton{Language}{Change language} ;
+\item \textfield{Last name...}{son nom} ;
+\item \textfield{First name...}{son prénom} ;
+\item \textfield{NRN...}{son numéro national} ;
+\item \textfield{Email address...}{son adresse email} ;
+\item \textfield{Username...}{un nom d'utilisateur} ;
+\item \passwordfield{Password...}{un mot de passe} ;
+\item \passwordfield{Confirm password...}{la confirmation du mot de passe} ;
+\item Le menu déroulant \emph{Language} : permet à l'utilisateur de sélectionner sa langue préférée ;
+\item La case à cocher \emph{Confirmation} : demande à l'utilisateur de confirmer qu'il a sauvegardé son mot de passe de manière locale, sécurisée et permanente.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Change password}}
+\access{en cliquant sur le bouton \emph{Change password} de la fenêtre \emph{Main screen}.}
+\content{les boutons \emph{Back}, \emph{Change password} et \emph{Language} et les champ de mot de passe \emph{Current password}, \emph{New password} et \emph{Confirm new password} et la case à cocher \emph{Confirmation}.}
+\begin{itemize}
+\item \navbutton{Back}{Main screen} ;
+\item Le bouton \emph{Change password} : change le mot de passe lié à l'utilisateur si la case à cocher est cochée, que l'ancien mot de passe est correct et que la confirmation du nouveau mot de passe est correcte ;
+\item \navbutton{Language}{Change language} ;
+\item \passwordfield{Current password}{son mot de passe actuel} ;
+\item \passwordfield{New password}{le nouveau mot de passe désiré} ;
+\item \passwordfield{Confirm new passsword}{la confirmation du nouveau mot de passe} ;
+\item La case à cocher \emph{Confirmation} : demande à l'utilisateur de confirmer qu'il a mis à jour son mot de passe précédemment enregistré de manière locale, sécurisée et permanente.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Change language}}
+\access{en cliquant sur le bouton \emph{Language} de la fenêtre \emph{Auth}, \emph{Sign in}, \emph{Sign up}, \emph{Reset password} ou \emph{Main screen}.}
+\content{les boutons \emph{Back}, \emph{Add...} et \emph{Confirm}, le label \emph{Choose a language} et la liste \emph{Available languages}.}
+\begin{itemize}
+\item \navbutton{Back}{précédente} ;
+\item Le bouton \emph{Add...} : permet de sélectionner un fichier JSON correspondant à une langue afin de l'ajouter à la liste de langues disponibles ;
+\item \navbutton{Confirm}{précente} et modifie la langue de l'application par la nouvelle langue sélectionnée ;
+\item La liste \emph{Available languages} : contient une liste de toutes les langues disponibles et permet à l'utilisateur d'en sélectionner une.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Main screen}}
+\access{en se connectant à son compte de la fenêtre \emph{Sign in}, en cliquant sur le bouton \emph{Back} de la fenêtre \emph{Financial products}, en cliquant sur les boutons \emph{Change password} ou \emph{Back} de la fenêtre \emph{Change password}, en ayant entré trois fois un code PIN incorrect via la fenêtre \emph{Enter PIN to confirm}, en cliquant sur le bouton \emph{Back} de la fenêtre \emph{Financial products} ou en cliquant sur le bouton \emph{Back} de la fenêtre \emph{Requests}.}
+\content{les boutons \emph{Sign out}, \emph{Language}, \emph{Financial products}, \emph{Requests} et \emph{Change password}.}
+\begin{itemize}
+\item \navbutton{Sign out}{Auth} et déconnecte l'utilisateur ;
+\item \navbutton{Language}{Change language} ;
+\item \navbutton{Financial products}{Financial products} ;
+\item \navbutton{Requests}{Requests} ;
+\item \navbutton{Change password}{Change password}.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Financial products}}
+\access{en cliquant sur le bouton \emph{Financial products} de la fenêtre \emph{Main screen} ou en cliquant sur le bouton \emph{Back} des fenêtres \emph{Toggle product} et \emph{Details}.}
+\content{les boutons \emph{Back}, \emph{Edit} et \emph{Details}, le label \emph{Choose a product} et la liste \emph{Products}.}
+\begin{itemize}
+\item \navbutton{Back}{Main screen} ;
+\item La liste \emph{Products} : affiche la liste des produits financiers associés au compte (c'est-à-dire ceux dont l'utilisateur est titulaire ou co-titulaire) ;
+\item \navbutton{Edit}{Toggle product} ;
+\item \navbutton{Details}{Details}.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Toggle product}}
+\access{en cliquant sur le bouton \emph{Edit} de la fenêtre \emph{Financial products}.}
+\content{les boutons \emph{Back} et \emph{Toggle} et le label \emph{Toggle selected product}.}
+\begin{itemize}
+\item \navbutton{Back}{Financial product} ;
+\item \navbutton{Toggle}{Enter PIN to confirm} et active/désactive le produit financier sélectionné selon son état actuel si la réponse de la fenêtre \emph{Enter PIN to confirm} est positive (c'est-à-dire si le code PIN est correct).
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Enter PIN to confirm}}
+\access{en cliquant sur le bouton \emph{Toggle} de la fenêtre \emph{Toggle product} ou sur le bouton \emph{Confirm} de la fenêtre \emph{Transfer} si le virement est effectué.}
+\content{les boutons \emph{Back} et \emph{Confirm}, un bouton par chiffre allant de 0 à 9, un bouton \emph{Delete} et le label \emph{Entered code}.}
+\begin{itemize}
+\item \navbutton{Back}{précédente} ;
+\item Le bouton \emph{Confirm} : renvoie à la fenêtre précédente avec une réponse positive si le code entré est bon, affiche une erreur si le code entré est mauvais et que l'utilisateur a fait moins de trois tentatives erronées, ou renvoie à la fenêtre \emph{Main screen} et bloque le compte si l'utilisateur a fait trois tentatives erronées ;
+\item Les boutons allant de 0 à 9 : entre le chiffre correspondant et modifie le label \emph{PIN} ;
+\item Le bouton \emph{Delete} (<) : supprime la dernière entrée du code PIN.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Details}}
+\access{en cliquant sur le boutons \emph{Details} de la fenêtre \emph{Financial products} ou en cliquant sur le bouton \emph{Back} de la fenêtre \emph{Transaction history}.}
+\content{Les boutons \emph{Back}, \emph{Transfer} et \emph{History}, les labels \emph{Choose an account} et \emph{Product} et la liste \emph{Accounts}.}
+\begin{itemize}
+\item \navbutton{Back}{Financial products} ;
+\item \navbutton{Transfer}{Transfer} ;
+\item \navbutton{History}{Transaction history} ;
+\item La liste \emph{Accounts} : affiche les comptes associés au produit financier précédemment sélectionné.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Transaction history}}
+\access{en cliquant sur le bouton \emph{History} de la fenêtre \emph{Details} ou en cliquant sur le bouton \emph{Back} de la fenêtre \emph{Export...}, en cliquant sur le bouton \emph{Back} de la fenêtre \emph{Visualize}, en cliquant sur les boutons \emph{Export to JSON format} ou \emph{Export to CSV format} de la fenêtre \emph{Export history}.}
+\content{les boutons \emph{Back}, \emph{Visualize} et \emph{Export history}, les labels \emph{Account name} et \emph{Account ID} et la liste \emph{Transactions}.}
+\begin{itemize}
+\item \navbutton{Back}{Details} ;
+\item \navbutton{Visualize}{Visualize history}
+\item \navbutton{Export history}{Export history} ;
+\item La liste \emph{Transactions} : contient les transactions passées.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Visualize history}}
+\access{en cliquant sur le bouton \emph{Visualize} de la fenêtre \emph{Transaction history}.}
+\content{les boutons \emph{Back}, \emph{Export...}, \emph{Add} et \emph{Remove}, les labels \emph{Product name}, \emph{Product ID}, \emph{Time scale} et \emph{Add/remove acccount}, les menus déroulants \emph{Time scale} et \emph{Accounts} et la zone d'affiche des graphiques.}
+\begin{itemize}
+\item \navbutton{Back}{Transaction history} ;
+\item \navbutton{Export}{Export history} et lui permet d'exporter l'historique avec une échelle de temps différente ;
+\item Le bouton \emph{Add} : ajoute le produit sélectionné à visualiser ;
+\item Le bouton \emph{Remove} : retire le produit sélectionné visualisé ;
+\item Le menu déroulant \emph{Time scale} : permet à l'utilisateur de choisir une échelle de temps à utiliser pour les graphiques ;
+\item le menu déroulant \emph{Accounts} : permet à l'utilisateur de sélectionner un produit à ajouter/enlever de la visualisation.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Export history}}
+\access{en cliquant sur le bouton \emph{Export...} de la fenêtre \emph{Transaction history} ou en cliquant sur le bouton \emph{Export...} de la fenêtre \emph{Visualize history}.}
+\content{les boutons \emph{Back}, \emph{Choose path...}, \emph{Export to JSON format} et \emph{Export to CSV format} et les labels \emph{Export location} et \emph{Selected path}}
+\begin{itemize}
+\item \navbutton{Back}{Transaction history} ;
+\item Le boutton \emph{Choose path...} : ouvre l'explorateur de fichier afin de déterminer le chemin de destination ;
+\item Le bouton \emph{Export to JSON format} : exporte l'historique au format JSON ;
+\item Le bouton \emph{Export to CSV format} : exporte l'historique au format CSV.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Transfer}}
+\access{en cliquant sur le bouton \emph{Transfer} de la fenêtre \emph{Financial products}.}
+\content{les boutons \emph{Back} et \emph{Confirm}, les labels \emph{Amount}, \emph{Recipient}, \emph{IBAN}, \emph{Message} et \emph{Date} et les champs de texte \emph{Amount}, \emph{Recipient}, \emph{IBAN}, \emph{Message} et \emph{Date}.}
+\begin{itemize}
+\item \navbutton{Back}{Financial products} ;
+\item \navbutton{Confirm}{Enter PIN to confirm} si le montant, l'IBAN et la date sont correctement formatés, et effectue le virement si la réponse de la fenêtre \emph{Enter PIN to confirm} est positive ;
+\item \textfield{Amount}{la somme à envoyer} ;
+\item \textfield{Recipient}{le destinataire} ;
+\item \textfield{IBAN}{l'IBAN du destinataire} ;
+\item \textfield{Message}{la communication liée au virement} ;
+\item \textfield{Date}{la date de planification du virement}.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Requests}}
+\access{en cliquant sur le bouton \emph{Request} de la fenêtre \emph{Main screen}, en cliquant sur le bouton \emph{Back} de la fenêtre \emph{Request transfer permission} ou en cliquant sur le bouton \emph{Back} de la fenêtre \emph{Request new portfolio}.}
+\content{les boutons \emph{Back}, \emph{Transfer permission}, \emph{New portfolio} et \emph{Requests status}.}
+\begin{itemize}
+\item \navbutton{Back}{Main screen} ;
+\item \navbutton{Transfer permission}{Request transfer permission} ;
+\item \navbutton{New portfolio}{Request new portfolio} ;
+\item \navbutton{Requests status}{Requests status}.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Request transfer permission}}
+\access{en cliquant sur le bouton \emph{Transfer permission} de la fenêtre \emph{Requests}.}
+\content{les boutons \emph{Back} et \emph{Send request}, le label \emph{Select portfolio} et le menu déroulant \emph{Portfolio}.}
+\begin{itemize}
+\item \navbutton{Back}{Requests} ;
+\item Le bouton \emph{Send request} : affiche une confirmation que la demande a bien été envoyée si un portfeuille a été sélectionné ;
+\item Le menu déroulant \emph{Portfolio} : contient les portefeuilles qui ne possèdent pas déjà la permission d'effectuer des virements.
+\end{itemize}
+
+
+\subparagraph{Fenêtre \emph{Request new portfolio}}
+\access{en cliquant sur le bouton \emph{New portfolio} de la fenêtre \emph{Requests}.}
+\content{les boutons \emph{Back} et \emph{Send request}, le label \emph{Select SWIFT} et le menu déroulant \emph{SWIFT}.}
+\begin{itemize}
+\item \navbutton{Back}{Requests} ;
+\item Le bouton \emph{Send request} : affiche une confirmation que la demande a bien été envoyée si un code SIWFT a été sélectionné ;
+\item Le menu déroulant \emph{SWIFT} : contient les codes SWIFT existants dans la base de donnée.
+\end{itemize}
+
+\subparagraph{Fenêtre \emph{Requests status}}
+\access{en cliquant sur le bouton \emph{Requests status} de la fenêtre \emph{Requests}.}
+\content{Le bouton \emph{back} et la liste \emph{Requests}.}
+\begin{itemize}
+\item \navbutton{Back}{Requests} ;
+\item La liste \emph{Requests} : affiche toutes les requêtes effectuées ainsi que leur status (validée, refusée, en attente).
+\end{itemize}
+
+\subparagraph{Fenêtre \emph{Notifications}}
+\access{en cliquant sur le bouton \emph{Notifications} de la fenêtre \emph{Main screen}.}
+\content{le bouton \emph{Back} et la liste \emph{Notifications}.}
+\begin{itemize}
+\item \navbutton{Back}{Main screen} ;
+\item La liste \emph{Notifications} : contient les notifications de l'utilisateur.
+\end{itemize}

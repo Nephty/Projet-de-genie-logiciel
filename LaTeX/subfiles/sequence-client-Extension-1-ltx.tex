@@ -38,6 +38,18 @@ Ensuite:
 
 \paragraph{Créer une carte}
 
+Cette interaction comment par l'utilisateur qui entre les données nécessaires a la création
+de la carte dans AddDebitCardScene(1). La scène crée la DebitCard basée sur ce que l'utilisateur
+a entré(2).
+\newline
+Ensuite:
+\begin{itemize}
+    \item Soit elle envoie sa demande de création(3). Le serveur répond que la création s'est correctement
+    effectuée(4). La carte communique que la création est validée à AddDebitCardScene(5)
+    \item Soit elle envoie sa demande de création(6). Le serveur répond qu'une erreur s'est produite(7).
+     La carte communique l'erreur à AddDebitCardScene(8)
+\end{itemize}
+
 \begin{figure}[h!]
     \hbox{
         \centering\includegraphics[width=\linewidth]{./img/sequence-client-Extension-1_create.pdf}
@@ -48,6 +60,17 @@ Ensuite:
 \newpage
 
 \paragraph{Modifier une carte}
+
+Cette interaction comment par l'utilisateur qui entre les données nécessaires a la modification
+de la carte dans DebitCardScene(1). La scène communique à DebitCard les données à modifier(2).
+\newline
+Ensuite:
+\begin{itemize}
+    \item Soit elle envoie sa demande de modification(3). Le serveur répond que la modification s'est correctement
+    effectuée(4). La carte communique que la modification est validée à DebitCardScene(5)
+    \item Soit elle envoie sa demande de modification(6). Le serveur répond qu'une erreur s'est produite(7).
+     La carte communique l'erreur à DebitCardScene(8)
+\end{itemize}
 
 \begin{figure}[h!]
     \hbox{

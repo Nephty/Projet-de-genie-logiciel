@@ -1180,9 +1180,195 @@
    \end{tabular}
 \end{table}
 
+\section{Extension 5 - VION François}
+\subsection{Partie client}
+\subsubsection{Voir la liste des assurances}
+\begin{table}[h]
+    \begin{tabular}{|c|p{10cm}|}
+       \hline
+       Acteur principal&Le client\\
+       \hline
+       Description&Le client accède à la liste de ses assurances chez une ou plusieurs banques.\\
+       \hline
+       Préconditions&Le client est connecté à un compte.\\
+       \hline
+       PostConditions&La liste des assurances est affichée.\\
+       \hline
+       Scénario principal& 
+             \begin{enumerate}
+                \item Une requête est envoyée au serveur afin d'avoir accès à la liste des assurances d'un client.
+                \item Le serveur renvoie la liste des assurances d'un client.
+                \item La liste des assurances est affichée.
+             \end{enumerate}     \\
+       \hline
+       Scénario alternatif&
+        \begin{itemize}
+            \item[1a.] Si le client ne possède pas d'assurance, une liste vide est affichée.
+            \item[2a.] Une erreur est survenue lors du traitement de la demande par le serveur.
+            \item[2b.] Un message d'erreur est affiché à l'écran de l'utilisateur. 
+        \end{itemize}     \\
+       \\
+       \hline
+       Trigger&Le client accède à la fenêtre de la liste des assurances.\\
+       \hline
+       Fréquence d'utilisation&Très souvent\\
+       \hline
+    \end{tabular}
+ \end{table}
+
+ %newpage entre chaque tableau
+\newpage
+
+%Nom de votre UseCase
+\subsubsection{Voir l'historique des assurances}
+\begin{table}[h]
+    \begin{tabular}{|c|p{10cm}|}
+       \hline
+       Acteur principal&Le client\\
+       \hline
+       Description&Le client accède à l'historique de ses assurances.\\
+       \hline
+       Préconditions&Le client est connecté à un compte.\\
+       \hline
+       PostConditions&L'historique des assurances est affiché.\\
+       \hline
+       Scénario principal& 
+             \begin{enumerate}
+                \item Une requête est envoyée au serveur afin d'avoir accès à l'historique des assurances d'un client.
+                \item Le serveur renvoei l'historique des assurances d'un client.
+                \item L'historique des assurances est affiché.
+             \end{enumerate}     \\
+       \hline
+       Scénario alternatif&
+        \begin{itemize}
+            \item[1a.] Si le client n'a jamais possédé d'assurance, un historique vide est affiché.
+            \item[2a.] Une erreur est survenue lors du traitement de la demande par le serveur.
+            \item[2b.] Un message d'erreur est affiché à l'écran de l'utilisateur. 
+        \end{itemize}
+       \\
+       \hline
+       Trigger&Le client accède à la fenêtre de l'historique des assurances\\
+       \hline
+       Fréquence d'utilisation&Rare\\
+       \hline
+    \end{tabular}
+ \end{table}
+
+ %newpage entre chaque tableau
+\newpage
+
+%Nom de votre UseCase
+\subsubsection{Introduire une demande ou un devis}
+\begin{table}[h]
+    \begin{tabular}{|c|p{10cm}|}
+       \hline
+       Acteur principal&Le client\\
+       \hline
+       Description&Le client introduit une demande ou un devis qui sera envoyé à la banque.\\
+       \hline
+       Préconditions&Le client est connecté à un compte.\\
+       \hline
+       PostConditions&Le client a introduit une demande ou un devis.\\
+       \hline
+       Scénario principal& 
+             \begin{enumerate}
+                \item Une demande ou un devis est créé.
+                \item La demande ou le devis est envoyé au serveur.
+             \end{enumerate}     \\
+       \hline
+       Scénario alternatif& 
+       \begin{itemize}
+        \item[1a.] Une erreur est survenue lors du traitement de la demande par le serveur.
+        \item[1b.] Un message d'erreur est affiché à l'écran de l'utilisateur. 
+    \end{itemize}
+       \\
+       \hline
+       Trigger&Le client clique sur le bouton d'envoi de la demande ou du devis.\\
+       \hline
+       Fréquence d'utilisation&Rare\\
+       \hline
+    \end{tabular}
+ \end{table}
+
+ %newpage entre chaque tableau
+\newpage
+
+%Nom de votre UseCase
+\subsubsection{Annuler une assurance}
+\begin{table}[h]
+    \begin{tabular}{|c|p{10cm}|}
+       \hline
+       Acteur principal&Le client\\
+       \hline
+       Description&Le client annule une de ses assurances.\\
+       \hline
+       Préconditions&Le client est connecté à un compte et possède au moins une assurance.\\
+       \hline
+       PostConditions&L'assurance est annulée.\\
+       \hline
+       Scénario principal& 
+             \begin{enumerate}
+                \item Le client choisit une assurance a annuler.
+                \item Une requête est envoyée au serveur pour annuler l'assurance choisie.
+                \item Le serveur renvoie une confirmation et le client est prévenu que l'opération s'est bien effectuée.
+             \end{enumerate}     \\
+             \subsectionn et le client est prévenu que l'opération s'est bien effectuée.
+             \end{enumerate}     \\
+       \hline
+       Scénario alternatif&    
+       \begin{itemize}
+        \item[1a.] Une erreur est survenue lors du traitement de la demande par le serveur.
+        \item[1b.] Un message d'erreur est affiché à l'écran de l'utilisateur. 
+        \item[2a.] Si le code PIN est mauvais 3 fois, le compte est bloqué.
+        \end{itemize}
+       \\
+       \hline
+       Trigger&Le client clique sur le bouton de payement.\\
+       \hline
+       Fréquence d'utilisation&Souvent\\
+       \hline
+    \end{tabular}
+ \end{table}
 
 
 
+   %newpage entre chaque tableau
+\newpage
+
+\subsection{Banque}
+%Nom de votre UseCase
+\subsubsection{Envoyer un devis}
+\begin{table}[h]
+    \begin{tabular}{|c|p{10cm}|}
+       \hline
+       Acteur principal&L'institution financière\\
+       \hline
+       Description&L'institution financière envoie un devis suite à une demande du client.\\
+       \hline
+       Préconditions&L'institution financière est connectée à un compte et a reçu une demande de devis.\\
+       \hline
+       PostConditions&Un devis est envoyé au client\\
+       \hline
+       Scénario principal& 
+             \begin{enumerate}
+                \item L'institution financière crée un devis.
+                \item Une requête est envoyée au serveur afin d'envoyer le devis au client.
+                \item Le serveur renvoie une confirmation et l'institution financière est prévenue que l'opération s'est bien effectuée.
+             \end{enumerate}     \\
+       \hline
+       Scénario alternatif&    
+       \begin{itemize}
+        \item[1a.] Une erreur est survenue lors du traitement de la demande par le serveur.
+        \item[1b.] Un message d'erreur est affiché à l'écran de l'utilisateur. 
+        \end{itemize}
+       \\
+       \hline
+       Trigger&L'institution financière clique sur la fenêtre pour envoyer un devis.\\
+       \hline
+       Fréquence d'utilisation&Très souvent\\
+       \hline
+    \end{tabular}
+ \end{table}
 
 \end{document}
 

@@ -1172,16 +1172,19 @@ INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.
 OUTPUT RAPPORT.toc
 INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8t.tfm
 INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8t.tfm
+INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb8t.vf
+INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
 INPUT .\subfiles\Introduction.tex
 INPUT subfiles\Introduction.tex
 INPUT .\subfiles\Introduction.tex
 INPUT subfiles\Introduction.tex
 INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8t.tfm
+INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmrc8t.tfm
+INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb8t.vf
+INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
+INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmrc8t.vf
+INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
 INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8t.tfm
-INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb8t.vf
-INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
-INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb8t.vf
-INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
 INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmb8t.vf
 INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
 INPUT .\subfiles\Interaction Overview Intro, Auth & Choix de conception.tex
@@ -1196,7 +1199,6 @@ INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri8r
 INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmri8t.vf
 INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmri8r.tfm
 INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmr8t.vf
-INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
 INPUT .\subfiles\Intro class.tex
 INPUT subfiles\Intro class.tex
 INPUT .\subfiles\Intro class.tex
@@ -1215,8 +1217,6 @@ INPUT img\Use Case Client.pdf
 INPUT .\img\Use Case Client.pdf
 INPUT .\img\Use Case Client.pdf
 INPUT .\img\Use Case Client.pdf
-INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmrc8t.tfm
-INPUT C:\Users\Cyril\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmrc8t.vf
 INPUT .\subfiles\Interaction Overview Client.tex
 INPUT subfiles\Interaction Overview Client.tex
 INPUT .\subfiles\Interaction Overview Client.tex

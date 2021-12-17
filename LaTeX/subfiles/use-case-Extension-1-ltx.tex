@@ -1,0 +1,268 @@
+\documentclass{article}
+\newcounter{rownumbers}
+\newcommand\rownumber{\stepcounter{rownumbers}\arabic{rownumbers}}
+\usepackage[utf8]{inputenc}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{hyperref}
+
+\begin{document}
+%newpage entre chaque tableau
+
+%Nom de votre UseCase
+\paragraph{Application Client}
+
+\subparagraph{Voir la liste des cartes}
+    \begin{table}[h]
+        \begin{tabular}{|c|p{10cm}|}
+        \hline
+        Acteur principal& Utilisateur et Serveur \\
+        \hline
+        Description& Permet à un utilisateur d'afficher la liste des cartes \\
+        \hline
+        Préconditions& L'utilisateur doit être connecté  \\
+        \hline
+        PostConditions&  /    \\
+        \hline
+        Scénario principal& 
+                \begin{enumerate}
+                    \item L'utilisateur entre les données de la carte
+                    \item L'application envoie une demande de création de carte à l'API
+                    \item L'API répond que la demande de création de carte a été ajoutée ou qu'une erreur s'est produite
+                \end{enumerate}     \\
+        \hline
+        Scénario alternatif& 
+            \begin{enumerate}
+                \item L'utilisateur entre les données de la carte
+                \item L'application envoie une demande de création de carte à l'API
+                \item L'API répond qu'une erreur s'est produite
+                \item L'application affiche un message d'erreur
+            \end{enumerate}     \\
+        \hline
+        Trigger&  Lorsque l'utilisateur appuie sur le bouton pour ajouter une carte   \\
+        \hline
+        Fréquence d'utilisation& Rarement utilisée  \\
+        \hline
+        \end{tabular}
+    \end{table}
+
+    \newpage
+
+\subparagraph{Créer une carte}
+    \begin{table}[h]
+        \begin{tabular}{|c|p{10cm}|}
+        \hline
+        Acteur principal& Utilisateur et Serveur \\
+        \hline
+        Description& Permet à un utilisateur de créer une nouvelle carte \\
+        \hline
+        Préconditions& L'utilisateur doit être connecté et avoir introduit les données nécessaires
+            à la création de la carte \\
+        \hline
+        PostConditions&  Une nouvelle carte a été crée\\
+        \hline
+        Scénario principal& 
+                \begin{enumerate}
+                    \item L'utilisateur entre les données de la carte
+                    \item L'application envoie une demande de création de carte à l'API
+                    \item L'API répond que la demande de création de carte a été ajoutée ou qu'une erreur s'est produite
+                \end{enumerate}     \\
+        \hline
+        Scénario alternatif& 
+            \begin{enumerate}
+                \item L'utilisateur entre les données de la carte
+                \item L'application envoie une demande de création de carte à l'API
+                \item L'API répond qu'une erreur s'est produite
+                \item L'application affiche un message d'erreur
+            \end{enumerate}     \\
+        \hline
+        Trigger&  Lorsque l'utilisateur appuie sur le bouton pour ajouter une carte   \\
+        \hline
+        Fréquence d'utilisation& Rarement utilisée  \\
+        \hline
+        \end{tabular}
+    \end{table}
+
+    \newpage
+
+\subparagraph{Bloquer une carte}
+    \begin{table}[h]
+        \begin{tabular}{|c|p{10cm}|}
+        \hline
+        Acteur principal& Utilisateur et Serveur    \\
+        \hline
+        Description&  Permet à un utilisateur de bloquer une carte  \\
+        \hline
+        Préconditions&    L'utilisateur doit avoir sélectionner une carte  \\
+        \hline
+        PostConditions&  L'API répond que la demande de blocage de la carte a été ajoutée ou qu'une erreur s'est produite    \\
+        \hline
+        Scénario principal& 
+                \begin{enumerate}
+                    \item Il actionne le bouton pour envoyer la demande à l'API
+                    \item L'API répond que la demande de blocage de la carte a été ajoutée
+                \end{enumerate}     \\
+        \hline
+        Scénario alternatif&  
+        \begin{enumerate}
+            \item Il actionne le bouton pour envoyer la demande à l'API
+            \item L'API répond qu'une erreur s'est produite
+            \item Un message d'erreur est affiché
+        \end{enumerate}    \\
+        \hline
+        Trigger&   Lorsque l'utilisateur actionne le bouton Stop Card   \\
+        \hline
+        Fréquence d'utilisation&    Très rare  \\
+        \hline
+        \end{tabular}
+    \end{table}
+
+\newpage
+
+\subparagraph{Modifier une carte}
+    \begin{table}[h]
+        \begin{tabular}{|c|p{10cm}|}
+        \hline
+        Acteur principal& Utilisateur et Serveur    \\
+        \hline
+        Description&  Permet à un utilisateur de modifier une carte  \\
+        \hline
+        Préconditions&    L'utilisateur doit avoir sélectionner une carte  \\
+        \hline
+        PostConditions&  L'API répond que la demande de modification de la carte a été ajoutée ou qu'une erreur s'est produite    \\
+        \hline
+        Scénario principal& 
+                \begin{enumerate}
+                    \item L'utilisateur modifie les données qu'il veut changer
+                    \item Il actionne le bouton pour envoyer la demande à l'API
+                    \item L'API répond que la demande de modification de la carte a été ajoutée
+                \end{enumerate}     \\
+        \hline
+        Scénario alternatif&  
+        \begin{enumerate}
+            \item L'utilisateur modifie les données qu'il veut changer
+            \item Il actionne le bouton pour envoyer la demande à l'API
+            \item L'API répond qu'une erreur s'est produite
+            \item Un message d'erreur est affiché
+        \end{enumerate}    \\
+        \hline
+        Trigger&   Lorsque l'utilisateur actionne le bouton Submit après avoir modifier des données   \\
+        \hline
+        Fréquence d'utilisation&    Peu fréquent  \\
+        \hline
+        \end{tabular}
+    \end{table}
+
+\newpage
+
+\subparagraph{Voir l'historique des transactions liées à la carte}
+    \begin{table}[h]
+        \begin{tabular}{|c|p{10cm}|}
+        \hline
+        Acteur principal& Utilisateur et Serveur    \\
+        \hline
+        Description&  Permet à un utilisateur d'exporter les transactions au format json  \\
+        \hline
+        Préconditions& L'utilisateur doit être connecté et avoir sélectionné une carte \\
+        \hline
+        PostConditions&  La liste des transactions est affichée   \\
+        \hline
+        Scénario principal& 
+                \begin{enumerate}
+                    \item L'utilisateur appuie sur le bouton history
+                    \item Une demande pour recevoir l'historique des transactions est effectuée
+                    \item L'API renvoie les données
+                    \item Les données sont affichées
+                \end{enumerate}     \\
+        \hline
+        Scénario alternatif&  
+            \begin{enumerate}
+                \item L'utilisateur appuie sur le bouton history
+                \item Une demande pour recevoir l'historique des transactions est effectuée
+                \item L'API répond qu'une erreur s'est produite
+                \item L'application display une erreur et propose de refresh
+            \end{enumerate}     \\
+        \hline
+        Trigger&   Lorsque l'utilisateur appuie sur le bouton pour voir l'historique  \\
+        \hline
+        Fréquence d'utilisation&  Moyennement Fréquent  \\
+        \hline
+        \end{tabular}
+    \end{table}
+
+\newpage
+
+\subparagraph{Exporter l'historique des transactions liées à la carte}
+    \begin{table}[h]
+        \begin{tabular}{|c|p{10cm}|}
+        \hline
+        Acteur principal& Utilisateur et Serveur    \\
+        \hline
+        Description&  Permet à un utilisateur d'exporter les transactions au format json  \\
+        \hline
+        Préconditions& L'utilisateur doit être connecté et avoir la liste des transactions en local \\
+        \hline
+        PostConditions&  Un fichier json contenant les transactions de la carte est crée   \\
+        \hline
+        Scénario principal& 
+                \begin{enumerate}
+                    \item L'utilisateur appuie sur le bouton pour exporter
+                    \item Un fichier json contenant les transactions de la carte est crée
+                \end{enumerate}     \\
+        \hline
+        Scénario alternatif&  /    \\
+        \hline
+        Trigger&   Lorsque l'utilisateur appuie sur le bouton pour exporter  \\
+        \hline
+        Fréquence d'utilisation&    Peu fréquent  \\
+        \hline
+        \end{tabular}
+    \end{table}
+
+\newpage
+
+\subparagraph{Payer avec une carte}
+    \begin{table}[h]
+        \begin{tabular}{|c|p{10cm}|}
+        \hline
+        Acteur principal& Utilisateur et Serveur    \\
+        \hline
+        Description&  Permet à un utilisateur de payer avec une carte  \\
+        \hline
+        Préconditions&   L'utilisateur doit avoir sélectionner une carte et avoir entré
+             le compte destinataire ainsi que le montant(les autres infos non-nécessaires
+             au paiement par carte seront auto-générées). \\
+        \hline
+        PostConditions&  L'API répond que la demande de transaction a été effectuée ou qu'une erreur s'est produite    \\
+        \hline
+        Scénario principal& 
+                \begin{enumerate}
+                    \item L'utilisateur sélectionne la carte avec laquelle il veut payer
+                    \item Il entre le destinataire et le montant
+                    \item Il appuie sur le bouton pour payer et envoit la demande à l'API
+                    \item L'API répond que le demande a été faite avec succès
+                    \item L'application affiche que la transaction a été effectuée
+                \end{enumerate}     \\
+        \hline
+        Scénario alternatif&  
+        \begin{enumerate}
+            \item L'utilisateur sélectionne la carte avec laquelle il veut payer
+            \item Il entre le destinataire et le montant
+            \item Il appuie sur le bouton pour payer et envoit la demande à l'API
+            \item L'API répond qu'une erreur s'est produite
+            \item Un message d'erreur est affiché
+        \end{enumerate}    \\
+        \hline
+        Trigger&   Lorsque l'utilisateur actionne le bouton Pay dans la scène Card Management   \\
+        \hline
+        Fréquence d'utilisation&   Fréquent  \\
+        \hline
+        \end{tabular}
+    \end{table}
+
+\newpage
+
+\section{Institution financière}
+Le use case est similaire à celui de la partie commune.
+
+\end{document}

@@ -1,21 +1,75 @@
 \documentclass{article}
 \newcounter{rownumbers}
 \newcommand\rownumber{\stepcounter{rownumbers}\arabic{rownumbers}}
+% Use utf-8 encoding for foreign characters
 \usepackage[utf8]{inputenc}
-\usepackage{array}
+% For euro symbol
+\usepackage{eurosym}
+% for http links
+\usepackage[hidelinks]{hyperref}
+
+% Setup for fullpage use
+\usepackage{fullpage}
+%\usepackage{graphicx}
+%\usepackage{subfig}
+%\usepackage{float}
+%\usepackage{listings}
+
+\usepackage[francais]{babel}
+
+\usepackage{times}
+%\usepackage{rotate}
+%\usepackage{lscape}
+
+\usepackage{color}
+\usepackage{placeins}
+
+\usepackage{forest}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{subfiles}
 \usepackage{geometry}
-\usepackage{hyperref}
+
+
+%-----Commandes pour page de garde UMons
+\usepackage[fs]{umons-coverpage}
+\umonsAuthor{
+	Augustin \textsc{Houba} \\
+	Arnaud \textsc{Moreau} \\
+	Cyril \textsc{Moreau} \\
+	François \textsc{Vion}
+}
+\umonsTitle{Projet de Génie Logiciel}
+\umonsSubtitle{S-INFO-015}
+\umonsDocumentType{Rapport de modélisation\\
+7 décembre 2021}
+\umonsSupervisor{ \\
+	Prof. Tom \textsc{Mens}\\
+} 
+% The date (or academic year)
+\umonsDate{Année académique 2021-2022}
 
 \begin{document}
-\begin{titlepage}
-   \begin{center}
-      \Large\textbf{Descriptions semi-détaillées des use case de chaque \textit{Use Case Diagrams}}\\
-      \large\textit{C. Moreau}
-   \end{center}
-\end{titlepage}
-\tableofcontents
+%\tikzset
+%	every label/.append style={font=\scriptsize},
+%	my edge labels/.style={font=\scriptsize},
+%	dominant/.append style={label=below:$dominant$},
+%}
+%\frontmatter          % for the preliminaries
+%\pagestyle{headings}  % switches on printing of running heads
+%\mainmatter              % start of the contributions
+
+%\umonsCoverPage
+
+\subfile{resources/Titlepage.tex}
+
 \newpage
 
+\tableofcontents
+
+\newpage
 
 %Use cases commun aux deux diagrammes.
 \section{Partie commune}

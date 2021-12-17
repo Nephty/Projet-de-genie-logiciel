@@ -1,0 +1,21 @@
+\paragraph{Structure} Ce statechart décrit le comportement de l'application et les différents états dans lesquels elle peut se trouver. Selon les évènements qui vont être déclenchés, l'application changera d'état, et certaines préconditions peuvent être déduites de l'état de l'application.
+
+\paragraph{Évènements}
+\begin{itemize}
+\item signInButtonPressed : appelé lorsque l'utilisateur appuie sur le bouton \emph{Sign in} afin de se connecter ;
+\item signOutButtonPressed : appelé lorsque l'utilisateur appuie sur le bouton \emph{Sign out} afin de se déconnecter ;
+\item loginsAreCorrect : appelé si les identifiants de l'utilisateur sont corrects ;
+\item loginsAreIncorrect : appelé si les identifiants de l'utilisateur sont incorrects ;
+\item confirmButtonPressed : appelé si l'utilisateur appuie sur le bouton \emph{Confirmer} ;
+\item cancelButtonPressed : appelé si l'utilisateur appuie sur le bouton \emph{Annuler} ;
+\item appExited : appelé si l'utilisateur quitte l'application.
+\end{itemize}
+
+\paragraph{Méthodes}
+\begin{itemize}
+\item eraseAllDataFromMemory():void : supprime les données de la mémoire (notamment les comptes de l'utilisateur et les données sensibles) ;
+\item checkLogins():boolean : vérifie si les identifiants de l'utilisateur sont corrects ;
+\item waitForResponse():boolean : attends que l'utilisateur envoie une réponse positive ou négative (ici, appuyer sur le bouton \emph{Confirmer} ou \emph{Annuler}.
+\end{itemize}
+
+\paragraph{Fonctionnement} Lorsque l'utilisateur ouvre l'application, elle se trouve dans l'état \emph{Signed out}. S'il clique sur le bouton \emph{Sign in}, elle se retrouve dans l'état \emph{Verifying}, ce qui appelle la méthode \emph{checkLogins()}. Si la méthode \emph{checkLogins()} retourne \emph{true}, cela signifie que les identifiants de l'utilisateur sont corrects, et l'application se retrouve dans l'état \emph{Signed in}, sinon, elle se retrouve dans l'état \emph{Signed out}. Si l'utilisateur clique sur le bouton \emph{Sign out}, l'application se retrouve dans l'état \emph{Confirming}. Cela appelle la méthode \emph{waitForReponse()} qui attend un retour de l'utilisateur. Si l'utilisateur confirme son choix, la méthode retourne \emph{true} et l'applpcation se retrouve dans l'état \emph{Signed out}, sinon, la méthode retourne \emph{false} et l'application se retrouve dans l'état \emph{Signed in}.

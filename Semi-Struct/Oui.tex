@@ -1180,6 +1180,8 @@
    \end{tabular}
 \end{table}
 
+\newpage
+
 \section{Extension 5 - VION François}
 \subsection{Partie client}
 \subsubsection{Voir la liste des assurances}
@@ -1258,6 +1260,185 @@
 \newpage
 
 %Nom de votre UseCase
+\subsubsection{Gérer le montant sur une assurance}
+\begin{table}[h]
+    \begin{tabular}{|c|p{10cm}|}
+       \hline
+       Acteur principal&Le client\\
+       \hline
+       Description&Permet d'ajouter et de retirer de l'argent d'une assurance vie.\\
+       \hline
+       Préconditions&Avoir selectionné une assurance vie et être connecté à un compte.\\
+       \hline
+       PostConditions&De l'argent a été rajouté ou retiré de l'assurance vie.\\
+       \hline
+       Scénario principal& 
+             \begin{enumerate}
+                \item Le client rentre les données nécessaires à l'ajout ou au retrait d'argent.
+                \item La transaction est créée et envoyée au serveur
+                \item Le serveur renvoie une confirmation et le client est prévenu que l'opération s'est bien effectuée.
+             \end{enumerate}     \\
+       \hline
+       Scénario alternatif&            
+       \begin{itemize}
+        \item[1a.] Une erreur est survenue lors du traitement de la demande par le serveur.
+        \item[1b.] Un message d'erreur est affiché à l'écran de l'utilisateur. 
+        \item[2a.] Le client a rentré un mauvais montant et il en est averti.
+    \end{itemize}\\
+       \hline
+       Trigger&Le client clique sur le bouton pour ajouter des fonds ou pour en retirer.\\
+       \hline
+       Fréquence d'utilisation&Rare\\
+       \hline
+    \end{tabular}
+ \end{table}
+
+ %newpage entre chaque tableau
+\newpage
+
+%Nom de votre UseCase
+\subsubsection{Modifier les paramètres d'une assurance}
+\begin{table}[h]
+    \begin{tabular}{|c|p{10cm}|}
+       \hline
+       Acteur principal&Le client\\
+       \hline
+       Description&Le client modifie les paramètres d'une assurance.\\
+       \hline
+       Préconditions&Le client est connecté à un compte et a selectionné une assurance.\\
+       \hline
+       PostConditions&Les paramètres d'une assurance ont été modifiés.\\
+       \hline
+       Scénario principal& 
+             \begin{enumerate}
+                \item Le client choisit un ou des paramètres a modifier.
+                \item Une requête est envoyée au serveur afin de modifier l'assurance.
+                \item L'assurance est modifiée
+                \item Le serveur renvoie une confirmation et le client est prévenu que l'opération s'est bien effectuée.
+             \end{enumerate}     \\
+       \hline
+       Scénario alternatif&   
+       \begin{itemize}
+        \item[1a.] Une erreur est survenue lors du traitement de la demande par le serveur.
+        \item[1b.] Un message d'erreur est affiché à l'écran de l'utilisateur. 
+    \end{itemize}
+       \\
+       \hline
+       Trigger&Le client coche les paramètres a modifier et clique sur le bouton pour appliquer les changements.\\
+       \hline
+       Fréquence d'utilisation&Rare\\
+       \hline
+    \end{tabular}
+ \end{table}
+
+ %newpage entre chaque tableau
+\newpage
+
+%Nom de votre UseCase
+\subsubsection{Obtenir des informations sur les assurances}
+\begin{table}[h]
+    \begin{tabular}{|c|p{10cm}|}
+       \hline
+       Acteur principal&Le client\\
+       \hline
+       Description&Le client reçois des informations sur les assurances.\\
+       \hline
+       Préconditions&Le client est connecté à un compte.\\
+       \hline
+       PostConditions&Le client reçois les informations sur les assurances.\\
+       \hline
+       Scénario principal&Les informations sur les assurances sont affichées.\\
+       \hline
+       Scénario alternatif&\\
+       \hline
+       Trigger&Le client accède à la fenêtre des informations sur les assurances.\\
+       \hline
+       Fréquence d'utilisation&Parfois\\
+       \hline
+    \end{tabular}
+ \end{table}
+
+  %newpage entre chaque tableau
+\newpage
+
+%Nom de votre UseCase
+\subsubsection{S'inscrire à une assurance}
+\begin{table}[h]
+    \begin{tabular}{|c|p{10cm}|}
+       \hline
+       Acteur principal&Le client\\
+       \hline
+       Description&Le client s'inscrit à une assurance\\
+       \hline
+       Préconditions&Le client est connecté à un compte\\
+       \hline
+       PostConditions&Le client s'est inscrit à un assurance\\
+       \hline
+       Scénario principal& 
+             \begin{enumerate}
+                \item Le client choisit une banque et une assurance voulue.
+                \item Une requête est envoyée au serveur afin d'avoir les informations sur cette assurance.
+                \item Les informations récapitulatives sont affichées au client.
+                \item Le client paye la prime annuelle pour confirmer l'inscription.
+             \end{enumerate}     \\
+       \hline
+       Scénario alternatif& 
+       \begin{itemize}
+        \item[1a.] Une erreur est survenue lors du traitement de la demande par le serveur.
+        \item[1b.] Un message d'erreur est affiché à l'écran de l'utilisateur. 
+        \item[2a.] Le payement n'a pas été effectué et l'utilisateur en est prévenu.
+    \end{itemize}
+         \\
+       \hline
+       Trigger&Cliquer sur le bouton pour s'inscrire à une assurance.\\
+       \hline
+       Fréquence d'utilisation&Très rare\\
+       \hline
+    \end{tabular}
+ \end{table}
+
+
+  %newpage entre chaque tableau
+\newpage
+
+%Nom de votre UseCase
+\subsubsection{Payer la prime annuelle}
+\begin{table}[h]
+    \begin{tabular}{|c|p{10cm}|}
+       \hline
+       Acteur principal&Le client\\
+       \hline
+       Description&Le client paye la prime annuelle d'une assurance.\\
+       \hline
+       Préconditions&Le client est connecté à un compte et a selectionné un compte.\\
+       \hline
+       PostConditions&Le client a payé la prime annuelle d'une assurance\\
+       \hline
+       Scénario principal& 
+             \begin{enumerate}
+                \item Le client choisit le compte avec lequel il souhaite payer.
+                \item Le client paye en validant son code PIN
+                \item Si le code PIN est bon, le serveur renvoie une confirmation et le client est prévenu que l'opération s'est bien effectuée.
+             \end{enumerate}     \\
+       \hline
+       Scénario alternatif&    
+       \begin{itemize}
+        \item[1a.] Une erreur est survenue lors du traitement de la demande par le serveur.
+        \item[1b.] Un message d'erreur est affiché à l'écran de l'utilisateur. 
+        \item[2a.] Si le code PIN est mauvais 3 fois, le compte est bloqué.
+        \end{itemize}
+       \\
+       \hline
+       Trigger&Le client clique sur le bouton de payement.\\
+       \hline
+       Fréquence d'utilisation&Souvent\\
+       \hline
+    \end{tabular}
+ \end{table}
+
+\newpage
+
+%Nom de votre UseCase
 \subsubsection{Introduire une demande ou un devis}
 \begin{table}[h]
     \begin{tabular}{|c|p{10cm}|}
@@ -1311,8 +1492,6 @@
                 \item Le client choisit une assurance a annuler.
                 \item Une requête est envoyée au serveur pour annuler l'assurance choisie.
                 \item Le serveur renvoie une confirmation et le client est prévenu que l'opération s'est bien effectuée.
-             \end{enumerate}     \\
-             \subsectionn et le client est prévenu que l'opération s'est bien effectuée.
              \end{enumerate}     \\
        \hline
        Scénario alternatif&    

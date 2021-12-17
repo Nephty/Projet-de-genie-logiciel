@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.12.14)  17 DEC 2021 19:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.12.14)  17 DEC 2021 19:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -808,12 +808,12 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 39.
  (c:/texlive/2021/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<img/UMONS-Logo.jpg, id=300, 346.1733pt x 124.3044pt>
+<img/UMONS-Logo.jpg, id=312, 346.1733pt x 124.3044pt>
 File: img/UMONS-Logo.jpg Graphic file (type jpg)
 <use img/UMONS-Logo.jpg>
 Package pdftex.def Info: img/UMONS-Logo.jpg  used on input line 40.
 (pdftex.def)             Requested size: 118.85944pt x 42.67912pt.
-<img/FS-Logo.jpg, id=301, 517.935pt x 265.2309pt>
+<img/FS-Logo.jpg, id=313, 517.935pt x 265.2309pt>
 File: img/FS-Logo.jpg Graphic file (type jpg)
 <use img/FS-Logo.jpg>
 Package pdftex.def Info: img/FS-Logo.jpg  used on input line 41.
@@ -823,7 +823,7 @@ Package pdftex.def Info: img/FS-Logo.jpg  used on input line 41.
 {c:/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./img/UMONS-Logo.jpg> <./img/FS-Logo.jpg>]) (./RAPPORT.tocpdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.148 ...1}Use case diagram}{64}{subsection.3.1.1}
+l.161 ...Design du REST API}{59}{subsection.2.3.7}
                                                   % [1
 
 ])
@@ -840,103 +840,103 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--5
  []
 
 ) [5] [6] (./subfiles/Intro class.tex) [7] (./subfiles/Intro Sequence.tex) [8] (./subfiles/Use Case Client.tex)
-<img/Use Case Client.pdf, id=430, 537.00626pt x 272.01625pt>
+<img/Use Case Client.pdf, id=445, 537.00626pt x 272.01625pt>
 File: img/Use Case Client.pdf Graphic file (type pdf)
 <use img/Use Case Client.pdf>
 Package pdftex.def Info: img/Use Case Client.pdf  used on input line 140.
 (pdftex.def)             Requested size: 430.00462pt x 217.81667pt.
  [9 <./img/Use Case Client.pdf>] (./subfiles/Interaction Overview Client.tex [10])
-<img/Interaction Overview Client.pdf, id=458, 1179.40625pt x 699.61375pt>
+<img/Interaction Overview Client.pdf, id=474, 1179.40625pt x 699.61375pt>
 File: img/Interaction Overview Client.pdf Graphic file (type pdf)
 <use img/Interaction Overview Client.pdf>
 Package pdftex.def Info: img/Interaction Overview Client.pdf  used on input line 152.
 (pdftex.def)             Requested size: 430.00462pt x 255.074pt.
  [11 <./img/Interaction Overview Client.pdf>] (./subfiles/Class Client commun.tex
-<img/ClassCommonPart.png, id=476, 900.36375pt x 747.79375pt>
+<img/ClassCommonPart.png, id=491, 900.36375pt x 747.79375pt>
 File: img/ClassCommonPart.png Graphic file (type png)
 <use img/ClassCommonPart.png>
 Package pdftex.def Info: img/ClassCommonPart.png  used on input line 5.
 (pdftex.def)             Requested size: 333.12938pt x 276.67935pt.
  [12 <./img/ClassCommonPart.png>]
-<img/APIcommon.png, id=487, 999.735pt x 583.17876pt>
+<img/APIcommon.png, id=502, 999.735pt x 583.17876pt>
 File: img/APIcommon.png Graphic file (type png)
 <use img/APIcommon.png>
 Package pdftex.def Info: img/APIcommon.png  used on input line 15.
 (pdftex.def)             Requested size: 329.91357pt x 192.44958pt.
  [13 <./img/APIcommon.png>]
-<img/GUICLientCommon.png, id=495, 758.835pt x 723.70375pt>
+<img/GUICLientCommon.png, id=510, 758.835pt x 723.70375pt>
 File: img/GUICLientCommon.png Graphic file (type png)
 <use img/GUICLientCommon.png>
 Package pdftex.def Info: img/GUICLientCommon.png  used on input line 26.
 (pdftex.def)             Requested size: 303.52863pt x 289.47636pt.
 ) [14 <./img/GUICLientCommon.png>] (./subfiles/SequenceDiagramCommunClient.tex
-<img/type1.png, id=503, 1071.00125pt x 554.07pt>
+<img/type1.png, id=518, 1071.00125pt x 554.07pt>
 File: img/type1.png Graphic file (type png)
 <use img/type1.png>
 Package pdftex.def Info: img/type1.png  used on input line 5.
 (pdftex.def)             Requested size: 342.7274pt x 177.30602pt.
  [15 <./img/type1.png>]
-<img/type2.png, id=512, 1177.39874pt x 611.28375pt>
+<img/type2.png, id=527, 1177.39874pt x 611.28375pt>
 File: img/type2.png Graphic file (type png)
 <use img/type2.png>
 Package pdftex.def Info: img/type2.png  used on input line 16.
 (pdftex.def)             Requested size: 341.43689pt x 177.26775pt.
  [16 <./img/type2.png>]
-<img/createAccount.pdf, id=520, 783.92876pt x 408.52625pt>
+<img/createAccount.pdf, id=535, 783.92876pt x 408.52625pt>
 File: img/createAccount.pdf Graphic file (type pdf)
 <use img/createAccount.pdf>
 Package pdftex.def Info: img/createAccount.pdf  used on input line 28.
 (pdftex.def)             Requested size: 344.92972pt x 179.7521pt.
  [17 <./img/createAccount.pdf, page is rotated 90 degrees>]
-<img/Connexion.pdf, id=530, 725.71124pt x 424.58624pt>
+<img/Connexion.pdf, id=545, 725.71124pt x 424.58624pt>
 File: img/Connexion.pdf Graphic file (type pdf)
 <use img/Connexion.pdf>
 Package pdftex.def Info: img/Connexion.pdf  used on input line 39.
 (pdftex.def)             Requested size: 326.56705pt x 191.06204pt.
 ) [18 <./img/Connexion.pdf, page is rotated 90 degrees>] (./subfiles/Use Case Institution.tex)
-<img/Use Case Institution.pdf, id=541, 826.08624pt x 666.49pt>
+<img/Use Case Institution.pdf, id=556, 826.08624pt x 666.49pt>
 File: img/Use Case Institution.pdf Graphic file (type pdf)
 <use img/Use Case Institution.pdf>
 Package pdftex.def Info: img/Use Case Institution.pdf  used on input line 183.
 (pdftex.def)             Requested size: 430.00462pt x 346.93274pt.
  [19 <./img/Use Case Institution.pdf>] (./subfiles/Interaction Overview Institution.tex)
-<img/Interaction Overview Institution.pdf, id=551, 1172.38pt x 670.505pt>
+<img/Interaction Overview Institution.pdf, id=566, 1172.38pt x 670.505pt>
 File: img/Interaction Overview Institution.pdf Graphic file (type pdf)
 <use img/Interaction Overview Institution.pdf>
 Package pdftex.def Info: img/Interaction Overview Institution.pdf  used on input line 196.
 (pdftex.def)             Requested size: 430.00462pt x 245.92421pt.
  [20] [21 <./img/Interaction Overview Institution.pdf>] (./subfiles/Class Banque Commun.tex
-<img/ClassBankCommon.png, id=578, 313.17pt x 80.3pt>
+<img/ClassBankCommon.png, id=593, 313.17pt x 80.3pt>
 File: img/ClassBankCommon.png Graphic file (type png)
 <use img/ClassBankCommon.png>
 Package pdftex.def Info: img/ClassBankCommon.png  used on input line 6.
 (pdftex.def)             Requested size: 156.58461pt x 40.14989pt.
  [22 <./img/ClassBankCommon.png>]
-<img/GUIBankCommon.png, id=588, 902.37125pt x 859.21pt>
+<img/GUIBankCommon.png, id=604, 902.37125pt x 859.21pt>
 File: img/GUIBankCommon.png Graphic file (type png)
 <use img/GUIBankCommon.png>
 Package pdftex.def Info: img/GUIBankCommon.png  used on input line 19.
 (pdftex.def)             Requested size: 270.71346pt x 257.76498pt.
 ) [23 <./img/GUIBankCommon.png>] (./subfiles/sequence-financiere-commun-ltx.tex
-<subfiles//../img/sequence-institution-img1.png, id=596, 895.345pt x 477.785pt>
+<subfiles//../img/sequence-institution-img1.png, id=612, 895.345pt x 477.785pt>
 File: subfiles//../img/sequence-institution-img1.png Graphic file (type png)
 <use subfiles//../img/sequence-institution-img1.png>
 Package pdftex.def Info: subfiles//../img/sequence-institution-img1.png  used on input line 31.
 (pdftex.def)             Requested size: 430.00462pt x 229.46542pt.
  [24 <./subfiles//../img/sequence-institution-img1.png (PNG copy)>]
-<subfiles//../img/sequence-institution-img2.png, id=608, 1275.76625pt x 433.62pt>
+<subfiles//../img/sequence-institution-img2.png, id=623, 1275.76625pt x 433.62pt>
 File: subfiles//../img/sequence-institution-img2.png Graphic file (type png)
 <use subfiles//../img/sequence-institution-img2.png>
 Package pdftex.def Info: subfiles//../img/sequence-institution-img2.png  used on input line 45.
 (pdftex.def)             Requested size: 430.00462pt x 146.15186pt.
  [25 <./subfiles//../img/sequence-institution-img2.png (PNG copy)>]
-<subfiles//../img/sequence-institution-img3.png, id=615, 1559.8275pt x 686.565pt>
+<subfiles//../img/sequence-institution-img3.png, id=630, 1559.8275pt x 686.565pt>
 File: subfiles//../img/sequence-institution-img3.png Graphic file (type png)
 <use subfiles//../img/sequence-institution-img3.png>
 Package pdftex.def Info: subfiles//../img/sequence-institution-img3.png  used on input line 62.
 (pdftex.def)             Requested size: 430.00462pt x 189.26167pt.
 ) [26 <./subfiles//../img/sequence-institution-img3.png (PNG copy)>]
-<img/BDD.pdf, id=622, 537.00626pt x 298.11375pt>
+<img/BDD.pdf, id=637, 537.00626pt x 298.11375pt>
 File: img/BDD.pdf Graphic file (type pdf)
 <use img/BDD.pdf>
 Package pdftex.def Info: img/BDD.pdf  used on input line 217.
@@ -947,7 +947,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--3
  []
 
 ) [27 <./img/BDD.pdf>] [28]
-<img/rest-api-commun.pdf, id=777, 537.00626pt x 375.4025pt>
+<img/rest-api-commun.pdf, id=792, 537.00626pt x 375.4025pt>
 File: img/rest-api-commun.pdf Graphic file (type pdf)
 <use img/rest-api-commun.pdf>
 Package pdftex.def Info: img/rest-api-commun.pdf  used on input line 228.
@@ -967,7 +967,7 @@ Chapitre 2.
 [43
 
 ] [44]
-<img/use-case-Extension-1.pdf, id=934, 537.00626pt x 419.5675pt>
+<img/use-case-Extension-1.pdf, id=949, 537.00626pt x 419.5675pt>
 File: img/use-case-Extension-1.pdf Graphic file (type pdf)
 <use img/use-case-Extension-1.pdf>
 Package pdftex.def Info: img/use-case-Extension-1.pdf  used on input line 278.
@@ -993,7 +993,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [49] [50] [51]) [52]
-<img/iov-client-Extension-1.pdf, id=1029, 597.23125pt x 845.1575pt>
+<img/iov-client-Extension-1.pdf, id=1043, 597.23125pt x 845.1575pt>
 File: img/iov-client-Extension-1.pdf Graphic file (type pdf)
 <use img/iov-client-Extension-1.pdf>
 Package pdftex.def Info: img/iov-client-Extension-1.pdf  used on input line 290.
@@ -1006,7 +1006,7 @@ LaTeX Warning: Float too large for page by 76.2013pt on input line 292.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 (./subfiles/iov-client-Extension-1-ltx.tex) [53]
-<img/class-Extension-1.pdf, id=1052, 534.99875pt x 457.71pt>
+<img/class-Extension-1.pdf, id=1066, 534.99875pt x 457.71pt>
 File: img/class-Extension-1.pdf Graphic file (type pdf)
 <use img/class-Extension-1.pdf>
 Package pdftex.def Info: img/class-Extension-1.pdf  used on input line 301.
@@ -1024,310 +1024,350 @@ Package pdftex.def Info: img/class-Extension-1.pdf  used on input line 311.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-(./subfiles/class-Extension-1-ltx.tex) [55] [56] [57] [58] [59] [60 <./img/iov-client-Extension-1.pdf>] [61 <./img/class-Extension-1.pdf>] [62]
+(./subfiles/class-Extension-1-ltx.tex) [55] [56]
+<img/UI-client-Extension-1.pdf, id=1089, 539.01375pt x 284.06125pt>
+File: img/UI-client-Extension-1.pdf Graphic file (type pdf)
+<use img/UI-client-Extension-1.pdf>
+Package pdftex.def Info: img/UI-client-Extension-1.pdf  used on input line 347.
+(pdftex.def)             Requested size: 430.00462pt x 226.61646pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(./subfiles/UI-client-Extension-1-ltx.tex
+Underfull \hbox (badness 10000) in paragraph at lines 18--21
+
+ []
+
+[57] [58])
+<img/ui-institution-Extension-1.pdf, id=1109, 545.03625pt x 274.02374pt>
+File: img/ui-institution-Extension-1.pdf Graphic file (type pdf)
+<use img/ui-institution-Extension-1.pdf>
+Package pdftex.def Info: img/ui-institution-Extension-1.pdf  used on input line 357.
+(pdftex.def)             Requested size: 430.00462pt x 216.18787pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(./subfiles/ui-institution-Extension-1-ltx.tex
+Underfull \hbox (badness 10000) in paragraph at lines 18--20
+
+ []
+
+)
+<img/rest-api-Extension-1.pdf, id=1110, 538.01pt x 216.81pt>
+File: img/rest-api-Extension-1.pdf Graphic file (type pdf)
+<use img/rest-api-Extension-1.pdf>
+Package pdftex.def Info: img/rest-api-Extension-1.pdf  used on input line 366.
+(pdftex.def)             Requested size: 430.00462pt x 173.28612pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(./subfiles/rest-api-Extension-1-ltx.tex [59]) [60] [61 <./img/iov-client-Extension-1.pdf>] [62 <./img/class-Extension-1.pdf>] [63] [64 <./img/UI-client-Extension-1.pdf> <./img/ui-institution-Extension-1.pdf>] [65 <./img/rest-api-Extension-1.pdf>]
 Chapitre 3.
-[63
+[66
 
 ]
-<img/Use Case Client - Extension 2.pdf, id=1121, 537.00626pt x 284.06125pt>
+<img/Use Case Client - Extension 2.pdf, id=1806, 537.00626pt x 284.06125pt>
 File: img/Use Case Client - Extension 2.pdf Graphic file (type pdf)
 <use img/Use Case Client - Extension 2.pdf>
-Package pdftex.def Info: img/Use Case Client - Extension 2.pdf  used on input line 360.
+Package pdftex.def Info: img/Use Case Client - Extension 2.pdf  used on input line 390.
 (pdftex.def)             Requested size: 430.00462pt x 227.46167pt.
- (./subfiles/Use Case Client - Extension 2.tex) [64 <./img/Use Case Client - Extension 2.pdf>]
-<img/Interaction Overview Client - Extension 2.pdf, id=1132, 538.01pt x 297.11pt>
+ (./subfiles/Use Case Client - Extension 2.tex) [67 <./img/Use Case Client - Extension 2.pdf>]
+<img/Interaction Overview Client - Extension 2.pdf, id=1817, 538.01pt x 297.11pt>
 File: img/Interaction Overview Client - Extension 2.pdf Graphic file (type pdf)
 <use img/Interaction Overview Client - Extension 2.pdf>
-Package pdftex.def Info: img/Interaction Overview Client - Extension 2.pdf  used on input line 369.
+Package pdftex.def Info: img/Interaction Overview Client - Extension 2.pdf  used on input line 399.
 (pdftex.def)             Requested size: 430.00462pt x 237.46617pt.
- (./subfiles/Interaction Overview Client - Extension 2.tex) [65 <./img/Interaction Overview Client - Extension 2.pdf>]
-<img/Class Diagram Client - Extension 2.pdf, id=1143, 533.995pt x 666.49pt>
+ (./subfiles/Interaction Overview Client - Extension 2.tex) [68 <./img/Interaction Overview Client - Extension 2.pdf>]
+<img/Class Diagram Client - Extension 2.pdf, id=1828, 533.995pt x 666.49pt>
 File: img/Class Diagram Client - Extension 2.pdf Graphic file (type pdf)
 <use img/Class Diagram Client - Extension 2.pdf>
-Package pdftex.def Info: img/Class Diagram Client - Extension 2.pdf  used on input line 380.
+Package pdftex.def Info: img/Class Diagram Client - Extension 2.pdf  used on input line 410.
 (pdftex.def)             Requested size: 368.45695pt x 459.8786pt.
- [66 <./img/Class Diagram Client - Extension 2.pdf>]
-<img/Sequence 1 - Extension 2.jpg, id=1159, 1264.725pt x 1035.87pt>
+ [69 <./img/Class Diagram Client - Extension 2.pdf>]
+<img/Sequence 1 - Extension 2.jpg, id=1843, 1264.725pt x 1035.87pt>
 File: img/Sequence 1 - Extension 2.jpg Graphic file (type jpg)
 <use img/Sequence 1 - Extension 2.jpg>
-Package pdftex.def Info: img/Sequence 1 - Extension 2.jpg  used on input line 391.
+Package pdftex.def Info: img/Sequence 1 - Extension 2.jpg  used on input line 421.
 (pdftex.def)             Requested size: 430.00462pt x 352.19113pt.
- [67 <./img/Sequence 1 - Extension 2.jpg>]
-<img/Sequence 2 - Extension 2.jpg, id=1165, 1354.05875pt x 1364.09625pt>
+ [70 <./img/Sequence 1 - Extension 2.jpg>]
+<img/Sequence 2 - Extension 2.jpg, id=1849, 1354.05875pt x 1364.09625pt>
 File: img/Sequence 2 - Extension 2.jpg Graphic file (type jpg)
 <use img/Sequence 2 - Extension 2.jpg>
-Package pdftex.def Info: img/Sequence 2 - Extension 2.jpg  used on input line 400.
+Package pdftex.def Info: img/Sequence 2 - Extension 2.jpg  used on input line 430.
 (pdftex.def)             Requested size: 430.00462pt x 433.18942pt.
- [68 <./img/Sequence 2 - Extension 2.jpg>]
-<img/Sequence 3 - Extension 2.jpg, id=1171, 868.24374pt x 666.49pt>
+ [71 <./img/Sequence 2 - Extension 2.jpg>]
+<img/Sequence 3 - Extension 2.jpg, id=1855, 868.24374pt x 666.49pt>
 File: img/Sequence 3 - Extension 2.jpg Graphic file (type jpg)
 <use img/Sequence 3 - Extension 2.jpg>
-Package pdftex.def Info: img/Sequence 3 - Extension 2.jpg  used on input line 409.
+Package pdftex.def Info: img/Sequence 3 - Extension 2.jpg  used on input line 439.
 (pdftex.def)             Requested size: 430.00462pt x 330.09154pt.
- [69 <./img/Sequence 3 - Extension 2.jpg>]
-<img/Use Case Institution - Extension 2.pdf, id=1177, 528.97626pt x 555.07375pt>
+ [72 <./img/Sequence 3 - Extension 2.jpg>]
+<img/Use Case Institution - Extension 2.pdf, id=1862, 528.97626pt x 555.07375pt>
 File: img/Use Case Institution - Extension 2.pdf Graphic file (type pdf)
 <use img/Use Case Institution - Extension 2.pdf>
-Package pdftex.def Info: img/Use Case Institution - Extension 2.pdf  used on input line 425.
+Package pdftex.def Info: img/Use Case Institution - Extension 2.pdf  used on input line 455.
 (pdftex.def)             Requested size: 238.03711pt x 249.78087pt.
- (./subfiles/Use Case Institution - Extension 2.tex) [70 <./img/Use Case Institution - Extension 2.pdf>]
-<img/Interaction Overview Institution - Extension 2.pdf, id=1188, 534.99875pt x 305.14pt>
+ (./subfiles/Use Case Institution - Extension 2.tex) [73 <./img/Use Case Institution - Extension 2.pdf>]
+<img/Interaction Overview Institution - Extension 2.pdf, id=1873, 534.99875pt x 305.14pt>
 File: img/Interaction Overview Institution - Extension 2.pdf Graphic file (type pdf)
 <use img/Interaction Overview Institution - Extension 2.pdf>
-Package pdftex.def Info: img/Interaction Overview Institution - Extension 2.pdf  used on input line 435.
+Package pdftex.def Info: img/Interaction Overview Institution - Extension 2.pdf  used on input line 465.
 (pdftex.def)             Requested size: 430.00462pt x 245.26701pt.
- (./subfiles/Interaction Overview Institution - Extension 2.tex) [71 <./img/Interaction Overview Institution - Extension 2.pdf>]
-<img/Class Diagram Institution - Extension 2.pdf, id=1200, 533.995pt x 585.18625pt>
+ (./subfiles/Interaction Overview Institution - Extension 2.tex) [74 <./img/Interaction Overview Institution - Extension 2.pdf>]
+<img/Class Diagram Institution - Extension 2.pdf, id=1884, 533.995pt x 585.18625pt>
 File: img/Class Diagram Institution - Extension 2.pdf Graphic file (type pdf)
 <use img/Class Diagram Institution - Extension 2.pdf>
-Package pdftex.def Info: img/Class Diagram Institution - Extension 2.pdf  used on input line 446.
+Package pdftex.def Info: img/Class Diagram Institution - Extension 2.pdf  used on input line 476.
 (pdftex.def)             Requested size: 430.00462pt x 471.24806pt.
- [72 <./img/Class Diagram Institution - Extension 2.pdf>]
-<img/Sequence 4 - Extension 2.jpg, id=1216, 720.6925pt x 483.8075pt>
+ [75 <./img/Class Diagram Institution - Extension 2.pdf>]
+<img/Sequence 4 - Extension 2.jpg, id=1899, 720.6925pt x 483.8075pt>
 File: img/Sequence 4 - Extension 2.jpg Graphic file (type jpg)
 <use img/Sequence 4 - Extension 2.jpg>
-Package pdftex.def Info: img/Sequence 4 - Extension 2.jpg  used on input line 457.
+Package pdftex.def Info: img/Sequence 4 - Extension 2.jpg  used on input line 487.
 (pdftex.def)             Requested size: 430.00462pt x 288.66263pt.
- [73 <./img/Sequence 4 - Extension 2.jpg>]
-<img/Sequence 5 - Extension 2.jpg, id=1222, 720.6925pt x 483.8075pt>
+ [76 <./img/Sequence 4 - Extension 2.jpg>]
+<img/Sequence 5 - Extension 2.jpg, id=1905, 720.6925pt x 483.8075pt>
 File: img/Sequence 5 - Extension 2.jpg Graphic file (type jpg)
 <use img/Sequence 5 - Extension 2.jpg>
-Package pdftex.def Info: img/Sequence 5 - Extension 2.jpg  used on input line 466.
+Package pdftex.def Info: img/Sequence 5 - Extension 2.jpg  used on input line 496.
 (pdftex.def)             Requested size: 430.00462pt x 288.66263pt.
- [74 <./img/Sequence 5 - Extension 2.jpg>]
-<img/Sequence 6 - Extension 2.jpg, id=1228, 751.80875pt x 510.90875pt>
+ [77 <./img/Sequence 5 - Extension 2.jpg>]
+<img/Sequence 6 - Extension 2.jpg, id=1911, 751.80875pt x 510.90875pt>
 File: img/Sequence 6 - Extension 2.jpg Graphic file (type jpg)
 <use img/Sequence 6 - Extension 2.jpg>
-Package pdftex.def Info: img/Sequence 6 - Extension 2.jpg  used on input line 475.
+Package pdftex.def Info: img/Sequence 6 - Extension 2.jpg  used on input line 505.
 (pdftex.def)             Requested size: 430.00462pt x 292.22667pt.
- [75 <./img/Sequence 6 - Extension 2.jpg>]
-<img/BDD - Extension 2.pdf, id=1234, 536.0025pt x 331.2375pt>
+ [78 <./img/Sequence 6 - Extension 2.jpg>]
+<img/BDD - Extension 2.pdf, id=1918, 536.0025pt x 331.2375pt>
 File: img/BDD - Extension 2.pdf Graphic file (type pdf)
 <use img/BDD - Extension 2.pdf>
-Package pdftex.def Info: img/BDD - Extension 2.pdf  used on input line 485.
+Package pdftex.def Info: img/BDD - Extension 2.pdf  used on input line 515.
 (pdftex.def)             Requested size: 430.00462pt x 265.73332pt.
- (./subfiles/BDD - Extension 2.tex) [76 <./img/BDD - Extension 2.pdf>] (./subfiles/UI Client - Extension 2.tex) [77] (./subfiles/UI Institution - Extension 2.tex) [78]
+ (./subfiles/BDD - Extension 2.tex) [79 <./img/BDD - Extension 2.pdf>] (./subfiles/UI Client - Extension 2.tex) [80] (./subfiles/UI Institution - Extension 2.tex) [81]
 Chapitre 4.
-[79
+[82
 
 ] (./subfiles/Use Case Client Assurance.tex
-<img/UseCaseClient.png, id=1438, 1143.27126pt x 862.22125pt>
+<img/UseCaseClient.png, id=2122, 1143.27126pt x 862.22125pt>
 File: img/UseCaseClient.png Graphic file (type png)
 <use img/UseCaseClient.png>
 Package pdftex.def Info: img/UseCaseClient.png  used on input line 13.
 (pdftex.def)             Requested size: 342.98402pt x 258.66837pt.
-) [80 <./img/UseCaseClient.png>] (./subfiles/Interaction Overview Client Assurance.tex
-<img/InteractionDiagramClient.png, id=1446, 1530.71875pt x 800.9925pt>
+) [83 <./img/UseCaseClient.png>] (./subfiles/Interaction Overview Client Assurance.tex
+<img/InteractionDiagramClient.png, id=2130, 1530.71875pt x 800.9925pt>
 File: img/InteractionDiagramClient.png Graphic file (type png)
 <use img/InteractionDiagramClient.png>
 Package pdftex.def Info: img/InteractionDiagramClient.png  used on input line 3.
 (pdftex.def)             Requested size: 336.75917pt x 176.21889pt.
-) [81 <./img/InteractionDiagramClient.png>] (./subfiles/Class Client Assurance.tex
-<img/ClassDiagramClientAssurance.pdf, id=1454, 294.09875pt x 289.08pt>
+) [84 <./img/InteractionDiagramClient.png>] (./subfiles/Class Client Assurance.tex
+<img/ClassDiagramClientAssurance.pdf, id=2139, 294.09875pt x 289.08pt>
 File: img/ClassDiagramClientAssurance.pdf Graphic file (type pdf)
 <use img/ClassDiagramClientAssurance.pdf>
 Package pdftex.def Info: img/ClassDiagramClientAssurance.pdf  used on input line 3.
 (pdftex.def)             Requested size: 430.00462pt x 422.67082pt.
- [82 <./img/ClassDiagramClientAssurance.pdf, page is rotated 90 degrees>]
-<img/APIAssurance.png, id=1467, 648.4225pt x 125.46875pt>
+ [85 <./img/ClassDiagramClientAssurance.pdf, page is rotated 90 degrees>]
+<img/APIAssurance.png, id=2152, 648.4225pt x 125.46875pt>
 File: img/APIAssurance.png Graphic file (type png)
 <use img/APIAssurance.png>
 Package pdftex.def Info: img/APIAssurance.png  used on input line 12.
 (pdftex.def)             Requested size: 194.52824pt x 37.6409pt.
-<img/GUIAssurance.png, id=1468, 1092.08pt x 587.19376pt>
+<img/GUIAssurance.png, id=2153, 1092.08pt x 587.19376pt>
 File: img/GUIAssurance.png Graphic file (type png)
 <use img/GUIAssurance.png>
 Package pdftex.def Info: img/GUIAssurance.png  used on input line 21.
 (pdftex.def)             Requested size: 327.62653pt x 176.15948pt.
-) [83 <./img/APIAssurance.png> <./img/GUIAssurance.png>] (./subfiles/Sequence Diagram Client Assurance.tex
-<img/Payer la prime annuelle.pdf, id=1479, 707.64375pt x 381.425pt>
+) [86 <./img/APIAssurance.png> <./img/GUIAssurance.png>] (./subfiles/Sequence Diagram Client Assurance.tex
+<img/Payer la prime annuelle.pdf, id=2164, 707.64375pt x 381.425pt>
 File: img/Payer la prime annuelle.pdf Graphic file (type pdf)
 <use img/Payer la prime annuelle.pdf>
 Package pdftex.def Info: img/Payer la prime annuelle.pdf  used on input line 15.
 (pdftex.def)             Requested size: 430.00462pt x 231.77843pt.
- [84 <./img/Payer la prime annuelle.pdf, page is rotated 90 degrees>]
-<img/S'inscrire à une assurance.pdf, id=1492, 787.94376pt x 391.4625pt>
+ [87 <./img/Payer la prime annuelle.pdf, page is rotated 90 degrees>]
+<img/S'inscrire à une assurance.pdf, id=2175, 787.94376pt x 391.4625pt>
 File: img/S'inscrire à une assurance.pdf Graphic file (type pdf)
 <use img/S'inscrire à une assurance.pdf>
 Package pdftex.def Info: img/S'inscrire à une assurance.pdf  used on input line 26.
 (pdftex.def)             Requested size: 430.00462pt x 213.63252pt.
- [85 <./img/S'inscrire à une assurance.pdf, page is rotated 90 degrees>]
-<img/Modifier les paramètres d'une assurance.png, id=1502, 824.07875pt x 377.41pt>
+ [88 <./img/S'inscrire à une assurance.pdf, page is rotated 90 degrees>]
+<img/Modifier les paramètres d'une assurance.png, id=2185, 824.07875pt x 377.41pt>
 File: img/Modifier les paramètres d'une assurance.png Graphic file (type png)
 <use img/Modifier les paramètres d'une assurance.png>
 Package pdftex.def Info: img/Modifier les paramètres d'une assurance.png  used on input line 37.
 (pdftex.def)             Requested size: 430.00462pt x 196.93387pt.
- [86 <./img/Modifier les paramètres d'une assurance.png>]
-<img/Gérer le montant sur une assurance.pdf, id=1510, 786.94pt x 495.8525pt>
+ [89 <./img/Modifier les paramètres d'une assurance.png>]
+<img/Gérer le montant sur une assurance.pdf, id=2193, 786.94pt x 495.8525pt>
 File: img/Gérer le montant sur une assurance.pdf Graphic file (type pdf)
 <use img/Gérer le montant sur une assurance.pdf>
 Package pdftex.def Info: img/Gérer le montant sur une assurance.pdf  used on input line 48.
 (pdftex.def)             Requested size: 430.00462pt x 270.94168pt.
-) [87 <./img/Gérer le montant sur une assurance.pdf, page is rotated 90 degrees>] (./subfiles/Use Case Bank Assurance.tex
-<img/UseCaseBanque.png, id=1520, 922.44624pt x 776.9025pt>
+) [90 <./img/Gérer le montant sur une assurance.pdf, page is rotated 90 degrees>] (./subfiles/Use Case Bank Assurance.tex
+<img/UseCaseBanque.png, id=2204, 922.44624pt x 776.9025pt>
 File: img/UseCaseBanque.png Graphic file (type png)
 <use img/UseCaseBanque.png>
 Package pdftex.def Info: img/UseCaseBanque.png  used on input line 13.
 (pdftex.def)             Requested size: 276.73601pt x 233.07254pt.
-) [88 <./img/UseCaseBanque.png>] (./subfiles/Interaction Overview Diagram Bank Assurance.tex
-<img/InteractionDiagramBankAssurance.png, id=1528, 966.61125pt x 647.41875pt>
+) [91 <./img/UseCaseBanque.png>] (./subfiles/Interaction Overview Diagram Bank Assurance.tex
+<img/InteractionDiagramBankAssurance.png, id=2212, 966.61125pt x 647.41875pt>
 File: img/InteractionDiagramBankAssurance.png Graphic file (type png)
 <use img/InteractionDiagramBankAssurance.png>
 Package pdftex.def Info: img/InteractionDiagramBankAssurance.png  used on input line 13.
 (pdftex.def)             Requested size: 338.319pt x 226.59995pt.
-) [89 <./img/InteractionDiagramBankAssurance.png>] (./subfiles/Class Bank Assurance.tex
-<img/classGUIBanqueAssurance.png, id=1536, 558.085pt x 166.6225pt>
+) [92 <./img/InteractionDiagramBankAssurance.png>] (./subfiles/Class Bank Assurance.tex
+<img/classGUIBanqueAssurance.png, id=2221, 558.085pt x 166.6225pt>
 File: img/classGUIBanqueAssurance.png Graphic file (type png)
 <use img/classGUIBanqueAssurance.png>
 Package pdftex.def Info: img/classGUIBanqueAssurance.png  used on input line 3.
 (pdftex.def)             Requested size: 223.23004pt x 66.64781pt.
-) [90 <./img/classGUIBanqueAssurance.png>] [91] (./subfiles/BDD Assurance.tex
-<img/BDDAssurance.pdf, id=1550, 580.1675pt x 366.36874pt>
+) [93 <./img/classGUIBanqueAssurance.png>] [94] (./subfiles/BDD Assurance.tex
+<img/BDDAssurance.pdf, id=2234, 580.1675pt x 366.36874pt>
 File: img/BDDAssurance.pdf Graphic file (type pdf)
 <use img/BDDAssurance.pdf>
 Package pdftex.def Info: img/BDDAssurance.pdf  used on input line 3.
 (pdftex.def)             Requested size: 319.0931pt x 201.50342pt.
-) [92 <./img/BDDAssurance.pdf, page is rotated 90 degrees>] (./subfiles/UI Assurance.tex
+) [95 <./img/BDDAssurance.pdf, page is rotated 90 degrees>] (./subfiles/UI Assurance.tex
 Underfull \hbox (badness 10000) in paragraph at lines 2--4
 
  []
 
-[93] [94] [95] [96] [97]) [98]
+[96] [97] [98] [99] [100]) [101]
 Chapitre 5.
-[99
+[102
 
 ]
-<img/Use Case Client - Extension 6.pdf, id=1825, 1067.99pt x 827.09pt>
+<img/Use Case Client - Extension 6.pdf, id=2509, 1067.99pt x 827.09pt>
 File: img/Use Case Client - Extension 6.pdf Graphic file (type pdf)
 <use img/Use Case Client - Extension 6.pdf>
-Package pdftex.def Info: img/Use Case Client - Extension 6.pdf  used on input line 609.
+Package pdftex.def Info: img/Use Case Client - Extension 6.pdf  used on input line 639.
 (pdftex.def)             Requested size: 480.59106pt x 372.18706pt.
 
-Overfull \hbox (29.03372pt too wide) in paragraph at lines 607--611
+Overfull \hbox (29.03372pt too wide) in paragraph at lines 637--641
 []  [] 
  []
 
-(./subfiles/Semi detailed description Client - Extension 6.tex) [100 <./img/Use Case Client - Extension 6.pdf>] [101] [102] [103] [104] [105] [106] [107] (./subfiles/Interaction Overview Client - Extension 6.tex [108])
-<img/Interaction Overview Client - Extension 6.pdf, id=1942, 1180.41pt x 449.68pt>
+(./subfiles/Semi detailed description Client - Extension 6.tex) [103 <./img/Use Case Client - Extension 6.pdf>] [104] [105] [106] [107] [108] [109] [110] (./subfiles/Interaction Overview Client - Extension 6.tex [111])
+<img/Interaction Overview Client - Extension 6.pdf, id=2625, 1180.41pt x 449.68pt>
 File: img/Interaction Overview Client - Extension 6.pdf Graphic file (type pdf)
 <use img/Interaction Overview Client - Extension 6.pdf>
-Package pdftex.def Info: img/Interaction Overview Client - Extension 6.pdf  used on input line 625.
+Package pdftex.def Info: img/Interaction Overview Client - Extension 6.pdf  used on input line 655.
 (pdftex.def)             Requested size: 590.20357pt x 224.83945pt.
 
-Overfull \hbox (81.7407pt too wide) in paragraph at lines 623--627
+Overfull \hbox (81.7407pt too wide) in paragraph at lines 653--657
 []  [] 
  []
 
-[109 <./img/Interaction Overview Client - Extension 6.pdf>] (./subfiles/Class Client - Extension 6.tex)
-<img/Class Client - Extension 6.pdf, id=1959, 538.01pt x 649.42625pt>
+[112 <./img/Interaction Overview Client - Extension 6.pdf>] (./subfiles/Class Client - Extension 6.tex)
+<img/Class Client - Extension 6.pdf, id=2642, 538.01pt x 649.42625pt>
 File: img/Class Client - Extension 6.pdf Graphic file (type pdf)
 <use img/Class Client - Extension 6.pdf>
-Package pdftex.def Info: img/Class Client - Extension 6.pdf  used on input line 639.
+Package pdftex.def Info: img/Class Client - Extension 6.pdf  used on input line 669.
 (pdftex.def)             Requested size: 322.80849pt x 389.65875pt.
- [110 <./img/Class Client - Extension 6.pdf>]
-<img/Sequence 1 - Extension 6.pdf, id=1976, 538.01pt x 311.1625pt>
+ [113 <./img/Class Client - Extension 6.pdf>]
+<img/Sequence 1 - Extension 6.pdf, id=2660, 538.01pt x 311.1625pt>
 File: img/Sequence 1 - Extension 6.pdf Graphic file (type pdf)
 <use img/Sequence 1 - Extension 6.pdf>
-Package pdftex.def Info: img/Sequence 1 - Extension 6.pdf  used on input line 650.
+Package pdftex.def Info: img/Sequence 1 - Extension 6.pdf  used on input line 680.
 (pdftex.def)             Requested size: 430.00462pt x 248.6977pt.
- (./subfiles/Sequence 1 - Extension 6.tex) [111 <./img/Sequence 1 - Extension 6.pdf>]
-<img/Sequence 2 - Extension 6.pdf, id=1988, 538.01pt x 364.36125pt>
+ (./subfiles/Sequence 1 - Extension 6.tex) [114 <./img/Sequence 1 - Extension 6.pdf>]
+<img/Sequence 2 - Extension 6.pdf, id=2673, 538.01pt x 364.36125pt>
 File: img/Sequence 2 - Extension 6.pdf Graphic file (type pdf)
 <use img/Sequence 2 - Extension 6.pdf>
-Package pdftex.def Info: img/Sequence 2 - Extension 6.pdf  used on input line 661.
+Package pdftex.def Info: img/Sequence 2 - Extension 6.pdf  used on input line 691.
 (pdftex.def)             Requested size: 430.00462pt x 291.21696pt.
- (./subfiles/Sequence 2 - Extension 6.tex) [112 <./img/Sequence 2 - Extension 6.pdf>]
-<img/Sequence 3 - Extension 6.pdf, id=2000, 538.01pt x 236.885pt>
+ (./subfiles/Sequence 2 - Extension 6.tex) [115 <./img/Sequence 2 - Extension 6.pdf>]
+<img/Sequence 3 - Extension 6.pdf, id=2685, 538.01pt x 236.885pt>
 File: img/Sequence 3 - Extension 6.pdf Graphic file (type pdf)
 <use img/Sequence 3 - Extension 6.pdf>
-Package pdftex.def Info: img/Sequence 3 - Extension 6.pdf  used on input line 672.
+Package pdftex.def Info: img/Sequence 3 - Extension 6.pdf  used on input line 702.
 (pdftex.def)             Requested size: 430.00462pt x 189.33113pt.
- (./subfiles/Sequence 3 - Extension 6.tex) [113 <./img/Sequence 3 - Extension 6.pdf>]
-<img/Sequence 4 - Extension 6.pdf, id=2011, 538.01pt x 379.4175pt>
+ (./subfiles/Sequence 3 - Extension 6.tex) [116 <./img/Sequence 3 - Extension 6.pdf>]
+<img/Sequence 4 - Extension 6.pdf, id=2696, 538.01pt x 379.4175pt>
 File: img/Sequence 4 - Extension 6.pdf Graphic file (type pdf)
 <use img/Sequence 4 - Extension 6.pdf>
-Package pdftex.def Info: img/Sequence 4 - Extension 6.pdf  used on input line 683.
+Package pdftex.def Info: img/Sequence 4 - Extension 6.pdf  used on input line 713.
 (pdftex.def)             Requested size: 430.00462pt x 303.25072pt.
- (./subfiles/Sequence 4 - Extension 6.tex) [114 <./img/Sequence 4 - Extension 6.pdf>]
-<img/Sequence 5 - Extension 6.pdf, id=2024, 538.01pt x 339.2675pt>
+ (./subfiles/Sequence 4 - Extension 6.tex) [117 <./img/Sequence 4 - Extension 6.pdf>]
+<img/Sequence 5 - Extension 6.pdf, id=2708, 538.01pt x 339.2675pt>
 File: img/Sequence 5 - Extension 6.pdf Graphic file (type pdf)
 <use img/Sequence 5 - Extension 6.pdf>
-Package pdftex.def Info: img/Sequence 5 - Extension 6.pdf  used on input line 694.
+Package pdftex.def Info: img/Sequence 5 - Extension 6.pdf  used on input line 724.
 (pdftex.def)             Requested size: 430.00462pt x 271.16069pt.
- (./subfiles/Sequence 5 - Extension 6.tex) [115 <./img/Sequence 5 - Extension 6.pdf>]
-<img/Sequence 6 - Extension 6.pdf, id=2036, 538.01pt x 271.0125pt>
+ (./subfiles/Sequence 5 - Extension 6.tex) [118 <./img/Sequence 5 - Extension 6.pdf>]
+<img/Sequence 6 - Extension 6.pdf, id=2720, 538.01pt x 271.0125pt>
 File: img/Sequence 6 - Extension 6.pdf Graphic file (type pdf)
 <use img/Sequence 6 - Extension 6.pdf>
-Package pdftex.def Info: img/Sequence 6 - Extension 6.pdf  used on input line 705.
+Package pdftex.def Info: img/Sequence 6 - Extension 6.pdf  used on input line 735.
 (pdftex.def)             Requested size: 430.00462pt x 216.60765pt.
- (./subfiles/Sequence 6 - Extension 6.tex) [116 <./img/Sequence 6 - Extension 6.pdf>]
-<img/Sequence 7 - Extension 6.pdf, id=2048, 538.01pt x 356.33125pt>
+ (./subfiles/Sequence 6 - Extension 6.tex) [119 <./img/Sequence 6 - Extension 6.pdf>]
+<img/Sequence 7 - Extension 6.pdf, id=2732, 538.01pt x 356.33125pt>
 File: img/Sequence 7 - Extension 6.pdf Graphic file (type pdf)
 <use img/Sequence 7 - Extension 6.pdf>
-Package pdftex.def Info: img/Sequence 7 - Extension 6.pdf  used on input line 716.
+Package pdftex.def Info: img/Sequence 7 - Extension 6.pdf  used on input line 746.
 (pdftex.def)             Requested size: 430.00462pt x 284.79895pt.
- (./subfiles/Sequence 7 - Extension 6.tex) [117 <./img/Sequence 7 - Extension 6.pdf>]
-<img/Sequence 8 - Extension 6.pdf, id=2061, 538.01pt x 303.1325pt>
+ (./subfiles/Sequence 7 - Extension 6.tex) [120 <./img/Sequence 7 - Extension 6.pdf>]
+<img/Sequence 8 - Extension 6.pdf, id=2745, 538.01pt x 303.1325pt>
 File: img/Sequence 8 - Extension 6.pdf Graphic file (type pdf)
 <use img/Sequence 8 - Extension 6.pdf>
-Package pdftex.def Info: img/Sequence 8 - Extension 6.pdf  used on input line 727.
+Package pdftex.def Info: img/Sequence 8 - Extension 6.pdf  used on input line 757.
 (pdftex.def)             Requested size: 430.00462pt x 242.27968pt.
- (./subfiles/Sequence 8 - Extension 6.tex) [118 <./img/Sequence 8 - Extension 6.pdf>]
-<img/Sequence 9 - Extension 6.pdf, id=2073, 538.01pt x 258.9675pt>
+ (./subfiles/Sequence 8 - Extension 6.tex) [121 <./img/Sequence 8 - Extension 6.pdf>]
+<img/Sequence 9 - Extension 6.pdf, id=2757, 538.01pt x 258.9675pt>
 File: img/Sequence 9 - Extension 6.pdf Graphic file (type pdf)
 <use img/Sequence 9 - Extension 6.pdf>
-Package pdftex.def Info: img/Sequence 9 - Extension 6.pdf  used on input line 738.
+Package pdftex.def Info: img/Sequence 9 - Extension 6.pdf  used on input line 768.
 (pdftex.def)             Requested size: 430.00462pt x 206.98064pt.
- (./subfiles/Sequence 9 - Extension 6.tex) [119 <./img/Sequence 9 - Extension 6.pdf>]
-<img/Use Case Institution - Extension 6.pdf, id=2085, 538.01pt x 478.78876pt>
+ (./subfiles/Sequence 9 - Extension 6.tex) [122 <./img/Sequence 9 - Extension 6.pdf>]
+<img/Use Case Institution - Extension 6.pdf, id=2769, 538.01pt x 478.78876pt>
 File: img/Use Case Institution - Extension 6.pdf Graphic file (type pdf)
 <use img/Use Case Institution - Extension 6.pdf>
-Package pdftex.def Info: img/Use Case Institution - Extension 6.pdf  used on input line 760.
+Package pdftex.def Info: img/Use Case Institution - Extension 6.pdf  used on input line 790.
 (pdftex.def)             Requested size: 430.00462pt x 382.67354pt.
- (./subfiles/Semi detailed description Institution - Extension 6.tex) [120 <./img/Use Case Institution - Extension 6.pdf>] (./subfiles/Interaction Overview Institution - Extension 6.tex)
-<img/Interaction Overview Institution - Extension 6.pdf, id=2095, 1175.39125pt x 672.5125pt>
+ (./subfiles/Semi detailed description Institution - Extension 6.tex) [123 <./img/Use Case Institution - Extension 6.pdf>] (./subfiles/Interaction Overview Institution - Extension 6.tex)
+<img/Interaction Overview Institution - Extension 6.pdf, id=2778, 1175.39125pt x 672.5125pt>
 File: img/Interaction Overview Institution - Extension 6.pdf Graphic file (type pdf)
 <use img/Interaction Overview Institution - Extension 6.pdf>
-Package pdftex.def Info: img/Interaction Overview Institution - Extension 6.pdf  used on input line 774.
+Package pdftex.def Info: img/Interaction Overview Institution - Extension 6.pdf  used on input line 804.
 (pdftex.def)             Requested size: 387.88031pt x 221.92981pt.
- [121 <./img/Interaction Overview Institution - Extension 6.pdf>] (./subfiles/Class Institution - Extension 6.tex)
-<img/Class Institution - Extension 6.pdf, id=2112, 538.01pt x 511.9125pt>
+ [124 <./img/Interaction Overview Institution - Extension 6.pdf>] (./subfiles/Class Institution - Extension 6.tex)
+<img/Class Institution - Extension 6.pdf, id=2796, 538.01pt x 511.9125pt>
 File: img/Class Institution - Extension 6.pdf Graphic file (type pdf)
 <use img/Class Institution - Extension 6.pdf>
-Package pdftex.def Info: img/Class Institution - Extension 6.pdf  used on input line 786.
+Package pdftex.def Info: img/Class Institution - Extension 6.pdf  used on input line 816.
 (pdftex.def)             Requested size: 430.00462pt x 409.14781pt.
- [122 <./img/Class Institution - Extension 6.pdf>]
-<img/Sequence 10 - Extension 6.pdf, id=2127, 538.01pt x 279.0425pt>
+ [125 <./img/Class Institution - Extension 6.pdf>]
+<img/Sequence 10 - Extension 6.pdf, id=2811, 538.01pt x 279.0425pt>
 File: img/Sequence 10 - Extension 6.pdf Graphic file (type pdf)
 <use img/Sequence 10 - Extension 6.pdf>
-Package pdftex.def Info: img/Sequence 10 - Extension 6.pdf  used on input line 797.
+Package pdftex.def Info: img/Sequence 10 - Extension 6.pdf  used on input line 827.
 (pdftex.def)             Requested size: 430.00462pt x 223.02565pt.
- (./subfiles/Sequence 10 - Extension 6.tex) [123 <./img/Sequence 10 - Extension 6.pdf>] (./subfiles/Modele de donnees - Extension 6.tex)
-<img/Entity Relation - Extension 6.pdf, id=2139, 538.01pt x 304.13625pt>
+ (./subfiles/Sequence 10 - Extension 6.tex) [126 <./img/Sequence 10 - Extension 6.pdf>] (./subfiles/Modele de donnees - Extension 6.tex)
+<img/Entity Relation - Extension 6.pdf, id=2824, 538.01pt x 304.13625pt>
 File: img/Entity Relation - Extension 6.pdf Graphic file (type pdf)
 <use img/Entity Relation - Extension 6.pdf>
-Package pdftex.def Info: img/Entity Relation - Extension 6.pdf  used on input line 817.
+Package pdftex.def Info: img/Entity Relation - Extension 6.pdf  used on input line 847.
 (pdftex.def)             Requested size: 371.2273pt x 209.85423pt.
- [124 <./img/Entity Relation - Extension 6.pdf>] (./subfiles/UI Client - Extension 6.tex [125]) [126] (./subfiles/UI Institution - Extension 6.tex) [127] (./RAPPORT.aux)
+ [127 <./img/Entity Relation - Extension 6.pdf>] (./subfiles/UI Client - Extension 6.tex [128]) [129] (./subfiles/UI Institution - Extension 6.tex) [130] (./RAPPORT.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `RAPPORT.out' has not changed.
-(rerunfilecheck)             Checksum: 8B4367DBA9162C7A7705A274F5796AFE;15470.
+(rerunfilecheck)             Checksum: 9DCCC2E5547D31CAA1BBBAEAD0503C80;16360.
  ) 
 Here is how much of TeX's memory you used:
- 34927 strings out of 478353
- 756527 string characters out of 5852100
+ 35003 strings out of 478353
+ 758359 string characters out of 5852100
  1063307 words of memory out of 5000000
- 51686 multiletter control sequences out of 15000+600000
+ 51714 multiletter control sequences out of 15000+600000
  474579 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  114i,11n,118p,2561b,549s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2021/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2021/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2021/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2021/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on RAPPORT.pdf (128 pages, 2761763 bytes).
+Output written on RAPPORT.pdf (131 pages, 3277934 bytes).
 PDF statistics:
- 2516 PDF objects out of 2984 (max. 8388607)
- 1560 compressed objects within 16 object streams
- 648 named destinations out of 1000 (max. 500000)
- 927 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 3208 PDF objects out of 3580 (max. 8388607)
+ 1632 compressed objects within 17 object streams
+ 684 named destinations out of 1000 (max. 500000)
+ 966 words of extra memory for PDF output out of 10000 (max. 10000000)
 

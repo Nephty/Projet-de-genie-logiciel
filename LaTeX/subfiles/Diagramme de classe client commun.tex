@@ -1,13 +1,3 @@
-\documentclass[]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[frenchb]{babel}
-\usepackage{amsmath,amsfonts,amssymb,amsthm}
-\usepackage{graphicx}
-
-\begin{document}
-
 \paragraph{}Le diagramme de classe est divisé en trois parties : la partie logique, la partie API et la partie GUI (Interface graphique). L'ensemble des diagrammes de classes ont été pensé afin de pouvoir utiliser des classes ou des concepts identique pour les deux applications.
 
     \paragraph{Partie logique}
@@ -42,5 +32,3 @@
     \end{figure}
 
     \paragraph{Partie GUI} La partie GUI est composée de toutes les classes de scenes ainsi que des classes “outil”. Les classes scenes ont toutes la même structure mais il en existe deux sortes. La première sorte est composée des scenes d’authentification (AuthScene) et la deuxième est composée des scenes de l’application une fois connecté (AppScene). La seule différence entre elles est la présence d’un bouton pour changer la langue dans les scenes d’authentification. Les classes abstraites AppScene et AuthScene ont en commun comme caractéristique un bouton de retour ainsi que la langue utilisé dans les fenêtres et comme méthode la méthode createScene qui crée le contenu de la page en fonction de la page sur laquelle on se trouve. Le design patern singleton a été utilisé pour les scenes. En effet, chaque classe Scene possède une méthode statique getInstance() qui permet de garantir qu’il n’existe qu’une instance de l’objet en cours d’utilisation. Pour les classes “outils”, on a ConfirmBox, AlertBox, Flow et Palette. AlertBox et ConfirmBox représentent des fenêtres d’alerte et de confirmation. Elles ont comme attribut un titre et un message et ont comme méthode la méthode display() qui affiche cette fenêtre et renvoie un booléen dans le cas de confirm box. La classe Flow représente une liste de toutes les pages parcourues et sert pour l’utilisation du bouton back, elle a comme attribut une liste d’élément Stage et comme méthode les méthodes append() et pop() qui servent à ajouter des éléments en fin de liste et les retirer en les lisants. La méthode Pallette sert pour avoir un fond d’écran de couleur uni défini par son attribut background. Enfin la classe Main sert à lancer l’application.
-
-\end{document}

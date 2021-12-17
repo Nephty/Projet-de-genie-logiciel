@@ -1405,6 +1405,15 @@ INPUT ./subfiles/rest-api-Extension-1-ltx.tex
 INPUT subfiles/rest-api-Extension-1-ltx.tex
 INPUT ./subfiles/rest-api-Extension-1-ltx.tex
 INPUT subfiles/rest-api-Extension-1-ltx.tex
+INPUT ./img/bdd-extension-1.pdf
+INPUT ./img/bdd-extension-1.pdf
+INPUT img/bdd-extension-1.pdf
+INPUT ./img/bdd-extension-1.pdf
+INPUT ./img/bdd-extension-1.pdf
+INPUT ./subfiles/bdd-extension-1.tex
+INPUT subfiles/bdd-extension-1.tex
+INPUT ./subfiles/bdd-extension-1.tex
+INPUT subfiles/bdd-extension-1.tex
 INPUT ./img/Use Case Client - Extension 2.pdf
 INPUT ./img/Use Case Client - Extension 2.pdf
 INPUT img/Use Case Client - Extension 2.pdf
@@ -1428,21 +1437,37 @@ INPUT ./img/Class Diagram Client - Extension 2.pdf
 INPUT img/Class Diagram Client - Extension 2.pdf
 INPUT ./img/Class Diagram Client - Extension 2.pdf
 INPUT ./img/Class Diagram Client - Extension 2.pdf
-INPUT ./img/Sequence 1 - Extension 2.jpg
-INPUT ./img/Sequence 1 - Extension 2.jpg
-INPUT img/Sequence 1 - Extension 2.jpg
-INPUT ./img/Sequence 1 - Extension 2.jpg
-INPUT ./img/Sequence 1 - Extension 2.jpg
-INPUT ./img/Sequence 2 - Extension 2.jpg
-INPUT ./img/Sequence 2 - Extension 2.jpg
-INPUT img/Sequence 2 - Extension 2.jpg
-INPUT ./img/Sequence 2 - Extension 2.jpg
-INPUT ./img/Sequence 2 - Extension 2.jpg
-INPUT ./img/Sequence 3 - Extension 2.jpg
-INPUT ./img/Sequence 3 - Extension 2.jpg
-INPUT img/Sequence 3 - Extension 2.jpg
-INPUT ./img/Sequence 3 - Extension 2.jpg
-INPUT ./img/Sequence 3 - Extension 2.jpg
+INPUT ./subfiles/Class Client - Extension 2.tex
+INPUT subfiles/Class Client - Extension 2.tex
+INPUT ./subfiles/Class Client - Extension 2.tex
+INPUT subfiles/Class Client - Extension 2.tex
+INPUT ./img/Sequence 1 - Extension 2.pdf
+INPUT ./img/Sequence 1 - Extension 2.pdf
+INPUT img/Sequence 1 - Extension 2.pdf
+INPUT ./img/Sequence 1 - Extension 2.pdf
+INPUT ./img/Sequence 1 - Extension 2.pdf
+INPUT ./subfiles/Sequence 1 - Extension 2.tex
+INPUT subfiles/Sequence 1 - Extension 2.tex
+INPUT ./subfiles/Sequence 1 - Extension 2.tex
+INPUT subfiles/Sequence 1 - Extension 2.tex
+INPUT ./img/Sequence 2 - Extension 2.pdf
+INPUT ./img/Sequence 2 - Extension 2.pdf
+INPUT img/Sequence 2 - Extension 2.pdf
+INPUT ./img/Sequence 2 - Extension 2.pdf
+INPUT ./img/Sequence 2 - Extension 2.pdf
+INPUT ./subfiles/Sequence 2 - Extension 2.tex
+INPUT subfiles/Sequence 2 - Extension 2.tex
+INPUT ./subfiles/Sequence 2 - Extension 2.tex
+INPUT subfiles/Sequence 2 - Extension 2.tex
+INPUT ./img/Sequence 3 - Extension 2.pdf
+INPUT ./img/Sequence 3 - Extension 2.pdf
+INPUT img/Sequence 3 - Extension 2.pdf
+INPUT ./img/Sequence 3 - Extension 2.pdf
+INPUT ./img/Sequence 3 - Extension 2.pdf
+INPUT ./subfiles/Sequence 3 - Extension 2.tex
+INPUT subfiles/Sequence 3 - Extension 2.tex
+INPUT ./subfiles/Sequence 3 - Extension 2.tex
+INPUT subfiles/Sequence 3 - Extension 2.tex
 INPUT ./img/Use Case Institution - Extension 2.pdf
 INPUT ./img/Use Case Institution - Extension 2.pdf
 INPUT img/Use Case Institution - Extension 2.pdf
@@ -1466,21 +1491,37 @@ INPUT ./img/Class Diagram Institution - Extension 2.pdf
 INPUT img/Class Diagram Institution - Extension 2.pdf
 INPUT ./img/Class Diagram Institution - Extension 2.pdf
 INPUT ./img/Class Diagram Institution - Extension 2.pdf
-INPUT ./img/Sequence 4 - Extension 2.jpg
-INPUT ./img/Sequence 4 - Extension 2.jpg
-INPUT img/Sequence 4 - Extension 2.jpg
-INPUT ./img/Sequence 4 - Extension 2.jpg
-INPUT ./img/Sequence 4 - Extension 2.jpg
-INPUT ./img/Sequence 5 - Extension 2.jpg
-INPUT ./img/Sequence 5 - Extension 2.jpg
-INPUT img/Sequence 5 - Extension 2.jpg
-INPUT ./img/Sequence 5 - Extension 2.jpg
-INPUT ./img/Sequence 5 - Extension 2.jpg
-INPUT ./img/Sequence 6 - Extension 2.jpg
-INPUT ./img/Sequence 6 - Extension 2.jpg
-INPUT img/Sequence 6 - Extension 2.jpg
-INPUT ./img/Sequence 6 - Extension 2.jpg
-INPUT ./img/Sequence 6 - Extension 2.jpg
+INPUT ./subfiles/Class Institution - Extension 2.tex
+INPUT subfiles/Class Institution - Extension 2.tex
+INPUT ./subfiles/Class Institution - Extension 2.tex
+INPUT subfiles/Class Institution - Extension 2.tex
+INPUT ./img/Sequence 4 - Extension 2.pdf
+INPUT ./img/Sequence 4 - Extension 2.pdf
+INPUT img/Sequence 4 - Extension 2.pdf
+INPUT ./img/Sequence 4 - Extension 2.pdf
+INPUT ./img/Sequence 4 - Extension 2.pdf
+INPUT ./subfiles/Sequence 4 - Extension 2.tex
+INPUT subfiles/Sequence 4 - Extension 2.tex
+INPUT ./subfiles/Sequence 4 - Extension 2.tex
+INPUT subfiles/Sequence 4 - Extension 2.tex
+INPUT ./img/Sequence 5 - Extension 2.pdf
+INPUT ./img/Sequence 5 - Extension 2.pdf
+INPUT img/Sequence 5 - Extension 2.pdf
+INPUT ./img/Sequence 5 - Extension 2.pdf
+INPUT ./img/Sequence 5 - Extension 2.pdf
+INPUT ./subfiles/Sequence 5 - Extension 2.tex
+INPUT subfiles/Sequence 5 - Extension 2.tex
+INPUT ./subfiles/Sequence 5 - Extension 2.tex
+INPUT subfiles/Sequence 5 - Extension 2.tex
+INPUT ./img/Sequence 6 - Extension 2.pdf
+INPUT ./img/Sequence 6 - Extension 2.pdf
+INPUT img/Sequence 6 - Extension 2.pdf
+INPUT ./img/Sequence 6 - Extension 2.pdf
+INPUT ./img/Sequence 6 - Extension 2.pdf
+INPUT ./subfiles/Sequence 6 - Extension 2.tex
+INPUT subfiles/Sequence 6 - Extension 2.tex
+INPUT ./subfiles/Sequence 6 - Extension 2.tex
+INPUT subfiles/Sequence 6 - Extension 2.tex
 INPUT ./img/BDD - Extension 2.pdf
 INPUT ./img/BDD - Extension 2.pdf
 INPUT img/BDD - Extension 2.pdf

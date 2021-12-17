@@ -115,9 +115,13 @@
 
 \subsection{Class diagrams}
 
+\subfile{subfiles/Intro class.tex}
+
 \newpage
 
 \subsection{Sequence diagrams}
+
+\subfile{subfiles/Intro Sequence.tex}
 
 \newpage
 
@@ -155,9 +159,13 @@
 
 \subsection{Class diagram}
 
+\subfile{subfiles/Class Client commun.tex}
+
 \newpage
 
 \subsection{Sequence diagram}
+
+\subfile{subfiles/SequenceDiagramCommunClient.tex}
 
 \newpage
 
@@ -193,6 +201,8 @@
 \newpage
 
 \subsection{Class diagram}
+
+\subfile{subfiles/Class Banque Commun.tex}
 
 \newpage
 
@@ -470,17 +480,25 @@
 
 \subsection{Use case diagram}
 
+\subfile{subfiles/Use Case Client Assurance.tex}
+
 \newpage
 
 \subsection{Interaction overview diagram}
+
+\subfile{subfiles/Interaction Overview Client Assurance.tex}
 
 \newpage
 
 \subsection{Class diagram}
 
+\subfile{subfiles/Class Client Assurance.tex}
+
 \newpage
 
 \subsection{Sequence diagram}
+
+\subfile{subfiles/Sequence Diagram Client Assurance.tex}
 
 \newpage
 
@@ -492,20 +510,39 @@
 
 \subsection{Use case diagram}
 
+\subfile{subfiles/Use Case Bank Assurance.tex}
+
 \newpage
 
 \subsection{Interaction overview diagram}
+
+\subfile{subfiles/Interaction Overview Diagram Bank Assurance.tex}
 
 \newpage
 
 \subsection{Class diagram}
 
+\subfile{subfiles/Class Bank Assurance.tex}
+
 \newpage
 
 \subsection{Sequence diagram}
 
+\paragraph{}Le seul diagramme de séquence de cette partie (Envoyer un devis) pouvant être réalisé sous la forme d’un fonctionnement type tel que décrit dans les diagrammes de séquence de la partie commune, celui-ci ne sera pas décrit. Il s’agit en effet de la création d’un objet via les entrées d’un utilisateur afin d’être ajoutées par après dans la base de données via l’API (deuxième diagramme type).
+
 \newpage
 
+\section{Modèle de données}
+
+\subfile{subfiles/BDD Assurance.tex}
+
+\newpage
+
+\section{Maquette de l'interface utilisateur et institution}
+
+\subfile{subfiles/UI Assurance.tex}
+
+\newpage
 
 
 
@@ -573,73 +610,89 @@
 
 \begin{figure}[h!]
 \hbox{
-	\centering\includegraphics[width=\linewidth]{img/Sequence 1 - Extension 6.pdf}
+    \centering\includegraphics[width=\linewidth]{img/Sequence 1 - Extension 6.pdf}
 }
 \caption{Créer une demande de paiement via QR code}
 \end{figure}
 
+\subfile{subfiles/Sequence 1 - Extension 6.tex}
+
 \newpage
 
 \begin{figure}[h!]
 \hbox{
-	\centering\includegraphics[width=\linewidth]{img/Sequence 2 - Extension 6.pdf}
+    \centering\includegraphics[width=\linewidth]{img/Sequence 2 - Extension 6.pdf}
 }
 \caption{Effectuer un paiement via QR code}
 \end{figure}
 
+\subfile{subfiles/Sequence 2 - Extension 6.tex}
+
 \newpage
 
 \begin{figure}[h!]
 \hbox{
-	\centering\includegraphics[width=\linewidth]{img/Sequence 3 - Extension 6.pdf}
+    \centering\includegraphics[width=\linewidth]{img/Sequence 3 - Extension 6.pdf}
 }
 \caption{Voir la liste des paiements à effectuer}
 \end{figure}
 
+\subfile{subfiles/Sequence 3 - Extension 6.tex}
+
 \newpage
 
 \begin{figure}[h!]
 \hbox{
-	\centering\includegraphics[width=\linewidth]{img/Sequence 4 - Extension 6.pdf}
+    \centering\includegraphics[width=\linewidth]{img/Sequence 4 - Extension 6.pdf}
 }
 \caption{Payer sans contact}
 \end{figure}
 
+\subfile{subfiles/Sequence 4 - Extension 6.tex}
+
 \newpage
 
 \begin{figure}[h!]
 \hbox{
-	\centering\includegraphics[width=\linewidth]{img/Sequence 5 - Extension 6.pdf}
+    \centering\includegraphics[width=\linewidth]{img/Sequence 5 - Extension 6.pdf}
 }
 \caption{Payer avec contact}
 \end{figure}
 
+\subfile{subfiles/Sequence 5 - Extension 6.tex}
+
 \newpage
 
 \begin{figure}[h!]
 \hbox{
-	\centering\includegraphics[width=\linewidth]{img/Sequence 6 - Extension 6.pdf}
+    \centering\includegraphics[width=\linewidth]{img/Sequence 6 - Extension 6.pdf}
 }
 \caption{Voir l'historique des transactions suspectes}
 \end{figure}
 
+\subfile{subfiles/Sequence 6 - Extension 6.tex}
+
 \newpage
 
 \begin{figure}[h!]
 \hbox{
-	\centering\includegraphics[width=\linewidth]{img/Sequence 7 - Extension 6.pdf}
+    \centering\includegraphics[width=\linewidth]{img/Sequence 7 - Extension 6.pdf}
 }
 \caption{Confirmer une suspicion de fraude}
 \end{figure}
 
+\subfile{subfiles/Sequence 7 - Extension 6.tex}
+
 \newpage
 
 \begin{figure}[h!]
 \hbox{
-	\centering\includegraphics[width=\linewidth]{img/Sequence 8 - Extension 6.pdf}
+    \centering\includegraphics[width=\linewidth]{img/Sequence 8 - Extension 6.pdf}
 }
 \caption{Infirmer une suspicion de fraude}
 \end{figure}
+
+\subfile{subfiles/Sequence 8 - Extension 6.tex}
 
 \newpage
 
@@ -649,6 +702,9 @@
 }
 \caption{Notifier le client d'une transaction suspecte}
 \end{figure}
+	
+\subfile{subfiles/Sequence 9 - Extension 6.tex}
+	
 
 \newpage
 
@@ -698,12 +754,15 @@
 
 \subsection{Sequence diagram}
 
+
 \begin{figure}[h!]
 \hbox{
-	\centering\includegraphics[width=\linewidth]{img/Sequence 10 - Extension 6.pdf}
+    \centering\includegraphics[width=\linewidth]{img/Sequence 10 - Extension 6.pdf}
 }
-\caption{Modifier les limites}
+\caption{Notifier le client d'une transaction suspecte}
 \end{figure}
+
+\subfile{subfiles/Sequence 10 - Extension 6.tex}
 
 \newpage
 

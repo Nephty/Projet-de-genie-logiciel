@@ -983,7 +983,7 @@
 
 \newpage
 
-\section{Extension 2 - Moreau Cyril}
+\section{Extension 2 - Cyril \textsc{Moreau}}
 \subsection{Application client}
 \subsubsection{Voir taux de conversion devise}
 \begin{table}[h]
@@ -1182,7 +1182,7 @@
 
 \newpage
 
-\section{Extension 5 - VION François}
+\section{Extension 5 - François \textsc{Vion}}
 \subsection{Partie client}
 \subsubsection{Voir la liste des assurances}
 \begin{table}[h]
@@ -1549,46 +1549,435 @@
     \end{tabular}
  \end{table}
 
-\end{document}
-
-%---------Template pour la description semi-structurée----------
-\begin{itemize}
-   \item \textbf{Acteurs:}
-   \item \textbf{Description:}
-   \item \textbf{Préconditions:}
-   \item \textbf{Postconditions:}
-   \item \textbf{Scénario principal:}
-   \item \textbf{Scénario alternatif:}
-   \item \textbf{Trigger:}
-   \item \textbf{Fréquence d'utilisation:}
-\end{itemize}
 
 \newpage
 
-\subsection{}
-\begin{table}[h]
-   \begin{tabular}{|c|p{10cm}|}
-      \hline
-      Acteur principal&Institution fiancière\\
-      \hline
-      Description&    \\
-      \hline
-      Préconditions&      \\
-      \hline
-      PostConditions&      \\
-      \hline
-      Scénario principal& 
-            \begin{enumerate}
-               \item test1
-               \item test2
-               \item test3
-            \end{enumerate}     \\
-      \hline
-      Scénario alternatif&      \\
-      \hline
-      Trigger&      \\
-      \hline
-      Fréquence d'utilisation&      \\
-      \hline
-   \end{tabular}
+
+\section{Extension 6 - Arnaud \textsc{Moreau}}
+
+\subsection{Application client}
+
+\subsubsection{Créer une demande de paiement via QR code}
+
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Client, serveur \\
+\hline
+Description & Permet à l'utilisateur de créer un QR code qui pourra plus tard être scanné afin d'effectuer le paiement défini \\
+\hline
+Préconditions & L'utilisateur est authentifié \\
+\hline
+Postconditions & L'utilisateur possède un QR code sous forme d'image qui permet de réaliser le paiement qu'il a décrit \\
+\hline
+Scénario principal & \begin{enumerate}
+\item L'utilisateur arrive sur la fenêtre ;
+\item L'utilisateur entre un montant (chiffre à virgule) et éventuellement un message ;
+\item L'utilisateur choisi un chemin de destination pour l'export ;
+\item L'utilisateur clique sur le bouton \emph{Generate} et une image contenant le QR code est créée dans le dossier spécifié ;
+\item Une transaction ayant pour état "en attente" est enregistrée dans la base de donnée.
+\end{enumerate} \\
+\hline
+Scénario alternatif & \begin{enumerate}
+\item L'utilisateur entre un montant que l'on ne peut pas convertir en \emph{double} (car il y a des lettres par exemple) : un message d'erreur est affiché est l'export n'a pas lieu.
+\end{enumerate} \\
+\hline
+Trigger & Lorsque l'utilisateur clique sur le bouton \emph{Generate} de la fenêtre \emph{QR codes} \\
+\hline
+Fréquence d'utilisation & Rare \\
+\hline
+\end{tabular}
+
 \end{table}
+
+
+\newpage
+
+
+\subsubsection{Effectuer un paiement via QR code}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Client, serveur \\
+\hline
+Description & Permet à l'utilisateur d'utiliser un QR code afin d'effectuer un paiement \\
+\hline
+Préconditions & L'utilisateur est authentifié et possède un QR code sous forme d'image \\
+\hline
+Postconditions & Le paiement a été effectué : le compte sélectionné est débité et le destinaire reçoit l'argent \\
+\hline
+Scénario principal & \begin{enumerate}
+\item L'utilisateur arrive sur la fenêtre ;
+\item L'utilisateur sélectionne l'image contenant le QR code ;
+\item L'utilisateur choisi le compte à partir duquel débiter l'argent ;
+\item L'utilisateur clique sur le bouton \emph{Pay} ;
+\item Un appel serveur demandant le montant disponible sur le compte sélectionné est réalisé afin de vérifier si l'utilisateur peut payer à partir du compte sélectionné ;
+\item L'utilisateur est invité à entrer son code PIN ;
+\item Une requête de modification de la transaction correspondante est envoyée au serveur afin de modifier son état de "en attente" à "confirmée". La transaction pour alors avoir eu lieu et prendre l'état "traitée".
+\end{enumerate} \\
+\hline
+Scénario alternatif & \begin{enumerate}
+\item L'utilisateur sélectionne une image ne contenant pas de QR code : un message d'erreur s'affiche, la sélection redevient vide (plus d'image sélectionnée) et l'utilisateur peut sélectionner une nouvelle image ;
+\item Le montant à payer est supérieur au montant contenu dans le compte sélectionné : un message d'erreur s'affiche, la sélection du menu déroulant est réinitialisée et l'utilisateur peut à nouveau sélectionner un compte ;
+\item Le code PIN est incorrect (moins de trois fois) : l'utilisateur est invité à réintroduire son code PIN ;
+\item Le code PIN est incorrect pour la troisième fois : un message d'erreur s'affiche et le compte de l'utilisateur est bloqué.
+\end{enumerate} \\
+\hline
+Trigger & Lorsque l'utilisateur clique sur le bouton \emph{Read} de la fenêtre \emph{QR codes} \\
+\hline
+Fréquence d'utilisation & Rare \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\newpage
+
+
+\subsubsection{Voir la liste des paiements à effectuer}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Client, institution \\
+\hline
+Description & Permet à l'utilisateur de visualiser les paiements à effectuer situés dans le fichier JSON dédié \\
+\hline
+Préconditions & L'utilisateur est authentifié et possède une liste de paiements à effecuter au format JSON (qui peut être vide) \\
+\hline
+Postconditions & La liste de paiements est disponible en mémoire \\
+\hline
+Scénario principal & \begin{enumerate}
+\item L'utilisateur arrive sur la fenêtre ;
+\item Si la liste de paiements n'est pas déjà disponible en mémoire, la lecture du fichier JSON dédié est effectuée ;
+\item La liste des paiements est affichée dans la liste.
+\end{enumerate} \\
+\hline
+Scénario alternatif & Aucun \\
+\hline
+Trigger & Lorsque l'utilisateur clique sur le bouton \emph{Due payments} de la fenêtre \emph{Main screen} \\
+\hline
+Fréquence d'utilisation & Moyenne \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\newpage
+
+
+\subsubsection{Sélectionner un paiement à effectuer}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Client \\
+\hline
+Description & Permet à l'utilisateur de sélectionner un paiement à effectuer et d'utiliser les boutons \emph{Pay} et \emph{Pay contactless} de la fenêtre \emph{Due payments} \\
+\hline
+Préconditions & L'utilisateur est authentifié, possède une liste de paiements à effecuter au format JSON et en a sélectionné un (la liste lue dans le fichier JSON ne peut donc pas être vide) \\
+\hline
+Postconditions & Un paiement est sélectionné \\
+\hline
+Scénario principal & \begin{enumerate}
+\item L'utilisateur est déjà en train de visualiser la liste de paiements ;
+\item L'utilisateur clique sur un paiement de la liste ;
+\item Un objet en mémoire est modifié pour savoir quel paiement est actuellement sélectionné par l'utilisateur.
+\end{enumerate} \\
+\hline
+Scénario alternatif & Aucun \\
+\hline
+Trigger & Lorsque l'utilisateur clique sur un des paiements de la liste \emph{Due payments} de la fenêtre \emph{Due payments} \\
+\hline
+Fréquence d'utilisation & Élevée \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\newpage
+
+
+\subsubsection{Payer sans contact}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Client, institution \\
+\hline
+Description & Permet à l'utilisateur de réaliser le paiment précédemment sélectionner "sans contact" \\
+\hline
+Préconditions & L'utilisateur est authentifié, possède une liste de paiements à effecuter au format JSON, en a sélectionné un (la liste lue dans le fichier JSON ne peut donc pas être vide), a sélectionné un compte duquel débiter l'argent et a sélectionné le moyen de paiement "sans contact" \\
+\hline
+Postconditions & Le paiement a été effectué : le compte sélectionné est débité et le destinaire reçoit l'argent \\
+\hline
+Scénario principal & \begin{enumerate}
+\item L'utilisateur clique sur le bouton \emph{Pay contactless} ;
+\item Un appel serveur est réalisé afin de savoir si effectuer cette transaction ne dépassera pas le seuil maximal imposé par la banque et si le montant d'argent disponible sur le compte sélectionné est suffisant ;
+\item Une nouvelle transaction est envoyée au serveur ;
+\item La transaction est enregistrée dans la base de données ;
+\item Un transfer d'argent est effectué.
+\end{enumerate} \\
+\hline
+Scénario alternatif & \begin{enumerate}
+\item Le montant à payer est supérieur au montant contenu dans le compte sélectionné : un message d'erreur s'affiche, la sélection du menu déroulant est réinitialisée et l'utilisateur peut à nouveau sélectionner une méthode de paiement ;
+\item Le seuil maximal d'argent transféré "sans contact" est dépassé : un message d'erreur s'affiche et invite le client à effectuer la transaction "avec contact".
+\end{enumerate} \\
+\hline
+Trigger & Lorsque l'utilisateur clique sur le bouton \emph{Pay contactless} de la fenêtre \emph{Due payments} en ayant sélectionné un paiement à effectuer \\
+\hline
+Fréquence d'utilisation & Moyenne \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\newpage
+
+
+\subsubsection{Payer avec contact}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Client, institution \\
+\hline
+Description & Permet à l'utilisateur de réaliser le paiment précédemment sélectionner "avec contact" \\
+\hline
+Préconditions & L'utilisateur est authentifié, possède une liste de paiements à effecuter au format JSON, en a sélectionné un et a sélectionné le moyen de paiement "avec contact" \\
+\hline
+Postconditions & Le paiement a été effectué : le compte sélectionné est débité et le destinaire reçoit l'argent \\
+\hline
+Scénario principal & \begin{enumerate}
+\item L'utilisateur clique sur le bouton \emph{Pay} ;
+\item Un appel serveur demandant le montant disponible sur le compte sélectionné est réalisé afin de vérifier si l'utilisateur peut payer à partir du compte sélectionné ;
+\item L'utilisateur est invité à entrer son code PIN ;
+\item Une nouvelle transaction est envoyée au serveur ;
+\item La transaction est enregistrée dans la base de données ;
+\item Un transfer d'argent est effectué.
+\end{enumerate} \\
+\hline
+Scénario alternatif & \begin{enumerate}
+\item Le montant à payer est supérieur au montant contenu dans le compte sélectionné : un message d'erreur s'affiche, la sélection du menu déroulant est réinitialisée et l'utilisateur peut à nouveau sélectionner un compte ;
+\item Le code PIN est incorrect (moins de trois fois) : l'utilisateur est invité à réintroduire son code PIN ;
+\item Le code PIN est incorrect pour la troisième fois : un message d'erreur s'affiche et le compte de l'utilisateur est bloqué.
+\end{enumerate} \\
+\hline
+Trigger & Lorsque l'utilisateur clique sur le bouton \emph{Pay contactless} de la fenêtre \emph{Due payments} en ayant sélectionné un paiement à effectuer \\
+\hline
+Fréquence d'utilisation & Moyenne \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\newpage
+
+
+\subsubsection{Voir l'historique des transactions suspectes}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Client, serveur \\
+\hline
+Description & Permet au client de visualiser les transactions marquées comme suspectes dans la base de donnée \\
+\hline
+Préconditions & L'utilisateur est authentifié \\
+\hline
+Postconditions & La liste des transactions suspectes est disponible en mémoire \\
+\hline
+Scénario principal & \begin{enumerate}
+\item L'utilisateur arrive sur la fenêtre ;
+\item Un appel serveur est effectué afin de récupérer les transactions suspectes ;
+\item La liste des transactions suspecte qui n'ont pas été \emph{reviewed} est affichée dans la liste.
+\end{enumerate} \\
+\hline
+Scénario alternatif & Aucun \\
+\hline
+Trigger & Lorsque l'utilisateur clique sur le bouton \emph{Suspicious transactions} de la fenêtre \emph{Main screen} \\
+\hline
+Fréquence d'utilisation & Moyenne \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\newpage
+
+
+\subsubsection{Confirmer une suspicion de fraude}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Client, serveur \\
+\hline
+Description & Permet à l'utilisateur de confirmer qu'une transaction suspecte n'était pas intentionnelle \\
+\hline
+Préconditions & L'utilisateur est authentifié et a selectionné une suspicion à valider \\
+\hline
+Postconditions & La suspicion est confirmée \\
+\hline
+Scénario principal & \begin{enumerate}
+\item L'utilisateur clique sur le bouton \emph{Suspicious} ;
+\item La transaction est marquée comme suspecte dans la base de données ;
+\item Localement, on calcule le niveau de dangerosité qui détermine comment augmenter le niveau de sécurité du compte de l'utilisateur (typiquement, plus le niveau de sécurité est élevé, plus il faudra pouvoir confirmer son identité et plus il sera compliqué d'utiliser le compte de manière frauduleuse).
+\end{enumerate} \\
+\hline
+Scénario alternatif & Aucun \\
+\hline
+Trigger & Lorsque l'utilisateur clique sur le bouton \emph{Suspicious} de la fenêtre  \emph{Suspicious transactions history} \\
+\hline
+Fréquence d'utilisation & Moyenne \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\newpage
+
+
+\subsubsection{Infirmer une suspicino de fraude}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Client, serveur \\
+\hline
+Description & Permet à l'utilisateur de confirmer qu'une transaction suspecte était intentionnelle \\
+\hline
+Préconditions & L'utilisateur est authentifié et a selectionné une suspicion à infirmer \\
+\hline
+Postconditions & La suspicion est infirmée \\
+\hline
+Scénario principal & \begin{enumerate}
+\item L'utilisateur clique sur le bouton \emph{Intentional} ;
+\item La transaction est marquée comme non suspecte dans la base de données ;
+\item Localement, on calcule le niveau de dangerosité qui détermine comment diminuer le niveau de sécurité du compte de l'utilisateur (typiquement, plus le niveau de sécurité est faible, moins il faudra pouvoir confirmer son identité et plus il y aura de fonctionnalités "à risque" (comme les paiements sans contact) qui seront utilisables).
+\end{enumerate} \\
+\hline
+Scénario alternatif & Aucun \\
+\hline
+Trigger & Lorsque l'utilisateur clique sur le bouton \emph{Intentional} de la fenêtre  \emph{Suspicious transactions history} \\
+\hline
+Fréquence d'utilisation & Moyenne \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\newpage
+
+
+\subsubsection{Notifier le client d'une transaction suspecte}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Client, serveur \\
+\hline
+Description & Permet à l'utilisateur de recevoir une notification indiquant qu'une transaction suspecte a été effectuée \\
+\hline
+Préconditions & Une transaction a été réalisée \\
+\hline
+Postconditions & L'utilisateur est notifié et il a accès à la notification dans la fenêtre \emph{Notifications} \\
+\hline
+Scénario principal & \begin{enumerate}
+\item Une transaction a lieu ;
+\item Le serveur calcule la suspicion de fraude de la transaction selon les règles de calcul établies et ce résultat dépasse un certain seuil ;
+\item Une notification est envoyée au client ;
+\item La transaction est marquée comme suspecte et l'utilisateur peut examiner cette suspicion, la confirmer ou l'infirmer.
+\end{enumerate} \\
+\hline
+Scénario alternatif & \begin{enumerate}
+\item La transaction n'est pas suspecte : le reste de la procédure n'a pas lieu
+\end{enumerate} \\
+\hline
+Trigger & Lorsqu'une transaction a lieu et est suspecte \\
+\hline
+Fréquence d'utilisation & Très élevée \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\newpage
+
+
+\subsubsection{Bloquer un compte d'un client}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Serveur \\
+\hline
+Description & Permet de bloquer un compte de l'utilisateur \\
+\hline
+Préconditions & Une action (peu importe sa nature) ayant pour conséquence de bloquer le compte d'un utilisateur a eu lieu \\
+\hline
+Postconditions & Le compte est bloqué \\
+\hline
+Scénario principal & \begin{enumerate}
+\item Une notification est envoyée au client ;
+\item Le compte en question est désormais inutilisable.
+\end{enumerate} \\
+\hline
+Scénario alternatif & Aucun \\
+\hline
+Trigger & Lorsqu'une action demandant à bloquer un compte a lieu \\
+\hline
+Fréquence d'utilisation & Très rare \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\newpage
+
+
+\subsection{Application institution}
+
+
+\subsubsection{Modifier les limites}
+\begin{table}[h!]
+
+\begin{tabular}{|c|p{11cm}|}
+\hline
+Acteur & Serveur \\
+\hline
+Description & Permet de bloquer un compte de l'utilisateur \\
+\hline
+Préconditions & Une action (peu importe sa nature) ayant pour conséquence de bloquer le compte d'un utilisateur a eu lieu \\
+\hline
+Postconditions & Le compte est bloqué \\
+\hline
+Scénario principal & \begin{enumerate}
+\item Une notification est envoyée au client ;
+\item Le compte en question est désormais inutilisable.
+\end{enumerate} \\
+\hline
+Scénario alternatif & Aucun \\
+\hline
+Trigger & Lorsqu'une action demandant à bloquer un compte a lieu \\
+\hline
+Fréquence d'utilisation & Très rare \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\end{document}

@@ -41,14 +41,11 @@ public class Main extends Application {
         }
 
         /*
-        for (XMLColor c : XMLColorResolver.content) { // TODO : why not working ?
-                                                      // hints : in main, typeReference is of type List<XMLColor>,
-                                                      // whereas in XMLResolver it is of type List<T>,
-                                                      // but then why is content an ArrayList<LinkedHashMap> ?
-                                                      // maybe it is by default
-
-            System.out.println(c);
-        }
+        for (XMLColor c : XMLColorResolver.content) {   // TODO : why not working ?
+            System.out.println(c);                      // hints : in main, typeReference is of type List<XMLColor>,
+        }                                               // whereas in XMLResolver it is of type List<T>,
+                                                        // but then why is content an ArrayList<LinkedHashMap> ?
+                                                        // maybe it is by default
 
         for (XMLDimension d : XMLDimensionResolver.content) {
             System.out.println(d);

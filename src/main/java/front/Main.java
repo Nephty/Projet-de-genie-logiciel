@@ -1,22 +1,16 @@
 package front;
 
-import front.XML.XMLColor;
-import front.XML.XMLDimension;
+import front.XML.XMLElement;
 import front.XML.XMLResolver;
-import front.XML.XMLString;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.List;
+import java.awt.*;
+import java.util.Enumeration;
+import java.util.ResourceBundle;
 
 
 public class Main extends Application {
@@ -28,33 +22,21 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        XMLResolver<XMLColor> XMLColorResolver = new XMLResolver<>("values/colors.xml");
-        //XMLResolver<XMLDimension> XMLDimensionResolver = new XMLResolver<>("values/dimensions.xml");
-        //XMLResolver<XMLString> XMLStringResolver = new XMLResolver<>("values/strings.xml");
+        XMLResolver XMLColorResolver = new XMLResolver("values/colors.xml");
+        XMLResolver XMLDimensionResolver = new XMLResolver("values/dimensions.xml");
+        XMLResolver XMLStringResolver = new XMLResolver("values/strings.xml");
 
-        ObjectMapper m = new XmlMapper();
-        InputStream is = new FileInputStream(System.getProperty("user.dir") + "/src/main/resources/xml/" + "values/colors.xml");
-        TypeReference<List<XMLColor>> tr = new TypeReference<>() {};
-        List<XMLColor> content1 = m.readValue(is, tr);
-        for (XMLColor hm : content1) {
-            System.out.println(hm);
+        for (XMLElement c : XMLColorResolver.content) {
+            System.out.println(new Color(Integer.parseInt(c.value, 16)));
         }
 
-        /*
-        for (XMLColor c : XMLColorResolver.content) {   // TODO : why not working ?
-            System.out.println(c);                      // hints : in main, typeReference is of type List<XMLColor>,
-        }                                               // whereas in XMLResolver it is of type List<T>,
-                                                        // but then why is content an ArrayList<LinkedHashMap> ?
-                                                        // maybe it is by default
-
-        for (XMLDimension d : XMLDimensionResolver.content) {
+        for (XMLElement d : XMLDimensionResolver.content) {
             System.out.println(d);
         }
 
-        for (XMLString s : XMLStringResolver.content) {
+        for (XMLElement s : XMLStringResolver.content) {
             System.out.println(s);
         }
-         */
 
         Parent root = FXMLLoader.load(getClass().getResource("/xml/scenes/AuthScene.fxml"));
 

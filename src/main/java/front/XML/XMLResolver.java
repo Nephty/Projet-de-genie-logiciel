@@ -7,22 +7,18 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
-public class XMLResolver<T> {
+public class XMLResolver {
     private ObjectMapper mapper;
     private InputStream inputStream;
-    private TypeReference<List<T>> typeReference;
-    public List<T> content;
+    public List<XMLElement> content;
 
     public XMLResolver(String dir) throws IOException {
         mapper = new XmlMapper();
         inputStream = new FileInputStream(System.getProperty("user.dir") + "/src/main/resources/xml/" + dir);
-        typeReference = new TypeReference<>() {
-        };
-        content = mapper.readValue(inputStream, typeReference);
-        for (T hm : content) {
-            System.out.println(hm);
-        }
+        content = mapper.readValue(inputStream, new TypeReference<>() {});
     }
 }

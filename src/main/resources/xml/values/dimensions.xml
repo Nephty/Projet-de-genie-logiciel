@@ -2,6 +2,6 @@
 <resources>
     <dimension>
         <name>window</name>
-        <value>1920x1080</value>
+        <value>1280x720</value>
     </dimension>
 </resources>

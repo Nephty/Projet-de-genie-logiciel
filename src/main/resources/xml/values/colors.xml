@@ -2,14 +2,10 @@
 <resources>
     <color>
         <name>pane_background</name>
-        <value>7D7D87</value>
+        <value>#7D7D87</value>
     </color>
     <color>
         <name>button_background</name>
-        <value>D2CDC8</value>
-    </color>
-    <color>
-        <name>button_background</name>
-        <value>D2CDC8</value>
+        <value>#D2CDC8</value>
     </color>
 </resources>

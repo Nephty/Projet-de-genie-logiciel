@@ -4,9 +4,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import java.lang.Integer?>
 <Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <fx:define>
+        <Integer fx:id="background" fx:value="#7D7D87"/>
+    </fx:define>
    <children>
-      <SplitPane dividerPositions="0.1" orientation="VERTICAL" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: '%variable.background';">
+      <SplitPane dividerPositions="0.1" orientation="VERTICAL" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: '$background';">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>

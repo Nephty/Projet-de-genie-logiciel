@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.1" orientation="VERTICAL" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: '%values.colors.pane_background';">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Button layoutX="1144.0" layoutY="17.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: rgb(210, 205, 200);" text="Language" textFill="#0a0a14">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Button layoutX="457.0" layoutY="233.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="364.0" style="-fx-background-color: rgb(210, 205, 200);" text="Sign in" textFill="#0a0a14">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="457.0" layoutY="331.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="364.0" style="-fx-background-color: rgb(210, 205, 200);" text="Sign up" textFill="#0a0a14">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</Pane>

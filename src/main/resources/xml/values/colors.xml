@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color>
+        <name>pane_background</name>
+        <value>8224135</value>
+    </color>
+    <color>
+        <name>button_background</name>
+        <value>13815240</value>
+    </color>
+</resources>

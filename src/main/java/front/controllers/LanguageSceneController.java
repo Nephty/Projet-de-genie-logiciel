@@ -3,11 +3,18 @@ package front.controllers;
 import front.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
 public class LanguageSceneController implements BackButtonNavigator {
-    // TODO : make distance between label and left border the same as distance between button and right border
-    // TODO : change label css style so it doesn't feel like a button
+
+    @FXML
+    Button backButton, addButton, setButton;
+    @FXML
+    Label chooseLanguageLabel;
+
     public void handleBackButtonClicked(MouseEvent mouseEvent) {
         handleBackButtonNavigation(mouseEvent);
     }

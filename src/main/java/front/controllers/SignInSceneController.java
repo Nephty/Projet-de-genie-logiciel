@@ -7,12 +7,18 @@ import front.navigation.navigators.LanguageButtonNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 public class SignInSceneController implements BackButtonNavigator, LanguageButtonNavigator {
 
     @FXML
-    public Button languageButton, backButton, signInButton;
+    Button languageButton, backButton, signInButton;
+    @FXML
+    TextField usernameField;
+    @FXML
+    PasswordField passwordField;
 
     @FXML
     public void handleLanguageButtonClicked(MouseEvent event) {

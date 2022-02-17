@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class AuthSceneController implements LanguageButtonNavigator {
     @FXML
-    private Button languageButton, signInButton, signUpButton;
+    Button languageButton, signInButton, signUpButton;
 
     public AuthSceneController() throws IOException {
     }

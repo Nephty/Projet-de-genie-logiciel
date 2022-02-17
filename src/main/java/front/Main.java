@@ -21,8 +21,8 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        this.stage = stage;
+    public void start(Stage stage_) throws Exception {
+        stage = stage_;
 
         XMLResolver XMLColorResolver = new XMLResolver("values/colors.xml");
         XMLResolver XMLDimensionResolver = new XMLResolver("values/dimensions.xml");
@@ -38,9 +38,9 @@ public class Main extends Application {
         Parent SignInSceneParent = SignInSceneFXMLLoader.load();
         SignInScene = new Scene(SignInSceneParent, 1280, 720);
 
-        this.stage.setTitle("FXML Welcome");
-        this.stage.setScene(AuthScene);
-        this.stage.show();
+        stage.setTitle("FXML Welcome");
+        stage.setScene(AuthScene);
+        stage.show();
     }
 
     public static void setScene(Scene scene) {

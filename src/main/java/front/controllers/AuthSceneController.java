@@ -14,8 +14,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AuthSceneController implements LanguageButtonNavigator {
-    ResourceBundleBridge colorsResourceBundleBridge = new ResourceBundleBridge(new XMLResolver("values/colors.xml"));
-
     @FXML
     private Button languageButton, signInButton, signUpButton;
 
@@ -48,6 +46,6 @@ public class AuthSceneController implements LanguageButtonNavigator {
 
     @Override
     public void handleLanguageButtonNavigation(MouseEvent event) {
-        // TODO : language window navigation
+        Main.setScene(Flow.forward(Main.LanguageScene));
     }
 }

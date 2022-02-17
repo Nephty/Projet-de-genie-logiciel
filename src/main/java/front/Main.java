@@ -15,7 +15,7 @@ import java.net.URL;
 
 public class Main extends Application {
     private static Stage stage;
-    public static Scene AuthScene, SignInScene;
+    public static Scene AuthScene, SignInScene, LanguageScene;
 
     public static void main(String[] args) {
         launch(args);
@@ -24,10 +24,6 @@ public class Main extends Application {
     @Override
     public void start(Stage stage_) throws Exception {
         stage = stage_;
-
-        XMLResolver XMLColorResolver = new XMLResolver("values/colors.xml");
-        XMLResolver XMLDimensionResolver = new XMLResolver("values/dimensions.xml");
-        XMLResolver XMLStringResolver = new XMLResolver("values/strings.xml");
 
         URL AuthSceneFXMLLocation = getClass().getResource("/xml/scenes/AuthScene.fxml");
         FXMLLoader AuthSceneFXMLLoader = new FXMLLoader(AuthSceneFXMLLocation);
@@ -39,7 +35,13 @@ public class Main extends Application {
         Parent SignInSceneParent = SignInSceneFXMLLoader.load();
         SignInScene = new Scene(SignInSceneParent, 1280, 720);
 
+        URL LanguageSceneFXMLLocation = getClass().getResource("/xml/scenes/LanguageScene.fxml");
+        FXMLLoader LanguageSceneFXMLLoader = new FXMLLoader(LanguageSceneFXMLLocation);
+        Parent LanguageSceneParent = LanguageSceneFXMLLoader.load();
+        LanguageScene = new Scene(LanguageSceneParent, 1280, 720);
+
         Flow.add(AuthScene);
+        stage.setResizable(false);
         stage.setTitle("FXML Welcome");
         stage.setScene(AuthScene);
         stage.show();

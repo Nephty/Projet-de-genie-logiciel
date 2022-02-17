@@ -36,6 +36,6 @@ public class SignInSceneController implements BackButtonNavigator, LanguageButto
 
     @Override
     public void handleLanguageButtonNavigation(MouseEvent event) {
-        // TODO : language button navigation
+        Main.setScene(Flow.forward(Main.LanguageScene));
     }
 }

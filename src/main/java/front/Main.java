@@ -2,6 +2,7 @@ package front;
 
 import front.XML.XMLElement;
 import front.XML.XMLResolver;
+import front.navigation.Flow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,6 +39,7 @@ public class Main extends Application {
         Parent SignInSceneParent = SignInSceneFXMLLoader.load();
         SignInScene = new Scene(SignInSceneParent, 1280, 720);
 
+        Flow.add(AuthScene);
         stage.setTitle("FXML Welcome");
         stage.setScene(AuthScene);
         stage.show();

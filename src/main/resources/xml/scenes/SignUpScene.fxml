@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.controllers.SignUpSceneController">
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.controllers.SignUpSceneController">
     <children>
         <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
             <children>
@@ -39,16 +39,19 @@
                                 <Font size="20.0" />
                             </font>
                         </TextField>
+                        <Label fx:id="NRNTakenLabel" layoutX="187.0" layoutY="257.0" prefHeight="16.0" prefWidth="140.0" text="NRN already taken." textFill="#c80000" visible="true" />
                         <TextField fx:id="NRNField" layoutX="178.0" layoutY="280.0" prefHeight="60.0" prefWidth="435.0" promptText="NRN..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
                                 <Font size="20.0" />
                             </font>
                         </TextField>
+                        <Label fx:id="emailTakenLabel" layoutX="187.0" layoutY="348.0" prefHeight="16.0" prefWidth="146.0" text="Email already taken." textFill="#c80000" visible="true" />
                         <TextField fx:id="emailAddressField" layoutX="178.0" layoutY="370.0" prefHeight="60.0" prefWidth="435.0" promptText="Email address..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
                                 <Font size="20.0" />
                             </font>
                         </TextField>
+                        <Label fx:id="usernameTakenLabel" layoutX="674.0" layoutY="78.0" prefHeight="16.0" prefWidth="168.0" text="Username already taken." textFill="#c80000" visible="true" />
                         <TextField fx:id="usernameField" layoutX="668.0" layoutY="100.0" prefHeight="60.0" prefWidth="435.0" promptText="Username..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
                                 <Font size="20.0" />
@@ -59,11 +62,13 @@
                                 <Font size="20.0" />
                             </font>
                         </PasswordField>
+                        <Label fx:id="passwordDoesNotMatchLabel" layoutX="674.0" layoutY="257.0" prefHeight="16.0" prefWidth="182.0" text="Password does not match." textFill="#c80000" visible="true" />
                         <PasswordField fx:id="confirmPasswordField" layoutX="668.0" layoutY="280.0" prefHeight="60.0" prefWidth="435.0" promptText="Confirm password..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
                                 <Font size="20.0" />
                             </font>
                         </PasswordField>
+                        <Label fx:id="languageNotChosen" layoutX="670.0" layoutY="362.0" prefHeight="16.0" prefWidth="176.0" text="Please select a language." textFill="#c80000" visible="true" />
                         <Label fx:id="favoriteLanguageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="668.0" layoutY="382.0" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="Favorite language">
                             <font>
                                 <Font size="14.0" />

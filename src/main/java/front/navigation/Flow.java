@@ -1,6 +1,5 @@
 package front.navigation;
 
-import front.Main;
 import javafx.scene.Scene;
 
 import java.util.LinkedList;
@@ -74,13 +73,6 @@ public class Flow {
      * Clears the Flow by removing every element there is.
      */
     public static void clear() {
-        for (int i = 0; i < Flow.size(); i++) { Flow.pop(); }
-        Flow.pop();
-    }
-
-    public static void print() {
-        for (Scene s : FLOW) {
-            System.out.println(FLOW.indexOf(s) + " : " + s);
-        }
+        Flow.FLOW = new LinkedList<>();
     }
 }

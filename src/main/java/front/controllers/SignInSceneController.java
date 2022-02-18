@@ -8,8 +8,10 @@ import front.scenes.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class SignInSceneController implements BackButtonNavigator, LanguageButtonNavigator {
@@ -20,6 +22,10 @@ public class SignInSceneController implements BackButtonNavigator, LanguageButto
     TextField usernameField;
     @FXML
     PasswordField passwordField;
+    @FXML
+    Label incorrectUsernameOrPasswordLabel;
+
+    String username = "", password = "";  // TODO : back-end : get the username and the password from the database in these variables
 
     @FXML
     public void handleLanguageButtonClicked(MouseEvent event) {
@@ -28,7 +34,14 @@ public class SignInSceneController implements BackButtonNavigator, LanguageButto
 
     @FXML
     public void handleSignInButtonClicked(MouseEvent event) {
-        // TODO : sign in button navigation
+        if (usernameField.getText().equals(username) && passwordField.getText().equals(password)) {
+            if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
+            Main.setScene(Flow.forward(Scenes.MainScreenScene));
+        } else {
+            if (!incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(true);
+            passwordField.setText("");
+            usernameField.setText("");
+        }
     }
 
     @FXML

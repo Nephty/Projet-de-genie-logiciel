@@ -36,11 +36,11 @@ public class SignInSceneController implements BackButtonNavigator, LanguageButto
     public void handleSignInButtonClicked(MouseEvent event) {
         if (usernameField.getText().equals(username) && passwordField.getText().equals(password)) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
+            passwordField.setText("");
+            usernameField.setText("");
             Main.setScene(Flow.forward(Scenes.MainScreenScene));
         } else {
             if (!incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(true);
-            passwordField.setText("");
-            usernameField.setText("");
         }
     }
 

@@ -73,7 +73,12 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
         } else if (isValidEmail(email) && invalidEmailLabel.isVisible()) {
             invalidEmailLabel.setVisible(false);
         }
-        // Is the email
+        // Is the NRN valid (XX.XX.XX-XXX.XX format with numbers)
+        if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) {
+            invalidNRNLabel.setVisible(true);
+        } else if (isValidNRN(NRN) && invalidNRNLabel.isVisible()) {
+            invalidNRNLabel.setVisible(false);
+        }
 
 
         // Manage the "xxxx already taken" labels visibility
@@ -94,8 +99,8 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      *  - string must not be empty
      *  - string must not be null
      *  - string must only contain characters from a-z and from A-Z
-     * @param lastName the last name to check
-     * @return boolean - whether the given last name is a valid last name or not
+     * @param lastName - <code>String</code> - the last name to check
+     * @return <code>boolean</code> - whether the given last name is a valid last name or not
      */
     public static boolean isValidLastName(String lastName) {
         return (!lastName.equals("") && (lastName != null) && (lastName.matches("^[a-zA-Z-]*$")));
@@ -107,15 +112,15 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      *  - string must not be empty
      *  - string must not be null
      *  - string must only contain characters from a-z, from A-Z or a dash (-).
-     * @param firstName the last name to check
-     * @return boolean - whether the given first name is a valid first name or not
+     * @param firstName - <code>String</code> - the last name to check
+     * @return <code>boolean</code> - whether the given first name is a valid first name or not
      */
     public static boolean isValidFirstName(String firstName) {
         return isValidLastName(firstName);
     }
 
     /**
-     * Checks if the the given <code>String</code> is a valid email.
+     * Checks if the given <code>String</code> is a valid email.
      * Conditions :
      *  - string must not be empty
      *  - string must not be null
@@ -123,15 +128,15 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      *  - string must only contain one @
      *  - string must contain at most one . after the @
      *  - string must contain at least one character from a-z or from A-Z before the @
-     * @param s
-     * @return
+     * @param email - <code>String</code> - the email to check
+     * @return <code>boolean</code> - whether the given email is a valid email or not
      */
-    public static boolean isValidEmail(String s) {
-        if (s == "" || s == null || !s.matches("^[a-zA-Z0-9@.]*$")) return false;
+    public static boolean isValidEmail(String email) {
+        if (email.equals("") || email == null || !email.matches("^[a-zA-Z0-9@.]*$")) return false;
         boolean hasOneAt = false;  // if the string contains at least one @
         boolean hasOneDotAfterAt = false;  // if the string contains at least one . after the first @
         boolean hasOneCharBeforeAt = false; // if the string contains at least one character before the first @
-        for (char c : s.toCharArray()) {
+        for (char c : email.toCharArray()) {
             if (c == '@' && hasOneAt) return false; // string has 2 @, invalid email
             if (c == '@') hasOneAt = true; // first @ we encounter
             if (c == '.' && hasOneDotAfterAt) return false; // second . we encounter after the first ., invalid email
@@ -139,5 +144,41 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
             if (("" + c).matches("^[a-zA-Z]") && !hasOneAt) hasOneCharBeforeAt = true;
         }
         return hasOneAt && hasOneDotAfterAt && hasOneCharBeforeAt;
+    }
+
+    /**
+     * Checks if the given string is a valid NRN.
+     * Conditions :
+     *  - string must not be empty
+     *  - string must not be null
+     *  - string must match the format XX.XX.XX-XXX.XX where X in an integer in range 0-9
+     * @param NRN - <code>String</code> - the NRN to check
+     * @return <code>boolean</code> whether the given NRN is a valid NRN or not
+     */
+    public static boolean isValidNRN(String NRN) {
+        if (NRN.equals("") || NRN == null || !NRN.matches("^[0-9-.]") || NRN.length() != 15) return false;
+        for (int i = 0; i < 15; i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                case 3:
+                case 4:
+                case 6:
+                case 7:
+                case 9:
+                case 10:
+                case 11:
+                case 13:
+                case 14:
+                    if (!Character.isDigit(NRN.charAt(i))) return false;
+                case 2:
+                case 5:
+                case 12:
+                    if (NRN.charAt(i) != '.') return false;
+                case 8:
+                    if (NRN.charAt(i) != '-') return false;
+            }
+        }
+        return true;
     }
 }

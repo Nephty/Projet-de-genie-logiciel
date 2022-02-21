@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.util.Arrays;
@@ -272,5 +274,41 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      */
     private boolean passwordMatches(String password, String passwordConfirmation) {
         return password.equals(passwordConfirmation) && !password.equals("");
+    }
+
+    public void handleFirstNameFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+    }
+
+    public void handleLastNameFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+    }
+
+    public void handleNRNFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+    }
+
+    public void handleEmailFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+    }
+
+    public void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+    }
+
+    public void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+    }
+
+    public void handleConfirmPasswordFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+    }
+
+    public void handleLanguageComboBoxKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+    }
+
+    public void triggerSignUp() {
+        handleSignUpButtonClicked(null);
     }
 }

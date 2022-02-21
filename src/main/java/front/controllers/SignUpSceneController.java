@@ -1,13 +1,18 @@
 package front.controllers;
 
+import back.user.User;
 import front.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
 import front.scenes.Scenes;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+
+import java.util.Arrays;
 
 public class SignUpSceneController implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
@@ -45,13 +50,13 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
     }
 
     public void handleSignUpButtonClicked(MouseEvent mouseEvent) {
-        // TODO : create all incorrectly formatted labels
         String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
                 NRN = NRNField.getText(), username = usernameField.getText(), password = passwordField.getText(),
                 passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
 
-        // String[] values = {"EN_US", "FR_BE"};
-        // languageComboBox.setItems(values);
+        // TODO : back-end replace "EN_US", "FR_BE" by the available languages in the system
+        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
+        languageComboBox.setItems(values);
 
         // Manage the "invalid xxxx" labels visibility
         // Is the last name valid (A-Z, a-z) ? Show/hide the incorrect last name label accordingly
@@ -94,26 +99,22 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
         if (chosenLanguage == null && !languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(true);
         else if (chosenLanguage != null && languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(false);
 
+
+        // No label is visible implies that every field is properly filled in
+        if (noLabelVisible()) {
+            // Then we can create a new user
+            Main.setUser(User.getInstance(lastName, firstName, NRN, email, username));
+        }
+
+        System.out.println(Main.getUser());
+
         // TODO : back-end signing up process implementation
     }
 
-    private boolean passwordMatches(String password, String passwordConfirmation) {
-        return password.equals(passwordConfirmation) && !password.equals("");
-    }
-
-    private boolean isNRNTaken(String nrn) {
-        // TODO : back-end implementation
-        return false;
-    }
-
-    private boolean isEmailTaken(String email) {
-        // TODO : back-end implementation
-        return false;
-    }
-
-    private boolean isUsernameTaken(String username) {
-        // TODO : back-end implementation
-        return false;
+    private boolean noLabelVisible() {
+        return !invalidLastNameLabel.isVisible() && !invalidFirstNameLabel.isVisible() && !invalidEmailLabel.isVisible()
+                && !invalidNRNLabel.isVisible() && !invalidUsernameLabel.isVisible()
+                && !passwordDoesNotMatchLabel.isVisible() && !languageNotChosenLabel.isVisible();
     }
 
     /**
@@ -220,5 +221,45 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
     public static boolean isValidUsername(String username) {
         if (username.equals("") || username == null || username.length() > 32) return false;
         return username.matches("^[a-zA-Z0-9]*$");
+    }
+
+    /**
+     * Checks if the username is already taken.
+     * @param username - <code>String</code> - the username to check
+     * @return <code>boolean</code> - whether the given username is already take or not
+     */
+    private boolean isUsernameTaken(String username) {
+        // TODO : back-end implementation
+        return false;
+    }
+
+    /**
+     * Checks if the email is already taken.
+     * @param email - <code>String</code> - the email to check
+     * @return <code>boolean</code> - whether the given email is already take or not
+     */
+    private boolean isEmailTaken(String email) {
+        // TODO : back-end implementation
+        return false;
+    }
+
+    /**
+     * Checks if the NRN is already taken.
+     * @param NRN - <code>String</code> - the NRN to check
+     * @return <code>boolean</code> - whether the given NRN is already take or not
+     */
+    private boolean isNRNTaken(String NRN) {
+        // TODO : back-end implementation
+        return false;
+    }
+
+    /**
+     * Checks if the given passwords match and are not empty.
+     * @param password - <code>String</code> - the password
+     * @param passwordConfirmation - <code>String</code> - the password confirmation
+     * @return <code>boolean</code> - whether the two passwords match or not
+     */
+    private boolean passwordMatches(String password, String passwordConfirmation) {
+        return password.equals(passwordConfirmation) && !password.equals("");
     }
 }

@@ -1,5 +1,6 @@
 package front;
 
+import back.user.User;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
@@ -7,10 +8,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import static front.controllers.SignUpSceneController.isValidNRN;
-
 
 public class Main extends Application {
+    private static User user;
     private static Stage stage;
 
     public static void main(String[] args) {
@@ -36,5 +36,13 @@ public class Main extends Application {
 
     public static void setScene(Scene scene) {
         stage.setScene(scene);
+    }
+
+    public static void setUser(User user_) {
+        user = user_;
+    }
+
+    public static User getUser() {
+        return user;
     }
 }

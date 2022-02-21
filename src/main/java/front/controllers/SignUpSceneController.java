@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 
 public class SignUpSceneController implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
-    Label NRNTakenLabel, emailTakenLabel, usernameTakenLabel, passwordDoesNotMatchLabel, languageNotChosen,
+    Label NRNTakenLabel, emailTakenLabel, usernameTakenLabel, passwordDoesNotMatchLabel, languageNotChosenLabel,
         invalidLastNameLabel, invalidFirstNameLabel, invalidEmailLabel, invalidNRNLabel, invalidUsernameLabel;
     @FXML
     Button backButton, languageButton, signUpButton;
@@ -25,10 +25,6 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
     ComboBox<String> languageComboBox;
     @FXML
     CheckBox checkBox;
-
-
-
-    boolean usernameTaken = false, emailTaken = false, NRNTaken = false, passwordMatches = true, languageChosen = true;
 
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
@@ -52,50 +48,77 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
         // TODO : create all incorrectly formatted labels
         String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
                 NRN = NRNField.getText(), username = usernameField.getText(), password = passwordField.getText(),
-                passwordConfirmation = confirmPasswordField.getText();
+                passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
 
-        // Check if all fields are correctly formatted
+        // String[] values = {"EN_US", "FR_BE"};
+        // languageComboBox.setItems(values);
+
+        // Manage the "invalid xxxx" labels visibility
         // Is the last name valid (A-Z, a-z) ? Show/hide the incorrect last name label accordingly
-        if (!isValidLastName(lastName) && !invalidLastNameLabel.isVisible()) {
-            invalidLastNameLabel.setVisible(true);
-        } else if (isValidLastName(lastName) && invalidLastNameLabel.isVisible()) {
-            invalidLastNameLabel.setVisible(false);
-        }
+        if (!isValidLastName(lastName) && !invalidLastNameLabel.isVisible()) invalidLastNameLabel.setVisible(true);
+        else if (isValidLastName(lastName) && invalidLastNameLabel.isVisible()) invalidLastNameLabel.setVisible(false);
         // Is the first name valid (A-Z, a-z) ? Show/hide the incorrect first name label accordingly
-        if (!isValidFirstName(firstName) && !invalidFirstNameLabel.isVisible()) {
-            invalidFirstNameLabel.setVisible(true);
-        } else if (isValidFirstName(firstName) && invalidFirstNameLabel.isVisible()) {
-            invalidFirstNameLabel.setVisible(false);
-        }
+        if (!isValidFirstName(firstName) && !invalidFirstNameLabel.isVisible()) invalidFirstNameLabel.setVisible(true);
+        else if (isValidFirstName(firstName) && invalidFirstNameLabel.isVisible()) invalidFirstNameLabel.setVisible(false);
         // Is the email valid (A-Z, a-z, 0-9, contains only one @, contains a . after the @) ? Show/hide the incorrect email label accordingly
-        if (!isValidEmail(email) && !invalidEmailLabel.isVisible()) {
-            invalidEmailLabel.setVisible(true);
-        } else if (isValidEmail(email) && invalidEmailLabel.isVisible()) {
-            invalidEmailLabel.setVisible(false);
-        }
+        if (!isValidEmail(email) && !invalidEmailLabel.isVisible()) invalidEmailLabel.setVisible(true);
+        else if (isValidEmail(email) && invalidEmailLabel.isVisible()) invalidEmailLabel.setVisible(false);
         // Is the NRN valid (XX.XX.XX-XXX.XX format with numbers)
-        if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) {
-            invalidNRNLabel.setVisible(true);
-        } else if (isValidNRN(NRN) && invalidNRNLabel.isVisible()) {
-            invalidNRNLabel.setVisible(false);
-        }
+        if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(true);
+        else if (isValidNRN(NRN) && invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(false);
+        // Is the username valid (numbers and letters only)
+        if (!isValidUsername(username) && !invalidUsernameLabel.isVisible()) invalidUsernameLabel.setVisible(true);
+        else if (isValidUsername(username) && invalidUsernameLabel.isVisible()) invalidUsernameLabel.setVisible(false);
+
+
+        // PRO TIP : if the username is invalid, it cannot be taken, so we can safely give the same layout (coordinates)
+        // the labels "invalid username" and "username taken". If the label "invalid username" shows up, it is
+        // impossible for the "username taken" label to show up and vice versa.
 
 
         // Manage the "xxxx already taken" labels visibility
-        if (usernameTaken && !usernameTakenLabel.isVisible()) usernameTakenLabel.setVisible(true);
-        else if (!usernameTaken && usernameTakenLabel.isVisible()) usernameTakenLabel.setVisible(false);
+        // Is the username already taken ?
+        if (isUsernameTaken(username) && !usernameTakenLabel.isVisible()) usernameTakenLabel.setVisible(true);
+        else if (!isUsernameTaken(username) && usernameTakenLabel.isVisible()) usernameTakenLabel.setVisible(false);
+        // Is the email already taken ?
+        if (isEmailTaken(email) && !emailTakenLabel.isVisible()) emailTakenLabel.setVisible(true);
+        else if (!isEmailTaken(email) && emailTakenLabel.isVisible()) emailTakenLabel.setVisible(false);
+        // Is the NRN already taken ?
+        if (isNRNTaken(NRN) && !NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(true);
+        else if (!isNRNTaken(NRN) && NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(false);
 
-        if (emailTaken && !emailTakenLabel.isVisible()) emailTakenLabel.setVisible(true);
-        else if (!emailTaken && emailTakenLabel.isVisible()) emailTakenLabel.setVisible(false);
+        // Manage the "password does not match" label visibility
+        if (!passwordMatches(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(true);
+        else if (passwordMatches(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(false);
 
-        if (NRNTaken && !NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(true);
-        else if (!NRNTaken && NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(false);
+        if (chosenLanguage == null && !languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(true);
+        else if (chosenLanguage != null && languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(false);
+
         // TODO : back-end signing up process implementation
+    }
+
+    private boolean passwordMatches(String password, String passwordConfirmation) {
+        return password.equals(passwordConfirmation) && !password.equals("");
+    }
+
+    private boolean isNRNTaken(String nrn) {
+        // TODO : back-end implementation
+        return false;
+    }
+
+    private boolean isEmailTaken(String email) {
+        // TODO : back-end implementation
+        return false;
+    }
+
+    private boolean isUsernameTaken(String username) {
+        // TODO : back-end implementation
+        return false;
     }
 
     /**
      * Checks if the given <code>String</code> is a valid last name.
-     * Conditions :
+     * Requirements :
      *  - string must not be empty
      *  - string must not be null
      *  - string must only contain characters from a-z and from A-Z
@@ -108,7 +131,7 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
 
     /**
      * Checks if the given <code>String</code> is a valid first name.
-     * Conditions :
+     * Requirements :
      *  - string must not be empty
      *  - string must not be null
      *  - string must only contain characters from a-z, from A-Z or a dash (-).
@@ -121,7 +144,7 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
 
     /**
      * Checks if the given <code>String</code> is a valid email.
-     * Conditions :
+     * Requirements :
      *  - string must not be empty
      *  - string must not be null
      *  - string must only contain characters from a-z, from A-Z, from 0-9 or characters that are either @ or .
@@ -139,7 +162,6 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
         for (char c : email.toCharArray()) {
             if (c == '@' && hasOneAt) return false; // string has 2 @, invalid email
             if (c == '@') hasOneAt = true; // first @ we encounter
-            if (c == '.' && hasOneDotAfterAt) return false; // second . we encounter after the first ., invalid email
             if (c == '.' && hasOneAt) hasOneDotAfterAt = true; // first . we encounter after the first @
             if (("" + c).matches("^[a-zA-Z]") && !hasOneAt) hasOneCharBeforeAt = true;
         }
@@ -148,7 +170,7 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
 
     /**
      * Checks if the given string is a valid NRN.
-     * Conditions :
+     * Requirements :
      *  - string must not be empty
      *  - string must not be null
      *  - string must match the format XX.XX.XX-XXX.XX where X in an integer in range 0-9
@@ -156,7 +178,7 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      * @return <code>boolean</code> whether the given NRN is a valid NRN or not
      */
     public static boolean isValidNRN(String NRN) {
-        if (NRN.equals("") || NRN == null || !NRN.matches("^[0-9-.]") || NRN.length() != 15) return false;
+        if (NRN.equals("") || NRN == null || NRN.length() != 15) return false;
         for (int i = 0; i < 15; i++) {
             switch (i) {
                 case 0:
@@ -171,14 +193,32 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
                 case 13:
                 case 14:
                     if (!Character.isDigit(NRN.charAt(i))) return false;
+                    break;
                 case 2:
                 case 5:
                 case 12:
                     if (NRN.charAt(i) != '.') return false;
+                    break;
                 case 8:
                     if (NRN.charAt(i) != '-') return false;
+                    break;
             }
         }
         return true;
+    }
+
+    /**
+     * Checks if the given string is valid username.
+     * Requirements :
+     *  - username must not be empty
+     *  - username must not be null
+     *  - username must not be longer than 32 characters
+     *  - username must contain characters from a-z, from A-Z and from 0-9
+     * @param username - <code>String</code> - the username to check
+     * @return whether the given username is a valid username or not
+     */
+    public static boolean isValidUsername(String username) {
+        if (username.equals("") || username == null || username.length() > 32) return false;
+        return username.matches("^[a-zA-Z0-9]*$");
     }
 }

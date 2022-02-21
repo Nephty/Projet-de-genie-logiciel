@@ -7,6 +7,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import static front.controllers.SignUpSceneController.isValidNRN;
+
 
 public class Main extends Application {
     private static Stage stage;

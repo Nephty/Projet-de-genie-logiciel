@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SignUpProcessTests {
     String s0 = "", s1 = "b", s2 = "B", s3 = "b0", s4 = "b@", s5 = "b.", s6 = "b!", s7 = "b<", s8 = ">b", s9 = " b";
     String e0 = "", e1 = "b", e2 = "B", e3 = "e0", e4 = "b@", e5 = "b.", e6 = "b!", e7 = "a.b@c.d", e8 = "a@c.d", e9 = "@c.d", e10 = "a.b", e11 = "a.b.c@c.d", e12 = "a.b.c.d@c", e13 = "a@c", e14 = "a@c@d", e15 = "a@c.d.e";
+    String n0 = "", n1 = "b", n2 = "1.2", n3 = "1.2.3", n4 = "1.2.3-4.5", n5 = "00.00.00-000.00", n6 = "00.00.0-000.00", n7 = "00.00-000.00", n8 = "00.0.00-000.00";
 
     @Test
     @DisplayName("isValidLastName method Test")
@@ -56,12 +57,20 @@ public class SignUpProcessTests {
         assertFalse(isValidEmail(e12));
         assertFalse(isValidEmail(e13));
         assertFalse(isValidEmail(e14));
-        assertFalse(isValidEmail(e15));
+        assertTrue(isValidEmail(e15));
     }
 
     @Test
     @DisplayName("isValidNRN method test")
     public void isValidNRNTest() {
-
+        assertFalse(isValidNRN(n0));
+        assertFalse(isValidNRN(n1));
+        assertFalse(isValidNRN(n2));
+        assertFalse(isValidNRN(n3));
+        assertFalse(isValidNRN(n4));
+        assertTrue(isValidNRN(n5));
+        assertFalse(isValidNRN(n6));
+        assertFalse(isValidNRN(n7));
+        assertFalse(isValidNRN(n8));
     }
 }

@@ -1,6 +1,5 @@
 package front.controllers;
 
-import back.user.User;
 import front.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
@@ -31,6 +30,8 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
     @FXML
     CheckBox checkBox;
 
+    private boolean languageComboBoxInitialized = false;
+
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
@@ -49,14 +50,28 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
         Main.setScene(Flow.forward(Scenes.LanguageScene));
     }
 
+    public void handleLanguageComboBoxClicked(MouseEvent mouseEvent) {
+        initializeLanguageComboBox();
+    }
+
+    /**
+     * Initializes the language combo box : retrieves all available languages and present them as choices in the
+     * combo box.
+     * Note : this method is only ran if <code>languageComboBoxInitialized</code> is false. When ran, it turns this
+     * variable to true, which allows it to only be run once, namely when we first click the combo box.
+     */
+    public void initializeLanguageComboBox() {
+        if (!languageComboBoxInitialized) {
+            ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
+            languageComboBox.setItems(values);
+            languageComboBoxInitialized = true;
+        }
+    }
+
     public void handleSignUpButtonClicked(MouseEvent mouseEvent) {
         String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
                 NRN = NRNField.getText(), username = usernameField.getText(), password = passwordField.getText(),
                 passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
-
-        // TODO : back-end replace "EN_US", "FR_BE" by the available languages in the system
-        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
-        languageComboBox.setItems(values);
 
         // Manage the "invalid xxxx" labels visibility
         // Is the last name valid (A-Z, a-z) ? Show/hide the incorrect last name label accordingly
@@ -103,12 +118,8 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
         // No label is visible implies that every field is properly filled in
         if (noLabelVisible()) {
             // Then we can create a new user
-            Main.setUser(User.getInstance(lastName, firstName, NRN, email, username));
+            // TODO : back-end user creation implementation
         }
-
-        System.out.println(Main.getUser());
-
-        // TODO : back-end signing up process implementation
     }
 
     private boolean noLabelVisible() {

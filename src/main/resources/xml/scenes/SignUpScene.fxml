@@ -69,7 +69,7 @@
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                  <ComboBox fx:id="languageComboBox" layoutX="903.0" layoutY="382.0" prefHeight="36.0" prefWidth="200.0" promptText="Language..." />
+                  <ComboBox fx:id="languageComboBox" layoutX="903.0" layoutY="382.0" onMouseClicked="#handleLanguageComboBoxClicked" prefHeight="36.0" prefWidth="200.0" promptText="Language..." />
                   <Label fx:id="invalidFirstNameLabel" layoutX="187.0" layoutY="80.0" prefHeight="16.0" prefWidth="140.0" text="Invalid first name." textFill="#c80000" visible="false" />
                   <Label fx:id="invalidLastNameLabel" layoutX="187.0" layoutY="170.0" prefHeight="16.0" prefWidth="140.0" text="Invalid last name." textFill="#c80000" visible="false" />
                   <Label fx:id="invalidNRNLabel" layoutX="187.0" layoutY="260.0" prefHeight="16.0" prefWidth="140.0" text="Invalid NRN." textFill="#c80000" visible="false" />

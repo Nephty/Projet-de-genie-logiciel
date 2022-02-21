@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.controllers.SignInSceneController">
+<Pane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.controllers.SignInSceneController">
     <children>
         <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
             <children>
@@ -28,17 +28,17 @@
                                 <Font size="20.0" />
                             </font>
                         </Button>
-                  <TextField fx:id="usernameField" layoutX="423.0" layoutY="225.0" prefHeight="60.0" prefWidth="435.0" promptText="Username..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                  <TextField fx:id="usernameField" layoutX="423.0" layoutY="225.0" onKeyPressed="#handleUsernameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0" promptText="Username..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </TextField>
-                  <PasswordField fx:id="passwordField" layoutX="423.0" layoutY="315.0" prefHeight="60.0" prefWidth="435.0" promptText="Password..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                  <PasswordField fx:id="passwordField" layoutX="423.0" layoutY="315.0" onKeyPressed="#handlePasswordFieldKeyPressed" prefHeight="60.0" prefWidth="435.0" promptText="Password..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </PasswordField>
-                  <Label fx:id="incorrectUsernameOrPasswordLabel" layoutX="552.0" layoutY="496.0" prefHeight="17.0" prefWidth="177.0" text="Incorrect username or password." textFill="#c80000" visible="false" />
+                  <Label fx:id="incorrectUsernameOrPasswordLabel" layoutX="533.0" layoutY="494.0" prefHeight="17.0" prefWidth="216.0" text="Incorrect username or password." textFill="#c80000" visible="false" />
                     </children>
                 </AnchorPane>
             </children>

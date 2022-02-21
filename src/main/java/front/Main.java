@@ -29,7 +29,7 @@ public class Main extends Application {
 
         Flow.add(Scenes.AuthScene);
         stage.setResizable(false);
-        stage.setTitle("FXML Welcome");
+        stage.setTitle("Benkyng app");
         stage.setScene(Scenes.AuthScene);
         stage.show();
     }

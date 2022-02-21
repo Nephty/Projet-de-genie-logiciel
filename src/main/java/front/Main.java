@@ -28,6 +28,7 @@ public class Main extends Application {
         Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", getClass());
 
         Flow.add(Scenes.AuthScene);
+
         stage.setResizable(false);
         stage.setTitle("Benkyng app");
         stage.setScene(Scenes.AuthScene);

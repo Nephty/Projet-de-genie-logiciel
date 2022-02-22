@@ -34,7 +34,7 @@
                                 <Font size="20.0" />
                             </font>
                         </Button>
-                        <Button fx:id="NotificationsButton" layoutX="465.0" layoutY="383.0" mnemonicParsing="false" onMouseClicked="#handleNotificationsButtonClicked" prefHeight="70.0" prefWidth="350.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;" text="Notifications" textFill="#0a0a14">
+                        <Button fx:id="notificationsButton" layoutX="465.0" layoutY="383.0" mnemonicParsing="false" onMouseClicked="#handleNotificationsButtonClicked" prefHeight="70.0" prefWidth="350.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;" text="Notifications" textFill="#0a0a14">
                             <font>
                                 <Font size="20.0" />
                             </font>

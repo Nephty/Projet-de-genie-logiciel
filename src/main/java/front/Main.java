@@ -28,6 +28,7 @@ public class Main extends Application {
         Scenes.LanguageScene = SceneLoader.load("LanguageScene.fxml", getClass());
         Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml", getClass());
         Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", getClass());
+        Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml", getClass());
 
         Flow.add(Scenes.AuthScene);
 

@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="xml.scenes.NotificationsScene"
-            prefHeight="400.0" prefWidth="600.0" >
-
-</AnchorPane>
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.controllers.NotificationsSceneController">
+    <children>
+        <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
+            <children>
+                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="1280.0">
+                    <children>
+                        <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="Back" textFill="#0a0a14">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </AnchorPane>
+                <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
+               <children>
+                  <ListView fx:id="notificationsListView" layoutX="30.0" layoutY="25.0" prefHeight="600.0" prefWidth="1220.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;" />
+               </children>
+                </AnchorPane>
+            </children>
+        </Pane>
+    </children>
+</Pane>

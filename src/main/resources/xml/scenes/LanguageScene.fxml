@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.controllers.LanguageSceneController">
+    <children>
+        <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
+            <children>
+                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="1280.0">
+                    <children>
+                        <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="&lt;&lt; Back" textFill="#0a0a14">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </AnchorPane>
+                <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
+               <children>
+                  <Label fx:id="chooseLanguageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="340.0" layoutY="124.0" prefHeight="36.0" prefWidth="160.0" style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="Choose language">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                   <Button fx:id="addButton" layoutX="820.0" layoutY="124.0" mnemonicParsing="false" onMouseClicked="#handleAddButtonClicked" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="Add" textFill="#0a0a14">
+                       <font>
+                           <Font size="14.0" />
+                       </font>
+                   </Button>
+                  <ListView layoutX="340.0" layoutY="187.0" prefHeight="340.0" prefWidth="600.0" />
+                  <Button fx:id="setButton" layoutX="820.0" layoutY="554.0" mnemonicParsing="false" onMouseClicked="#handleAddButtonClicked" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="Set" textFill="#0a0a14">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+                </AnchorPane>
+            </children>
+        </Pane>
+    </children>
+</Pane>

@@ -70,6 +70,10 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
         }
     }
 
+    /**
+     * Checks if every field is properly filled in whenever we click on the sign in button.
+     * @param mouseEvent - <code>MouseEvent</code> - The mouse event that triggered the method
+     */
     public void handleSignUpButtonClicked(MouseEvent mouseEvent) {
         String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
                 NRN = NRNField.getText(), username = usernameField.getText(), password = passwordField.getText(),
@@ -124,6 +128,12 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
         }
     }
 
+    /**
+     * Checks if any label that show if any field is not properly filled in is visible. If any is visible,
+     * the user didn't properly fill in every field. If none are visible, every field is properly filled in.
+     * This is directly used to check if every field is properly filled in to begin the sign up process.
+     * @return <code>boolean</code> - whether any label is visible or not
+     */
     private boolean noLabelVisible() {
         return !invalidLastNameLabel.isVisible() && !invalidFirstNameLabel.isVisible() && !invalidEmailLabel.isVisible()
                 && !invalidNRNLabel.isVisible() && !invalidUsernameLabel.isVisible()

@@ -8,7 +8,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+/**
+ * Main runnable class that launches the application.
+ */
 public class Main extends Application {
     private static User user;
     private static Stage stage;

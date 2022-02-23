@@ -2,7 +2,7 @@ package front.controllers;
 
 import BenkyngApp.Main;
 import front.animation.FadeInTransition;
-import front.animation.FadeOutTransition;
+import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
@@ -14,7 +14,7 @@ import javafx.util.Duration;
 
 import java.util.Calendar;
 
-public class NotificationsSceneController implements BackButtonNavigator {
+public class NotificationsSceneController extends Controller implements BackButtonNavigator {
     @FXML
     public Button backButton, dismissButton, flagButton, fetchNotificationsButton;
     @FXML
@@ -25,7 +25,7 @@ public class NotificationsSceneController implements BackButtonNavigator {
     @FXML
     public ListView notificationsListView;
 
-    Thread sleepAndFadeOutLoadingNotificationsLabelThread;
+    FadeOutThread sleepAndFadeOutLoadingNotificationsLabelFadeThread;
 
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
@@ -49,31 +49,26 @@ public class NotificationsSceneController implements BackButtonNavigator {
      * Fetches notifications from the database to display them
      */
     public void fetchNotifications() {
-        // Set "fetching..." label to visible using transition
         // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc)
-        // TODO : fix
-        if (!loadingNotificationsLabel.isVisible()) {
+        if (loadingNotificationsLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;
             int fadeOutDuration = fadeInDuration;
+            int sleepDuration = 1000;
+            // Fade the label "updating notifications..." in to 1.0 opacity
             FadeInTransition.playFromStartOn(loadingNotificationsLabel, Duration.millis(fadeInDuration));
-            sleepAndFadeOutLoadingNotificationsLabelThread = new Thread(() -> {
-                try {
-                    int sleepMillis = 3000;
-                    Thread.sleep(sleepMillis+fadeInDuration);
-                    FadeOutTransition.playFromStartOn(loadingNotificationsLabel, Duration.millis(fadeOutDuration));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
+            // We use a new Thread, so we can sleep the method for a few hundreds of milliseconds so that the label
+            // doesn't instantly go away when the notifications are retrieved. This is purely aesthetic, and I probably
+            // shouldn't have spent my entire night trying to debug this thing that took ages to work.
+            // But it looks cool.
+            sleepAndFadeOutLoadingNotificationsLabelFadeThread = new FadeOutThread();
             // Save actual time and date
             Calendar c = Calendar.getInstance();
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch notifications and put them in the listview
             // TODO : back-end : fetch notifications from the database and put them in the listview
-            // Set "fetching..." label to not visible
-            // loadingNotificationsLabel.setVisible(false);
-            sleepAndFadeOutLoadingNotificationsLabelThread.start();
+            // Fade the label "updating notifications..." out to 0.0 opacity
+            sleepAndFadeOutLoadingNotificationsLabelFadeThread.customStart(fadeInDuration, fadeOutDuration, sleepDuration, loadingNotificationsLabel);
         }
     }
 

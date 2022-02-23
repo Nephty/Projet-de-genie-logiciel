@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
-public class LanguageSceneController implements BackButtonNavigator {
+public class LanguageSceneController extends Controller implements BackButtonNavigator {
 
     @FXML
     Button backButton, addButton, setButton;

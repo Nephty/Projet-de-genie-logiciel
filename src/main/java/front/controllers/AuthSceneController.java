@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AuthSceneController implements LanguageButtonNavigator {
+public class AuthSceneController extends Controller implements LanguageButtonNavigator {
     @FXML
     Button languageButton, signInButton, signUpButton;
 

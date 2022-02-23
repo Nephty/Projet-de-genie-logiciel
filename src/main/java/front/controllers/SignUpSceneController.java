@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.Arrays;
 
-public class SignUpSceneController implements BackButtonNavigator, LanguageButtonNavigator {
+public class SignUpSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
     Label NRNTakenLabel, emailTakenLabel, usernameTakenLabel, passwordDoesNotMatchLabel, languageNotChosenLabel,
         invalidLastNameLabel, invalidFirstNameLabel, invalidEmailLabel, invalidNRNLabel, invalidUsernameLabel;

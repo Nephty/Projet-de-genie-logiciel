@@ -14,7 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public class SignInSceneController implements BackButtonNavigator, LanguageButtonNavigator {
+public class SignInSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
     Button languageButton, backButton, signInButton;
     @FXML
@@ -24,7 +24,7 @@ public class SignInSceneController implements BackButtonNavigator, LanguageButto
     @FXML
     Label incorrectUsernameOrPasswordLabel;
 
-    String username = "admin", password = "sudo letmein";  // TODO : back-end : get the username and the password from the database in these variables
+    String username = "", password = "";  // TODO : back-end : get the username and the password from the database in these variables
 
     @FXML
     public void handleLanguageButtonClicked(MouseEvent event) {

@@ -1,4 +1,4 @@
-package front;
+package BenkyngApp;
 
 import back.user.User;
 import front.navigation.Flow;

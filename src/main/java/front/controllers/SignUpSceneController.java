@@ -34,10 +34,13 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
 
     private boolean languageComboBoxInitialized = false;
 
+    @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
+        hideAllLabels();
     }
 
+    @FXML
     public void handleLanguageButtonClicked(MouseEvent event) {
         handleLanguageButtonNavigation(event);
     }
@@ -50,8 +53,10 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     @Override
     public void handleLanguageButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.LanguageScene));
+        hideAllLabels();
     }
 
+    @FXML
     public void handleLanguageComboBoxClicked(MouseEvent mouseEvent) {
         initializeLanguageComboBox();
     }
@@ -74,6 +79,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      * Checks if every field is properly filled in whenever we click on the sign in button.
      * @param mouseEvent - <code>MouseEvent</code> - The mouse event that triggered the method
      */
+    @FXML
     public void handleSignUpButtonClicked(MouseEvent mouseEvent) {
         String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
                 NRN = NRNField.getText(), username = usernameField.getText(), password = passwordField.getText(),
@@ -286,39 +292,60 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         return password.equals(passwordConfirmation) && !password.equals("");
     }
 
+    @FXML
     public void handleFirstNameFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
     }
 
+    @FXML
     public void handleLastNameFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
     }
 
+    @FXML
     public void handleNRNFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
     }
 
+    @FXML
     public void handleEmailFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
     }
 
+    @FXML
     public void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
     }
 
+    @FXML
     public void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
     }
 
+    @FXML
     public void handleConfirmPasswordFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
     }
 
+    @FXML
     public void handleLanguageComboBoxKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
     }
 
     public void triggerSignUp() {
         handleSignUpButtonClicked(null);
+    }
+
+    public void hideAllLabels() {
+        NRNTakenLabel.setVisible(false);
+        emailTakenLabel.setVisible(false);
+        usernameTakenLabel.setVisible(false);
+        passwordDoesNotMatchLabel.setVisible(false);
+        languageNotChosenLabel.setVisible(false);
+        invalidLastNameLabel.setVisible(false);
+        invalidFirstNameLabel.setVisible(false);
+        invalidEmailLabel.setVisible(false);
+        invalidNRNLabel.setVisible(false);
+        invalidUsernameLabel.setVisible(false);
     }
 }

@@ -2,6 +2,8 @@ package front.controllers;
 
 import javafx.scene.Node;
 
+import java.util.Calendar;
+
 /**
  * This mother Controller class gives access to a few useful methods to all children classes.
  * Having access to these methods provide shortcuts. For example :
@@ -25,5 +27,33 @@ public class Controller {
      */
     public static boolean isVisibleUsingOpacity(Node node) {
         return node.getOpacity() != 0;
+    }
+
+    /**
+     * Returns a <code>String</code> containing the current time and date of the given <code>Calendar</code>,
+     * but formatted for display.
+     * @param calendar The calendar providing the desired time and date
+     * @return A string containing the current time and date of the given <code>Calendar</code>, but formatted for
+     * display.
+     */
+    public static String formatCurrentTime(Calendar calendar) {
+        String res = "";
+        if (calendar.get(Calendar.DAY_OF_MONTH) < 10) res += "0";
+        res += calendar.get(Calendar.DAY_OF_MONTH);
+        res += "-";
+        if (calendar.get(Calendar.MONTH) + 1 < 10) res += "0";
+        res += calendar.get(Calendar.MONTH) + 1;
+        res += "-";
+        res += calendar.get(Calendar.YEAR);
+        res += " ~ ";
+        if (calendar.get(Calendar.HOUR_OF_DAY) < 10) res += "0";
+        res += calendar.get(Calendar.HOUR_OF_DAY);
+        res += ":";
+        if (calendar.get(Calendar.MINUTE) < 10) res += "0";
+        res += calendar.get(Calendar.MINUTE);
+        res += ":";
+        if (calendar.get(Calendar.SECOND) < 10) res += "0";
+        res += calendar.get(Calendar.SECOND);
+        return res;
     }
 }

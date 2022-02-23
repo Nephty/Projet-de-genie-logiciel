@@ -29,6 +29,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     @FXML
     public void handleLanguageButtonClicked(MouseEvent event) {
         handleLanguageButtonNavigation(event);
+        hideAllLabels();
     }
 
     @FXML
@@ -46,6 +47,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
+        hideAllLabels();
     }
 
     @Override
@@ -58,15 +60,21 @@ public class SignInSceneController extends Controller implements BackButtonNavig
         Main.setScene(Flow.forward(Scenes.LanguageScene));
     }
 
+    @FXML
     public void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) triggerSignIn();
     }
 
+    @FXML
     public void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) triggerSignIn();
     }
 
     public void triggerSignIn() {
         handleSignInButtonClicked(null);
+    }
+
+    public void hideAllLabels() {
+        incorrectUsernameOrPasswordLabel.setVisible(false);
     }
 }

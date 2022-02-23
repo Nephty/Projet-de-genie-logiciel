@@ -25,8 +25,7 @@ public class NotificationsSceneController extends Controller implements BackButt
     @FXML
     public ListView notificationsListView;
 
-    FadeOutThread sleepAndFadeOutLoadingNotificationsLabelFadeThread;
-
+    @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
@@ -34,13 +33,14 @@ public class NotificationsSceneController extends Controller implements BackButt
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
-        loadingNotificationsLabel.setVisible(false);
     }
 
+    @FXML
     public void handleDismissButtonClicked(MouseEvent event) {
         // TODO : back-end : implement "dismissed" attribute of notification
     }
 
+    @FXML
     public void handleFlagButtonClicked(MouseEvent event) {
         // TODO : back-end : implement "flagged" attribute of notification
     }
@@ -54,6 +54,7 @@ public class NotificationsSceneController extends Controller implements BackButt
             int fadeInDuration = 1000;
             int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;
+            FadeOutThread sleepAndFadeOutLoadingNotificationsLabelFadeThread;
             // Fade the label "updating notifications..." in to 1.0 opacity
             FadeInTransition.playFromStartOn(loadingNotificationsLabel, Duration.millis(fadeInDuration));
             // We use a new Thread, so we can sleep the method for a few hundreds of milliseconds so that the label
@@ -68,31 +69,11 @@ public class NotificationsSceneController extends Controller implements BackButt
             // Fetch notifications and put them in the listview
             // TODO : back-end : fetch notifications from the database and put them in the listview
             // Fade the label "updating notifications..." out to 0.0 opacity
-            sleepAndFadeOutLoadingNotificationsLabelFadeThread.customStart(fadeInDuration, fadeOutDuration, sleepDuration, loadingNotificationsLabel);
+            sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingNotificationsLabel);
         }
     }
 
-    public static String formatCurrentTime(Calendar c) {
-        String res = "";
-        if (c.get(Calendar.DAY_OF_MONTH) < 10) res += "0";
-        res += c.get(Calendar.DAY_OF_MONTH);
-        res += "-";
-        if (c.get(Calendar.MONTH) + 1 < 10) res += "0";
-        res += c.get(Calendar.MONTH) + 1;
-        res += "-";
-        res += c.get(Calendar.YEAR);
-        res += " ~ ";
-        if (c.get(Calendar.HOUR_OF_DAY) < 10) res += "0";
-        res += c.get(Calendar.HOUR_OF_DAY);
-        res += ":";
-        if (c.get(Calendar.MINUTE) < 10) res += "0";
-        res += c.get(Calendar.MINUTE);
-        res += ":";
-        if (c.get(Calendar.SECOND) < 10) res += "0";
-        res += c.get(Calendar.SECOND);
-        return res;
-    }
-
+    @FXML
     public void handleFetchNotificationsButtonClicked(MouseEvent event) {
         fetchNotifications();
     }

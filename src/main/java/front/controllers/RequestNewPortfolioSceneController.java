@@ -17,11 +17,11 @@ public class RequestNewPortfolioSceneController implements BackButtonNavigator {
     @FXML
     public Button backButton, sendRequestButton;
     @FXML
-    public Label selectSWIFTLabel, noSWIFTSelectedLabel, requestNotSentLabel; // Note : we don't use the last label
+    public Label selectSWIFTLabel, noSWIFTSelectedLabel, requestSentLabel, requestNotSentLabel; // Note : we don't use the last label
     @FXML
     public ComboBox<String> SWIFTComboBox;
 
-    private boolean SWIFTComboBoxInitialized = false;
+    private boolean SWIFTComboBoxInitialized = false, requestSent = false;
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -32,6 +32,13 @@ public class RequestNewPortfolioSceneController implements BackButtonNavigator {
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         SWIFTComboBoxInitialized = false; // So we can reload the content next time we open this scene
+        if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false); // This can be done everytime
+        if (requestSent) {
+            // If the request was sent, reset the form
+            if (requestSentLabel.isVisible()) requestSentLabel.setVisible(false);
+            SWIFTComboBox.setValue(SWIFTComboBox.getPromptText()); // TODO : this is not showing the prompt text
+            requestSent = false;
+        }
     }
 
     @FXML
@@ -41,6 +48,8 @@ public class RequestNewPortfolioSceneController implements BackButtonNavigator {
 
             // TODO : back-end : send request to database
 
+            requestSentLabel.setVisible(true);
+            requestSent = true;
         } else if (!noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(true);
     }
 
@@ -59,6 +68,7 @@ public class RequestNewPortfolioSceneController implements BackButtonNavigator {
         }
     }
 
+    @FXML
     public void handleSWIFTComboBoxMouseClicked(MouseEvent event) {
         initializeLanguageComboBox();
     }

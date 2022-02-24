@@ -25,7 +25,7 @@ public class RequestsSceneController implements BackButtonNavigator {
 
     @FXML
     public void handleTransferPermissionButtonClicked(MouseEvent event) {
-        // TODO : navigate to the transfer permission scene
+        Main.setScene(Flow.forward(Scenes.RequestTransferPermissionScene));
     }
 
     @FXML

@@ -12,7 +12,7 @@
             <children>
                 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                             prefHeight="70.0" prefWidth="1280.0">
-                    <children>174
+                    <children>
                         <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" mnemonicParsing="false"
                                 onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0"
                                 style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"

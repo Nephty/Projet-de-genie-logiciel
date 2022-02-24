@@ -26,13 +26,13 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     @FXML
     PasswordField passwordField, confirmPasswordField;
     @FXML
-    Label favoriteLanguageLabel;
+    Label favoriteLanguageLabel, signedUpLabel;
     @FXML
     ComboBox<String> languageComboBox;
     @FXML
     CheckBox checkBox;
 
-    private boolean languageComboBoxInitialized = false;
+    private boolean languageComboBoxInitialized = false, userSignedUp = false;
 
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
@@ -48,13 +48,31 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
-        languageComboBoxInitialized = false; // So we can reload the content the next time we open this scene
+        languageComboBoxInitialized = false;
+        if (userSignedUp) {
+            // if the user signed up, clear the form
+            // if he didn't sign up, we're saving the inputs
+            languageComboBox.setValue(null);
+            signedUpLabel.setVisible(false);
+            emptyAllTextFields();
+            hideAllLabels();
+            userSignedUp = false;
+        }
     }
 
     @Override
     public void handleLanguageButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.LanguageScene));
-        hideAllLabels();
+        languageComboBoxInitialized = false;
+        if (userSignedUp) {
+            // if the user signed up, clear the form
+            // if he didn't sign up, we're saving the inputs
+            languageComboBox.setValue(null);
+            signedUpLabel.setVisible(false);
+            emptyAllTextFields();
+            hideAllLabels();
+            userSignedUp = false;
+        }
     }
 
     @FXML
@@ -133,6 +151,8 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         if (noLabelVisible()) {
             // Then we can create a new user
             // TODO : back-end user creation implementation
+            userSignedUp = true;
+            signedUpLabel.setVisible(true);
         }
     }
 
@@ -338,6 +358,9 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         handleSignUpButtonClicked(null);
     }
 
+    /**
+     * Hides all indicator labels (labels that tell the user if something is wrong with their input).
+     */
     public void hideAllLabels() {
         NRNTakenLabel.setVisible(false);
         emailTakenLabel.setVisible(false);
@@ -349,5 +372,18 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         invalidEmailLabel.setVisible(false);
         invalidNRNLabel.setVisible(false);
         invalidUsernameLabel.setVisible(false);
+    }
+
+    /**
+     * Removes all text entered in all text fields.
+     */
+    public void emptyAllTextFields() {
+        firstNameField.setText("");
+        lastNameField.setText("");
+        NRNField.setText("");
+        emailAddressField.setText("");
+        usernameField.setText("");
+        passwordField.setText("");
+        confirmPasswordField.setText("");
     }
 }

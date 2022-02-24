@@ -13,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.Arrays;
 
-public class RequestNewPortfolioSceneController implements BackButtonNavigator {
+public class RequestNewPortfolioSceneController extends Controller implements BackButtonNavigator {
     @FXML
     public Button backButton, sendRequestButton;
     @FXML

@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
-public class RequestsSceneController implements BackButtonNavigator {
+public class RequestsSceneController extends Controller implements BackButtonNavigator {
 
     @FXML
     public Button backButton, transferPermissionButton, newPortfolioButton, requestsStatusButton;

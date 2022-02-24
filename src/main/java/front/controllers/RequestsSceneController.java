@@ -30,7 +30,7 @@ public class RequestsSceneController implements BackButtonNavigator {
 
     @FXML
     public void handleNewPortfolioButtonClicked(MouseEvent event) {
-        // TODO : navigate to the new portfolio scene
+        Main.setScene(Flow.forward(Scenes.RequestNewPortfolioScene));
     }
 
     @FXML

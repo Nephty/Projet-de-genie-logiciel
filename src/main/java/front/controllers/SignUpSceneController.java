@@ -48,6 +48,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+        languageComboBoxInitialized = false; // So we can reload the content the next time we open this scene
     }
 
     @Override
@@ -70,6 +71,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     public void initializeLanguageComboBox() {
         if (!languageComboBoxInitialized) {
             ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
+            // TODO : back-end : fetch all available languages and put them in the list
             languageComboBox.setItems(values);
             languageComboBoxInitialized = true;
         }

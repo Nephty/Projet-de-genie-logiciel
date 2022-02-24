@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import javafx.scene.effect.InnerShadow?>
 <Pane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="front.controllers.SignInSceneController">
     <children>
@@ -19,14 +20,19 @@
                             <font>
                                 <Font size="14.0"/>
                             </font>
+                            <effect>
+                                <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
+                            </effect>
                         </Button>
                         <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" mnemonicParsing="false"
                                 onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0"
                                 style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                                text="&lt;&lt; Back" textFill="#0a0a14">
+                                text="Back" textFill="#0a0a14">
                             <font>
                                 <Font size="14.0"/>
-                            </font>
+                            </font><effect>
+                            <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
+                        </effect>
                         </Button>
                     </children>
                 </AnchorPane>
@@ -40,6 +46,9 @@
                             <font>
                                 <Font size="20.0"/>
                             </font>
+                            <effect>
+                                <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0" />
+                            </effect>
                         </Button>
                         <TextField fx:id="usernameField" layoutX="423.0" layoutY="225.0"
                                    onKeyPressed="#handleUsernameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"

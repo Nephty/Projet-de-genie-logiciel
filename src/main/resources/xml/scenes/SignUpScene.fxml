@@ -4,83 +4,150 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.controllers.SignUpSceneController">
+<?import javafx.scene.effect.InnerShadow?>
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="front.controllers.SignUpSceneController">
     <children>
         <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
             <children>
-                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="1280.0">
+                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                            prefHeight="70.0" prefWidth="1280.0">
                     <children>
-                        <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="&lt;&lt; Back" textFill="#0a0a14">
+                        <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" mnemonicParsing="false"
+                                onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0"
+                                style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                                text="Back" textFill="#0a0a14">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="14.0"/>
                             </font>
+                            <effect>
+                                <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
+                            </effect>
                         </Button>
-                        <Button fx:id="languageButton" layoutX="1146.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#handleLanguageButtonClicked" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="Language" textFill="#0a0a14">
+                        <Button fx:id="languageButton" layoutX="1146.0" layoutY="17.0" mnemonicParsing="false"
+                                onMouseClicked="#handleLanguageButtonClicked" prefHeight="36.0" prefWidth="120.0"
+                                style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                                text="Language" textFill="#0a0a14">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="14.0"/>
                             </font>
+                            <effect>
+                                <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
+                            </effect>
                         </Button>
                     </children>
                 </AnchorPane>
-                <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
+                <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                            minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
                     <children>
-                        <TextField fx:id="firstNameField" layoutX="178.0" layoutY="100.0" onKeyPressed="#handleFirstNameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0" promptText="First name..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                        <TextField fx:id="firstNameField" layoutX="178.0" layoutY="100.0"
+                                   onKeyPressed="#handleFirstNameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                                   promptText="First name..."
+                                   style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
-                                <Font size="20.0" />
+                                <Font size="20.0"/>
                             </font>
                         </TextField>
-                        <TextField fx:id="lastNameField" layoutX="178.0" layoutY="190.0" onKeyPressed="#handleLastNameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0" promptText="Last name..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                        <TextField fx:id="lastNameField" layoutX="178.0" layoutY="190.0"
+                                   onKeyPressed="#handleLastNameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                                   promptText="Last name..."
+                                   style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
-                                <Font size="20.0" />
+                                <Font size="20.0"/>
                             </font>
                         </TextField>
-                        <Label fx:id="NRNTakenLabel" layoutX="187.0" layoutY="260.0" prefHeight="16.0" prefWidth="140.0" text="NRN already taken." textFill="#c80000" visible="false" />
-                        <TextField fx:id="NRNField" layoutX="178.0" layoutY="280.0" onKeyPressed="#handleNRNFieldKeyPressed" prefHeight="60.0" prefWidth="435.0" promptText="NRN..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                        <Label fx:id="NRNTakenLabel" layoutX="187.0" layoutY="260.0" prefHeight="16.0" prefWidth="140.0"
+                               text="NRN already taken." textFill="#c80000" visible="false"/>
+                        <TextField fx:id="NRNField" layoutX="178.0" layoutY="280.0"
+                                   onKeyPressed="#handleNRNFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                                   promptText="NRN..."
+                                   style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
-                                <Font size="20.0" />
+                                <Font size="20.0"/>
                             </font>
                         </TextField>
-                        <Label fx:id="emailTakenLabel" layoutX="187.0" layoutY="350.0" prefHeight="16.0" prefWidth="146.0" text="Email already taken." textFill="#c80000" visible="false" />
-                        <TextField fx:id="emailAddressField" layoutX="178.0" layoutY="370.0" onKeyPressed="#handleEmailFieldKeyPressed" prefHeight="60.0" prefWidth="435.0" promptText="Email address..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                        <Label fx:id="emailTakenLabel" layoutX="187.0" layoutY="350.0" prefHeight="16.0"
+                               prefWidth="146.0" text="Email already taken." textFill="#c80000" visible="false"/>
+                        <TextField fx:id="emailAddressField" layoutX="178.0" layoutY="370.0"
+                                   onKeyPressed="#handleEmailFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                                   promptText="Email address..."
+                                   style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
-                                <Font size="20.0" />
+                                <Font size="20.0"/>
                             </font>
                         </TextField>
-                        <Label fx:id="usernameTakenLabel" layoutX="674.0" layoutY="80.0" prefHeight="16.0" prefWidth="168.0" text="Username already taken." textFill="#c80000" visible="false" />
-                        <TextField fx:id="usernameField" layoutX="668.0" layoutY="100.0" onKeyPressed="#handleUsernameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0" promptText="Username..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                        <Label fx:id="usernameTakenLabel" layoutX="674.0" layoutY="80.0" prefHeight="16.0"
+                               prefWidth="168.0" text="Username already taken." textFill="#c80000" visible="false"/>
+                        <TextField fx:id="usernameField" layoutX="668.0" layoutY="100.0"
+                                   onKeyPressed="#handleUsernameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                                   promptText="Username..."
+                                   style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
-                                <Font size="20.0" />
+                                <Font size="20.0"/>
                             </font>
                         </TextField>
-                        <PasswordField fx:id="passwordField" layoutX="668.0" layoutY="190.0" onKeyPressed="#handlePasswordFieldKeyPressed" prefHeight="60.0" prefWidth="435.0" promptText="Password..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                        <PasswordField fx:id="passwordField" layoutX="668.0" layoutY="190.0"
+                                       onKeyPressed="#handlePasswordFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                                       promptText="Password..."
+                                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
-                                <Font size="20.0" />
+                                <Font size="20.0"/>
                             </font>
                         </PasswordField>
-                        <Label fx:id="passwordDoesNotMatchLabel" layoutX="674.0" layoutY="260.0" prefHeight="16.0" prefWidth="270.0" text="Password does not match or is empty." textFill="#c80000" visible="false" />
-                        <PasswordField fx:id="confirmPasswordField" layoutX="668.0" layoutY="280.0" onKeyPressed="#handleConfirmPasswordFieldKeyPressed" prefHeight="60.0" prefWidth="435.0" promptText="Confirm password..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                        <Label fx:id="passwordDoesNotMatchLabel" layoutX="674.0" layoutY="260.0" prefHeight="16.0"
+                               prefWidth="270.0" text="Password does not match or is empty." textFill="#c80000"
+                               visible="false"/>
+                        <PasswordField fx:id="confirmPasswordField" layoutX="668.0" layoutY="280.0"
+                                       onKeyPressed="#handleConfirmPasswordFieldKeyPressed" prefHeight="60.0"
+                                       prefWidth="435.0" promptText="Confirm password..."
+                                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                             <font>
-                                <Font size="20.0" />
+                                <Font size="20.0"/>
                             </font>
                         </PasswordField>
-                        <Label fx:id="languageNotChosenLabel" layoutX="670.0" layoutY="362.0" prefHeight="16.0" prefWidth="176.0" text="Please select a language." textFill="#c80000" visible="false" />
-                        <Label fx:id="favoriteLanguageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="668.0" layoutY="382.0" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="Favorite language">
+                        <Label fx:id="languageNotChosenLabel" layoutX="670.0" layoutY="362.0" prefHeight="16.0"
+                               prefWidth="176.0" text="Please select a language." textFill="#c80000" visible="false"/>
+                        <Label fx:id="favoriteLanguageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="668.0"
+                               layoutY="382.0" prefHeight="36.0" prefWidth="200.0"
+                               style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                               text="Favorite language">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="14.0"/>
                             </font>
                         </Label>
-                        <ComboBox fx:id="languageComboBox" layoutX="903.0" layoutY="382.0" onKeyPressed="#handleLanguageComboBoxKeyPressed" onMouseClicked="#handleLanguageComboBoxClicked" prefHeight="36.0" prefWidth="200.0" promptText="Language..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" />
-                        <Label fx:id="invalidFirstNameLabel" layoutX="187.0" layoutY="80.0" prefHeight="16.0" prefWidth="140.0" text="Invalid first name." textFill="#c80000" visible="false" />
-                        <Label fx:id="invalidLastNameLabel" layoutX="187.0" layoutY="170.0" prefHeight="16.0" prefWidth="140.0" text="Invalid last name." textFill="#c80000" visible="false" />
-                        <Label fx:id="invalidNRNLabel" layoutX="187.0" layoutY="260.0" prefHeight="16.0" prefWidth="140.0" text="Invalid NRN." textFill="#c80000" visible="false" />
-                        <Label fx:id="invalidEmailLabel" layoutX="187.0" layoutY="350.0" prefHeight="16.0" prefWidth="146.0" text="Invalid email." textFill="#c80000" visible="false" />
-                        <Label fx:id="invalidUsernameLabel" layoutX="674.0" layoutY="80.0" prefHeight="16.0" prefWidth="168.0" text="Invalid username." textFill="#c80000" visible="false" />
-                        <Button fx:id="signUpButton" layoutX="492.0" layoutY="538.0" mnemonicParsing="false" onMouseClicked="#handleSignUpButtonClicked" prefHeight="52.0" prefWidth="296.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;" text="Sign up" textFill="#0a0a14">
+                        <ComboBox fx:id="languageComboBox" layoutX="903.0" layoutY="382.0"
+                                  onKeyPressed="#handleLanguageComboBoxKeyPressed"
+                                  onMouseClicked="#handleLanguageComboBoxClicked" prefHeight="36.0" prefWidth="200.0"
+                                  promptText="Language..."
+                                  style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
+                            <effect>
+                                <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
+                            </effect>
+                        </ComboBox>
+                        <Label fx:id="invalidFirstNameLabel" layoutX="187.0" layoutY="80.0" prefHeight="16.0"
+                               prefWidth="140.0" text="Invalid first name." textFill="#c80000" visible="false"/>
+                        <Label fx:id="invalidLastNameLabel" layoutX="187.0" layoutY="170.0" prefHeight="16.0"
+                               prefWidth="140.0" text="Invalid last name." textFill="#c80000" visible="false"/>
+                        <Label fx:id="invalidNRNLabel" layoutX="187.0" layoutY="260.0" prefHeight="16.0"
+                               prefWidth="140.0" text="Invalid NRN." textFill="#c80000" visible="false"/>
+                        <Label fx:id="invalidEmailLabel" layoutX="187.0" layoutY="350.0" prefHeight="16.0"
+                               prefWidth="146.0" text="Invalid email." textFill="#c80000" visible="false"/>
+                        <Label fx:id="invalidUsernameLabel" layoutX="674.0" layoutY="80.0" prefHeight="16.0"
+                               prefWidth="168.0" text="Invalid username." textFill="#c80000" visible="false"/>
+                        <Button fx:id="signUpButton" layoutX="492.0" layoutY="538.0" mnemonicParsing="false"
+                                onMouseClicked="#handleSignUpButtonClicked" prefHeight="52.0" prefWidth="296.0"
+                                style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
+                                text="Sign up" textFill="#0a0a14">
                             <font>
-                                <Font size="20.0" />
+                                <Font size="20.0"/>
                             </font>
+                            <effect>
+                                <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0" />
+                            </effect>
                         </Button>
-                        <Label fx:id="signedUpLabel" layoutX="540.0" layoutY="594.0" prefHeight="17.0" prefWidth="200.0" text="Account successfully created !" textFill="#00c800" visible="false" />
+                        <Label fx:id="signedUpLabel" layoutX="540.0" layoutY="594.0" prefHeight="17.0" prefWidth="200.0"
+                               text="Account successfully created !" textFill="#00c800" visible="false"/>
                     </children>
                 </AnchorPane>
             </children>

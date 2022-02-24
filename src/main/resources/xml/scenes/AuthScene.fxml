@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -20,6 +21,9 @@
                             <font>
                                 <Font size="14.0"/>
                             </font>
+                            <effect>
+                                <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                            </effect>
                         </Button>
                     </children>
                 </AnchorPane>
@@ -33,6 +37,9 @@
                             <font>
                                 <Font size="20.0"/>
                             </font>
+                            <effect>
+                                <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0"/>
+                            </effect>
                         </Button>
                         <Button fx:id="signUpButton" layoutX="465.0" layoutY="337.0" mnemonicParsing="false"
                                 onMouseClicked="#handleSignUpButtonClicked" prefHeight="70.0" prefWidth="350.0"
@@ -41,6 +48,9 @@
                             <font>
                                 <Font size="20.0"/>
                             </font>
+                            <effect>
+                                <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0"/>
+                            </effect>
                         </Button>
                     </children>
                 </AnchorPane>

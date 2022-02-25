@@ -33,6 +33,7 @@ public class Main extends Application {
         Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", getClass());
         Scenes.RequestNewPortfolioScene = SceneLoader.load("RequestNewPortfolioScene.fxml", getClass());
         Scenes.RequestTransferPermissionScene = SceneLoader.load("RequestTransferPermissionScene.fxml", getClass());
+        Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", getClass());
 
         Flow.add(Scenes.AuthScene);
 

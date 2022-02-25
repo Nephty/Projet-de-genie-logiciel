@@ -56,4 +56,14 @@ public class Controller {
         res += calendar.get(Calendar.SECOND);
         return res;
     }
+
+    /**
+     * Checks if the given passwords match and are not empty.
+     * @param password - <code>String</code> - the password
+     * @param passwordConfirmation - <code>String</code> - the password confirmation
+     * @return <code>boolean</code> - whether the two passwords match or not
+     */
+    public boolean passwordMatchesAndIsNotEmpty(String password, String passwordConfirmation) {
+        return password.equals(passwordConfirmation) && !password.equals("");
+    }
 }

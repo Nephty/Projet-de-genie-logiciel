@@ -45,6 +45,6 @@ public class MainScreenSceneController extends Controller implements LanguageBut
 
     @FXML
     public void handleChangePasswordButtonClicked(MouseEvent event) {
-        // TODO : navigate to the change password scene
+        Main.setScene(Flow.forward(Scenes.ChangePasswordScene));
     }
 }

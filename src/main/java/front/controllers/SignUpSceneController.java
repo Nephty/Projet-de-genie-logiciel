@@ -140,8 +140,8 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         else if (!isNRNTaken(NRN) && NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(false);
 
         // Manage the "password does not match" label visibility
-        if (!passwordMatches(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(true);
-        else if (passwordMatches(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(false);
+        if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(true);
+        else if (passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(false);
 
         if (chosenLanguage == null && !languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(true);
         else if (chosenLanguage != null && languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(false);
@@ -153,6 +153,10 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             // TODO : back-end user creation implementation
             userSignedUp = true;
             signedUpLabel.setVisible(true);
+            // Empty all data that we don't need, it's a security detail
+            lastName = ""; firstName = ""; email = ""; NRN = ""; username = ""; password = "";
+            passwordConfirmation = ""; chosenLanguage = "";
+
         }
     }
 
@@ -302,16 +306,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     private boolean isNRNTaken(String NRN) {
         // TODO : back-end implementation
         return false;
-    }
-
-    /**
-     * Checks if the given passwords match and are not empty.
-     * @param password - <code>String</code> - the password
-     * @param passwordConfirmation - <code>String</code> - the password confirmation
-     * @return <code>boolean</code> - whether the two passwords match or not
-     */
-    private boolean passwordMatches(String password, String passwordConfirmation) {
-        return password.equals(passwordConfirmation) && !password.equals("");
     }
 
     @FXML

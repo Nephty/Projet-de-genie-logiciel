@@ -7,6 +7,7 @@ import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
+import front.scenes.Scenes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -48,7 +49,8 @@ public class FinancialProductsSceneController extends Controller implements Back
     public void handleDetailsButtonClicked(MouseEvent event) {
         // If the user selected one wallet
         if (productsListView.getSelectionModel().getSelectedItems().size() == 1) {
-            // TODO : navigate to the details scene
+            Main.setScene(Flow.forward(Scenes.ProductDetailsScene));
+            // TODO : forward the selected account to the product detil scene
         }
     }
 

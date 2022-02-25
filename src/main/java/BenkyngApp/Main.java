@@ -35,6 +35,7 @@ public class Main extends Application {
         Scenes.RequestTransferPermissionScene = SceneLoader.load("RequestTransferPermissionScene.fxml", getClass());
         Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", getClass());
         Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml", getClass());
+        Scenes.ProductDetailsScene = SceneLoader.load("ProductDetailsScene.fxml", getClass());
 
         Flow.add(Scenes.AuthScene);
 

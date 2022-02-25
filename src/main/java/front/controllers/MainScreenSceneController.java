@@ -15,7 +15,7 @@ public class MainScreenSceneController extends Controller implements LanguageBut
     @FXML
     public void handleSignOutButtonClicked(MouseEvent event) {
         Main.setScene(Flow.back());
-        // TODO : back-end log out (clear any user data)
+        // TODO : back-end : log out (clear any user data)
     }
 
     @FXML
@@ -30,7 +30,7 @@ public class MainScreenSceneController extends Controller implements LanguageBut
 
     @FXML
     public void handleFinancialProductsButtonClicked(MouseEvent event) {
-        // TODO : navigate to the financial products scene
+        Main.setScene(Flow.forward(Scenes.FinancialProductsScene));
     }
 
     @FXML

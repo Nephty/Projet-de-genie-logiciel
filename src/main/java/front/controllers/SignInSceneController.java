@@ -24,7 +24,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     @FXML
     Label incorrectUsernameOrPasswordLabel;
 
-    String username = "", password = "";  // TODO : back-end : get the username and the password from the database in these variables
+    String username = "", password = "";
 
     @FXML
     public void handleLanguageButtonClicked(MouseEvent event) {
@@ -34,6 +34,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
 
     @FXML
     public void handleSignInButtonClicked(MouseEvent event) {
+        // TODO : back-end : change this condition to check if the user entered correct credentials
         if (usernameField.getText().equals(username) && passwordField.getText().equals(password)) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
             passwordField.setText("");

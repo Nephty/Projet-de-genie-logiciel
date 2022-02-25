@@ -150,7 +150,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         // No label is visible implies that every field is properly filled in
         if (noLabelVisible()) {
             // Then we can create a new user
-            // TODO : back-end user creation implementation
+            // TODO : back-end : user creation implementation
             userSignedUp = true;
             signedUpLabel.setVisible(true);
             // Empty all data that we don't need, it's a security detail
@@ -284,7 +284,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      * @return <code>boolean</code> - whether the given username is already take or not
      */
     private boolean isUsernameTaken(String username) {
-        // TODO : back-end implementation
+        // TODO : back-end : implement this method
         return false;
     }
 
@@ -294,7 +294,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      * @return <code>boolean</code> - whether the given email is already take or not
      */
     private boolean isEmailTaken(String email) {
-        // TODO : back-end implementation
+        // TODO : back-end : implement this method
         return false;
     }
 
@@ -304,7 +304,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      * @return <code>boolean</code> - whether the given NRN is already take or not
      */
     private boolean isNRNTaken(String NRN) {
-        // TODO : back-end implementation
+        // TODO : back-end : implement this method
         return false;
     }
 

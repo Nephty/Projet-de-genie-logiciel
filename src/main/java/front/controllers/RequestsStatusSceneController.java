@@ -1,10 +1,13 @@
 package front.controllers;
 
 import BenkyngApp.Main;
+import back.user.Notification;
+import back.user.Request;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,9 +22,14 @@ public class RequestsStatusSceneController extends Controller implements BackBut
     public Button backButton, fetchRequestsButton;
     // TODO : back-end : implement Request class so we can make this a ListView<Request>
     @FXML
-    public ListView requestsListView;
+    public ListView<Request> requestsListView;
     @FXML
     public Label lastUpdateTimeLabel, loadingRequestsLabel;
+
+    public void initialize() {
+        fetchRequests();
+        requestsListView.setItems(FXCollections.observableArrayList(new Request("request A"), new Request("request B")));
+    }
 
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
@@ -37,8 +45,6 @@ public class RequestsStatusSceneController extends Controller implements BackBut
     public void handleFetchRequestsButtonClicked(MouseEvent event) {
         fetchRequests();
     }
-
-
 
     /**
      * Fetches requests from the database to display them

@@ -65,7 +65,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     public void handleChangePasswordButtonClicked(MouseEvent event) {
-        // TODO : back-end : retrieve current password
+        // TODO : back-end : retrieve current password from the database
         String currentPasswordHashFromDatabase = "yes", currentPassword = currentPasswordField.getText(),
                 currentPasswordHashFromUser = Hasher.hash(currentPassword),
                 newPassword = newPasswordField.getText(), newPasswordConfirmation = confirmNewPasswordField.getText(),

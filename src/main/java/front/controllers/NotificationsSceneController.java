@@ -1,10 +1,13 @@
 package front.controllers;
 
 import BenkyngApp.Main;
+import back.user.Notification;
+import back.user.Wallet;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,7 +26,14 @@ public class NotificationsSceneController extends Controller implements BackButt
     public Label lastUpdateTimeLabel;
     // TODO : back-end : implement notifications to make this a ListView<Notification>
     @FXML
-    public ListView notificationsListView;
+    public ListView<Notification> notificationsListView;
+
+    private Notification selectedNotification;
+
+    public void initialize() {
+        fetchNotifications();
+        notificationsListView.setItems(FXCollections.observableArrayList(new Notification("notification A"), new Notification("notification B")));
+    }
 
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
@@ -37,12 +47,16 @@ public class NotificationsSceneController extends Controller implements BackButt
 
     @FXML
     public void handleDismissButtonClicked(MouseEvent event) {
-        // TODO : back-end : implement "dismissed" attribute of notification
+        if (notificationsListView.getSelectionModel().getSelectedItems().size() > 0) {
+            // TODO : back-end : implement "dismissed" attribute of notification, change it accordingly for all selected notifications and commit changes to database
+        }
     }
 
     @FXML
     public void handleFlagButtonClicked(MouseEvent event) {
-        // TODO : back-end : implement "flagged" attribute of notification
+        if (notificationsListView.getSelectionModel().getSelectedItems().size() > 0) {
+            // TODO : back-end : implement "flagged" attribute of notification, change it accordingly for all selected notifications and commit changes to database
+        }
     }
 
     /**
@@ -67,7 +81,7 @@ public class NotificationsSceneController extends Controller implements BackButt
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch notifications and put them in the listview
-            // TODO : back-end : fetch notifications from the database and put them in the listview
+            // TODO : back-end : fetch notifications from the database and put them in the listview only if they are not dismissed
             // Fade the label "updating notifications..." out to 0.0 opacity
             sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingNotificationsLabel);
         }

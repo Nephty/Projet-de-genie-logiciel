@@ -15,6 +15,10 @@ public class LanguageSceneController extends Controller implements BackButtonNav
     @FXML
     Label chooseLanguageLabel;
 
+    public void initialize() {
+        // TODO : back-end : fetch languages
+    }
+
     @FXML
     public void handleBackButtonClicked(MouseEvent mouseEvent) {
         handleBackButtonNavigation(mouseEvent);

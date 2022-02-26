@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
+
 import lombok.*;
+
 
 import javax.persistence.*;
 
@@ -20,4 +22,5 @@ public class User {
     private String email;
     @Column
     private String password;
+
 }

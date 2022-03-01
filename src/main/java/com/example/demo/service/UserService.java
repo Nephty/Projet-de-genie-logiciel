@@ -25,7 +25,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     
 
-    public User getUser(String id) {
+    public User getUserById(String id) {
         log.info("Fetching user with id of {}", id);
         return uRepo.findById(id)
                 .orElseThrow(() ->
@@ -33,17 +33,17 @@ public class UserService implements UserDetailsService {
                 );
     }
 
-    public User getUserByEmail(String email) throws UsernameNotFoundException{
-        User user = uRepo.findByEmail(email);
+    public User getUserByUsername(String username) throws UsernameNotFoundException{
+        User user = uRepo.findByUsername(username);
 
         if(user == null) {
-            log.error("User with username {} was not found", email);
-            throw new UsernameNotFoundException("user not found");
+            log.error("User with username {} was not found", username);
+            throw new UsernameNotFoundException("");
         }
 
         return user;
     }
-
+    //TODO Add pagination to the getAll
     public List<User> getAllUser() {
         log.info("Fetching all user");
         return uRepo.findAll();
@@ -67,7 +67,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = getUserByEmail(username);
+        User user = getUserByUsername(username);
         log.info("User found {}", user);
         Collection<SimpleGrantedAuthority> authorities= new ArrayList<>();
         return new org.springframework.security.core.userdetails.User(

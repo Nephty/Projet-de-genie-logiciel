@@ -21,7 +21,7 @@ public class TokenHandler {
     private final Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
 
     public Map<String, String> createTokens(String username, String issuer, Role role) {
-        final int accessTokenMinBeforeExp = 30;
+        final int accessTokenMinBeforeExp = 60;
         String accessToken = JWT.create()
                 .withSubject(username)
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenMinBeforeExp * 60 * 1000))

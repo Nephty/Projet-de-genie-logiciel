@@ -21,7 +21,15 @@ public class DemoApplication {
 	CommandLineRunner run(UserService userService) {
 		return args -> {
 			System.out.println("Runner be RUNNIIIIIIIING");
-			userService.addUser(new User("111", "NotReal", "fake@fake.com", "azerty"));
+			userService.addUser(new User(
+					"123456789",
+					"Satan",
+					"Morningstar",
+					"Lucifer",
+					"satan@hell.com",
+					"666HELL",
+					"FR"
+			));
 		};
 	}
 

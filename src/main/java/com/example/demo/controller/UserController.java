@@ -29,7 +29,7 @@ public class UserController {
 
     @GetMapping(value = "{id}")
     public User sendUser(@PathVariable String id) {
-        return userService.getUser(id);
+        return userService.getUserById(id);
     }
 
     @GetMapping
@@ -48,7 +48,7 @@ public class UserController {
         userService.changeUser(user);
     }
 
-    @DeleteMapping
+    @DeleteMapping(value = "{id}")
     public void deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
     }
@@ -58,10 +58,10 @@ public class UserController {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         TokenHandler jwtHandler = new TokenHandler();
         DecodedJWT decodedJWT = jwtHandler.extractToken(authorizationHeader);
-        String email = decodedJWT.getSubject();
-        User user = userService.getUserByEmail(email);
+        String username = decodedJWT.getSubject();
+        User user = userService.getUserByUsername(username);
         Map<String, String> tokens = jwtHandler.createTokens(
-                user.getEmail(),
+                user.getUsername(),
                 request.getRequestURL().toString(),
                 Role.USER
         );

@@ -15,12 +15,18 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
     @Column @Id
-    private String id;
+    private String nrn;
     @Column
-    private String name;
+    private String username;
+    @Column
+    private String lastname;
+    @Column
+    private String firstname;
     @Column
     private String email;
     @Column
     private String password;
+    @Column
+    private String language;
 
 }

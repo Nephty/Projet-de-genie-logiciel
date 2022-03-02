@@ -7,6 +7,7 @@ import com.example.demo.security.Role;
 import com.example.demo.security.TokenHandler;
 import com.example.demo.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,15 +18,12 @@ import java.util.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@RequiredArgsConstructor
 @RequestMapping(path = "/api/user")
 @RestController
 public class UserController {
 
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping(value = "{id}")
     public User sendUser(@PathVariable String id) {

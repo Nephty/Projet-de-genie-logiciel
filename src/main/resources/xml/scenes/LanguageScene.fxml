@@ -14,7 +14,7 @@
                 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                             prefHeight="70.0" prefWidth="1280.0">
                     <children>
-                        <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" mnemonicParsing="false"
+                        <Button fx:id="backButton" layoutX="14.0" layoutY="17.0"
                                 onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0"
                                 style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                                 text="Back" textFill="#0a0a14">
@@ -41,7 +41,7 @@
                                 <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
                             </effect>
                         </Label>
-                        <Button fx:id="addButton" layoutX="820.0" layoutY="124.0" mnemonicParsing="false"
+                        <Button fx:id="addButton" layoutX="820.0" layoutY="124.0"
                                 onMouseClicked="#handleAddButtonClicked" prefHeight="36.0" prefWidth="120.0"
                                 style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                                 text="Add" textFill="#0a0a14">
@@ -53,7 +53,7 @@
                             </effect>
                         </Button>
                         <ListView layoutX="340.0" layoutY="187.0" prefHeight="340.0" prefWidth="600.0"/>
-                        <Button fx:id="setButton" layoutX="820.0" layoutY="554.0" mnemonicParsing="false"
+                        <Button fx:id="setButton" layoutX="820.0" layoutY="554.0"
                                 onMouseClicked="#handleAddButtonClicked" prefHeight="36.0" prefWidth="120.0"
                                 style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                                 text="Set" textFill="#0a0a14">

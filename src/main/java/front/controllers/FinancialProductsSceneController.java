@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 public class FinancialProductsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, fetchProductsButton, detailsButton, toggleButton;
+    public Button backButton, fetchProductsButton, detailsButton;
     @FXML
     public Label lastUpdateTimeLabel, loadingProductsLabel;
     @FXML
@@ -50,15 +50,7 @@ public class FinancialProductsSceneController extends Controller implements Back
         // If the user selected one wallet
         if (productsListView.getSelectionModel().getSelectedItems().size() == 1) {
             Main.setScene(Flow.forward(Scenes.ProductDetailsScene));
-            // TODO : forward the selected account to the product detil scene
-        }
-    }
-
-    @FXML
-    public void handleToggleButtonClicked(MouseEvent event) {
-        // If the user selected one wallet
-        if (productsListView.getSelectionModel().getSelectedItems().size() == 1) {
-            // TODO : back-end : toggle on or off the selected product
+            // TODO : forward the selected account to the product detail scene
         }
     }
 

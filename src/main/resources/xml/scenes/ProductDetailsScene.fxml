@@ -7,7 +7,7 @@
 
 <Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
       xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="front.controllers.DetailsSceneController">
+      fx:controller="front.controllers.ProductDetailsSceneController">
     <children>
         <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
             <children>
@@ -63,6 +63,21 @@
                                 <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                             </effect>
                         </Button>
+
+                        <Button fx:id="toggleButton" layoutX="1075.0" layoutY="350.0" mnemonicParsing="false"
+                                onMouseClicked="#handleToggleButtonClicked" prefHeight="30.0" prefWidth="170.0"
+                                style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                                text="Toggle" textFill="#0a0a14">
+                            <effect>
+                                <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                            </effect>
+                        </Button>
+                        <Label fx:id="togglingProductLabel" layoutX="1094.0" layoutY="330.0" opacity="0.0"
+                               prefHeight="16.0" prefWidth="132.0" text="Toggling product..."/>
+                        <Label fx:id="toggledOnProductLabel" layoutX="1089.0" layoutY="385.0" opacity="0.0"
+                               prefHeight="16.0" prefWidth="143.0" text="Product toggled on !" textFill="#00c800"/>
+                        <Label fx:id="toggledOffProductLabel" layoutX="1089.0" layoutY="385.0" opacity="0.0"
+                               prefHeight="16.0" prefWidth="143.0" text="Product toggled off !" textFill="#c80000"/>
                     </children>
                 </AnchorPane>
             </children>

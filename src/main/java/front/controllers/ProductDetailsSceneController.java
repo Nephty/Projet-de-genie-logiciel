@@ -46,7 +46,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     @FXML
     public void handleHistoryButtonClicked(MouseEvent event) {
         if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
-            Main.setScene(Scenes.TransactionsHistoryScene);
+            Main.setScene(Flow.forward(Scenes.TransactionsHistoryScene));
             // TODO : pass the account to the history scene
         }
     }

@@ -7,6 +7,7 @@ import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import front.scenes.Scenes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,7 +46,7 @@ public class TransactionsHistorySceneController extends Controller implements Ba
 
     @FXML
     public void handleExportButtonClicked(MouseEvent event) {
-        // TODO : navigate to export scene
+        Main.setScene(Flow.forward(Scenes.ExportHistoryScene));
     }
 
     @FXML

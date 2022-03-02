@@ -37,6 +37,7 @@ public class Main extends Application {
         Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml", getClass());
         Scenes.ProductDetailsScene = SceneLoader.load("ProductDetailsScene.fxml", getClass());
         Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml", getClass());
+        Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml", getClass());
 
         Flow.add(Scenes.AuthScene);
 

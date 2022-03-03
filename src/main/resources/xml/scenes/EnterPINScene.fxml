@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.controllers.EnterPINSceneController">
+    <children>
+        <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
+            <children>
+                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="1280.0">
+                    <children>
+                        <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="Back" textFill="#0a0a14">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                            <effect>
+                                <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
+                            </effect>
+                        </Button>
+                    </children>
+                </AnchorPane>
+                <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
+                    <children>
+                        <Button fx:id="confirmButton" layoutX="542.0" layoutY="530.0" onMouseClicked="#handleConfirmButtonClicked" prefHeight="52.0" prefWidth="200.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;" text="Confirm" textFill="#0a0a14">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                            <effect>
+                                <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0" />
+                            </effect>
+                        </Button>
+                        <PasswordField fx:id="PINField" layoutX="593.0" layoutY="62.0" prefHeight="60.0" prefWidth="95.0" promptText="PIN..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;" text="1234">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </PasswordField>
+                        <Button fx:id="button1" layoutX="536.0" layoutY="180.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButton1MouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="1">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="button2" layoutX="616.0" layoutY="180.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButton2MouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="2">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="button3" layoutX="696.0" layoutY="180.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButton3MouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="3">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="button4" layoutX="535.0" layoutY="260.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButton4MouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="4">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="button5" layoutX="616.0" layoutY="260.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButton5MouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="5">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="button6" layoutX="696.0" layoutY="260.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButton6MouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="6">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="button7" layoutX="536.0" layoutY="340.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButton7MouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="7">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="button8" layoutX="616.0" layoutY="340.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButton8MouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="8">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="button9" layoutX="696.0" layoutY="340.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButton9MouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="9">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="button0" layoutX="616.0" layoutY="420.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButton0MouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="0">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="buttonDel" layoutX="696.0" layoutY="420.0" mnemonicParsing="false" onKeyPressed="#handleButtonKeyPressed" onMouseClicked="#handleButtonDelMouseClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;" text="&lt;">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </AnchorPane>
+            </children>
+        </Pane>
+    </children>
+</Pane>

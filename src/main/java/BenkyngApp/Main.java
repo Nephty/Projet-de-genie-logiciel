@@ -39,6 +39,7 @@ public class Main extends Application {
         Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml", getClass());
         Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml", getClass());
         Scenes.TransferScene = SceneLoader.load("TransferScene.fxml", getClass());
+        Scenes.EnterPINScene = SceneLoader.load("EnterPINScene.fxml", getClass());
 
         Flow.add(Scenes.AuthScene);
 

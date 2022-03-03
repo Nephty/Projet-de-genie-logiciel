@@ -3,6 +3,7 @@ package front.controllers;
 import BenkyngApp.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import front.scenes.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -54,6 +55,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
 
         if (noLabelVisible()) {
             // TODO : navigate to the PIN scene with the data
+            Main.setScene(Flow.forward(Scenes.EnterPINScene));
             transferExecutedLabel.setVisible(true);
         }
     }

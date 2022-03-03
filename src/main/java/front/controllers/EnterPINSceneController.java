@@ -6,6 +6,7 @@ import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -29,54 +30,31 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
 
     @FXML
     public void handleConfirmButtonClicked(MouseEvent event) {
+        // TODO : back to the transfer scene, bring the positive or negative response
     }
 
     @FXML
     public void handleButtonKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            emulateConfirmButtonMouseClicked();
+        }
     }
 
     @FXML
-    public void handleButton1MouseClicked(MouseEvent event) {
-        System.out.println(event.getSource().toString().substring(38, 39));
+    public void handleNumButtonMouseClicked(MouseEvent event) {
+        Button buttonSource = (Button) event.getSource();
+        if (buttonSource.getText().equals("<")) {
+            if (PINField.getText().length() > 0) {
+                PINField.setText(PINField.getText().substring(0, PINField.getText().length()-1));
+            }
+        } else {
+            if (PINField.getText().length() < 4) {
+                PINField.setText(PINField.getText() + buttonSource.getText());
+            }
+        }
     }
 
-    @FXML
-    public void handleButton2MouseClicked(MouseEvent event) {
-    }
-
-    @FXML
-    public void handleButton3MouseClicked(MouseEvent event) {
-    }
-
-    @FXML
-    public void handleButton4MouseClicked(MouseEvent event) {
-    }
-
-    @FXML
-    public void handleButton5MouseClicked(MouseEvent event) {
-    }
-
-    @FXML
-    public void handleButton6MouseClicked(MouseEvent event) {
-    }
-
-    @FXML
-    public void handleButton7MouseClicked(MouseEvent event) {
-    }
-
-    @FXML
-    public void handleButton8MouseClicked(MouseEvent event) {
-    }
-
-    @FXML
-    public void handleButton9MouseClicked(MouseEvent event) {
-    }
-
-    @FXML
-    public void handleButton0MouseClicked(MouseEvent event) {
-    }
-
-    @FXML
-    public void handleButtonDelMouseClicked(MouseEvent event) {
+    public void emulateConfirmButtonMouseClicked() {
+        handleConfirmButtonClicked(null);
     }
 }

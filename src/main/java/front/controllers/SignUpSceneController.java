@@ -95,12 +95,15 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         }
     }
 
-    /**
-     * Checks if every field is properly filled in whenever we click on the sign in button.
-     * @param mouseEvent - <code>MouseEvent</code> - The mouse event that triggered the method
-     */
     @FXML
     public void handleSignUpButtonClicked(MouseEvent mouseEvent) {
+        signUp();
+    }
+
+    /**
+     * Checks if every field is properly filled in. Initializes the sign up process.
+     */
+    public void signUp() {
         String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
                 NRN = NRNField.getText(), username = usernameField.getText(), password = passwordField.getText(),
                 passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
@@ -182,7 +185,8 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      * @return <code>boolean</code> - whether the given last name is a valid last name or not
      */
     public static boolean isValidLastName(String lastName) {
-        return (!lastName.equals("") && (lastName != null) && (lastName.matches("^[a-zA-Z-]*$")));
+        if (lastName == null) return false;
+        return (!lastName.equals("") && (lastName.matches("^[a-zA-Z-]*$")));
     }
 
     /**
@@ -211,7 +215,8 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      * @return <code>boolean</code> - whether the given email is a valid email or not
      */
     public static boolean isValidEmail(String email) {
-        if (email.equals("") || email == null || !email.matches("^[a-zA-Z0-9@.]*$")) return false;
+        if (email == null) return false;
+        if (email.equals("") || !email.matches("^[a-zA-Z0-9@.]*$")) return false;
         boolean hasOneAt = false;  // if the string contains at least one @
         boolean hasOneDotAfterAt = false;  // if the string contains at least one . after the first @
         boolean hasOneCharBeforeAt = false; // if the string contains at least one character before the first @
@@ -234,7 +239,8 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      * @return <code>boolean</code> whether the given NRN is a valid NRN or not
      */
     public static boolean isValidNRN(String NRN) {
-        if (NRN.equals("") || NRN == null || NRN.length() != 15) return false;
+        if (NRN == null) return false;
+        if (NRN.length() != 15) return false;  // NRN.length() == 15 already checks NRN != ""
         for (int i = 0; i < 15; i++) {
             switch (i) {
                 case 0:
@@ -274,7 +280,8 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      * @return whether the given username is a valid username or not
      */
     public static boolean isValidUsername(String username) {
-        if (username.equals("") || username == null || username.length() > 32) return false;
+        if (username == null) return false;
+        if (username.equals("") || username.length() > 32) return false;
         return username.matches("^[a-zA-Z0-9]*$");
     }
 
@@ -310,45 +317,45 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
 
     @FXML
     public void handleFirstNameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
     @FXML
     public void handleLastNameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
     @FXML
     public void handleNRNFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
     @FXML
     public void handleEmailFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
     @FXML
     public void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
     @FXML
     public void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
     @FXML
     public void handleConfirmPasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
     @FXML
     public void handleLanguageComboBoxKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
-    public void triggerSignUp() {
+    public void emulateSignUpButtonClicked() {
         handleSignUpButtonClicked(null);
     }
 

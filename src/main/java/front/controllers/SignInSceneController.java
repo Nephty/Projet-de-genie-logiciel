@@ -34,6 +34,13 @@ public class SignInSceneController extends Controller implements BackButtonNavig
 
     @FXML
     public void handleSignInButtonClicked(MouseEvent event) {
+        signIn();
+    }
+
+    /**
+     * Checks if every field is properly filled in. Initializes the sign in process.
+     */
+    public void signIn() {
         // TODO : back-end : change this condition to check if the user entered correct credentials
         if (usernameField.getText().equals(username) && passwordField.getText().equals(password)) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
@@ -63,15 +70,15 @@ public class SignInSceneController extends Controller implements BackButtonNavig
 
     @FXML
     public void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignIn();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignInButtonClicked();
     }
 
     @FXML
     public void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignIn();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignInButtonClicked();
     }
 
-    public void triggerSignIn() {
+    public void emulateSignInButtonClicked() {
         handleSignInButtonClicked(null);
     }
 

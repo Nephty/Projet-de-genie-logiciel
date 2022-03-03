@@ -2,8 +2,6 @@ package front.controllers;
 
 import BenkyngApp.Main;
 import back.user.Account;
-import back.user.Notification;
-import back.user.Wallet;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -26,7 +24,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     public ListView<Account> accountsListView;
     // TODO : back-end : implement account
     @FXML
-    public Label lastUpdateTimeLabel, loadingAccountsLabel, togglingProductLabel, toggledOnProductLabel, toggledOffProductLabel;
+    public Label lastUpdateTimeLabel, loadingAccountsLabel, togglingProductLabel, toggledOnProductLabel, toggledOffProductLabel, accountInactiveLabel;
 
     public void initialize() {
         fetchAccounts();
@@ -41,12 +39,14 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
+        accountInactiveLabel.setVisible(false);
     }
 
     @FXML
     public void handleHistoryButtonClicked(MouseEvent event) {
         if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
             Main.setScene(Flow.forward(Scenes.TransactionsHistoryScene));
+            accountInactiveLabel.setVisible(false);
             // TODO : pass the account to the history scene
         }
     }
@@ -58,7 +58,16 @@ public class ProductDetailsSceneController extends Controller implements BackBut
 
     @FXML
     public void handleTransferButtonClicked(MouseEvent event) {
-        // TODO : navigate to transfer scene
+        if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
+            if (accountsListView.getSelectionModel().getSelectedItem().isActive()) {
+                Main.setScene(Flow.forward(Scenes.TransferScene));
+                accountInactiveLabel.setVisible(false);
+                // TODO : pass the account to the transfer scene
+            } else {
+                accountInactiveLabel.setVisible(true);
+                // TODO : show label "account inactive"
+            }
+        }
     }
 
     @FXML
@@ -66,6 +75,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         // If the user selected one wallet
         if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
             toggleProduct(accountsListView.getSelectionModel().getSelectedItems().get(0));
+            accountInactiveLabel.setVisible(false);
             // TODO : back-end : toggle on or off the selected product
         }
     }

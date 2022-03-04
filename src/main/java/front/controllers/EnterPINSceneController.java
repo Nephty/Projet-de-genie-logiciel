@@ -5,6 +5,7 @@ import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -17,6 +18,12 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     public PasswordField PINField;
     @FXML
     public Button button1, button2, button3, button4, button5, button6, button7, button8, button9, button0, buttonDel;
+    @FXML
+    public Label incorrectPINLabel, correctPINLabel;
+
+    private final String correctPIN = "1235";
+    private int attempts = 0;
+    private boolean executingTransfer = false;
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -26,17 +33,66 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
+        attempts = 0;
     }
 
     @FXML
     public void handleConfirmButtonClicked(MouseEvent event) {
-        // TODO : back to the transfer scene, bring the positive or negative response
+        if (!executingTransfer) {
+            executingTransfer = true;
+            attempts++;
+            if (attempts <= 3) {
+                boolean PINCorrect = checkPINIsCorrect(PINField.getText());
+                incorrectPINLabel.setVisible(!PINCorrect);
+                if (PINCorrect) {
+                    correctPINLabel.setVisible(true);
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ignored) {
+                    }
+                    Main.setScene(Flow.back());
+                    correctPINLabel.setVisible(false);
+                    TransferSceneController.executeTransfer();
+                }
+            } else {
+                // TODO : show too many attempts
+            }
+        }
+        executingTransfer = false;
+        // TODO : runs method twice ??
+    }
+
+    private boolean checkPINIsCorrect(String PIN) {
+        return PIN.equals(correctPIN);
     }
 
     @FXML
     public void handleButtonKeyPressed(KeyEvent keyEvent) {
+        System.out.println(keyEvent.getCode());
+        switch (keyEvent.getCode()) {
+            case ENTER:
+                emulateConfirmButtonMouseClicked();
+                break;
+            case DELETE:
+                emulateDeletedButtonMouseClicked();
+                break;
+            case NUMPAD0:
+            case NUMPAD1:
+            case NUMPAD2:
+            case NUMPAD3:
+            case NUMPAD4:
+            case NUMPAD5:
+            case NUMPAD6:
+            case NUMPAD7:
+            case NUMPAD8:
+            case NUMPAD9:
+                emulateNumButtonMouseClicked(Integer.parseInt(keyEvent.getCode().toString().substring(keyEvent.getCode().toString().length()-1)));
+                break;
+        }
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateConfirmButtonMouseClicked();
+        } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
+            emulateDeletedButtonMouseClicked();
         }
     }
 
@@ -45,7 +101,8 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
         Button buttonSource = (Button) event.getSource();
         if (buttonSource.getText().equals("<")) {
             if (PINField.getText().length() > 0) {
-                PINField.setText(PINField.getText().substring(0, PINField.getText().length()-1));
+                int length = PINField.getText().length();
+                PINField.setText(PINField.getText().substring(0, length-1));
             }
         } else {
             if (PINField.getText().length() < 4) {
@@ -54,7 +111,20 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
         }
     }
 
-    public void emulateConfirmButtonMouseClicked() {
+    private void emulateConfirmButtonMouseClicked() {
         handleConfirmButtonClicked(null);
+    }
+
+    private void emulateDeletedButtonMouseClicked() {
+        if (PINField.getText().length() > 0) {
+            int length = PINField.getText().length();
+            PINField.setText(PINField.getText().substring(0, length-1));
+        }
+    }
+
+    private void emulateNumButtonMouseClicked(int num) {
+        if (PINField.getText().length() < 4) {
+            PINField.setText(PINField.getText() + num);
+        }
     }
 }

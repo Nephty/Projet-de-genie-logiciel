@@ -22,6 +22,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
     @FXML
     public Label invalidAmountLabel, invalidRecipientLabel, invalidIBAN, invalidMessageLabel, invalidDateLabel, transferExecutedLabel;
 
+
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
@@ -56,8 +57,13 @@ public class TransferSceneController extends Controller implements BackButtonNav
         if (noLabelVisible()) {
             // TODO : navigate to the PIN scene with the data
             Main.setScene(Flow.forward(Scenes.EnterPINScene));
-            transferExecutedLabel.setVisible(true);
+            //transferExecutedLabel.setVisible(true);
         }
+    }
+
+    public static void executeTransfer() {
+        System.out.println("transfer executed.");
+        // TODO : execute the given transfer (that method is ran only if the PIN is correct)
     }
 
     public boolean noLabelVisible() {

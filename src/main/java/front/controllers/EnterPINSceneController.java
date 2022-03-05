@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -19,7 +18,7 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     @FXML
     public Button button1, button2, button3, button4, button5, button6, button7, button8, button9, button0, buttonDel;
     @FXML
-    public Label incorrectPINLabel, correctPINLabel;
+    public Label incorrectPINLabel, correctPINLabel, tooManyAttemptsLabel;
 
     private final String correctPIN = "1235";
     private int attempts = 0;
@@ -34,6 +33,7 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         attempts = 0;
+        tooManyAttemptsLabel.setVisible(false);
     }
 
     @FXML
@@ -46,20 +46,22 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
                 incorrectPINLabel.setVisible(!PINCorrect);
                 if (PINCorrect) {
                     correctPINLabel.setVisible(true);
+                    // TODO : this makes the thread sleep before we get to see the label
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ignored) {
                     }
-                    Main.setScene(Flow.back());
+                    emulateBackButtonMouseClicked();
                     correctPINLabel.setVisible(false);
+                    tooManyAttemptsLabel.setVisible(false);
+                    PINField.setText("");
                     TransferSceneController.executeTransfer();
                 }
             } else {
-                // TODO : show too many attempts
+                tooManyAttemptsLabel.setVisible(true);
             }
         }
         executingTransfer = false;
-        // TODO : runs method twice ??
     }
 
     private boolean checkPINIsCorrect(String PIN) {
@@ -68,12 +70,12 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
 
     @FXML
     public void handleButtonKeyPressed(KeyEvent keyEvent) {
-        System.out.println(keyEvent.getCode());
         switch (keyEvent.getCode()) {
             case ENTER:
                 emulateConfirmButtonMouseClicked();
                 break;
             case DELETE:
+            case BACK_SPACE:
                 emulateDeletedButtonMouseClicked();
                 break;
             case NUMPAD0:
@@ -88,11 +90,6 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
             case NUMPAD9:
                 emulateNumButtonMouseClicked(Integer.parseInt(keyEvent.getCode().toString().substring(keyEvent.getCode().toString().length()-1)));
                 break;
-        }
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            emulateConfirmButtonMouseClicked();
-        } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-            emulateDeletedButtonMouseClicked();
         }
     }
 
@@ -126,5 +123,9 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
         if (PINField.getText().length() < 4) {
             PINField.setText(PINField.getText() + num);
         }
+    }
+
+    private void emulateBackButtonMouseClicked() {
+        handleBackButtonClicked(null);
     }
 }

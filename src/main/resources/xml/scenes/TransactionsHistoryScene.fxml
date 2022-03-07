@@ -25,6 +25,13 @@
                                 <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                             </effect>
                         </Button>
+                        <Label alignment="CENTER" layoutX="159.0" layoutY="17.0" prefHeight="36.0" prefWidth="962.0"
+                               style="-fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                               text="Transactions History" textFill="#d2cdc8">
+                            <font>
+                                <Font size="20.0"/>
+                            </font>
+                        </Label>
                     </children>
                 </AnchorPane>
                 <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"

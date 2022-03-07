@@ -117,8 +117,7 @@
                             </font>
                         </Label>
                         <ComboBox fx:id="languageComboBox" layoutX="903.0" layoutY="382.0"
-                                  onKeyPressed="#handleLanguageComboBoxKeyPressed"
-                                  onMouseClicked="#handleLanguageComboBoxClicked" prefHeight="36.0" prefWidth="200.0"
+                                  onKeyPressed="#handleLanguageComboBoxKeyPressed" prefHeight="36.0" prefWidth="200.0"
                                   promptText="Language..."
                                   style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                             <effect>

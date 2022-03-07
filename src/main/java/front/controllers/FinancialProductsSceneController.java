@@ -6,7 +6,6 @@ import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
-import front.navigation.navigators.LanguageButtonNavigator;
 import front.scenes.Scenes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -20,7 +19,7 @@ import java.util.Calendar;
 
 public class FinancialProductsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, fetchProductsButton, detailsButton;
+    public Button backButton, fetchProductsButton, detailsButton, visualizeToolButton;
     @FXML
     public Label lastUpdateTimeLabel, loadingProductsLabel;
     @FXML
@@ -83,5 +82,9 @@ public class FinancialProductsSceneController extends Controller implements Back
             // Fade the label "updating notifications..." out to 0.0 opacity
             sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingProductsLabel);
         }
+    }
+
+    public void handleVisualizeToolButtonClicked(MouseEvent event) {
+        Main.setScene(Flow.forward(Scenes.VisualizeToolScene));
     }
 }

@@ -32,7 +32,13 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     @FXML
     CheckBox checkBox;
 
-    private boolean languageComboBoxInitialized = false, userSignedUp = false;
+    private boolean userSignedUp = false;
+
+    public void initialize() {
+        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
+        // TODO : back-end : fetch all available languages and put them in the list
+        languageComboBox.setItems(values);
+    }
 
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
@@ -48,7 +54,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
-        languageComboBoxInitialized = false;
         if (userSignedUp) {
             // if the user signed up, clear the form
             // if he didn't sign up, we're saving the inputs
@@ -63,7 +68,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     @Override
     public void handleLanguageButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.LanguageScene));
-        languageComboBoxInitialized = false;
         if (userSignedUp) {
             // if the user signed up, clear the form
             // if he didn't sign up, we're saving the inputs
@@ -72,26 +76,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             emptyAllTextFields();
             hideAllLabels();
             userSignedUp = false;
-        }
-    }
-
-    @FXML
-    public void handleLanguageComboBoxClicked(MouseEvent mouseEvent) {
-        initializeLanguageComboBox();
-    }
-
-    /**
-     * Initializes the language combo box : retrieves all available languages and present them as choices in the
-     * combo box.
-     * Note : this method is only ran if <code>languageComboBoxInitialized</code> is false. When ran, it turns this
-     * variable to true, which allows it to only be run once, namely when we first click the combo box.
-     */
-    public void initializeLanguageComboBox() {
-        if (!languageComboBoxInitialized) {
-            ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
-            // TODO : back-end : fetch all available languages and put them in the list
-            languageComboBox.setItems(values);
-            languageComboBoxInitialized = true;
         }
     }
 

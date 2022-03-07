@@ -21,7 +21,13 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     @FXML
     public ComboBox<String> SWIFTComboBox;
 
-    private boolean SWIFTComboBoxInitialized = false, requestSent = false;
+    private boolean requestSent = false;
+
+    public void initialize() {
+        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("AAAABEBB000", "HHHHBEBB999"));
+        // TODO : back-end : fetch all available SWIFT codes and put them in the list
+        SWIFTComboBox.setItems(values);
+    }
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -31,7 +37,6 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
-        SWIFTComboBoxInitialized = false; // So we can reload the content next time we open this scene
         if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false); // This can be done everytime
         if (requestSent) {
             // If the request was sent, reset the form
@@ -51,25 +56,5 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
             requestSentLabel.setVisible(true);
             requestSent = true;
         } else if (!noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(true);
-    }
-
-    /**
-     * Initializes the SWIFT combo box : retrieves all available SWIFT codes and present them as choices in the
-     * combo box.
-     * Note : this method is only ran if <code>SWIFTComboBoxInitialized</code> is false. When ran, it turns this
-     * variable to true, which allows it to only be run once, namely when we first click the combo box.
-     */
-    public void initializeLanguageComboBox() {
-        if (!SWIFTComboBoxInitialized) {
-            ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("AAAABEBB000", "HHHHBEBB999"));
-            // TODO : back-end : fetch all available SWIFT codes and put them in the list
-            SWIFTComboBox.setItems(values);
-            SWIFTComboBoxInitialized = true;
-        }
-    }
-
-    @FXML
-    public void handleSWIFTComboBoxMouseClicked(MouseEvent event) {
-        initializeLanguageComboBox();
     }
 }

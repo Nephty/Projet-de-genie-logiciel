@@ -34,8 +34,7 @@
                                prefHeight="36.0" prefWidth="200.0"
                                style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                                text="Select Portfolio : "/>
-                        <ComboBox fx:id="portfolioComboBox" layoutX="649.0" layoutY="254.0"
-                                  onMouseClicked="#handlePortfolioComboBoxMouseClicked" prefHeight="36.0"
+                        <ComboBox fx:id="portfolioComboBox" layoutX="649.0" layoutY="254.0" prefHeight="36.0"
                                   prefWidth="200.0" promptText="Portfolio..."
                                   style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                             <effect>

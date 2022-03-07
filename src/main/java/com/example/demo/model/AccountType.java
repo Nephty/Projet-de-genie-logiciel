@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name="account_type")
 public class AccountType {
     @Column(name="Account_type_id") @Id
-    private String accountTypeId;
+    private int accountTypeId;
     @Column(name="account_type_name")
     private String accountTypeName;
     @Column(name="annual_return")
@@ -25,4 +25,5 @@ public class AccountType {
     private double ageRestriction;
     @Column(name="transaction_amount_limit")
     private int transactionAmountLimit;
+
 }

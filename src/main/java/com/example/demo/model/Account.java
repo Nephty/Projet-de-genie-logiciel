@@ -16,14 +16,19 @@ public class Account {
     @Column
     @Id
     private String iban;
-    @Column
-    private String swift;
 
-    @Column(name="userID")
-    private String userId;
+    @ManyToOne(targetEntity = Bank.class)
+    @JoinColumn(name="swift")
+    private Bank swift;
 
-    @Column(name = "account_type_id")
-    private int accountTypeId;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name="userID")
+    private User userId;
+
+    @ManyToOne(targetEntity = AccountType.class)
+    @JoinColumn(name="account_type_id")
+    private AccountType accountTypeId;
+
     @Column
     private boolean payment;
 }

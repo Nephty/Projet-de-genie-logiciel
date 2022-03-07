@@ -24,8 +24,4 @@ public class Bank {
     private String address;
     @Column
     private String country;
-
-    @ManyToOne
-    @JoinColumn(name= "default_currency_type", foreignKey = @ForeignKey(name = "fk_currencyType"))
-    private CurrencyType default_currencyType;
 }

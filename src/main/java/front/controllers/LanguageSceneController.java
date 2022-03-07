@@ -1,6 +1,6 @@
 package front.controllers;
 
-import front.Main;
+import BenkyngApp.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
@@ -8,13 +8,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
-public class LanguageSceneController implements BackButtonNavigator {
+public class LanguageSceneController extends Controller implements BackButtonNavigator {
 
     @FXML
     Button backButton, addButton, setButton;
     @FXML
     Label chooseLanguageLabel;
 
+    public void initialize() {
+        // TODO : back-end : fetch languages
+    }
+
+    @FXML
     public void handleBackButtonClicked(MouseEvent mouseEvent) {
         handleBackButtonNavigation(mouseEvent);
     }
@@ -24,6 +29,7 @@ public class LanguageSceneController implements BackButtonNavigator {
         Main.setScene(Flow.back());
     }
 
+    @FXML
     public void handleAddButtonClicked(MouseEvent mouseEvent) {
     }
 }

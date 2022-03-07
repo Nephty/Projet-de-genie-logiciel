@@ -1,6 +1,6 @@
 package front.controllers;
 
-import front.Main;
+import BenkyngApp.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.LanguageButtonNavigator;
 import front.scenes.Scenes;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AuthSceneController implements LanguageButtonNavigator {
+public class AuthSceneController extends Controller implements LanguageButtonNavigator {
     @FXML
     Button languageButton, signInButton, signUpButton;
 

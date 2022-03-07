@@ -1,6 +1,6 @@
 package front.controllers;
 
-import front.Main;
+import BenkyngApp.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.Arrays;
 
-public class SignUpSceneController implements BackButtonNavigator, LanguageButtonNavigator {
+public class SignUpSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
     Label NRNTakenLabel, emailTakenLabel, usernameTakenLabel, passwordDoesNotMatchLabel, languageNotChosenLabel,
         invalidLastNameLabel, invalidFirstNameLabel, invalidEmailLabel, invalidNRNLabel, invalidUsernameLabel;
@@ -26,18 +26,27 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
     @FXML
     PasswordField passwordField, confirmPasswordField;
     @FXML
-    Label favoriteLanguageLabel;
+    Label favoriteLanguageLabel, signedUpLabel;
     @FXML
     ComboBox<String> languageComboBox;
     @FXML
     CheckBox checkBox;
 
-    private boolean languageComboBoxInitialized = false;
+    private boolean userSignedUp = false;
 
-    public void handleBackButtonClicked(MouseEvent event) {
-        handleBackButtonNavigation(event);
+    public void initialize() {
+        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
+        // TODO : back-end : fetch all available languages and put them in the list
+        languageComboBox.setItems(values);
     }
 
+    @FXML
+    public void handleBackButtonClicked(MouseEvent event) {
+        handleBackButtonNavigation(event);
+        hideAllLabels();
+    }
+
+    @FXML
     public void handleLanguageButtonClicked(MouseEvent event) {
         handleLanguageButtonNavigation(event);
     }
@@ -45,36 +54,40 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+        if (userSignedUp) {
+            // if the user signed up, clear the form
+            // if he didn't sign up, we're saving the inputs
+            languageComboBox.setValue(null);
+            signedUpLabel.setVisible(false);
+            emptyAllTextFields();
+            hideAllLabels();
+            userSignedUp = false;
+        }
     }
 
     @Override
     public void handleLanguageButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.LanguageScene));
-    }
-
-    public void handleLanguageComboBoxClicked(MouseEvent mouseEvent) {
-        initializeLanguageComboBox();
-    }
-
-    /**
-     * Initializes the language combo box : retrieves all available languages and present them as choices in the
-     * combo box.
-     * Note : this method is only ran if <code>languageComboBoxInitialized</code> is false. When ran, it turns this
-     * variable to true, which allows it to only be run once, namely when we first click the combo box.
-     */
-    public void initializeLanguageComboBox() {
-        if (!languageComboBoxInitialized) {
-            ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
-            languageComboBox.setItems(values);
-            languageComboBoxInitialized = true;
+        if (userSignedUp) {
+            // if the user signed up, clear the form
+            // if he didn't sign up, we're saving the inputs
+            languageComboBox.setValue(null);
+            signedUpLabel.setVisible(false);
+            emptyAllTextFields();
+            hideAllLabels();
+            userSignedUp = false;
         }
     }
 
-    /**
-     * Checks if every field is properly filled in whenever we click on the sign in button.
-     * @param mouseEvent - <code>MouseEvent</code> - The mouse event that triggered the method
-     */
+    @FXML
     public void handleSignUpButtonClicked(MouseEvent mouseEvent) {
+        signUp();
+    }
+
+    /**
+     * Checks if every field is properly filled in. Initializes the sign up process.
+     */
+    public void signUp() {
         String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
                 NRN = NRNField.getText(), username = usernameField.getText(), password = passwordField.getText(),
                 passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
@@ -114,8 +127,8 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
         else if (!isNRNTaken(NRN) && NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(false);
 
         // Manage the "password does not match" label visibility
-        if (!passwordMatches(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(true);
-        else if (passwordMatches(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(false);
+        if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(true);
+        else if (passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(false);
 
         if (chosenLanguage == null && !languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(true);
         else if (chosenLanguage != null && languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(false);
@@ -124,7 +137,13 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
         // No label is visible implies that every field is properly filled in
         if (noLabelVisible()) {
             // Then we can create a new user
-            // TODO : back-end user creation implementation
+            // TODO : back-end : user creation implementation
+            userSignedUp = true;
+            signedUpLabel.setVisible(true);
+            // Empty all data that we don't need, it's a security detail
+            lastName = ""; firstName = ""; email = ""; NRN = ""; username = ""; password = "";
+            passwordConfirmation = ""; chosenLanguage = "";
+
         }
     }
 
@@ -150,7 +169,8 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      * @return <code>boolean</code> - whether the given last name is a valid last name or not
      */
     public static boolean isValidLastName(String lastName) {
-        return (!lastName.equals("") && (lastName != null) && (lastName.matches("^[a-zA-Z-]*$")));
+        if (lastName == null) return false;
+        return (!lastName.equals("") && (lastName.matches("^[a-zA-Z-]*$")));
     }
 
     /**
@@ -179,7 +199,8 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      * @return <code>boolean</code> - whether the given email is a valid email or not
      */
     public static boolean isValidEmail(String email) {
-        if (email.equals("") || email == null || !email.matches("^[a-zA-Z0-9@.]*$")) return false;
+        if (email == null) return false;
+        if (email.equals("") || !email.matches("^[a-zA-Z0-9@.]*$")) return false;
         boolean hasOneAt = false;  // if the string contains at least one @
         boolean hasOneDotAfterAt = false;  // if the string contains at least one . after the first @
         boolean hasOneCharBeforeAt = false; // if the string contains at least one character before the first @
@@ -202,7 +223,8 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      * @return <code>boolean</code> whether the given NRN is a valid NRN or not
      */
     public static boolean isValidNRN(String NRN) {
-        if (NRN.equals("") || NRN == null || NRN.length() != 15) return false;
+        if (NRN == null) return false;
+        if (NRN.length() != 15) return false;  // NRN.length() == 15 already checks NRN != ""
         for (int i = 0; i < 15; i++) {
             switch (i) {
                 case 0:
@@ -242,7 +264,8 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      * @return whether the given username is a valid username or not
      */
     public static boolean isValidUsername(String username) {
-        if (username.equals("") || username == null || username.length() > 32) return false;
+        if (username == null) return false;
+        if (username.equals("") || username.length() > 32) return false;
         return username.matches("^[a-zA-Z0-9]*$");
     }
 
@@ -252,7 +275,7 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      * @return <code>boolean</code> - whether the given username is already take or not
      */
     private boolean isUsernameTaken(String username) {
-        // TODO : back-end implementation
+        // TODO : back-end : implement this method
         return false;
     }
 
@@ -262,7 +285,7 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      * @return <code>boolean</code> - whether the given email is already take or not
      */
     private boolean isEmailTaken(String email) {
-        // TODO : back-end implementation
+        // TODO : back-end : implement this method
         return false;
     }
 
@@ -272,53 +295,80 @@ public class SignUpSceneController implements BackButtonNavigator, LanguageButto
      * @return <code>boolean</code> - whether the given NRN is already take or not
      */
     private boolean isNRNTaken(String NRN) {
-        // TODO : back-end implementation
+        // TODO : back-end : implement this method
         return false;
     }
 
-    /**
-     * Checks if the given passwords match and are not empty.
-     * @param password - <code>String</code> - the password
-     * @param passwordConfirmation - <code>String</code> - the password confirmation
-     * @return <code>boolean</code> - whether the two passwords match or not
-     */
-    private boolean passwordMatches(String password, String passwordConfirmation) {
-        return password.equals(passwordConfirmation) && !password.equals("");
-    }
-
+    @FXML
     public void handleFirstNameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
+    @FXML
     public void handleLastNameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
+    @FXML
     public void handleNRNFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
+    @FXML
     public void handleEmailFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
+    @FXML
     public void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
+    @FXML
     public void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
+    @FXML
     public void handleConfirmPasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
+    @FXML
     public void handleLanguageComboBoxKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignUp();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
-    public void triggerSignUp() {
+    public void emulateSignUpButtonClicked() {
         handleSignUpButtonClicked(null);
+    }
+
+    /**
+     * Hides all indicator labels (labels that tell the user if something is wrong with their input).
+     */
+    public void hideAllLabels() {
+        NRNTakenLabel.setVisible(false);
+        emailTakenLabel.setVisible(false);
+        usernameTakenLabel.setVisible(false);
+        passwordDoesNotMatchLabel.setVisible(false);
+        languageNotChosenLabel.setVisible(false);
+        invalidLastNameLabel.setVisible(false);
+        invalidFirstNameLabel.setVisible(false);
+        invalidEmailLabel.setVisible(false);
+        invalidNRNLabel.setVisible(false);
+        invalidUsernameLabel.setVisible(false);
+    }
+
+    /**
+     * Removes all text entered in all text fields.
+     */
+    public void emptyAllTextFields() {
+        firstNameField.setText("");
+        lastNameField.setText("");
+        NRNField.setText("");
+        emailAddressField.setText("");
+        usernameField.setText("");
+        passwordField.setText("");
+        confirmPasswordField.setText("");
     }
 }

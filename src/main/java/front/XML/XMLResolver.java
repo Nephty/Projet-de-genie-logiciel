@@ -21,7 +21,8 @@ public class XMLResolver {
 
     /**
      * Reads the XML file corresponding to the given filename and fills in the content variable using the content
-     * of the XML file.
+     * of the XML file. WARNING : this uses System.getProperty("user.dir") + "/src/main/resources/xml/" + filename
+     * This could potentially lead to path error, and there probably is a better way around.
      * @param filename - <code>String</code> - the name of the XML file
      * @throws IOException if the file cannot be found
      */

@@ -1,6 +1,6 @@
 package front.controllers;
 
-import front.Main;
+import BenkyngApp.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
@@ -14,8 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public class SignInSceneController implements BackButtonNavigator, LanguageButtonNavigator {
-
+public class SignInSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
     Button languageButton, backButton, signInButton;
     @FXML
@@ -25,15 +24,24 @@ public class SignInSceneController implements BackButtonNavigator, LanguageButto
     @FXML
     Label incorrectUsernameOrPasswordLabel;
 
-    String username = "admin", password = "sudo letmein";  // TODO : back-end : get the username and the password from the database in these variables
+    String username = "", password = "";
 
     @FXML
     public void handleLanguageButtonClicked(MouseEvent event) {
         handleLanguageButtonNavigation(event);
+        hideAllLabels();
     }
 
     @FXML
     public void handleSignInButtonClicked(MouseEvent event) {
+        signIn();
+    }
+
+    /**
+     * Checks if every field is properly filled in. Initializes the sign in process.
+     */
+    public void signIn() {
+        // TODO : back-end : change this condition to check if the user entered correct credentials
         if (usernameField.getText().equals(username) && passwordField.getText().equals(password)) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
             passwordField.setText("");
@@ -47,6 +55,7 @@ public class SignInSceneController implements BackButtonNavigator, LanguageButto
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
+        hideAllLabels();
     }
 
     @Override
@@ -59,15 +68,21 @@ public class SignInSceneController implements BackButtonNavigator, LanguageButto
         Main.setScene(Flow.forward(Scenes.LanguageScene));
     }
 
+    @FXML
     public void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignIn();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignInButtonClicked();
     }
 
+    @FXML
     public void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerSignIn();
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignInButtonClicked();
     }
 
-    public void triggerSignIn() {
+    public void emulateSignInButtonClicked() {
         handleSignInButtonClicked(null);
+    }
+
+    public void hideAllLabels() {
+        incorrectUsernameOrPasswordLabel.setVisible(false);
     }
 }

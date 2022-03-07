@@ -12,7 +12,6 @@ import javafx.util.Duration;
  * Note : never use this class on its own. Follow the previous how-to-use steps.
  */
 public class FadeOutTransition {
-    private static FadeTransition FT;
 
     /**
      * Starts a fade out transition on the given <code>Node</code> and for the given <code>Duration</code>, during which
@@ -21,7 +20,7 @@ public class FadeOutTransition {
      * @param duration the duration of the transition
      */
     public static void playFromStartOn(Node node, Duration duration) {
-        FT = new FadeTransition(duration, node);
+        FadeTransition FT = new FadeTransition(duration, node);
         FT.setToValue(0);
         FT.setCycleCount(1);
         FT.setAutoReverse(false);

@@ -17,7 +17,7 @@ public class BankCustomers {
     //Is this table really useful ??
     @Column(name="banks_swift")
     @Id
-    private String bankSwift;
+    private String banksSwift;
 
     @Column(name="customer_id")
     @Id

@@ -19,8 +19,8 @@ public class Account {
     @Column
     private String swift;
 
-    @ManyToOne
-    private User user;
+    @Column(name="userID")
+    private String userId;
 
     @Column(name = "account_type_id")
     private int accountTypeId;

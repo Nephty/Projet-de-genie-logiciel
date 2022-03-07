@@ -1,25 +1,24 @@
 package com.example.demo.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.example.demo.model.CompositePK.AccountAccessPK;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "account_access")
-//@Table("account_access")
+@ToString
+@Entity
+@IdClass(AccountAccessPK.class)
+@Table(name="account_access")
 public class AccountAccess {
-    @Id @Column
+    @Id
+    @Column(name = "account_id")
     private String accountId;
-    @Column
+    @Id
+    @Column(name = "user_id")
     private String userId;
     @Column
     private boolean access;

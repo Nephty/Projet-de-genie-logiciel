@@ -1,11 +1,9 @@
 package com.example.demo.model;
 
+import com.example.demo.model.CompositePK.SubAccountPK;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -13,6 +11,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@IdClass(SubAccountPK.class)
 @Table(name="sub_account")
 public class SubAccount {
 

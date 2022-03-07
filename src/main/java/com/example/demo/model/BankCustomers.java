@@ -1,11 +1,9 @@
 package com.example.demo.model;
 
+import com.example.demo.model.CompositePK.BanksCustomersPK;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -13,12 +11,15 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@IdClass(BanksCustomersPK.class)
 @Table(name="banks_customers")
 public class BankCustomers {
-    @Column(name="banks_swift") @Id
+    //Is this table really useful ??
+    @Column(name="banks_swift")
+    @Id
     private String bankSwift;
 
     @Column(name="customer_id")
+    @Id
     private String customerId;
-    // TODO multiple primary keys
 }

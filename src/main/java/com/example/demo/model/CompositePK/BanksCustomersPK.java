@@ -21,7 +21,7 @@ public class BanksCustomersPK implements Serializable {
      more info : https://www.baeldung.com/jpa-composite-primary-keys
      */
     private String banksSwift;
-    private int customerId;
+    private String customerId;
 
     @Override
     public int hashCode(){

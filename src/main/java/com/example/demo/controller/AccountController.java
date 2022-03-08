@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.exception.throwables.AuthenticationException;
-import com.example.demo.exception.throwables.UnimplementedException;
+
+import com.example.demo.json.AccountJson;
 import com.example.demo.model.Account;
 import com.example.demo.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,8 @@ public class AccountController {
     }
 
     @PostMapping
-    public void createAccount(@RequestBody Account account){
+    public void createAccount(@RequestBody AccountJson accountJson){
+        Account account = new Account();
         accountService.addAccount(account);
     }
 
@@ -29,3 +30,5 @@ public class AccountController {
         accountService.deleteAccount(iban);
     }
 }
+
+

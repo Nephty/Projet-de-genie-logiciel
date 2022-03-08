@@ -1,30 +1,27 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.throwables.UnimplementedException;
-import com.example.demo.model.Account;
 import com.example.demo.model.AccountAccess;
-import com.example.demo.model.User;
+import com.example.demo.service.AccountAccessService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RequestMapping("/api/account-access")
 @RestController
 public class AccountAccessController {
+    private final AccountAccessService accountAccessService;
 
     @PostMapping
     public void addAccess(@RequestBody AccountAccess accountAccess) {
-        throw new UnimplementedException();
+        accountAccessService.createAccountAccess(accountAccess);
     }
     @PutMapping
     public void changeAccess(@RequestBody AccountAccess accountAccess) {
-        throw new UnimplementedException();
+        accountAccessService.createAccountAccess(accountAccess);
     }
     @DeleteMapping
-    public AccountAccess deleteAccess(@RequestParam String accountId, @RequestParam String userId) {
-        return new AccountAccess(
-                new Account(),
-                new User(),
-                true,
-                true
-        );
+    public void deleteAccess(@RequestParam String accountId, @RequestParam String userId) {
+        accountAccessService.deleteAccountAccess(accountId, userId);
     }
 }

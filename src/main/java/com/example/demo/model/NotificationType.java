@@ -18,6 +18,6 @@ public class NotificationType {
 
     @Column(name="notification_type_id") @Id
     private int notificationTypeId;
-    @Column(name="notification_type_name")
+    @Column(name="notification_type_name",unique=true)
     private String notificationTypeName;
 }

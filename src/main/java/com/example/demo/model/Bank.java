@@ -24,4 +24,13 @@ public class Bank {
     private String address;
     @Column
     private String country;
+
+    @ManyToOne(targetEntity = CurrencyType.class)
+    @JoinColumn(name="default_currency_type")
+    private Integer defaultCurrencyType;
+
+
+    //Test
+
+
 }

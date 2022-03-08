@@ -3,10 +3,7 @@ package com.example.demo.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Getter
@@ -22,14 +19,13 @@ public class TransactionLog {
     @Id
     private int transactionId;
 
-    @Column(name="transaction_type_id")
-    private int transactionTypeId;
-    // TODO foreign key
+    @ManyToOne(targetEntity = TransactionType.class)
+    @JoinColumn(name="transaction_type_id")
+    private Integer transactionTypeId; //TODO Integer or TransactionType ??
 
     @Column(name="transaction_date")
     private Date transaction_date;
 
-    @Column
     private String iban;
     // TODO foreign key
 

@@ -24,9 +24,9 @@ public class SubAccount {
     @Id
     @ManyToOne(targetEntity = CurrencyType.class)
     @JoinColumn(name="currency_type_id")
-    private int currencyTypeId;
+    private CurrencyType currencyTypeId;
 
     @Column(name="current_balance")
-    private double currentBalance;
+    private Double currentBalance;
 
 }

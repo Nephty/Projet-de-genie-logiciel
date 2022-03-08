@@ -15,11 +15,13 @@ import javax.persistence.*;
 @Table(name="account_access")
 public class AccountAccess {
     @Id
-    @ManyToOne
+    @ManyToOne(targetEntity = Account.class)
+    @JoinColumn(name="account_id")
     private Account accountId;
 
     @Id
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name="user_id")
     private User userId;
 
     @Column

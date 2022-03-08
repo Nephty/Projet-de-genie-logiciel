@@ -14,8 +14,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 public class User {
-    @Column @Id
-    private String nrn;
+    @Column(name="nrn")
+    @Id
+    private String userID;
     @Column
     private String username;
     @Column

@@ -2,10 +2,9 @@ package com.example.demo.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Date;
+import java.text.DateFormat;
 
 @Getter
 @Setter
@@ -17,12 +16,15 @@ import javax.persistence.Table;
 public class Notification {
     @Column(name="notification_id") @Id
     private String notificationId;
-    @Column(name="notification_type")
-    private String notificationType;
+
+    @ManyToOne(targetEntity = NotificationType.class)
+    @JoinColumn(name="notification_type")
+    private NotificationType notificationType;
+
     @Column
     private String comments;
     @Column
-    private String date;
+    private Date date;
     @Column
     private String status;
 }

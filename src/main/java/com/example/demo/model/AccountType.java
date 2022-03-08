@@ -22,7 +22,7 @@ public class AccountType {
     @Column(name="annual_return")
     private double annualReturn;
     @Column(name="age_restriction")
-    private double ageRestriction;
+    private Integer ageRestriction;
     @Column(name="transaction_amount_limit")
     private int transactionAmountLimit;
 

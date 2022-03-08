@@ -17,8 +17,11 @@ public class Notification {
     @Column(name="notification_id") @Id
     private String notificationId;
 
-    @ManyToOne(targetEntity = NotificationType.class)
-    @JoinColumn(name="notification_type")
+    @ManyToOne
+    @JoinColumn(
+            name="notification_type",
+            referencedColumnName = "notification_type_id"
+    )
     private NotificationType notificationType;
 
     @Column

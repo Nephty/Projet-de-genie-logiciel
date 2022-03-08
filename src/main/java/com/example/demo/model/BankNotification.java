@@ -2,10 +2,7 @@ package com.example.demo.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -16,11 +13,26 @@ import javax.persistence.Table;
 @Table(name = "banks_notification")
 public class BankNotification {
 
-    @Column(name="notification_id") @Id
-    private String notificationId;
-    @Column(name="receiver_id")
-    private String receiverId;
-    @Column(name="sender_id")
-    private String senderId;
+    @Id
+    @OneToOne
+    @JoinColumn(
+            name = "notification_id",
+            referencedColumnName = "notification_id"
+    )
+    private Notification notificationId;
+
+    @ManyToOne
+    @JoinColumn(
+            name="receiver_id",
+            referencedColumnName = "swift"
+    )
+    private Bank receiverId;
+
+    @ManyToOne
+    @JoinColumn(
+            name="sender_id",
+            referencedColumnName = "nrn"
+    )
+    private User senderId;
 
 }

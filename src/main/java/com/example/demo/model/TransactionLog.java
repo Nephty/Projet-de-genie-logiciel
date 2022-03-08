@@ -19,15 +19,30 @@ public class TransactionLog {
     @Id
     private int transactionId;
 
-    @ManyToOne(targetEntity = TransactionType.class)
-    @JoinColumn(name="transaction_type_id")
-    private Integer transactionTypeId; //TODO Integer or TransactionType ??
+    @ManyToOne
+    @JoinColumn(
+            name="transaction_type_id",
+            referencedColumnName = "transaction_type_id"
+    )
+    private TransactionType transactionTypeId;
 
     @Column(name="transaction_date")
     private Date transaction_date;
 
+    /*
+    @ManyToMany
+    @JoinColumn(
+            name = "iban",
+            referencedColumnName = "iban"
+    )
+    private Account iban;
+    */
+
+    
+    @Column
     private String iban;
-    // TODO foreign key
+    // TODO : WHY NOT WORKING
+
 
     @Column(name="Recipient_iban")
     private String recipientIban;

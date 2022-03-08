@@ -26,11 +26,10 @@ public class Bank {
     private String country;
 
     @ManyToOne(targetEntity = CurrencyType.class)
-    @JoinColumn(name="default_currency_type")
-    private Integer defaultCurrencyType;
-
-
-    //Test
-
+    @JoinColumn(
+            name="default_currency_type",
+            referencedColumnName = "currency_type_id"
+    )
+    private CurrencyType defaultCurrencyType;
 
 }

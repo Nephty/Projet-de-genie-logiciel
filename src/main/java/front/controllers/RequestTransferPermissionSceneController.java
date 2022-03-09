@@ -1,8 +1,6 @@
 package front.controllers;
 
 import BenkyngApp.Main;
-import front.animation.FadeInTransition;
-import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
@@ -12,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
 import java.util.Arrays;
 
@@ -44,6 +41,8 @@ public class RequestTransferPermissionSceneController extends Controller impleme
         handleBackButtonNavigation(event);
         if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false); // This can be done everytime
         if (requestSent) {
+            // If the request was sent, reset the form
+            if (requestSentLabel.isVisible()) requestSentLabel.setVisible(false);
             portfolioComboBox.setValue(portfolioComboBox.getPromptText()); // TODO : this is not showing the prompt text
             requestSent = false;
         }
@@ -56,13 +55,7 @@ public class RequestTransferPermissionSceneController extends Controller impleme
 
             // TODO : back-end : send request to database
 
-            int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
-            int sleepDuration = 3000;
-            FadeOutThread sleepAndFadeOutRequestSentLabelFadeThread;
-            FadeInTransition.playFromStartOn(requestSentLabel, Duration.millis(fadeInDuration));
-            sleepAndFadeOutRequestSentLabelFadeThread = new FadeOutThread();
-            sleepAndFadeOutRequestSentLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, requestSentLabel);
+            requestSentLabel.setVisible(true);
             requestSent = true;
         } else if (!noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(true);
     }

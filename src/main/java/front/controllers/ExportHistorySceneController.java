@@ -27,6 +27,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
         exportLocationLabel.setText("Export location not set.");
         if (exportDone) {
             if (noPathSelectedLabel.isVisible()) noPathSelectedLabel.setVisible(false);
+            exportSuccessfulLabel.setVisible(false);
         }
     }
 
@@ -41,7 +42,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
         // TODO : back-end : 1. If the user selected a path and the noPathSelectedLabel is visible, hide it
         //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
         //                   3. If the user selected a path and the noPathSelectedLabel is no visible, export to JSON at the selected path
-        //                   4. After the export is done, set exportDone to true and fade in and out exportSuccessfulLabel
+        //                   4. After the export is done, set exportDone to true and set exportSuccessfulLabel visibility to true
     }
 
     @FXML

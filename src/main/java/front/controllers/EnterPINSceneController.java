@@ -1,8 +1,6 @@
 package front.controllers;
 
 import BenkyngApp.Main;
-import front.animation.FadeInTransition;
-import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
@@ -11,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
 public class EnterPINSceneController extends Controller implements BackButtonNavigator {
     @FXML
@@ -48,19 +45,14 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
                 boolean PINCorrect = checkPINIsCorrect(PINField.getText());
                 incorrectPINLabel.setVisible(!PINCorrect);
                 if (PINCorrect) {
-                    int fadeInDuration = 1000;
-                    int fadeOutDuration = fadeInDuration;
-                    int sleepDuration = 3000;
-                    FadeOutThread sleepAndFadeOutCorrectPINLabelFadeThread;
-                    FadeInTransition.playFromStartOn(correctPINLabel, Duration.millis(fadeInDuration));
-                    sleepAndFadeOutCorrectPINLabelFadeThread = new FadeOutThread();
-                    sleepAndFadeOutCorrectPINLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, correctPINLabel);
+                    correctPINLabel.setVisible(true);
                     // TODO : this makes the thread sleep before we get to see the label
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ignored) {
                     }
                     emulateBackButtonMouseClicked();
+                    correctPINLabel.setVisible(false);
                     tooManyAttemptsLabel.setVisible(false);
                     PINField.setText("");
                     TransferSceneController.executeTransfer();

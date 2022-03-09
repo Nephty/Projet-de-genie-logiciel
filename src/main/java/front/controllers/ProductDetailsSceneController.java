@@ -59,7 +59,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     @FXML
     public void handleTransferButtonClicked(MouseEvent event) {
         if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
-            if (accountsListView.getSelectionModel().getSelectedItem().isActive()) {
+            if (accountsListView.getSelectionModel().getSelectedItem().isActivated()) {
                 Main.setScene(Flow.forward(Scenes.TransferScene));
                 accountInactiveLabel.setVisible(false);
                 // TODO : pass the account to the transfer scene
@@ -111,7 +111,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             int sleepDuration = 1000;
 
             // Toggle on or off the product
-            if (account.isActive()) {
+            if (account.isActivated()) {
                 FadeOutThread sleepAndFadeOutProductToggledOffLabelFadeThread;
                 FadeInTransition.playFromStartOn(toggledOffProductLabel, Duration.millis(fadeInDuration));
                 sleepAndFadeOutProductToggledOffLabelFadeThread = new FadeOutThread();

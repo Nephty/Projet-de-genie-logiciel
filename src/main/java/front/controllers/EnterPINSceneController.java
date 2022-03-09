@@ -45,6 +45,13 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
                 boolean PINCorrect = checkPINIsCorrect(PINField.getText());
                 incorrectPINLabel.setVisible(!PINCorrect);
                 if (PINCorrect) {
+                    int fadeInDuration = 1000;
+                    int fadeOutDuration = fadeInDuration;
+                    int sleepDuration = 3000;
+                    FadeOutThread sleepAndFadeOutCorrectPINLabelFadeThread;
+                    FadeInTransition.playFromStartOn(correctPINLabel, Duration.millis(fadeInDuration));
+                    sleepAndFadeOutCorrectPINLabelFadeThread = new FadeOutThread();
+                    sleepAndFadeOutCorrectPINLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, correctPINLabel);
                     correctPINLabel.setVisible(true);
                     // TODO : this makes the thread sleep before we get to see the label
                     try {

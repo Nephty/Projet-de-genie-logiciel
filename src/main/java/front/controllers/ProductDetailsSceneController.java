@@ -117,7 +117,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 sleepAndFadeOutProductToggledOffLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, toggledOffProductLabel);
 
                 account.toggleOff();
-                // TODO : BACK-END : implement above method
             } else {
                 FadeOutThread sleepAndFadeOutProductToggledOnLabelFadeThread;
                 FadeInTransition.playFromStartOn(toggledOnProductLabel, Duration.millis(fadeInDuration));
@@ -125,7 +124,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 sleepAndFadeOutProductToggledOnLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, toggledOnProductLabel);
 
                 account.toggleOn();
-                // TODO : BACK-END : implement above method
             }
         }
     }

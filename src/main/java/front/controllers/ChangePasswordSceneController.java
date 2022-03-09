@@ -2,6 +2,8 @@ package front.controllers;
 
 import BenkyngApp.Main;
 import back.user.Hasher;
+import front.animation.FadeInTransition;
+import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
@@ -13,6 +15,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 
 public class ChangePasswordSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
@@ -35,7 +38,6 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (passwordChanged) {
-            passwordChangedLabel.setVisible(false);
             currentPasswordField.setText("");
             newPasswordField.setText("");
             confirmNewPasswordField.setText("");
@@ -85,7 +87,14 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         // If no label is visible, then the inputs are correct
         if (!incorrectCurrentPasswordLabel.isVisible() && !passwordDoesNotMatchLabel.isVisible()) {
             // TODO : back-end : change the password in the database
-            passwordChangedLabel.setVisible(true);
+
+            int fadeInDuration = 1000;
+            int fadeOutDuration = fadeInDuration;
+            int sleepDuration = 3000;
+            FadeOutThread sleepAndFadeOutPasswordChangedLabelFadeThread;
+            FadeInTransition.playFromStartOn(passwordChangedLabel, Duration.millis(fadeInDuration));
+            sleepAndFadeOutPasswordChangedLabelFadeThread = new FadeOutThread();
+            sleepAndFadeOutPasswordChangedLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, passwordChangedLabel);
             passwordChanged = true;
         }
     }

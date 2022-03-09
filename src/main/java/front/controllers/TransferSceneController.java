@@ -55,15 +55,13 @@ public class TransferSceneController extends Controller implements BackButtonNav
         else if (isValidDate(date) && invalidDateLabel.isVisible()) invalidDateLabel.setVisible(false);
 
         if (noLabelVisible()) {
-            // TODO : navigate to the PIN scene with the data
             Main.setScene(Flow.forward(Scenes.EnterPINScene));
-            //transferExecutedLabel.setVisible(true);
         }
     }
 
     public static void executeTransfer() {
         System.out.println("transfer executed.");
-        // TODO : execute the given transfer (that method is ran only if the PIN is correct)
+        // TODO : execute the given transfer (that method is ran by the PIN scene only if the PIN is correct)
     }
 
     public boolean noLabelVisible() {

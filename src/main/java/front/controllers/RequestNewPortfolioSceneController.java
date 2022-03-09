@@ -1,6 +1,8 @@
 package front.controllers;
 
 import BenkyngApp.Main;
+import front.animation.FadeInTransition;
+import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
@@ -10,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 
 import java.util.Arrays;
 
@@ -39,8 +42,6 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
         handleBackButtonNavigation(event);
         if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false); // This can be done everytime
         if (requestSent) {
-            // If the request was sent, reset the form
-            if (requestSentLabel.isVisible()) requestSentLabel.setVisible(false);
             SWIFTComboBox.setValue(SWIFTComboBox.getPromptText()); // TODO : this is not showing the prompt text
             requestSent = false;
         }
@@ -53,7 +54,13 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
 
             // TODO : back-end : send request to database
 
-            requestSentLabel.setVisible(true);
+            int fadeInDuration = 1000;
+            int fadeOutDuration = fadeInDuration;
+            int sleepDuration = 3000;
+            FadeOutThread sleepAndFadeOutRequestSentLabelFadeThread;
+            FadeInTransition.playFromStartOn(requestSentLabel, Duration.millis(fadeInDuration));
+            sleepAndFadeOutRequestSentLabelFadeThread = new FadeOutThread();
+            sleepAndFadeOutRequestSentLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, requestSentLabel);
             requestSent = true;
         } else if (!noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(true);
     }

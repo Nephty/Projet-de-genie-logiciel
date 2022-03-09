@@ -16,8 +16,10 @@ import javax.persistence.Table;
 @Entity(name="currency_type")
 @Table(name = "currency_type")
 public class CurrencyType {
-    @Column @Id
-    private int currency_type_id;
+
+    @Column(name = "currency_type_id")
+    @Id
+    private int currencyId;
 
     @Column
     private String currency_type_name;

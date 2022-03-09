@@ -1,7 +1,11 @@
 package com.example.demo;
 
+import com.example.demo.model.CurrencyType;
 import com.example.demo.model.User;
+import com.example.demo.repository.CurrencyTypeRepo;
 import com.example.demo.service.UserService;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,26 +14,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.net.http.HttpResponse;
+
 @SpringBootApplication
 public class DemoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
+
 	}
 
 
-	CommandLineRunner run(UserService userService) {
+	//@Bean
+	CommandLineRunner run(CurrencyTypeRepo currencyTypeRepo) {
 		return args -> {
 			System.out.println("Runner be RUNNIIIIIIIING");
-			userService.addUser(new User(
-					"123456789",
-					"Satan",
-					"Morningstar",
-					"Lucifer",
-					"satan@hell.com",
-					"666HELL",
-					"FR"
-			));
+			currencyTypeRepo.findById(0);
 		};
 	}
 

@@ -14,6 +14,7 @@ import java.text.DateFormat;
 @Entity
 @Table(name="notification")
 public class Notification {
+    // TODO generate id auto (create new constructor without the id)
     @Column(name="notification_id") @Id
     private String notificationId;
 

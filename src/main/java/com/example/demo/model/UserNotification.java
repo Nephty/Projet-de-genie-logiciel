@@ -4,6 +4,7 @@ package com.example.demo.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -12,8 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name="user_notification")
-public class UserNotification {
-
+public class UserNotification implements Serializable {
     @Id
     @OneToOne
     @JoinColumn(
@@ -37,4 +37,13 @@ public class UserNotification {
     )
     private Bank senderId;
 
+    @Override
+    public int hashCode(){
+        return notificationId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        return notificationId.equals(obj);
+    }
 }

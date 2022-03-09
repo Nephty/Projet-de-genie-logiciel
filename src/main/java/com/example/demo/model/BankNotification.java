@@ -1,8 +1,11 @@
 package com.example.demo.model;
 
+import com.example.demo.model.CompositePK.BanksCustomersPK;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -11,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "banks_notification")
-public class BankNotification {
+public class BankNotification implements Serializable {
 
     @Id
     @OneToOne
@@ -35,4 +38,13 @@ public class BankNotification {
     )
     private User senderId;
 
+    @Override
+    public int hashCode(){
+        return notificationId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        return notificationId.equals(obj);
+    }
 }

@@ -20,8 +20,7 @@ public class AccountController {
     }
 
     @PostMapping
-    public void createAccount(@RequestBody AccountJson accountJson){
-        Account account = new Account();
+    public void createAccount(@RequestBody Account account){
         accountService.addAccount(account);
     }
 

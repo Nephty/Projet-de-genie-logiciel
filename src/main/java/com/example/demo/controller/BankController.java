@@ -16,22 +16,17 @@ public class BankController {
     private final BankService bankService;
 
     @PostMapping
-    public void addBank() {
-        //TODO post method
-        /*
-            Solution to the problem : maybe create the Bank class step by step
-            (fetching CurrencyType by id and add it in the Bank instance)
-        */
-        throw new UnimplementedException();
+    public void addBank(@RequestBody Bank bank) {
+       bankService.addBank(bank);
     }
     @DeleteMapping(value = "{swift}")
     public void deleteBank(@PathVariable String swift) {
-        throw new UnimplementedException();
+        bankService.deleteBank(swift);
     }
 
     @GetMapping(value = "{swift}")
     public Bank sendBank(@PathVariable String swift) {
-        return bankService.getBankBySwift(swift);
+        return bankService.getBank(swift);
     }
 
     @GetMapping
@@ -40,7 +35,7 @@ public class BankController {
     }
 
     @PutMapping
-    public void changeBank() {
-        throw new UnimplementedException();
+    public void changeBank(@RequestBody Bank bank) {
+        bankService.changeBank(bank);
     }
 }

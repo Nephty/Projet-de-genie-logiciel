@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 @RequiredArgsConstructor
 @Service @Transactional
 public class BankService {
@@ -26,5 +28,9 @@ public class BankService {
 
     public Bank getBank(String swift) {
         return bankRepo.getById(swift);
+    }
+
+    public ArrayList<Bank> getAllBanks() {
+         return new ArrayList<>(bankRepo.findAll());
     }
 }

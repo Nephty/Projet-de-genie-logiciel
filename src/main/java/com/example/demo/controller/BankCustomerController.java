@@ -1,26 +1,31 @@
 package com.example.demo.controller;
 
-import com.example.demo.exception.throwables.UnimplementedException;
-import com.example.demo.model.User;
+import com.example.demo.model.BankCustomers;
+import com.example.demo.service.BankCustomerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
+@RequiredArgsConstructor
 @RequestMapping(value = "/api/bank/customer")
 @RestController
 public class BankCustomerController {
+
+    private final BankCustomerService bankCustomerService;
+
     @PostMapping
-    public void addCustomer() {
-        throw new UnimplementedException();
+    public void addCustomer(@RequestParam String swift, @RequestParam String userId) {
+        bankCustomerService.addCustomer(swift, userId);
     }
 
     @GetMapping("{swift}")
-    public Collection<User> getCustomers(@PathVariable String swift) {
-        throw new UnimplementedException();
+    public ArrayList<BankCustomers> getCustomers(@PathVariable String swift) {
+        return bankCustomerService.getCustomers(swift);
     }
 
     @DeleteMapping
     public void deleteCustomer(@RequestParam String swift, @RequestParam("user-id") String userId) {
-        throw new UnimplementedException();
+        bankCustomerService.deleteCustomer(swift, userId);
     }
 }

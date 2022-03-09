@@ -15,6 +15,7 @@ import java.sql.Date;
 @Table(name="transaction_log")
 public class TransactionLog {
 
+    // TODO generate id auto (create new constructor without the id)
     @Column(name="transaction_id")
     @Id
     private int transactionId;
@@ -38,7 +39,7 @@ public class TransactionLog {
     private Account iban;
     */
 
-    
+
     @Column
     private String iban;
     // TODO : WHY NOT WORKING

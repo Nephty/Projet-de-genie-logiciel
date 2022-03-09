@@ -9,6 +9,10 @@ public class Request extends Communication{
         this.reason = reason;
     }
 
+    public void send(){
+        // TODO : Envoyer la requête à l'API
+    }
+
     public Reason getReason(){
         return this.reason;
     }

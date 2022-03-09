@@ -22,7 +22,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     public Button backButton, historyButton, fetchAccountButton, transferButton, toggleButton;
     @FXML
     public ListView<Account> accountsListView;
-    // TODO : back-end : implement account
+
     @FXML
     public Label lastUpdateTimeLabel, loadingAccountsLabel, togglingProductLabel, toggledOnProductLabel, toggledOffProductLabel, accountInactiveLabel;
 
@@ -76,7 +76,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
             toggleProduct(accountsListView.getSelectionModel().getSelectedItems().get(0));
             accountInactiveLabel.setVisible(false);
-            // TODO : back-end : toggle on or off the selected product
         }
     }
 
@@ -118,7 +117,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 sleepAndFadeOutProductToggledOffLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, toggledOffProductLabel);
 
                 account.toggleOff();
-                // BACK-END : implement above method
+                // TODO : BACK-END : implement above method
             } else {
                 FadeOutThread sleepAndFadeOutProductToggledOnLabelFadeThread;
                 FadeInTransition.playFromStartOn(toggledOnProductLabel, Duration.millis(fadeInDuration));
@@ -126,7 +125,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 sleepAndFadeOutProductToggledOnLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, toggledOnProductLabel);
 
                 account.toggleOn();
-                // BACK-END : implement above method
+                // TODO : BACK-END : implement above method
             }
         }
     }

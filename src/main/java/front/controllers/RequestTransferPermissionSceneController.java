@@ -1,6 +1,10 @@
 package front.controllers;
 
 import BenkyngApp.Main;
+import back.user.Bank;
+import back.user.Reason;
+import back.user.Request;
+import back.user.Wallet;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -14,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class RequestTransferPermissionSceneController extends Controller implements BackButtonNavigator {
@@ -28,9 +33,15 @@ public class RequestTransferPermissionSceneController extends Controller impleme
 
     private boolean requestSent = false;
 
+    private ObservableList<String> values;
+    private ArrayList<Wallet> wallets;
+
+
+    // TODO : Attention, il faut remplacer "Portfolio" par "Wallet". C'est une confusion de termes
+
     public void initialize() {
-        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("portfolio1", "portfolio2"));
-        // TODO : back-end : fetch all available portfolios and put them in the list
+        values = FXCollections.observableArrayList(Arrays.asList("portfolio1", "portfolio2"));
+        // TODO : back-end : fetch all available portfolios and put their name in the list
         portfolioComboBox.setItems(values);
     }
 
@@ -54,7 +65,19 @@ public class RequestTransferPermissionSceneController extends Controller impleme
         if (portfolioComboBox.getValue() != null) {
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
-            // TODO : back-end : send request to database
+            int a = 0;
+            // Create the request and send it
+            for(int i = 0 ; i < wallets.size(); i++){
+                if(wallets.get(i).getBank().getName() == portfolioComboBox.getValue()){
+                    a = i;
+                }
+            }
+            Request request = new Request(Main.getUser(), wallets.get(a).getBank(), Reason.NEW_PORTFOLIO);
+            request.send();
+
+            requestSent = true;
+
+
             int fadeInDuration = 1000;
             int fadeOutDuration = fadeInDuration;
             int sleepDuration = 3000;

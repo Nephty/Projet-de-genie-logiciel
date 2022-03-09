@@ -66,23 +66,22 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     public void handleChangePasswordButtonClicked(MouseEvent event) {
-        // TODO : back-end : retrieve current password from the database
-        // TODO : Change variable name
-       String currentPasswordHashFromDatabase = "yes", currentPassword = currentPasswordField.getText(),
-              currentPasswordHashFromUser = currentPassword,
-              newPassword = newPasswordField.getText(), newPasswordConfirmation = confirmNewPasswordField.getText(),
-              newPasswordHash = newPassword, newPasswordConfirmationHash = newPasswordConfirmation;
+        // TODO : back-end : Chercher le mot de passe actuel sur l'api
+        String currentPasswordFromDatabase = "yes";
+        String currentPasswordFromUser = currentPasswordField.getText();
+        String newPassword = newPasswordField.getText();
+        String newPasswordConfirmation = confirmNewPasswordField.getText();
 
 
-        // If the current password hash stored in the database doesn't match the hash of the input "current password"
-      if (!passwordMatchesAndIsNotEmpty(currentPasswordHashFromUser, currentPasswordHashFromDatabase) && !incorrectCurrentPasswordLabel.isVisible())
+        // If the current password stored in the database doesn't match the input "current password"
+      if (!passwordMatchesAndIsNotEmpty(currentPasswordFromUser, currentPasswordFromDatabase) && !incorrectCurrentPasswordLabel.isVisible())
            incorrectCurrentPasswordLabel.setVisible(true);
-     else if (passwordMatchesAndIsNotEmpty(currentPasswordHashFromUser, currentPasswordHashFromDatabase) && incorrectCurrentPasswordLabel.isVisible())
+     else if (passwordMatchesAndIsNotEmpty(currentPasswordFromUser, currentPasswordFromDatabase) && incorrectCurrentPasswordLabel.isVisible())
          incorrectCurrentPasswordLabel.setVisible(false);
-      // If the hash of the new password doesn't match the hash of the confirmation of the new password
-      if (!passwordMatchesAndIsNotEmpty(newPasswordHash, newPasswordConfirmationHash) && !passwordDoesNotMatchLabel.isVisible())
+      // If the new password doesn't match the confirmation of the new password
+      if (!passwordMatchesAndIsNotEmpty(newPassword, newPasswordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
           passwordDoesNotMatchLabel.setVisible(true);
-      else if (passwordMatchesAndIsNotEmpty(newPasswordHash, newPasswordConfirmationHash) && passwordDoesNotMatchLabel.isVisible())
+      else if (passwordMatchesAndIsNotEmpty(newPassword, newPasswordConfirmation) && passwordDoesNotMatchLabel.isVisible())
           passwordDoesNotMatchLabel.setVisible(false);
 
         // If no label is visible, then the inputs are correct

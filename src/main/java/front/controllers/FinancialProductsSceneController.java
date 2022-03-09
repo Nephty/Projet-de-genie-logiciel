@@ -23,7 +23,6 @@ public class FinancialProductsSceneController extends Controller implements Back
     public Label lastUpdateTimeLabel, loadingProductsLabel;
     @FXML
     public ListView<Wallet> productsListView;
-    // TODO : back-end : implement Wallet so we can make this a ListView<Wallet>
 
     private Wallet selectedWallet;
 

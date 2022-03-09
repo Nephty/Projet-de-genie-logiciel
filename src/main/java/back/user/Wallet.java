@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Wallet {
     private ArrayList<Account> accountList;
     private Profile accountUser;
+    private Bank bank;
 
     public Wallet(Profile accountUser){
         this.accountUser = accountUser;
@@ -17,5 +18,9 @@ public class Wallet {
 
     public Profile getAccountUser(){
         return this.accountUser;
+    }
+
+    public Bank getBank(){
+        return this.bank;
     }
 }

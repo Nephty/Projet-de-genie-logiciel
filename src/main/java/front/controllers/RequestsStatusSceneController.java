@@ -18,7 +18,6 @@ import java.util.Calendar;
 public class RequestsStatusSceneController extends Controller implements BackButtonNavigator {
     @FXML
     public Button backButton, fetchRequestsButton;
-    // TODO : back-end : implement Request class so we can make this a ListView<Request>
     @FXML
     public ListView<Request> requestsListView;
     @FXML

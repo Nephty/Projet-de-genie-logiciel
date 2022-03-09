@@ -1,6 +1,9 @@
 package front.controllers;
 
 import BenkyngApp.Main;
+import back.user.Bank;
+import back.user.Request;
+import back.user.Reason;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -25,6 +28,9 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     public ComboBox<String> SWIFTComboBox;
 
     private boolean requestSent = false;
+
+    // TODO : Attention, il faut remplacer "Portfolio" par "Wallet". C'est une confusion de termes
+
 
     public void initialize() {
         ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("AAAABEBB000", "HHHHBEBB999"));
@@ -52,7 +58,11 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
         if (SWIFTComboBox.getValue() != null) {
             if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false);
 
-            // TODO : back-end : send request to database
+            // Create the request and send it
+            Request request = new Request(Main.getUser(), new Bank(SWIFTComboBox.getValue()), Reason.NEW_PORTFOLIO);
+            request.send();
+
+            requestSent = true;
 
             int fadeInDuration = 1000;
             int fadeOutDuration = fadeInDuration;

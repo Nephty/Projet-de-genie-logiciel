@@ -27,7 +27,6 @@ public class Account {
      * @return Whether the account is toggled on or not
      */
     public boolean isActivated() {
-        // TODO : back-end : implement method to check if an account is toggled on or not
         return activated;
     }
 

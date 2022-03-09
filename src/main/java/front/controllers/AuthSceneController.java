@@ -16,7 +16,7 @@ public class AuthSceneController extends Controller implements LanguageButtonNav
     @FXML
     Button languageButton, signInButton, signUpButton;
 
-    public AuthSceneController() throws IOException {
+    public AuthSceneController() {
     }
 
     @FXML

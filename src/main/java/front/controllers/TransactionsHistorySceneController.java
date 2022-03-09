@@ -1,14 +1,12 @@
 package front.controllers;
 
 import BenkyngApp.Main;
-import back.user.Account;
 import back.user.Transaction;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import java.util.Calendar;
-import java.util.Currency;
 
 public class TransactionsHistorySceneController extends Controller implements BackButtonNavigator {
     @FXML

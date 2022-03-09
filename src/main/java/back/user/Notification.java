@@ -7,7 +7,7 @@ public class Notification extends Communication{
     // TODO : Implémenter toutes les valeurs comme dans la BDD (dismiss etc)
 
     public Notification(Bank bank, Profile profile, String name, String content) {
-        this.client = client;
+        this.client = profile;
         this.bank = bank;
         this.content = content;
         this.name = name;

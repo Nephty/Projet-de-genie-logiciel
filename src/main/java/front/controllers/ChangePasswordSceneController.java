@@ -1,6 +1,8 @@
 package front.controllers;
 
 import BenkyngApp.Main;
+import front.animation.FadeInTransition;
+import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
@@ -12,6 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 
 public class ChangePasswordSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
@@ -66,9 +69,9 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         // TODO : back-end : retrieve current password from the database
         // TODO : Change variable name
        String currentPasswordHashFromDatabase = "yes", currentPassword = currentPasswordField.getText(),
-              currentPasswordHashFromUser = Hasher.hash(currentPassword),
+              currentPasswordHashFromUser = currentPassword,
               newPassword = newPasswordField.getText(), newPasswordConfirmation = confirmNewPasswordField.getText(),
-              newPasswordHash = Hasher.hash(newPassword), newPasswordConfirmationHash = Hasher.hash(newPasswordConfirmation);
+              newPasswordHash = newPassword, newPasswordConfirmationHash = newPasswordConfirmation;
 
 
         // If the current password hash stored in the database doesn't match the hash of the input "current password"

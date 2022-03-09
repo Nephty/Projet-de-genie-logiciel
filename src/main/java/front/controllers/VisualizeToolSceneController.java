@@ -36,7 +36,6 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         ObservableList<Account> accountsValue = FXCollections.observableArrayList(Arrays.asList(new Account("account A"), new Account("account B")));
         // TODO : make this not show the status : activated attribute in the list view
         accountsArea.setItems(accountsValue);
-
     }
 
     @Override

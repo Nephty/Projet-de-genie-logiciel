@@ -31,7 +31,7 @@ public class FinancialProductsSceneController extends Controller implements Back
     public void initialize() {
         // TODO : back-end : fetch wallets from the database and put them in the listview
         fetchProducts();
-        productsListView.setItems(FXCollections.observableArrayList(new Wallet("wallet A"), new Wallet("wallet B")));
+//        productsListView.setItems(FXCollections.observableArrayList(new Wallet("wallet A"), new Wallet("wallet B")));
     }
 
     @Override

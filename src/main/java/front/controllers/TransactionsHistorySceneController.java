@@ -29,9 +29,9 @@ public class TransactionsHistorySceneController extends Controller implements Ba
 
     public void initialize() {
         fetchTransactions();
-        transactionsHistoryListView.setItems(FXCollections.observableArrayList(
-                new Transaction(69, "user A", "user B", 1000f, Currency.getInstance("USD")),
-                new Transaction(420, "user B", "user A", 0.01f, Currency.getInstance("EUR"))));
+//        transactionsHistoryListView.setItems(FXCollections.observableArrayList(
+//                new Transaction(69, "user A", "user B", 1000f, Currency.getInstance("USD")),
+//                new Transaction(420, "user B", "user A", 0.01f, Currency.getInstance("EUR"))));
     }
 
     @Override

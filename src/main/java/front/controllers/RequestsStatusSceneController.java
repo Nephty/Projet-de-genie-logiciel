@@ -28,7 +28,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
 
     public void initialize() {
         fetchRequests();
-        requestsListView.setItems(FXCollections.observableArrayList(new Request("request A"), new Request("request B")));
+//        requestsListView.setItems(FXCollections.observableArrayList(new Request("request A"), new Request("request B")));
     }
 
     @FXML

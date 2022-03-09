@@ -32,7 +32,7 @@ public class NotificationsSceneController extends Controller implements BackButt
 
     public void initialize() {
         fetchNotifications();
-        notificationsListView.setItems(FXCollections.observableArrayList(new Notification("notification A"), new Notification("notification B")));
+//        notificationsListView.setItems(FXCollections.observableArrayList(new Notification("notification A"), new Notification("notification B")));
     }
 
     @FXML

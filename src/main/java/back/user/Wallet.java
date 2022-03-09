@@ -1,14 +1,21 @@
 package back.user;
 
-public class Wallet {
-    String name;
+import java.util.ArrayList;
 
-    public Wallet(String name) {
-        this.name = name;
+public class Wallet {
+    private ArrayList<Account> accountList;
+    private Profile accountUser;
+
+    public Wallet(Profile accountUser){
+        this.accountUser = accountUser;
+        // TODO : Crée la liste des comptes d'un wallet via l'api grâce au Profile
     }
 
-    @Override
-    public String toString() {
-        return name;
+    public ArrayList<Account> getAccountList(){
+        return this.accountList;
+    }
+
+    public Profile getAccountUser(){
+        return this.accountUser;
     }
 }

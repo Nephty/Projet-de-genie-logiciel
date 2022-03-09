@@ -1,8 +1,6 @@
 package front.controllers;
 
 import BenkyngApp.Main;
-import front.animation.FadeInTransition;
-import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
@@ -12,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
 import java.util.Arrays;
 
@@ -55,7 +52,6 @@ public class RequestTransferPermissionSceneController extends Controller impleme
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
             // TODO : back-end : send request to database
-
             int fadeInDuration = 1000;
             int fadeOutDuration = fadeInDuration;
             int sleepDuration = 3000;
@@ -63,6 +59,7 @@ public class RequestTransferPermissionSceneController extends Controller impleme
             FadeInTransition.playFromStartOn(requestSentLabel, Duration.millis(fadeInDuration));
             sleepAndFadeOutRequestSentLabelFadeThread = new FadeOutThread();
             sleepAndFadeOutRequestSentLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, requestSentLabel);
+
             requestSent = true;
         } else if (!noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(true);
     }

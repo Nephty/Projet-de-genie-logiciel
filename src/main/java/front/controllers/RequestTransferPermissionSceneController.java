@@ -41,8 +41,6 @@ public class RequestTransferPermissionSceneController extends Controller impleme
         handleBackButtonNavigation(event);
         if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false); // This can be done everytime
         if (requestSent) {
-            // If the request was sent, reset the form
-            if (requestSentLabel.isVisible()) requestSentLabel.setVisible(false);
             portfolioComboBox.setValue(portfolioComboBox.getPromptText()); // TODO : this is not showing the prompt text
             requestSent = false;
         }
@@ -54,8 +52,14 @@ public class RequestTransferPermissionSceneController extends Controller impleme
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
             // TODO : back-end : send request to database
+            int fadeInDuration = 1000;
+            int fadeOutDuration = fadeInDuration;
+            int sleepDuration = 3000;
+            FadeOutThread sleepAndFadeOutRequestSentLabelFadeThread;
+            FadeInTransition.playFromStartOn(requestSentLabel, Duration.millis(fadeInDuration));
+            sleepAndFadeOutRequestSentLabelFadeThread = new FadeOutThread();
+            sleepAndFadeOutRequestSentLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, requestSentLabel);
 
-            requestSentLabel.setVisible(true);
             requestSent = true;
         } else if (!noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(true);
     }

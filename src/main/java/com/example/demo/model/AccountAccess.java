@@ -15,23 +15,25 @@ import javax.persistence.*;
 @Table(name="account_access")
 public class AccountAccess {
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="account_id",
-            referencedColumnName = "iban"
+            referencedColumnName = "iban",
+            nullable = false
     )
     private Account accountId;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="user_id",
-            referencedColumnName = "nrn"
+            referencedColumnName = "nrn",
+            nullable = false
     )
     private User userId;
 
     @Column
-    private boolean access;
+    private Boolean access;
     @Column
-    private boolean hidden;
+    private Boolean hidden;
 }

@@ -6,6 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Date;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 @Getter
 @Setter
 @ToString
@@ -14,11 +16,27 @@ import java.sql.Date;
 @Entity
 @Table(name="transaction_log")
 public class TransactionLog {
+    /*
+    This class is kinda weird, trying to set the many-to-many relationship
+    TODO : see if the table that join the subAccounts and the Transaction is created automatically.
+    TODO : check for all the foreign keys in the table.
+     */
 
-    // TODO generate id auto (create new constructor without the id)
-    @Column(name="transaction_id")
     @Id
-    private int transactionId;
+    @SequenceGenerator(
+            name = "transaction_sequence",
+            sequenceName = "transaction_sequence",
+            allocationSize = 1 // How much will the sequence increase from
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "transaction_sequence"
+    )
+    @Column(
+            name="transaction_id",
+            updatable = false
+    )
+    private Integer transactionId;
 
     @ManyToOne
     @JoinColumn(
@@ -30,16 +48,6 @@ public class TransactionLog {
     @Column(name="transaction_date")
     private Date transaction_date;
 
-    /*
-    @ManyToMany
-    @JoinColumn(
-            name = "iban",
-            referencedColumnName = "iban"
-    )
-    private Account iban;
-    */
-
-
     @Column
     private String iban;
     // TODO : WHY NOT WORKING
@@ -49,15 +57,30 @@ public class TransactionLog {
     private String recipientIban;
     // TODO foreign key
 
-    @Column(name="transaction_amount")
-    private double transactionAmount;
+    @Column(
+            name="transaction_amount",
+            nullable = false
+    )
+    private Double transactionAmount;
 
     @Column(name="currency_id_used")
-    private int currencyIdUsed;
+    private Integer currencyIdUsed;
     // TODO foreign key
 
     @Column(name="currency_id_recipient")
-    private int currencyIdRecipient;
+    private Integer currencyIdRecipient;
     // TODO foreign key
 
+
+    public TransactionLog(TransactionType transactionTypeId, Date transaction_date, String iban,
+                          String recipientIban, Double transactionAmount,
+                          Integer currencyIdUsed, Integer currencyIdRecipient) {
+        this.transactionTypeId = transactionTypeId;
+        this.transaction_date = transaction_date;
+        this.iban = iban;
+        this.recipientIban = recipientIban;
+        this.transactionAmount = transactionAmount;
+        this.currencyIdUsed = currencyIdUsed;
+        this.currencyIdRecipient = currencyIdRecipient;
+    }
 }

@@ -18,11 +18,15 @@ public class TransactionType {
 
     @Column(name="transaction_type_id")
     @Id
-    private int transactionTypeId;
+    private Integer transactionTypeId;
 
-    @Column(name="transaction_type_name")
+    @Column(
+            name="transaction_type_name",
+            nullable = false,
+            unique = true
+    )
     private String transactionTypeName;
 
     @Column(name="transaction_fee")
-    private double transactionFee;
+    private Double transactionFee;
 }

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@EqualsAndHashCode
 @Getter
 @Setter
 @ToString
@@ -17,34 +18,25 @@ import java.util.Objects;
 public class BankNotification implements Serializable {
 
     @Id
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name = "notification_id",
             referencedColumnName = "notification_id"
     )
     private Notification notificationId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="receiver_id",
             referencedColumnName = "swift"
     )
     private Bank receiverId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="sender_id",
             referencedColumnName = "nrn"
     )
     private User senderId;
 
-    @Override
-    public int hashCode(){
-        return notificationId.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj){
-        return notificationId.equals(obj);
-    }
 }

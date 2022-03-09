@@ -17,7 +17,7 @@ public class SubAccount {
 
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="iban",
             referencedColumnName = "iban"
@@ -25,14 +25,17 @@ public class SubAccount {
     private Account iban;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="currency_type_id",
             referencedColumnName = "currency_type_id"
     )
     private CurrencyType currencyTypeId;
 
-    @Column(name="current_balance")
+    @Column(
+            name="current_balance",
+            nullable = false
+    )
     private Double currentBalance;
 
 }

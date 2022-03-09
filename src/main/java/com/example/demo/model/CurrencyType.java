@@ -19,8 +19,11 @@ public class CurrencyType {
 
     @Column(name = "currency_type_id")
     @Id
-    private int currencyId;
+    private Integer currencyId;
 
-    @Column
+    @Column(
+            nullable = false,
+            unique = true
+    )
     private String currency_type_name;
 }

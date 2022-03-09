@@ -14,21 +14,34 @@ import javax.persistence.*;
 public class Bank {
     @Column @Id
     private String swift;
-    @Column
+
+    @Column(
+            nullable = false
+    )
     private String name;
-    @Column
+
+    @Column(
+            nullable = false,
+            unique = true
+    )
     private String login;
-    @Column
+
+    @Column(
+            nullable = false
+    )
     private String password;
-    @Column
+
+    @Column(nullable = false)
     private String address;
-    @Column
+
+    @Column(nullable = false)
     private String country;
 
-    @ManyToOne(targetEntity = CurrencyType.class)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="default_currency_type",
-            referencedColumnName = "currency_type_id"
+            referencedColumnName = "currency_type_id",
+            nullable = false
     )
     private CurrencyType defaultCurrencyType;
 

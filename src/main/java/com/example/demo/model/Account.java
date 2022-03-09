@@ -16,27 +16,29 @@ public class Account {
     @Id
     private String iban;
 
-    @ManyToOne
+    //TODO : Check if the CascadeType ALL is good in all the cases
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="swift",
             referencedColumnName = "swift"
     )
     private Bank swift;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name= "user_id",
             referencedColumnName = "nrn"
     )
     private User userId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="account_type_id",
-            referencedColumnName = "account_type_id"
+            referencedColumnName = "account_type_id",
+            nullable = false
     )
     private AccountType accountTypeId;
 
-    @Column
-    private boolean payment;
+    @Column(nullable = false)
+    private Boolean payment;
 }

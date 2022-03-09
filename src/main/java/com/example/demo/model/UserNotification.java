@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@EqualsAndHashCode
 @Getter
 @Setter
 @ToString
@@ -15,14 +16,14 @@ import java.io.Serializable;
 @Table(name="user_notification")
 public class UserNotification implements Serializable {
     @Id
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name = "notification_id",
             referencedColumnName = "notification_id"
     )
     private Notification notificationId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name = "receiver_id",
             referencedColumnName = "nrn"
@@ -30,20 +31,11 @@ public class UserNotification implements Serializable {
     private User receiverId;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name = "sender_id",
             referencedColumnName = "swift"
     )
     private Bank senderId;
 
-    @Override
-    public int hashCode(){
-        return notificationId.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj){
-        return notificationId.equals(obj);
-    }
 }

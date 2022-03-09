@@ -52,14 +52,12 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
                     FadeInTransition.playFromStartOn(correctPINLabel, Duration.millis(fadeInDuration));
                     sleepAndFadeOutCorrectPINLabelFadeThread = new FadeOutThread();
                     sleepAndFadeOutCorrectPINLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, correctPINLabel);
-                    correctPINLabel.setVisible(true);
                     // TODO : this makes the thread sleep before we get to see the label
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ignored) {
                     }
                     emulateBackButtonMouseClicked();
-                    correctPINLabel.setVisible(false);
                     tooManyAttemptsLabel.setVisible(false);
                     PINField.setText("");
                     TransferSceneController.executeTransfer();

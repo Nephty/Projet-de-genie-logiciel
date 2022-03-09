@@ -1,11 +1,11 @@
 package com.example.demo.model;
 
+import com.example.demo.model.CompositePK.BanksCustomersPK;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -14,13 +14,37 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Entity
 @Table(name = "banks_notification")
-public class BankNotification {
+public class BankNotification implements Serializable {
 
-    @Column(name="notification_id") @Id
-    private String notificationId;
-    @Column(name="receiver_id")
-    private String receiverId;
-    @Column(name="sender_id")
-    private String senderId;
+    @Id
+    @OneToOne
+    @JoinColumn(
+            name = "notification_id",
+            referencedColumnName = "notification_id"
+    )
+    private Notification notificationId;
 
+    @ManyToOne
+    @JoinColumn(
+            name="receiver_id",
+            referencedColumnName = "swift"
+    )
+    private Bank receiverId;
+
+    @ManyToOne
+    @JoinColumn(
+            name="sender_id",
+            referencedColumnName = "nrn"
+    )
+    private User senderId;
+
+    @Override
+    public int hashCode(){
+        return notificationId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        return notificationId.equals(obj);
+    }
 }

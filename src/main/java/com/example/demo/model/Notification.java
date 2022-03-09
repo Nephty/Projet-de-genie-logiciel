@@ -14,11 +14,15 @@ import java.text.DateFormat;
 @Entity
 @Table(name="notification")
 public class Notification {
+    // TODO generate id auto (create new constructor without the id)
     @Column(name="notification_id") @Id
     private String notificationId;
 
-    @ManyToOne(targetEntity = NotificationType.class)
-    @JoinColumn(name="notification_type")
+    @ManyToOne
+    @JoinColumn(
+            name="notification_type",
+            referencedColumnName = "notification_type_id"
+    )
     private NotificationType notificationType;
 
     @Column

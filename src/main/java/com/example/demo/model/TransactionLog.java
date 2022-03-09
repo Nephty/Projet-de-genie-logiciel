@@ -15,19 +15,35 @@ import java.sql.Date;
 @Table(name="transaction_log")
 public class TransactionLog {
 
+    // TODO generate id auto (create new constructor without the id)
     @Column(name="transaction_id")
     @Id
     private int transactionId;
 
-    @ManyToOne(targetEntity = TransactionType.class)
-    @JoinColumn(name="transaction_type_id")
-    private Integer transactionTypeId; //TODO Integer or TransactionType ??
+    @ManyToOne
+    @JoinColumn(
+            name="transaction_type_id",
+            referencedColumnName = "transaction_type_id"
+    )
+    private TransactionType transactionTypeId;
 
     @Column(name="transaction_date")
     private Date transaction_date;
 
+    /*
+    @ManyToMany
+    @JoinColumn(
+            name = "iban",
+            referencedColumnName = "iban"
+    )
+    private Account iban;
+    */
+
+
+    @Column
     private String iban;
-    // TODO foreign key
+    // TODO : WHY NOT WORKING
+
 
     @Column(name="Recipient_iban")
     private String recipientIban;

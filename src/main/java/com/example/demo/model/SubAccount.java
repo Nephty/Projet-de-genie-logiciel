@@ -17,13 +17,19 @@ public class SubAccount {
 
 
     @Id
-    @ManyToOne(targetEntity = Account.class)
-    @JoinColumn(name="iban")
+    @ManyToOne
+    @JoinColumn(
+            name="iban",
+            referencedColumnName = "iban"
+    )
     private Account iban;
 
     @Id
-    @ManyToOne(targetEntity = CurrencyType.class)
-    @JoinColumn(name="currency_type_id")
+    @ManyToOne
+    @JoinColumn(
+            name="currency_type_id",
+            referencedColumnName = "currency_type_id"
+    )
     private CurrencyType currencyTypeId;
 
     @Column(name="current_balance")

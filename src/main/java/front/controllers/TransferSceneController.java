@@ -20,7 +20,10 @@ public class TransferSceneController extends Controller implements BackButtonNav
     @FXML
     public TextField amountField, recipientField, IBANField, messageField, dateField;
     @FXML
-    public Label invalidAmountLabel, invalidRecipientLabel, invalidIBAN, invalidMessageLabel, invalidDateLabel, transferExecutedLabel;
+    public Label invalidAmountLabel, invalidRecipientLabel, invalidIBAN, invalidMessageLabel, invalidDateLabel,
+            transferExecutedLabel, charactersLeftLabel;
+
+    private int charactersLeft = 256, previousMessageLength = 0;
 
 
     @Override
@@ -104,6 +107,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateTransferButtonClicked();
         }
+
     }
 
     @FXML

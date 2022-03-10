@@ -33,6 +33,11 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         Main.setScene(Flow.back());
     }
 
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
+    }
+
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
@@ -103,5 +108,13 @@ public class ChangePasswordSceneController extends Controller implements BackBut
 
     public void triggerChangePassword() {
         handleChangePasswordButtonClicked(null);
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

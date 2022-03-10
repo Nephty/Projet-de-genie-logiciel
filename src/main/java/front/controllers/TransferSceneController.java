@@ -28,6 +28,11 @@ public class TransferSceneController extends Controller implements BackButtonNav
         Main.setScene(Flow.back());
     }
 
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
+    }
+
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
@@ -246,5 +251,13 @@ public class TransferSceneController extends Controller implements BackButtonNav
         IBANField.setText("");
         messageField.setText("");
         dateField.setText("");
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

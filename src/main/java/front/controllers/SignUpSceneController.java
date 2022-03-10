@@ -83,6 +83,11 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     }
 
     @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
+    }
+
+    @Override
     public void handleLanguageButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.LanguageScene));
         if (userSignedUp) {
@@ -387,5 +392,13 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         usernameField.setText("");
         passwordField.setText("");
         confirmPasswordField.setText("");
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

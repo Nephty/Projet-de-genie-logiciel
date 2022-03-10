@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
@@ -36,6 +38,11 @@ public class RequestsStatusSceneController extends Controller implements BackBut
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
     }
 
     @FXML
@@ -66,6 +73,14 @@ public class RequestsStatusSceneController extends Controller implements BackBut
             // TODO : back-end : fetch requests from the database and put them in the listview
             // Fade the label "updating requests..." out to 0.0 opacity
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);
+        }
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
         }
     }
 }

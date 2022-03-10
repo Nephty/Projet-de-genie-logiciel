@@ -1,7 +1,6 @@
 package front.controllers;
 
 import BenkyngApp.Main;
-import back.user.Bank;
 import back.user.Reason;
 import back.user.Request;
 import back.user.Wallet;
@@ -15,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
@@ -48,6 +49,11 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
     }
 
     @FXML
@@ -88,5 +94,13 @@ public class RequestTransferPermissionSceneController extends Controller impleme
 
             requestSent = true;
         } else if (!noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(true);
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

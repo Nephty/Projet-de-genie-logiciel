@@ -1,5 +1,6 @@
 package front.controllers;
 
+import front.navigation.Flow;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -74,6 +75,7 @@ public class Controller {
     public void handleButtonMouseEntered(MouseEvent event) {
         Button buttonSource = (Button) event.getSource();
         buttonSource.setStyle(formatNewCSSLineMouseEntered(buttonSource));
+        System.out.println(Flow.getContentAsString());
     }
 
     @FXML

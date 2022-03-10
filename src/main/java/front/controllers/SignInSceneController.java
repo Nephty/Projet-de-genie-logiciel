@@ -75,6 +75,11 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     }
 
     @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
+    }
+
+    @Override
     public void handleLanguageButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.LanguageScene));
     }
@@ -95,5 +100,13 @@ public class SignInSceneController extends Controller implements BackButtonNavig
 
     public void hideAllLabels() {
         incorrectUsernameOrPasswordLabel.setVisible(false);
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

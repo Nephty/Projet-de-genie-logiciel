@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
@@ -34,6 +36,11 @@ public class TransactionsHistorySceneController extends Controller implements Ba
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
     }
 
     @FXML
@@ -71,6 +78,14 @@ public class TransactionsHistorySceneController extends Controller implements Ba
             // TODO : back-end : fetch transactions from the database and put them in the listview
             // Fade the label "updating history..." out to 0.0 opacity
             sleepAndFadeOutLoadingTransactionsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingTransactionsHistoryLabel);
+        }
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
         }
     }
 }

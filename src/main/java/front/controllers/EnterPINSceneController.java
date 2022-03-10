@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
@@ -30,6 +31,11 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
     }
 
     @FXML
@@ -135,5 +141,13 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
 
     private void emulateBackButtonMouseClicked() {
         handleBackButtonClicked(null);
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

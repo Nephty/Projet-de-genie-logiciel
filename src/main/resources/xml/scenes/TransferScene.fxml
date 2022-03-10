@@ -10,10 +10,12 @@
       fx:controller="front.controllers.TransferSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    onKeyReleased="#handleButtonKeyReleased"
                     prefHeight="70.0" prefWidth="1280.0">
             <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onMouseClicked="#handleBackButtonClicked"
                     prefHeight="36.0" prefWidth="120.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    onKeyReleased="#handleButtonKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Back" textFill="#0a0a14">
                 <font>
@@ -25,9 +27,11 @@
             </Button>
         </AnchorPane>
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                    onKeyReleased="#handleButtonKeyReleased"
                     minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
             <TextField fx:id="amountField" layoutX="423.0" layoutY="74.0"
                        onKeyPressed="#handleAmountFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyReleased="#handleButtonKeyReleased"
                        promptText="Amount..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
@@ -38,6 +42,7 @@
                    text="Invalid amount." textFill="#c80000" visible="false"/>
             <TextField fx:id="recipientField" layoutX="423.0" layoutY="164.0"
                        onKeyPressed="#handleRecipientFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyReleased="#handleButtonKeyReleased"
                        promptText="Recipient... (optional)"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
@@ -48,6 +53,7 @@
                    prefWidth="114.0" text="Invalid recipient." textFill="#c80000" visible="false"/>
             <TextField fx:id="IBANField" layoutX="423.0" layoutY="254.0"
                        onKeyPressed="#handleIBANFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyReleased="#handleButtonKeyReleased"
                        promptText="IBAN..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
@@ -58,6 +64,7 @@
                    text="Invalid IBAN." textFill="#c80000" visible="false"/>
             <TextField fx:id="messageField" layoutX="423.0" layoutY="344.0"
                        onKeyPressed="#handleMessageFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyReleased="#handleButtonKeyReleased"
                        promptText="Message... (optional)"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
@@ -68,6 +75,7 @@
                    prefWidth="313.0" text="Invalid message." textFill="#c80000" visible="false"/>
             <TextField fx:id="dateField" layoutX="423.0" layoutY="434.0"
                        onKeyPressed="#handleDateFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyReleased="#handleButtonKeyReleased"
                        promptText="Date (dd-mm-YYYY)... (optional)"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
@@ -79,6 +87,7 @@
             <Button fx:id="transferButton" layoutX="492.0" layoutY="535.0"
                     onMouseClicked="#handleTransferButtonClicked" prefHeight="52.0" prefWidth="296.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    onKeyReleased="#handleButtonKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
                     text="Transfer" textFill="#0a0a14">
                 <font>

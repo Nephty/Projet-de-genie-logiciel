@@ -82,7 +82,11 @@ public class Controller {
         buttonSource.setStyle(formatNewCSSLineMouseExited(buttonSource));
     }
 
-
+    /**
+     * Returns a new style line with the darker background color to use when the mouse enters a button.
+     * @param button The entered button
+     * @return The CSS line
+     */
     public static String formatNewCSSLineMouseEntered(Button button) {
         String CSSLine = "";
         if (button.getPrefWidth() == 350) {
@@ -116,6 +120,11 @@ public class Controller {
         return CSSLine;
     }
 
+    /**
+     * Returns a new style line with the original background color to use when the mouse exits a button.
+     * @param button The exited button
+     * @return The CSS line
+     */
     public static String formatNewCSSLineMouseExited(Button button) {
         String CSSLine = "";
         if (button.getPrefWidth() == 350) {

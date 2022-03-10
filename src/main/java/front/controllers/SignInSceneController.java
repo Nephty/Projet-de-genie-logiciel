@@ -6,15 +6,16 @@ import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
 import front.scenes.Scenes;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class SignInSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
+    @FXML
+    TextField passwordTextField;
+    @FXML
+    CheckBox showHidePasswordCheckBox;
     @FXML
     Button languageButton, backButton, signInButton;
     @FXML
@@ -25,6 +26,16 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     Label incorrectUsernameOrPasswordLabel;
 
     String username = "", password = "";
+
+    public void initialize() {
+        passwordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        passwordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        // Set visible property : if the checkbox is not ticked, show the password field, else, show the password text field
+        passwordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        passwordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        // Set selection property : if you type something in the password field, you also type it in the password text field
+        passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
+    }
 
     @FXML
     public void handleLanguageButtonClicked(MouseEvent event) {

@@ -17,6 +17,10 @@ import java.util.Arrays;
 
 public class SignUpSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
+    TextField confirmPasswordTextField, passwordTextField;
+    @FXML
+    CheckBox showHidePasswordCheckBox;
+    @FXML
     Label NRNTakenLabel, emailTakenLabel, usernameTakenLabel, passwordDoesNotMatchLabel, languageNotChosenLabel,
         invalidLastNameLabel, invalidFirstNameLabel, invalidEmailLabel, invalidNRNLabel, invalidUsernameLabel;
     @FXML
@@ -38,6 +42,19 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
         // TODO : back-end : fetch all available languages and put them in the list
         languageComboBox.setItems(values);
+
+        passwordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        passwordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        confirmPasswordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        confirmPasswordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        // Set visible property : if the checkbox is not ticked, show the password field, else, show the password text field
+        passwordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        passwordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        confirmPasswordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        confirmPasswordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        // Set selection property : if you type something in the password field, you also type it in the password text field
+        passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
+        confirmPasswordTextField.textProperty().bindBidirectional(confirmPasswordField.textProperty());
     }
 
     @FXML

@@ -13,6 +13,7 @@
                     prefHeight="70.0" prefWidth="1280.0">
             <Button fx:id="signOutButton" layoutX="14.0" layoutY="17.0"
                     onMouseClicked="#handleSignOutButtonClicked" prefHeight="36.0" prefWidth="120.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Sign out" textFill="#0a0a14">
                 <font>
@@ -24,6 +25,7 @@
             </Button>
             <Button fx:id="languageButton" layoutX="1146.0" layoutY="17.0"
                     onMouseClicked="#handleLanguageButtonClicked" prefHeight="36.0" prefWidth="120.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Language" textFill="#0a0a14">
                 <font>
@@ -38,6 +40,7 @@
                     minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
             <Button fx:id="financialProductsButton" layoutX="465.0" layoutY="197.0"
                     onMouseClicked="#handleFinancialProductsButtonClicked" prefHeight="70.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefWidth="350.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
                     text="Financial Products" textFill="#0a0a14">
@@ -50,6 +53,7 @@
             </Button>
             <Button fx:id="requestsButton" layoutX="465.0" layoutY="290.0"
                     onMouseClicked="#handleRequestsButtonClicked" prefHeight="70.0" prefWidth="350.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
                     text="Requests" textFill="#0a0a14">
                 <font>
@@ -61,6 +65,7 @@
             </Button>
             <Button fx:id="notificationsButton" layoutX="465.0" layoutY="383.0"
                     onMouseClicked="#handleNotificationsButtonClicked" prefHeight="70.0" prefWidth="350.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
                     text="Notifications" textFill="#0a0a14">
                 <font>
@@ -72,6 +77,7 @@
             </Button>
             <Button fx:id="changePasswordButton" layoutX="492.0" layoutY="525.0"
                     onMouseClicked="#handleChangePasswordButtonClicked" prefHeight="52.0" prefWidth="296.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
                     text="Change Password" textFill="#0a0a14">
                 <font>

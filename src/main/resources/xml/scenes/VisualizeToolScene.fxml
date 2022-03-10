@@ -13,6 +13,7 @@
                     prefHeight="70.0" prefWidth="1280.0">
             <Button fx:id="backButton" layoutX="14.0" layoutY="17.0"
                     onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Back" textFill="#0a0a14">
                 <font>
@@ -37,6 +38,7 @@
                    text="Available accounts"/>
             <Button fx:id="setTableMode" layoutX="1075.0" layoutY="75"
                     onMouseClicked="#handleSetTableModeButtonClicked" prefHeight="30.0" prefWidth="170.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Table mode" textFill="#0a0a14">
                 <effect>
@@ -45,6 +47,7 @@
             </Button>
             <Button fx:id="setGraphMode" layoutX="1075.0" layoutY="125.0"
                     onMouseClicked="#handleSetGraphModeButtonClicked" prefHeight="30.0" prefWidth="170.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Graph mode" textFill="#0a0a14">
                 <effect>
@@ -53,6 +56,7 @@
             </Button>
             <Button fx:id="setPieChartMode" layoutX="1075.0" layoutY="175.0"
                     onMouseClicked="#handleSetPieChartModeButtonClicked" prefHeight="30.0" prefWidth="170.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Pie chart mode" textFill="#0a0a14">
                 <effect>
@@ -69,6 +73,7 @@
             </ComboBox>
             <Button fx:id="addAccountButton" layoutX="730.0" layoutY="595"
                     onMouseClicked="#handleAddAccountButtonClicked" prefHeight="30.0" prefWidth="135.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Add" textFill="#0a0a14">
                 <effect>
@@ -77,6 +82,7 @@
             </Button>
             <Button fx:id="removeAccountButton" layoutX="895.0" layoutY="595"
                     onMouseClicked="#handleRemoveAccountModeButtonClicked" prefHeight="30.0" prefWidth="135.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Remove" textFill="#0a0a14">
                 <effect>

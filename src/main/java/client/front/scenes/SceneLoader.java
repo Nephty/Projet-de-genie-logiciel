@@ -21,7 +21,7 @@ public class SceneLoader {
      */
     public static Scene load(String sceneName, Class c) {
         if (!sceneName.endsWith(".fxml")) sceneName += ".fxml";
-        URL url = c.getResource("/xml/scenes/" + sceneName);
+        URL url = c.getResource("/client/xml/scenes/" + sceneName);
         FXMLLoader FXMLLoader = new FXMLLoader(url);
         try {
             Parent sceneParent = FXMLLoader.load();

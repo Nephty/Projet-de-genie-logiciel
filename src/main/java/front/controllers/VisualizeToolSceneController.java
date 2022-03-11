@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.util.Arrays;
@@ -30,8 +32,8 @@ public class VisualizeToolSceneController extends Controller implements BackButt
 
     public void initialize() {
         ObservableList<Timespan> timespanValues = FXCollections.observableArrayList(Arrays.asList(Timespan.DAILY, Timespan.WEEKLY, Timespan.MONTHLY, Timespan.YEARLY));
-        // TODO : back-end : fetch all available SWIFT codes and put them in the list
         timeSpanComboBox.setItems(timespanValues);
+        timeSpanComboBox.setValue(Timespan.DAILY);
 
         ObservableList<Account> accountsValue = FXCollections.observableArrayList(Arrays.asList(new Account("account A"), new Account("account B")));
         // TODO : make this not show the status : activated attribute in the list view
@@ -41,6 +43,11 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
     }
 
     @FXML
@@ -71,5 +78,13 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @FXML
     public void handleRemoveAccountModeButtonClicked(MouseEvent event) {
         // TODO : remove account from the visualisation
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

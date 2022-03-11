@@ -75,4 +75,17 @@ public class Flow {
     public static void clear() {
         Flow.FLOW = new LinkedList<>();
     }
+
+    /**
+     * Returns the content of the flow as a string for display purposes.
+     * @return The content of the flow as a string
+     */
+    public static String getContentAsString() {
+        StringBuilder res = new StringBuilder();
+        for (Scene s : FLOW) {
+            if (FLOW.indexOf(s) != FLOW.size() - 1) res.append(s).append(" -> ");
+            else res.append(s);
+        }
+        return res.toString();
+    }
 }

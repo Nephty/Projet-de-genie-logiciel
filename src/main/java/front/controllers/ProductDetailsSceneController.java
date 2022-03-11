@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
@@ -22,7 +24,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     public Button backButton, historyButton, fetchAccountButton, transferButton, toggleButton;
     @FXML
     public ListView<Account> accountsListView;
-    // TODO : back-end : implement account
+
     @FXML
     public Label lastUpdateTimeLabel, loadingAccountsLabel, togglingProductLabel, toggledOnProductLabel, toggledOffProductLabel, accountInactiveLabel;
 
@@ -34,6 +36,11 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
     }
 
     @FXML
@@ -59,7 +66,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     @FXML
     public void handleTransferButtonClicked(MouseEvent event) {
         if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
-            if (accountsListView.getSelectionModel().getSelectedItem().isActive()) {
+            if (accountsListView.getSelectionModel().getSelectedItem().isActivated()) {
                 Main.setScene(Flow.forward(Scenes.TransferScene));
                 accountInactiveLabel.setVisible(false);
                 // TODO : pass the account to the transfer scene
@@ -76,7 +83,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
             toggleProduct(accountsListView.getSelectionModel().getSelectedItems().get(0));
             accountInactiveLabel.setVisible(false);
-            // TODO : back-end : toggle on or off the selected product
         }
     }
 
@@ -111,14 +117,13 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             int sleepDuration = 1000;
 
             // Toggle on or off the product
-            if (account.isActive()) {
+            if (account.isActivated()) {
                 FadeOutThread sleepAndFadeOutProductToggledOffLabelFadeThread;
                 FadeInTransition.playFromStartOn(toggledOffProductLabel, Duration.millis(fadeInDuration));
                 sleepAndFadeOutProductToggledOffLabelFadeThread = new FadeOutThread();
                 sleepAndFadeOutProductToggledOffLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, toggledOffProductLabel);
 
                 account.toggleOff();
-                // BACK-END : implement above method
             } else {
                 FadeOutThread sleepAndFadeOutProductToggledOnLabelFadeThread;
                 FadeInTransition.playFromStartOn(toggledOnProductLabel, Duration.millis(fadeInDuration));
@@ -126,8 +131,15 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 sleepAndFadeOutProductToggledOnLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, toggledOnProductLabel);
 
                 account.toggleOn();
-                // BACK-END : implement above method
             }
+        }
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
         }
     }
 }

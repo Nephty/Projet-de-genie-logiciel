@@ -8,7 +8,6 @@ import javafx.util.Duration;
  * This class is used to create a fade in transition. This class can be used without multi-threading.
  */
 public class FadeInTransition {
-    private static FadeTransition FT;
 
     /**
      * Starts a fade in transition on the given <code>Node</code> and for the given <code>Duration</code>, during which
@@ -17,7 +16,7 @@ public class FadeInTransition {
      * @param duration the duration of the transition
      */
     public static void playFromStartOn(Node node, Duration duration) {
-        FT = new FadeTransition(duration, node);
+        FadeTransition FT = new FadeTransition(duration, node);
         FT.setToValue(1);
         FT.setCycleCount(1);
         FT.setAutoReverse(false);

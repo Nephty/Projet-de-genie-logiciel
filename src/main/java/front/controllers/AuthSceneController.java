@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,7 +15,7 @@ public class AuthSceneController extends Controller implements LanguageButtonNav
     @FXML
     Button languageButton, signInButton, signUpButton;
 
-    public AuthSceneController() throws IOException {
+    public AuthSceneController() {
     }
 
     @FXML

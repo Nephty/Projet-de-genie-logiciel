@@ -1,14 +1,18 @@
 package front.controllers;
 
 import BenkyngApp.Main;
+import front.animation.FadeInTransition;
+import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 
 public class EnterPINSceneController extends Controller implements BackButtonNavigator {
     @FXML
@@ -29,6 +33,11 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
         Main.setScene(Flow.back());
     }
 
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
+    }
+
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
@@ -45,14 +54,19 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
                 boolean PINCorrect = checkPINIsCorrect(PINField.getText());
                 incorrectPINLabel.setVisible(!PINCorrect);
                 if (PINCorrect) {
-                    correctPINLabel.setVisible(true);
+                    int fadeInDuration = 1000;
+                    int fadeOutDuration = fadeInDuration;
+                    int sleepDuration = 3000;
+                    FadeOutThread sleepAndFadeOutCorrectPINLabelFadeThread;
+                    FadeInTransition.playFromStartOn(correctPINLabel, Duration.millis(fadeInDuration));
+                    sleepAndFadeOutCorrectPINLabelFadeThread = new FadeOutThread();
+                    sleepAndFadeOutCorrectPINLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, correctPINLabel);
                     // TODO : this makes the thread sleep before we get to see the label
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ignored) {
                     }
                     emulateBackButtonMouseClicked();
-                    correctPINLabel.setVisible(false);
                     tooManyAttemptsLabel.setVisible(false);
                     PINField.setText("");
                     TransferSceneController.executeTransfer();
@@ -127,5 +141,13 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
 
     private void emulateBackButtonMouseClicked() {
         handleBackButtonClicked(null);
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

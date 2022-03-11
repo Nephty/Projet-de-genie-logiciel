@@ -6,6 +6,8 @@ import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class RequestsSceneController extends Controller implements BackButtonNavigator {
@@ -16,6 +18,11 @@ public class RequestsSceneController extends Controller implements BackButtonNav
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
     }
 
     @FXML
@@ -36,5 +43,13 @@ public class RequestsSceneController extends Controller implements BackButtonNav
     @FXML
     public void handleRequestsStatusButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.RequestsStatusScene));
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

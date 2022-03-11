@@ -20,12 +20,20 @@ public class TransferSceneController extends Controller implements BackButtonNav
     @FXML
     public TextField amountField, recipientField, IBANField, messageField, dateField;
     @FXML
-    public Label invalidAmountLabel, invalidRecipientLabel, invalidIBAN, invalidMessageLabel, invalidDateLabel, transferExecutedLabel;
+    public Label invalidAmountLabel, invalidRecipientLabel, invalidIBAN, invalidMessageLabel, invalidDateLabel,
+            transferExecutedLabel, charactersLeftLabel;
+
+    private int charactersLeft = 256, previousMessageLength = 0;
 
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
     }
 
     @FXML
@@ -55,15 +63,13 @@ public class TransferSceneController extends Controller implements BackButtonNav
         else if (isValidDate(date) && invalidDateLabel.isVisible()) invalidDateLabel.setVisible(false);
 
         if (noLabelVisible()) {
-            // TODO : navigate to the PIN scene with the data
             Main.setScene(Flow.forward(Scenes.EnterPINScene));
-            //transferExecutedLabel.setVisible(true);
         }
     }
 
     public static void executeTransfer() {
         System.out.println("transfer executed.");
-        // TODO : execute the given transfer (that method is ran only if the PIN is correct)
+        // TODO : execute the given transfer (that method is ran by the PIN scene only if the PIN is correct)
     }
 
     public boolean noLabelVisible() {
@@ -101,6 +107,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateTransferButtonClicked();
         }
+
     }
 
     @FXML
@@ -248,5 +255,13 @@ public class TransferSceneController extends Controller implements BackButtonNav
         IBANField.setText("");
         messageField.setText("");
         dateField.setText("");
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

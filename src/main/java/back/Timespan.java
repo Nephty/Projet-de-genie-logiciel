@@ -1,5 +1,5 @@
 package back;
 
 public enum Timespan {
-    DAILY, WEEKLY, MONTHLY, YEARLY;
+    DAILY, WEEKLY, MONTHLY, YEARLY
 }

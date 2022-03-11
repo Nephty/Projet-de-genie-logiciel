@@ -1,6 +1,6 @@
 package BenkyngApp;
 
-import back.user.User;
+import back.user.Profile;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
@@ -12,7 +12,7 @@ import javafx.stage.Stage;
  * Main runnable class that launches the application.
  */
 public class Main extends Application {
-    private static User user;
+    private static Profile user;
     private static Stage stage;
 
     public static void main(String[] args) {
@@ -54,11 +54,11 @@ public class Main extends Application {
         stage.setScene(scene);
     }
 
-    public static void setUser(User user_) {
+    public static void setUser(Profile user_) {
         user = user_;
     }
 
-    public static User getUser() {
+    public static Profile getUser() {
         return user;
     }
 }

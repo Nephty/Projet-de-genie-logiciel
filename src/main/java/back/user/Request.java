@@ -1,14 +1,19 @@
 package back.user;
 
-public class Request {
-    public String name;
+public class Request extends Communication{
+    private Reason reason;
 
-    public Request(String name) {
-        this.name = name;
+    public Request(Profile client, Bank bank, Reason reason){
+        this.client = client;
+        this.bank = bank;
+        this.reason = reason;
     }
 
-    @Override
-    public String toString() {
-        return name;
+    public void send(){
+        // TODO : Envoyer la requête à l'API
+    }
+
+    public Reason getReason(){
+        return this.reason;
     }
 }

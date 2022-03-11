@@ -1,7 +1,8 @@
 package front.controllers;
 
 import BenkyngApp.Main;
-import back.user.Hasher;
+import front.animation.FadeInTransition;
+import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
@@ -13,6 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 
 public class ChangePasswordSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
@@ -31,11 +33,15 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         Main.setScene(Flow.back());
     }
 
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
+    }
+
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (passwordChanged) {
-            passwordChangedLabel.setVisible(false);
             currentPasswordField.setText("");
             newPasswordField.setText("");
             confirmNewPasswordField.setText("");
@@ -65,32 +71,50 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     public void handleChangePasswordButtonClicked(MouseEvent event) {
-        // TODO : back-end : retrieve current password from the database
-        String currentPasswordHashFromDatabase = "yes", currentPassword = currentPasswordField.getText(),
-                currentPasswordHashFromUser = Hasher.hash(currentPassword),
-                newPassword = newPasswordField.getText(), newPasswordConfirmation = confirmNewPasswordField.getText(),
-                newPasswordHash = Hasher.hash(newPassword), newPasswordConfirmationHash = Hasher.hash(newPasswordConfirmation);
+        // TODO : back-end : Chercher le mot de passe actuel sur l'api
+        String currentPasswordFromDatabase = "yes";
+        String currentPasswordFromUser = currentPasswordField.getText();
+        String newPassword = newPasswordField.getText();
+        String newPasswordConfirmation = confirmNewPasswordField.getText();
 
-        // If the current password hash stored in the database doesn't match the hash of the input "current password"
-        if (!passwordMatchesAndIsNotEmpty(currentPasswordHashFromUser, currentPasswordHashFromDatabase) && !incorrectCurrentPasswordLabel.isVisible())
-            incorrectCurrentPasswordLabel.setVisible(true);
-        else if (passwordMatchesAndIsNotEmpty(currentPasswordHashFromUser, currentPasswordHashFromDatabase) && incorrectCurrentPasswordLabel.isVisible())
-            incorrectCurrentPasswordLabel.setVisible(false);
-        // If the hash of the new password doesn't match the hash of the confirmation of the new password
-        if (!passwordMatchesAndIsNotEmpty(newPasswordHash, newPasswordConfirmationHash) && !passwordDoesNotMatchLabel.isVisible())
-            passwordDoesNotMatchLabel.setVisible(true);
-        else if (passwordMatchesAndIsNotEmpty(newPasswordHash, newPasswordConfirmationHash) && passwordDoesNotMatchLabel.isVisible())
-            passwordDoesNotMatchLabel.setVisible(false);
+
+        // If the current password stored in the database doesn't match the input "current password"
+      if (!passwordMatchesAndIsNotEmpty(currentPasswordFromUser, currentPasswordFromDatabase) && !incorrectCurrentPasswordLabel.isVisible())
+           incorrectCurrentPasswordLabel.setVisible(true);
+     else if (passwordMatchesAndIsNotEmpty(currentPasswordFromUser, currentPasswordFromDatabase) && incorrectCurrentPasswordLabel.isVisible())
+         incorrectCurrentPasswordLabel.setVisible(false);
+      // If the new password doesn't match the confirmation of the new password
+      if (!passwordMatchesAndIsNotEmpty(newPassword, newPasswordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
+          passwordDoesNotMatchLabel.setVisible(true);
+      else if (passwordMatchesAndIsNotEmpty(newPassword, newPasswordConfirmation) && passwordDoesNotMatchLabel.isVisible())
+          passwordDoesNotMatchLabel.setVisible(false);
 
         // If no label is visible, then the inputs are correct
         if (!incorrectCurrentPasswordLabel.isVisible() && !passwordDoesNotMatchLabel.isVisible()) {
             // TODO : back-end : change the password in the database
-            passwordChangedLabel.setVisible(true);
+            
+            int fadeInDuration = 1000;
+            int fadeOutDuration = fadeInDuration;
+            int sleepDuration = 3000;
+            FadeOutThread sleepAndFadeOutPasswordChangedLabelFadeThread;
+            FadeInTransition.playFromStartOn(passwordChangedLabel, Duration.millis(fadeInDuration));
+            sleepAndFadeOutPasswordChangedLabelFadeThread = new FadeOutThread();
+            sleepAndFadeOutPasswordChangedLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, passwordChangedLabel);
+            
             passwordChanged = true;
+            
         }
     }
 
     public void triggerChangePassword() {
         handleChangePasswordButtonClicked(null);
+    }
+
+    @FXML
+    public void handleButtonKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            event.consume();
+        }
     }
 }

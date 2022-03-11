@@ -1,24 +1,54 @@
 package back.user;
 
-import java.util.Currency;
-
 public class Transaction {
-    private int id;
-    private String sender;
-    private String beneficiary;
-    private float amount;
-    private Currency currency;
+    private String senderName;
+    private String senderIBAN;
+    private String receiverName;
+    private String receiverIBAN;
+    private double amount;
+    private String communication;
+    private String sendingDate;
+    private long ID;
+    private Currencies currency;
 
-    public Transaction(int id, String sender, String beneficiary, float amount, Currency currency) {
-        this.id = id;
-        this.sender = sender;
-        this.beneficiary = beneficiary;
-        this.amount = amount;
-        this.currency = currency;
+    public Transaction(long ID){
+        this.ID = ID;
+        // TODO : Donne une valeur a toutes les variables via l'API grâce à l'ID
     }
 
-    @Override
-    public String toString() {
-        return "ID : " + id + " | Sender : " + sender + " | Beneficiary : " + beneficiary + " | Amount : " + amount + " " + currency.getCurrencyCode();
+    public String getSenderName(){
+        return this.senderName;
+    }
+
+    public String getSenderIBAN(){
+        return this.senderIBAN;
+    }
+
+    public String getReceiverName(){
+        return this.senderName;
+    }
+
+    public String getReceiverIBAN(){
+        return this.senderName;
+    }
+
+    public double getAmount(){
+        return this.amount;
+    }
+
+    public String getCommunication(){
+        return this.communication;
+    }
+
+    public String getSendingDate(){
+        return this.sendingDate;
+    }
+
+    public long getID(){
+        return this.ID;
+    }
+
+    public Currencies getCurrency() {
+        return this.currency;
     }
 }

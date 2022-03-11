@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static client.front.controllers.SignUpSceneController.*;
+import static front.controllers.SignUpSceneController.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SignUpProcessTests {

@@ -1,5 +1,5 @@
-import client.front.navigation.Flow;
-import client.front.scenes.Scenes;
+import front.navigation.Flow;
+import front.scenes.Scenes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ public class FlowTests {
     }
 
     @Test
-    @DisplayName("Flow client.back & forward Test")
+    @DisplayName("Flow back & forward Test")
     public void flowBackNForwardTest() {
         Flow.clear();
         Flow.add(Scenes.AuthScene);

@@ -76,6 +76,10 @@ public class Flow {
         Flow.FLOW = new LinkedList<>();
     }
 
+    /**
+     * Returns the content of the flow as a string for display purposes.
+     * @return The content of the flow as a string
+     */
     public static String getContentAsString() {
         StringBuilder res = new StringBuilder();
         for (Scene s : FLOW) {

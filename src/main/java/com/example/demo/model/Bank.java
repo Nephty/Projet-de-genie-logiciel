@@ -9,7 +9,7 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "banks")
+@Entity
 @Table(name = "banks")
 public class Bank {
     @Column @Id

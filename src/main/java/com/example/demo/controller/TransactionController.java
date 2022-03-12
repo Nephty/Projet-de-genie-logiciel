@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/transaction")
@@ -21,7 +22,7 @@ public class TransactionController {
     }
 
     @GetMapping(value = "{iban}")
-    public ArrayList<TransactionLog> sendTransfer(@PathVariable String iban) {
+    public Optional<TransactionLog> sendTransfer(@PathVariable String iban) {
         return transactionLogService.getTransactionByIban(iban);
     }
 }

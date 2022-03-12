@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="account_type")
 public class AccountType {
-    @Column(name="Account_type_id") @Id
+    @Column(name= "account_type_id") @Id
     private Integer accountTypeId;
 
     @Column(

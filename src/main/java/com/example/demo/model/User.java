@@ -47,4 +47,14 @@ public class User {
             nullable = false
     )
     private String language;
+
+    public User(String userID, String username, String lastname,
+                String firstname, String email, String language) {
+        this.userID = userID;
+        this.username = username;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.email = email;
+        this.language = language;
+    }
 }

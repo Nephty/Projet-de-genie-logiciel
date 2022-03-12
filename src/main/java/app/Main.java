@@ -1,4 +1,4 @@
-package BenkyngApp;
+package app;
 
 import back.user.Profile;
 import front.navigation.Flow;
@@ -28,19 +28,18 @@ public class Main extends Application {
         Scenes.LanguageScene = SceneLoader.load("LanguageScene.fxml", getClass());
         Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml", getClass());
         Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", getClass());
-        Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml", getClass());
-        Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml", getClass());
-        Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", getClass());
-        Scenes.RequestNewPortfolioScene = SceneLoader.load("RequestNewPortfolioScene.fxml", getClass());
-        Scenes.RequestTransferPermissionScene = SceneLoader.load("RequestTransferPermissionScene.fxml", getClass());
         Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", getClass());
-        Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml", getClass());
-        Scenes.ProductDetailsScene = SceneLoader.load("ProductDetailsScene.fxml", getClass());
-        Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml", getClass());
-        Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml", getClass());
-        Scenes.TransferScene = SceneLoader.load("TransferScene.fxml", getClass());
-        Scenes.EnterPINScene = SceneLoader.load("EnterPINScene.fxml", getClass());
-        Scenes.VisualizeToolScene = SceneLoader.load("VisualizeToolScene.fxml", getClass());
+        Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml", getClass());
+        Scenes.ManageTransferPermissionsScene = null;
+        Scenes.ManagePortfolioRequestsScene = null;
+        Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", getClass());
+        Scenes.ClientsScene = null;
+        Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml", getClass());
+        Scenes.AddClientScene = null;
+        Scenes.ClientDetailsScene = null;
+        Scenes.CreateClientAccountScene = null;
+        Scenes.ManageDataScene = null;
+        Scenes.ImportDataScene = null;
 
         Flow.add(Scenes.AuthScene);
 

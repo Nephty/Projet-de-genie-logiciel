@@ -1,6 +1,6 @@
 package front.controllers;
 
-import BenkyngApp.Main;
+import app.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
@@ -10,10 +10,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public class RequestsSceneController extends Controller implements BackButtonNavigator {
+public class ManageRequestsSceneController extends Controller implements BackButtonNavigator {
 
     @FXML
-    public Button backButton, transferPermissionButton, newPortfolioButton, requestsStatusButton;
+    public Button backButton, transferPermissionRequestsButton, portfolioRequestsButton, requestsStatusButton;
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -31,13 +31,13 @@ public class RequestsSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleTransferPermissionButtonClicked(MouseEvent event) {
-        Main.setScene(Flow.forward(Scenes.RequestTransferPermissionScene));
+    public void handleTransferPermissionRequestsButtonClicked(MouseEvent event) {
+        Main.setScene(Flow.forward(Scenes.ManageTransferPermissionsScene));
     }
 
     @FXML
-    public void handleNewPortfolioButtonClicked(MouseEvent event) {
-        Main.setScene(Flow.forward(Scenes.RequestNewPortfolioScene));
+    public void handlePortfolioRequestsButtonClicked(MouseEvent event) {
+        Main.setScene(Flow.forward(Scenes.ManagePortfolioRequestsScene));
     }
 
     @FXML

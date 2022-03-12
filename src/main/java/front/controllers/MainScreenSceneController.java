@@ -1,6 +1,6 @@
 package front.controllers;
 
-import BenkyngApp.Main;
+import app.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.LanguageButtonNavigator;
 import front.scenes.Scenes;
@@ -10,7 +10,7 @@ import javafx.scene.input.MouseEvent;
 
 public class MainScreenSceneController extends Controller implements LanguageButtonNavigator {
     @FXML
-    public Button changePasswordButton, notificationsButton, requestsButton, financialProductsButton, languageButton, signOutButton;
+    public Button changePasswordButton, manageDataButton, ManageRequestsButton, ClientsButton, languageButton, signOutButton;
 
     @FXML
     public void handleSignOutButtonClicked(MouseEvent event) {
@@ -29,18 +29,18 @@ public class MainScreenSceneController extends Controller implements LanguageBut
     }
 
     @FXML
-    public void handleFinancialProductsButtonClicked(MouseEvent event) {
-        Main.setScene(Flow.forward(Scenes.FinancialProductsScene));
+    public void handleClientsButtonClicked(MouseEvent event) {
+        Main.setScene(Flow.forward(Scenes.ClientsScene));
     }
 
     @FXML
-    public void handleRequestsButtonClicked(MouseEvent event) {
-        Main.setScene(Flow.forward(Scenes.RequestsScene));
+    public void handleManageRequestsButtonClicked(MouseEvent event) {
+        Main.setScene(Flow.forward(Scenes.ManageRequestsScene));
     }
 
     @FXML
-    public void handleNotificationsButtonClicked(MouseEvent event) {
-        Main.setScene(Flow.forward(Scenes.NotificationsScene));
+    public void handleManageDataButtonClicked(MouseEvent event) {
+        Main.setScene(Flow.forward(Scenes.ManageDataScene));
     }
 
     @FXML

@@ -1,6 +1,6 @@
 package front.controllers;
 
-import BenkyngApp.Main;
+import app.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
@@ -10,7 +10,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public class ExportHistorySceneController extends Controller implements BackButtonNavigator {
+public class ExportDataSceneController extends Controller implements BackButtonNavigator {
     @FXML
     public Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
     @FXML
@@ -47,7 +47,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
     public void handleJSONExportButtonClicked(MouseEvent event) {
         // TODO : back-end : 1. If the user selected a path and the noPathSelectedLabel is visible, hide it
         //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
-        //                   3. If the user selected a path and the noPathSelectedLabel is no visible, export to JSON at the selected path
+        //                   3. If the user selected a path and the noPathSelectedLabel is not visible, export to JSON at the selected path
         //                   4. After the export is done, set exportDone to true and fade in and out exportSuccessfulLabel
     }
 
@@ -55,7 +55,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
     public void handleCSVExportButtonClicked(MouseEvent event) {
         // TODO : back-end : 1. If the user selected a path and the noPathSelectedLabel is visible, hide it
         //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
-        //                   3. If the user selected a path and the noPathSelectedLabel is no visible, export to CSV at the selected path
+        //                   3. If the user selected a path and the noPathSelectedLabel is not visible, export to CSV at the selected path
         //                   4. After the export is done, set exportDone to true and set exportSuccessfulLabel visibility to true
     }
 

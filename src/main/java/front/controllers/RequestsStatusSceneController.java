@@ -1,6 +1,6 @@
 package front.controllers;
 
-import BenkyngApp.Main;
+import app.Main;
 import back.user.Request;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
@@ -70,7 +70,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch requests and put them in the listview
-            // TODO : back-end : fetch requests from the database and put them in the listview
+            // TODO : back-end : fetch ALL requests from the database and put them in the listview
             // Fade the label "updating requests..." out to 0.0 opacity
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);
         }

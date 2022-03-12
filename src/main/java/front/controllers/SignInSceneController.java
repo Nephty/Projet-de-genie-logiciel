@@ -1,6 +1,6 @@
 package front.controllers;
 
-import BenkyngApp.Main;
+import app.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;

@@ -11,11 +11,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@IdClass(SubAccountPK.class)
 @Table(name="sub_account")
 public class SubAccount {
 
-
+    /*
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
@@ -31,6 +30,26 @@ public class SubAccount {
             referencedColumnName = "currency_type_id"
     )
     private CurrencyType currencyTypeId;
+     */
+
+    @EmbeddedId
+    private SubAccountPK subAccountPK;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @MapsId("iban")
+    @JoinColumn(
+            name="iban",
+            referencedColumnName = "iban"
+    )
+    private Account iban;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @MapsId("currencyTypeId")
+    @JoinColumn(
+            name="currency_type_id",
+            referencedColumnName = "currency_type_id"
+    )
+    private CurrencyType currencyType;
 
     @Column(
             name="current_balance",

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class SubAccountPK implements Serializable {
     /*
     This class is used to make composite primary keys with JPA.
@@ -22,7 +24,7 @@ public class SubAccountPK implements Serializable {
      more info : https://www.baeldung.com/jpa-composite-primary-keys
      */
     private String iban;
-    private int currencyTypeId;
+    private Integer currencyTypeId;
 
     @Override
     public int hashCode(){

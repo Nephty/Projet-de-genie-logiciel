@@ -6,9 +6,8 @@ public class Profile {
     private String nationalRegistrationNumber;
     private Portfolio portfolio;
 
-    public Profile(String firstName, String lastName, String nationalRegistrationNumber){
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Profile(String nationalRegistrationNumber){
+
         this.nationalRegistrationNumber = nationalRegistrationNumber;
         this.portfolio = new Portfolio(nationalRegistrationNumber);
     }

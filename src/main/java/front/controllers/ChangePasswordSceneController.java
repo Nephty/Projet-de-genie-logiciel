@@ -41,6 +41,9 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
+        incorrectCurrentPasswordLabel.setVisible(false);
+        passwordDoesNotMatchLabel.setVisible(false);
+        passwordChangedLabel.setVisible(false);
         if (passwordChanged) {
             currentPasswordField.setText("");
             newPasswordField.setText("");
@@ -51,6 +54,14 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     @Override
     public void handleLanguageButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.LanguageScene));
+        incorrectCurrentPasswordLabel.setVisible(false);
+        passwordDoesNotMatchLabel.setVisible(false);
+        passwordChangedLabel.setVisible(false);
+        if (passwordChanged) {
+            currentPasswordField.setText("");
+            newPasswordField.setText("");
+            confirmNewPasswordField.setText("");
+        }
     }
 
     @FXML
@@ -58,18 +69,12 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         handleLanguageButtonNavigation(event);
     }
 
-    public void handleCurrentPasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerChangePassword();
+    @FXML
+    public void handleComponentKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) emulateChangePasswordButtonClicked();
     }
 
-    public void handleNewPasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerChangePassword();
-    }
-
-    public void handleConfirmNewPasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerChangePassword();
-    }
-
+    @FXML
     public void handleChangePasswordButtonClicked(MouseEvent event) {
         // TODO : back-end : Chercher le mot de passe actuel sur l'api
         String currentPasswordFromDatabase = "yes";
@@ -106,7 +111,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         }
     }
 
-    public void triggerChangePassword() {
+    public void emulateChangePasswordButtonClicked() {
         handleChangePasswordButtonClicked(null);
     }
 

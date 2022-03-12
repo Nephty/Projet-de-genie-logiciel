@@ -37,7 +37,7 @@
                    prefHeight="36.0" prefWidth="326.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                    text="Transactions history not updated."/>
-            <Button fx:id="exportButton" layoutX="1075.0" layoutY="250.0"
+            <Button fx:id="exportButton" layoutX="1075.0" layoutY="175.0"
                     onMouseClicked="#handleExportButtonClicked" prefHeight="30.0" prefWidth="170.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleButtonKeyReleased"

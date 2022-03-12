@@ -1,6 +1,6 @@
 package front.controllers;
 
-import BenkyngApp.Main;
+import App.Main;
 import back.user.Bank;
 import back.user.Request;
 import back.user.Reason;

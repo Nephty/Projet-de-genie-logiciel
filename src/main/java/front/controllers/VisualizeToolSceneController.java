@@ -1,6 +1,6 @@
 package front.controllers;
 
-import BenkyngApp.Main;
+import App.Main;
 import back.Timespan;
 import back.user.Account;
 import front.navigation.Flow;

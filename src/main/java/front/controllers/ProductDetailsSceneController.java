@@ -1,6 +1,6 @@
 package front.controllers;
 
-import BenkyngApp.Main;
+import App.Main;
 import back.user.Account;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;

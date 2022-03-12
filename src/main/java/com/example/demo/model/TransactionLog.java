@@ -1,10 +1,14 @@
 package com.example.demo.model;
 
 
+import com.example.demo.model.CompositePK.SubAccountPK;
 import lombok.*;
+import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
 import java.sql.Date;
+
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Getter
 @Setter
@@ -14,11 +18,26 @@ import java.sql.Date;
 @Entity
 @Table(name="transaction_log")
 public class TransactionLog {
+    /*
+    This class is kinda weird, trying to set the many-to-many relationship
+    TODO : check for all the foreign keys in the table.
+     */
 
-    // TODO generate id auto (create new constructor without the id)
-    @Column(name="transaction_id")
     @Id
-    private int transactionId;
+    @SequenceGenerator(
+            name = "transaction_sequence",
+            sequenceName = "transaction_sequence",
+            allocationSize = 1 // How much will the sequence increase from
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "transaction_sequence"
+    )
+    @Column(
+            name="transaction_id",
+            updatable = false
+    )
+    private Integer transactionId;
 
     @ManyToOne
     @JoinColumn(
@@ -30,34 +49,26 @@ public class TransactionLog {
     @Column(name="transaction_date")
     private Date transaction_date;
 
-    /*
-    @ManyToMany
-    @JoinColumn(
-            name = "iban",
-            referencedColumnName = "iban"
-    )
-    private Account iban;
-    */
-
-
-    @Column
+    @Column(name="iban")
     private String iban;
-    // TODO : WHY NOT WORKING
-
+    @Column(name = "currency_id_used")
+    private Integer currencyIdUsed;
 
     @Column(name="Recipient_iban")
     private String recipientIban;
     // TODO foreign key
 
-    @Column(name="transaction_amount")
-    private double transactionAmount;
 
-    @Column(name="currency_id_used")
-    private int currencyIdUsed;
-    // TODO foreign key
+
+    @Column(
+            name="transaction_amount",
+            nullable = false
+    )
+    private Double transactionAmount;
+
 
     @Column(name="currency_id_recipient")
-    private int currencyIdRecipient;
+    private Integer currencyIdRecipient;
     // TODO foreign key
 
 }

@@ -16,8 +16,14 @@ import javax.persistence.Table;
 @Table(name="notification_type")
 public class NotificationType {
 
-    @Column(name="notification_type_id") @Id
-    private int notificationTypeId;
-    @Column(name="notification_type_name",unique=true)
+    @Column(name="notification_type_id")
+    @Id
+    private Integer notificationTypeId;
+
+    @Column(
+            name="notification_type_name",
+            unique=true,
+            nullable = false
+    )
     private String notificationTypeName;
 }

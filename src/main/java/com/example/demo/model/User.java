@@ -17,16 +17,34 @@ public class User {
     @Column(name="nrn")
     @Id
     private String userID;
-    @Column
+
+    @Column(
+            nullable = false,
+            unique = true
+    )
     private String username;
-    @Column
+
+    @Column(
+            nullable = false
+    )
     private String lastname;
-    @Column
+
+    @Column(
+            nullable = false
+    )
     private String firstname;
-    @Column
+
+    @Column(
+            nullable = false,
+            unique = true
+    )
     private String email;
-    @Column
+
+    @Column(nullable = false)
     private String password;
-    @Column
+
+    @Column(
+            nullable = false
+    )
     private String language;
 }

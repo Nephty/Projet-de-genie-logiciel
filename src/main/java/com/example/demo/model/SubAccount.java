@@ -11,13 +11,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@IdClass(SubAccountPK.class)
 @Table(name="sub_account")
 public class SubAccount {
 
-
+    /*
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="iban",
             referencedColumnName = "iban"
@@ -25,14 +24,37 @@ public class SubAccount {
     private Account iban;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="currency_type_id",
             referencedColumnName = "currency_type_id"
     )
     private CurrencyType currencyTypeId;
+     */
 
-    @Column(name="current_balance")
+    @EmbeddedId
+    private SubAccountPK subAccountPK;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @MapsId("iban")
+    @JoinColumn(
+            name="iban",
+            referencedColumnName = "iban"
+    )
+    private Account iban;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @MapsId("currencyTypeId")
+    @JoinColumn(
+            name="currency_type_id",
+            referencedColumnName = "currency_type_id"
+    )
+    private CurrencyType currencyType;
+
+    @Column(
+            name="current_balance",
+            nullable = false
+    )
     private Double currentBalance;
 
 }

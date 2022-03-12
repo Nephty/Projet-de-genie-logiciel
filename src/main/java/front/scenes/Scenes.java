@@ -10,5 +10,4 @@ public class Scenes {
             NotificationsScene, RequestsScene, RequestsStatusScene, RequestNewPortfolioScene,
             RequestTransferPermissionScene, FinancialProductsScene, ProductDetailsScene, TransactionsHistoryScene,
             VisualizeToolScene, ExportHistoryScene, TransferScene, EnterPINScene;
-    // TODO : don't do a "toggle product scene", but add a button "toggle" and a label "status : " and a label "toggled/untoggled" instead
 }

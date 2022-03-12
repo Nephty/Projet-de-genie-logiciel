@@ -35,7 +35,7 @@
                     onKeyReleased="#handleButtonKeyReleased"
                     prefWidth="350.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="Transfer Permission" textFill="#0a0a14">
+                    text="Transfer permission" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -48,7 +48,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleButtonKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="New Portfolio" textFill="#0a0a14">
+                    text="New portfolio" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -61,7 +61,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleButtonKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="Requests Status" textFill="#0a0a14">
+                    text="Requests status" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -72,4 +72,3 @@
         </AnchorPane>
     </Pane>
 </Pane>
-

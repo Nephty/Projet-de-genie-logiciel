@@ -1,6 +1,8 @@
 package app;
 
+import back.user.Bank;
 import back.user.Profile;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
@@ -14,6 +16,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private static Profile user;
     private static Stage stage;
+    private static String token;
 
     public static void main(String[] args) {
         launch(args);
@@ -48,6 +51,26 @@ public class Main extends Application {
         stage.setTitle("Benkyng app");
         stage.setScene(Scenes.AuthScene);
         stage.show();
+
+        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXRhbkBoZWxsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjQ4MjQxNTIxfQ.Hr0KX07H5BBM9-rI94BmLFMfHK4jdVFfxgM3KG0vOjQ";
+//
+//        Profile a = null;
+//        try {
+//            a = new Profile("123456789");
+//        } catch (UnirestException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(a.getFirstName());
+//        System.out.println(a.getLastName());
+//        System.out.println(a.getNationalRegistrationNumber());
+        Bank a = null;
+        try {
+            a = new Bank("ABCD");
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(a.getName());
     }
 
     public static void setScene(Scene scene) {
@@ -60,5 +83,9 @@ public class Main extends Application {
 
     public static Profile getUser() {
         return user;
+    }
+
+    public static String getToken(){
+        return token;
     }
 }

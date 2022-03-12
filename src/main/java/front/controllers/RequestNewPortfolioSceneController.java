@@ -4,6 +4,7 @@ import app.Main;
 import back.user.Bank;
 import back.user.Request;
 import back.user.Reason;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -61,7 +62,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleSendRequestButton(MouseEvent event) {
+    public void handleSendRequestButton(MouseEvent event) throws UnirestException {
         if (SWIFTComboBox.getValue() != null) {
             if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false);
 

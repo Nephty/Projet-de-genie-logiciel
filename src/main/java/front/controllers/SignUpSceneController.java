@@ -1,6 +1,6 @@
 package front.controllers;
 
-import App.Main;
+import app.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
@@ -186,7 +186,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      * Requirements :
      *  - string must not be empty
      *  - string must not be null
-     *  - string must only contain characters from a-z and from A-Z
+     *  - string must only contain characters from a-z and from A-Z or a dash (-)
      * @param lastName - <code>String</code> - the last name to check
      * @return <code>boolean</code> - whether the given last name is a valid last name or not
      */
@@ -322,42 +322,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     }
 
     @FXML
-    public void handleFirstNameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
-    }
-
-    @FXML
-    public void handleLastNameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
-    }
-
-    @FXML
-    public void handleNRNFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
-    }
-
-    @FXML
-    public void handleEmailFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
-    }
-
-    @FXML
-    public void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
-    }
-
-    @FXML
-    public void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
-    }
-
-    @FXML
-    public void handleConfirmPasswordFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
-    }
-
-    @FXML
-    public void handleLanguageComboBoxKeyPressed(KeyEvent keyEvent) {
+    public void handleComponentKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
@@ -398,6 +363,9 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     public void handleButtonKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
+            event.consume();
+        } else if (event.getCode() == KeyCode.ENTER) {
+            emulateSignUpButtonClicked();
             event.consume();
         }
     }

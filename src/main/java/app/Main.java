@@ -1,4 +1,4 @@
-package App;
+package app;
 
 import back.user.Profile;
 import front.navigation.Flow;

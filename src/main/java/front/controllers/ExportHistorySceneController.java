@@ -1,6 +1,6 @@
 package front.controllers;
 
-import App.Main;
+import app.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;

@@ -1,6 +1,6 @@
 package front.controllers;
 
-import App.Main;
+import app.Main;
 import back.user.Reason;
 import back.user.Request;
 import back.user.Wallet;

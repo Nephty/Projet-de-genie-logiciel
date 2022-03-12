@@ -34,17 +34,17 @@
                     <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0" />
                 </effect>
             </Button>
-            <TextField fx:id="usernameField" layoutX="423.0" layoutY="225.0" onKeyPressed="#handleUsernameFieldKeyPressed" onKeyReleased="#handleButtonKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="Username..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+            <TextField fx:id="usernameField" layoutX="423.0" layoutY="225.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleButtonKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="Username..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
                     <Font size="20.0" />
                 </font>
             </TextField>
-            <TextField fx:id="passwordTextField" layoutX="423.0" layoutY="315.0" onKeyPressed="#handlePasswordFieldKeyPressed" onKeyReleased="#handleButtonKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="Password..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+            <TextField fx:id="passwordTextField" layoutX="423.0" layoutY="315.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleButtonKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="Password..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
                     <Font size="20.0" />
                 </font>
             </TextField>
-            <PasswordField fx:id="passwordField" layoutX="423.0" layoutY="315.0" onKeyPressed="#handlePasswordFieldKeyPressed" onKeyReleased="#handleButtonKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="Password..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+            <PasswordField fx:id="passwordField" layoutX="423.0" layoutY="315.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleButtonKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="Password..." style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
                     <Font size="20.0" />
                 </font>

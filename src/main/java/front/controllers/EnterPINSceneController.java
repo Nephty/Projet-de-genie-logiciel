@@ -1,6 +1,6 @@
 package front.controllers;
 
-import App.Main;
+import app.Main;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;

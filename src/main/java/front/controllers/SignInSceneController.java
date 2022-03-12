@@ -1,6 +1,6 @@
 package front.controllers;
 
-import App.Main;
+import app.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
@@ -85,12 +85,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     }
 
     @FXML
-    public void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) emulateSignInButtonClicked();
-    }
-
-    @FXML
-    public void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
+    public void handleComponentKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) emulateSignInButtonClicked();
     }
 
@@ -106,6 +101,9 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     public void handleButtonKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
+            event.consume();
+        } else if (event.getCode() == KeyCode.ENTER) {
+            emulateSignInButtonClicked();
             event.consume();
         }
     }

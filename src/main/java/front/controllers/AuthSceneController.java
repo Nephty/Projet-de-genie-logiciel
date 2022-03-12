@@ -1,6 +1,6 @@
 package front.controllers;
 
-import App.Main;
+import app.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.LanguageButtonNavigator;
 import front.scenes.Scenes;
@@ -11,9 +11,6 @@ import javafx.scene.input.MouseEvent;
 public class AuthSceneController extends Controller implements LanguageButtonNavigator {
     @FXML
     Button languageButton, signInButton, signUpButton;
-
-    public AuthSceneController() {
-    }
 
     @FXML
     private void handleLanguageButtonClicked(MouseEvent event) {

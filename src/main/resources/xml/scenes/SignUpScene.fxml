@@ -43,7 +43,7 @@
                     onKeyReleased="#handleButtonKeyReleased"
                     prefHeight="650.0" prefWidth="1280.0">
             <TextField fx:id="firstNameField" layoutX="178.0" layoutY="100.0"
-                       onKeyPressed="#handleFirstNameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyPressed="#handleComponentKeyPressed" prefHeight="60.0" prefWidth="435.0"
                        onKeyReleased="#handleButtonKeyReleased"
                        promptText="First name..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -52,7 +52,7 @@
                 </font>
             </TextField>
             <TextField fx:id="lastNameField" layoutX="178.0" layoutY="190.0"
-                       onKeyPressed="#handleLastNameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyPressed="#handleComponentKeyPressed" prefHeight="60.0" prefWidth="435.0"
                        onKeyReleased="#handleButtonKeyReleased"
                        promptText="Last name..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -62,7 +62,7 @@
             </TextField>
             <Label fx:id="NRNTakenLabel" layoutX="187.0" layoutY="260.0" prefHeight="16.0" prefWidth="140.0"
                    text="NRN already taken." textFill="#c80000" visible="false"/>
-            <TextField fx:id="NRNField" layoutX="178.0" layoutY="280.0" onKeyPressed="#handleNRNFieldKeyPressed"
+            <TextField fx:id="NRNField" layoutX="178.0" layoutY="280.0" onKeyPressed="#handleComponentKeyPressed"
                        prefHeight="60.0" prefWidth="435.0" promptText="NRN..."
                        onKeyReleased="#handleButtonKeyReleased"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -73,7 +73,7 @@
             <Label fx:id="emailTakenLabel" layoutX="187.0" layoutY="350.0" prefHeight="16.0" prefWidth="146.0"
                    text="Email already taken." textFill="#c80000" visible="false"/>
             <TextField fx:id="emailAddressField" layoutX="178.0" layoutY="370.0"
-                       onKeyPressed="#handleEmailFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyPressed="#handleComponentKeyPressed" prefHeight="60.0" prefWidth="435.0"
                        onKeyReleased="#handleButtonKeyReleased"
                        promptText="Email address..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -84,7 +84,7 @@
             <Label fx:id="usernameTakenLabel" layoutX="674.0" layoutY="80.0" prefHeight="16.0" prefWidth="168.0"
                    text="Username already taken." textFill="#c80000" visible="false"/>
             <TextField fx:id="usernameField" layoutX="668.0" layoutY="100.0"
-                       onKeyPressed="#handleUsernameFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyPressed="#handleComponentKeyPressed" prefHeight="60.0" prefWidth="435.0"
                        onKeyReleased="#handleButtonKeyReleased"
                        promptText="Username..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -93,7 +93,7 @@
                 </font>
             </TextField>
             <TextField fx:id="passwordTextField" layoutX="668.0" layoutY="190.0"
-                       onKeyPressed="#handlePasswordFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyPressed="#handleComponentKeyPressed" prefHeight="60.0" prefWidth="435.0"
                        onKeyReleased="#handleButtonKeyReleased"
                        promptText="Password..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -102,7 +102,7 @@
                 </font>
             </TextField>
             <PasswordField fx:id="passwordField" layoutX="668.0" layoutY="190.0"
-                           onKeyPressed="#handlePasswordFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                           onKeyPressed="#handleComponentKeyPressed" prefHeight="60.0" prefWidth="435.0"
                            onKeyReleased="#handleButtonKeyReleased"
                            promptText="Password..."
                            style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -113,7 +113,7 @@
             <Label fx:id="passwordDoesNotMatchLabel" layoutX="674.0" layoutY="260.0" prefHeight="16.0" prefWidth="270.0"
                    text="Password does not match or is empty." textFill="#c80000" visible="false"/>
             <TextField fx:id="confirmPasswordTextField" layoutX="668.0" layoutY="280.0"
-                       onKeyPressed="#handleConfirmPasswordFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                       onKeyPressed="#handleComponentKeyPressed" prefHeight="60.0" prefWidth="435.0"
                        onKeyReleased="#handleButtonKeyReleased"
                        promptText="Confirm password..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -122,7 +122,7 @@
                 </font>
             </TextField>
             <PasswordField fx:id="confirmPasswordField" layoutX="668.0" layoutY="280.0"
-                           onKeyPressed="#handleConfirmPasswordFieldKeyPressed" prefHeight="60.0" prefWidth="435.0"
+                           onKeyPressed="#handleComponentKeyPressed" prefHeight="60.0" prefWidth="435.0"
                            onKeyReleased="#handleButtonKeyReleased"
                            promptText="Confirm password..."
                            style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -141,7 +141,7 @@
                 </font>
             </Label>
             <ComboBox fx:id="languageComboBox" layoutX="903.0" layoutY="382.0"
-                      onKeyPressed="#handleLanguageComboBoxKeyPressed" prefHeight="36.0" prefWidth="200.0"
+                      onKeyPressed="#handleComponentKeyPressed" prefHeight="36.0" prefWidth="200.0"
                       onKeyReleased="#handleButtonKeyReleased"
                       promptText="Language..."
                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">

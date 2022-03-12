@@ -1,6 +1,6 @@
 package front.controllers;
 
-import App.Main;
+import app.Main;
 import back.Timespan;
 import back.user.Account;
 import front.navigation.Flow;

@@ -1,8 +1,6 @@
 package app;
 
-import back.user.Bank;
 import back.user.Profile;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
@@ -63,14 +61,26 @@ public class Main extends Application {
 //        System.out.println(a.getFirstName());
 //        System.out.println(a.getLastName());
 //        System.out.println(a.getNationalRegistrationNumber());
-        Bank a = null;
-        try {
-            a = new Bank("ABCD");
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
+//        Bank a = null;
+//        try {
+//            a = new Bank("ABCD");
+//        } catch (UnirestException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println(a.getName());
 
-        System.out.println(a.getName());
+//        Account a = null;
+//        try {
+//            a = new Account("uwu69420");
+//        } catch (UnirestException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println(a.getIBAN());
+//        System.out.println(a.getAccountType());
+//        System.out.println(a.getAccountOwner().getFirstName());
+
     }
 
     public static void setScene(Scene scene) {

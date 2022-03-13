@@ -34,10 +34,15 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         ObservableList<Timespan> timespanValues = FXCollections.observableArrayList(Arrays.asList(Timespan.DAILY, Timespan.WEEKLY, Timespan.MONTHLY, Timespan.YEARLY));
         timeSpanComboBox.setItems(timespanValues);
         timeSpanComboBox.setValue(Timespan.DAILY);
-
-        ObservableList<Account> accountsValue = FXCollections.observableArrayList(Arrays.asList(new Account("account A"), new Account("account B")));
-        // TODO : make this not show the status : activated attribute in the list view
-        accountsArea.setItems(accountsValue);
+        // TODO : Retirer les commentaires
+//        ObservableList<Account> accountsValue = null;
+//        try {
+//            accountsValue = FXCollections.observableArrayList(Arrays.asList(new Account("account A"), new Account("account B")));
+//        } catch (UnirestException e) {
+//            e.printStackTrace(); // TODO : Mieux gérer l'exception
+//        }
+//        // TODO : make this not show the status : activated attribute in the list view
+//        accountsArea.setItems(accountsValue);
     }
 
     @Override

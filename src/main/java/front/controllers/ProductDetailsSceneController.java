@@ -7,7 +7,6 @@ import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,8 +28,12 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     public Label lastUpdateTimeLabel, loadingAccountsLabel, togglingProductLabel, toggledOnProductLabel, toggledOffProductLabel, accountInactiveLabel;
 
     public void initialize() {
-        fetchAccounts();
-        accountsListView.setItems(FXCollections.observableArrayList(new Account("account A"), new Account("account B")));
+//        fetchAccounts();
+//        try {
+//            accountsListView.setItems(FXCollections.observableArrayList(new Account("uwu69420"), new Account("uwu69420")));
+//        } catch (UnirestException e){
+//            e.printStackTrace(); // TODO : Mieux gérer l'erreur
+//        }
     }
 
     @Override

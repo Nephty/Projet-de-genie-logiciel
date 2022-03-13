@@ -1,0 +1,86 @@
+package front.controllers;
+
+import app.Main;
+import back.user.Client;
+import front.navigation.Flow;
+import front.navigation.navigators.BackButtonNavigator;
+import front.scenes.Scenes;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+
+public class ClientsSceneController extends Controller implements BackButtonNavigator {
+    @FXML
+    public Button backButton, exportDataButton, addClientButton, detailsButton, searchButton;
+    @FXML
+    public ListView<Client> clientsListView;
+    @FXML
+    public Label lastUpdateTimeLabel;
+    @FXML
+    public ComboBox<String> sortByComboBox;
+    @FXML
+    public TextField searchTextField;
+
+    private boolean searched = false;
+
+    public void initialize() {
+        sortByComboBox.setItems(FXCollections.observableArrayList("name", "id"));
+    }
+
+    @Override
+    public void handleBackButtonNavigation(MouseEvent event) {
+        Main.setScene(Flow.back());
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonClicked(null);
+    }
+
+    @FXML
+    public void handleComponentKeyReleased(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+        }
+    }
+
+    @FXML
+    public void handleBackButtonClicked(MouseEvent event) {
+        handleBackButtonNavigation(event);
+        if (searched) searchTextField.setText("");
+        sortByComboBox.valueProperty().set(null);
+    }
+
+    @FXML
+    public void handleExportDataButtonClicked(MouseEvent event) {
+        Main.setScene(Scenes.ExportDataScene);
+        // TODO : bring data (export only visible data)
+    }
+
+    @FXML
+    public void handleAddClientButtonClicked(MouseEvent event) {
+        Main.setScene(Scenes.AddClientScene);
+    }
+
+    @FXML
+    public void handleDetailsButtonClicked(MouseEvent event) {
+        if (clientsListView.getSelectionModel().getSelectedItems().size() == 1) {
+            Main.setScene(Scenes.ClientDetailsScene);
+            // TODO : show correct profile according to selection on next scene
+            // how-to hint : according to selection, retrieve data from client and put the data on the next scene
+        }
+    }
+
+    @FXML
+    public void handleSearchTextFieldKeyPressed(KeyEvent keyEvent) {
+        searched = false;
+    }
+
+    @FXML
+    public void handleSearchButtonClicked(MouseEvent event) {
+        searched = true;
+    }
+}

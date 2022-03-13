@@ -40,7 +40,7 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
     }
 
     @FXML
-    public void handleButtonKeyReleased(KeyEvent keyEvent) {
+    public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
         }

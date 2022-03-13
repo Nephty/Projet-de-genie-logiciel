@@ -40,7 +40,7 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     }
 
     @FXML
-    public void handleButtonKeyReleased(KeyEvent keyEvent) {
+    public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
         }

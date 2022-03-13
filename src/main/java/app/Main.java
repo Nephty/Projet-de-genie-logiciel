@@ -33,7 +33,7 @@ public class Main extends Application {
         Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml", getClass());
         Scenes.ManagePortfolioRequestsScene = null; // SceneLoader.load("ManagePortfolioRequestsScene.fxml", getClass());
         Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", getClass());
-        Scenes.ClientsScene = null; // SceneLoader.load("ClientsScenes.fxml", getClass());
+        Scenes.ClientsScene = SceneLoader.load("ClientsScene.fxml", getClass());
         Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml", getClass());
         Scenes.AddClientScene = null; // SceneLoader.load("AddClientScene.fxml", getClass());
         Scenes.ClientDetailsScene = null; // SceneLoader.load("ClientDetailsScene.fxml", getClass());

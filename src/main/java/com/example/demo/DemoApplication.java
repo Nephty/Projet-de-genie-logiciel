@@ -1,8 +1,13 @@
 package com.example.demo;
 
+import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.model.CurrencyType;
+import com.example.demo.model.SubAccount;
 import com.example.demo.model.User;
+import com.example.demo.repository.AccountRepo;
 import com.example.demo.repository.CurrencyTypeRepo;
+import com.example.demo.repository.TransactionLogRepo;
+import com.example.demo.repository.UserRepo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,10 +28,11 @@ public class DemoApplication {
 
 
 	//@Bean
-	CommandLineRunner run(CurrencyTypeRepo currencyTypeRepo) {
+	CommandLineRunner run(TransactionLogRepo transactionLogRepo) {
 		return args -> {
 			System.out.println("Runner be RUNNIIIIIIIING");
-			currencyTypeRepo.findById(0);
+			System.out.println(transactionLogRepo.findAllBySubAccount(
+					new SubAccount(new SubAccountPK("uwu69420",0))));
 		};
 	}
 

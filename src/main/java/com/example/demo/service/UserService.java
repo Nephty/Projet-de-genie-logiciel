@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j
@@ -26,8 +27,7 @@ public class UserService implements UserDetailsService {
     
 
     public User getUserById(String id) {
-        log.info("Fetching user with id of {}", id);
-        return uRepo.findById(id)
+        return uRepo.findByIdWithoutPassword(id)
                 .orElseThrow(() ->
                         new ResourceNotFound("No user with id: " + id)
                 );

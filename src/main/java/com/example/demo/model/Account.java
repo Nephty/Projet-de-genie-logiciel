@@ -1,37 +1,37 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
 
+
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "accounts")
+@Entity
 @Table(name = "accounts")
 public class Account {
     @Column
     @Id
     private String iban;
 
-    //TODO : Check if the CascadeType ALL is good in all the cases
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(
             name="swift",
             referencedColumnName = "swift"
     )
     private Bank swift;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(
             name= "user_id",
             referencedColumnName = "nrn"
     )
     private User userId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(
             name="account_type_id",
             referencedColumnName = "account_type_id",
@@ -41,4 +41,25 @@ public class Account {
 
     @Column(nullable = false)
     private Boolean payment;
+
+    public Account(String iban, Bank swift) {
+        this.iban = iban;
+        this.swift = swift;
+    }
+
+    public String toString(){
+        String res = "Account(";
+        if (iban != null)
+            res += "iban="+iban;
+        if (swift != null)
+            res += "swift="+swift;
+        if (userId != null)
+            res += "userId"+userId;
+        if (accountTypeId != null)
+            res += "accountTypeId="+accountTypeId;
+        if (payment != null)
+            res += "payment="+payment;
+        res+=")";
+        return res;
+    }
 }

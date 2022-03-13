@@ -9,7 +9,7 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "banks")
+@Entity
 @Table(name = "banks")
 public class Bank {
     @Column @Id
@@ -37,7 +37,7 @@ public class Bank {
     @Column(nullable = false)
     private String country;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(
             name="default_currency_type",
             referencedColumnName = "currency_type_id",

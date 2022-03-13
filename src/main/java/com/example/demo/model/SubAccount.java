@@ -32,7 +32,7 @@ public class SubAccount {
     private CurrencyType currencyTypeId;
      */
 
-    @EmbeddedId
+    @Id
     private SubAccountPK subAccountPK;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -57,4 +57,7 @@ public class SubAccount {
     )
     private Double currentBalance;
 
+    public SubAccount(SubAccountPK subAccountPK) {
+        this.subAccountPK = subAccountPK;
+    }
 }

@@ -18,10 +18,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Entity
 @Table(name="transaction_log")
 public class TransactionLog {
-    /*
-    This class is kinda weird, trying to set the many-to-many relationship
-    TODO : check for all the foreign keys in the table.
-     */
 
     @Id
     @SequenceGenerator(
@@ -49,26 +45,23 @@ public class TransactionLog {
     @Column(name="transaction_date")
     private Date transaction_date;
 
-    @Column(name="iban")
-    private String iban;
-    @Column(name = "currency_id_used")
-    private Integer currencyIdUsed;
-
-    @Column(name="Recipient_iban")
-    private String recipientIban;
-    // TODO foreign key
-
-
-
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumns({
+            @JoinColumn(name = "iban", referencedColumnName = "iban"),
+            @JoinColumn(name = "currency_id", referencedColumnName = "currency_type_id")
+    })
+    private SubAccount subAccount;
+    
     @Column(
             name="transaction_amount",
             nullable = false
     )
     private Double transactionAmount;
 
-
-    @Column(name="currency_id_recipient")
-    private Integer currencyIdRecipient;
-    // TODO foreign key
+    @Column(
+            name = "direction",
+            nullable = false
+    )
+    private Integer direction;
 
 }

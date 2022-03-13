@@ -30,16 +30,16 @@ public class Main extends Application {
         Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", getClass());
         Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", getClass());
         Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml", getClass());
-        Scenes.ManageTransferPermissionsScene = null;
-        Scenes.ManagePortfolioRequestsScene = null;
+        Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml", getClass());
+        Scenes.ManagePortfolioRequestsScene = null; // SceneLoader.load("ManagePortfolioRequestsScene.fxml", getClass());
         Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", getClass());
-        Scenes.ClientsScene = null;
+        Scenes.ClientsScene = null; // SceneLoader.load("ClientsScenes.fxml", getClass());
         Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml", getClass());
-        Scenes.AddClientScene = null;
-        Scenes.ClientDetailsScene = null;
-        Scenes.CreateClientAccountScene = null;
-        Scenes.ManageDataScene = null;
-        Scenes.ImportDataScene = null;
+        Scenes.AddClientScene = null; // SceneLoader.load("AddClientScene.fxml", getClass());
+        Scenes.ClientDetailsScene = null; // SceneLoader.load("ClientDetailsScene.fxml", getClass());
+        Scenes.CreateClientAccountScene = null; // SceneLoader.load("CreateClientAccountScene.fxml", getClass());
+        Scenes.ManageDataScene = null; // SceneLoader.load("ManageDataScene.fxml", getClass());
+        Scenes.ImportDataScene = null; // SceneLoader.load("ImportDataScene.fxml", getClass());
 
         Flow.add(Scenes.AuthScene);
 

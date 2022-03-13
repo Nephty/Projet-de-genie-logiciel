@@ -32,7 +32,7 @@ public class ManageRequestsSceneController extends Controller implements BackBut
 
     @FXML
     public void handleTransferPermissionRequestsButtonClicked(MouseEvent event) {
-        Main.setScene(Flow.forward(Scenes.ManageTransferPermissionsScene));
+        Main.setScene(Flow.forward(Scenes.ManageTransferPermissionRequestsScene));
     }
 
     @FXML

@@ -9,10 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepo extends JpaRepository<Account, String> {
-    @Query("SELECT new Account(a.iban) FROM Account a, Bank b, User u "+
-            "WHERE b.swift = ?2 " +
-            "AND u.userID = ?1 " +
+    @Query("SELECT new Account(a.iban,a.swift) FROM Account a, Bank b, User u "+
+            "WHERE u.userID = ?1 " +
             "AND a.userId = u.userID " +
-            "AND a.swift = b.swift")
-    Optional<Account> getAccountByUserIdAndSwift(String userId, String swift);
+            "AND a.swift = b.swift " +
+            "group by b")
+    Optional<Account> getAccountByUserId(String userId);
 }

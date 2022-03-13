@@ -27,8 +27,7 @@ public class UserService implements UserDetailsService {
     
 
     public User getUserById(String id) {
-        log.info("Fetching user with id of {}", id);
-        return uRepo.findById(id)
+        return uRepo.findByIdWithoutPassword(id)
                 .orElseThrow(() ->
                         new ResourceNotFound("No user with id: " + id)
                 );

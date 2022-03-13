@@ -3,11 +3,13 @@ package com.example.demo.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.model.User;
+import com.example.demo.repository.UserRepo;
 import com.example.demo.security.Role;
 import com.example.demo.security.TokenHandler;
 import com.example.demo.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +25,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    UserRepo userRepo;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping(value = "{id}")
     public User sendUser(@PathVariable String id) {

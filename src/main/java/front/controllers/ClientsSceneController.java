@@ -2,6 +2,8 @@ package front.controllers;
 
 import app.Main;
 import back.user.Client;
+import front.animation.FadeInTransition;
+import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
@@ -11,14 +13,17 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
+
+import java.util.Calendar;
 
 public class ClientsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, exportDataButton, addClientButton, detailsButton, searchButton;
+    public Button backButton, exportDataButton, addClientButton, detailsButton, searchButton, fetchClientsButton;
     @FXML
     public ListView<Client> clientsListView;
     @FXML
-    public Label lastUpdateTimeLabel;
+    public Label lastUpdateTimeLabel, loadingClientsLabel;
     @FXML
     public ComboBox<String> sortByComboBox;
     @FXML
@@ -27,6 +32,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     private boolean searched = false;
 
     public void initialize() {
+        fetchClients();
         sortByComboBox.setItems(FXCollections.observableArrayList("name", "id"));
     }
 
@@ -82,5 +88,25 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     @FXML
     public void handleSearchButtonClicked(MouseEvent event) {
         searched = true;
+    }
+
+    @FXML
+    public void handleFetchClientsButtonClicked(MouseEvent event) {
+        fetchClients();
+    }
+
+    private void fetchClients() {
+        if (loadingClientsLabel.getOpacity() == 0.0) {
+            int fadeInDuration = 1000;
+            int fadeOutDuration = fadeInDuration;
+            int sleepDuration = 1000;
+            FadeOutThread sleepAndFadeOutLoadingClientsLabelFadeThread;
+            FadeInTransition.playFromStartOn(loadingClientsLabel, Duration.millis(fadeInDuration));
+            sleepAndFadeOutLoadingClientsLabelFadeThread = new FadeOutThread();
+            Calendar c = Calendar.getInstance();
+            lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
+            // TODO : back-end : fetch clients from the database and put them in the listview
+            sleepAndFadeOutLoadingClientsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientsLabel);
+        }
     }
 }

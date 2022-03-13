@@ -31,7 +31,7 @@ public class Main extends Application {
         Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", getClass());
         Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml", getClass());
         Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml", getClass());
-        Scenes.ManagePortfolioRequestsScene = null; // SceneLoader.load("ManagePortfolioRequestsScene.fxml", getClass());
+        Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml", getClass());
         Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", getClass());
         Scenes.ClientsScene = SceneLoader.load("ClientsScene.fxml", getClass());
         Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml", getClass());

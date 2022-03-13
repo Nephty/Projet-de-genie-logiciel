@@ -116,6 +116,9 @@ public class Controller {
         } else if (button.getPrefWidth() == 135) {
             // Add/remove account for visualisation
             CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
+        } else if (button.getPrefWidth() == 100) {
+            // Search button
+            CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
         }
         return CSSLine;
     }
@@ -153,6 +156,9 @@ public class Controller {
             CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
         } else if (button.getPrefWidth() == 135) {
             // Add/remove account for visualisation
+            CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
+        } else if (button.getPrefWidth() == 100) {
+            // Search button
             CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
         }
         return CSSLine;

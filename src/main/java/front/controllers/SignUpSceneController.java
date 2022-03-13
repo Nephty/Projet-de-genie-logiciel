@@ -113,16 +113,16 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
                 passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
 
         // Manage the "invalid xxxx" labels visibility
-        // Is the city valid (A-Z, a-z) ? Show/hide the incorrect last name label accordingly
+        // Is the city valid
         if (!isValidCity(city) && !invalidCityLabel.isVisible()) invalidCityLabel.setVisible(true);
         else if (isValidCity(city) && invalidCityLabel.isVisible()) invalidCityLabel.setVisible(false);
-        // Is the SWIFT valid (A-Z, a-z) ? Show/hide the incorrect first name label accordingly
+        // Is the SWIFT valid
         if (!isValidSWIFT(SWIFT) && !invalidSWIFTLabel.isVisible()) invalidSWIFTLabel.setVisible(true);
         else if (isValidSWIFT(SWIFT) && invalidSWIFTLabel.isVisible()) invalidSWIFTLabel.setVisible(false);
-        // Is the country valid (XX.XX.XX-XXX.XX format with numbers)
+        // Is the country valid
         if (!isValidCountry(country) && !invalidCountryLabel.isVisible()) invalidCountryLabel.setVisible(true);
         else if (isValidCountry(country) && invalidCountryLabel.isVisible()) invalidCountryLabel.setVisible(false);
-        // Is the name valid (numbers and letters only)
+        // Is the name valid
         if (!isValidName(name) && !invalidNameLabel.isVisible()) invalidNameLabel.setVisible(true);
         else if (isValidName(name) && invalidNameLabel.isVisible()) invalidNameLabel.setVisible(false);
 

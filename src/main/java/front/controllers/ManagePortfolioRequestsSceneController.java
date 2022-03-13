@@ -17,7 +17,7 @@ import javafx.util.Duration;
 
 import java.util.Calendar;
 
-public class ManageTransferPermissionRequestsController extends Controller implements BackButtonNavigator {
+public class ManagePortfolioRequestsSceneController extends Controller implements BackButtonNavigator {
     @FXML
     public Button backButton, denyButton, approveButton, fetchRequestsButton;
     @FXML
@@ -80,7 +80,7 @@ public class ManageTransferPermissionRequestsController extends Controller imple
             sleepAndFadeOutLoadingRequestsLabelFadeThread = new FadeOutThread();
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // TODO : back-end : fetch notifications from the database and put them in the listview only if they are not dismissed
+            // TODO : back-end : fetch portfolio requests from the database and put them in the listview
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingNotificationsLabel);
         }
     }

@@ -21,13 +21,13 @@ public class TransactionLog {
 
     @Id
     @SequenceGenerator(
-            name = "transaction_sequence",
-            sequenceName = "transaction_sequence",
+            name = "transaction_log_transaction_id_seq",
+            sequenceName = "transaction_log_transaction_id_seq",
             allocationSize = 1 // How much will the sequence increase from
     )
     @GeneratedValue(
             strategy = SEQUENCE,
-            generator = "transaction_sequence"
+            generator = "transaction_log_transaction_id_seq"
     )
     @Column(
             name="transaction_id",

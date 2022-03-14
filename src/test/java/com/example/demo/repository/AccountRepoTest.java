@@ -20,6 +20,8 @@ class AccountRepoTest {
 
     @Test
     void DoesNotThrowsLazyInitialisationException() {
+        //Make this test on the Business layer because this error isn't thrown
+        // in the persistence layer.
         //given
         Account account = new Account(
             "uwu69420",
@@ -29,6 +31,6 @@ class AccountRepoTest {
                 false
         );
         //then
-        assertThrows(LazyInitializationException.class,()-> underTest.getById("uwu69420"));
+        underTest.getById("uwu69420");//Can throw a LazyInitialisationException
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.throwables.ResourceNotFound;
+import com.example.demo.model.Account;
 import com.example.demo.model.AccountAccess;
 import com.example.demo.model.CompositePK.AccountAccessPK;
 import com.example.demo.model.User;
@@ -17,7 +18,9 @@ import java.util.Optional;
 @Service @Transactional
 public class AccountAccessService {
     private final AccountAccessRepo accountAccessRepo;
+
     public void createAccountAccess(AccountAccess accountAccess) {
+        // TODO verify that we didn't create that access already
         accountAccessRepo.save(accountAccess);
     }
 
@@ -27,6 +30,10 @@ public class AccountAccessService {
 
     public void deleteAccountAccess(String accountId, String userId) {
         accountAccessRepo.deleteById(new AccountAccessPK(accountId, userId));
+    }
+
+    public AccountAccess getAccountAccess(String accountId,String userId){
+        return accountAccessRepo.getById(new AccountAccessPK(accountId,userId));
     }
 
     public List<AccountAccess> getAccountAccessByUserId(String userID){

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountAccessPK> {
-    @Query("SELECT s FROM AccountAccess s, User u where u.userID = ?1 and s.userId = u.userID")
+    @Query("SELECT s FROM AccountAccess s, User u where u.userID = ?1 and s.userId = u.userID " +
+            "group by s.accountId.swift")
     List<AccountAccess> getAllByUserId(String userID);
 }

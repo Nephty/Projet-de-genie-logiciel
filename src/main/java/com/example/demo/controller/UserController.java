@@ -24,12 +24,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(path = "/api/user")
 @RestController
 public class UserController {
-
-    @Autowired
-    UserRepo userRepo;
-
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
     @GetMapping(value = "{id}")
     public User sendUser(@PathVariable String id) {

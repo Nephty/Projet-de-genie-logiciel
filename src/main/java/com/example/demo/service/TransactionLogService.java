@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.model.CurrencyType;
 import com.example.demo.model.SubAccount;
@@ -22,8 +23,11 @@ public class TransactionLogService {
         transactionLogRepo.save(transactionLog);
     }
 
-    public Optional<TransactionLog> getTransactionByIban(String iban) {
+    public TransactionLog getTransactionByIban(String iban) {
         SubAccount tmp = new SubAccount(new SubAccountPK(iban,0));
-        return transactionLogRepo.findAllBySubAccount(tmp);
+        return transactionLogRepo.findAllBySubAccount(tmp)
+                .orElseThrow(
+                        () -> new ResourceNotFound("No transaction for iban:" + iban)
+                );
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.Account;
 import com.example.demo.repository.AccountRepo;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,10 @@ public class AccountService {
     private final AccountRepo accountRepo;
 
     public Account getAccount(String iban) {
-        return accountRepo.getById(iban);
+        return accountRepo.findById(iban)
+                .orElseThrow(
+                        ()-> new ResourceNotFound("iban: " + iban)
+                );
     }
 
     public void deleteAccount(String iban) {

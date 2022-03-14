@@ -10,6 +10,8 @@ import com.example.demo.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,29 +34,31 @@ public class UserController {
     UserService userService;
 
     @GetMapping(value = "{id}")
-    public User sendUser(@PathVariable String id) {
-        return userService.getUserById(id);
+    public ResponseEntity<User> sendUser(@PathVariable String id) {
+         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
     @GetMapping
-    public List<User> sendAllUser() {
-        return userService.getAllUser();
+    public ResponseEntity<List<User>> sendAllUser() {
+        return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 
     @PostMapping
-    public void addUser(@RequestBody User user) {
-        System.out.println(user);
+    public ResponseEntity<String> addUser(@RequestBody User user) {
         userService.addUser(user);
+        return new ResponseEntity<>(user.toString(),HttpStatus.CREATED);
     }
 
     @PutMapping
-    public void changeUser(@RequestBody User user) {
+    public ResponseEntity<String> changeUser(@RequestBody User user) {
         userService.changeUser(user);
+        return new ResponseEntity<>(user.toString(),HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "{id}")
-    public void deleteUser(@PathVariable String id) {
+    public ResponseEntity<String> deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
+        return new ResponseEntity<>(id,HttpStatus.OK);
     }
 
     @GetMapping(value = "/token/refresh")

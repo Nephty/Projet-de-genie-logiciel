@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 
@@ -41,6 +42,7 @@ public class User {
     )
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -48,6 +50,10 @@ public class User {
             nullable = false
     )
     private String language;
+
+    public User(String userID){
+        this.userID = userID;
+    }
 
     public User(String userID, String username, String lastname,
                 String firstname, String email, String language) {

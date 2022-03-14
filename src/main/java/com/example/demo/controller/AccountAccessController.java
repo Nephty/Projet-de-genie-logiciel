@@ -21,8 +21,6 @@ import java.util.Map;
 public class AccountAccessController {
 
     private final AccountAccessService accountAccessService;
-    private final UserService userService;
-    private final AccountService accountService;
 
     @GetMapping(value = "{userId}")
     public List<AccountAccess> sendAccountAccess(@PathVariable String userId){
@@ -34,28 +32,25 @@ public class AccountAccessController {
         //parsing the body
         boolean access = Boolean.parseBoolean(json.get("access"));
         boolean hidden = Boolean.parseBoolean(json.get("hidden"));
+        String accountId = json.get("iban");
+        String userId = json.get("userId");
 
-        //Throws a EntityNotFound Exception if the User/Account doesn't exist.
-        User user = userService.getUserById(json.get("userID"));
-        Account account = accountService.getAccount(json.get("iban"));
 
-        //Create the accountAccess object that we want to save
-        AccountAccess res = new AccountAccess(
-                account,
-                user,
-                access,
-                hidden
-        );
-        accountAccessService.createAccountAccess(res);
+        AccountAccess res = accountAccessService.createAccountAccess(accountId,userId,access,hidden);
         return new ResponseEntity<>(res.toString(), HttpStatus.CREATED);
     }
 
 
     @PutMapping
-    public ResponseEntity<String> changeAccess(@RequestBody AccountAccess accountAccess) {
-        accountAccessService.changeAccountAccess(accountAccess);
-        return new ResponseEntity<>(accountAccess.toString(), HttpStatus.CREATED);
+    public ResponseEntity<String> changeAccess(@RequestBody Map<String,String> json) {
+        String iban = json.get("iban");
+        String userId = json.get("userId");
+        boolean access = Boolean.parseBoolean(json.get("access"));
+        boolean hidden = Boolean.parseBoolean(json.get("hidden"));
+        AccountAccess res = accountAccessService.changeAccountAccess(iban,userId,access,hidden);
+        return new ResponseEntity<>(res.toString(), HttpStatus.CREATED);
     }
+
     @DeleteMapping
     public ResponseEntity<String> deleteAccess(@RequestParam String accountId, @RequestParam String userId) {
         accountAccessService.deleteAccountAccess(accountId, userId);

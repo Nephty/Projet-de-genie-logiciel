@@ -15,4 +15,7 @@ public interface AccountRepo extends JpaRepository<Account, String> {
             "AND a.swift = b.swift " +
             "group by b")
     Optional<Account> getAccountByUserId(String userId);
+
+
+    Optional<Account> getAccountByIban(String iban);
 }

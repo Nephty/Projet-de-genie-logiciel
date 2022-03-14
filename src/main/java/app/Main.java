@@ -81,6 +81,11 @@ public class Main extends Application {
 //        System.out.println(a.getAccountType());
 //        System.out.println(a.getAccountOwner().getFirstName());
 
+//        try {
+//            Portfolio a = new Portfolio("123456789");
+//        } catch (UnirestException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static void setScene(Scene scene) {

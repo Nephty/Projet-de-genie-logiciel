@@ -7,9 +7,9 @@ public class Wallet {
     private Profile accountUser;
     private Bank bank;
 
-    public Wallet(Profile accountUser){
+    public Wallet(Profile accountUser, Bank bank, ArrayList<String> IbanList){
         this.accountUser = accountUser;
-        // TODO : Crée la liste des comptes d'un wallet via l'api grâce au Profile
+        // TODO : Crée la liste des comptes d'un wallet via l'api grâce à la liste d'iban
     }
 
     public ArrayList<Account> getAccountList(){

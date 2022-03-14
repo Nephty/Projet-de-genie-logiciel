@@ -10,7 +10,6 @@ public class Profile {
     private String firstName;
     private String lastName;
     private String nationalRegistrationNumber;
-    private Portfolio portfolio;
 
     public Profile(String nationalRegistrationNumber) throws UnirestException {
         Unirest.setTimeouts(0, 0);
@@ -23,8 +22,6 @@ public class Profile {
         this.firstName = obj.getString("firstname");
         this.lastName = obj.getString("lastname");
         this.nationalRegistrationNumber = nationalRegistrationNumber;
-        // TODO : Faire la requête dans Portfolio pour créer  le portfolio a partir du nrn
-//        this.portfolio = new Portfolio(nationalRegistrationNumber);
     }
 
     public String getFirstName(){
@@ -37,9 +34,5 @@ public class Profile {
 
     public String getNationalRegistrationNumber(){
         return this.nationalRegistrationNumber;
-    }
-
-    public Portfolio getPortfolio(){
-        return this.portfolio;
     }
 }

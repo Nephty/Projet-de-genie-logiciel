@@ -10,6 +10,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
+
 public class ExportDataSceneController extends Controller implements BackButtonNavigator {
     @FXML
     public Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
@@ -18,6 +20,8 @@ public class ExportDataSceneController extends Controller implements BackButtonN
 
     private boolean exportDone = false;
 
+    public static ArrayList<Object> exportData;
+
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
@@ -25,7 +29,7 @@ public class ExportDataSceneController extends Controller implements BackButtonN
 
     @Override
     public void emulateBackButtonClicked() {
-        handleBackButtonNavigation(null);
+        handleBackButtonClicked(null);
     }
 
     @FXML
@@ -34,6 +38,9 @@ public class ExportDataSceneController extends Controller implements BackButtonN
         exportLocationLabel.setText("Export location not set.");
         if (exportDone) {
             if (noPathSelectedLabel.isVisible()) noPathSelectedLabel.setVisible(false);
+            // PRO TIP : no need to set exportData to null when exiting the scene, because to come back to the scene
+            // the user has to select items from the clients view list and click on the export data button,
+            // which is automatically going to erase the actual data and replace it with newer data
         }
     }
 

@@ -15,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ClientsSceneController extends Controller implements BackButtonNavigator {
@@ -62,8 +63,10 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
 
     @FXML
     public void handleExportDataButtonClicked(MouseEvent event) {
-        Main.setScene(Scenes.ExportDataScene);
-        // TODO : bring data (export only visible data)
+        if (clientsListView.getItems().size() > 0) {
+            Main.setScene(Scenes.ExportDataScene);
+            ExportDataSceneController.exportData = new ArrayList<>(clientsListView.getItems());
+        }
     }
 
     @FXML
@@ -73,7 +76,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
 
     @FXML
     public void handleDetailsButtonClicked(MouseEvent event) {
-        if (clientsListView.getSelectionModel().getSelectedItems().size() == 1) {
+        if (clientsListView.getItems().size() == 1) {
             Main.setScene(Scenes.ClientDetailsScene);
             // TODO : show correct profile according to selection on next scene
             // how-to hint : according to selection, retrieve data from client and put the data on the next scene

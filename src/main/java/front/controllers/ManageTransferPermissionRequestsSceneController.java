@@ -53,14 +53,14 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
 
     @FXML
     public void handleDenyButtonClicked(MouseEvent event) {
-        if (requestsListView.getSelectionModel().getSelectedItems().size() > 0) {
+        if (requestsListView.getItems().size() > 0) {
             // TODO : back-end : implement "denied" attribute of request, change it accordingly for all selected requests and commit changes to database
         }
     }
 
     @FXML
     public void handleApproveButtonClicked(MouseEvent event) {
-        if (requestsListView.getSelectionModel().getSelectedItems().size() > 0) {
+        if (requestsListView.getItems().size() > 0) {
             // TODO : back-end : implement "approved" attribute of request, change it accordingly for all selected requests and commit changes to database
         }
     }

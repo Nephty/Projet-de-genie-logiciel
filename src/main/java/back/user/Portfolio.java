@@ -7,11 +7,11 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Portfolio {
     private Profile user;
     private ArrayList<Wallet> walletList;
+
 
     public Portfolio(String nationalRegistrationNumber) throws UnirestException {
         this.user = new Profile(nationalRegistrationNumber);
@@ -25,32 +25,64 @@ public class Portfolio {
 
         ArrayList<String> bodyList = JSONArrayParser(body);
 
-        HashMap<String, ArrayList<String>> IBANList = new HashMap<String, ArrayList<String>>();
+        ArrayList<Account> accountList = new ArrayList<Account>();
 
+        String oldSwift = "";
+        Bank bank = null;
+        this.walletList = new ArrayList<Wallet>();
         for(int i = 0; i<bodyList.size();i++){
             JSONObject obj = new JSONObject(bodyList.get(i));
+            // TODO : A optimiser ?
             String swift = obj.getJSONObject("accountId").getJSONObject("swift").getString("swift");
-            String iban = obj.getJSONObject("accountId").getString("iban");
-            if(IBANList.containsKey(swift)){
-                ArrayList<String> array = IBANList.get(swift);
-                array.add(iban);
-                IBANList.replace(swift, array);
-            } else{
-                ArrayList<String> array = new ArrayList<String>();
-                array.add(iban);
-                IBANList.put(swift, array);
+            if(oldSwift == swift || i == 0) {
+                if(i == 0){
+                    oldSwift = swift;
+                    bank = new Bank(swift);
+                }
+                Profile owner = new Profile(obj.getJSONObject("accountId").getJSONObject("userId").getString("userID"));
+                Profile coOwner = new Profile(obj.getJSONObject("userId").getString("userID"));
+                String iban = obj.getJSONObject("accountId").getString("iban");
+                int accountTypeId = obj.getJSONObject("accountId").getJSONObject("accountTypeId").getInt("accountTypeId");
+                AccountType accountType = null;
+                switch (accountTypeId) {
+                    case 0:
+                        accountType = AccountType.COURANT;
+                        break;
+                    case 1:
+                        accountType = AccountType.JEUNE;
+                        break;
+                    case 2:
+                        accountType = AccountType.EPARGNE;
+                        break;
+                    case 3:
+                        accountType = AccountType.TERME;
+                        break;
+                }
+                boolean activated = obj.getBoolean("access");
+                boolean archived = obj.getBoolean("hidden");
+                boolean canPay = obj.getJSONObject("accountId").getBoolean("payment");
+                accountList.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
+            } else {
+                walletList.add(new Wallet(this.user, bank, accountList));
+                accountList.clear();
+                bank = new Bank(swift);
+                oldSwift = swift;
             }
+            walletList.add(new Wallet(this.user, bank, accountList));
         }
-
-        this.walletList = new ArrayList<Wallet>();
-        for (String i : IBANList.keySet()){
-            this.walletList.add(new Wallet(this.user, new Bank(i), IBANList.get(i)));
-        }
-        System.out.println(walletList);
-        System.out.println(walletList.get(0).getAccountUser());
+        System.out.println(walletList.get(0).getAccountList().get(0).getIBAN());
     }
 
-    public static ArrayList<String> JSONArrayParser(String json){
+
+    public Profile getUser(){
+        return this.user;
+    }
+
+    public ArrayList<Wallet> getWalletList(){
+        return this.walletList;
+    }
+
+    private ArrayList<String> JSONArrayParser(String json) {
         ArrayList<String> rep = new ArrayList<String>();
         int crochet = 0;
         int save = 0;
@@ -69,12 +101,4 @@ public class Portfolio {
         rep.add(json.substring(save, json.length()));
         return rep;
     }
-
-    public Profile getUser(){
-        return this.user;
     }
-
-    public ArrayList<Wallet> getWalletList(){
-        return this.walletList;
-    }
-}

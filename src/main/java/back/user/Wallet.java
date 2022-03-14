@@ -1,5 +1,7 @@
 package back.user;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 import java.util.ArrayList;
 
 public class Wallet {
@@ -7,9 +9,10 @@ public class Wallet {
     private Profile accountUser;
     private Bank bank;
 
-    public Wallet(Profile accountUser, Bank bank, ArrayList<String> IbanList){
+    public Wallet(Profile accountUser, Bank bank, ArrayList<Account> accountList) throws UnirestException {
         this.accountUser = accountUser;
-        // TODO : Crée la liste des comptes d'un wallet via l'api grâce à la liste d'iban
+        this.bank = bank;
+        this.accountList = accountList;
     }
 
     public ArrayList<Account> getAccountList(){

@@ -1,49 +1,48 @@
 package back.user;
 
-import app.Main;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class Account {
     private Profile accountOwner;
     private ArrayList<Profile> accountCoOwner;
+    private Bank bank;
     private ArrayList<Transaction> transactionHistory;
     private String IBAN;
     private AccountType accountType;
     private boolean activated;
     private boolean archived;
     private boolean canPay;
-    private Bank bank;
     private ArrayList<SubAccount> subAccountList;
 
-    public Account(String IBAN) throws UnirestException {
+    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) throws UnirestException {
         this.IBAN = IBAN;
-        Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
-        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account/" + IBAN)
-                .header("Authorization", "Bearer "+ Main.getToken())
-                .asString();
-        String body = response.getBody();
-        JSONObject obj = new JSONObject(body);
-        this.accountOwner = new Profile(obj.getJSONObject("userId").getString("userID"));
-        // TODO : Requête Account access pour les autres valeurs
-        int accountTypeId = obj.getJSONObject("accountTypeId").getInt("accountTypeId");
-        switch (accountTypeId){
-            case 0:
-                this.accountType = AccountType.COURANT; break;
-            case 1:
-                this.accountType = AccountType.JEUNE; break;
-            case 2:
-                this.accountType = AccountType.EPARGNE; break;
-            case 3:
-                this.accountType = AccountType.TERME; break;
-        }
-        this.bank = new Bank(obj.getJSONObject("swift").getString("swift"));
-        this.canPay = obj.getBoolean("payment");
+        // TODO : Implémenter les valeurs
+//        Unirest.setTimeouts(0, 0);
+//        HttpResponse<String> response = null;
+//        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account/" + IBAN)
+//                .header("Authorization", "Bearer "+ Main.getToken())
+//                .asString();
+//        String body = response.getBody();
+//        JSONObject obj = new JSONObject(body);
+//        this.accountOwner = new Profile(obj.getJSONObject("userId").getString("userID"));
+//        // TODO : Requête Account access pour les autres valeurs
+//        int accountTypeId = obj.getJSONObject("accountTypeId").getInt("accountTypeId");
+//        switch (accountTypeId){
+//            case 0:
+//                this.accountType = AccountType.COURANT; break;
+//            case 1:
+//                this.accountType = AccountType.JEUNE; break;
+//            case 2:
+//                this.accountType = AccountType.EPARGNE; break;
+//            case 3:
+//                this.accountType = AccountType.TERME; break;
+//        }
+//        this.bank = new Bank(obj.getJSONObject("swift").getString("swift"));
+//        this.canPay = obj.getBoolean("payment");
+
+        // TODO : Requete sub account
     }
 
     @Override

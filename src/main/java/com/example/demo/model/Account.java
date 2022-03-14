@@ -17,21 +17,21 @@ public class Account {
     @Id
     private String iban;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="swift",
             referencedColumnName = "swift"
     )
     private Bank swift;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name= "user_id",
             referencedColumnName = "nrn"
     )
     private User userId;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="account_type_id",
             referencedColumnName = "account_type_id",

@@ -4,6 +4,7 @@ import com.example.demo.exception.throwables.UnimplementedException;
 import com.example.demo.model.Bank;
 import com.example.demo.service.BankService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,14 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping(path="/api/bank")
-@RestController
+@RestController @Slf4j
 public class BankController {
 
     private final BankService bankService;
 
     @PostMapping
     public ResponseEntity<String> addBank(@RequestBody Bank bank) {
+        log.info("incoming bank: {}", bank.toString());
         bankService.addBank(bank);
         return new ResponseEntity<>(bank.toString(), HttpStatus.CREATED);
     }

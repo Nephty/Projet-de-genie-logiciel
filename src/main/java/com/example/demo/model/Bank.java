@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,13 +38,21 @@ public class Bank {
 
     @Column(nullable = false)
     private String country;
-
+    /*
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(
             name="default_currency_type",
             referencedColumnName = "currency_type_id",
             nullable = false
     )
-    private CurrencyType defaultCurrencyType;
+    @JsonIgnore
+    private CurrencyType defaultCurrencyType;*/
+    /*
+    @JsonAlias(value = "defaultCurrencyType")
+    @Transient
+    private Integer currency;*/
+
+    @Column(name = "default_currency_type")
+    private Integer defaultCurrencyType;
 
 }

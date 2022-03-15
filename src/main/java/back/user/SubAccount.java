@@ -1,14 +1,19 @@
 package back.user;
 
+import java.util.ArrayList;
+
 public class SubAccount {
     private String IBAN;
     private Currencies currency;
     private double amount;
+    private ArrayList<Transaction> transactionHistory;
+
 
     public SubAccount(String IBAN, Currencies currency){
         this.IBAN = IBAN;
         this.currency = currency;
         // TODO : Instancier les valeurs grâce à l'IBAN et la Currency
+        // TODO : Requetes transactions
     }
 
     public Currencies getCurrency(){

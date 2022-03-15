@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 
 import com.example.demo.model.AccountAccess;
-import com.example.demo.model.User;
 import com.example.demo.service.AccountAccessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/account-access")
@@ -18,52 +17,39 @@ import java.util.Optional;
 public class AccountAccessController {
 
     private final AccountAccessService accountAccessService;
-    //TODO To add in the get account maybe [URGENT]
-    /**
-     * Send a list of rights that the user has on the wallet he has access to
-     * @param userId [path] id of the user
-     * @return List of Account access
-     * 200 - OK
-     *
-     */
+
     @GetMapping(value = "{userId}")
-    public ResponseEntity<List<AccountAccess>> sendAccountAccess(@PathVariable String userId){
-        return new ResponseEntity<>(accountAccessService.getAccountAccessByUserId(userId), HttpStatus.OK);
+    public List<AccountAccess> sendAccountAccess(@PathVariable String userId){
+        return accountAccessService.getAccountAccessByUserId(userId);
     }
 
-    /**
-     * @param accountAccess [body] Account access to add to the DB
-     * @return account access to String
-     * 201 - Created
-     * 400 - Bad format
-     */
     @PostMapping
-    public ResponseEntity<String> addAccess(@RequestBody AccountAccess accountAccess) {
-        accountAccessService.createAccountAccess(accountAccess);
-        return new ResponseEntity<>(accountAccess.toString(), HttpStatus.CREATED);
+    public ResponseEntity<String> addAccess(@RequestBody Map<String,String> json){
+        //parsing the body
+        boolean access = Boolean.parseBoolean(json.get("access"));
+        boolean hidden = Boolean.parseBoolean(json.get("hidden"));
+        String accountId = json.get("iban");
+        String userId = json.get("userId");
+
+
+        AccountAccess res = accountAccessService.createAccountAccess(accountId,userId,access,hidden);
+        return new ResponseEntity<>(res.toString(), HttpStatus.CREATED);
     }
 
-    /**
-     * @param accountAccess [body] Account access to change in the DB
-     * @return account access to string
-     * 201 - SUCCESS
-     * 400 - Bad format
-     */
+
     @PutMapping
-    public ResponseEntity<String> changeAccess(@RequestBody AccountAccess accountAccess) {
-        accountAccessService.createAccountAccess(accountAccess);
-        return new ResponseEntity<>(accountAccess.toString(), HttpStatus.CREATED);
+    public ResponseEntity<String> changeAccess(@RequestBody Map<String,String> json) {
+        String iban = json.get("iban");
+        String userId = json.get("userId");
+        boolean access = Boolean.parseBoolean(json.get("access"));
+        boolean hidden = Boolean.parseBoolean(json.get("hidden"));
+        AccountAccess res = accountAccessService.changeAccountAccess(iban,userId,access,hidden);
+        return new ResponseEntity<>(res.toString(), HttpStatus.CREATED);
     }
 
-    /**
-     * @param accountId id of the account access
-     * @param userId id of the account access
-     * @return params sent
-     * 200 - OK
-     */
     @DeleteMapping
     public ResponseEntity<String> deleteAccess(@RequestParam String accountId, @RequestParam String userId) {
         accountAccessService.deleteAccountAccess(accountId, userId);
-        return new ResponseEntity<>(accountId + " : " + userId, HttpStatus.CREATED);
+        return new ResponseEntity<>(accountId, HttpStatus.CREATED);
     }
 }

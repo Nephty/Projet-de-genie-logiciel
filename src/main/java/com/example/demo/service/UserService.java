@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,21 +27,22 @@ public class UserService implements UserDetailsService {
     
 
     public User getUserById(String id) {
-        return uRepo.findByIdWithoutPassword(id)
+        return uRepo.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFound("No user with id: " + id)
+                        new EntityNotFoundException("No user with id: " + id)
                 );
     }
 
     public User getUserByUsername(String username) throws UsernameNotFoundException{
-        User user = uRepo.findByUsername(username);
+        Optional<User> user = uRepo.findByUsername(username);
 
-        if(user == null) {
+        if(user.isEmpty()) {
             log.error("User with username {} was not found", username);
             throw new UsernameNotFoundException("");
         }
+        return user.get();
 
-        return user;
+
     }
     //TODO Add pagination to the getAll
     public List<User> getAllUser() {
@@ -68,7 +69,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = getUserByUsername(username);
-        log.info("User found {}", user);
         Collection<SimpleGrantedAuthority> authorities= new ArrayList<>();
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(), authorities

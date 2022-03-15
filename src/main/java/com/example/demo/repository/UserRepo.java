@@ -15,5 +15,7 @@ public interface UserRepo extends JpaRepository<User, String> {
             "FROM User s WHERE s.userID = ?1")
     Optional<User> findByIdWithoutPassword(String userID);
 
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
+
+    Optional<User> findByUserID(String userID);
 }

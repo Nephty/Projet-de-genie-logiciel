@@ -37,7 +37,7 @@ public class Main extends Application {
         Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml", getClass());
         Scenes.AddClientScene = SceneLoader.load("AddClientScene.fxml", getClass());
         Scenes.ClientDetailsScene = SceneLoader.load("ClientDetailsScene.fxml", getClass());
-        Scenes.CreateClientAccountScene = null; // SceneLoader.load("CreateClientAccountScene.fxml", getClass());
+        Scenes.CreateClientAccountScene = SceneLoader.load("CreateClientAccountScene.fxml", getClass());
         Scenes.ManageDataScene = null; // SceneLoader.load("ManageDataScene.fxml", getClass());
         Scenes.ImportDataScene = null; // SceneLoader.load("ImportDataScene.fxml", getClass());
 

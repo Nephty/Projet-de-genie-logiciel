@@ -33,6 +33,10 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     private static Profile currentProfile;
     private boolean searched = false;
 
+    public void initialize() {
+        fetchClientDetails();
+    }
+
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
@@ -59,24 +63,13 @@ public class ClientDetailsSceneController extends Controller implements BackButt
 
     @FXML
     public void handleFetchClientDetailsButtonClicked(MouseEvent event) {
-        if (loadingClientDetailsLabel.getOpacity() == 0.0) {
-            int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
-            int sleepDuration = 1000;
-            FadeOutThread sleepAndFadeOutLoadingClientDetailsLabelFadeThread;
-            FadeInTransition.playFromStartOn(loadingClientDetailsLabel, Duration.millis(fadeInDuration));
-            sleepAndFadeOutLoadingClientDetailsLabelFadeThread = new FadeOutThread();
-            Calendar c = Calendar.getInstance();
-            lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // TODO : back-end : fetch clients from the database and put them in the listview
-            sleepAndFadeOutLoadingClientDetailsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientDetailsLabel);
-        }
+        fetchClientDetails();
     }
 
     @FXML
     public void handleExportDataButtonClicked(MouseEvent event) {
         if (clientDetailsListView.getItems().size() > 0) {
-            Main.setScene(Scenes.ExportDataScene);
+            Main.setScene(Flow.forward(Scenes.ExportDataScene));
             ExportDataSceneController.setExportData(new ArrayList<>(clientDetailsListView.getItems()));
         }
     }
@@ -130,5 +123,20 @@ public class ClientDetailsSceneController extends Controller implements BackButt
 
     public static void setCurrentProfile(Profile profile) {
         currentProfile = profile;
+    }
+
+    public void fetchClientDetails() {
+        if (loadingClientDetailsLabel.getOpacity() == 0.0) {
+            int fadeInDuration = 1000;
+            int fadeOutDuration = fadeInDuration;
+            int sleepDuration = 1000;
+            FadeOutThread sleepAndFadeOutLoadingClientDetailsLabelFadeThread;
+            FadeInTransition.playFromStartOn(loadingClientDetailsLabel, Duration.millis(fadeInDuration));
+            sleepAndFadeOutLoadingClientDetailsLabelFadeThread = new FadeOutThread();
+            Calendar c = Calendar.getInstance();
+            lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
+            // TODO : back-end : fetch clients from the database and put them in the listview
+            sleepAndFadeOutLoadingClientDetailsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientDetailsLabel);
+        }
     }
 }

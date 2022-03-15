@@ -19,6 +19,18 @@ public class Main extends Application {
         launch(args);
     }
 
+    public static void setScene(Scene scene) {
+        stage.setScene(scene);
+    }
+
+    public static Profile getUser() {
+        return user;
+    }
+
+    public static void setUser(Profile user_) {
+        user = user_;
+    }
+
     @Override
     public void start(Stage stage_) {
         stage = stage_;
@@ -39,7 +51,7 @@ public class Main extends Application {
         Scenes.ClientDetailsScene = SceneLoader.load("ClientDetailsScene.fxml");
         Scenes.CreateClientAccountScene = SceneLoader.load("CreateClientAccountScene.fxml");
         Scenes.ManageDataScene = SceneLoader.load("ManageDataScene.fxml");
-        Scenes.ImportDataScene = null; // SceneLoader.load("ImportDataScene.fxml");
+        Scenes.ImportDataScene = SceneLoader.load("ImportDataScene.fxml");
 
         Flow.add(Scenes.AuthScene);
 
@@ -47,17 +59,5 @@ public class Main extends Application {
         stage.setTitle("Benkyng app");
         stage.setScene(Scenes.AuthScene);
         stage.show();
-    }
-
-    public static void setScene(Scene scene) {
-        stage.setScene(scene);
-    }
-
-    public static void setUser(Profile user_) {
-        user = user_;
-    }
-
-    public static Profile getUser() {
-        return user;
     }
 }

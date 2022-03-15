@@ -36,6 +36,81 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
 
     private boolean userSignedUp = false;
 
+    /**
+     * Checks if the given <code>String</code> is a valid city.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z and from A-Z or a dash (-) or a space
+     *
+     * @param city - <code>String</code> - the city to check
+     * @return <code>boolean</code> - whether the given city is a valid city or not
+     */
+    public static boolean isValidCity(String city) {
+        if (city == null) return false;
+        return (!city.equals("") && (city.matches("^[a-zA-Z- ]*$")));
+    }
+
+    /**
+     * Checks if the given <code>String</code> is a valid SWIFT.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z, from A-Z or a dash (-).
+     *
+     * @param SWIFT - <code>String</code> - the SWIFT to check
+     * @return <code>boolean</code> - whether the given SWIFT is a valid SWIFT or not
+     */
+    public static boolean isValidSWIFT(String SWIFT) {
+        if (SWIFT.length() != 8) return false;
+        for (int i = 0; i < SWIFT.length(); i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    if (!Character.isAlphabetic(SWIFT.charAt(i))) return false;
+                    break;
+                case 6:
+                case 7:
+                    if (!(Character.isAlphabetic(SWIFT.charAt(i)) || Character.isDigit(SWIFT.charAt(i)))) return false;
+                    break;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the given string is a valid country.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z and from A-Z or a dash (-) or a space
+     *
+     * @param country - <code>String</code> - the country to check
+     * @return <code>boolean</code> whether the given country is a valid country or not
+     */
+    public static boolean isValidCountry(String country) {
+        return isValidCity(country);
+    }
+
+    /**
+     * Checks if the given string is valid name.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z and from A-Z or a dash (-)
+     *
+     * @param name - <code>String</code> - the name to check
+     * @return whether the given name is a valid name or not
+     */
+    public static boolean isValidName(String name) {
+        if (name == null) return false;
+        return (!name.equals("") && (name.matches("^[a-zA-Z-]*$")));
+    }
+
     public void initialize() {
         ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
         // TODO : back-end : fetch all available languages and put them in the list
@@ -141,8 +216,10 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         else if (!isSWIFTTaken(SWIFT) && SWIFTTakenLabel.isVisible()) SWIFTTakenLabel.setVisible(false);
 
         // Manage the "password does not match" label visibility
-        if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(true);
-        else if (passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible()) passwordDoesNotMatchLabel.setVisible(false);
+        if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
+            passwordDoesNotMatchLabel.setVisible(true);
+        else if (passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible())
+            passwordDoesNotMatchLabel.setVisible(false);
 
         if (chosenLanguage == null && !languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(true);
         else if (chosenLanguage != null && languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(false);
@@ -155,8 +232,13 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             userSignedUp = true;
             signedUpLabel.setVisible(true);
             // Empty all data that we don't need, it's a security detail
-            city = ""; SWIFT = ""; country = ""; name = ""; password = "";
-            passwordConfirmation = ""; chosenLanguage = "";
+            city = "";
+            SWIFT = "";
+            country = "";
+            name = "";
+            password = "";
+            passwordConfirmation = "";
+            chosenLanguage = "";
 
         }
     }
@@ -165,6 +247,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      * Checks if any label that show if any field is not properly filled in is visible. If any is visible,
      * the user didn't properly fill in every field. If none are visible, every field is properly filled in.
      * This is directly used to check if every field is properly filled in to begin the sign up process.
+     *
      * @return <code>boolean</code> - whether any label is visible or not
      */
     private boolean noLabelVisible() {
@@ -174,78 +257,8 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     }
 
     /**
-     * Checks if the given <code>String</code> is a valid city.
-     * Requirements :
-     *  - string must not be empty
-     *  - string must not be null
-     *  - string must only contain characters from a-z and from A-Z or a dash (-) or a space
-     * @param city - <code>String</code> - the city to check
-     * @return <code>boolean</code> - whether the given city is a valid city or not
-     */
-    public static boolean isValidCity(String city) {
-        if (city == null) return false;
-        return (!city.equals("") && (city.matches("^[a-zA-Z- ]*$")));
-    }
-
-    /**
-     * Checks if the given <code>String</code> is a valid SWIFT.
-     * Requirements :
-     *  - string must not be empty
-     *  - string must not be null
-     *  - string must only contain characters from a-z, from A-Z or a dash (-).
-     * @param SWIFT - <code>String</code> - the SWIFT to check
-     * @return <code>boolean</code> - whether the given SWIFT is a valid SWIFT or not
-     */
-    public static boolean isValidSWIFT(String SWIFT) {
-        if (SWIFT.length() != 8) return false;
-        for (int i = 0; i < SWIFT.length(); i++) {
-            switch (i) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                    if (!Character.isAlphabetic(SWIFT.charAt(i))) return false;
-                    break;
-                case 6:
-                case 7:
-                    if (!(Character.isAlphabetic(SWIFT.charAt(i)) || Character.isDigit(SWIFT.charAt(i)))) return false;
-                    break;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Checks if the given string is a valid country.
-     * Requirements :
-     *  - string must not be empty
-     *  - string must not be null
-     *  - string must only contain characters from a-z and from A-Z or a dash (-) or a space
-     * @param country - <code>String</code> - the country to check
-     * @return <code>boolean</code> whether the given country is a valid country or not
-     */
-    public static boolean isValidCountry(String country) {
-        return isValidCity(country);
-    }
-
-    /**
-     * Checks if the given string is valid name.
-     * Requirements :
-     *  - string must not be empty
-     *  - string must not be null
-     *  - string must only contain characters from a-z and from A-Z or a dash (-)
-     * @param name - <code>String</code> - the name to check
-     * @return whether the given name is a valid name or not
-     */
-    public static boolean isValidName(String name) {
-        if (name == null) return false;
-        return (!name.equals("") && (name.matches("^[a-zA-Z-]*$")));
-    }
-
-    /**
      * Checks if the name is already taken.
+     *
      * @param name - <code>String</code> - the name to check
      * @return <code>boolean</code> - whether the given name is already taken or not
      */
@@ -256,6 +269,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
 
     /**
      * Checks if the SWIFT is already taken.
+     *
      * @param SWIFT - <code>String</code> - the SWIFT to check
      * @return <code>boolean</code> - whether the given SWIFT is already taken or not
      */

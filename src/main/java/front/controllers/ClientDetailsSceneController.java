@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ClientDetailsSceneController extends Controller implements BackButtonNavigator {
+    private static Profile currentProfile;
     @FXML
     public Button backButton, fetchClientDetailsButton, exportDataButton, createAccountButton, closeAccountButton, searchButton, removeClientButton, cancelRemovalButton, confirmRemovalButton;
     @FXML
@@ -29,9 +30,11 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     public ComboBox<String> sortByComboBox;
     @FXML
     public TextField searchTextField;
-
-    private static Profile currentProfile;
     private boolean searched = false;
+
+    public static void setCurrentProfile(Profile profile) {
+        currentProfile = profile;
+    }
 
     public void initialize() {
         fetchClientDetails();
@@ -123,10 +126,6 @@ public class ClientDetailsSceneController extends Controller implements BackButt
         confirmRemovalButton.setVisible(false);
         cancelRemovalButton.setVisible(false);
         // TODO : back-end : remove client from bank
-    }
-
-    public static void setCurrentProfile(Profile profile) {
-        currentProfile = profile;
     }
 
     public void fetchClientDetails() {

@@ -29,6 +29,34 @@ public class CreateClientAccountSceneController extends Controller implements Ba
 
     private boolean accountCreated = false;
 
+    /**
+     * Checks if the given <code>String</code> is a valid IBAN.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z, from A-Z and from 0-9
+     * - string must follow this format : AAXXXXXXXXXXXXXX where A is a letter and X is a digit
+     *
+     * @param IBAN - <code>String</code> - the IBAN to check
+     * @return <code>boolean</code> - whether the given IBAN is a valid IBAN or not
+     */
+    public static boolean isValidIBAN(String IBAN) {
+        if (IBAN == null) return false;
+        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 16))
+            return false;  // IBAN.length() == 16 already checks IBAN != ""
+        for (int i = 0; i < IBAN.length(); i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
+                    break;
+                default:
+                    if (!Character.isDigit(IBAN.charAt(i))) return false;
+            }
+        }
+        return true;
+    }
+
     public void initialize() {
         accountTypeComboBox.setItems(FXCollections.observableArrayList(AccountType.TYPE_A, AccountType.TYPE_B));
         // TODO : back-end : put all AccountTypes in the combo box
@@ -74,8 +102,10 @@ public class CreateClientAccountSceneController extends Controller implements Ba
         if (!invalidIBANLabel.isVisible() && !isValidIBAN(IBAN)) invalidIBANLabel.setVisible(true);
         else if (invalidIBANLabel.isVisible() && isValidIBAN(IBAN)) invalidIBANLabel.setVisible(false);
 
-        if (!noValueSelectedLabel.isVisible() && accountTypeComboBox.getValue() == null) noValueSelectedLabel.setVisible(true);
-        if (noValueSelectedLabel.isVisible() && accountTypeComboBox.getValue() != null) noValueSelectedLabel.setVisible(false);
+        if (!noValueSelectedLabel.isVisible() && accountTypeComboBox.getValue() == null)
+            noValueSelectedLabel.setVisible(true);
+        if (noValueSelectedLabel.isVisible() && accountTypeComboBox.getValue() != null)
+            noValueSelectedLabel.setVisible(false);
 
         if (!invalidIBANLabel.isVisible() && !isIBANTaken(IBAN) && !noValueSelectedLabel.isVisible()) {
             // TODO : back-end : create account
@@ -88,32 +118,6 @@ public class CreateClientAccountSceneController extends Controller implements Ba
             sleepAndFadeOutAccountCreatedLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, accountCreatedLabel);
             accountCreated = true;
         }
-    }
-
-    /**
-     * Checks if the given <code>String</code> is a valid IBAN.
-     * Requirements :
-     *  - string must not be empty
-     *  - string must not be null
-     *  - string must only contain characters from a-z, from A-Z and from 0-9
-     *  - string must follow this format : AAXXXXXXXXXXXXXX where A is a letter and X is a digit
-     * @param IBAN - <code>String</code> - the IBAN to check
-     * @return <code>boolean</code> - whether the given IBAN is a valid IBAN or not
-     */
-    public static boolean isValidIBAN(String IBAN) {
-        if (IBAN == null) return false;
-        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 16)) return false;  // IBAN.length() == 16 already checks IBAN != ""
-        for (int i = 0; i < IBAN.length(); i++) {
-            switch (i) {
-                case 0:
-                case 1:
-                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
-                    break;
-                default:
-                    if (!Character.isDigit(IBAN.charAt(i))) return false;
-            }
-        }
-        return true;
     }
 
     public boolean isIBANTaken(String IBAN) {

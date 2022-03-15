@@ -13,14 +13,16 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 
 public class ExportDataSceneController extends Controller implements BackButtonNavigator {
+    private static ArrayList<Object> exportData;
     @FXML
     public Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
     @FXML
     public Label choosePathLabel, noPathSelectedLabel, requestNotSentLabel, exportSuccessfulLabel, exportLocationLabel;
+    private final boolean exportDone = false;
 
-    private boolean exportDone = false;
-
-    private static ArrayList<Object> exportData;
+    public static void setExportData(ArrayList<Object> arrayList) {
+        exportData = arrayList;
+    }
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -46,8 +48,10 @@ public class ExportDataSceneController extends Controller implements BackButtonN
 
     @FXML
     public void handleChoosePathButtonClicked(MouseEvent event) {
-        // TODO : back-end ? : 1. Open the file explorer so the user can choose a path
-        //                     2. If the user chooses a path, set the text of the exportLocationLabel to the selected path (eg : Selected path : /home/username/Documents)
+        // TODO : back-end : 1. Open the file explorer so the user can choose a path
+        //                   2. If the user chooses a path, set the text of the exportLocationLabel to the selected path
+        //                   (eg : Selected path : /home/username/Documents), set the file object to whatever it is
+        //                   and export the data to the file
     }
 
     @FXML
@@ -67,14 +71,10 @@ public class ExportDataSceneController extends Controller implements BackButtonN
     }
 
     @FXML
-    public void handleButtonKeyReleased(KeyEvent event) {
+    public void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();
         }
-    }
-
-    public static void setExportData(ArrayList<Object> arrayList) {
-        exportData = arrayList;
     }
 }

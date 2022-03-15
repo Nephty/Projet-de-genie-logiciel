@@ -6,7 +6,7 @@ public class Account {
     private Profile accountOwner;
     private ArrayList<Profile> accountCoOwner;
     private ArrayList<Transaction> transactionHistory;
-    private String IBAN;
+    private final String IBAN;
     private boolean activated;
     private boolean archived;
     private Bank bank;
@@ -24,6 +24,7 @@ public class Account {
 
     /**
      * Return whether the account is toggled on or not.
+     *
      * @return Whether the account is toggled on or not
      */
     public boolean isActivated() {
@@ -47,35 +48,35 @@ public class Account {
     }
 
 
-    public void exportHistory(){
+    public void exportHistory() {
         // TODO : Expoter l'historique
     }
 
-    public Profile getAccountOwner(){
+    public Profile getAccountOwner() {
         return this.accountOwner;
     }
 
-    public ArrayList<Profile> getAccountCoOwner(){
+    public ArrayList<Profile> getAccountCoOwner() {
         return this.accountCoOwner;
     }
 
-    public ArrayList<Transaction> getTransactionHistory(){
+    public ArrayList<Transaction> getTransactionHistory() {
         return this.transactionHistory;
     }
 
-    public String getIBAN(){
+    public String getIBAN() {
         return this.IBAN;
     }
 
-    public boolean isArchived(){
+    public boolean isArchived() {
         return this.archived;
     }
 
-    public Bank getBank(){
+    public Bank getBank() {
         return this.bank;
     }
 
-    public ArrayList<SubAccount> getSubAccountList(){
+    public ArrayList<SubAccount> getSubAccountList() {
         return this.subAccountList;
     }
 }

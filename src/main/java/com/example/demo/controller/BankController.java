@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.throwables.UnimplementedException;
 import com.example.demo.model.Bank;
+import com.example.demo.request.BankReq;
 import com.example.demo.service.BankService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +20,10 @@ public class BankController {
     private final BankService bankService;
 
     @PostMapping
-    public ResponseEntity<String> addBank(@RequestBody Bank bank) {
-        log.info("incoming bank: {}", bank.toString());
-        bankService.addBank(bank);
-        return new ResponseEntity<>(bank.toString(), HttpStatus.CREATED);
+    public ResponseEntity<String> addBank(@RequestBody BankReq bankReq) {
+        log.info("incoming bank: {}", bankReq.toString());
+        bankService.addBank(bankReq);
+        return new ResponseEntity<>(bankReq.toString(), HttpStatus.CREATED);
     }
     @DeleteMapping(value = "{swift}")
     public ResponseEntity<String> deleteBank(@PathVariable String swift) {
@@ -41,8 +42,8 @@ public class BankController {
     }
 
     @PutMapping
-    public ResponseEntity<String> changeBank(@RequestBody Bank bank) {
-        bankService.changeBank(bank);
-        return new ResponseEntity<>(bank.toString(), HttpStatus.CREATED);
+    public ResponseEntity<String> changeBank(@RequestBody BankReq bankReq) {
+        bankService.changeBank(bankReq);
+        return new ResponseEntity<>(bankReq.toString(), HttpStatus.CREATED);
     }
 }

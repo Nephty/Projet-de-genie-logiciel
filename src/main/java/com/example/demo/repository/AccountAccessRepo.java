@@ -12,14 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountAccessPK> {
+
     @Query("SELECT s FROM AccountAccess s, User u where u.userID = ?1 and s.userId = u.userID " +
             "order by s.accountId.swift.swift")
     List<AccountAccess> getAllByUserId(String userID);
-
-    Optional<AccountAccess> getAccountAccessByUserIdAndAccountId(User userId,Account accountId);
-
-    @Modifying
-    @Query("DELETE FROM AccountAccess a WHERE a.accountId = ?1 AND a.userId = ?2")
-    void deleteAccountAccessByAccountIdAndUserId(Account accountId, User userId);
-
 }

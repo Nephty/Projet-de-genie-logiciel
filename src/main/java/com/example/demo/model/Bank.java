@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.request.BankReq;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,5 +45,14 @@ public class Bank {
             nullable = false
     )
     private CurrencyType defaultCurrencyType;
+
+    public Bank(BankReq bankReq) {
+        swift = bankReq.getSwift();;
+        name = bankReq.getName();
+        login = bankReq.getLogin();
+        password = bankReq.getPassword();
+        address = bankReq.getAddress();
+        country = bankReq.getCountry();
+    }
 
 }

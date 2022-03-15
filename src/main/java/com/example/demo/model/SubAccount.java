@@ -32,7 +32,7 @@ public class SubAccount {
     private CurrencyType currencyTypeId;
      */
 
-    @Id
+    @EmbeddedId
     private SubAccountPK subAccountPK;
 
     @ManyToOne(cascade = CascadeType.ALL)

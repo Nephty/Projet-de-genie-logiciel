@@ -57,7 +57,8 @@ public class TokenHandler {
         response.setHeader("error", e.getMessage());
         response.setStatus(401);
         Map<String, String> error = new HashMap<>();
-        error.put("error_msg", "Token invalid " + authorizationHeader);
+        error.put("error_msg", e.getMessage());
+        error.put("token", authorizationHeader);
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), error);
     }

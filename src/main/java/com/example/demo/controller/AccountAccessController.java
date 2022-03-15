@@ -1,19 +1,25 @@
 package com.example.demo.controller;
 
-import com.example.demo.exception.throwables.UnimplementedException;
+
+import com.example.demo.model.Account;
 import com.example.demo.model.AccountAccess;
 import com.example.demo.model.User;
 import com.example.demo.service.AccountAccessService;
+import com.example.demo.service.AccountService;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/account-access")
 @RestController
 public class AccountAccessController {
+
     private final AccountAccessService accountAccessService;
 
     @GetMapping(value = "{userId}")
@@ -22,15 +28,32 @@ public class AccountAccessController {
     }
 
     @PostMapping
-    public void addAccess(@RequestBody AccountAccess accountAccess) {
-        accountAccessService.createAccountAccess(accountAccess);
+    public ResponseEntity<String> addAccess(@RequestBody Map<String,String> json){
+        //parsing the body
+        boolean access = Boolean.parseBoolean(json.get("access"));
+        boolean hidden = Boolean.parseBoolean(json.get("hidden"));
+        String accountId = json.get("iban");
+        String userId = json.get("userId");
+
+
+        AccountAccess res = accountAccessService.createAccountAccess(accountId,userId,access,hidden);
+        return new ResponseEntity<>(res.toString(), HttpStatus.CREATED);
     }
+
+
     @PutMapping
-    public void changeAccess(@RequestBody AccountAccess accountAccess) {
-        accountAccessService.createAccountAccess(accountAccess);
+    public ResponseEntity<String> changeAccess(@RequestBody Map<String,String> json) {
+        String iban = json.get("iban");
+        String userId = json.get("userId");
+        boolean access = Boolean.parseBoolean(json.get("access"));
+        boolean hidden = Boolean.parseBoolean(json.get("hidden"));
+        AccountAccess res = accountAccessService.changeAccountAccess(iban,userId,access,hidden);
+        return new ResponseEntity<>(res.toString(), HttpStatus.CREATED);
     }
+
     @DeleteMapping
-    public void deleteAccess(@RequestParam String accountId, @RequestParam String userId) {
+    public ResponseEntity<String> deleteAccess(@RequestParam String accountId, @RequestParam String userId) {
         accountAccessService.deleteAccountAccess(accountId, userId);
+        return new ResponseEntity<>(accountId, HttpStatus.CREATED);
     }
 }

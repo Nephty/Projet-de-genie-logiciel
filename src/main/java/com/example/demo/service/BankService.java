@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Bank;
+import com.example.demo.model.CurrencyType;
 import com.example.demo.repository.BankRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class BankService {
 
     public void addBank(Bank bank) {
         bankRepo.save(bank);
+
     }
 
     public void deleteBank(String swift) {

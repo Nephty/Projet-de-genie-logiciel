@@ -19,9 +19,10 @@ public class AccountAccessController {
     private final AccountAccessService accountAccessService;
 
     @GetMapping(value = "{userId}")
-    public List<AccountAccess> sendAccountAccess(@PathVariable String userId){
+    public List<AccountAccess> sendAccountAccessFromUser(@PathVariable String userId){
         return accountAccessService.getAccountAccessByUserId(userId);
     }
+
 
     @PostMapping
     public ResponseEntity<String> addAccess(@RequestBody Map<String,String> json){
@@ -39,6 +40,7 @@ public class AccountAccessController {
 
     @PutMapping
     public ResponseEntity<String> changeAccess(@RequestBody Map<String,String> json) {
+        System.out.println(json.get("test"));
         String iban = json.get("iban");
         String userId = json.get("userId");
         boolean access = Boolean.parseBoolean(json.get("access"));

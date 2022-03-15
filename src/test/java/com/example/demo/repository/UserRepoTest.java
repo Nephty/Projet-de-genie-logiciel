@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.model.User;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,6 +20,11 @@ public class UserRepoTest {
     @Autowired
     private UserRepo underTest;
 
+    @AfterEach
+    void tearDown() {
+        underTest.deleteAll();
+    }
+
     @Test
     void itShouldCheckIfUserIsReturnedWithoutPassword() {
         //given
@@ -33,6 +39,7 @@ public class UserRepoTest {
                 "EN"
         );
         underTest.save(user);
+
 
         //when
         User result = underTest.findByIdWithoutPassword(id).get();
@@ -66,8 +73,6 @@ public class UserRepoTest {
         }
         User user_res = result.get();
         assertThat(user_res.getUsername()).isEqualTo(username);
-        //TODO : Find a way to set the password to null every time we fetch a User.
-        //assertThat(result.getPassword()).isNull();
 
     }
 }

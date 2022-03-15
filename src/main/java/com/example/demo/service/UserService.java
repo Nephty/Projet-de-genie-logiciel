@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,8 +52,13 @@ public class UserService implements UserDetailsService {
     }
 
     public void addUser(User user) {
-        log.info("Registering: {}", user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (uRepo.existsById(user.getUserID())){
+            throw new EntityExistsException("User "+user.getUserID()+" already exists");
+        }
+        if (uRepo.existsByUsername(user.getUsername())){
+            throw new EntityExistsException("Username "+user.getUsername()+" already exists");
+        }
         uRepo.save(user);
     }
 

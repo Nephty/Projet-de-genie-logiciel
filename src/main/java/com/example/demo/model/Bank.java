@@ -39,7 +39,7 @@ public class Bank {
     @Column(nullable = false)
     private String country;
     /*
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(
             name="default_currency_type",
             referencedColumnName = "currency_type_id",

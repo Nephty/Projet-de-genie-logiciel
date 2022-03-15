@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.model.CompositePK.SubAccountPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,6 +36,7 @@ public class SubAccount {
     @EmbeddedId
     private SubAccountPK subAccountPK;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("iban")
     @JoinColumn(
@@ -43,6 +45,7 @@ public class SubAccount {
     )
     private Account iban;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("currencyTypeId")
     @JoinColumn(

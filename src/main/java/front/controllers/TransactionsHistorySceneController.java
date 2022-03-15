@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class TransactionsHistorySceneController extends Controller implements BackButtonNavigator {
@@ -50,6 +51,14 @@ public class TransactionsHistorySceneController extends Controller implements Ba
 
     @FXML
     public void handleExportButtonClicked(MouseEvent event) {
+        if (transactionsHistoryListView.getSelectionModel().getSelectedItems().size() == 0) {
+            // Export all transactions
+            // TODO : back-end : set exportData to all transactions
+            // ExportHistorySceneController.setExportData(ALL TRANSACTIONS)
+        } else {
+            // Export selected data
+            ExportHistorySceneController.setExportData(new ArrayList<>(transactionsHistoryListView.getSelectionModel().getSelectedItems()));
+        }
         Main.setScene(Flow.forward(Scenes.ExportHistoryScene));
     }
 

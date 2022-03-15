@@ -2,7 +2,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static front.controllers.TransferSceneController.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TransferProcessTests {
     String a0 = "", a1 = null, a2 = "0", a3 = "0.000", a4 = "0000.00", a5 = "10.10.10", a6 = "10", a7 = "10.10", a8 = "01", a9 = "1111111111111", a10 = "123123123.12";

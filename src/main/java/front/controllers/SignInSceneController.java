@@ -72,31 +72,30 @@ public class SignInSceneController extends Controller implements BackButtonNavig
         }
 
 
-
         if (response.getStatus() == 200) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
-                String body = response.getBody();
-                JSONObject obj = new JSONObject(body);
-                Main.setToken(obj.getString("access_token"));
-                Main.setRefreshToken(obj.getString("refresh_token"));
-                try {
-                    Main.setUser(new Profile("123456789"));
-                } catch (UnirestException e) {
-                    e.printStackTrace();
-                }
-                Main.updatePortfolio();
-                Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml");
-                Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml");
-                Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml");
-                Scenes.RequestNewPortfolioScene = SceneLoader.load("RequestNewPortfolioScene.fxml");
-                Scenes.RequestTransferPermissionScene = SceneLoader.load("RequestTransferPermissionScene.fxml");
-                Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml");
-                Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml");
-                Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml");
-                Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml");
-                Scenes.TransferScene = SceneLoader.load("TransferScene.fxml");
-                Scenes.EnterPINScene = SceneLoader.load("EnterPINScene.fxml");
-                Scenes.VisualizeToolScene = SceneLoader.load("VisualizeToolScene.fxml");
+            String body = response.getBody();
+            JSONObject obj = new JSONObject(body);
+            Main.setToken(obj.getString("access_token"));
+            Main.setRefreshToken(obj.getString("refresh_token"));
+            try {
+                Main.setUser(new Profile("123456789"));
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+            Main.updatePortfolio();
+            Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml");
+            Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml");
+            Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml");
+            Scenes.RequestNewPortfolioScene = SceneLoader.load("RequestNewPortfolioScene.fxml");
+            Scenes.RequestTransferPermissionScene = SceneLoader.load("RequestTransferPermissionScene.fxml");
+            Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml");
+            Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml");
+            Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml");
+            Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml");
+            Scenes.TransferScene = SceneLoader.load("TransferScene.fxml");
+            Scenes.EnterPINScene = SceneLoader.load("EnterPINScene.fxml");
+            Scenes.VisualizeToolScene = SceneLoader.load("VisualizeToolScene.fxml");
             Main.setScene(Flow.forward(Scenes.MainScreenScene));
         } else {
             if (!incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(true);

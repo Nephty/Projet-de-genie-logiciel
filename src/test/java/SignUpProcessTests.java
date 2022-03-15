@@ -2,7 +2,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static front.controllers.SignUpSceneController.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SignUpProcessTests {
     String s0 = "", s1 = "b", s2 = "B", s3 = "b0", s4 = "b@", s5 = "b.", s6 = "b!", s7 = "b<", s8 = ">b", s9 = " b";

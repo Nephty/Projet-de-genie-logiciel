@@ -10,13 +10,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
+
 public class ExportHistorySceneController extends Controller implements BackButtonNavigator {
+    public static ArrayList<Object> exportData;
     @FXML
     public Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
     @FXML
     public Label choosePathLabel, noPathSelectedLabel, requestNotSentLabel, exportSuccessfulLabel, exportLocationLabel;
+    private final boolean exportDone = false;
 
-    private boolean exportDone = false;
+    public static void setExportData(ArrayList<Object> arrayList) {
+        exportData = arrayList;
+    }
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {

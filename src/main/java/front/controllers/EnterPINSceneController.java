@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 public class EnterPINSceneController extends Controller implements BackButtonNavigator {
+    private final String correctPIN = "1235";
     @FXML
     public Button backButton, confirmButton;
     @FXML
@@ -23,8 +24,6 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     public Button button1, button2, button3, button4, button5, button6, button7, button8, button9, button0, buttonDel;
     @FXML
     public Label incorrectPINLabel, correctPINLabel, tooManyAttemptsLabel;
-
-    private final String correctPIN = "1235";
     private int attempts = 0;
     private boolean executingTransfer = false;
 
@@ -102,7 +101,7 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
             case NUMPAD7:
             case NUMPAD8:
             case NUMPAD9:
-                emulateNumButtonMouseClicked(Integer.parseInt(keyEvent.getCode().toString().substring(keyEvent.getCode().toString().length()-1)));
+                emulateNumButtonMouseClicked(Integer.parseInt(keyEvent.getCode().toString().substring(keyEvent.getCode().toString().length() - 1)));
                 break;
         }
     }
@@ -113,7 +112,7 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
         if (buttonSource.getText().equals("<")) {
             if (PINField.getText().length() > 0) {
                 int length = PINField.getText().length();
-                PINField.setText(PINField.getText().substring(0, length-1));
+                PINField.setText(PINField.getText().substring(0, length - 1));
             }
         } else {
             if (PINField.getText().length() < 4) {
@@ -129,7 +128,7 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     private void emulateDeletedButtonMouseClicked() {
         if (PINField.getText().length() > 0) {
             int length = PINField.getText().length();
-            PINField.setText(PINField.getText().substring(0, length-1));
+            PINField.setText(PINField.getText().substring(0, length - 1));
         }
     }
 

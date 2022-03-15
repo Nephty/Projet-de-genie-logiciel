@@ -2,8 +2,8 @@ package front.controllers;
 
 import app.Main;
 import back.user.Bank;
-import back.user.Request;
 import back.user.Reason;
+import back.user.Request;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;

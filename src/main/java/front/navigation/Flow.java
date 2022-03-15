@@ -17,6 +17,7 @@ public class Flow {
 
     /**
      * Add a new element to the Flow.
+     *
      * @param scene The next Scene the user navigates to
      */
     public static void add(Scene scene) {
@@ -25,16 +26,18 @@ public class Flow {
 
     /**
      * Removes the last element of the Flow and returns it.
+     *
      * @return <code>Scene</code> - The last element that was removed from the Flow
      */
     public static Scene pop() {
         Scene last = FLOW.getLast();
-        FLOW.remove(FLOW.size()-1);
+        FLOW.remove(FLOW.size() - 1);
         return last;
     }
 
     /**
      * Returns the last element of the Flow.
+     *
      * @return <code>Scene</code> - The last element of the Flow.
      */
     public static Scene tail() {
@@ -43,6 +46,7 @@ public class Flow {
 
     /**
      * Returns the size of the Flow (how many Scenes there are in the current execution flow).
+     *
      * @return <code>int</code> - The size of the Flow
      */
     public static int size() {
@@ -51,16 +55,18 @@ public class Flow {
 
     /**
      * Removes the last element of the Flow and returns the new last element.
+     *
      * @return <code>Scene</code> - The new last element
      */
     public static Scene back() {
-        FLOW.remove(Flow.size()-1);
+        FLOW.remove(Flow.size() - 1);
         return Flow.tail();
     }
 
     /**
      * Adds a new element to the Flow and returns it. Used when the user goes forward in the execution flow (that is,
      * when he clicks on a button that brings him "forward" - on a further scene).
+     *
      * @param scene The next <code>Scene</code> the user switches to
      * @return The new last element (the one that was added)
      */
@@ -78,6 +84,7 @@ public class Flow {
 
     /**
      * Returns the content of the flow as a string for display purposes.
+     *
      * @return The content of the flow as a string
      */
     public static String getContentAsString() {

@@ -84,20 +84,20 @@ public class ChangePasswordSceneController extends Controller implements BackBut
 
 
         // If the current password stored in the database doesn't match the input "current password"
-      if (!passwordMatchesAndIsNotEmpty(currentPasswordFromUser, currentPasswordFromDatabase) && !incorrectCurrentPasswordLabel.isVisible())
-           incorrectCurrentPasswordLabel.setVisible(true);
-     else if (passwordMatchesAndIsNotEmpty(currentPasswordFromUser, currentPasswordFromDatabase) && incorrectCurrentPasswordLabel.isVisible())
-         incorrectCurrentPasswordLabel.setVisible(false);
-      // If the new password doesn't match the confirmation of the new password
-      if (!passwordMatchesAndIsNotEmpty(newPassword, newPasswordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
-          passwordDoesNotMatchLabel.setVisible(true);
-      else if (passwordMatchesAndIsNotEmpty(newPassword, newPasswordConfirmation) && passwordDoesNotMatchLabel.isVisible())
-          passwordDoesNotMatchLabel.setVisible(false);
+        if (!passwordMatchesAndIsNotEmpty(currentPasswordFromUser, currentPasswordFromDatabase) && !incorrectCurrentPasswordLabel.isVisible())
+            incorrectCurrentPasswordLabel.setVisible(true);
+        else if (passwordMatchesAndIsNotEmpty(currentPasswordFromUser, currentPasswordFromDatabase) && incorrectCurrentPasswordLabel.isVisible())
+            incorrectCurrentPasswordLabel.setVisible(false);
+        // If the new password doesn't match the confirmation of the new password
+        if (!passwordMatchesAndIsNotEmpty(newPassword, newPasswordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
+            passwordDoesNotMatchLabel.setVisible(true);
+        else if (passwordMatchesAndIsNotEmpty(newPassword, newPasswordConfirmation) && passwordDoesNotMatchLabel.isVisible())
+            passwordDoesNotMatchLabel.setVisible(false);
 
         // If no label is visible, then the inputs are correct
         if (!incorrectCurrentPasswordLabel.isVisible() && !passwordDoesNotMatchLabel.isVisible()) {
             // TODO : back-end : change the password in the database
-            
+
             int fadeInDuration = 1000;
             int fadeOutDuration = fadeInDuration;
             int sleepDuration = 3000;
@@ -105,9 +105,9 @@ public class ChangePasswordSceneController extends Controller implements BackBut
             FadeInTransition.playFromStartOn(passwordChangedLabel, Duration.millis(fadeInDuration));
             sleepAndFadeOutPasswordChangedLabelFadeThread = new FadeOutThread();
             sleepAndFadeOutPasswordChangedLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, passwordChangedLabel);
-            
+
             passwordChanged = true;
-            
+
         }
     }
 

@@ -24,6 +24,7 @@ public class Controller {
      * purposely reaches 0 or 1 (for example, using fade in/fade out transitions). If you alter the node's visibility
      * to make it, let's say, 0.4, using the <code>visible</code> attribute of the node is probably a better way to go,
      * because you'd probably want to know if it is visible at its core, not if the opacity is other than 0.
+     *
      * @param node - <code>Node</code> - The node to check
      * @return Whether the node's opacity is not 0 or not : that is, true if the node's opacity is not 0,
      * false otherwise.
@@ -35,6 +36,7 @@ public class Controller {
     /**
      * Returns a <code>String</code> containing the current time and date of the given <code>Calendar</code>,
      * but formatted for display.
+     *
      * @param calendar The calendar providing the desired time and date
      * @return A string containing the current time and date of the given <code>Calendar</code>, but formatted for
      * display.
@@ -61,29 +63,8 @@ public class Controller {
     }
 
     /**
-     * Checks if the given passwords match and are not empty.
-     * @param password - <code>String</code> - the password
-     * @param passwordConfirmation - <code>String</code> - the password confirmation
-     * @return <code>boolean</code> - whether the two passwords match or not
-     */
-    public boolean passwordMatchesAndIsNotEmpty(String password, String passwordConfirmation) {
-        return password.equals(passwordConfirmation) && !password.equals("");
-    }
-
-    @FXML
-    public void handleButtonMouseEntered(MouseEvent event) {
-        Button buttonSource = (Button) event.getSource();
-        buttonSource.setStyle(formatNewCSSLineMouseEntered(buttonSource));
-    }
-
-    @FXML
-    public void handleButtonMouseExited(MouseEvent event) {
-        Button buttonSource = (Button) event.getSource();
-        buttonSource.setStyle(formatNewCSSLineMouseExited(buttonSource));
-    }
-
-    /**
      * Returns a new style line with the darker background color to use when the mouse enters a button.
+     *
      * @param button The entered button
      * @return The CSS line
      */
@@ -102,8 +83,12 @@ public class Controller {
             // Square buttons for PIN
             CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;";
         } else if (button.getPrefWidth() == 200) {
-            // Confirm button for PIN
-            CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;";
+            if (button.getText().toLowerCase().contains("path")) {
+                CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
+            } else {
+                // Confirm button for PIN
+                CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;";
+            }
         } else if (button.getPrefWidth() == 250) {
             // Export buttons
             CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
@@ -116,12 +101,16 @@ public class Controller {
         } else if (button.getPrefWidth() == 135) {
             // Add/remove account for visualisation
             CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
+        } else if (button.getPrefWidth() == 100) {
+            // Search button
+            CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
         }
         return CSSLine;
     }
 
     /**
      * Returns a new style line with the original background color to use when the mouse exits a button.
+     *
      * @param button The exited button
      * @return The CSS line
      */
@@ -140,8 +129,12 @@ public class Controller {
             // Square buttons for PIN
             CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;";
         } else if (button.getPrefWidth() == 200) {
-            // Confirm button for PIN
-            CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;";
+            if (button.getText().toLowerCase().contains("path")) {
+                CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
+            } else {
+                // Confirm button for PIN
+                CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;";
+            }
         } else if (button.getPrefWidth() == 250) {
             // Export buttons
             CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
@@ -154,7 +147,33 @@ public class Controller {
         } else if (button.getPrefWidth() == 135) {
             // Add/remove account for visualisation
             CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
+        } else if (button.getPrefWidth() == 100) {
+            // Search button
+            CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
         }
         return CSSLine;
+    }
+
+    /**
+     * Checks if the given passwords match and are not empty.
+     *
+     * @param password             - <code>String</code> - the password
+     * @param passwordConfirmation - <code>String</code> - the password confirmation
+     * @return <code>boolean</code> - whether the two passwords match or not
+     */
+    public boolean passwordMatchesAndIsNotEmpty(String password, String passwordConfirmation) {
+        return password.equals(passwordConfirmation) && !password.equals("");
+    }
+
+    @FXML
+    public void handleButtonMouseEntered(MouseEvent event) {
+        Button buttonSource = (Button) event.getSource();
+        buttonSource.setStyle(formatNewCSSLineMouseEntered(buttonSource));
+    }
+
+    @FXML
+    public void handleButtonMouseExited(MouseEvent event) {
+        Button buttonSource = (Button) event.getSource();
+        buttonSource.setStyle(formatNewCSSLineMouseExited(buttonSource));
     }
 }

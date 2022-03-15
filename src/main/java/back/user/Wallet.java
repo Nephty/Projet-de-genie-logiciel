@@ -5,9 +5,9 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import java.util.ArrayList;
 
 public class Wallet {
-    private ArrayList<Account> accountList;
-    private Profile accountUser;
-    private Bank bank;
+    private final ArrayList<Account> accountList;
+    private final Profile accountUser;
+    private final Bank bank;
 
     public Wallet(Profile accountUser, Bank bank, ArrayList<Account> accountList) throws UnirestException {
         this.accountUser = accountUser;

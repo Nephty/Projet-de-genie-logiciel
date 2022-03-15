@@ -7,15 +7,15 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
 public class Profile {
-    private String firstName;
-    private String lastName;
-    private String nationalRegistrationNumber;
+    private final String firstName;
+    private final String lastName;
+    private final String nationalRegistrationNumber;
 
     public Profile(String nationalRegistrationNumber) throws UnirestException {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber)
-                .header("Authorization", "Bearer "+ Main.getToken())
+                .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
@@ -24,21 +24,21 @@ public class Profile {
         this.nationalRegistrationNumber = nationalRegistrationNumber;
     }
 
-    public Profile(String firstName, String lastName, String nationalRegistrationNumber){
+    public Profile(String firstName, String lastName, String nationalRegistrationNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationalRegistrationNumber = nationalRegistrationNumber;
     }
 
-    public String getFirstName(){
+    public String getFirstName() {
         return this.firstName;
     }
 
-    public String getLastName(){
+    public String getLastName() {
         return this.lastName;
     }
 
-    public String getNationalRegistrationNumber(){
+    public String getNationalRegistrationNumber() {
         return this.nationalRegistrationNumber;
     }
 }

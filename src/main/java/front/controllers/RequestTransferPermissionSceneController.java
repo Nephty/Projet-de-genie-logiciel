@@ -59,7 +59,8 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
-        if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false); // This can be done everytime
+        if (noPortfolioSelectedLabel.isVisible())
+            noPortfolioSelectedLabel.setVisible(false); // This can be done everytime
         if (requestSent) {
             portfolioComboBox.setValue(portfolioComboBox.getPromptText()); // TODO : this is not showing the prompt text
             requestSent = false;
@@ -73,8 +74,8 @@ public class RequestTransferPermissionSceneController extends Controller impleme
 
             int a = 0;
             // Create the request and send it
-            for(int i = 0 ; i < wallets.size(); i++){
-                if(wallets.get(i).getBank().getName() == portfolioComboBox.getValue()){
+            for (int i = 0; i < wallets.size(); i++) {
+                if (wallets.get(i).getBank().getName() == portfolioComboBox.getValue()) {
                     a = i;
                 }
             }

@@ -9,8 +9,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Portfolio {
-    private Profile user;
-    private ArrayList<Wallet> walletList;
+    private final Profile user;
+    private final ArrayList<Wallet> walletList;
 
 
     public Portfolio(String nationalRegistrationNumber) throws UnirestException {
@@ -30,11 +30,11 @@ public class Portfolio {
         String oldSwift = "";
         Bank bank = null;
         this.walletList = new ArrayList<Wallet>();
-        for(int i = 0; i<bodyList.size();i++){
+        for (int i = 0; i < bodyList.size(); i++) {
             JSONObject obj = new JSONObject(bodyList.get(i));
             String swift = obj.getJSONObject("accountId").getJSONObject("swift").getString("swift");
-            if(oldSwift.equals(swift) || i == 0) {
-                if(i == 0){
+            if (oldSwift.equals(swift) || i == 0) {
+                if (i == 0) {
                     oldSwift = swift;
                     bank = new Bank(swift);
                 }
@@ -95,11 +95,11 @@ public class Portfolio {
     }
 
 
-    public Profile getUser(){
+    public Profile getUser() {
         return this.user;
     }
 
-    public ArrayList<Wallet> getWalletList(){
+    public ArrayList<Wallet> getWalletList() {
         return this.walletList;
     }
 
@@ -107,19 +107,19 @@ public class Portfolio {
         ArrayList<String> rep = new ArrayList<String>();
         int crochet = 0;
         int save = 0;
-        for(int i = 0; i < json.length(); i++){
-            if(json.charAt(i) == '{'){
+        for (int i = 0; i < json.length(); i++) {
+            if (json.charAt(i) == '{') {
                 crochet++;
             }
-            if(json.charAt(i) == '}'){
+            if (json.charAt(i) == '}') {
                 crochet--;
             }
-            if(json.charAt(i) == ',' && crochet == 0){
+            if (json.charAt(i) == ',' && crochet == 0) {
                 rep.add(json.substring(save, i));
                 save = i + 1;
             }
         }
-        rep.add(json.substring(save, json.length()));
+        rep.add(json.substring(save));
         return rep;
     }
 }

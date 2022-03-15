@@ -8,43 +8,43 @@ public class Transaction {
     private double amount;
     private String communication;
     private String sendingDate;
-    private long ID;
+    private final long ID;
     private Currencies currency;
 
-    public Transaction(long ID){
+    public Transaction(long ID) {
         this.ID = ID;
         // TODO : Donne une valeur a toutes les variables via l'API grâce à l'ID
     }
 
-    public String getSenderName(){
+    public String getSenderName() {
         return this.senderName;
     }
 
-    public String getSenderIBAN(){
+    public String getSenderIBAN() {
         return this.senderIBAN;
     }
 
-    public String getReceiverName(){
+    public String getReceiverName() {
         return this.senderName;
     }
 
-    public String getReceiverIBAN(){
+    public String getReceiverIBAN() {
         return this.senderName;
     }
 
-    public double getAmount(){
+    public double getAmount() {
         return this.amount;
     }
 
-    public String getCommunication(){
+    public String getCommunication() {
         return this.communication;
     }
 
-    public String getSendingDate(){
+    public String getSendingDate() {
         return this.sendingDate;
     }
 
-    public long getID(){
+    public long getID() {
         return this.ID;
     }
 

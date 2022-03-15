@@ -16,12 +16,13 @@ public class FadeOutThread extends Thread {
     /**
      * Sets the sleep duration, fade in and out durations, sleep duration and the <code>Node</code> on which the
      * transition should be applied.
+     *
      * @param fadeOutDuration the duration of the fade out transition (in ms)
      * @param shiftTransition the shift of the transition (in ms, should include the duration of the
-     *      *                        previous fade in transition (if there were any) in order to prevent this transition
-     *      *                        from beginning to early), that is the time during which the node should be
+     *                        *                        previous fade in transition (if there were any) in order to prevent this transition
+     *                        *                        from beginning to early), that is the time during which the node should be
      *                        visible and during which nothing should happen, before we start the fade out transition
-     * @param node the node on which the transition should be applied
+     * @param node            the node on which the transition should be applied
      */
     public void start(int fadeOutDuration, int shiftTransition, Node node) {
         this.fadeOutDuration = fadeOutDuration;

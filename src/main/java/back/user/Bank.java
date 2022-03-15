@@ -7,8 +7,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
 public class Bank {
-    private String name;
-    private String swiftCode;
+    private final String name;
+    private final String swiftCode;
 
     public Bank(String swiftCode) throws UnirestException {
         String token = Main.getToken();
@@ -16,7 +16,7 @@ public class Bank {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/" + swiftCode)
-                .header("Authorization", "Bearer "+ token)
+                .header("Authorization", "Bearer " + token)
                 .header("Content-Type", "application/json")
                 .asString();
         String body = response.getBody();
@@ -24,11 +24,11 @@ public class Bank {
         this.name = obj.getString("name");
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
-    public String getSwiftCode(){
+    public String getSwiftCode() {
         return this.swiftCode;
     }
 }

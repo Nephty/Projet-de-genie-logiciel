@@ -12,7 +12,8 @@ public class FadeInTransition {
     /**
      * Starts a fade in transition on the given <code>Node</code> and for the given <code>Duration</code>, during which
      * the node slowly reaches an opacity level of 1, at constant pace.
-     * @param node the node on which the transition should be applied
+     *
+     * @param node     the node on which the transition should be applied
      * @param duration the duration of the transition
      */
     public static void playFromStartOn(Node node, Duration duration) {

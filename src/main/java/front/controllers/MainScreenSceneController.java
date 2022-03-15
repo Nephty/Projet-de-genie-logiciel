@@ -10,7 +10,7 @@ import javafx.scene.input.MouseEvent;
 
 public class MainScreenSceneController extends Controller implements LanguageButtonNavigator {
     @FXML
-    public Button changePasswordButton, manageDataButton, ManageRequestsButton, ClientsButton, languageButton, signOutButton;
+    public Button changePasswordButton, manageDataButton, manageRequestsButton, clientsButton, languageButton, signOutButton;
 
     @FXML
     public void handleSignOutButtonClicked(MouseEvent event) {

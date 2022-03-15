@@ -68,8 +68,12 @@ public class ClientDetailsSceneController extends Controller implements BackButt
 
     @FXML
     public void handleExportDataButtonClicked(MouseEvent event) {
-        if (clientDetailsListView.getItems().size() > 0) {
-            Main.setScene(Flow.forward(Scenes.ExportDataScene));
+        Main.setScene(Flow.forward(Scenes.ExportDataScene));
+        if (clientDetailsListView.getSelectionModel().getSelectedItems().size() != 0) {
+            // If items selected, only send selected items for export
+            ExportDataSceneController.setExportData(new ArrayList<>(clientDetailsListView.getSelectionModel().getSelectedItems()));
+        } else {
+            // Send all items for export
             ExportDataSceneController.setExportData(new ArrayList<>(clientDetailsListView.getItems()));
         }
     }

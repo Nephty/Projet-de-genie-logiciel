@@ -38,7 +38,7 @@
         </AnchorPane>
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                     minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
-            <Button fx:id="ClientsButton" layoutX="465.0" layoutY="197.0"
+            <Button fx:id="clientsButton" layoutX="465.0" layoutY="197.0"
                     onMouseClicked="#handleClientsButtonClicked" prefHeight="70.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefWidth="350.0"
@@ -51,7 +51,7 @@
                     <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0"/>
                 </effect>
             </Button>
-            <Button fx:id="ManageRequestsButton" layoutX="465.0" layoutY="290.0"
+            <Button fx:id="manageRequestsButton" layoutX="465.0" layoutY="290.0"
                     onMouseClicked="#handleManageRequestsButtonClicked" prefHeight="70.0" prefWidth="350.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"

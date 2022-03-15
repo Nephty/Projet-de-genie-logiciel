@@ -43,6 +43,8 @@ public class AddClientSceneController extends Controller implements BackButtonNa
     public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
+        } else if (keyEvent.getCode() == KeyCode.ENTER) {
+            emulateAddClientButtonClicked();
         }
     }
 
@@ -64,6 +66,10 @@ public class AddClientSceneController extends Controller implements BackButtonNa
             sleepAndFadeOutRequestSentLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, clientAddedLabel);
             clientAdded = true;
         }
+    }
+
+    private void emulateAddClientButtonClicked() {
+        handleAddClientButtonClicked(null);
     }
 
     /**

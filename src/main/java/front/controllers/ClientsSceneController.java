@@ -63,8 +63,12 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
 
     @FXML
     public void handleExportDataButtonClicked(MouseEvent event) {
-        if (clientsListView.getItems().size() > 0) {
-            Main.setScene(Flow.forward(Scenes.ExportDataScene));
+        Main.setScene(Flow.forward(Scenes.ExportDataScene));
+        if (clientsListView.getSelectionModel().getSelectedItems().size() != 0) {
+            // If items selected, only send selected items for export
+            ExportDataSceneController.setExportData(new ArrayList<>(clientsListView.getSelectionModel().getSelectedItems()));
+        } else {
+            // Send all items for export
             ExportDataSceneController.setExportData(new ArrayList<>(clientsListView.getItems()));
         }
     }
@@ -76,7 +80,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
 
     @FXML
     public void handleDetailsButtonClicked(MouseEvent event) {
-        if (clientsListView.getItems().size() == 1 || true) {
+        if (clientsListView.getItems().size() == 1) {
             Main.setScene(Flow.forward(Scenes.ClientDetailsScene));
             // TODO : back-end : show correct profile according to selection on next scene :
             // ClientDetailsSceneController.setCurrentProfile(PUT THE USER HERE);

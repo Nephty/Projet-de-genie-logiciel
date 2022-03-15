@@ -40,7 +40,6 @@ public class CreateClientAccountSceneController extends Controller implements Ba
         if (accountCreated) {
             IBANTextField.setText("");
             accountTypeComboBox.valueProperty().set(null);
-            accountCreatedLabel.setVisible(false);
             accountCreated = false;
         }
     }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/notification")
 @RestController
 public class NotificationController {
-
+    //TODO No list of notifications ??
     private final NotificationService notificationService;
 
     /**

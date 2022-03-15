@@ -82,6 +82,11 @@ public class UserController {
         return new ResponseEntity<>(id,HttpStatus.OK);
     }
 
+    /**
+     * @param request Http request
+     * @param response Http response
+     * Send a new access and request token in the response body
+     */
     @GetMapping(value = "/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);

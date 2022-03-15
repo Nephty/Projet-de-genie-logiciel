@@ -1,15 +1,21 @@
 package front.controllers;
 
 import app.Main;
+import back.user.Profile;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
+import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import org.json.JSONObject;
 
 public class SignInSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
@@ -53,10 +59,44 @@ public class SignInSceneController extends Controller implements BackButtonNavig
      */
     public void signIn() {
         // TODO : back-end : change this condition to check if the user entered correct credentials
-        if (usernameField.getText().equals(username) && passwordField.getText().equals(password)) {
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.post("https://flns-spring-test.herokuapp.com/api/login")
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .field("username", usernameField.getText())
+                    .field("password", passwordField.getText())
+                    .asString();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+
+
+
+        if (response.getStatus() == 200) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
-            passwordField.setText("");
-            usernameField.setText("");
+                String body = response.getBody();
+                JSONObject obj = new JSONObject(body);
+                Main.setToken(obj.getString("access_token"));
+                Main.setRefreshToken(obj.getString("refresh_token"));
+                try {
+                    Main.setUser(new Profile("123456789"));
+                } catch (UnirestException e) {
+                    e.printStackTrace();
+                }
+                Main.updatePortfolio();
+                Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml");
+                Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml");
+                Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml");
+                Scenes.RequestNewPortfolioScene = SceneLoader.load("RequestNewPortfolioScene.fxml");
+                Scenes.RequestTransferPermissionScene = SceneLoader.load("RequestTransferPermissionScene.fxml");
+                Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml");
+                Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml");
+                Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml");
+                Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml");
+                Scenes.TransferScene = SceneLoader.load("TransferScene.fxml");
+                Scenes.EnterPINScene = SceneLoader.load("EnterPINScene.fxml");
+                Scenes.VisualizeToolScene = SceneLoader.load("VisualizeToolScene.fxml");
             Main.setScene(Flow.forward(Scenes.MainScreenScene));
         } else {
             if (!incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(true);

@@ -42,6 +42,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     public Label accountInactiveLabel;
 
     public void initialize() {
+        fetchAccounts();
     }
 
     @Override

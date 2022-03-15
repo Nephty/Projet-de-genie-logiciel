@@ -19,7 +19,9 @@ public class Main extends Application {
     private static Profile user;
     public static Portfolio portfolio;
     private static Stage stage;
-    private static String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXRhbkBoZWxsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjQ4MjQxNTIxfQ.Hr0KX07H5BBM9-rI94BmLFMfHK4jdVFfxgM3KG0vOjQ";
+//    private static String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXRhbkBoZWxsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjQ4MjQxNTIxfQ.Hr0KX07H5BBM9-rI94BmLFMfHK4jdVFfxgM3KG0vOjQ";
+    private static String token;
+    private static String refreshToken;
     private static Wallet currentWallet;
     private static Account currentAccount;
     public static int cpt = 0;
@@ -32,36 +34,12 @@ public class Main extends Application {
     public void start(Stage stage_) {
         stage = stage_;
 
+        Scenes.AuthScene = SceneLoader.load("AuthScene.fxml");
+        Scenes.SignInScene = SceneLoader.load("SignInScene.fxml");
+        Scenes.LanguageScene = SceneLoader.load("LanguageScene.fxml");
+        Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml");
+        Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml");
 
-        try {
-            user = new Profile("123456789");
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
-        try {
-            portfolio = new Portfolio(user.getNationalRegistrationNumber());
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
-
-        Scenes.AuthScene = SceneLoader.load("AuthScene.fxml", getClass());
-        Scenes.SignInScene = SceneLoader.load("SignInScene.fxml", getClass());
-        Scenes.LanguageScene = SceneLoader.load("LanguageScene.fxml", getClass());
-        Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml", getClass());
-        Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", getClass());
-        Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml", getClass());
-        Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml", getClass());
-        Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", getClass());
-        Scenes.RequestNewPortfolioScene = SceneLoader.load("RequestNewPortfolioScene.fxml", getClass());
-        Scenes.RequestTransferPermissionScene = SceneLoader.load("RequestTransferPermissionScene.fxml", getClass());
-        Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", getClass());
-        Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml", getClass());
-        Scenes.ProductDetailsScene = SceneLoader.load("ProductDetailsScene.fxml", getClass());
-        Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml", getClass());
-        Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml", getClass());
-        Scenes.TransferScene = SceneLoader.load("TransferScene.fxml", getClass());
-        Scenes.EnterPINScene = SceneLoader.load("EnterPINScene.fxml", getClass());
-        Scenes.VisualizeToolScene = SceneLoader.load("VisualizeToolScene.fxml", getClass());
 
         Flow.add(Scenes.AuthScene);
 
@@ -122,6 +100,14 @@ public class Main extends Application {
 
     public static String getToken(){
         return token;
+    }
+
+    public static void setToken(String newToken){
+        token = newToken;
+    }
+
+    public static void setRefreshToken(String newToken){
+        refreshToken = newToken;
     }
 
     public static Portfolio getPortfolio(){

@@ -38,7 +38,8 @@ public class AccountAccessService {
     }
 
     public void deleteAccountAccess(String accountId, String userId) {
-        accountAccessRepo.deleteById(new AccountAccessPK(accountId, userId));
+        // DO NOT use the deleteById method because it generates an SQL error
+        accountAccessRepo.deleteAccountAccessByAccountIdAndUserId(accountId,userId);
     }
 
     public AccountAccess findAccountAccess(String accountId,String userId){

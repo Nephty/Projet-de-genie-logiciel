@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.model.CompositePK.SubAccountPK;
+import com.example.demo.request.SubAccountReq;
 import lombok.*;
 
 import javax.persistence.*;
@@ -59,5 +60,10 @@ public class SubAccount {
 
     public SubAccount(SubAccountPK subAccountPK) {
         this.subAccountPK = subAccountPK;
+    }
+
+    public SubAccount(SubAccountReq subAccountReq) {
+        subAccountPK = new SubAccountPK(subAccountReq.getIban(), subAccountReq.getCurrencyType());
+        currentBalance = subAccountReq.getCurrentBalance();
     }
 }

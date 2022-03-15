@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.request.NotificationReq;
 import lombok.*;
 
 import javax.persistence.*;
@@ -52,6 +53,13 @@ public class Notification {
         this.comments = comments;
         this.date = date;
         this.status = status;
+    }
+
+    public Notification(NotificationReq notificationReq) {
+        notificationId = notificationReq.getNotificationId();
+        comments = notificationReq.getComments();
+        date = notificationReq.getDate();
+        status = notificationReq.getStatus();
     }
 
 }

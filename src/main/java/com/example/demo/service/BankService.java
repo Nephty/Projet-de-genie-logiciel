@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.Bank;
 import com.example.demo.model.CurrencyType;
@@ -46,7 +47,7 @@ public class BankService {
         Bank bank = new Bank(bankReq);
         CurrencyType currencyType = currencyTypeRepo
                 .findById(bankReq.getDefaultCurrencyType())
-                .orElseThrow(() -> new ResourceNotFound(bankReq.getDefaultCurrencyType().toString()));
+                .orElseThrow(() -> new ConflictException(bankReq.getDefaultCurrencyType().toString()));
         bank.setDefaultCurrencyType(currencyType);
         return bank;
     }

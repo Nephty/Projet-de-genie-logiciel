@@ -20,7 +20,7 @@ public class ExportDataSceneController extends Controller implements BackButtonN
 
     private boolean exportDone = false;
 
-    public static ArrayList<Object> exportData;
+    private static ArrayList<Object> exportData;
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -72,5 +72,9 @@ public class ExportDataSceneController extends Controller implements BackButtonN
             emulateBackButtonClicked();
             event.consume();
         }
+    }
+
+    public static void setExportData(ArrayList<Object> arrayList) {
+        exportData = arrayList;
     }
 }

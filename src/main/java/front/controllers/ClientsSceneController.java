@@ -1,7 +1,7 @@
 package front.controllers;
 
 import app.Main;
-import back.user.Client;
+import back.user.Profile;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -22,7 +22,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     @FXML
     public Button backButton, exportDataButton, addClientButton, detailsButton, searchButton, fetchClientsButton;
     @FXML
-    public ListView<Client> clientsListView;
+    public ListView<Profile> clientsListView;
     @FXML
     public Label lastUpdateTimeLabel, loadingClientsLabel;
     @FXML
@@ -65,7 +65,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     public void handleExportDataButtonClicked(MouseEvent event) {
         if (clientsListView.getItems().size() > 0) {
             Main.setScene(Scenes.ExportDataScene);
-            ExportDataSceneController.exportData = new ArrayList<>(clientsListView.getItems());
+            ExportDataSceneController.setExportData(new ArrayList<>(clientsListView.getItems()));
         }
     }
 
@@ -76,16 +76,23 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
 
     @FXML
     public void handleDetailsButtonClicked(MouseEvent event) {
-        if (clientsListView.getItems().size() == 1) {
+        if (clientsListView.getItems().size() == 1 || true) {
             Main.setScene(Scenes.ClientDetailsScene);
-            // TODO : show correct profile according to selection on next scene
-            // how-to hint : according to selection, retrieve data from client and put the data on the next scene
+            // TODO : back-end : show correct profile according to selection on next scene :
+            // ClientDetailsSceneController.setCurrentProfile(PUT THE USER HERE);
         }
     }
 
     @FXML
     public void handleSearchTextFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            emulateSearchButtonClicked();
+        }
         searched = false;
+    }
+
+    private void emulateSearchButtonClicked() {
+        handleSearchButtonClicked(null);
     }
 
     @FXML

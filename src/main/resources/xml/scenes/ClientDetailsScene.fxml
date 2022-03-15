@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0"
+      prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2"
+      fx:controller="front.controllers.ClientDetailsSceneController">
+    <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    onKeyReleased="#handleComponentKeyReleased" prefHeight="70.0" prefWidth="1280.0">
+            <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onKeyReleased="#handleComponentKeyReleased"
+                    onMouseClicked="#handleBackButtonClicked" onMouseEntered="#handleButtonMouseEntered"
+                    onMouseExited="#handleButtonMouseExited" prefHeight="36.0" prefWidth="120.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="Back" textFill="#0a0a14">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+        </AnchorPane>
+        <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                    minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleComponentKeyReleased"
+                    prefHeight="650.0" prefWidth="1280.0">
+            <ListView fx:id="clientDetailsListView" fixedCellSize="50.0" layoutX="30.0" layoutY="75.0"
+                      onKeyReleased="#handleComponentKeyReleased" prefHeight="550.0" prefWidth="1000.0"
+                      style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;"/>
+            <Button fx:id="fetchClientDetailsButton" layoutX="1075.0" layoutY="75.0"
+                    onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleFetchClientDetailsButtonClicked"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    prefHeight="30.0" prefWidth="170.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="Refresh clients">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+            <Label fx:id="loadingClientDetailsLabel" layoutX="870.0" layoutY="29.0" opacity="0.0" prefHeight="16.0"
+                   prefWidth="154.0" text="Loading requests..."/>
+            <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"
+                   onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="326.0"
+                   style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                   text="Client details not updated."/>
+            <Button fx:id="exportDataButton" layoutX="1075.0" layoutY="150" onKeyReleased="#handleComponentKeyReleased"
+                    onMouseClicked="#handleExportDataButtonClicked" onMouseEntered="#handleButtonMouseEntered"
+                    onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="Export data" textFill="#0a0a14">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+            <Button fx:id="createAccountButton" layoutX="1075.0" layoutY="200.0"
+                    onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleCreateAccountButtonClicked"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    prefHeight="30.0" prefWidth="170.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="Create account" textFill="#0a0a14">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+            <Button fx:id="closeAccountButton" layoutX="1075.0" layoutY="250.0"
+                    onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleCloseAccountButtonClicked"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    prefHeight="30.0" prefWidth="170.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="Close account" textFill="#0a0a14">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+            <ComboBox fx:id="sortByComboBox" layoutX="1075.0" layoutY="450.0"
+                      onKeyReleased="#handleComponentKeyReleased" prefHeight="30.0" prefWidth="170.0"
+                      promptText="Sort by..."
+                      style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </ComboBox>
+            <TextField fx:id="searchTextField" alignment="CENTER" layoutX="1075.0" layoutY="350.0"
+                       onKeyPressed="#handleSearchTextFieldKeyPressed" onKeyReleased="#handleComponentKeyReleased"
+                       prefHeight="30.0" prefWidth="170.0" promptText="Search IBAN..."
+                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"/>
+            <Button fx:id="searchButton" layoutX="1110.0" layoutY="400.0" onKeyReleased="#handleComponentKeyReleased"
+                    onMouseClicked="#handleSearchButtonClicked" onMouseEntered="#handleButtonMouseEntered"
+                    onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="100.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="Search" textFill="#0a0a14">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+            <Button fx:id="removeClientButton" layoutX="1075.0" layoutY="550.0"
+                    onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleRemoveClientButtonClicked"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    prefHeight="30.0" prefWidth="170.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="Close account" textFill="#0a0a14">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+            <Button fx:id="cancelRemovalButton" layoutX="1170.0" layoutY="595.0"
+                    onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleCancelRemovalButtonClicked"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    prefHeight="30.0" prefWidth="75.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="Cancel" textFill="#0a0a14" visible="false">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+            <Button fx:id="confirmRemovalButton" layoutX="1075.0" layoutY="595.0"
+                    onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleConfirmRemovalButtonClicked"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    prefHeight="30.0" prefWidth="75.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="Confirm" textFill="#0a0a14" visible="false">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+        </AnchorPane>
+    </Pane>
+</Pane>

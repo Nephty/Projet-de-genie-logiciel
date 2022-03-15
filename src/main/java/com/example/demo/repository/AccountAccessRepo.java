@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountAccessPK> {
     @Query("SELECT s FROM AccountAccess s, User u where u.userID = ?1 and s.userId = u.userID " +
-            "group by s.accountId.swift")
+            "order by s.accountId.swift.swift")
     List<AccountAccess> getAllByUserId(String userID);
 
     Optional<AccountAccess> getAccountAccessByUserIdAndAccountId(User userId,Account accountId);

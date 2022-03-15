@@ -3,8 +3,8 @@ package back.user;
 import java.util.ArrayList;
 
 public class Wallet {
-    private ArrayList<Account> accountList;
     private final Profile accountUser;
+    private ArrayList<Account> accountList;
     private Bank bank;
 
     public Wallet(Profile accountUser) {

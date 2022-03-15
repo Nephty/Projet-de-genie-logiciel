@@ -3,10 +3,10 @@ package back.user;
 import java.util.ArrayList;
 
 public class Account {
+    private final String IBAN;
     private Profile accountOwner;
     private ArrayList<Profile> accountCoOwner;
     private ArrayList<Transaction> transactionHistory;
-    private final String IBAN;
     private boolean activated;
     private boolean archived;
     private Bank bank;

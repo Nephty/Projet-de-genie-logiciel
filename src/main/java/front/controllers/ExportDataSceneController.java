@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 public class ExportDataSceneController extends Controller implements BackButtonNavigator {
     private static ArrayList<Object> exportData;
+    private final boolean exportDone = false;
     @FXML
     public Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
     @FXML
     public Label choosePathLabel, noPathSelectedLabel, requestNotSentLabel, exportSuccessfulLabel, exportLocationLabel;
-    private final boolean exportDone = false;
 
     public static void setExportData(ArrayList<Object> arrayList) {
         exportData = arrayList;

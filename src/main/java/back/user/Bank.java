@@ -1,8 +1,8 @@
 package back.user;
 
 public class Bank {
-    private String name;
     private final String swiftCode;
+    private String name;
 
     public Bank(String swiftCode) {
         this.swiftCode = swiftCode;

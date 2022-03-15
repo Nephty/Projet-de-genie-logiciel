@@ -1,8 +1,8 @@
 package back.user;
 
 public class Notification extends Communication {
-    public String name;
     private final String content;
+    public String name;
 
     // TODO : Implémenter toutes les valeurs comme dans la BDD (dismiss etc)
 

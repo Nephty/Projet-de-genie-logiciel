@@ -80,7 +80,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
 
     @FXML
     public void handleDetailsButtonClicked(MouseEvent event) {
-        if (clientsListView.getItems().size() == 1) {
+        if (clientsListView.getSelectionModel().getSelectedItems().size() == 1) {
             Main.setScene(Flow.forward(Scenes.ClientDetailsScene));
             // TODO : back-end : show correct profile according to selection on next scene :
             // ClientDetailsSceneController.setCurrentProfile(PUT THE USER HERE);

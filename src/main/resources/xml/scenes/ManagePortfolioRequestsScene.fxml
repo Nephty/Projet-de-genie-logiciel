@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0"
-      prefHeight="720.0"
+<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0"
       prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2"
       fx:controller="front.controllers.ManagePortfolioRequestsSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
@@ -52,18 +51,20 @@
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
-            <Label fx:id="loadingNotificationsLabel" layoutX="870.0" layoutY="29.0" opacity="0.0" prefHeight="16.0"
+            <Label fx:id="loadingRequestsLabel" layoutX="870.0" layoutY="29.0" opacity="0.0" prefHeight="16.0"
                    prefWidth="154.0" text="Loading requests..."/>
             <Button fx:id="fetchRequestsButton" layoutX="1075.0" layoutY="75.0"
-                    onKeyReleased="#handleComponentKeyReleased"
-                    onMouseClicked="#handleFetchRequestsButtonClicked" onMouseEntered="#handleButtonMouseEntered"
-                    onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0"
+                    onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleFetchRequestsButtonClicked"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    prefHeight="30.0" prefWidth="170.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Refresh requests">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
+            <Label fx:id="noRequestSelectedLabel" layoutX="1080.0" layoutY="231.0" text="No request selected."
+                   textFill="#c80000" visible="false"/>
         </AnchorPane>
     </Pane>
 </Pane>

@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+
+import com.example.demo.request.BankReq;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -38,7 +40,7 @@ public class Bank {
 
     @Column(nullable = false)
     private String country;
-    /*
+    
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(
             name="default_currency_type",
@@ -46,13 +48,18 @@ public class Bank {
             nullable = false
     )
     @JsonIgnore
-    private CurrencyType defaultCurrencyType;*/
-    /*
-    @JsonAlias(value = "defaultCurrencyType")
-    @Transient
-    private Integer currency;*/
+    private CurrencyType defaultCurrencyType;
+  
 
-    @Column(name = "default_currency_type")
-    private Integer defaultCurrencyType;
+
+    public Bank(BankReq bankReq) {
+      //TODO : oubli du currencyType ??
+        swift = bankReq.getSwift();;
+        name = bankReq.getName();
+        login = bankReq.getLogin();
+        password = bankReq.getPassword();
+        address = bankReq.getAddress();
+        country = bankReq.getCountry();
+    }
 
 }

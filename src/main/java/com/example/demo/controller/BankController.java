@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.throwables.UnimplementedException;
 import com.example.demo.model.Bank;
+import com.example.demo.request.BankReq;
 import com.example.demo.service.BankService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,21 +20,22 @@ public class BankController {
     private final BankService bankService;
 
     /**
-     * @param bank [body] Bank to be added to the DB
-     * @return Bank to String in the body
-     * 201 - Created
-     * 400 - Bad format
+     * @param bankReq bank to be added to the DB
+     * @return bank to string
+     * 201- Created
+     * 400 - Bad Format
+     * 409 - Conflict
      */
     @PostMapping
-    public ResponseEntity<String> addBank(@RequestBody Bank bank) {
-        log.info("incoming bank: {}", bank.toString());
-        bankService.addBank(bank);
-        return new ResponseEntity<>(bank.toString(), HttpStatus.CREATED);
+    public ResponseEntity<String> addBank(@RequestBody BankReq bankReq) {
+        log.info("incoming bank: {}", bankReq.toString());
+        bankService.addBank(bankReq);
+        return new ResponseEntity<>(bankReq.toString(), HttpStatus.CREATED);
     }
 
     /**
-     * @param swift [path] id of the bank to be deleted
-     * @return id sent
+     * @param swift id of the bank to be deleted
+     * @return swift sent
      * 200 - OK
      */
     @DeleteMapping(value = "{swift}")
@@ -43,10 +45,10 @@ public class BankController {
     }
 
     /**
-     * @param swift [path] id of the bank to retrieve
-     * @return bank with matching id
-     * 200 -OK
-     * 404- Resource not found
+     * @param swift id of the bank to retrieve
+     * @return the bank with the matching id
+     * 200 - OK
+     * 404 - Not found
      */
     @GetMapping(value = "{swift}")
     public ResponseEntity<Bank> sendBank(@PathVariable String swift) {
@@ -54,7 +56,7 @@ public class BankController {
     }
 
     /**
-     * @return A list with all banks
+     * @return Array with all banks
      * 200 - OK
      */
     @GetMapping
@@ -63,14 +65,15 @@ public class BankController {
     }
 
     /**
-     * @param bank [body] Bank to change in the DB
+     * @param bankReq bank to be change in the DB
      * @return bank to String
-     * 201 - CREATED
-     * 400 - Bad format
+     * 201 - Created
+     * 400 - Bad Format
+     * 409 - Bad FK
      */
     @PutMapping
-    public ResponseEntity<String> changeBank(@RequestBody Bank bank) {
-        bankService.changeBank(bank);
-        return new ResponseEntity<>(bank.toString(), HttpStatus.CREATED);
+    public ResponseEntity<String> changeBank(@RequestBody BankReq bankReq) {
+        bankService.changeBank(bankReq);
+        return new ResponseEntity<>(bankReq.toString(), HttpStatus.CREATED);
     }
 }

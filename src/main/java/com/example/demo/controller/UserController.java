@@ -29,10 +29,10 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * @param id [path] id of the User
-     * @return The user with the correspondent id
-     * 200 - User found
-     * 404 - NO user with such id
+     * @param id id of the user to retrieve
+     * @return User with matching id
+     * 200 - OK
+     * 404 - Not found
      */
     @GetMapping(value = "{id}")
     public ResponseEntity<User> sendUser(@PathVariable String id) {
@@ -40,8 +40,7 @@ public class UserController {
     }
 
     /**
-     * @return List with all the Users
-     * 200 - All users
+     * @return An array with all users
      */
     @GetMapping
     public ResponseEntity<List<User>> sendAllUser() {
@@ -49,10 +48,10 @@ public class UserController {
     }
 
     /**
-     * @param user [body] User to insert into the DB
-     * @return User to String in the body
-     * 201 - User added
-     * 400 - Bad Format
+     * @param user [body] user to be added to the added to the DB
+     * @return user to String
+     * 201 - Created
+     * 400 - Bad Request
      */
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody User user) {
@@ -61,10 +60,10 @@ public class UserController {
     }
 
     /**
-     * @param user [body] User to change into the DB
-     * @return User to String in the body
-     * 201 - User modified
-     * 400 - Bad Format
+     * @param user [body] user to be added to the changed in the DB
+     * @return user to String
+     * 201 - Created
+     * 400 - Bad Request
      */
     @PutMapping
     public ResponseEntity<String> changeUser(@RequestBody User user) {
@@ -73,9 +72,9 @@ public class UserController {
     }
 
     /**
-     * @param id [path] id of the user to delete
-     * @return id received
-     * 200 - Success
+     * @param id id of the user to delete in the DB
+     * @return id sent
+     * 200 - OK
      */
     @DeleteMapping(value = "{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id) {

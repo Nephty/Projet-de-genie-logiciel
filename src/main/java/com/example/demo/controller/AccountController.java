@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.model.Account;
+import com.example.demo.request.AccountReq;
 import com.example.demo.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +18,10 @@ public class AccountController {
     private final AccountService accountService;
 
     /**
-     * @param iban [path] iban of the account to retrieve
-     * @return account with matching id
+     * @param iban [path] iban of the requested account
+     * @return account with matching iban
      * 200 - OK
+     * 404 - Not Found
      */
     @GetMapping(value = "{iban}")
     public ResponseEntity<Account> sendAccount(@PathVariable String iban) {
@@ -27,21 +29,21 @@ public class AccountController {
     }
 
     /**
-     * @param account [body] Account to be added to the DB
-     * @return account to string
+     * @param accountReq [body] account to add to the DB
+     * @return account to String
      * 201 - Created
-     * 400 - Bad format
+     * 400 - Bad Request
      */
     @PostMapping
-    public ResponseEntity<String> createAccount(@RequestBody Account account){
-        log.info("incoming account: {}", account.toString());
-        accountService.addAccount(account);
-        return new ResponseEntity<>(account.toString(), HttpStatus.CREATED);
+    public ResponseEntity<String> createAccount(@RequestBody AccountReq accountReq){
+        log.info("incoming account: {}", accountReq.toString());
+        accountService.addAccount(accountReq);
+        return new ResponseEntity<>(accountReq.toString(), HttpStatus.CREATED);
     }
 
     /**
-     * @param iban id of the account to delete
-     * @return id sent
+     * @param iban [path] iban of the account to be deleted
+     * @return iban sent
      * 200 - OK
      */
     @DeleteMapping(value = "{iban}")

@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.model.CompositePK.SubAccountPK;
+import com.example.demo.request.SubAccountReq;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -14,24 +15,6 @@ import javax.persistence.*;
 @Entity
 @Table(name="sub_account")
 public class SubAccount {
-
-    /*
-    @Id
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(
-            name="iban",
-            referencedColumnName = "iban"
-    )
-    private Account iban;
-
-    @Id
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(
-            name="currency_type_id",
-            referencedColumnName = "currency_type_id"
-    )
-    private CurrencyType currencyTypeId;
-     */
 
     @EmbeddedId
     private SubAccountPK subAccountPK;
@@ -62,5 +45,10 @@ public class SubAccount {
 
     public SubAccount(SubAccountPK subAccountPK) {
         this.subAccountPK = subAccountPK;
+    }
+
+    public SubAccount(SubAccountReq subAccountReq) {
+        subAccountPK = new SubAccountPK(subAccountReq.getIban(), subAccountReq.getCurrencyType());
+        currentBalance = subAccountReq.getCurrentBalance();
     }
 }

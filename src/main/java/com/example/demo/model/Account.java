@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.request.AccountReq;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -45,6 +46,11 @@ public class Account {
     public Account(String iban, Bank swift) {
         this.iban = iban;
         this.swift = swift;
+    }
+
+    public Account(AccountReq accountReq) {
+        iban = accountReq.getIban();
+        payment = accountReq.getPayment();
     }
 
     public String toString(){

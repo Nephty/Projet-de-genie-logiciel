@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Account;
-import com.example.demo.model.CompositePK.SubAccountPK;
-import com.example.demo.model.CurrencyType;
-import com.example.demo.model.SubAccount;
+
+import com.example.demo.request.SubAccountReq;
 import com.example.demo.service.SubAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,33 +17,23 @@ import java.util.Map;
 public class SubAccountController {
 
     private final SubAccountService subAccountService;
-
-    @GetMapping
-    public ResponseEntity<SubAccount> getSubAccount(@RequestParam String iban, @RequestParam Integer currencyId){
-        SubAccount subAccount = subAccountService.getSubAccount(iban,currencyId);
-        return new ResponseEntity<>(subAccount,HttpStatus.OK);
-    }
-
+    //TODO return a list of sub account linked to an account -> send along with the account
     /**
-     * @return SubAccount to String in the body
+     * @param subAccountReq [body] sub account to be added to the DB
+     * @return sub account to String
      * 201 - Created
      * 400 - Bad Format
+     * 409 - Bad FK
      */
     @PostMapping
-    public ResponseEntity<String> addSubAccount(@RequestBody Map<String, String> json) {
-        //TODO doesn't work, need rework
-        Double balance = 0.0;
-        String balanceTmp = json.get("balance");
-        if (balanceTmp != null)
-            balance = Double.parseDouble(balanceTmp);
-        String iban = json.get("iban");
-        Integer currency = Integer.parseInt(json.get("currency"));
-        return new ResponseEntity<String>(json.get("iban")+" "+json.get("currency"),HttpStatus.CREATED);
+    public ResponseEntity<String> addSubAccount(@RequestBody SubAccountReq subAccountReq) {
+        subAccountService.addSubAccount(subAccountReq);
+        return new ResponseEntity<>(subAccountReq.toString(), HttpStatus.CREATED);
     }
 
     /**
-     * @param iban [param] id of the sub account to delete
-     * @param currencyId [param] id of the sub-account to delete
+     * @param iban [param] id of the account linked
+     * @param currencyId [param] currency of this sub account
      * @return params sent
      * 200 - OK
      */
@@ -56,14 +44,15 @@ public class SubAccountController {
     }
 
     /**
-     * @param subAccount [body] Sub account to change in the DB
-     * @return Sub account to String
-     * 201 - CREATED
-     * 400 - Bad format
+     * @param subAccountReq [body] sub account to be changed in the DB
+     * @return sub account to String
+     * 201 - Created
+     * 400 - Bad Format
+     * 409 - Bad FK
      */
     @PutMapping
-    public ResponseEntity<String> changeSubAccount(@RequestBody SubAccount subAccount) {
-        subAccountService.changeSubAccount(subAccount);
-        return new ResponseEntity<>(subAccount.toString(), HttpStatus.CREATED);
+    public ResponseEntity<String> changeSubAccount(@RequestBody SubAccountReq subAccountReq) {
+        subAccountService.changeSubAccount(subAccountReq);
+        return new ResponseEntity<>(subAccountReq.toString(), HttpStatus.CREATED);
     }
 }

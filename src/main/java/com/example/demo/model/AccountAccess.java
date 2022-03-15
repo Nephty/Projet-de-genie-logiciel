@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.model.CompositePK.AccountAccessPK;
+import com.example.demo.request.AccountAccessReq;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,4 +37,9 @@ public class AccountAccess {
     private Boolean access;
     @Column
     private Boolean hidden;
+
+    public AccountAccess(AccountAccessReq accountAccessReq) {
+        access = accountAccessReq.getAccess();
+        hidden = accountAccessReq.getHidden();
+    }
 }

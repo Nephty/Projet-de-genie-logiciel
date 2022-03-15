@@ -32,13 +32,40 @@ public class Portfolio {
         this.walletList = new ArrayList<Wallet>();
         for(int i = 0; i<bodyList.size();i++){
             JSONObject obj = new JSONObject(bodyList.get(i));
-            // TODO : A optimiser ?
             String swift = obj.getJSONObject("accountId").getJSONObject("swift").getString("swift");
-            if(oldSwift == swift || i == 0) {
+            if(oldSwift.equals(swift) || i == 0) {
                 if(i == 0){
                     oldSwift = swift;
                     bank = new Bank(swift);
                 }
+                Profile owner = new Profile(obj.getJSONObject("accountId").getJSONObject("userId").getString("firstname"), obj.getJSONObject("accountId").getJSONObject("userId").getString("lastname"), obj.getJSONObject("accountId").getJSONObject("userId").getString("userID"));
+                Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
+                String iban = obj.getJSONObject("accountId").getString("iban");
+                int accountTypeId = obj.getJSONObject("accountId").getJSONObject("accountTypeId").getInt("accountTypeId");
+                AccountType accountType = null;
+                switch (accountTypeId) {
+                    case 0:
+                        accountType = AccountType.COURANT;
+                        break;
+                    case 1:
+                        accountType = AccountType.JEUNE;
+                        break;
+                    case 2:
+                        accountType = AccountType.EPARGNE;
+                        break;
+                    case 3:
+                        accountType = AccountType.TERME;
+                        break;
+                }
+                boolean activated = obj.getBoolean("access");
+                boolean archived = obj.getBoolean("hidden");
+                boolean canPay = obj.getJSONObject("accountId").getBoolean("payment");
+                accountList.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
+            } else {
+                this.walletList.add(new Wallet(this.user, bank, accountList));
+                accountList = new ArrayList<Account>();
+                bank = new Bank(swift);
+                oldSwift = swift;
                 Profile owner = new Profile(obj.getJSONObject("accountId").getJSONObject("userId").getString("userID"));
                 Profile coOwner = new Profile(obj.getJSONObject("userId").getString("userID"));
                 String iban = obj.getJSONObject("accountId").getString("iban");
@@ -62,15 +89,9 @@ public class Portfolio {
                 boolean archived = obj.getBoolean("hidden");
                 boolean canPay = obj.getJSONObject("accountId").getBoolean("payment");
                 accountList.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
-            } else {
-                walletList.add(new Wallet(this.user, bank, accountList));
-                accountList.clear();
-                bank = new Bank(swift);
-                oldSwift = swift;
             }
-            walletList.add(new Wallet(this.user, bank, accountList));
         }
-        System.out.println(walletList.get(0).getAccountList().get(0).getIBAN());
+        this.walletList.add(new Wallet(this.user, bank, accountList));
     }
 
 
@@ -101,4 +122,4 @@ public class Portfolio {
         rep.add(json.substring(save, json.length()));
         return rep;
     }
-    }
+}

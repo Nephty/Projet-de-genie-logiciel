@@ -24,6 +24,12 @@ public class Profile {
         this.nationalRegistrationNumber = nationalRegistrationNumber;
     }
 
+    public Profile(String firstName, String lastName, String nationalRegistrationNumber){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nationalRegistrationNumber = nationalRegistrationNumber;
+    }
+
     public String getFirstName(){
         return this.firstName;
     }

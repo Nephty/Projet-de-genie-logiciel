@@ -1,6 +1,10 @@
 package app;
 
+import back.user.Account;
+import back.user.Portfolio;
 import back.user.Profile;
+import back.user.Wallet;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
@@ -13,9 +17,12 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
     private static Profile user;
+    public static Portfolio portfolio;
     private static Stage stage;
     private static String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXRhbkBoZWxsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjQ4MjQxNTIxfQ.Hr0KX07H5BBM9-rI94BmLFMfHK4jdVFfxgM3KG0vOjQ";
-
+    private static Wallet currentWallet;
+    private static Account currentAccount;
+    public static int cpt = 0;
 
     public static void main(String[] args) {
         launch(args);
@@ -24,6 +31,18 @@ public class Main extends Application {
     @Override
     public void start(Stage stage_) {
         stage = stage_;
+
+
+        try {
+            user = new Profile("123456789");
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+        try {
+            portfolio = new Portfolio(user.getNationalRegistrationNumber());
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
 
         Scenes.AuthScene = SceneLoader.load("AuthScene.fxml", getClass());
         Scenes.SignInScene = SceneLoader.load("SignInScene.fxml", getClass());
@@ -50,6 +69,7 @@ public class Main extends Application {
         stage.setTitle("Benkyng app");
         stage.setScene(Scenes.AuthScene);
         stage.show();
+
 
 //
 //        Profile a = null;
@@ -102,5 +122,33 @@ public class Main extends Application {
 
     public static String getToken(){
         return token;
+    }
+
+    public static Portfolio getPortfolio(){
+        return portfolio;
+    }
+
+    public static Wallet getCurrentWallet() {
+        return currentWallet;
+    }
+
+    public static Account getCurrentAccount() {
+        return currentAccount;
+    }
+
+    public static void setCurrentWallet(Wallet currentWallet) {
+        Main.currentWallet = currentWallet;
+    }
+
+    public static void setCurrentAccount(Account currentAccount) {
+        Main.currentAccount = currentAccount;
+    }
+
+    public static void updatePortfolio(){
+        try{
+            portfolio = new Portfolio(user.getNationalRegistrationNumber());
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
     }
 }

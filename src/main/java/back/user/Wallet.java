@@ -15,15 +15,23 @@ public class Wallet {
         this.accountList = accountList;
     }
 
-    public ArrayList<Account> getAccountList(){
+    @Override
+    public String toString() {
+        String espace = "                    ";
+        espace.substring(0, espace.length() - this.bank.getName().length());
+
+        return "Bank : " + this.bank.getName() + espace + "SWIFT : " + this.bank.getSwiftCode();
+    }
+
+    public ArrayList<Account> getAccountList() {
         return this.accountList;
     }
 
-    public Profile getAccountUser(){
+    public Profile getAccountUser() {
         return this.accountUser;
     }
 
-    public Bank getBank(){
+    public Bank getBank() {
         return this.bank;
     }
 }

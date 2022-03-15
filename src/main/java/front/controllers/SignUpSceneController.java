@@ -1,6 +1,9 @@
 package front.controllers;
 
 import app.Main;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
@@ -160,11 +163,31 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         if (noLabelVisible()) {
             // Then we can create a new user
             // TODO : back-end : user creation implementation
+            // TODO : Retirer le token quand ce sera possible
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            try {
+                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
+                        .header("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXRhbkBoZWxsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjQ4MjQxNTIxfQ.Hr0KX07H5BBM9-rI94BmLFMfHK4jdVFfxgM3KG0vOjQ")
+                        .header("Content-Type", "application/json")
+                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userID\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\"\r\n}")
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+            System.out.println(response.getStatus());
+            System.out.println(response.getBody());
             userSignedUp = true;
             signedUpLabel.setVisible(true);
             // Empty all data that we don't need, it's a security detail
-            lastName = ""; firstName = ""; email = ""; NRN = ""; username = ""; password = "";
-            passwordConfirmation = ""; chosenLanguage = "";
+            lastName = "";
+            firstName = "";
+            email = "";
+            NRN = "";
+            username = "";
+            password = "";
+            passwordConfirmation = "";
+            chosenLanguage = "";
 
         }
     }

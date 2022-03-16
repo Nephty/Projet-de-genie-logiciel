@@ -8,6 +8,7 @@ import com.example.demo.repository.BankRepo;
 import com.example.demo.repository.CurrencyTypeRepo;
 import com.example.demo.request.BankReq;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +20,13 @@ public class BankService {
 
     private final BankRepo bankRepo;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final CurrencyTypeRepo currencyTypeRepo;
 
     public void addBank(BankReq bankReq) {
         Bank bank = instantiateBank(bankReq);
+        bank.setPassword(passwordEncoder.encode(bank.getPassword()));
         bankRepo.save(bank);
     }
 
@@ -37,6 +41,11 @@ public class BankService {
 
     public Bank getBank(String swift) {
         return bankRepo.getById(swift);
+    }
+
+    public Bank getByLogin(String login) {
+        return bankRepo.findByLogin(login)
+                .orElseThrow(() -> new ResourceNotFound(login));
     }
 
     public ArrayList<Bank> getAllBanks() {

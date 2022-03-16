@@ -90,28 +90,4 @@ public class UserController {
         userService.deleteUser(id);
         return new ResponseEntity<>(id,HttpStatus.OK);
     }
-
-    /**
-     * @param request Http request
-     * @param response Http response
-     * Send a new access and request token in the response body
-     */
-    @GetMapping(value = "/token/refresh")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String authorizationHeader = request.getHeader(AUTHORIZATION);
-        TokenHandler jwtHandler = new TokenHandler();
-        DecodedJWT decodedJWT = jwtHandler.extractToken(authorizationHeader);
-        String username = decodedJWT.getSubject();
-        User user = userService.getUserByUsername(username);
-        Map<String, String> tokens = jwtHandler.createTokens(
-                user.getUsername(),
-                request.getRequestURL().toString(),
-                Role.USER
-        );
-        tokens.put("refresh_token", authorizationHeader.substring("Bearer ".length()));
-        response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-    }
-
-
 }

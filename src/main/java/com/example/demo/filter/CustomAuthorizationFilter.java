@@ -36,7 +36,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/user/token/refresh")) {
+        if(noAuthorizationNecessary(request)) {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
@@ -73,5 +73,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         responseBody.put("error_msg", e.getMessage());
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), responseBody);
+    }
+
+    private boolean noAuthorizationNecessary(HttpServletRequest request) {
+        if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/token/refresh")) {
+            return true;
+        }
+        return request.getMethod().equals("POST") &&
+                (request.getServletPath().equals("/api/user") || request.getServletPath().equals("/api/bank"));
     }
 }

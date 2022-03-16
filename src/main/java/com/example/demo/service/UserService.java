@@ -1,9 +1,13 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.exception.throwables.UserAlreadyExist;
+import com.example.demo.model.Bank;
 import com.example.demo.model.User;
+import com.example.demo.repository.BankRepo;
 import com.example.demo.repository.UserRepo;
+import com.example.demo.security.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,6 +31,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepo uRepo;
     private final PasswordEncoder passwordEncoder;
+    private final BankRepo bankRepo;
     
 
     public User getUserById(String id) {
@@ -36,10 +41,12 @@ public class UserService implements UserDetailsService {
                 );
     }
 
-    public User getUserByUsername(String username) throws UsernameNotFoundException{
+    public User getUserByUsername(String username) {
         return uRepo.findByUsername(username)
                 .orElseThrow(()-> new ResourceNotFound(username));
     }
+
+
     public List<User> getAllUser() {
         log.info("Fetching all user");
         return uRepo.findAll();
@@ -75,10 +82,39 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = getUserByUsername(username);
+        String[] usernameRole = username.split("/");
         Collection<SimpleGrantedAuthority> authorities= new ArrayList<>();
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), user.getPassword(), authorities
-        );
+        log.info("Attempt authentication by {} with role {}", usernameRole[0], usernameRole[1]);
+        switch (usernameRole[1]) {
+            case "ROLE_USER":
+                User user = getUserCredentials(usernameRole[0]);
+                authorities.add(new SimpleGrantedAuthority(Role.USER.getRole()));
+                return new org.springframework.security.core.userdetails.User(
+                        user.getUsername(), user.getPassword(), authorities
+                );
+            case "ROLE_BANK":
+                Bank bank = getBankCredentials(usernameRole[0]);
+                authorities.add(new SimpleGrantedAuthority(Role.BANK.getRole()));
+                log.info("[BANK]{}", bank.toString());
+                return new org.springframework.security.core.userdetails.User(
+                        bank.getLogin(), bank.getPassword(), authorities
+                );
+            default:
+                throw new UsernameNotFoundException("Incorrect role: " + usernameRole[1]);
+        }
     }
+
+    private User getUserCredentials(String username) {
+        return uRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+
+    private Bank getBankCredentials(String login) {
+        return bankRepo.findByLogin(login)
+                .orElseThrow(()-> {
+                    log.error("no bank with such login: {}", login);
+                    return new UsernameNotFoundException(login);
+                });
+    }
+
 }

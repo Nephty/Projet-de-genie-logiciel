@@ -2,6 +2,8 @@ package com.example.demo.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.demo.exception.throwables.MissingParamException;
+import com.example.demo.model.Bank;
 import com.example.demo.security.Role;
 import com.example.demo.security.TokenHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,8 +36,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        log.info("username: {}, pwd: {}", username, password);
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        String role = request.getParameter("role");
+        request.setAttribute("role", role);
+        log.info("username: {}, pwd: {}, role {}", username, password, request.getAttribute("role"));
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username + "/" + role, password);
         return authenticationManager.authenticate(authenticationToken);
     }
 
@@ -46,14 +50,29 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             FilterChain chain,
             Authentication authResult
     ) throws IOException {
+        log.info("[SUCCESS]");
         TokenHandler jwtHandler = new TokenHandler();
-        User user = (User)authResult.getPrincipal();
-
-        Map<String, String> tokens = jwtHandler.createTokens(
-                user.getUsername(),
-                request.getRequestURL().toString(),
-                Role.USER
-        );
+        Map<String, String> tokens;
+        switch (request.getParameter("role")) {
+            case "ROLE_USER":
+                User user = (User)authResult.getPrincipal();
+                tokens = jwtHandler.createTokens(
+                        user.getUsername(),
+                        request.getRequestURL().toString(),
+                        Role.USER
+                );
+                break;
+            case "ROLE_BANK":
+                User bank = (User)authResult.getPrincipal();
+                tokens = jwtHandler.createTokens(
+                        bank.getUsername(),
+                        request.getRequestURL().toString(),
+                        Role.BANK
+                );
+                break;
+            default:
+                throw new MissingParamException(request.getParameter("role"));
+        }
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }

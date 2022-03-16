@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.model.SubAccount;
 import com.example.demo.request.SubAccountReq;
 import com.example.demo.service.SubAccountService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,13 @@ import java.util.Map;
 public class SubAccountController {
 
     private final SubAccountService subAccountService;
-    //TODO return a list of sub account linked to an account -> send along with the account
+
+    @GetMapping
+    public ResponseEntity<SubAccount> getSubAccount(@RequestParam String iban, @RequestParam Integer currencyId){
+        SubAccount subAccount = subAccountService.getSubAccount(iban,currencyId);
+        return new ResponseEntity<>(subAccount,HttpStatus.OK);
+    }
+
     /**
      * @param subAccountReq [body] sub account to be added to the DB
      * @return sub account to String

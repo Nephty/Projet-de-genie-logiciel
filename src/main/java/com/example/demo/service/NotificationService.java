@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service @Transactional
 public class NotificationService {
@@ -31,6 +33,14 @@ public class NotificationService {
     public Notification getNotification(String notificationId) {
         return notificationRepo.findById(notificationId)
                 .orElseThrow(()-> new ResourceNotFound(notificationId));
+    }
+
+    public List<Notification> getUserNotification(String userId) {
+        return null;
+    }
+
+    public List<Notification> getBankNotification(String swift) {
+        return null;
     }
 
     private Notification instantiateNotification(NotificationReq notificationReq) {

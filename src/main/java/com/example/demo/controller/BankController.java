@@ -31,7 +31,7 @@ public class BankController {
         log.info("incoming bank: {}", bankReq.toString());
         bankService.addBank(bankReq);
         return new ResponseEntity<>(bankReq.toString(), HttpStatus.CREATED);
-    }
+    }//TODO Not allow 2 bank with same login
 
     /**
      * @param swift id of the bank to be deleted

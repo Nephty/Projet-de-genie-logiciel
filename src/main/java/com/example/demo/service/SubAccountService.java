@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.throwables.ConflictException;
+import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.Account;
 import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.model.CurrencyType;
@@ -21,29 +22,13 @@ import java.util.Optional;
 public class SubAccountService {
 
     private final SubAccountRepo subAccountRepo;
-    private final CurrencyTypeService currencyTypeService;
-    private final AccountService accountService;
+    private final AccountRepo accountRepo;
+    private final CurrencyTypeRepo currencyTypeRepo;
 
     public SubAccount getSubAccount(String iban, Integer currency){
-        CurrencyType currencyType = currencyTypeService.getCurrencyById(currency);
-        Optional<SubAccount> subAccount= subAccountRepo.findByIbanAndCurrencyType(
-                accountService.getAccount(iban),
-                currencyType
-        );
-        if (subAccount.isEmpty()){
-            throw new EntityNotFoundException("The subAccount of the account : "
-                    +iban+" with the currency "+currencyType.getCurrency_type_name()+" doesn't exist");
-        }
-        return subAccount.get();
+        return subAccountRepo.findById(new SubAccountPK(iban, currency))
+                .orElseThrow(()-> new ResourceNotFound(iban + " : " + currency));
     }
-
-    public boolean existsById(SubAccountPK subAccountPK){
-        return subAccountRepo.existsById(subAccountPK);
-    }
-
-    private final AccountRepo accountRepo;
-
-    private final CurrencyTypeRepo currencyTypeRepo;
 
     public void deleteSubAccount(String iban, Integer currencyId) {
         subAccountRepo.deleteById(new SubAccountPK(iban, currencyId));

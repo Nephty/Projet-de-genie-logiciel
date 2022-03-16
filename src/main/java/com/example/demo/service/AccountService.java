@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.Account;
 import com.example.demo.model.AccountType;
@@ -44,12 +45,12 @@ public class AccountService {
 
     private Account instantiateAccount(AccountReq accountReq) {
         Account account = new Account(accountReq);
-        Bank bank = bankRepo.findById(accountReq.getIban())
-                .orElseThrow(()-> new ResourceNotFound(accountReq.getIban()));
+        Bank bank = bankRepo.findById(accountReq.getSwift())
+                .orElseThrow(()-> new ConflictException(accountReq.getSwift()));
         User user = userRepo.findById(accountReq.getUserId())
-                .orElseThrow(()-> new ResourceNotFound(accountReq.getUserId()));
+                .orElseThrow(()-> new ConflictException(accountReq.getUserId()));
         AccountType accountType = accountTypeRepo.findById(accountReq.getAccountTypeId())
-                .orElseThrow(()-> new ResourceNotFound(accountReq.getAccountTypeId().toString()));
+                .orElseThrow(()-> new ConflictException(accountReq.getAccountTypeId().toString()));
         account.setSwift(bank);
         account.setUserId(user);
         account.setAccountTypeId(accountType);

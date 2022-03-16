@@ -50,5 +50,8 @@ public class SubAccount {
     public SubAccount(SubAccountReq subAccountReq) {
         subAccountPK = new SubAccountPK(subAccountReq.getIban(), subAccountReq.getCurrencyType());
         currentBalance = subAccountReq.getCurrentBalance();
+        if(currentBalance == null) {
+            currentBalance = 0.0;
+        }
     }
 }

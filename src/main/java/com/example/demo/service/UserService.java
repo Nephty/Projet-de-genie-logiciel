@@ -60,6 +60,9 @@ public class UserService implements UserDetailsService {
         if (uRepo.existsByUsername(user.getUsername())){
             throw new EntityExistsException("Username "+user.getUsername()+" already exists");
         }
+        if (uRepo.existsByEmail(user.getEmail())){
+            throw new EntityExistsException("Email "+user.getEmail()+" already exists");
+        }
         uRepo.save(user);
     }
 

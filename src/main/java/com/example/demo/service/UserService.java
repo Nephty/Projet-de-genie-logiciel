@@ -52,12 +52,16 @@ public class UserService implements UserDetailsService {
     }
 
     public void addUser(User user) {
+        System.out.println(user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (uRepo.existsById(user.getUserID())){
             throw new EntityExistsException("User "+user.getUserID()+" already exists");
         }
         if (uRepo.existsByUsername(user.getUsername())){
             throw new EntityExistsException("Username "+user.getUsername()+" already exists");
+        }
+        if (uRepo.existsByEmail(user.getEmail())){
+            throw new EntityExistsException("Email "+user.getEmail()+" already exists");
         }
         uRepo.save(user);
     }

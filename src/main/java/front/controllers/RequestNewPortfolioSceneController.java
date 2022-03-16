@@ -20,8 +20,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
-import java.util.Arrays;
-
 public class RequestNewPortfolioSceneController extends Controller implements BackButtonNavigator {
     @FXML
     public Button backButton, sendRequestButton;
@@ -36,7 +34,13 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
 
 
     public void initialize() {
-        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("AAAABEBB000", "HHHHBEBB999"));
+
+        ObservableList<String> values = null;
+        try {
+            values = FXCollections.observableArrayList(Bank.fetchAllSWIFT());
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
         // TODO : back-end : fetch all available SWIFT codes and put them in the list
         SWIFTComboBox.setItems(values);
     }

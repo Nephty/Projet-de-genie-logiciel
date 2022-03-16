@@ -104,7 +104,7 @@ public class Portfolio {
         return this.walletList;
     }
 
-    private ArrayList<String> JSONArrayParser(String json) {
+    public static ArrayList<String> JSONArrayParser(String json) {
         ArrayList<String> rep = new ArrayList<String>();
         int crochet = 0;
         int save = 0;

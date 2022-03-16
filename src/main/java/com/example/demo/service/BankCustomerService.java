@@ -23,7 +23,7 @@ public class BankCustomerService {
         bankCustomerRepo.deleteById(new BanksCustomersPK(swift, customerId));
     }
 
-    //TODO implement pagination
+
     public ArrayList<BankCustomers> getCustomers(String swift) {
         return bankCustomerRepo.findAllByBanksSwift(swift);
     }

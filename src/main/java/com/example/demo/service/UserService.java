@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.ResourceNotFound;
+import com.example.demo.exception.throwables.UserAlreadyExist;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -35,17 +37,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUserByUsername(String username) throws UsernameNotFoundException{
-        Optional<User> user = uRepo.findByUsername(username);
-
-        if(user.isEmpty()) {
-            log.error("User with username {} was not found", username);
-            throw new UsernameNotFoundException("");
-        }
-        return user.get();
-
-
+        return uRepo.findByUsername(username)
+                .orElseThrow(()-> new ResourceNotFound(username));
     }
-    //TODO Add pagination to the getAll
     public List<User> getAllUser() {
         log.info("Fetching all user");
         return uRepo.findAll();
@@ -55,13 +49,16 @@ public class UserService implements UserDetailsService {
         System.out.println(user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (uRepo.existsById(user.getUserID())){
-            throw new EntityExistsException("User "+user.getUserID()+" already exists");
+            log.warn("User "+user.getUserID()+" already exists");
+            throw new UserAlreadyExist(UserAlreadyExist.Reason.ID);
         }
         if (uRepo.existsByUsername(user.getUsername())){
-            throw new EntityExistsException("Username "+user.getUsername()+" already exists");
+            log.warn("Username "+user.getUsername()+" already exists");
+            throw new UserAlreadyExist(UserAlreadyExist.Reason.USERNAME);
         }
         if (uRepo.existsByEmail(user.getEmail())){
-            throw new EntityExistsException("Email "+user.getEmail()+" already exists");
+            log.warn("Email "+user.getEmail()+" already exists");
+            throw new UserAlreadyExist(UserAlreadyExist.Reason.EMAIL);
         }
         uRepo.save(user);
     }

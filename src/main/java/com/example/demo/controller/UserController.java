@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepo;
 import com.example.demo.security.Role;
@@ -29,14 +30,21 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * @param id id of the user to retrieve
+     * @param id [param]id of the user to retrieve
+     * @param isUsername [param]declare if the id provided is the nrn or the username of the user
      * @return User with matching id
      * 200 - OK
      * 404 - Not found
      */
     @GetMapping(value = "{id}")
-    public ResponseEntity<User> sendUser(@PathVariable String id) {
-         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+    public ResponseEntity<User> sendUser(@PathVariable String id, @RequestParam Boolean isUsername) {
+        if(isUsername == null) {
+            throw new MissingParamException("isUsername param must be present");
+        }
+        if(isUsername) {
+            return new ResponseEntity<>(userService.getUserByUsername(id), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
     /**
@@ -52,6 +60,7 @@ public class UserController {
      * @return user to String
      * 201 - Created
      * 400 - Bad Request
+     * 403 - User already exist
      */
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody User user) {

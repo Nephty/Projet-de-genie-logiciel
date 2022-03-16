@@ -74,6 +74,15 @@ public class Main extends Application {
         Main.currentAccount = currentAccount;
     }
 
+    public static void clearData(){
+        portfolio = null;
+        user = null;
+        token = null;
+        refreshToken = null;
+        currentWallet = null;
+        currentAccount = null;
+    }
+
     public static void updatePortfolio() {
         try {
             portfolio = new Portfolio(user.getNationalRegistrationNumber());

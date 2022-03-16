@@ -1,6 +1,9 @@
+import app.Main;
 import back.user.Bank;
+import back.user.Portfolio;
 import back.user.Profile;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +17,12 @@ public class HTTPTest {
     @Test
     @DisplayName("Getting a user from api")
     public void getUser() {
+        Main.setToken(token);
         assertDoesNotThrow(() -> {
             Profile userTest = new Profile("123456789");
-            assertEquals("Morningstar", userTest.getFirstName());
-            assertEquals("Lucifer", userTest.getLastName());
+
+            assertEquals("Lucifer", userTest.getFirstName());
+            assertEquals("Morningstar", userTest.getLastName());
             assertEquals("123456789", userTest.getNationalRegistrationNumber());
         });
 
@@ -25,10 +30,44 @@ public class HTTPTest {
 
     @Test
     @DisplayName("Getting a bank from api")
-    public void getBank() throws UnirestException {
-        Bank bankTest = new Bank("ABCD");
+    public void getBank(){
+        Main.setToken(token);
+        assertDoesNotThrow(() -> {
+            Bank bankTest = new Bank("ABCD");
 
-        assertEquals("Belfius", bankTest.getName());
-        assertEquals("ABCD", bankTest.getSwiftCode());
+            assertEquals("Belfius", bankTest.getName());
+            assertEquals("ABCD", bankTest.getSwiftCode());
+        });
+    }
+
+    @Test
+    @DisplayName("Getting a portfolio from api")
+    public void getPortfolio(){
+        Main.setToken(token);
+        assertDoesNotThrow(() -> {
+            Portfolio portfolioTest = new Portfolio("123456789");
+
+            assertEquals("Lucifer", portfolioTest.getUser().getFirstName());
+            assertEquals("Morningstar", portfolioTest.getUser().getLastName());
+            assertEquals("123456789", portfolioTest.getUser().getNationalRegistrationNumber());
+            assertEquals("Belfius", portfolioTest.getWalletList().get(0).getBank().getName());
+            assertEquals("fake8", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
+        });
+    }
+
+    @Test
+    @DisplayName("Login to an account")
+    public void login(){
+        assertDoesNotThrow(() ->{
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            response = Unirest.post("https://flns-spring-test.herokuapp.com/api/login")
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .field("username", "Satan")
+                    .field("password", "666HELL")
+                    .asString();
+
+            assertEquals(response.getStatus(), 200);
+        });
     }
 }

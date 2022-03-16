@@ -1,5 +1,7 @@
 package back.user;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 import java.util.ArrayList;
 
 public class Account {
@@ -13,7 +15,7 @@ public class Account {
     private final boolean canPay;
     private ArrayList<SubAccount> subAccountList;
 
-    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) {
+    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) throws UnirestException {
         this.accountOwner = accountOwner;
         this.accountCoOwner = new ArrayList<Profile>();
         this.accountCoOwner.add(accountCoOwner);
@@ -23,12 +25,13 @@ public class Account {
         this.activated = activated;
         this.archived = archived;
         this.canPay = canPay;
-        // TODO : Requete sub account
+        this.subAccountList = new ArrayList<SubAccount>();
+        this.subAccountList.add(new SubAccount(this.IBAN, Currencies.EUR));
     }
 
     @Override
     public String toString() {
-        return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated");
+        return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated") + "          amount : "+ getSubAccountList().get(0).getAmount() + " €";
     }
 
     /**

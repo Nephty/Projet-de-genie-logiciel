@@ -58,7 +58,6 @@ public class SignInSceneController extends Controller implements BackButtonNavig
      * Checks if every field is properly filled in. Initializes the sign in process.
      */
     public void signIn() {
-        // TODO : back-end : change this condition to check if the user entered correct credentials
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {
@@ -79,7 +78,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             Main.setToken(obj.getString("access_token"));
             Main.setRefreshToken(obj.getString("refresh_token"));
             try {
-                Main.setUser(new Profile("123456789"));
+                Main.setUser(new Profile("02.05.23-051.44")); // TODO : Changer ça et faire une requête pour avoir l'id avec l'username
             } catch (UnirestException e) {
                 e.printStackTrace();
             }

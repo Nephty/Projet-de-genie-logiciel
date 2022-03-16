@@ -3,14 +3,16 @@ package back.user;
 public class Notification extends Communication {
     public String name;
     private final String content;
-
-    // TODO : Implémenter toutes les valeurs comme dans la BDD (dismiss etc)
+    private boolean flag;
+    private boolean dismiss;
 
     public Notification(Bank bank, Profile profile, String name, String content) {
         this.client = profile;
         this.bank = bank;
         this.content = content;
         this.name = name;
+        this.flag = false;
+        this.dismiss = false;
     }
 
     public String getContent() {
@@ -19,5 +21,13 @@ public class Notification extends Communication {
 
     public String getName() {
         return this.name;
+    }
+
+    public void setDismiss(boolean value){
+        this.dismiss = value;
+    }
+
+    public void setFlag(boolean value){
+        this.flag = value;
     }
 }

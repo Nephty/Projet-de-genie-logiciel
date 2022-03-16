@@ -14,7 +14,7 @@ public class Profile {
     public Profile(String nationalRegistrationNumber) throws UnirestException {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
-        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber)
+        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber +"?isUsername=false")
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         String body = response.getBody();

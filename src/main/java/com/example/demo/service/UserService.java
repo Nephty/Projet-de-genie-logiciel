@@ -72,6 +72,7 @@ public class UserService implements UserDetailsService {
 
     public void changeUser(User user) {
         log.info("Changing user to {}", user.toString());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         uRepo.save(user);
     }
 

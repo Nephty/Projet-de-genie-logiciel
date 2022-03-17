@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService {
     private final UserRepo uRepo;
     private final PasswordEncoder passwordEncoder;
     private final BankRepo bankRepo;
-    
+
 
     public User getUserById(String id) {
         return uRepo.findById(id)

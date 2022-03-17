@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 
 
+@ToString
 @Getter
 @Setter
 @NoArgsConstructor
@@ -51,21 +52,5 @@ public class Account {
     public Account(AccountReq accountReq) {
         iban = accountReq.getIban();
         payment = accountReq.getPayment();
-    }
-
-    public String toString(){
-        String res = "Account(";
-        if (iban != null)
-            res += "iban="+iban;
-        if (swift != null)
-            res += "swift="+swift;
-        if (userId != null)
-            res += "userId"+userId;
-        if (accountTypeId != null)
-            res += "accountTypeId="+accountTypeId;
-        if (payment != null)
-            res += "payment="+payment;
-        res+=")";
-        return res;
     }
 }

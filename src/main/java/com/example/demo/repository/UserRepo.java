@@ -11,10 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, String> {
-    @Query("SELECT new User(s.userID,s.email,s.firstname,s.lastname,s.username,s.language) " +
-            "FROM User s WHERE s.userID = ?1")
-    Optional<User> findByIdWithoutPassword(String userID);
-
     Optional<User> findByUsername(String username);
 
     boolean existsByUsername(String username);

@@ -1,6 +1,7 @@
 package back.user;
 
 public class Transaction {
+    private final long ID;
     private String senderName;
     private String senderIBAN;
     private String receiverName;
@@ -8,7 +9,6 @@ public class Transaction {
     private double amount;
     private String communication;
     private String sendingDate;
-    private final long ID;
     private Currencies currency;
 
     public Transaction(long ID) {

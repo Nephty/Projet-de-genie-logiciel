@@ -27,17 +27,17 @@ public class LanguageSceneController extends Controller implements BackButtonNav
 
     public void initialize() {
         String path = System.getProperty("user.dir") + "/src/main/resources/lang";
-        File dir  = new File(path);
+        File dir = new File(path);
         File[] files = dir.listFiles();
         assert files != null;  // this asserts that files is not null because we know there will be data in the lang directory
         ArrayList<Language> lst = new ArrayList<Language>();
         HashMap<String, Language> stringToLanguageMap = new HashMap<String, Language>();
 
-        for(File item : files) {
+        for (File item : files) {
             String str = item.getName();
             // remove the .json at the end of the string, replace the _ with a space and put the result to upper case
             // en_us.json --> EN US                     fr_be.json --> FR BE
-            str = str.substring(0, str.length() -4).replace('_',' ').toUpperCase();
+            str = str.substring(0, str.length() - 4).replace('_', ' ').toUpperCase();
             lst.add(new Language(str));
         }
         languagesListView.setItems(FXCollections.observableArrayList(lst));

@@ -10,10 +10,10 @@ public class Account {
     private final Bank bank;
     private final String IBAN;
     private final AccountType accountType;
-    private boolean activated;
     private final boolean archived;
     private final boolean canPay;
-    private ArrayList<SubAccount> subAccountList;
+    private boolean activated;
+    private final ArrayList<SubAccount> subAccountList;
 
     public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) throws UnirestException {
         this.accountOwner = accountOwner;
@@ -31,7 +31,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated") + "          amount : "+ getSubAccountList().get(0).getAmount() + " €";
+        return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated") + "          amount : " + getSubAccountList().get(0).getAmount() + " €";
     }
 
     /**

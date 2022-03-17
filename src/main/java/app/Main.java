@@ -74,7 +74,7 @@ public class Main extends Application {
         Main.currentAccount = currentAccount;
     }
 
-    public static void clearData(){
+    public static void clearData() {
         portfolio = null;
         user = null;
         token = null;
@@ -91,7 +91,7 @@ public class Main extends Application {
         }
     }
 
-    public static void ErrorManager(int statut){
+    public static void ErrorManager(int statut) {
 
     }
 

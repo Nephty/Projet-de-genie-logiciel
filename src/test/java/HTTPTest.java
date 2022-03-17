@@ -30,7 +30,7 @@ public class HTTPTest {
 
     @Test
     @DisplayName("Getting a bank from api")
-    public void getBank(){
+    public void getBank() {
         Main.setToken(token);
         assertDoesNotThrow(() -> {
             Bank bankTest = new Bank("ABCD");
@@ -42,7 +42,7 @@ public class HTTPTest {
 
     @Test
     @DisplayName("Getting a portfolio from api")
-    public void getPortfolio(){
+    public void getPortfolio() {
         Main.setToken(token);
         assertDoesNotThrow(() -> {
             Portfolio portfolioTest = new Portfolio("123456789");
@@ -57,8 +57,8 @@ public class HTTPTest {
 
     @Test
     @DisplayName("Login to an account")
-    public void login(){
-        assertDoesNotThrow(() ->{
+    public void login() {
+        assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
             response = Unirest.post("https://flns-spring-test.herokuapp.com/api/login")

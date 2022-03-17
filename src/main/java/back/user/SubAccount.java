@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class SubAccount {
     private final String IBAN;
     private final Currencies currency;
-    private double amount;
+    private final double amount;
     private ArrayList<Transaction> transactionHistory;
 
 
@@ -21,8 +21,8 @@ public class SubAccount {
         String token = Main.getToken();
         // TODO : Instancier les valeurs grâce à l'IBAN et la Currency
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account/sub-account?iban="+IBAN+"&currencyId="+"0") // Extension 2 : Changer la valeur de 0 en fonction de la monnaie
-                .header("Authorization", "Bearer "+token)
+        HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account/sub-account?iban=" + IBAN + "&currencyId=" + "0") // Extension 2 : Changer la valeur de 0 en fonction de la monnaie
+                .header("Authorization", "Bearer " + token)
                 .asString();
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);

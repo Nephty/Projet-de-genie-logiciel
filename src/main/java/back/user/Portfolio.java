@@ -23,7 +23,7 @@ public class Portfolio {
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);
         this.walletList = new ArrayList<Wallet>();
-        if(body != "") {
+        if (body != "") {
             ArrayList<String> bodyList = JSONArrayParser(body);
 
             ArrayList<Account> accountList = new ArrayList<Account>();
@@ -95,15 +95,6 @@ public class Portfolio {
         }
     }
 
-
-    public Profile getUser() {
-        return this.user;
-    }
-
-    public ArrayList<Wallet> getWalletList() {
-        return this.walletList;
-    }
-
     public static ArrayList<String> JSONArrayParser(String json) {
         ArrayList<String> rep = new ArrayList<String>();
         int crochet = 0;
@@ -122,5 +113,13 @@ public class Portfolio {
         }
         rep.add(json.substring(save));
         return rep;
+    }
+
+    public Profile getUser() {
+        return this.user;
+    }
+
+    public ArrayList<Wallet> getWalletList() {
+        return this.walletList;
     }
 }

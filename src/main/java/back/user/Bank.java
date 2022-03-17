@@ -33,9 +33,9 @@ public class Bank {
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         String body = response.getBody();
-        body = body.substring(1, body.length() -1);
+        body = body.substring(1, body.length() - 1);
         ArrayList<String> bankList = Portfolio.JSONArrayParser(body);
-        for(int i = 0; i< bankList.size(); i++){
+        for (int i = 0; i < bankList.size(); i++) {
             JSONObject obj = new JSONObject(bankList.get(i));
             rep.add(obj.getString("swift"));
         }

@@ -15,6 +15,8 @@ import javafx.scene.input.MouseEvent;
 import java.util.Calendar;
 
 public class TransferSceneController extends Controller implements BackButtonNavigator {
+    private final int charactersLeft = 256;
+    private final int previousMessageLength = 0;
     @FXML
     public Button backButton, transferButton;
     @FXML
@@ -22,9 +24,6 @@ public class TransferSceneController extends Controller implements BackButtonNav
     @FXML
     public Label invalidAmountLabel, invalidRecipientLabel, invalidIBAN, invalidMessageLabel, invalidDateLabel,
             transferExecutedLabel, charactersLeftLabel;
-
-    private final int charactersLeft = 256;
-    private final int previousMessageLength = 0;
 
     public static void executeTransfer() {
         System.out.println("transfer executed.");

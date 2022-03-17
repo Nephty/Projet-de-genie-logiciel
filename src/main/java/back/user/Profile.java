@@ -14,7 +14,7 @@ public class Profile {
     public Profile(String nationalRegistrationNumber) throws UnirestException {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
-        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber +"?isUsername=false")
+        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         String body = response.getBody();
@@ -33,7 +33,7 @@ public class Profile {
     public void changePassword(String newPassword) throws UnirestException {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
-        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber +"?isUsername=false")
+        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         String body = response.getBody();
@@ -41,9 +41,9 @@ public class Profile {
 
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response2 = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
-                .header("Authorization", "Bearer "+ Main.getToken())
+                .header("Authorization", "Bearer " + Main.getToken())
                 .header("Content-Type", "application/json")
-                .body("{\r\n    \"name\": \""+this.firstName+"\",\r\n    \"id\": "+this.nationalRegistrationNumber+",\r\n    \"email\": \""+obj.getString("email")+"\",\r\n    \"password\": \""+newPassword+"\"\r\n}")
+                .body("{\r\n    \"name\": \"" + this.firstName + "\",\r\n    \"id\": " + this.nationalRegistrationNumber + ",\r\n    \"email\": \"" + obj.getString("email") + "\",\r\n    \"password\": \"" + newPassword + "\"\r\n}")
                 .asString();
 
     }

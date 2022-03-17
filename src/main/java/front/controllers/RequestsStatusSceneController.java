@@ -77,7 +77,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleButtonKeyReleased(KeyEvent event) {
+    public void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

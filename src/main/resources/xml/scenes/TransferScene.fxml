@@ -11,8 +11,8 @@
       fx:controller="front.controllers.TransferSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                    onKeyReleased="#handleButtonKeyReleased" prefHeight="70.0" prefWidth="1280.0">
-            <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased" prefHeight="70.0" prefWidth="1280.0">
+            <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onKeyReleased="#handleComponentKeyReleased"
                     onMouseClicked="#handleBackButtonClicked" onMouseEntered="#handleButtonMouseEntered"
                     onMouseExited="#handleButtonMouseExited" prefHeight="36.0" prefWidth="120.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
@@ -26,9 +26,9 @@
             </Button>
         </AnchorPane>
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                    onKeyReleased="#handleButtonKeyReleased" prefHeight="650.0" prefWidth="1280.0">
+                    onKeyReleased="#handleComponentKeyReleased" prefHeight="650.0" prefWidth="1280.0">
             <TextField fx:id="amountField" layoutX="423.0" layoutY="74.0" onKeyPressed="#handleAmountFieldKeyPressed"
-                       onKeyReleased="#handleButtonKeyReleased" prefHeight="60.0" prefWidth="435.0"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
                        promptText="Amount..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
@@ -38,7 +38,7 @@
             <Label fx:id="invalidAmountLabel" layoutX="431.0" layoutY="54.0" prefHeight="16.0" prefWidth="108.0"
                    text="Invalid amount." textFill="#c80000" visible="false"/>
             <TextField fx:id="recipientField" layoutX="423.0" layoutY="164.0"
-                       onKeyPressed="#handleRecipientFieldKeyPressed" onKeyReleased="#handleButtonKeyReleased"
+                       onKeyPressed="#handleRecipientFieldKeyPressed" onKeyReleased="#handleComponentKeyReleased"
                        prefHeight="60.0" prefWidth="435.0" promptText="Recipient... (optional)"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
@@ -48,7 +48,7 @@
             <Label fx:id="invalidRecipientLabel" layoutX="431.0" layoutY="144.0" prefHeight="16.0" prefWidth="114.0"
                    text="Invalid recipient." textFill="#c80000" visible="false"/>
             <TextField fx:id="IBANField" layoutX="423.0" layoutY="254.0" onKeyPressed="#handleIBANFieldKeyPressed"
-                       onKeyReleased="#handleButtonKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="IBAN..."
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="IBAN..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
                     <Font size="20.0"/>
@@ -57,7 +57,7 @@
             <Label fx:id="invalidIBAN" layoutX="431.0" layoutY="234.0" prefHeight="16.0" prefWidth="89.0"
                    text="Invalid IBAN." textFill="#c80000" visible="false"/>
             <TextField fx:id="messageField" layoutX="423.0" layoutY="344.0" onKeyPressed="#handleMessageFieldKeyPressed"
-                       onKeyReleased="#handleButtonKeyReleased" prefHeight="60.0" prefWidth="435.0"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
                        promptText="Message... (optional)"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
@@ -67,7 +67,7 @@
             <Label fx:id="invalidMessageLabel" layoutX="433.0" layoutY="324.0" prefHeight="16.0" prefWidth="313.0"
                    text="Invalid message." textFill="#c80000" visible="false"/>
             <TextField fx:id="dateField" layoutX="423.0" layoutY="434.0" onKeyPressed="#handleDateFieldKeyPressed"
-                       onKeyReleased="#handleButtonKeyReleased" prefHeight="60.0" prefWidth="435.0"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
                        promptText="Date (dd-mm-YYYY)... (optional)"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
@@ -76,7 +76,7 @@
             </TextField>
             <Label fx:id="invalidDateLabel" layoutX="433.0" layoutY="414.0" prefHeight="16.0" prefWidth="89.0"
                    text="Invalid date." textFill="#c80000" visible="false"/>
-            <Button fx:id="transferButton" layoutX="492.0" layoutY="535.0" onKeyReleased="#handleButtonKeyReleased"
+            <Button fx:id="transferButton" layoutX="492.0" layoutY="535.0" onKeyReleased="#handleComponentKeyReleased"
                     onMouseClicked="#handleTransferButtonClicked" onMouseEntered="#handleButtonMouseEntered"
                     onMouseExited="#handleButtonMouseExited" prefHeight="52.0" prefWidth="296.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"

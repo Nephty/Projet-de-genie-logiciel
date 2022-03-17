@@ -90,7 +90,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleButtonKeyReleased(KeyEvent event) {
+    public void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

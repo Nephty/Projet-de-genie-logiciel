@@ -11,12 +11,12 @@
       fx:controller="front.controllers.RequestTransferPermissionSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     prefHeight="70.0" prefWidth="1280.0">
             <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onMouseClicked="#handleBackButtonClicked"
                     prefHeight="36.0" prefWidth="120.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Back" textFill="#0a0a14">
                 <font>
@@ -28,7 +28,7 @@
             </Button>
         </AnchorPane>
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     prefHeight="650.0" prefWidth="1280.0">
             <Label fx:id="selectPortfolioLabel" alignment="CENTER" layoutX="432.0" layoutY="254.0" prefHeight="36.0"
                    prefWidth="200.0"
@@ -36,7 +36,7 @@
                    text="Select Portfolio : "/>
             <ComboBox fx:id="portfolioComboBox" layoutX="649.0" layoutY="254.0" prefHeight="36.0" prefWidth="200.0"
                       promptText="Portfolio..."
-                      onKeyReleased="#handleButtonKeyReleased" onMouseClicked="#handlePortfolioComboBoxMouseCLicked"
+                      onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handlePortfolioComboBoxMouseCLicked"
                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
@@ -46,7 +46,7 @@
                     onMouseClicked="#handleSendRequestButtonMouseClicked"
                     prefHeight="40.0" prefWidth="250.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Send Request" textFill="#0a0a14">
                 <effect>

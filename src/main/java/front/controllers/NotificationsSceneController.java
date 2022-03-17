@@ -98,7 +98,7 @@ public class NotificationsSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleButtonKeyReleased(KeyEvent event) {
+    public void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

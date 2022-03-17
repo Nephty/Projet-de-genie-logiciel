@@ -11,12 +11,12 @@
       fx:controller="front.controllers.VisualizeToolSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     prefHeight="70.0" prefWidth="1280.0">
             <Button fx:id="backButton" layoutX="14.0" layoutY="17.0"
                     onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Back" textFill="#0a0a14">
                 <font>
@@ -28,15 +28,15 @@
             </Button>
         </AnchorPane>
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
             <ListView fx:id="ChartsArea" fixedCellSize="50.0" layoutX="30.0" layoutY="75.0"
                       prefHeight="550.0" prefWidth="650.0"
-                      onKeyReleased="#handleButtonKeyReleased"
+                      onKeyReleased="#handleComponentKeyReleased"
                       style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;"/>
             <ListView fx:id="accountsArea" fixedCellSize="50.0" layoutX="730.0" layoutY="136.0"
                       prefHeight="434.0" prefWidth="300.0"
-                      onKeyReleased="#handleButtonKeyReleased"
+                      onKeyReleased="#handleComponentKeyReleased"
                       style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;"/>
             <Label fx:id="accountsLabel" alignment="CENTER" layoutX="730.0" layoutY="75.0"
                    prefHeight="36.0" prefWidth="300.0"
@@ -45,7 +45,7 @@
             <Button fx:id="setTableMode" layoutX="1075.0" layoutY="75"
                     onMouseClicked="#handleSetTableModeButtonClicked" prefHeight="30.0" prefWidth="170.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Table mode" textFill="#0a0a14">
                 <effect>
@@ -55,7 +55,7 @@
             <Button fx:id="setGraphMode" layoutX="1075.0" layoutY="125.0"
                     onMouseClicked="#handleSetGraphModeButtonClicked" prefHeight="30.0" prefWidth="170.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Graph mode" textFill="#0a0a14">
                 <effect>
@@ -65,7 +65,7 @@
             <Button fx:id="setPieChartMode" layoutX="1075.0" layoutY="175.0"
                     onMouseClicked="#handleSetPieChartModeButtonClicked" prefHeight="30.0" prefWidth="170.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Pie chart mode" textFill="#0a0a14">
                 <effect>
@@ -74,7 +74,7 @@
             </Button>
             <ComboBox fx:id="timeSpanComboBox" layoutX="1075.0" layoutY="275.0"
                       prefHeight="30.0" prefWidth="170.0"
-                      onKeyReleased="#handleButtonKeyReleased"
+                      onKeyReleased="#handleComponentKeyReleased"
                       promptText="Time span..."
                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                 <effect>
@@ -84,7 +84,7 @@
             <Button fx:id="addAccountButton" layoutX="730.0" layoutY="595"
                     onMouseClicked="#handleAddAccountButtonClicked" prefHeight="30.0" prefWidth="135.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Add" textFill="#0a0a14">
                 <effect>
@@ -94,7 +94,7 @@
             <Button fx:id="removeAccountButton" layoutX="895.0" layoutY="595"
                     onMouseClicked="#handleRemoveAccountModeButtonClicked" prefHeight="30.0" prefWidth="135.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                     text="Remove" textFill="#0a0a14">
                 <effect>

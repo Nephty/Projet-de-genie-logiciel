@@ -91,6 +91,10 @@ public class Main extends Application {
         }
     }
 
+    public static void ErrorManager(int statut){
+
+    }
+
     @Override
     public void start(Stage stage_) {
         stage = stage_;

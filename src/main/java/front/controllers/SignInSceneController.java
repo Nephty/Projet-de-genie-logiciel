@@ -58,6 +58,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
      * Checks if every field is properly filled in. Initializes the sign in process.
      */
     public void signIn() {
+        // TODO : Sécuriser le mot de passe
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {
@@ -65,11 +66,11 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .field("username", usernameField.getText())
                     .field("password", passwordField.getText())
+                    .field("role", "ROLE_USER")
                     .asString();
         } catch (UnirestException e) {
             e.printStackTrace();
         }
-
 
         if (response.getStatus() == 200) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
@@ -84,7 +85,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                         .asString();
                 String body2 = response2.getBody();
                 JSONObject obj2 = new JSONObject(body2);
-                Main.setUser(new Profile(obj2.getString("userID"))); // TODO : Changer ça et faire une requête pour avoir l'id avec l'username
+                Main.setUser(new Profile(obj2.getString("userID"))); // TODO : Optimiser
             } catch (UnirestException e) {
                 e.printStackTrace();
             }

@@ -13,6 +13,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class LanguageSceneController extends Controller implements BackButtonNavigator {
     @FXML
     public ListView<Language> languagesListView;
@@ -22,7 +26,20 @@ public class LanguageSceneController extends Controller implements BackButtonNav
     Label chooseLanguageLabel;
 
     public void initialize() {
-        languagesListView.setItems(FXCollections.observableArrayList(new Language("language A"), new Language("language B")));
+        String path = System.getProperty("user.dir") + "/src/main/resources/lang";
+        File dir  = new File(path);
+        File[] liste = dir.listFiles();
+        ArrayList<Language> lst = new ArrayList<Language>();
+        HashMap<String, Language> dico = new HashMap<String, Language>();
+
+        for(File item : liste) {
+            String str = item.getName();
+            str.substring(0, str.length() -4);
+            str.replace('_',' ');
+            str.toUpperCase();
+            lst.add(new Language(str));
+        }
+        languagesListView.setItems(FXCollections.observableArrayList(lst));
         // TODO : back-end : fetch languages
     }
 

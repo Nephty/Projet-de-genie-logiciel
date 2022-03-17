@@ -40,21 +40,19 @@ public class Bank {
 
     @Column(nullable = false)
     private String country;
-    
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="default_currency_type",
             referencedColumnName = "currency_type_id",
             nullable = false
     )
-    @JsonIgnore
     private CurrencyType defaultCurrencyType;
   
 
 
     public Bank(BankReq bankReq) {
-      //TODO : oubli du currencyType ??
-        swift = bankReq.getSwift();;
+        swift = bankReq.getSwift();
         name = bankReq.getName();
         login = bankReq.getLogin();
         password = bankReq.getPassword();

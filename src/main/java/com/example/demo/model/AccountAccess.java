@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name="account_access")
 public class AccountAccess {
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name="account_id",
             referencedColumnName = "iban",

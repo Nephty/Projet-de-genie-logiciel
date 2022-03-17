@@ -29,6 +29,13 @@ public class AccountType {
             nullable = false
     )
     private Double annualReturn;
+
+    @Column(
+            name="annual_fee",
+            nullable = false
+    )
+    private Double annualFee;
+
     @Column(name="age_restriction")
     private Integer ageRestriction;
     @Column(name="transaction_amount_limit")

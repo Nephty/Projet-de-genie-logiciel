@@ -84,8 +84,10 @@ public class AddClientSceneController extends Controller implements BackButtonNa
     public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
+            keyEvent.consume();
         } else if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateAddClientButtonClicked();
+            keyEvent.consume();
         }
     }
 

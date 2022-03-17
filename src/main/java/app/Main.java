@@ -60,4 +60,8 @@ public class Main extends Application {
         stage.setScene(Scenes.AuthScene);
         stage.show();
     }
+
+    public static Stage getStage() {
+        return stage;
+    }
 }

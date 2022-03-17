@@ -86,8 +86,10 @@ public class CreateClientAccountSceneController extends Controller implements Ba
     public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
+            keyEvent.consume();
         } else if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateCreateAccountButtonClicked();
+            keyEvent.consume();
         }
     }
 

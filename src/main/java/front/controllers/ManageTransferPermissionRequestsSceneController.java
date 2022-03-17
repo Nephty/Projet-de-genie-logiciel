@@ -44,6 +44,7 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
     public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
+            keyEvent.consume();
         }
     }
 

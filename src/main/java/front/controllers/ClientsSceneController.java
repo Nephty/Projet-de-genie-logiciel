@@ -51,6 +51,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
+            keyEvent.consume();
         }
     }
 

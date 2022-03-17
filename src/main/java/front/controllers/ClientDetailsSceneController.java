@@ -54,6 +54,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
+            keyEvent.consume();
         }
     }
 

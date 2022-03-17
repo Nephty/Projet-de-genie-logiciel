@@ -1,6 +1,8 @@
 package front.controllers;
 
 import app.Main;
+import front.animation.FadeInTransition;
+import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
@@ -9,6 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Duration;
 
 import java.io.File;
 
@@ -16,10 +21,11 @@ public class ImportDataSceneController extends Controller implements BackButtonN
     @FXML
     public Button backButton, chooseFileButton, importButton;
     @FXML
-    public Label chooseFileLabel, importSuccessfulLabel, noFileSelectedLabel;
+    public Label chooseFileLabel, importSuccessfulLabel, noFileSelectedLabel, importFileLabel;
 
     private boolean importDone = false;
     private File selectedFile;  // TODO : is this the right class we should use ?
+    private boolean fileChosen = false;
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -34,16 +40,22 @@ public class ImportDataSceneController extends Controller implements BackButtonN
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
-        importDone = false;
-        selectedFile = null;
+        if (importDone) {
+            selectedFile = null;
+            importFileLabel.setText("Import file not set.");
+            importDone = false;
+            fileChosen = false;
+        }
     }
 
     @FXML
     public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
+            keyEvent.consume();
         } else if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateImportButtonClicked();
+            keyEvent.consume();
         }
     }
 
@@ -53,17 +65,48 @@ public class ImportDataSceneController extends Controller implements BackButtonN
 
     @FXML
     public void handleChooseFileButtonClicked(MouseEvent event) {
-        // TODO : back-end : 1. Open the file explorer so the user can choose a path
-        //                   2. If the user chooses a path, set the text of the importLocationLabel to the selected path
-        //                   (eg : Selected path : /home/username/Documents/file.json), set the file object to whatever it is
-        //                   and import the data from the file
+        FileChooser exportDataFileChooser = new FileChooser();
+        ExtensionFilter JSONFilter = new ExtensionFilter("JSON files (*.json)", "*.json");
+        ExtensionFilter CSVFilter = new ExtensionFilter("CSV files (*.csv)", "*.csv");
+        exportDataFileChooser.getExtensionFilters().add(JSONFilter);
+        exportDataFileChooser.getExtensionFilters().add(CSVFilter);
+        selectedFile = exportDataFileChooser.showOpenDialog(Main.getStage());
+        if (selectedFile != null) {
+            // File chosen (in file variable)
+            // We don't need to test if it equals null : when we arrive on the scene and if the user doesn't select any
+            // file, the label is already saying "no file selected", and when the user selects a file, then re-opens
+            // the file chooser and closes it (returning null), we want to keep the previously selected file
+            importFileLabel.setText("File chosen : " + selectedFile.getName());
+            fileChosen = true;
+            // If we imported a file and choose another file, we reset import done so that going back won't reset the form
+            importDone = false;
+        }
     }
 
     @FXML
     public void handleImportButtonClicked(MouseEvent event) {
-        // TODO : back-end : 1. If the user selected a file and the noFileSelectedLabel is visible, hide it
-        //                   2. If the user did not select a file and the noFileSelectedLabel is not visible, show it
-        //                   3. If the user selected a file and the noFileSelectedLabel is not visible, import the data from the file
-        //                   4. After the import is done, set exportDone to true and fade in and out exportSuccessfulLabel
+        if (!noFileSelectedLabel.isVisible() && !fileChosen) noFileSelectedLabel.setVisible(true);
+        else if (noFileSelectedLabel.isVisible() && fileChosen) noFileSelectedLabel.setVisible(false);
+
+        if (!noFileSelectedLabel.isVisible()) {
+            // If the user selected a file
+
+            // TODO : back-end : import data from the selected file
+
+            int fadeInDuration = 1000;
+            int fadeOutDuration = fadeInDuration;
+            int sleepDuration = 1000;
+            FadeOutThread sleepAndFadeOutImportDoneLabelFadeThread;
+            FadeInTransition.playFromStartOn(importSuccessfulLabel, Duration.millis(fadeInDuration));
+            sleepAndFadeOutImportDoneLabelFadeThread = new FadeOutThread();
+            sleepAndFadeOutImportDoneLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, importSuccessfulLabel);
+
+            importDone = true;
+
+            // Reset form
+            fileChosen = false;
+            importFileLabel.setText("Import file not set.");
+            selectedFile = null;
+        }
     }
 }

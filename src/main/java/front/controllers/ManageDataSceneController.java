@@ -33,6 +33,7 @@ public class ManageDataSceneController extends Controller implements BackButtonN
     public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateBackButtonClicked();
+            keyEvent.consume();
         }
     }
 

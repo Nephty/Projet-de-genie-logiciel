@@ -44,6 +44,7 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     public void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
+            keyEvent.consume();
         }
     }
 

@@ -43,6 +43,8 @@ public class ExportHistorySceneController extends Controller implements BackButt
         }
     }
 
+    // TODO : don't forget form reset
+
     @FXML
     public void handleChoosePathButtonClicked(MouseEvent event) {
         // TODO : back-end ? : 1. Open the file explorer so the user can choose a path

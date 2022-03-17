@@ -58,7 +58,6 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
-        if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false); // This can be done everytime
         if (requestSent) {
             SWIFTComboBox.setValue(SWIFTComboBox.getPromptText()); // TODO : this is not showing the prompt text
             requestSent = false;
@@ -67,7 +66,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
 
     @FXML
     public void handleSendRequestButton(MouseEvent event) throws UnirestException {
-        if (SWIFTComboBox.getValue() != null) {
+        if (SWIFTComboBox.getValue() != null && !SWIFTComboBox.getValue().equals("")) {
             if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false);
 
             // Create the request and send it
@@ -83,7 +82,10 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
             FadeInTransition.playFromStartOn(requestSentLabel, Duration.millis(fadeInDuration));
             sleepAndFadeOutRequestSentLabelFadeThread = new FadeOutThread();
             sleepAndFadeOutRequestSentLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, requestSentLabel);
-            requestSent = true;
+
+            // Reset the form
+
+            SWIFTComboBox.setValue("");
         } else if (!noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(true);
     }
 
@@ -93,5 +95,10 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
             emulateBackButtonClicked();
             event.consume();
         }
+    }
+
+    @FXML
+    public void handleSWIFTComboBoxMouseClicked(MouseEvent mouseEvent) {
+        requestSent = false;
     }
 }

@@ -41,26 +41,18 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
-        incorrectCurrentPasswordLabel.setVisible(false);
-        passwordDoesNotMatchLabel.setVisible(false);
-        passwordChangedLabel.setVisible(false);
         if (passwordChanged) {
-            currentPasswordField.setText("");
-            newPasswordField.setText("");
-            confirmNewPasswordField.setText("");
+            incorrectCurrentPasswordLabel.setVisible(false);
+            passwordDoesNotMatchLabel.setVisible(false);
         }
     }
 
     @Override
     public void handleLanguageButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.LanguageScene));
-        incorrectCurrentPasswordLabel.setVisible(false);
-        passwordDoesNotMatchLabel.setVisible(false);
-        passwordChangedLabel.setVisible(false);
         if (passwordChanged) {
-            currentPasswordField.setText("");
-            newPasswordField.setText("");
-            confirmNewPasswordField.setText("");
+            incorrectCurrentPasswordLabel.setVisible(false);
+            passwordDoesNotMatchLabel.setVisible(false);
         }
     }
 
@@ -71,7 +63,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
 
     @FXML
     public void handleComponentKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) emulateChangePasswordButtonClicked();
+        passwordChanged = false;
     }
 
     @FXML
@@ -108,6 +100,10 @@ public class ChangePasswordSceneController extends Controller implements BackBut
 
             passwordChanged = true;
 
+            // Reset the form
+            currentPasswordField.setText("");
+            newPasswordField.setText("");
+            confirmNewPasswordField.setText("");
         }
     }
 

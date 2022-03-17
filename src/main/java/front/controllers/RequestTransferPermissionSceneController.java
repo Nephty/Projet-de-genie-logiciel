@@ -1,8 +1,6 @@
 package front.controllers;
 
 import app.Main;
-import back.user.Reason;
-import back.user.Request;
 import back.user.Wallet;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
@@ -35,8 +33,7 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     private boolean requestSent = false;
 
     private ObservableList<String> values;
-    private ArrayList<Wallet> wallets;
-
+    private ArrayList<Wallet> wallets; // TODO : FRIX : il faut mettre des trucs dans les wallets pour que le code marche :pensive:
 
     // TODO : Attention, il faut remplacer "Portfolio" par "Wallet". C'est une confusion de termes
 
@@ -59,31 +56,31 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
-        if (noPortfolioSelectedLabel.isVisible())
-            noPortfolioSelectedLabel.setVisible(false); // This can be done everytime
         if (requestSent) {
-            portfolioComboBox.setValue(portfolioComboBox.getPromptText()); // TODO : this is not showing the prompt text
+            portfolioComboBox.setValue("");
             requestSent = false;
         }
     }
 
     @FXML
-    public void handleSendRequestButton(MouseEvent event) {
-        if (portfolioComboBox.getValue() != null) {
+    public void handleSendRequestButtonMouseClicked(MouseEvent event) {
+        if (portfolioComboBox.getValue() != null && !portfolioComboBox.getValue().equals("")) {
+            System.out.println("here");
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
+                /*
             int a = 0;
             // Create the request and send it
             for (int i = 0; i < wallets.size(); i++) {
-                if (wallets.get(i).getBank().getName() == portfolioComboBox.getValue()) {
+                if (wallets.get(i).getBank().getName().equals(portfolioComboBox.getValue())) {
                     a = i;
                 }
             }
             Request request = new Request(Main.getUser(), wallets.get(a).getBank(), Reason.NEW_PORTFOLIO);
             request.send();
+                 */
 
             requestSent = true;
-
 
             int fadeInDuration = 1000;
             int fadeOutDuration = fadeInDuration;
@@ -93,7 +90,8 @@ public class RequestTransferPermissionSceneController extends Controller impleme
             sleepAndFadeOutRequestSentLabelFadeThread = new FadeOutThread();
             sleepAndFadeOutRequestSentLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, requestSentLabel);
 
-            requestSent = true;
+            // Reset the form
+            portfolioComboBox.getSelectionModel().clearSelection();
         } else if (!noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(true);
     }
 
@@ -103,5 +101,10 @@ public class RequestTransferPermissionSceneController extends Controller impleme
             emulateBackButtonClicked();
             event.consume();
         }
+    }
+
+    @FXML
+    public void handlePortfolioComboBoxMouseCLicked(MouseEvent mouseEvent) {
+        requestSent = false;
     }
 }

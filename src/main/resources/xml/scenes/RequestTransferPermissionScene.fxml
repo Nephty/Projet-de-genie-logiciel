@@ -35,13 +35,13 @@
                    text="Select Portfolio : "/>
             <ComboBox fx:id="portfolioComboBox" layoutX="649.0" layoutY="254.0" prefHeight="36.0" prefWidth="200.0"
                       promptText="Portfolio..."
-                      onKeyReleased="#handleButtonKeyReleased"
+                      onKeyReleased="#handleButtonKeyReleased" onMouseClicked="#handlePortfolioComboBoxMouseCLicked"
                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </ComboBox>
-            <Button fx:id="sendRequestButton" layoutX="513.0" layoutY="361.0" onMouseClicked="#handleSendRequestButton"
+            <Button fx:id="sendRequestButton" layoutX="513.0" layoutY="361.0" onMouseClicked="#handleSendRequestButtonMouseClicked"
                     prefHeight="40.0" prefWidth="250.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleButtonKeyReleased"

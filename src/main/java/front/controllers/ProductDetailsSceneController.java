@@ -84,7 +84,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 Main.setCurrentAccount(accountsListView.getSelectionModel().getSelectedItems().get(0));
             } else {
                 accountInactiveLabel.setVisible(true);
-                // TODO : show label "account inactive"
             }
         }
     }
@@ -120,10 +119,9 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             if (currentWallet == null) {
                 currentWallet = walletList.get(0);
             }
-
+            accountsListView.setItems(FXCollections.observableArrayList(currentWallet.getAccountList()));
             // Fade the label "updating accounts..." out to 0.0 opacity
             sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
-            accountsListView.setItems(FXCollections.observableArrayList(currentWallet.getAccountList()));
         }
     }
 
@@ -149,15 +147,14 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
             String currentWallet = Main.getCurrentWallet().getBank().getSwiftCode();
             ArrayList<Account> accountList = null;
-            for (int i = 0; i < walletList.size(); i++) {
-                if (walletList.get(i).getBank().getSwiftCode().equals(currentWallet)) {
-                    accountList = walletList.get(i).getAccountList();
+            for (Wallet wallet : walletList) {
+                if (wallet.getBank().getSwiftCode().equals(currentWallet)) {
+                    accountList = wallet.getAccountList();
                 }
             }
-
+            accountsListView.setItems(FXCollections.observableArrayList(accountList));
             // Fade the label "updating accounts..." out to 0.0 opacity
             sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
-            accountsListView.setItems(FXCollections.observableArrayList(accountList));
         }
     }
 

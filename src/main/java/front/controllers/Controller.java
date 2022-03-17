@@ -79,7 +79,7 @@ public class Controller {
         } else if (button.getPrefWidth() == 296) {
             // Change password button
             CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;";
-        } else if (button.getPrefWidth() == 95) {
+        } else if (button.getPrefWidth() == 50) {
             // Square buttons for PIN
             CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;";
         } else if (button.getPrefWidth() == 200) {
@@ -125,7 +125,7 @@ public class Controller {
         } else if (button.getPrefWidth() == 296) {
             // Change password button
             CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;";
-        } else if (button.getPrefWidth() == 95) {
+        } else if (button.getPrefWidth() == 50) {
             // Square buttons for PIN
             CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;";
         } else if (button.getPrefWidth() == 200) {

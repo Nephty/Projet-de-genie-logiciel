@@ -202,6 +202,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
 
         if (noLabelVisible()) {
             Main.setScene(Flow.forward(Scenes.EnterPINScene));
+            clearAllTextFields();
         }
     }
 

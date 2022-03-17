@@ -5,9 +5,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0"
-      prefHeight="720.0"
-      prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2"
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="front.controllers.AddClientSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
@@ -31,8 +30,9 @@
                    onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="200.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                    text="Enter client NRN : "/>
-            <TextField fx:id="NRNTextField" layoutX="649.0" layoutY="254.0" onKeyReleased="#handleComponentKeyReleased"
-                       prefHeight="36.0" prefWidth="200.0" promptText="NRN..."
+            <TextField fx:id="NRNTextField" layoutX="649.0" layoutY="254.0" onKeyPressed="#handleNRNTextFieldKeyPressed"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="200.0"
+                       promptText="NRN..."
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
             </TextField>
             <Button fx:id="addClientButton" layoutX="513.0" layoutY="361.0" onKeyReleased="#handleComponentKeyReleased"

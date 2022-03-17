@@ -108,10 +108,18 @@ public class AddClientSceneController extends Controller implements BackButtonNa
             sleepAndFadeOutRequestSentLabelFadeThread = new FadeOutThread();
             sleepAndFadeOutRequestSentLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, clientAddedLabel);
             clientAdded = true;
+
+            // Reset the form
+            NRNTextField.setText("");
         }
     }
 
     private void emulateAddClientButtonClicked() {
         handleAddClientButtonClicked(null);
+    }
+
+    @FXML
+    public void handleNRNTextFieldKeyPressed(KeyEvent keyEvent) {
+        clientAdded = false;
     }
 }

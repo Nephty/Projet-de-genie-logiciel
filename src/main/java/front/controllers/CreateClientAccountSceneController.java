@@ -119,11 +119,25 @@ public class CreateClientAccountSceneController extends Controller implements Ba
             sleepAndFadeOutAccountCreatedLabelFadeThread = new FadeOutThread();
             sleepAndFadeOutAccountCreatedLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, accountCreatedLabel);
             accountCreated = true;
+
+            // Reset the form
+            IBANTextField.setText("");
+            accountTypeComboBox.valueProperty().set(null);
         }
     }
 
     public boolean isIBANTaken(String IBAN) {
         // TODO : back-end : implement method that checks if IBAN is already taken
         return false;
+    }
+
+    @FXML
+    public void handleIBANTextFieldKeyPressed() {
+        accountCreated = false;
+    }
+
+    @FXML
+    public void handleAccountTypeComboBoxKeyPressed() {
+        accountCreated = false;
     }
 }

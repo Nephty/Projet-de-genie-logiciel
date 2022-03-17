@@ -70,8 +70,14 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleComponentKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) triggerChangePassword();
+    public void handleComponentKeyReleased(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ESCAPE) {
+            emulateBackButtonClicked();
+            keyEvent.consume();
+        } else if (keyEvent.getCode() == KeyCode.ENTER) {
+            triggerChangePassword();
+            keyEvent.consume();
+        }
     }
 
     public void handleChangePasswordButtonClicked(MouseEvent event) {
@@ -107,6 +113,10 @@ public class ChangePasswordSceneController extends Controller implements BackBut
 
             passwordChanged = true;
 
+            // Reset the form
+            currentPasswordField.setText("");
+            newPasswordField.setText("");
+            confirmNewPasswordField.setText("");
         }
     }
 
@@ -115,10 +125,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleButtonKeyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.ESCAPE) {
-            emulateBackButtonClicked();
-            event.consume();
-        }
+    public void handleAnyPasswordFieldKeyPressed() {
+        passwordChanged = false;
     }
 }

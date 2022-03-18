@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 
 import com.example.demo.model.CompositePK.SubAccountPK;
+import com.example.demo.request.TransactionReq;
 import lombok.*;
 import org.hibernate.engine.internal.Cascade;
 
@@ -64,4 +65,9 @@ public class TransactionLog {
     )
     private Integer direction;
 
+    public TransactionLog(TransactionReq transactionReq) {
+        transaction_date = transactionReq.getTransactionDate();
+        transactionAmount = transactionReq.getTransactionAmount();
+        direction = transactionReq.getDirection();
+    }
 }

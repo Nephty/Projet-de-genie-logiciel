@@ -1,0 +1,74 @@
+{
+  "common": {
+    "languageButton": "Language",
+    "backButton": "Back",
+    "showPasswordCheckBox": "Show password",
+    "signInButton": "Sign in",
+    "signUpButton": "Sign up",
+    "passwordDoesNotMatchLabel": "Password does not match or is empty."
+  },
+  "LanguageScene": {
+    "chooseLanguageLabel": "Choose a language.",
+    "addButton": "Add",
+    "setButton": "Set"
+  },
+  "SignUpScene": {
+    "SWIFTField": "SWIFT...",
+    "cityField": "City...",
+    "countryField": "Country...",
+    "nameField": "Name...",
+    "passwordField": "Password...",
+    "confirmPasswordField": "Confirm password...",
+    "favoriteLanguageLabel": "Favorite language",
+    "languageComboBox": "Language...",
+    "SWIFTTakenLabel": "SWIFT already taken.",
+    "nameTakenLabel": "Name already taken.",
+    "languageNotChosenLabel": "Please select a language.",
+    "invalidSWIFTLabel": "Invalid SWIFT.",
+    "invalidCityLabel": "Invalid city.",
+    "invalidCountryLabel": "Invalid country.",
+    "invalidNameLabel": "Invalid name.",
+    "signedUpLabel": "Account successfully created !"
+  },
+  "SignInScene": {
+    "userNameField": "Username...",
+    "passwordField": "Password...",
+    "incorrectUsernameOrPasswordLabel": "Incorrect username or password."
+  },
+  "MainScreenScene": {
+    "signOutButton": "Sign out",
+    "clientsButton": "Clients",
+    "manageRequestsButton": "Manage requests",
+    "manageDataButton": "Manage data",
+    "changePasswordButton": "Change password"
+  },
+  "ChangePasswordScene": {
+    "currentPasswordField": "Current password...",
+    "newPasswordField": "New password...",
+    "confirmNewPasswordField": "Confirm new password",
+    "incorrectCurrentPassword": "Incorrect password.",
+    "changePasswordButton": "Change password",
+    "passwordChangedLabel": "Password successfully changed !"
+  },
+  "ClientsScene": {
+    "fetchClientsButton": "Refresh clients",
+    "loadingClientsLabel": "Loading clients...",
+    "lastUpdateTimeLabel": "Clients not updated.",
+    "exportDataButton": "Export data",
+    "detailsButton": "Details",
+    "addClientButton": "Add client",
+    "sortByComboBox": "Sort by...",
+    "searchField": "Search...",
+    "searchButton": "Search"
+  },
+  "ExportDataScene": {
+    "choosePathLabel": "Export location :",
+    "noPathSelectedLabel": "No export path selected.",
+    "requestNotSentLabel": "There was an error, please try again.",
+    "exportSuccessfulLabel": "Export successfully executed !",
+    "choosePathButton": "Choose path...",
+    "JSONExportButton": "Export to JSON format",
+    "CSVExportButton": "Export to CSV format",
+    "exportLocationLabel": "Export location not set."
+  }
+}

@@ -41,7 +41,7 @@
                 </effect>
             </Button>
             <Label fx:id="loadingClientsLabel" layoutX="870.0" layoutY="29.0" opacity="0.0" prefHeight="16.0"
-                   prefWidth="154.0" text="Loading requests..."/>
+                   prefWidth="154.0" text="Loading clients..."/>
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"
                    onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="326.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"

@@ -26,7 +26,7 @@ public class Account {
         this.archived = archived;
         this.canPay = canPay;
         this.subAccountList = new ArrayList<SubAccount>();
-        this.subAccountList.add(new SubAccount(this.IBAN, Currencies.EUR));
+            this.subAccountList.add(new SubAccount(this.IBAN, Currencies.EUR));
     }
 
     @Override

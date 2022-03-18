@@ -3,6 +3,8 @@ plugins {
     id 'idea'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 group 'org.example'
@@ -30,6 +32,8 @@ dependencies {
 
     // Unirest for http request
     implementation 'com.mashape.unirest:unirest-java:1.4.9'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
 }
 

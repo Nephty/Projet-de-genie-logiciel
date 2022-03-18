@@ -17,6 +17,7 @@
     "fetchRequestsButton": "Refresh requests",
     "noRequestSelectedLabel": "No request selected.",
     "exportDataButton": "Export data"
+    "passwordDoesNotMatchLabel": "Password does not match or is empty."
   },
   "LanguageScene": {
     "chooseLanguageLabel": "Choose a language.",
@@ -50,7 +51,7 @@
     "signOutButton": "Sign out",
     "clientsButton": "Clients",
     "manageRequestsButton": "Manage requests",
-    "manageDataButton": "Manage data",
+    "manageDataButton": "Manage data"
   },
   "ChangePasswordScene": {
     "currentPasswordField": "Current password...",

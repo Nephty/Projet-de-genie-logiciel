@@ -44,6 +44,7 @@ public class TokenController {
 
         String username = decodedJWT.getSubject();
         String role = decodedJWT.getClaim(Role.getClaimName()).asString();
+        String id = decodedJWT.getClaim("userId").asString();
 
         Map<String, String> tokens;
 
@@ -52,14 +53,16 @@ public class TokenController {
             tokens = jwtHandler.createTokens(
                     user.getUsername(),
                     request.getRequestURL().toString(),
-                    Role.USER
+                    Role.USER,
+                    id
             );
         } else if(role.equals(Role.BANK.getRole())) {
             Bank bank = bankService.getByLogin(username);
             tokens = jwtHandler.createTokens(
                     bank.getLogin(),
                     request.getRequestURL().toString(),
-                    Role.BANK
+                    Role.BANK,
+                    id
             );
         } else {
             throw new AuthenticationException("incorrect role: " + role);

@@ -4,19 +4,22 @@ import com.example.demo.request.NotificationReq;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.text.DateFormat;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Getter
+@EqualsAndHashCode
+@Embeddable
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="notification")
-public class Notification {
+public class Notification implements Serializable {
 
     @Id
     @SequenceGenerator(

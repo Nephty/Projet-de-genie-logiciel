@@ -3,7 +3,6 @@ package com.example.demo.repository;
 import com.example.demo.model.*;
 import com.example.demo.model.CompositePK.AccountAccessPK;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,14 +122,32 @@ class AccountAccessRepoTest {
 
     @Test
     void deleteAccountAccessByAccountIdAndUserId() {
+
+        AccountAccess testedWithTestId = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testedWithTestId);
+
+        AccountAccess testedWithoutTestId = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("test2Id"),
+                true,
+                false
+        );
+        underTest.save(testedWithoutTestId);
+
         //given
         String accountId = "testIban";
         String userId = "testId";
-
+        String persist_Userid = "test2Id";
         //when
         underTest.deleteAccountAccessByAccountIdAndUserId(accountId,userId);
 
         //then
-        assertFalse(underTest.existsById(new AccountAccessPK(accountId,userId)));
+        assertFalse(underTest.existsByUserIdAndAccountId(userRepo.getById(userId),accountRepo.getById(accountId)));
+        assertTrue(underTest.existsByUserIdAndAccountId(userRepo.getById(persist_Userid),accountRepo.getById(accountId)));
     }
 }

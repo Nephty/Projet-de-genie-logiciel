@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.exception.throwables.UserAlreadyExist;
 import com.example.demo.model.Bank;
@@ -18,12 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j
@@ -37,7 +34,7 @@ public class UserService implements UserDetailsService {
     public User getUserById(String id) {
         return uRepo.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("No user with id: " + id)
+                        new ResourceNotFound("No user with id: " + id)
                 );
     }
 
@@ -72,6 +69,7 @@ public class UserService implements UserDetailsService {
 
     public void changeUser(User user) {
         log.info("Changing user to {}", user.toString());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         uRepo.save(user);
     }
 
@@ -81,20 +79,24 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String[] usernameRole = username.split("/");
+    public UserDetails loadUserByUsername(String usernameAndRole) throws UsernameNotFoundException {
+        String[] usernameRole = usernameAndRole.split("/");
         Collection<SimpleGrantedAuthority> authorities= new ArrayList<>();
         log.info("Attempt authentication by {} with role {}", usernameRole[0], usernameRole[1]);
         switch (usernameRole[1]) {
             case "ROLE_USER":
                 User user = getUserCredentials(usernameRole[0]);
                 authorities.add(new SimpleGrantedAuthority(Role.USER.getRole()));
+                //this is not an authority but the only way I found to communicate with the filter
+                authorities.add(new SimpleGrantedAuthority("id " + user.getUserID()));
                 return new org.springframework.security.core.userdetails.User(
                         user.getUsername(), user.getPassword(), authorities
                 );
             case "ROLE_BANK":
                 Bank bank = getBankCredentials(usernameRole[0]);
                 authorities.add(new SimpleGrantedAuthority(Role.BANK.getRole()));
+                //this is not an authority but the only way I found to communicate with the filter
+                authorities.add(new SimpleGrantedAuthority("id "+ bank.getSwift()));
                 log.info("[BANK]{}", bank.toString());
                 return new org.springframework.security.core.userdetails.User(
                         bank.getLogin(), bank.getPassword(), authorities

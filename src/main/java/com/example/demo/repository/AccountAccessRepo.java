@@ -21,8 +21,12 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
             "order by s.accountId.swift.swift")
     List<AccountAccess> getAllByUserId(String userID);
 
+
+    boolean existsByUserIdAndAccountId(User user,Account account);
+
     @Modifying
     @Query("DELETE FROM AccountAccess a WHERE a.accountId.iban = ?1 AND a.userId.userID = ?2")
     void deleteAccountAccessByAccountIdAndUserId(String accountId, String userId);
+
 }
 

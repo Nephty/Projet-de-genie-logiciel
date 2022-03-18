@@ -1,33 +1,34 @@
 package com.example.demo.controller;
 
-import com.example.demo.exception.throwables.UnimplementedException;
 import com.example.demo.model.TransactionLog;
+import com.example.demo.request.TransactionReq;
 import com.example.demo.service.TransactionLogService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/transaction")
-@RestController
+@RestController @Slf4j
 public class TransactionController {
 
     private final TransactionLogService transactionLogService;
 
     /**
-     * @param transactionLog [body] Transaction to send to the DB
+     * @param transactionReq [body] Transaction to send to the DB
      * @return Transaction to string in the response body
      * 201 - Transaction successfully created
      * 400 - Bad Format
      */
     @PostMapping
-    public ResponseEntity<String> makeTransfer(@RequestBody TransactionLog transactionLog) {
-        transactionLogService.addTransaction(transactionLog);
-        return new ResponseEntity<>(transactionLog.toString(), HttpStatus.CREATED);
+    public ResponseEntity<String> makeTransfer(@RequestBody TransactionReq transactionReq) {
+        log.info("[Transaction] {}", transactionReq);
+        transactionLogService.addTransaction(transactionReq);
+        return new ResponseEntity<>(transactionReq.toString(), HttpStatus.CREATED);
     }
 
     /**
@@ -37,7 +38,7 @@ public class TransactionController {
      * 200 - OK
      */
     @GetMapping(value = "{iban}")
-    public ResponseEntity<TransactionLog> sendTransfer(@PathVariable String iban) {
-        return new ResponseEntity<>(transactionLogService.getTransactionByIban(iban), HttpStatus.OK);
+    public ResponseEntity<List<TransactionLog>> sendTransfer(@PathVariable String iban) {
+        return new ResponseEntity<>(transactionLogService.getAllTransactionByIban(iban), HttpStatus.OK);
     }
 }

@@ -1,29 +1,26 @@
 package com.example.demo.filter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.example.demo.exception.throwables.MissingParamException;
-import com.example.demo.model.Bank;
 import com.example.demo.security.Role;
 import com.example.demo.security.TokenHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -50,29 +47,39 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             FilterChain chain,
             Authentication authResult
     ) throws IOException {
-        log.info("[SUCCESS]");
         TokenHandler jwtHandler = new TokenHandler();
         Map<String, String> tokens;
+        Role role;
+        User user = (User)authResult.getPrincipal();
+
+
+        //ugly but necessary
+        final String[] id = {null};
+        user.getAuthorities().forEach(auth -> {
+            if(auth.getAuthority().startsWith("id ")) {
+                id[0] = auth.getAuthority().substring(3);
+            }
+        });
+        if(id[0] == null) {
+            log.error("id is null");
+        }
+
         switch (request.getParameter("role")) {
             case "ROLE_USER":
-                User user = (User)authResult.getPrincipal();
-                tokens = jwtHandler.createTokens(
-                        user.getUsername(),
-                        request.getRequestURL().toString(),
-                        Role.USER
-                );
+                role = Role.USER;
                 break;
             case "ROLE_BANK":
-                User bank = (User)authResult.getPrincipal();
-                tokens = jwtHandler.createTokens(
-                        bank.getUsername(),
-                        request.getRequestURL().toString(),
-                        Role.BANK
-                );
+                role = Role.BANK;
                 break;
             default:
                 throw new MissingParamException(request.getParameter("role"));
         }
+        tokens = jwtHandler.createTokens(
+                user.getUsername(),
+                request.getRequestURL().toString(),
+                role,
+                id[0]
+        );
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }

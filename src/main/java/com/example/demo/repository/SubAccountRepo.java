@@ -10,6 +10,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface SubAccountRepo extends JpaRepository<SubAccount, SubAccountPK> {
-
-    Optional<SubAccount> findByIbanAndCurrencyType(Account iban, CurrencyType currency);
 }

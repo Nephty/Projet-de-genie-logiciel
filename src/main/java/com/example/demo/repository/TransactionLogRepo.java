@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public interface TransactionLogRepo extends JpaRepository<TransactionLog, Integer> {
-    Optional<TransactionLog> findAllBySubAccount(SubAccount subAccount);
+
+    ArrayList<TransactionLog> findAllBySubAccount(SubAccount subAccount);
 
     /*
     @Query("SELECT t FROM TransactionLog t   WHERE ")

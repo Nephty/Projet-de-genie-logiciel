@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.exception.throwables.AuthenticationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -14,19 +15,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
+@Slf4j
 public class TokenHandler {
 
     private final String secret = "secret";
     private final Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
 
-    public Map<String, String> createTokens(String username, String issuer, Role role) {
-        final int accessTokenMinBeforeExp = 60;
+    public Map<String, String> createTokens(String username, String issuer, Role role, String id) {
+        if(id == null) {
+            log.error("id is null");
+        }
+        final int accessTokenMinBeforeExp = 60 * 24 * 24;
         String accessToken = JWT.create()
                 .withSubject(username)
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenMinBeforeExp * 60 * 1000))
                 .withIssuer(issuer)
                 .withClaim(Role.getClaimName(), role.getRole())
+                .withClaim("userId", id)
                 .sign(algorithm);
 
         final int refreshTokenMinBeforeExp = 60 * 24 * 14;
@@ -35,6 +40,7 @@ public class TokenHandler {
                 .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenMinBeforeExp * 60 * 1000))
                 .withIssuer(issuer)
                 .withClaim(Role.getClaimName(), role.getRole())
+                .withClaim("userId", id)
                 .sign(algorithm);
 
         Map<String, String> tokens = new HashMap<>();

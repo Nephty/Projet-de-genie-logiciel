@@ -15,6 +15,21 @@ public class Account {
     private boolean activated;
     private final ArrayList<SubAccount> subAccountList;
 
+
+    /**
+     *
+     * Creates an Account object with all the informations needed
+     *
+     * @param accountOwner The owner of the account in a Profile object
+     * @param accountCoOwner A co owner of the account in a Profile object
+     * @param bank The bank where the account is. In a Bank object
+     * @param IBAN A String of the IBAN
+     * @param accountType The type of the account in accountType enumeration
+     * @param activated A boolean for the activated/desactivated option
+     * @param archived A boolean for archived/unarchived option
+     * @param canPay A boolean for canPay/cannotPay option
+     * @throws UnirestException For managing HTTP errors
+     */
     public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) throws UnirestException {
         this.accountOwner = accountOwner;
         this.accountCoOwner = new ArrayList<Profile>();
@@ -26,9 +41,12 @@ public class Account {
         this.archived = archived;
         this.canPay = canPay;
         this.subAccountList = new ArrayList<SubAccount>();
-            this.subAccountList.add(new SubAccount(this.IBAN, Currencies.EUR));
+        this.subAccountList.add(new SubAccount(this.IBAN, Currencies.EUR));
     }
 
+    /**
+     * @return A String to display the account informations
+     */
     @Override
     public String toString() {
         return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated") + "          amount : " + getSubAccountList().get(0).getAmount() + " €";
@@ -60,6 +78,9 @@ public class Account {
     }
 
 
+    /**
+     * Export the history of transactions
+     */
     public void exportHistory() {
         // TODO : Expoter l'historique
     }

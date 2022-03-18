@@ -12,6 +12,13 @@ public class Bank {
     private final String name;
     private final String swiftCode;
 
+    /**
+     *
+     * Creates a Bank object with an HTTP request by using the swift code
+     *
+     * @param swiftCode A String of the swift code of the bank
+     * @throws UnirestException For managing HTTP errors
+     */
     public Bank(String swiftCode) throws UnirestException {
         String token = Main.getToken();
         this.swiftCode = swiftCode;
@@ -26,6 +33,11 @@ public class Bank {
         this.name = obj.getString("name");
     }
 
+    /**
+     * Fetch all bank's swift code
+     * @return An arraylist of all swift codes
+     * @throws UnirestException For managing HTTP errors
+     */
     public static ArrayList<String> fetchAllSWIFT() throws UnirestException {
         ArrayList<String> rep = new ArrayList<String>();
         Unirest.setTimeouts(0, 0);

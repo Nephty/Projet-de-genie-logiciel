@@ -83,6 +83,9 @@ public class Main extends Application {
         currentAccount = null;
     }
 
+    /**
+     * Updates the portfolio by creating new one
+     */
     public static void updatePortfolio() {
         try {
             portfolio = new Portfolio(user.getNationalRegistrationNumber());
@@ -91,6 +94,10 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Manages HTTP errors
+     * @param statut The error code
+     */
     public static void ErrorManager(int statut) {
 
     }

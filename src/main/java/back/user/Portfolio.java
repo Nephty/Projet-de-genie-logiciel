@@ -13,6 +13,11 @@ public class Portfolio {
     private final ArrayList<Wallet> walletList;
 
 
+    /**
+     * Creates a portfolio with an HTTP request by using the user's national registration code
+     * @param nationalRegistrationNumber The user's national registration code
+     * @throws UnirestException For managing HTTP errors
+     */
     public Portfolio(String nationalRegistrationNumber) throws UnirestException {
         this.user = new Profile(nationalRegistrationNumber);
         Unirest.setTimeouts(0, 0);
@@ -95,6 +100,11 @@ public class Portfolio {
         }
     }
 
+    /**
+     * A method for parsing arrays in JSON
+     * @param json The String to parse
+     * @return A list of parsed Strings
+     */
     public static ArrayList<String> JSONArrayParser(String json) {
         ArrayList<String> rep = new ArrayList<String>();
         int crochet = 0;

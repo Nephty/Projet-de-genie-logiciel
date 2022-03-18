@@ -28,7 +28,7 @@ public class Portfolio {
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);
         this.walletList = new ArrayList<Wallet>();
-        if (body != "") {
+        if (!body.equals("")) {
             ArrayList<String> bodyList = JSONArrayParser(body);
 
             ArrayList<Account> accountList = new ArrayList<Account>();

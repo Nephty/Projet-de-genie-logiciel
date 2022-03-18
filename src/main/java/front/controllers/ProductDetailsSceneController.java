@@ -24,7 +24,7 @@ import java.util.Calendar;
 public class ProductDetailsSceneController extends Controller implements BackButtonNavigator {
 
     @FXML
-    public Button backButton, historyButton, fetchAccountButton, transferButton, toggleButton;
+    public Button backButton, historyButton, fetchAccountsButton, transferButton, toggleButton;
     @FXML
     public ListView<Account> accountsListView;
 

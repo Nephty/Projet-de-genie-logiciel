@@ -59,8 +59,8 @@
                 </effect>
             </Button>
             <Label fx:id="loadingAccountsLabel" layoutX="870.0" layoutY="29.0" opacity="0.0"
-                   prefHeight="16.0" prefWidth="154.0" text="Loading products..."/>
-            <Button fx:id="fetchAccountButton" layoutX="1075.0" layoutY="75.0"
+                   prefHeight="16.0" prefWidth="154.0" text="Loading accounts..."/>
+            <Button fx:id="fetchAccountsButton" layoutX="1075.0" layoutY="75.0"
                     onMouseClicked="#handleFetchAccountsButtonClicked" prefHeight="30.0" prefWidth="170.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"

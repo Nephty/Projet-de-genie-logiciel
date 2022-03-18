@@ -33,7 +33,7 @@
                    prefWidth="200.0"
                    onKeyReleased="#handleComponentKeyReleased"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                   text="Select SWIFT : "/>
+                   text="Select SWIFT :"/>
             <ComboBox fx:id="SWIFTComboBox" layoutX="649.0" layoutY="254.0" prefHeight="36.0" prefWidth="200.0"
                       promptText="SWIFT..."
                       onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleSWIFTComboBoxMouseClicked"
@@ -47,7 +47,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Send Request" textFill="#0a0a14">
+                    text="Send request" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>

@@ -25,7 +25,6 @@ public class DemoApplication {
 	}
 
 
-	@Bean
 	CommandLineRunner run(AccountAccessRepo accountAccessRepo) {
 		return args -> {
 			System.out.println("Runner be RUNNIIIIIIIING");

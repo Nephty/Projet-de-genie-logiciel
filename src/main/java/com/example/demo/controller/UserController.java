@@ -10,6 +10,7 @@ import com.example.demo.security.TokenHandler;
 import com.example.demo.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +26,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/user")
-@RestController
+@RestController @Slf4j
 public class UserController {
+
     private final UserService userService;
+    private final HttpServletRequest httpServletRequest;
 
     /**
      * @param id [param]id of the user to retrieve
@@ -52,6 +55,7 @@ public class UserController {
      */
     @GetMapping
     public ResponseEntity<List<User>> sendAllUser() {
+        log.info("[userID] {}",httpServletRequest.getAttribute("userId").toString());
         return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 

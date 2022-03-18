@@ -18,8 +18,4 @@ public class UserAlreadyExist extends ApiRequestException {
         super(reason.name, HttpStatus.FORBIDDEN);
     }
 
-    public UserAlreadyExist(Reason reason, Throwable cause) {
-        super(reason.name, cause, HttpStatus.UNAUTHORIZED);
-    }
-
 }

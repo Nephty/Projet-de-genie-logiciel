@@ -1,28 +1,18 @@
 package com.example.demo.controller;
 
 
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.User;
-import com.example.demo.repository.UserRepo;
 import com.example.demo.security.Role;
-import com.example.demo.security.TokenHandler;
 import com.example.demo.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.*;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/user")
@@ -30,7 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserController {
 
     private final UserService userService;
-    private final HttpServletRequest httpServletRequest;
+    private final HttpServletRequest httpRequest;
 
     /**
      * @param id [param]id of the user to retrieve
@@ -55,7 +45,11 @@ public class UserController {
      */
     @GetMapping
     public ResponseEntity<List<User>> sendAllUser() {
-        log.info("[userID] {}",httpServletRequest.getAttribute("userId").toString());
+        log.info(
+                "[userID] {}, [role] {}",
+                httpRequest.getAttribute("userId").toString(),
+                ((Role) httpRequest.getAttribute("role")).getRole()
+                );
         return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 

@@ -30,6 +30,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
+    /**
+     *Checks if the token is valid or not and respond with an error in the latter case
+     * It also writes the id and role of the client fo more complex authorization in the controllers
+     */
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -57,6 +61,10 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                         authorities
                 );
                 request.setAttribute("userId", userId);
+                request.setAttribute(
+                        "role",
+                        role.equals(Role.USER.getRole()) ? Role.USER : Role.BANK
+                        );
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 filterChain.doFilter(request, response);
             } catch (NestedServletException e) {
@@ -68,10 +76,16 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             } catch (Exception e) {
                 log.error("Error type {}", e.getClass().toString());
                 log.error("Error logging in {}", e.getMessage());
-                jwtHandler.writeErrorToResponse(response, e, authorizationHeader);
+                writeErrorToResponse(response, 401 ,e);
             }
         }
     }
+
+    /**
+     * @param response Http response
+     * @param status Http response status
+     * @param e Exception that was raised
+     */
     private void writeErrorToResponse(HttpServletResponse response, int status, Exception e) throws IOException {
         response.setStatus(status);
         Map<String, String> responseBody = new HashMap<>();
@@ -80,6 +94,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         new ObjectMapper().writeValue(response.getOutputStream(), responseBody);
     }
 
+    /**
+     * Determines whether a request needs to be authorized or not by looking at its path and method
+     */
     private boolean noAuthorizationNecessary(HttpServletRequest request) {
         if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/token/refresh")) {
             return true;

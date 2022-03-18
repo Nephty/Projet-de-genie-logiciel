@@ -21,6 +21,13 @@ public class TokenHandler {
     private final String secret = "secret";
     private final Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
 
+    /**
+     * @param username username of the user or bank
+     * @param issuer path at which the token was created
+     * @param role role of the client
+     * @param id id of the client
+     * @return A map with the access and refresh token
+     */
     public Map<String, String> createTokens(String username, String issuer, Role role, String id) {
         if(id == null) {
             log.error("id is null");
@@ -49,6 +56,10 @@ public class TokenHandler {
         return tokens;
     }
 
+    /**
+     * @param authorizationHeader the header with the token of the incoming request
+     * @return the decoded jwt if the token is valid
+     */
     public DecodedJWT extractToken(String authorizationHeader) {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring("Bearer ".length());
@@ -57,15 +68,5 @@ public class TokenHandler {
         } else {
             throw new AuthenticationException("Authorization header format incorrect: " + authorizationHeader);
         }
-    }
-
-    public void writeErrorToResponse(HttpServletResponse response, Exception e, String authorizationHeader) throws IOException {
-        response.setHeader("error", e.getMessage());
-        response.setStatus(401);
-        Map<String, String> error = new HashMap<>();
-        error.put("error_msg", e.getMessage());
-        error.put("token", authorizationHeader);
-        response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), error);
     }
 }

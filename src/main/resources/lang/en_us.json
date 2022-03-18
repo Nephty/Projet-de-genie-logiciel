@@ -5,6 +5,7 @@
     "showPasswordCheckBox": "Show password",
     "signInButton": "Sign in",
     "signUpButton": "Sign up",
+    "changePasswordButton": "Change password",
     "passwordDoesNotMatchLabel": "Password does not match or is empty.",
     "sortByComboBox": "Sort by...",
     "searchButton": "Search",
@@ -50,14 +51,12 @@
     "clientsButton": "Clients",
     "manageRequestsButton": "Manage requests",
     "manageDataButton": "Manage data",
-    "changePasswordButton": "Change password"
   },
   "ChangePasswordScene": {
     "currentPasswordField": "Current password...",
     "newPasswordField": "New password...",
     "confirmNewPasswordField": "Confirm new password",
     "incorrectCurrentPassword": "Incorrect password.",
-    "changePasswordButton": "Change password",
     "passwordChangedLabel": "Password successfully changed !"
   },
   "ClientsScene": {

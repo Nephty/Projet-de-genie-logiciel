@@ -58,7 +58,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
     }
 
     public void initialize() {
-        accountTypeComboBox.setItems(FXCollections.observableArrayList(AccountType.TYPE_A, AccountType.TYPE_B));
+//        accountTypeComboBox.setItems(FXCollections.observableArrayList(AccountType.TYPE_A, AccountType.TYPE_B));
         // TODO : back-end : put all AccountTypes in the combo box
     }
 

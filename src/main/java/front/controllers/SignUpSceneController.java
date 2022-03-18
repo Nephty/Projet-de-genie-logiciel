@@ -1,6 +1,9 @@
 package front.controllers;
 
 import app.Main;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
@@ -227,8 +230,17 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
 
         // No label is visible implies that every field is properly filled in
         if (noLabelVisible()) {
-            // Then we can create a new user
+            // Then we can create a new bank
             // TODO : back-end : user creation implementation
+            Unirest.setTimeouts(0, 0);
+            try {
+                HttpResponse<String> response = Unirest.post("https://flns-spring-test.herokuapp.com/api/bank")
+                        .header("Content-Type", "application/json") // TODO : Modifier en fonction de ce qui a été décidé
+                        .body("{\r\n    \"swift\": \""+SWIFT+"\",\r\n    \"name\": \""+name+"\",\r\n    \"login\": \""+""+"\",\r\n    \"password\": \"capitalism\",\r\n    \"address\": \"44 Wall Street\",\r\n    \"country\": \"US\",\r\n    \"defaultCurrencyType\": 0\r\n}")
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
             userSignedUp = true;
             signedUpLabel.setVisible(true);
             // Empty all data that we don't need, it's a security detail

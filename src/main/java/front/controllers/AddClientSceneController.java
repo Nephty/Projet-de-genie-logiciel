@@ -18,7 +18,7 @@ public class AddClientSceneController extends Controller implements BackButtonNa
     @FXML
     public Button backButton, addClientButton;
     @FXML
-    public Label enterNRNLabel, invalidNRNdLabel, requestNotSentLabel, clientAddedLabel;
+    public Label enterNRNLabel, invalidNRNLabel, requestNotSentLabel, clientAddedLabel;
     @FXML
     public TextField NRNTextField;
 
@@ -95,10 +95,10 @@ public class AddClientSceneController extends Controller implements BackButtonNa
     public void handleAddClientButtonClicked(MouseEvent event) {
         String NRN = NRNTextField.getText();
 
-        if (!isValidNRN(NRN) && !invalidNRNdLabel.isVisible()) invalidNRNdLabel.setVisible(true);
-        else if (isValidNRN(NRN) && invalidNRNdLabel.isVisible()) invalidNRNdLabel.setVisible(false);
+        if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(true);
+        else if (isValidNRN(NRN) && invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(false);
 
-        if (!invalidNRNdLabel.isVisible()) { // TODO : check if the client is not already in the database
+        if (!invalidNRNLabel.isVisible()) { // TODO : check if the client is not already in the database
             // TODO : back-end : add client
             int fadeInDuration = 1000;
             int fadeOutDuration = fadeInDuration;

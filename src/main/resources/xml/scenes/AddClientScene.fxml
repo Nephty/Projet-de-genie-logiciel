@@ -29,7 +29,7 @@
             <Label fx:id="enterNRNLabel" alignment="CENTER" layoutX="432.0" layoutY="254.0"
                    onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="200.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                   text="Enter client NRN : "/>
+                   text="Enter client NRN :"/>
             <TextField fx:id="NRNTextField" layoutX="649.0" layoutY="254.0" onKeyPressed="#handleNRNTextFieldKeyPressed"
                        onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="200.0"
                        promptText="NRN..."
@@ -44,7 +44,7 @@
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
-            <Label fx:id="invalidNRNdLabel" layoutX="654.0" layoutY="233.0" prefHeight="17.0" prefWidth="132.0"
+            <Label fx:id="invalidNRNLabel" layoutX="654.0" layoutY="233.0" prefHeight="17.0" prefWidth="132.0"
                    text="Invalid NRN." textFill="#c80000" visible="false"/>
             <Label fx:id="requestNotSentLabel" layoutX="515.0" layoutY="403.0" prefHeight="17.0" prefWidth="250.0"
                    text="There was an error, please try again." textFill="#c80000" visible="false"/>

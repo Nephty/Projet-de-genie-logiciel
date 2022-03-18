@@ -19,9 +19,9 @@ import java.io.File;
 
 public class ImportDataSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, chooseFileButton, importButton;
+    public Button backButton, choosePathButton, importButton;
     @FXML
-    public Label chooseFileLabel, importSuccessfulLabel, noFileSelectedLabel, importFileLabel;
+    public Label chooseFileLabel, importSuccessfulLabel, noPathSelectedLabel, importFileLabel;
 
     private boolean importDone = false;
     private File selectedFile;  // TODO : is this the right class we should use ?
@@ -85,10 +85,10 @@ public class ImportDataSceneController extends Controller implements BackButtonN
 
     @FXML
     public void handleImportButtonClicked(MouseEvent event) {
-        if (!noFileSelectedLabel.isVisible() && !fileChosen) noFileSelectedLabel.setVisible(true);
-        else if (noFileSelectedLabel.isVisible() && fileChosen) noFileSelectedLabel.setVisible(false);
+        if (!noPathSelectedLabel.isVisible() && !fileChosen) noPathSelectedLabel.setVisible(true);
+        else if (noPathSelectedLabel.isVisible() && fileChosen) noPathSelectedLabel.setVisible(false);
 
-        if (!noFileSelectedLabel.isVisible()) {
+        if (!noPathSelectedLabel.isVisible()) {
             // If the user selected a file
 
             // TODO : back-end : import data from the selected file

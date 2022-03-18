@@ -5,7 +5,17 @@
     "showPasswordCheckBox": "Show password",
     "signInButton": "Sign in",
     "signUpButton": "Sign up",
-    "passwordDoesNotMatchLabel": "Password does not match or is empty."
+    "passwordDoesNotMatchLabel": "Password does not match or is empty.",
+    "sortByComboBox": "Sort by...",
+    "searchButton": "Search",
+    "requestNotSentLabel": "There was an error, please try again.",
+    "lastUpdateTimeLabel": "Requests not updated.",
+    "denyButton": "Deny",
+    "approveButton": "Approve",
+    "loadingRequestsLabel": "Loading requests...",
+    "fetchRequestsButton": "Refresh requests",
+    "noRequestSelectedLabel": "No request selected.",
+    "exportDataButton": "Export data"
   },
   "LanguageScene": {
     "chooseLanguageLabel": "Choose a language.",
@@ -54,21 +64,62 @@
     "fetchClientsButton": "Refresh clients",
     "loadingClientsLabel": "Loading clients...",
     "lastUpdateTimeLabel": "Clients not updated.",
-    "exportDataButton": "Export data",
     "detailsButton": "Details",
     "addClientButton": "Add client",
-    "sortByComboBox": "Sort by...",
-    "searchField": "Search...",
-    "searchButton": "Search"
+    "searchField": "Search..."
   },
   "ExportDataScene": {
     "choosePathLabel": "Export location :",
     "noPathSelectedLabel": "No export path selected.",
-    "requestNotSentLabel": "There was an error, please try again.",
     "exportSuccessfulLabel": "Export successfully executed !",
     "choosePathButton": "Choose path...",
     "JSONExportButton": "Export to JSON format",
     "CSVExportButton": "Export to CSV format",
     "exportLocationLabel": "Export location not set."
+  },
+  "ClientDetailsScene": {
+    "fetchClientDetailsButton": "Refresh client details",
+    "fetchClientDetailsLabel": "Loading client details...",
+    "lastUpdateTimeLabel": "Client details not updated.",
+    "createAccountButton": "Create account",
+    "closeAccountButton": "Close account",
+    "searchField": "Search IBAN...",
+    "removeClientButton": "Remove client",
+    "cancelButton": "Cancel",
+    "confirmButton": "Confirm"
+  },
+  "CreateClientAccountScene": {
+    "enterIBANLabel": "Enter account IBAN :",
+    "IBANField": "IBAN...",
+    "invalidIBANLabel": "Invalid IBAN.",
+    "accountTypeComboBox": "Account type...",
+    "createAccountButton": "Create account",
+    "accountCreatedLabel": "Account successfully created !",
+    "chooseAccountTypeLabel": "Choose account type :",
+    "noValueSelectedLabel": "Please select a value."
+  },
+  "AddClientScene": {
+    "enterNRNLabel": "Enter client NRN :",
+    "NRNField": "NRN...",
+    "addClientButton": "Add client",
+    "invalidNRNLabel": "Invalid NRN.",
+    "clientAddedLabel": "Client successfully added !"
+  },
+  "ManageRequestsScene": {
+    "transferPermissionRequestsButton": "Transfer permission requests",
+    "portfolioRequestsButton": "Portfolio requests",
+    "requestsStatusButton": "Requests status"
+  },
+  "ManageDataScene": {
+    "importDataButton": "Import data",
+    "exportAllClientDataButton": "Export all clients data"
+  },
+  "ImportDataScene": {
+    "chooseFileLabel": "Select file :",
+    "noFileSelected": "No import file selected.",
+    "importSuccessfulLabel": "Import successfully executed !",
+    "choosePathButton": "Choose path...",
+    "importButton": "Import file",
+    "importFileLabel": "Import file not set."
   }
 }

@@ -57,7 +57,7 @@ public class NotificationController {
      */
     @DeleteMapping(value = "{id}")
     public ResponseEntity<String> deleteNotification(@PathVariable String id) {
-        notificationService.deleteNotification(id);
+        notificationService.deleteNotification(Integer.getInteger(id));
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }

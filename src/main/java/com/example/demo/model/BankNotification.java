@@ -17,7 +17,7 @@ import java.util.Objects;
 @Table(name = "banks_notification")
 public class BankNotification implements Serializable {
 
-    @Id
+    @EmbeddedId
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name = "notification_id",

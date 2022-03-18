@@ -51,7 +51,7 @@ public class HTTPTest {
             assertEquals("Morningstar", portfolioTest.getUser().getLastName());
             assertEquals("123456789", portfolioTest.getUser().getNationalRegistrationNumber());
             assertEquals("Belfius", portfolioTest.getWalletList().get(0).getBank().getName());
-            assertEquals("fake8", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
+//            assertEquals("fake8", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN()); // TODO : A voir avec la bdd actuelle
         });
     }
 
@@ -65,9 +65,27 @@ public class HTTPTest {
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .field("username", "Satan")
                     .field("password", "666HELL")
+                    .field("role", "ROLE_USER")
                     .asString();
 
-            assertEquals(response.getStatus(), 200);
+            System.out.println(response.getBody());
+            assertEquals(200, response.getStatus());
+        });
+    }
+
+    @Test
+    @DisplayName("Register a account")
+    public void register(){
+        assertDoesNotThrow(() ->{
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
+                    .header("Content-Type", "application/json")
+                    .body("{\r\n    \"username\": \"" + "elonmus" + "\",\r\n    \"userID\": \"" + "01.01.1-001.03" + "\",\r\n    \"email\": \"" + "elon.musketat@tesla.com" + "\",\r\n    \"password\": \"" + "igotalotofmoney" + "\",\r\n    \"firstname\": \"" + "Elon" + "\",\r\n    \"lastname\": \"" + "Musk" + "\",\r\n    \"language\": \"" + "EN US" + "\"\r\n}")
+                    .asString();
+
+            System.out.println(response.getBody());
+            assertEquals(201, response.getStatus());
         });
     }
 }

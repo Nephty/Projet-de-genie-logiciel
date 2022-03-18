@@ -3,6 +3,9 @@ package back.user;
 import java.util.ArrayList;
 
 public class Wallet {
+
+    // TODO : Besoin de cette classe ?
+
     private final Profile accountUser;
     private ArrayList<Account> accountList;
     private Bank bank;

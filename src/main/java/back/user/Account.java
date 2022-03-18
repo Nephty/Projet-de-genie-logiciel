@@ -1,25 +1,37 @@
 package back.user;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 import java.util.ArrayList;
 
 public class Account {
+    private final Profile accountOwner;
+    private final ArrayList<Profile> accountCoOwner;
+    private final Bank bank;
     private final String IBAN;
-    private Profile accountOwner;
-    private ArrayList<Profile> accountCoOwner;
-    private ArrayList<Transaction> transactionHistory;
+    private final AccountType accountType;
     private boolean activated;
-    private boolean archived;
-    private Bank bank;
+    private final boolean archived;
+    private final boolean canPay;
     private ArrayList<SubAccount> subAccountList;
 
-    public Account(String IBAN) {
+    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) throws UnirestException {
+        this.accountOwner = accountOwner;
+        this.accountCoOwner = new ArrayList<Profile>();
+        this.accountCoOwner.add(accountCoOwner);
+        this.bank = bank;
         this.IBAN = IBAN;
-        // TODO : Instancier les variables via l'API avec l'IBAN
+        this.accountType = accountType;
+        this.activated = activated;
+        this.archived = archived;
+        this.canPay = canPay;
+        this.subAccountList = new ArrayList<SubAccount>();
+        this.subAccountList.add(new SubAccount(this.IBAN, Currencies.EUR));
     }
 
     @Override
     public String toString() {
-        return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated");
+        return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated") + "          amount : "+ getSubAccountList().get(0).getAmount() + " €";
     }
 
     /**
@@ -56,12 +68,12 @@ public class Account {
         return this.accountOwner;
     }
 
-    public ArrayList<Profile> getAccountCoOwner() {
-        return this.accountCoOwner;
+    public AccountType getAccountType() {
+        return this.accountType;
     }
 
-    public ArrayList<Transaction> getTransactionHistory() {
-        return this.transactionHistory;
+    public ArrayList<Profile> getAccountCoOwner() {
+        return this.accountCoOwner;
     }
 
     public String getIBAN() {

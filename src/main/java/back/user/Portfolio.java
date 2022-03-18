@@ -3,6 +3,9 @@ package back.user;
 import java.util.ArrayList;
 
 public class Portfolio {
+
+    // TODO : Supprimer cette classe
+
     private Profile user;
     private ArrayList<Wallet> walletList;
 

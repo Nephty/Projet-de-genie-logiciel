@@ -1,5 +1,6 @@
 package app;
 
+import back.user.Bank;
 import back.user.Profile;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
@@ -12,8 +13,10 @@ import javafx.stage.Stage;
  * Main runnable class that launches the application.
  */
 public class Main extends Application {
-    private static Profile user;
+    private static Bank bank;
     private static Stage stage;
+    private static String token;
+    private static String refreshToken;
 
     public static void main(String[] args) {
         launch(args);
@@ -23,12 +26,24 @@ public class Main extends Application {
         stage.setScene(scene);
     }
 
-    public static Profile getUser() {
-        return user;
+    public static Bank getBank() {
+        return bank;
     }
 
-    public static void setUser(Profile user_) {
-        user = user_;
+    public static void setBank(Bank bank) {
+        bank = bank;
+    }
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setToken(String newToken) {
+        token = newToken;
+    }
+
+    public static void setRefreshToken(String newToken) {
+        refreshToken = newToken;
     }
 
     @Override

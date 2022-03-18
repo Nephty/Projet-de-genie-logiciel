@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.text.DateFormat;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -18,8 +17,8 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="notification")
-public class Notification implements Serializable {
+@Table(name = "notification")
+public class Notification {
 
     @Id
     @SequenceGenerator(
@@ -51,12 +50,24 @@ public class Notification implements Serializable {
     @Column
     private String status;
 
-    public Notification(NotificationType notificationType, String comments, Date date, String status) {
-        this.notificationType = notificationType;
-        this.comments = comments;
-        this.date = date;
-        this.status = status;
-    }
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(
+            name="user_id",
+            referencedColumnName = "nrn",
+            nullable = false
+    )
+    private User userId;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(
+            name="swift",
+            referencedColumnName = "swift",
+            nullable = false
+    )
+    private Bank bankId;
+
+    @Column(name = "to_bank", nullable = false)
+    private Boolean toBank = false;
 
     public Notification(NotificationReq notificationReq) {
         notificationId = notificationReq.getNotificationId();

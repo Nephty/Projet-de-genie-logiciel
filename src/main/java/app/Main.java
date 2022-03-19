@@ -30,8 +30,8 @@ public class Main extends Application {
         return bank;
     }
 
-    public static void setBank(Bank bank) {
-        bank = bank;
+    public static void setBank(Bank newBank) {
+        bank = newBank;
     }
 
     public static String getToken() {

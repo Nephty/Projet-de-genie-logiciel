@@ -79,13 +79,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             Main.setToken(obj.getString("access_token"));
             Main.setRefreshToken(obj.getString("refresh_token"));
             try {
-//                Unirest.setTimeouts(0, 0);
-//                HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/"+usernameField.getText()+"?isUsername=true")
-//                        .header("Authorization", "Bearer "+Main.getToken())
-//                        .asString();
-//                String body2 = response2.getBody();
-//                JSONObject obj2 = new JSONObject(body2);
-                Main.setBank(new Bank("ABCD")); // TODO : Optimiser ET CHANGER
+                Main.setBank(new Bank(usernameField.getText())); // TODO : Optimiser
             } catch (UnirestException e) {
                 e.printStackTrace();
             }

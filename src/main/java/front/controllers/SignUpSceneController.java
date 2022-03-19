@@ -231,12 +231,12 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         // No label is visible implies that every field is properly filled in
         if (noLabelVisible()) {
             // Then we can create a new bank
-            // TODO : back-end : user creation implementation
             Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
             try {
-                HttpResponse<String> response = Unirest.post("https://flns-spring-test.herokuapp.com/api/bank")
-                        .header("Content-Type", "application/json") // TODO : Modifier en fonction de ce qui a été décidé
-                        .body("{\r\n    \"swift\": \""+SWIFT+"\",\r\n    \"name\": \""+name+"\",\r\n    \"login\": \""+""+"\",\r\n    \"password\": \"capitalism\",\r\n    \"address\": \"44 Wall Street\",\r\n    \"country\": \"US\",\r\n    \"defaultCurrencyType\": 0\r\n}")
+                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/bank")
+                        .header("Content-Type", "application/json")
+                        .body("{\r\n    \"swift\": \"" + SWIFT + "\",\r\n    \"name\": \"" + name + "\",\r\n    \"login\": \"" +" "+ "\",\r\n    \"password\": \"" + password + "\",\r\n    \"address\": \"" + city + "\",\r\n    \"country\": \"" + country + "\",\r\n    \"defaultCurrencyType\": 0\r\n}")
                         .asString();
             } catch (UnirestException e) {
                 e.printStackTrace();

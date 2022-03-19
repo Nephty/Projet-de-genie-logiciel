@@ -7,6 +7,7 @@ import com.example.demo.model.CurrencyType;
 import com.example.demo.model.SubAccount;
 import com.example.demo.model.TransactionLog;
 import com.example.demo.model.TransactionType;
+import com.example.demo.other.Generator;
 import com.example.demo.repository.SubAccountRepo;
 import com.example.demo.repository.TransactionLogRepo;
 import com.example.demo.repository.TransactionTypeRepo;
@@ -35,15 +36,15 @@ public class TransactionLogService {
         transactions.forEach(transaction -> {
             saved.add(transactionLogRepo.save(transaction));
         });
-
         return saved;
     }
 
     public List<TransactionReq> getAllTransactionBySubAccount(String iban, Integer currencyId) {
         SubAccount subAccount = subAccountRepo.findById(new SubAccountPK(iban, currencyId))
                 .orElseThrow(()-> new ResourceNotFound(iban + " : " + currencyId.toString()));
-        ArrayList<TransactionLog> transactionLogs = transactionLogRepo.findAllBySubAccount(subAccount);
+        ArrayList<TransactionLog> transactionLogs = transactionLogRepo.findAllLinkedToSubAccount(subAccount);
         ArrayList<TransactionReq> response = new ArrayList<>();
+        log.warn(transactionLogs.toString());
 
         // mapping the ugliness from the DB to a nicer response
         transactionLogs.forEach(transactionReceived -> {
@@ -70,6 +71,7 @@ public class TransactionLogService {
                     log.error("error in retrieving the transaction log {} req {}", transactionReceived, transactionReq);
                     throw new ResourceNotFound("could not retrieve the transactions");
                 }
+                log.info("ADD");
                 response.add(transactionReq);
             }
         });
@@ -79,7 +81,6 @@ public class TransactionLogService {
     private ArrayList<TransactionLog> instantiateTransaction(TransactionReq transactionReq) {
         TransactionLog transactionSent = new TransactionLog(transactionReq);
         TransactionLog transactionReceived = new TransactionLog(transactionReq);
-        transactionReceived.setTransactionId(transactionSent.getTransactionId());
 
 
         SubAccount subAccountSender = subAccountRepo.findById(
@@ -111,6 +112,10 @@ public class TransactionLogService {
         transactionReceived.setSubAccount(subAccountReceiver);
         transactionReceived.setTransactionTypeId(transactionType);
         transactionReceived.setDirection(0);
+
+        Integer rdmId = Generator.randomTransactionId();
+        transactionSent.setTransactionId(rdmId);
+        transactionReceived.setTransactionId(rdmId);
 
         ArrayList<TransactionLog> transactionLogs = new ArrayList<>();
         transactionLogs.add(transactionSent);

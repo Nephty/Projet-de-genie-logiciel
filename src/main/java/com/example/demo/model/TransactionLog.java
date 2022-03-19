@@ -23,6 +23,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 public class TransactionLog {
 
     @Id
+    /*
     @SequenceGenerator(
             name = "transaction_log_transaction_id_seq",
             sequenceName = "transaction_log_transaction_id_seq",
@@ -32,6 +33,7 @@ public class TransactionLog {
             strategy = SEQUENCE,
             generator = "transaction_log_transaction_id_seq"
     )
+    */
     @Column(
             name="transaction_id",
             updatable = false

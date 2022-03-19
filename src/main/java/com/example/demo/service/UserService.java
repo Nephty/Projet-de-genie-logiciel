@@ -45,7 +45,7 @@ public class UserService implements UserDetailsService {
 
     public User getUserByUsername(String username) {
         return uRepo.findByUsername(username)
-                .orElseThrow(()-> new ResourceNotFound(username));
+                .orElseThrow(()-> new ResourceNotFound("No user with this username: "+ username));
     }
 
 
@@ -77,7 +77,7 @@ public class UserService implements UserDetailsService {
         uRepo.deleteById(id);
     }
 
-    Optional<UserAlreadyExist> alreadyExists(UserReq userReq) {
+    private Optional<UserAlreadyExist> alreadyExists(UserReq userReq) {
         if (uRepo.existsById(userReq.getUserId())){
             log.warn("User "+userReq.getUserId()+" already exists");
             return Optional.of(new UserAlreadyExist(UserAlreadyExist.Reason.ID));
@@ -93,7 +93,7 @@ public class UserService implements UserDetailsService {
         return Optional.empty();
     }
 
-    public User instantiateUser(Sender sender, UserReq userReq, HttpMethod method) {
+    private User instantiateUser(Sender sender, UserReq userReq, HttpMethod method) {
         switch (method) {
             case POST:
                 return new User(userReq);

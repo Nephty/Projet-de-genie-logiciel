@@ -69,7 +69,7 @@ public class User {
         userID = userReq.getUserId();
         username = userReq.getUsername();
         firstname = userReq.getFirstname();
-        lastname = userReq.getLanguage();
+        lastname = userReq.getLastname();
         email = userReq.getEmail();
         password = userReq.getPassword();
         language = userReq.getLanguage();

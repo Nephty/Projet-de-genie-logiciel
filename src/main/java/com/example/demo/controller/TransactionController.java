@@ -23,6 +23,8 @@ public class TransactionController {
      * @return Transaction to string in the response body
      * 201 - Transaction successfully created
      * 400 - Bad Format
+     * Who ? anyone who owns the account
+     * What ? debit the money or return an error if there is not enough
      */
     @PostMapping
     public ResponseEntity<String> makeTransfer(@RequestBody TransactionReq transactionReq) {
@@ -36,6 +38,7 @@ public class TransactionController {
      * @param iban [path] id of the account
      * @return Array of transaction linked to an account
      * 200 - OK
+     * Who ? bank or user who owns the account
      */
     @GetMapping(value = "{iban}")
     public ResponseEntity<List<TransactionLog>> sendTransfer(@PathVariable String iban) {

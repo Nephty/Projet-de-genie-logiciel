@@ -29,17 +29,24 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * This method is called when a client tries to log in it reads the username, pwd and role
+     * and pass them to the chain to check in the DB
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String role = request.getParameter("role");
-        request.setAttribute("role", role);
-        log.info("username: {}, pwd: {}, role {}", username, password, request.getAttribute("role"));
+        log.info("username: {}, pwd: {}, role {}", username, password, role);
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username + "/" + role, password);
         return authenticationManager.authenticate(authenticationToken);
     }
 
+    /**
+     * This method is called when the user is successfully authenticated
+     * It creates an access and refresh token and puts them in the body of the response
+     */
     @Override
     protected void successfulAuthentication(
             HttpServletRequest request,

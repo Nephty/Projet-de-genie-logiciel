@@ -96,10 +96,10 @@ public class UserService implements UserDetailsService {
                 Bank bank = getBankCredentials(usernameRole[0]);
                 authorities.add(new SimpleGrantedAuthority(Role.BANK.getRole()));
                 //this is not an authority but the only way I found to communicate with the filter
-                authorities.add(new SimpleGrantedAuthority("id "+ bank.getSwift()));
-                log.info("[BANK]{}", bank.toString());
+                authorities.add(new SimpleGrantedAuthority("id "+ bank.getLogin()));
+                log.info("[BANK]{}", bank);
                 return new org.springframework.security.core.userdetails.User(
-                        bank.getLogin(), bank.getPassword(), authorities
+                        bank.getSwift(), bank.getPassword(), authorities
                 );
             default:
                 throw new UsernameNotFoundException("Incorrect role: " + usernameRole[1]);
@@ -111,11 +111,11 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
-    private Bank getBankCredentials(String login) {
-        return bankRepo.findByLogin(login)
+    private Bank getBankCredentials(String swift) {
+        return bankRepo.findById(swift)
                 .orElseThrow(()-> {
-                    log.error("no bank with such login: {}", login);
-                    return new UsernameNotFoundException(login);
+                    log.error("no bank with such id: {}", swift);
+                    return new UsernameNotFoundException(swift);
                 });
     }
 

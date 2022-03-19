@@ -26,13 +26,13 @@ public class NotificationService {
         notificationRepo.save(notification);
     }
 
-    public void deleteNotification(String notificationId) {
+    public void deleteNotification(Integer notificationId) {
         notificationRepo.deleteById(notificationId);
     }
 
-    public Notification getNotification(String notificationId) {
+    public Notification getNotification(Integer notificationId) {
         return notificationRepo.findById(notificationId)
-                .orElseThrow(()-> new ResourceNotFound(notificationId));
+                .orElseThrow(()-> new ResourceNotFound(notificationId.toString()));
     }
 
     public List<Notification> getUserNotification(String userId) {

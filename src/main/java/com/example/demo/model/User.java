@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 
+import com.example.demo.request.UserReq;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -62,5 +63,36 @@ public class User {
         this.firstname = firstname;
         this.email = email;
         this.language = language;
+    }
+
+    public User(UserReq userReq) {
+        userID = userReq.getUserId();
+        username = userReq.getUsername();
+        firstname = userReq.getFirstname();
+        lastname = userReq.getLanguage();
+        email = userReq.getEmail();
+        password = userReq.getPassword();
+        language = userReq.getLanguage();
+    }
+
+    public void change(UserReq userReq) {
+        if(userReq.getUsername() != null) {
+            username = userReq.getUsername();
+        }
+        if(userReq.getFirstname() != null) {
+            firstname = userReq.getFirstname();
+        }
+        if(userReq.getLastname() != null) {
+            lastname = userReq.getLastname();
+        }
+        if(userReq.getEmail() != null) {
+            email = userReq.getEmail();
+        }
+        if(userReq.getPassword() != null) {
+            password = userReq.getPassword();
+        }
+        if(userReq.getLanguage() != null) {
+            language = userReq.getLanguage();
+        }
     }
 }

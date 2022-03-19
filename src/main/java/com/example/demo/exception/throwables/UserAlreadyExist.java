@@ -6,6 +6,8 @@ public class UserAlreadyExist extends ApiRequestException {
     public enum Reason {
         USERNAME("USERNAME"),
         EMAIL("EMAIL"),
+        SWIFT("SWIFT"),
+        NAME("NAME"),
         ID("ID");
 
         private final String name;

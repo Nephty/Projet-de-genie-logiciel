@@ -19,4 +19,8 @@ public class BankReq {
 
     private Integer defaultCurrencyType;
 
+    public boolean isInvalid() {
+        return false;
+    }
+
 }

@@ -56,7 +56,7 @@ public class AccountController {
     @PutMapping
     public ResponseEntity<String> changeAccount(@RequestBody AccountReq accountReq){
         log.info("incoming account: {}", accountReq.toString());
-        accountService.addAccount(accountReq);
+        accountService.changeAccount(accountReq);
         return new ResponseEntity<>(accountReq.toString(), HttpStatus.CREATED);
     }
 

@@ -43,6 +43,11 @@ public class AccountService {
         accountRepo.save(account);
     }
 
+    public void changeAccount(AccountReq accountReq) {
+        Account account = instantiateAccount(accountReq);
+        accountRepo.save(account);
+    }
+
     private Account instantiateAccount(AccountReq accountReq) {
         Account account = new Account(accountReq);
         Bank bank = bankRepo.findById(accountReq.getSwift())

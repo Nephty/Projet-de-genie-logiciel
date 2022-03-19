@@ -1,0 +1,25 @@
+package com.example.demo.request;
+
+import lombok.Data;
+
+@Data
+public class UserReq {
+
+    private String userId;
+
+    private String username;
+
+    private String lastname;
+
+    private String firstname;
+
+    private String email;
+
+    private String password;
+
+    private String language;
+
+    public boolean isInvalid() {
+        return false;
+    }
+}

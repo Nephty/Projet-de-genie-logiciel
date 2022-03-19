@@ -30,13 +30,13 @@ public class BankService {
 
     private final CurrencyTypeRepo currencyTypeRepo;
 
-    public void addBank(BankReq bankReq) {
+    public Bank addBank(BankReq bankReq) {
         alreadyExists(bankReq).ifPresent(userAlreadyExist -> {
             throw userAlreadyExist;
         });
         Bank bank = instantiateBank(null, bankReq, HttpMethod.POST);
         bank.setPassword(passwordEncoder.encode(bank.getPassword()));
-        bankRepo.save(bank);
+        return bankRepo.save(bank);
     }
 
     public void deleteBank(String swift) {

@@ -67,8 +67,8 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody UserReq userReq) {
         log.info("inserting {}", userReq);
-        userService.addUser(userReq);
-        return new ResponseEntity<>(userReq.toString(),HttpStatus.CREATED);
+        User savedUser = userService.addUser(userReq);
+        return new ResponseEntity<>(savedUser.toString(),HttpStatus.CREATED);
     }
 
     /**
@@ -81,8 +81,8 @@ public class UserController {
      */
     @PutMapping
     public ResponseEntity<String> changeUser(@RequestBody UserReq userReq) {
-        userService.changeUser(userReq, (Sender)httpRequest.getAttribute(Sender.getAttributeName()));
-        return new ResponseEntity<>(userReq.toString(),HttpStatus.CREATED);
+        User savedUser = userService.changeUser(userReq, (Sender)httpRequest.getAttribute(Sender.getAttributeName()));
+        return new ResponseEntity<>(savedUser.toString(),HttpStatus.CREATED);
     }
 
     /**

@@ -54,22 +54,22 @@ public class UserService implements UserDetailsService {
         return uRepo.findAll();
     }
 
-    public void addUser(UserReq userReq) {
+    public User addUser(UserReq userReq) {
         alreadyExists(userReq).ifPresent(userAlreadyExist -> {
             throw userAlreadyExist;
         });
         User user = instantiateUser(null, userReq, HttpMethod.POST);
         log.info(user.toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        uRepo.save(user);
+        return uRepo.save(user);
     }
 
-    public void changeUser(UserReq userReq, Sender sender) {
+    public User changeUser(UserReq userReq, Sender sender) {
         //alreadyExists(userReq).orElseThrow(()-> new ResourceNotFound(userReq.toString()));
         User user = instantiateUser(sender, userReq, HttpMethod.PUT);
         log.info("Changing user to {}", user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        uRepo.save(user);
+        return uRepo.save(user);
     }
 
     public void deleteUser(String id) {

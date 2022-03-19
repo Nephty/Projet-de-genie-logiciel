@@ -33,9 +33,9 @@ public class BankController {
     @PostMapping
     public ResponseEntity<String> addBank(@RequestBody BankReq bankReq) {
         log.info("incoming bank: {}", bankReq.toString());
-        bankService.addBank(bankReq);
-        return new ResponseEntity<>(bankReq.toString(), HttpStatus.CREATED);
-    }//TODO Not allow 2 bank with same login
+        Bank savedBank = bankService.addBank(bankReq);
+        return new ResponseEntity<>(savedBank.toString(), HttpStatus.CREATED);
+    }
 
     /**
      * @param swift id of the bank to be deleted

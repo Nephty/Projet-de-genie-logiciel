@@ -66,8 +66,7 @@ public class TransactionLog {
     private Integer direction;
 
     public TransactionLog(TransactionReq transactionReq) {
-        transaction_date = transactionReq.getTransactionDate();
+        transaction_date = new Date(System.currentTimeMillis());
         transactionAmount = transactionReq.getTransactionAmount();
-        direction = transactionReq.getDirection();
     }
 }

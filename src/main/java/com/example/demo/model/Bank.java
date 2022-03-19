@@ -60,4 +60,19 @@ public class Bank {
         country = bankReq.getCountry();
     }
 
+    public void change(BankReq bankReq) {
+        if(bankReq.getName() != null) {
+            name = bankReq.getName();
+        }
+        if(bankReq.getPassword() != null) {
+            password = bankReq.getPassword();
+        }
+        if(bankReq.getAddress() != null) {
+            address = bankReq.getAddress();
+        }
+        if(bankReq.getCountry() != null) {
+            country = bankReq.getCountry();
+        }
+    }
+
 }

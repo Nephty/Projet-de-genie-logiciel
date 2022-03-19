@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.throwables.UnimplementedException;
 import com.example.demo.model.Bank;
+import com.example.demo.other.Sender;
 import com.example.demo.request.BankReq;
 import com.example.demo.service.BankService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,6 +20,8 @@ import java.util.List;
 public class BankController {
 
     private final BankService bankService;
+
+    private final HttpServletRequest httpRequest;
 
     /**
      * @param bankReq bank to be added to the DB
@@ -66,14 +70,20 @@ public class BankController {
 
     /**
      * @param bankReq bank to be change in the DB
-     * @return bank to String
+     * @return saved bank to String
      * 201 - Created
      * 400 - Bad Format
      * 409 - Bad FK
      */
     @PutMapping
     public ResponseEntity<String> changeBank(@RequestBody BankReq bankReq) {
-        bankService.changeBank(bankReq);
-        return new ResponseEntity<>(bankReq.toString(), HttpStatus.CREATED);
+        Bank savedBank = bankService.changeBank(
+                (Sender)httpRequest.getAttribute(Sender.getAttributeName()),
+                bankReq
+        );
+        return new ResponseEntity<>(
+                savedBank.toString(),
+                HttpStatus.CREATED
+        );
     }
 }

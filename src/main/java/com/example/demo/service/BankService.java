@@ -1,14 +1,18 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.throwables.ConflictException;
+import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.exception.throwables.UserAlreadyExist;
 import com.example.demo.model.Bank;
 import com.example.demo.model.CurrencyType;
+import com.example.demo.other.Sender;
 import com.example.demo.repository.BankRepo;
 import com.example.demo.repository.CurrencyTypeRepo;
 import com.example.demo.request.BankReq;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Service @Transactional
+@Service @Transactional @Slf4j
 public class BankService {
 
     private final BankRepo bankRepo;
@@ -30,7 +34,7 @@ public class BankService {
         alreadyExists(bankReq).ifPresent(userAlreadyExist -> {
             throw userAlreadyExist;
         });
-        Bank bank = instantiateBank(bankReq);
+        Bank bank = instantiateBank(null, bankReq, HttpMethod.POST);
         bank.setPassword(passwordEncoder.encode(bank.getPassword()));
         bankRepo.save(bank);
     }
@@ -39,11 +43,11 @@ public class BankService {
         bankRepo.deleteById(swift);
     }
 
-    public void changeBank(BankReq bankReq) {
-        alreadyExists(bankReq).orElseThrow(() -> new ResourceNotFound(bankReq.toString()));
-        Bank bank = instantiateBank(bankReq);
+    public Bank changeBank(Sender sender,BankReq bankReq) {
+        //alreadyExists(bankReq).orElseThrow(() -> new ResourceNotFound(bankReq.toString()));
+        Bank bank = instantiateBank(sender, bankReq, HttpMethod.PUT);
         bank.setPassword(passwordEncoder.encode(bank.getPassword()));
-        bankRepo.save(bank);
+        return bankRepo.save(bank);
     }
 
     public Bank getBank(String swift) {
@@ -69,12 +73,31 @@ public class BankService {
         return Optional.empty();
     }
 
-    private Bank instantiateBank(BankReq bankReq) {
-        Bank bank = new Bank(bankReq);
-        CurrencyType currencyType = currencyTypeRepo
-                .findById(bankReq.getDefaultCurrencyType())
-                .orElseThrow(() -> new ConflictException(bankReq.getDefaultCurrencyType().toString()));
-        bank.setDefaultCurrencyType(currencyType);
-        return bank;
+    private Bank instantiateBank(Sender sender, BankReq bankReq, HttpMethod method) {
+        Bank bank;
+        CurrencyType currencyType;
+        switch (method) {
+            case POST:
+                bank = new Bank(bankReq);
+                currencyType = currencyTypeRepo
+                        .findById(bankReq.getDefaultCurrencyType())
+                        .orElseThrow(() -> new ConflictException(bankReq.getDefaultCurrencyType().toString()));
+                bank.setDefaultCurrencyType(currencyType);
+                return bank;
+            case PUT:
+                bank = bankRepo.findById(sender.getId())
+                        .orElseThrow(()-> new ResourceNotFound(sender.getId()));
+                bank.change(bankReq);
+                if(bankReq.getDefaultCurrencyType() != null) {
+                    currencyType = currencyTypeRepo
+                            .findById(bankReq.getDefaultCurrencyType())
+                            .orElseThrow(() -> new ConflictException(bankReq.getDefaultCurrencyType().toString()));
+                    bank.setDefaultCurrencyType(currencyType);
+                }
+                return bank;
+            default:
+                log.error("Invalid method {}", method);
+                throw new LittleBoyException();
+        }
     }
 }

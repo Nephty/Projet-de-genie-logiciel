@@ -28,6 +28,7 @@ public class UserController {
      * @return User with matching id
      * 200 - OK
      * 404 - Not found
+     * Who ? the user itself and any bank that has this user
      */
     @GetMapping(value = "{id}")
     public ResponseEntity<User> sendUser(@PathVariable String id, @RequestParam Boolean isUsername) {
@@ -42,6 +43,7 @@ public class UserController {
 
     /**
      * @return An array with all users
+     * Who ? no one besides a bank for all it's user
      */
     @GetMapping
     public ResponseEntity<List<User>> sendAllUser() {
@@ -59,6 +61,8 @@ public class UserController {
      * 201 - Created
      * 400 - Bad Request
      * 403 - User already exist
+     * Who ? anyone
+     * What ? /
      */
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody User user) {
@@ -71,6 +75,8 @@ public class UserController {
      * @return user to String
      * 201 - Created
      * 400 - Bad Request
+     * Who ? user itself
+     * What ? token is probably invalid
      */
     @PutMapping
     public ResponseEntity<String> changeUser(@RequestBody User user) {
@@ -82,6 +88,8 @@ public class UserController {
      * @param id id of the user to delete in the DB
      * @return id sent
      * 200 - OK
+     * Who ? user itself
+     * What ? delete its assets
      */
     @DeleteMapping(value = "{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id) {

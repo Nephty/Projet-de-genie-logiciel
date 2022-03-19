@@ -21,16 +21,25 @@ public class NotificationController {
 
     /**
      * Returns an array with all the notifications for a certain user
-     * @param userId id of the notification to retrieve
-     * @return notification with matching id
+     * @param userId id of the user
+     * @return notifications with matching id
      * 200 - Ok
      * 404 - Not found
+     * Who ? the user matching the id
      */
     @GetMapping(value = "/user/{userId}")
     public ResponseEntity<List<Notification>> sendUserNotification(@PathVariable String userId) {
        throw new UnimplementedException();
     }
 
+    /**
+     * Returns an array with all the notifications for a certain user
+     * @param swift id of the bank
+     * @return bank's notifications in an array
+     * 200 - OK
+     * 404 - Not found
+     * Who ? the bank matching the swift
+     */
     @GetMapping(value = "/bank/{swift}")
     public ResponseEntity<List<Notification>> sendBankNotification(@PathVariable String swift) {
         throw new UnimplementedException();
@@ -43,6 +52,8 @@ public class NotificationController {
      * 201 - Created
      * 400 - Bad request
      * 409 - Bad FK
+     * Who ? user matching the notification id or bank depending on the destination
+     * What ? /
      */
     @PostMapping
     public ResponseEntity<String> addNotification(@RequestBody NotificationReq notificationReq) {
@@ -54,6 +65,8 @@ public class NotificationController {
      * @param id id of the notification to delete
      * @return notification with matching id
      * 200 - Ok
+     * Who ? user or bank that owns the notification
+     * What ? /
      */
     @DeleteMapping(value = "{id}")
     public ResponseEntity<String> deleteNotification(@PathVariable String id) {

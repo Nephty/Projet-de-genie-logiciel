@@ -24,6 +24,8 @@ public class AccountAccessController {
      * @param userId [path] id of the user
      * @return Array of account access
      * 200 - OK
+     * 204 - Not found
+     * Who ? the user
      */
     @GetMapping(value = "{userId}")
     public ResponseEntity<List<AccountAccess>> sendAccountAccess(@PathVariable String userId){
@@ -39,6 +41,7 @@ public class AccountAccessController {
      * @return account access matching params
      * 200 - OK
      * 404 - Not Found
+     * Who ? the owner of the account and the bank
      */
     @GetMapping(value = "{userId}/{accountId}")
     public ResponseEntity<AccountAccess> sendAccountAccess(@PathVariable String userId, @PathVariable String accountId){
@@ -54,6 +57,7 @@ public class AccountAccessController {
      * 201 - Created
      * 400 - Bad Format
      * 409 - Conflict
+     * Who ? the owner of the account and/or the bank
      */
     @PostMapping
     public ResponseEntity<String> addAccess(@RequestBody AccountAccessReq accountAccessReq){
@@ -68,6 +72,7 @@ public class AccountAccessController {
      * 201 - Created
      * 400 - Bad Format
      * 409 - Conflict
+     * Who ? the owner of the account and/or the bank
      */
     @PutMapping
     public ResponseEntity<String> changeAccess(@RequestBody AccountAccessReq accountAccessReq) {
@@ -80,6 +85,7 @@ public class AccountAccessController {
      * @param accountId id of the user account
      * @return params sent
      * 200 - OK
+     * Who ? the owner of the account and/or the bank
      */
     @DeleteMapping
     public ResponseEntity<String> deleteAccess(@RequestParam String accountId, @RequestParam String userId) {

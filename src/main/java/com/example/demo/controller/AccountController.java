@@ -33,6 +33,9 @@ public class AccountController {
      * @return account to String
      * 201 - Created
      * 400 - Bad Request
+     * 409 - Bad FK
+     * Who ? bank
+     * What ? create one sub account
      */
     @PostMapping
     public ResponseEntity<String> createAccount(@RequestBody AccountReq accountReq){
@@ -42,9 +45,28 @@ public class AccountController {
     }
 
     /**
+     * @param accountReq [body] account to change in the DB
+     * @return account to String
+     * 201 - Created
+     * 400 - Bad Request
+     * 409 - Bad FK
+     * Who ? the bank
+     * What ? /
+     */
+    @PutMapping
+    public ResponseEntity<String> changeAccount(@RequestBody AccountReq accountReq){
+        log.info("incoming account: {}", accountReq.toString());
+        accountService.addAccount(accountReq);
+        return new ResponseEntity<>(accountReq.toString(), HttpStatus.CREATED);
+    }
+
+
+    /**
      * @param iban [path] iban of the account to be deleted
      * @return iban sent
      * 200 - OK
+     * Who ? the bank
+     * What ? delete the sub account
      */
     @DeleteMapping(value = "{iban}")
     public ResponseEntity<String> deleteAccount(@PathVariable String iban) {

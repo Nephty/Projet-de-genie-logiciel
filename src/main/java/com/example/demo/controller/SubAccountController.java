@@ -19,6 +19,13 @@ public class SubAccountController {
 
     private final SubAccountService subAccountService;
 
+    /**
+     * @param iban iban of the sub account to retrieve
+     * @param currencyId currency of the sub account desired
+     * @return the sub account matching the params provided
+     * 200 - OK
+     * 404 - Not found
+     */
     @GetMapping
     public ResponseEntity<SubAccount> getSubAccount(@RequestParam String iban, @RequestParam Integer currencyId){
         SubAccount subAccount = subAccountService.getSubAccount(iban,currencyId);
@@ -31,18 +38,19 @@ public class SubAccountController {
      * 201 - Created
      * 400 - Bad Format
      * 409 - Bad FK
+     * Who ? owner of the account
      */
     @PostMapping
     public ResponseEntity<String> addSubAccount(@RequestBody SubAccountReq subAccountReq) {
         subAccountService.addSubAccount(subAccountReq);
         return new ResponseEntity<>(subAccountReq.toString(), HttpStatus.CREATED);
     }
-
     /**
      * @param iban [param] id of the account linked
      * @param currencyId [param] currency of this sub account
      * @return params sent
      * 200 - OK
+     * Who ? owner of the sub account and maybe the bank
      */
     @DeleteMapping
     public ResponseEntity<String> deleteSubAccount(@RequestParam String iban, @RequestParam Integer currencyId) {
@@ -56,6 +64,8 @@ public class SubAccountController {
      * 201 - Created
      * 400 - Bad Format
      * 409 - Bad FK
+     * Who ? owner of the sub account
+     * What ? /
      */
     @PutMapping
     public ResponseEntity<String> changeSubAccount(@RequestBody SubAccountReq subAccountReq) {

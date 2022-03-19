@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.TransactionLog;
 import com.example.demo.request.TransactionReq;
 import com.example.demo.service.TransactionLogService;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,20 +30,26 @@ public class TransactionController {
      */
     @PostMapping
     public ResponseEntity<String> makeTransfer(@RequestBody TransactionReq transactionReq) {
-        log.info("[Transaction] {}", transactionReq);
-        transactionLogService.addTransaction(transactionReq);
-        return new ResponseEntity<>(transactionReq.toString(), HttpStatus.CREATED);
+        log.info("insert transaction {}", transactionReq);
+        ArrayList<TransactionLog> savedTransaction = transactionLogService.addTransaction(transactionReq);
+        return new ResponseEntity<>(savedTransaction.toString(), HttpStatus.CREATED);
     }
 
     /**
-     * Send a list of all transaction to and from a certain account
+     * Send a list of all transaction to and from a certain sub account
      * @param iban [path] id of the account
      * @return Array of transaction linked to an account
      * 200 - OK
      * Who ? bank or user who owns the account
      */
-    @GetMapping(value = "{iban}")
-    public ResponseEntity<List<TransactionLog>> sendTransfer(@PathVariable String iban) {
-        return new ResponseEntity<>(transactionLogService.getAllTransactionByIban(iban), HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<TransactionReq>> sendTransfer(
+            @RequestParam String iban,
+            @RequestParam Integer currencyId) {
+
+        if(iban == null || currencyId == null) {
+            throw new MissingParamException("parameter iban and currencyId are mandatory");
+        }
+        return new ResponseEntity<>(transactionLogService.getAllTransactionBySubAccount(iban, currencyId), HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package com.example.demo.filter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.exception.throwables.AuthenticationException;
+import com.example.demo.other.Sender;
 import com.example.demo.security.Role;
 import com.example.demo.security.TokenHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,11 +61,15 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                         null,
                         authorities
                 );
-                request.setAttribute("userId", userId);
+                //thanks to the weird new login the bank login with its id and the user with its username so the values
+                //are inverted in a token from a bank(userId = bank login and username = swift)
                 request.setAttribute(
-                        "role",
-                        role.equals(Role.USER.getRole()) ? Role.USER : Role.BANK
-                        );
+                        Sender.getAttributeName(),
+                        new Sender(
+                                role.equals(Role.USER.getRole()) ? userId : username,
+                                role.equals(Role.USER.getRole()) ? Role.USER : Role.BANK
+                        )
+                );
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 filterChain.doFilter(request, response);
             } catch (NestedServletException e) {

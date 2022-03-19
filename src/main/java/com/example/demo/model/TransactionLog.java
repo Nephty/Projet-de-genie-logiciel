@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 
 import com.example.demo.model.CompositePK.SubAccountPK;
+import com.example.demo.model.CompositePK.TransactionLogPK;
 import com.example.demo.request.TransactionReq;
 import lombok.*;
 import org.hibernate.engine.internal.Cascade;
@@ -16,11 +17,13 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(TransactionLogPK.class)
 @Entity
 @Table(name="transaction_log")
 public class TransactionLog {
 
     @Id
+    /*
     @SequenceGenerator(
             name = "transaction_log_transaction_id_seq",
             sequenceName = "transaction_log_transaction_id_seq",
@@ -30,11 +33,19 @@ public class TransactionLog {
             strategy = SEQUENCE,
             generator = "transaction_log_transaction_id_seq"
     )
+    */
     @Column(
             name="transaction_id",
             updatable = false
     )
     private Integer transactionId;
+
+    @Id
+    @Column(
+            name = "direction",
+            nullable = false
+    )
+    private Integer direction;
 
     @ManyToOne
     @JoinColumn(
@@ -59,15 +70,8 @@ public class TransactionLog {
     )
     private Double transactionAmount;
 
-    @Column(
-            name = "direction",
-            nullable = false
-    )
-    private Integer direction;
-
     public TransactionLog(TransactionReq transactionReq) {
-        transaction_date = transactionReq.getTransactionDate();
+        transaction_date = new Date(System.currentTimeMillis());
         transactionAmount = transactionReq.getTransactionAmount();
-        direction = transactionReq.getDirection();
     }
 }

@@ -3,7 +3,8 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.User;
-import com.example.demo.security.Role;
+import com.example.demo.other.Sender;
+import com.example.demo.request.UserReq;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,15 +49,14 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<User>> sendAllUser() {
         log.info(
-                "[userID] {}, [role] {}",
-                httpRequest.getAttribute("userId").toString(),
-                ((Role) httpRequest.getAttribute("role")).getRole()
+                "[SENDER]{}",
+                httpRequest.getAttribute(Sender.getAttributeName())
                 );
         return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 
     /**
-     * @param user [body] user to be added to the added to the DB
+     * @param userReq [body] user to be added to the added to the DB
      * @return user to String
      * 201 - Created
      * 400 - Bad Request
@@ -65,13 +65,14 @@ public class UserController {
      * What ? /
      */
     @PostMapping
-    public ResponseEntity<String> addUser(@RequestBody User user) {
-        userService.addUser(user);
-        return new ResponseEntity<>(user.toString(),HttpStatus.CREATED);
+    public ResponseEntity<String> addUser(@RequestBody UserReq userReq) {
+        log.info("inserting {}", userReq);
+        User savedUser = userService.addUser(userReq);
+        return new ResponseEntity<>(savedUser.toString(),HttpStatus.CREATED);
     }
 
     /**
-     * @param user [body] user to be added to the changed in the DB
+     * @param userReq [body] user to be added to the changed in the DB
      * @return user to String
      * 201 - Created
      * 400 - Bad Request
@@ -79,9 +80,9 @@ public class UserController {
      * What ? token is probably invalid
      */
     @PutMapping
-    public ResponseEntity<String> changeUser(@RequestBody User user) {
-        userService.changeUser(user);
-        return new ResponseEntity<>(user.toString(),HttpStatus.CREATED);
+    public ResponseEntity<String> changeUser(@RequestBody UserReq userReq) {
+        User savedUser = userService.changeUser(userReq, (Sender)httpRequest.getAttribute(Sender.getAttributeName()));
+        return new ResponseEntity<>(savedUser.toString(),HttpStatus.CREATED);
     }
 
     /**

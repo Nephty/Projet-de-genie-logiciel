@@ -12,6 +12,12 @@ public interface TransactionLogRepo extends JpaRepository<TransactionLog, Intege
 
     ArrayList<TransactionLog> findAllBySubAccount(SubAccount subAccount);
 
+    @Query(value = "SELECT s FROM TransactionLog s " +
+            "WHERE s.subAccount = ?1 " +
+            "OR s.transactionId in " +
+            "(select d.transactionId from TransactionLog d WHERE not d.subAccount = ?1 and d.direction = 0)")
+    ArrayList<TransactionLog> findAllLinkedToSubAccount(SubAccount subAccount);
+
     /*
     @Query("SELECT t FROM TransactionLog t   WHERE ")
     Optional<TransactionLog> findTransactionLogByIban(String iban);

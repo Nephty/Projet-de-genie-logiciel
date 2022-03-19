@@ -1,14 +1,18 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.exception.throwables.UserAlreadyExist;
 import com.example.demo.model.Bank;
 import com.example.demo.model.User;
+import com.example.demo.other.Sender;
 import com.example.demo.repository.BankRepo;
 import com.example.demo.repository.UserRepo;
+import com.example.demo.request.UserReq;
 import com.example.demo.security.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +25,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j
@@ -40,7 +45,7 @@ public class UserService implements UserDetailsService {
 
     public User getUserByUsername(String username) {
         return uRepo.findByUsername(username)
-                .orElseThrow(()-> new ResourceNotFound(username));
+                .orElseThrow(()-> new ResourceNotFound("No user with this username: "+ username));
     }
 
 
@@ -49,34 +54,62 @@ public class UserService implements UserDetailsService {
         return uRepo.findAll();
     }
 
-    public void addUser(User user) {
-        System.out.println(user.getPassword());
+    public User addUser(UserReq userReq) {
+        alreadyExists(userReq).ifPresent(userAlreadyExist -> {
+            throw userAlreadyExist;
+        });
+        User user = instantiateUser(null, userReq, HttpMethod.POST);
+        log.info(user.toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (uRepo.existsById(user.getUserID())){
-            log.warn("User "+user.getUserID()+" already exists");
-            throw new UserAlreadyExist(UserAlreadyExist.Reason.ID);
-        }
-        if (uRepo.existsByUsername(user.getUsername())){
-            log.warn("Username "+user.getUsername()+" already exists");
-            throw new UserAlreadyExist(UserAlreadyExist.Reason.USERNAME);
-        }
-        if (uRepo.existsByEmail(user.getEmail())){
-            log.warn("Email "+user.getEmail()+" already exists");
-            throw new UserAlreadyExist(UserAlreadyExist.Reason.EMAIL);
-        }
-        uRepo.save(user);
+        return uRepo.save(user);
     }
 
-    public void changeUser(User user) {
-        log.info("Changing user to {}", user.toString());
+    public User changeUser(UserReq userReq, Sender sender) {
+        //alreadyExists(userReq).orElseThrow(()-> new ResourceNotFound(userReq.toString()));
+        User user = instantiateUser(sender, userReq, HttpMethod.PUT);
+        log.info("Changing user to {}", user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        uRepo.save(user);
+        return uRepo.save(user);
     }
 
     public void deleteUser(String id) {
         log.info("Deleting user with id of {}", id);
         uRepo.deleteById(id);
     }
+
+    private Optional<UserAlreadyExist> alreadyExists(UserReq userReq) {
+        if (uRepo.existsById(userReq.getUserId())){
+            log.warn("User "+userReq.getUserId()+" already exists");
+            return Optional.of(new UserAlreadyExist(UserAlreadyExist.Reason.ID));
+        }
+        if (uRepo.existsByUsername(userReq.getUsername())){
+            log.warn("Username "+userReq.getUsername()+" already exists");
+            return Optional.of(new UserAlreadyExist(UserAlreadyExist.Reason.USERNAME));
+        }
+        if (uRepo.existsByEmail(userReq.getEmail())){
+            log.warn("Email "+userReq.getEmail()+" already exists");
+            return Optional.of(new UserAlreadyExist(UserAlreadyExist.Reason.EMAIL));
+        }
+        return Optional.empty();
+    }
+
+    private User instantiateUser(Sender sender, UserReq userReq, HttpMethod method) {
+        switch (method) {
+            case POST:
+                return new User(userReq);
+            case PUT:
+                User user = uRepo.findById(sender.getId())
+                        .orElseThrow(()-> new ResourceNotFound(sender.getId()));
+                user.change(userReq);
+                return user;
+            default:
+                log.error("Invalid method {}", method);
+                throw new LittleBoyException();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------//
+    //LOGIN PART
 
     @Override
     public UserDetails loadUserByUsername(String usernameAndRole) throws UsernameNotFoundException {

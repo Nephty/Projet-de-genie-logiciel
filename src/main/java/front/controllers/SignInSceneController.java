@@ -72,16 +72,16 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             e.printStackTrace();
         }
 
-
-        // TODO : Remettre (response.getStatus() == 200)
-        if (true) {
+        // TODO : Retirer quand ce sera réparé
+        if ((response.getStatus() == 200)) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
-//            String body = response.getBody(); // TODO : retirer commentaires
-//            JSONObject obj = new JSONObject(body);
+            String body = response.getBody();
+            JSONObject obj = new JSONObject(body);
 //            Main.setToken(obj.getString("access_token"));
 //            Main.setRefreshToken(obj.getString("refresh_token"));
             try {
-                Main.setBank(new Bank(usernameField.getText())); // TODO : Optimiser
+//                Main.setBank(new Bank(usernameField.getText())); // TODO : Optimiser
+                Main.setBank(new Bank("ABCD"));
             } catch (UnirestException e) {
                 e.printStackTrace();
             }

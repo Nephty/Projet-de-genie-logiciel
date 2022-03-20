@@ -2,10 +2,14 @@ package front.controllers;
 
 import app.Main;
 import back.user.AccountType;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -43,22 +47,22 @@ public class CreateClientAccountSceneController extends Controller implements Ba
         if (IBAN == null) return false;
         if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 16))
             return false;  // IBAN.length() == 16 already checks IBAN != ""
-        for (int i = 0; i < IBAN.length(); i++) {
-            switch (i) {
-                case 0:
-                case 1:
-                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
-                    break;
-                default:
-                    if (!Character.isDigit(IBAN.charAt(i))) return false;
-            }
-        }
+        // TODO : Retirer commentaires
+//        for (int i = 0; i < IBAN.length(); i++) {
+//            switch (i) {
+//                case 0:
+//                case 1:
+//                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
+//                    break;
+//                default:
+//                    if (!Character.isDigit(IBAN.charAt(i))) return false;
+//            }
+//        }
         return true;
     }
 
     public void initialize() {
-//        accountTypeComboBox.setItems(FXCollections.observableArrayList(AccountType.TYPE_A, AccountType.TYPE_B));
-        // TODO : back-end : put all AccountTypes in the combo box
+        accountTypeComboBox.setItems(FXCollections.observableArrayList(AccountType.COURANT, AccountType.EPARGNE, AccountType.TERME, AccountType.JEUNE));
     }
 
     @FXML
@@ -108,8 +112,52 @@ public class CreateClientAccountSceneController extends Controller implements Ba
         if (noValueSelectedLabel.isVisible() && accountTypeComboBox.getValue() != null)
             noValueSelectedLabel.setVisible(false);
 
+        AccountType accountType = accountTypeComboBox.getValue();
+        int repType = 0;
+        switch (accountType) {
+            case COURANT:
+                repType = 1;
+                break;
+            case JEUNE:
+                repType = 2;
+                break;
+            case EPARGNE:
+                repType = 3;
+                break;
+            case TERME:
+                repType = 4;
+                break;
+        }
+
         if (!invalidIBANLabel.isVisible() && !isIBANTaken(IBAN) && !noValueSelectedLabel.isVisible()) {
-            // TODO : back-end : create account
+            // Creates account
+            String swift = Main.getBank().getSwiftCode();
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            try {
+                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
+                        .header("Authorization", "Bearer "+Main.getToken())
+                        .header("Content-Type", "application/json")
+                        .body("{\r\n    \"iban\": \""+IBAN+"\",\r\n    \"swift\": \""+swift+"\",\r\n    \"userId\": \""+Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber()+"\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": "+repType+"\r\n}")
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+
+            // Create account access
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response2 = null;
+            try {
+                response2 = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
+                        .header("Authorization", "Bearer "+Main.getToken())
+                        .header("Content-Type", "application/json")
+                        .body("{\r\n    \"accountId\": \""+IBAN+"\",\r\n    \"userId\": \""+Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber()+"\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+
+
             int fadeInDuration = 1000;
             int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;

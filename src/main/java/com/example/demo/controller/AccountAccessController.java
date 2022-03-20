@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 
 import com.example.demo.model.AccountAccess;
+import com.example.demo.model.User;
 import com.example.demo.request.AccountAccessReq;
 import com.example.demo.service.AccountAccessService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +49,19 @@ public class AccountAccessController {
     public ResponseEntity<AccountAccess> sendAccountAccess(@PathVariable String userId, @PathVariable String accountId){
         return new ResponseEntity<>(
                 accountAccessService.findAccountAccess(accountId, userId),
+                HttpStatus.OK
+        );
+    }
+
+    /**
+     * @param swift id of the bank
+     * @return An array with all the of customers of the bank
+     * Who ? no one besides a bank for all it's user
+     */
+    @GetMapping
+    public ResponseEntity<List<User>> sendAllCustomers(@RequestParam String swift){
+        return new ResponseEntity<>(
+                accountAccessService.getAllCustomers(swift),
                 HttpStatus.OK
         );
     }

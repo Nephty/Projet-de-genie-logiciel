@@ -23,17 +23,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 public class TransactionLog {
 
     @Id
-    /*
-    @SequenceGenerator(
-            name = "transaction_log_transaction_id_seq",
-            sequenceName = "transaction_log_transaction_id_seq",
-            allocationSize = 1 // How much will the sequence increase from
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "transaction_log_transaction_id_seq"
-    )
-    */
     @Column(
             name="transaction_id",
             updatable = false
@@ -57,7 +46,7 @@ public class TransactionLog {
     @Column(name="transaction_date")
     private Date transaction_date;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "iban", referencedColumnName = "iban"),
             @JoinColumn(name = "currency_id", referencedColumnName = "currency_type_id")

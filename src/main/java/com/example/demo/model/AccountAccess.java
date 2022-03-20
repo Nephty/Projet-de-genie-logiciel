@@ -5,6 +5,7 @@ import com.example.demo.request.AccountAccessReq;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @Table(name="account_access")
 public class AccountAccess {
     @Id
-@ManyToOne(cascade = CascadeType.ALL)
+@ManyToOne
     @JoinColumn(
             name="account_id",
             referencedColumnName = "iban",
@@ -25,7 +26,7 @@ public class AccountAccess {
     private Account accountId;
 
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(
             name="user_id",
             referencedColumnName = "nrn",

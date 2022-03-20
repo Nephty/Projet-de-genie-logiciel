@@ -41,7 +41,7 @@ public class Bank {
     @Column(nullable = false)
     private String country;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(
             name="default_currency_type",
             referencedColumnName = "currency_type_id",

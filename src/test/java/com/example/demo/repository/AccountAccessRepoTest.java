@@ -94,7 +94,7 @@ class AccountAccessRepoTest {
     }
 
     @Test
-    void getAllByUserId() {
+    void canGetAllByUserId() {
         //given
 
         AccountAccess testedWithTestId = new AccountAccess(
@@ -121,7 +121,29 @@ class AccountAccessRepoTest {
     }
 
     @Test
-    void deleteAccountAccessByAccountIdAndUserId() {
+    void canGetAllCustomersInBank(){
+        //Given
+        String swift = "testSwift";
+
+        AccountAccess testedWithTestId = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testedWithTestId);
+
+        //When
+        List<User> result = underTest.getAllCustomersInBank(swift);
+
+        //then
+        // -- Should only return the user that has access to an account of the bank "testSwift"
+        assertEquals(1,result.size());
+        assertEquals("testId",result.get(0).getUserID());
+    }
+
+    @Test
+    void canDeleteAccountAccessByAccountIdAndUserId() {
 
         AccountAccess testedWithTestId = new AccountAccess(
                 accountRepo.getById("testIban"),

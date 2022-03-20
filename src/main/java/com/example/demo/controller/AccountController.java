@@ -24,7 +24,7 @@ public class AccountController {
      * 404 - Not Found
      */
     @GetMapping(value = "{iban}")
-    public ResponseEntity<Account> sendAccount(@PathVariable String iban) {
+    public ResponseEntity<AccountReq> sendAccount(@PathVariable String iban) {
         return new ResponseEntity<>(accountService.getAccount(iban), HttpStatus.OK);
     }
 
@@ -40,8 +40,8 @@ public class AccountController {
     @PostMapping
     public ResponseEntity<String> createAccount(@RequestBody AccountReq accountReq){
         log.info("incoming account: {}", accountReq.toString());
-        accountService.addAccount(accountReq);
-        return new ResponseEntity<>(accountReq.toString(), HttpStatus.CREATED);
+        Account savedAccount = accountService.addAccount(accountReq);
+        return new ResponseEntity<>(savedAccount.toString(), HttpStatus.CREATED);
     }
 
     /**
@@ -56,10 +56,9 @@ public class AccountController {
     @PutMapping
     public ResponseEntity<String> changeAccount(@RequestBody AccountReq accountReq){
         log.info("incoming account: {}", accountReq.toString());
-        accountService.changeAccount(accountReq);
-        return new ResponseEntity<>(accountReq.toString(), HttpStatus.CREATED);
+        Account savedAccount = accountService.changeAccount(accountReq);
+        return new ResponseEntity<>(savedAccount.toString(), HttpStatus.CREATED);
     }
-
 
     /**
      * @param iban [path] iban of the account to be deleted

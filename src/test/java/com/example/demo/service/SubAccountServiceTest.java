@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.Account;
-import com.example.demo.model.Bank;
 import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.model.CurrencyType;
 import com.example.demo.model.SubAccount;
@@ -12,7 +11,6 @@ import com.example.demo.repository.CurrencyTypeRepo;
 import com.example.demo.repository.SubAccountRepo;
 import com.example.demo.request.SubAccountReq;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -21,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,11 +52,11 @@ class SubAccountServiceTest {
                 .thenReturn(expectedValue);
 
         //When
-        SubAccount returnedValue = underTest.getSubAccount(iban,currency);
+        SubAccountReq returnedValue = underTest.getSubAccount(iban,currency);
 
         //Then
         verify(subAccountRepo).findById(new SubAccountPK(iban,currency));
-        assertEquals(expectedValue.get(), returnedValue);
+        assertEquals(expectedValue.get().getIban().getIban(), returnedValue.getIban());
     }
 
     @Test
@@ -94,7 +91,8 @@ class SubAccountServiceTest {
         SubAccountReq subAccountReq = new SubAccountReq(
                 "iban",
                 0,
-                200.0
+                200.0,
+                "EUR"
         );
 
             // -- Account --
@@ -131,7 +129,8 @@ class SubAccountServiceTest {
         SubAccountReq subAccountReq = new SubAccountReq(
                 "iban",
                 0,
-                200.0
+                200.0,
+                "EUR"
         );
 
         //then
@@ -147,7 +146,8 @@ class SubAccountServiceTest {
         SubAccountReq subAccountReq = new SubAccountReq(
                 "iban",
                 0,
-                200.0
+                200.0,
+                "EUR"
         );
 
             // -- Account --
@@ -170,7 +170,8 @@ class SubAccountServiceTest {
         SubAccountReq subAccountReq = new SubAccountReq(
                 "iban",
                 0,
-                200.0
+                200.0,
+                "EUR"
         );
 
         // -- Account --
@@ -207,7 +208,8 @@ class SubAccountServiceTest {
         SubAccountReq subAccountReq = new SubAccountReq(
                 "iban",
                 0,
-                200.0
+                200.0,
+                "EUR"
         );
 
         //then
@@ -223,7 +225,8 @@ class SubAccountServiceTest {
         SubAccountReq subAccountReq = new SubAccountReq(
                 "iban",
                 0,
-                200.0
+                200.0,
+                "EUR"
         );
 
         // -- Account --

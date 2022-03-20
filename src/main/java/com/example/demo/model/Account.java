@@ -50,7 +50,16 @@ public class Account {
     }
 
     public Account(AccountReq accountReq) {
-        iban = accountReq.getIban();
-        payment = accountReq.getPayment();
+        this.iban = accountReq.getIban();
+        this.payment = accountReq.getPayment();
+    }
+
+    public void change(AccountReq accountReq) {
+        if(accountReq.getIban() != null) {
+            iban = accountReq.getIban();
+        }
+        if(accountReq.getPayment() != null) {
+            payment = accountReq.getPayment();
+        }
     }
 }

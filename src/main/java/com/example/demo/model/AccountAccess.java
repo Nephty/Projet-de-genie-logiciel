@@ -43,4 +43,13 @@ public class AccountAccess {
         access = accountAccessReq.getAccess();
         hidden = accountAccessReq.getHidden();
     }
+
+    public void change(AccountAccessReq accountAccessReq) {
+        if(accountAccessReq.getAccess() != null) {
+            access = accountAccessReq.getAccess();
+        }
+        if(accountAccessReq.getHidden() != null) {
+            access = accountAccessReq.getHidden();
+        }
+    }
 }

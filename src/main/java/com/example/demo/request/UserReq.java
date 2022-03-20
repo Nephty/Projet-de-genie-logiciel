@@ -21,7 +21,4 @@ public class UserReq {
 
     private String language;
 
-    public boolean isInvalid() {
-        return false;
-    }
 }

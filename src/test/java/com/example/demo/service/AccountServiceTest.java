@@ -51,11 +51,11 @@ class AccountServiceTest {
                 .thenReturn(Optional.of(expectedValue));
 
         //When
-        Account returnedValue = underTest.getAccount(iban);
+        AccountReq returnedValue = underTest.getAccount(iban);
 
         //Then
         verify(accountRepo).findById(iban);
-        assertThat(returnedValue).isEqualTo(expectedValue);
+        assertThat(returnedValue).isEqualTo(new AccountReq(expectedValue));
     }
 
     @Test

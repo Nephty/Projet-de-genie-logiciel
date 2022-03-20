@@ -4,7 +4,6 @@ import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.Account;
 import com.example.demo.model.AccountAccess;
-import com.example.demo.model.AccountType;
 import com.example.demo.model.CompositePK.AccountAccessPK;
 import com.example.demo.model.User;
 import com.example.demo.repository.AccountAccessRepo;
@@ -12,14 +11,12 @@ import com.example.demo.repository.AccountRepo;
 import com.example.demo.repository.UserRepo;
 import com.example.demo.request.AccountAccessReq;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Method;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;

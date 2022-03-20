@@ -63,4 +63,11 @@ public class TransactionLog {
         transaction_date = new Date(System.currentTimeMillis());
         transactionAmount = transactionReq.getTransactionAmount();
     }
+
+    public String toSimpleString() {
+        return "Transaction(" +
+                transactionId + ",\n" +
+                direction + ",\n" +
+                subAccount.getIban().getIban() + ")";
+    }
 }

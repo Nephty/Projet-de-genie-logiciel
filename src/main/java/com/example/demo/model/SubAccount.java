@@ -54,4 +54,17 @@ public class SubAccount {
             currentBalance = 0.0;
         }
     }
+
+    public static SubAccount createDefault(Account account) {
+        SubAccount defaultSubAccount = new SubAccount();
+        defaultSubAccount.setSubAccountPK(
+                new SubAccountPK(
+                        account.getIban(),
+                        account.getSwift().getDefaultCurrencyType().getCurrencyId())
+        );
+        defaultSubAccount.setCurrentBalance(0.0);
+        defaultSubAccount.setIban(account);
+        defaultSubAccount.setCurrencyType(account.getSwift().getDefaultCurrencyType());
+        return defaultSubAccount;
+    }
 }

@@ -35,7 +35,7 @@ public class AccountController {
      * 400 - Bad Request
      * 409 - Bad FK
      * Who ? bank
-     * What ? create one sub account
+     * What ? create default sub account
      */
     @PostMapping
     public ResponseEntity<String> createAccount(@RequestBody AccountReq accountReq){

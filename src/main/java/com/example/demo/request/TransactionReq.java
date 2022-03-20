@@ -2,6 +2,8 @@ package com.example.demo.request;
 
 import lombok.Data;
 
+import java.sql.Date;
+
 @Data
 public class TransactionReq {
 
@@ -14,4 +16,16 @@ public class TransactionReq {
     private Integer currencyId;
 
     private Double transactionAmount;
+
+    //Only for response
+
+    private String senderName;
+
+    private String recipientName;
+
+    private Date transactionDate;
+
+    private String currencyName;
+
+    private Integer transactionId;
 }

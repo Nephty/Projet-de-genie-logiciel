@@ -40,7 +40,7 @@ public class SubAccount {
         String body2 = response2.getBody();
         body2 = body2.substring(1,body2.length() -1);
         this.transactionHistory = new ArrayList<Transaction>();
-        // TODO : Gérer les erreurs (solde insufisant)
+
         if(!body2.equals("")){
             ArrayList<String> parsed = Portfolio.JSONArrayParser(body2);
             for(int i = 0; i<parsed.size();i++){

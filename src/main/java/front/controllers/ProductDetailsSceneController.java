@@ -117,7 +117,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch accounts and put them in the listview
-            // TODO : back-end : fetch accounts from the database and put them in the listview
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
             Wallet currentWallet = Main.getCurrentWallet();
             if (currentWallet == null) {

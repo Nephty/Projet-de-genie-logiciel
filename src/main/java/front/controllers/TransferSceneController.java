@@ -1,6 +1,9 @@
 package front.controllers;
 
 import app.Main;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
@@ -84,16 +87,17 @@ public class TransferSceneController extends Controller implements BackButtonNav
         if (IBAN == null) return false;
         if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 16))
             return false;  // IBAN.length() == 16 already checks IBAN != ""
-        for (int i = 0; i < IBAN.length(); i++) {
-            switch (i) {
-                case 0:
-                case 1:
-                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
-                    break;
-                default:
-                    if (!Character.isDigit(IBAN.charAt(i))) return false;
-            }
-        }
+        // TODO : Retirer les commentaires
+//        for (int i = 0; i < IBAN.length(); i++) {
+//            switch (i) {
+//                case 0:
+//                case 1:
+//                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
+//                    break;
+//                default:
+//                    if (!Character.isDigit(IBAN.charAt(i))) return false;
+//            }
+//        }
         return true;
     }
 
@@ -199,8 +203,23 @@ public class TransferSceneController extends Controller implements BackButtonNav
         if (!isValidDate(date) && !invalidDateLabel.isVisible()) invalidDateLabel.setVisible(true);
         else if (isValidDate(date) && invalidDateLabel.isVisible()) invalidDateLabel.setVisible(false);
 
+        String recipientActual = Main.getCurrentAccount().getIBAN();
+
         if (noLabelVisible()) {
-            Main.setScene(Flow.forward(Scenes.EnterPINScene));
+            // TODO : Gérer les erreurs (solde insufisant)
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            try {
+                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/transaction")
+                        .header("Authorization", "Bearer "+Main.getToken())
+                        .header("Content-Type", "application/json")
+                        .body("{\r\n    \"transactionTypeId\": 1,\r\n    \"senderIban\": \""+recipientActual+"\",\r\n    \"recipientIban\": \""+IBAN+"\",\r\n    \"currencyId\": 0,\r\n    \"transactionAmount\": "+amount+"\r\n}")
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+
+            Main.setScene(Flow.forward(Scenes.MainScreenScene));
             clearAllTextFields();
         }
     }

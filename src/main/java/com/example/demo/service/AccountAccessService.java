@@ -51,6 +51,10 @@ public class AccountAccessService {
         return accountAccessRepo.getAllByUserId(userID);
     }
 
+    public List<User> getAllCustomers(String swift){
+        return accountAccessRepo.getAllCustomersInBank(swift);
+    }
+
     private AccountAccess instantiateAccountAccess(AccountAccessReq accountAccessReq) {
         AccountAccess accountAccess = new AccountAccess(accountAccessReq);
         Account account = accountRepo.findById(accountAccessReq.getAccountId())

@@ -50,7 +50,7 @@ public class Notification {
     @Column
     private String status;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(
             name="user_id",
             referencedColumnName = "nrn",
@@ -58,7 +58,7 @@ public class Notification {
     )
     private User userId;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(
             name="swift",
             referencedColumnName = "swift",

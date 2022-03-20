@@ -20,7 +20,7 @@ public class SubAccount {
     private SubAccountPK subAccountPK;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @MapsId("iban")
     @JoinColumn(
             name="iban",
@@ -29,7 +29,7 @@ public class SubAccount {
     private Account iban;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @MapsId("currencyTypeId")
     @JoinColumn(
             name="currency_type_id",
@@ -45,6 +45,14 @@ public class SubAccount {
 
     public SubAccount(SubAccountPK subAccountPK) {
         this.subAccountPK = subAccountPK;
+    }
+
+    public SubAccount(Account iban, CurrencyType currencyType, Double currentBalance) {
+        this.iban = iban;
+        this.currencyType = currencyType;
+        this.currentBalance = currentBalance;
+
+        this.subAccountPK = new SubAccountPK(iban.getIban(),currencyType.getCurrencyId());
     }
 
     public SubAccount(SubAccountReq subAccountReq) {

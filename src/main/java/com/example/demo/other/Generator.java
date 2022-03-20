@@ -14,7 +14,7 @@ public class Generator {
         return sb.toString();
     }
     //ugly find a better solution
-    public static Integer randomTransactionId() {
+    public static Integer nextTransactionId() {
         String numbers = "0123456789";
         String numbersNonNull = "123456789";
         Random rnd = new Random();

@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Account;
 import com.example.demo.model.AccountAccess;
+import com.example.demo.model.Bank;
 import com.example.demo.model.CompositePK.AccountAccessPK;
 import com.example.demo.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,6 +24,9 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
 
 
     boolean existsByUserIdAndAccountId(User user,Account account);
+
+    @Query("SELECT s.userId FROM AccountAccess s WHERE s.accountId.swift.swift = ?1")
+    List<User> getAllCustomersInBank(String swift);
 
     @Modifying
     @Query("DELETE FROM AccountAccess a WHERE a.accountId.iban = ?1 AND a.userId.userID = ?2")

@@ -1,5 +1,8 @@
 package back.user;
 
+import app.Main;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.util.ArrayList;
@@ -64,17 +67,27 @@ public class Account {
     /**
      * Toggles the account on.
      */
-    public void toggleOn() {
-        // TODO : back-end : toggle product on in database
-        activated = true;
+    public void toggleOn() throws UnirestException {
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
+                .header("Authorization", "Bearer "+ Main.getToken())
+                .header("Content-Type", "application/json")
+                .body("{\r\n    \"accountId\": \""+this.IBAN+"\",\r\n    \"userId\": \""+this.accountCoOwner+"\",\r\n    \"access\": true,\r\n    \"hidden\": "+this.archived+"\r\n}")
+                .asString();
+        this.activated = true;
     }
 
     /**
      * Toggles the account off.
      */
-    public void toggleOff() {
-        // TODO : back-end : toggle product off in database
-        activated = false;
+    public void toggleOff() throws UnirestException {
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
+                .header("Authorization", "Bearer "+ Main.getToken())
+                .header("Content-Type", "application/json")
+                .body("{\r\n    \"accountId\": \""+this.IBAN+"\",\r\n    \"userId\": \""+this.accountCoOwner+"\",\r\n    \"access\": false,\r\n    \"hidden\": "+this.archived+"\r\n}")
+                .asString();
+        this.activated = false;
     }
 
 

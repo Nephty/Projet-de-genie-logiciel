@@ -1,7 +1,7 @@
 package back.user;
 
 public class Transaction {
-    private final long ID;
+//    private final long ID;
     private String senderName;
     private String senderIBAN;
     private String receiverName;
@@ -11,8 +11,8 @@ public class Transaction {
     private String sendingDate;
     private Currencies currency;
 
-    public Transaction(long ID) {
-        this.ID = ID;
+    public Transaction() {
+//        this.ID = ID;
         // TODO : Donne une valeur a toutes les variables via l'API grâce à l'ID
     }
 
@@ -44,9 +44,9 @@ public class Transaction {
         return this.sendingDate;
     }
 
-    public long getID() {
-        return this.ID;
-    }
+//    public long getID() {
+////        return this.ID;
+//    }
 
     public Currencies getCurrency() {
         return this.currency;

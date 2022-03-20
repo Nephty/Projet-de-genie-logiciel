@@ -73,8 +73,6 @@ public class ChangePasswordSceneController extends Controller implements BackBut
 
     @FXML
     public void handleChangePasswordButtonClicked(MouseEvent event) {
-        // TODO : back-end : Chercher le mot de passe actuel sur l'api
-
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {
@@ -110,7 +108,6 @@ public class ChangePasswordSceneController extends Controller implements BackBut
 
         // If no label is visible, then the inputs are correct
         if (!incorrectCurrentPasswordLabel.isVisible() && !passwordDoesNotMatchLabel.isVisible()) {
-            // TODO : back-end : change the password in the database
 
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response2 = null;

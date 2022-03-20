@@ -33,6 +33,7 @@ dependencies {
     // Unirest for http request
     implementation 'com.mashape.unirest:unirest-java:1.4.9'
 
+    // For password change
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
 }

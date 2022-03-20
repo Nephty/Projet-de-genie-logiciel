@@ -3,6 +3,7 @@ package front.controllers;
 import app.Main;
 import back.user.Account;
 import back.user.Wallet;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -142,7 +143,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch accounts and put them in the listview
-            // TODO : back-end : fetch accounts from the database and put them in the listview
+
             Main.updatePortfolio();
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
             String currentWallet = Main.getCurrentWallet().getBank().getSwiftCode();
@@ -172,14 +173,23 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 sleepAndFadeOutProductToggledOffLabelFadeThread = new FadeOutThread();
                 sleepAndFadeOutProductToggledOffLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, toggledOffProductLabel);
 
-                account.toggleOff();
+                try {
+                    account.toggleOff();
+                } catch (UnirestException e) {
+                    e.printStackTrace();
+                }
+
             } else {
                 FadeOutThread sleepAndFadeOutProductToggledOnLabelFadeThread;
                 FadeInTransition.playFromStartOn(toggledOnProductLabel, Duration.millis(fadeInDuration));
                 sleepAndFadeOutProductToggledOnLabelFadeThread = new FadeOutThread();
                 sleepAndFadeOutProductToggledOnLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, toggledOnProductLabel);
 
-                account.toggleOn();
+                try {
+                    account.toggleOn();
+                } catch (UnirestException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

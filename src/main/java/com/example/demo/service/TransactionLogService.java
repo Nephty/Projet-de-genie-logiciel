@@ -33,9 +33,7 @@ public class TransactionLogService {
     public ArrayList<TransactionLog> addTransaction(TransactionReq transactionReq) {
         ArrayList<TransactionLog> transactions = instantiateTransaction(transactionReq);
         ArrayList<TransactionLog> saved = new ArrayList<>();
-        transactions.forEach(transaction -> {
-            saved.add(transactionLogRepo.save(transaction));
-        });
+        transactions.forEach(transaction -> saved.add(transactionLogRepo.save(transaction)));
         return saved;
     }
 
@@ -124,9 +122,9 @@ public class TransactionLogService {
         transactionReceived.setTransactionTypeId(transactionType);
         transactionReceived.setDirection(0);
 
-        Integer rdmId = Generator.randomTransactionId();
-        transactionSent.setTransactionId(rdmId);
-        transactionReceived.setTransactionId(rdmId);
+        Integer nextId = nextId();
+        transactionSent.setTransactionId(nextId);
+        transactionReceived.setTransactionId(nextId);
 
         ArrayList<TransactionLog> transactionLogs = new ArrayList<>();
         transactionLogs.add(transactionSent);
@@ -139,5 +137,9 @@ public class TransactionLogService {
                 subAccountReceiver.getCurrentBalance() + transactionReq.getTransactionAmount()
         );
         return transactionLogs;
+    }
+
+    private int nextId(){
+        return transactionLogRepo.findMaximumId()+1;
     }
 }

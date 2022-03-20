@@ -266,10 +266,13 @@ class BankServiceTest {
     void getBank() {
         //Given
         String swift = "swift";
+        Optional<Bank> bank = Optional.of(new Bank());
+        when(bankRepo.findById(swift)).thenReturn(bank);
+
         //when
         underTest.getBank(swift);
         //then
-        verify(bankRepo).getById(swift);
+        verify(bankRepo).findById(swift);
     }
 
     @Test

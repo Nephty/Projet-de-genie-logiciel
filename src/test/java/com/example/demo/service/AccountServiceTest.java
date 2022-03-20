@@ -3,11 +3,9 @@ package com.example.demo.service;
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.*;
-import com.example.demo.repository.AccountRepo;
-import com.example.demo.repository.AccountTypeRepo;
-import com.example.demo.repository.BankRepo;
-import com.example.demo.repository.UserRepo;
+import com.example.demo.repository.*;
 import com.example.demo.request.AccountReq;
+import com.example.demo.request.SubAccountReq;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,28 +31,51 @@ class AccountServiceTest {
     private BankRepo bankRepo;
     @Mock
     private AccountTypeRepo accountTypeRepo;
+    @Mock
+    private SubAccountRepo subAccountRepo;
 
     private AccountService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new AccountService(accountRepo,bankRepo,userRepo,accountTypeRepo);
+        underTest = new AccountService(accountRepo,bankRepo,userRepo,accountTypeRepo,subAccountRepo);
     }
 
     @Test
     void getAccount() {
         //Given
-        String iban = "testIban";
-        Account expectedValue = new Account();
+        AccountReq accountReq = new AccountReq(
+                "iban",
+                "swift",
+                "userId",
+                1,
+                false
+        );
 
-        when(accountRepo.findById(iban))
+        Bank tmpBank = new Bank();
+        tmpBank.setSwift(accountReq.getSwift());
+        tmpBank.setDefaultCurrencyType(new CurrencyType(0,"EUR"));
+
+        User tmpUser = new User();
+        tmpUser.setUserID(accountReq.getUserId());
+
+        AccountType tmpType = new AccountType();
+        tmpType.setAccountTypeId(accountReq.getAccountTypeId());
+
+        Account expectedValue = new Account(accountReq);
+        expectedValue.setAccountTypeId(tmpType);
+        expectedValue.setSwift(tmpBank);
+        expectedValue.setUserId(tmpUser);
+
+
+        when(accountRepo.findById(accountReq.getIban()))
                 .thenReturn(Optional.of(expectedValue));
 
         //When
-        AccountReq returnedValue = underTest.getAccount(iban);
+        AccountReq returnedValue = underTest.getAccount(accountReq.getIban());
 
         //Then
-        verify(accountRepo).findById(iban);
+        verify(accountRepo).findById(accountReq.getIban());
         assertThat(returnedValue).isEqualTo(new AccountReq(expectedValue));
     }
 
@@ -92,6 +113,7 @@ class AccountServiceTest {
 
         Bank tmpBank = new Bank();
         tmpBank.setSwift(accountReq.getSwift());
+        tmpBank.setDefaultCurrencyType(new CurrencyType(0,"EUR"));
         Optional<Bank> bank = Optional.of(tmpBank);
         when(bankRepo.findById(accountReq.getSwift()))
                 .thenReturn(bank);
@@ -211,21 +233,20 @@ class AccountServiceTest {
 
         Bank tmpBank = new Bank();
         tmpBank.setSwift(accountReq.getSwift());
-        Optional<Bank> bank = Optional.of(tmpBank);
-        when(bankRepo.findById(accountReq.getSwift()))
-                .thenReturn(bank);
 
         User tmpUser = new User();
         tmpUser.setUserID(accountReq.getUserId());
-        Optional<User> user = Optional.of(tmpUser);
-        when(userRepo.findById(accountReq.getUserId()))
-                .thenReturn(user);
 
         AccountType tmpType = new AccountType();
         tmpType.setAccountTypeId(accountReq.getAccountTypeId());
-        Optional<AccountType> accountType = Optional.of(tmpType);
-        when(accountTypeRepo.findById(accountReq.getAccountTypeId()))
-                .thenReturn(accountType);
+
+        Account account = new Account(accountReq);
+        account.setSwift(tmpBank);
+        account.setUserId(tmpUser);
+        account.setAccountTypeId(tmpType);
+        when(accountRepo.findById(accountReq.getIban()))
+                .thenReturn(Optional.of(account));
+
 
         //When
         underTest.changeAccount(accountReq);
@@ -243,7 +264,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void changeShouldThrowWhenBankNotFound(){
+    void changeShouldThrowWhenAccountNotFound(){
         //Given
         AccountReq accountReq = new AccountReq(
                 "iban",
@@ -255,64 +276,8 @@ class AccountServiceTest {
 
         //then
         assertThatThrownBy(()->underTest.changeAccount(accountReq))
-                .isInstanceOf(ConflictException.class)
-                .hasMessageContaining(accountReq.getSwift());
-
-        verify(accountRepo,never()).save(any());
-    }
-
-    @Test
-    void changeShouldThrowWhenUserNotFound(){
-        //Given
-        AccountReq accountReq = new AccountReq(
-                "iban",
-                "swift",
-                "userId",
-                1,
-                false
-        );
-
-        Bank tmpBank = new Bank();
-        tmpBank.setSwift(accountReq.getSwift());
-        Optional<Bank> bank = Optional.of(tmpBank);
-        when(bankRepo.findById(accountReq.getSwift()))
-                .thenReturn(bank);
-
-        //then
-        assertThatThrownBy(()->underTest.changeAccount(accountReq))
-                .isInstanceOf(ConflictException.class)
-                .hasMessageContaining(accountReq.getUserId());
-
-        verify(accountRepo,never()).save(any());
-    }
-
-    @Test
-    void changeShouldThrowWhenAccountTypeNotFound(){
-        //Given
-        AccountReq accountReq = new AccountReq(
-                "iban",
-                "swift",
-                "userId",
-                1,
-                false
-        );
-
-        Bank tmpBank = new Bank();
-        tmpBank.setSwift(accountReq.getSwift());
-        Optional<Bank> bank = Optional.of(tmpBank);
-        when(bankRepo.findById(accountReq.getSwift()))
-                .thenReturn(bank);
-
-        User tmpUser = new User();
-        tmpUser.setUserID(accountReq.getUserId());
-        Optional<User> user = Optional.of(tmpUser);
-        when(userRepo.findById(accountReq.getUserId()))
-                .thenReturn(user);
-
-        //then
-        assertThatThrownBy(()->underTest.changeAccount(accountReq))
-                .isInstanceOf(ConflictException.class)
-                .hasMessageContaining(accountReq.getAccountTypeId().toString());
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining(accountReq.toString());
 
         verify(accountRepo,never()).save(any());
     }

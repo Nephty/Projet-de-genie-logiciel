@@ -47,7 +47,26 @@ class SubAccountServiceTest {
         String iban = "iban";
         Integer currency = 0;
 
-        Optional<SubAccount> expectedValue = Optional.of(new SubAccount());
+        //Given
+        SubAccountReq subAccountReq = new SubAccountReq(
+                iban,
+                0,
+                200.0,
+                "EUR"
+        );
+
+        // -- Account --
+        Account tmpAccount = new Account();
+        tmpAccount.setIban(subAccountReq.getIban());
+
+
+        // -- CurrencyType --
+        CurrencyType tmpType = new CurrencyType();
+        tmpType.setCurrencyId(subAccountReq.getCurrencyType());
+
+
+        Optional<SubAccount> expectedValue = Optional.of(
+                new SubAccount(tmpAccount,tmpType,subAccountReq.getCurrentBalance()));
         when(subAccountRepo.findById(new SubAccountPK(iban,currency)))
                 .thenReturn(expectedValue);
 

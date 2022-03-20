@@ -8,6 +8,7 @@ import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -139,7 +140,8 @@ public class ClientDetailsSceneController extends Controller implements BackButt
             sleepAndFadeOutLoadingClientDetailsLabelFadeThread = new FadeOutThread();
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // TODO : back-end : fetch clients from the database and put them in the listview
+            ArrayList<Account> accountList = Main.getCurrentWallet().getAccountList();
+            clientDetailsListView.setItems(FXCollections.observableArrayList(accountList));
             sleepAndFadeOutLoadingClientDetailsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientDetailsLabel);
         }
     }

@@ -9,6 +9,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
+import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -58,7 +59,6 @@ public class SignInSceneController extends Controller implements BackButtonNavig
      * Checks if every field is properly filled in. Initializes the sign in process.
      */
     public void signIn() {
-        // TODO : back-end : change this condition to check if the user entered correct credentials
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {
@@ -72,12 +72,14 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             e.printStackTrace();
         }
 
-        if (response.getStatus() == 200) {
+
+        // TODO : Remettre (response.getStatus() == 200)
+        if (true) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
-            String body = response.getBody();
-            JSONObject obj = new JSONObject(body);
-            Main.setToken(obj.getString("access_token"));
-            Main.setRefreshToken(obj.getString("refresh_token"));
+//            String body = response.getBody(); // TODO : retirer commentaires
+//            JSONObject obj = new JSONObject(body);
+//            Main.setToken(obj.getString("access_token"));
+//            Main.setRefreshToken(obj.getString("refresh_token"));
             try {
                 Main.setBank(new Bank(usernameField.getText())); // TODO : Optimiser
             } catch (UnirestException e) {
@@ -87,6 +89,17 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             passwordField.setText("");
             usernameField.setText("");
             Main.setScene(Flow.forward(Scenes.MainScreenScene));
+
+            Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml");
+            Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml");
+            Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml");
+            Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml");
+            Scenes.ClientsScene = SceneLoader.load("ClientsScene.fxml");
+            Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml");
+            Scenes.AddClientScene = SceneLoader.load("AddClientScene.fxml");
+            Scenes.CreateClientAccountScene = SceneLoader.load("CreateClientAccountScene.fxml");
+            Scenes.ManageDataScene = SceneLoader.load("ManageDataScene.fxml");
+            Scenes.ImportDataScene = SceneLoader.load("ImportDataScene.fxml");
 
         } else {
             if (!incorrectUsernameOrPasswordLabel.isVisible()) {

@@ -1,7 +1,9 @@
 package app;
 
+import back.user.Account;
 import back.user.Bank;
 import back.user.Profile;
+import back.user.Wallet;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
@@ -15,8 +17,10 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private static Bank bank;
     private static Stage stage;
-    private static String token;
+    private static String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXRhbiIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjQ5NjE1MTEyLCJ1c2VySWQiOiIxMjM0NTY3ODkifQ.5LP2W6CDGPCgjnbTlQZNv18u7JZtgcU4pjpu6xMooJA";
     private static String refreshToken;
+    private static Wallet currentWallet;
+    private static Account currentAccount;
 
     public static void main(String[] args) {
         launch(args);
@@ -46,6 +50,22 @@ public class Main extends Application {
         refreshToken = newToken;
     }
 
+    public static Wallet getCurrentWallet() {
+        return currentWallet;
+    }
+
+    public static void setCurrentWallet(Wallet currentWallet) {
+        Main.currentWallet = currentWallet;
+    }
+
+    public static Account getCurrentAccount() {
+        return currentAccount;
+    }
+
+    public static void setCurrentAccount(Account currentAccount) {
+        Main.currentAccount = currentAccount;
+    }
+
     @Override
     public void start(Stage stage_) {
         stage = stage_;
@@ -56,17 +76,7 @@ public class Main extends Application {
         Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml");
         Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml");
         Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml");
-        Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml");
-        Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml");
-        Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml");
-        Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml");
-        Scenes.ClientsScene = SceneLoader.load("ClientsScene.fxml");
-        Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml");
-        Scenes.AddClientScene = SceneLoader.load("AddClientScene.fxml");
-        Scenes.ClientDetailsScene = SceneLoader.load("ClientDetailsScene.fxml");
-        Scenes.CreateClientAccountScene = SceneLoader.load("CreateClientAccountScene.fxml");
-        Scenes.ManageDataScene = SceneLoader.load("ManageDataScene.fxml");
-        Scenes.ImportDataScene = SceneLoader.load("ImportDataScene.fxml");
+
 
         Flow.add(Scenes.AuthScene);
 

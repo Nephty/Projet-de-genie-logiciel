@@ -2,10 +2,13 @@ package front.controllers;
 
 import app.Main;
 import back.user.Profile;
+import back.user.Wallet;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -34,7 +37,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
 
     public void initialize() {
         fetchClients();
-        sortByComboBox.setItems(FXCollections.observableArrayList("name", "id"));
+        sortByComboBox.setItems(FXCollections.observableArrayList("user", "id"));
     }
 
     @Override
@@ -82,9 +85,13 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     @FXML
     public void handleDetailsButtonClicked(MouseEvent event) {
         if (clientsListView.getSelectionModel().getSelectedItems().size() == 1) {
+            try {
+                Main.setCurrentWallet(new Wallet(clientsListView.getSelectionModel().getSelectedItem()));
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+            Scenes.ClientDetailsScene = SceneLoader.load("ClientDetailsScene.fxml");
             Main.setScene(Flow.forward(Scenes.ClientDetailsScene));
-            // TODO : back-end : show correct profile according to selection on next scene :
-            // ClientDetailsSceneController.setCurrentProfile(PUT THE USER HERE);
         }
     }
 
@@ -121,6 +128,12 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // TODO : back-end : fetch clients from the database and put them in the listview
+            ArrayList<Profile> customerList = Profile.fetchAllCustomers(Main.getBank().getSwiftCode());
+//            ArrayList<String> listToShow = new ArrayList<String>();
+//            for(int i = 0; i<customerList.size(); i++){
+//                listToShow.add(customerList.get(i).toString());
+//            }
+            clientsListView.setItems(FXCollections.observableArrayList(customerList));
             sleepAndFadeOutLoadingClientsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientsLabel);
         }
     }

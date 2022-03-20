@@ -3,6 +3,9 @@ package front.controllers;
 import app.Main;
 import back.user.Account;
 import back.user.Profile;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -91,7 +94,18 @@ public class ClientDetailsSceneController extends Controller implements BackButt
 
     @FXML
     public void handleCloseAccountButtonClicked(MouseEvent event) {
-        // TODO : back-end : delete the account
+        // TODO : API fonctionne pas
+        if(clientDetailsListView.getSelectionModel().getSelectedItems().size() == 1){
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            try {
+                response = Unirest.delete("https://flns-spring-test.herokuapp.com/api/account/" + clientDetailsListView.getSelectionModel().getSelectedItems().get(0).getIBAN())
+                        .header("Authorization", "Bearer "+Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML

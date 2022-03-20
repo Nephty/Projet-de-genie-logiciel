@@ -79,6 +79,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
 
     @FXML
     public void handleAddClientButtonClicked(MouseEvent event) {
+        // TODO : Ajouter un client en donnat son numéro puis en switchant sur la scene créer compte pour lui créer un compte
         Main.setScene(Flow.forward(Scenes.AddClientScene));
     }
 
@@ -127,12 +128,8 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
             sleepAndFadeOutLoadingClientsLabelFadeThread = new FadeOutThread();
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // TODO : back-end : fetch clients from the database and put them in the listview
             ArrayList<Profile> customerList = Profile.fetchAllCustomers(Main.getBank().getSwiftCode());
-//            ArrayList<String> listToShow = new ArrayList<String>();
-//            for(int i = 0; i<customerList.size(); i++){
-//                listToShow.add(customerList.get(i).toString());
-//            }
+
             clientsListView.setItems(FXCollections.observableArrayList(customerList));
             sleepAndFadeOutLoadingClientsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientsLabel);
         }

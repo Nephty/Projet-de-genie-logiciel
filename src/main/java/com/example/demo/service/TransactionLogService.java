@@ -58,7 +58,7 @@ public class TransactionLogService {
                         transactionReceived.getSubAccount().getCurrencyType().getCurrency_type_name()
                 );
                 transactionReq.setRecipientName(
-                        transactionReceived.getSubAccount().getIban().getUserId().getUsername()
+                        transactionReceived.getSubAccount().getIban().getUserId().getFullName()
                 );
                 transactionReq.setTransactionDate(transactionReceived.getTransaction_date());
                 transactionReq.setTransactionId(transactionReceived.getTransactionId());
@@ -68,7 +68,7 @@ public class TransactionLogService {
                             && transactionSent.getDirection() == 1) {
                         transactionReq.setSenderIban(transactionSent.getSubAccount().getIban().getIban());
                         transactionReq.setSenderName(
-                                transactionSent.getSubAccount().getIban().getUserId().getUsername()
+                                transactionSent.getSubAccount().getIban().getUserId().getFullName()
                         );
                     }
                 });

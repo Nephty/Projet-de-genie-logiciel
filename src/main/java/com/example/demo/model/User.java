@@ -95,4 +95,8 @@ public class User {
             language = userReq.getLanguage();
         }
     }
+    @JsonIgnore
+    public String getFullName() {
+        return lastname + " " + firstname;
+    }
 }

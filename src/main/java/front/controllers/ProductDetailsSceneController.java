@@ -8,6 +8,7 @@ import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -65,9 +66,11 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     @FXML
     public void handleHistoryButtonClicked(MouseEvent event) {
         if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
-            Main.setScene(Flow.forward(Scenes.TransactionsHistoryScene));
             accountInactiveLabel.setVisible(false);
             Main.setCurrentAccount(accountsListView.getSelectionModel().getSelectedItems().get(0));
+
+            Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml");
+            Main.setScene(Flow.forward(Scenes.TransactionsHistoryScene));
         }
     }
 

@@ -1,19 +1,36 @@
 package back.user;
 
+import app.Main;
+
 public class Transaction {
-//    private final long ID;
+    private long ID;
     private String senderName;
     private String senderIBAN;
     private String receiverName;
     private String receiverIBAN;
     private double amount;
-    private String communication;
     private String sendingDate;
     private Currencies currency;
 
-    public Transaction() {
-//        this.ID = ID;
-        // TODO : Donne une valeur a toutes les variables via l'API grâce à l'ID
+    public Transaction(long ID, String senderName, String senderIBAN, String receiverName, String receiverIBAN, double amount, String sendingDate, Currencies currency){
+        this.ID = ID;
+        this.senderName = senderName;
+        this.senderIBAN = senderIBAN;
+        this.receiverName = receiverName;
+        this.receiverIBAN = receiverIBAN;
+        this.amount = amount;
+        this.sendingDate = sendingDate;
+        this.currency = currency;
+    }
+
+    @Override
+    public String toString(){
+        // If the transaction is sent by the account owner
+        if(this.senderIBAN.equals(Main.getCurrentAccount().getIBAN())){
+            return this.sendingDate+"      "+this.receiverName + "      " + this.receiverIBAN + "       -"+this.amount+"€";
+        } else{
+            return this.sendingDate+"      "+this.senderName+ "      " + this.senderIBAN + "       +"+this.amount+"€";
+        }
     }
 
     public String getSenderName() {
@@ -36,17 +53,13 @@ public class Transaction {
         return this.amount;
     }
 
-    public String getCommunication() {
-        return this.communication;
-    }
-
     public String getSendingDate() {
         return this.sendingDate;
     }
 
-//    public long getID() {
-////        return this.ID;
-//    }
+    public long getID() {
+        return this.ID;
+    }
 
     public Currencies getCurrency() {
         return this.currency;

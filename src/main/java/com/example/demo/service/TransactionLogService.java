@@ -40,9 +40,11 @@ public class TransactionLogService {
     public List<TransactionReq> getAllTransactionBySubAccount(String iban, Integer currencyId) {
         SubAccount subAccount = subAccountRepo.findById(new SubAccountPK(iban, currencyId))
                 .orElseThrow(()-> new ResourceNotFound(iban + " : " + currencyId.toString()));
-        ArrayList<TransactionLog> transactionLogs = transactionLogRepo.findAllLinkedToSubAccount(subAccount);
+        log.warn("fetching transaction for subaccount {}", subAccount);
+        ArrayList<TransactionLog> transactionLogs = transactionLogRepo.thisIsTheWay(subAccount);
+        log.warn("[FROM DB]logs length: {}", transactionLogs.size());
         ArrayList<TransactionReq> response = new ArrayList<>();
-        log.warn(transactionLogs.toString());
+        transactionLogs.forEach(transactionLog -> System.out.println(transactionLog.toSimpleString()));
 
         // mapping the ugliness from the DB to a nicer response
         transactionLogs.forEach(transactionReceived -> {
@@ -64,7 +66,8 @@ public class TransactionLogService {
                 transactionReq.setTransactionId(transactionReceived.getTransactionId());
                 //finding the matching transaction in the list to get the sender iban number
                 transactionLogs.forEach(transactionSent -> {
-                    if(Objects.equals(transactionSent.getTransactionId(), transactionReceived.getTransactionId())
+                    if((transactionSent.getTransactionId().intValue()
+                            == transactionReceived.getTransactionId().intValue())
                             && transactionSent.getDirection() == 1) {
                         transactionReq.setSenderIban(transactionSent.getSubAccount().getIban().getIban());
                         transactionReq.setSenderName(

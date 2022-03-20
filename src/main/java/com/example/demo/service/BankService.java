@@ -51,7 +51,8 @@ public class BankService {
     }
 
     public Bank getBank(String swift) {
-        return bankRepo.getById(swift);
+        return bankRepo.findById(swift)
+                .orElseThrow(()-> new ResourceNotFound(swift));
     }
 
     public Bank getByLogin(String login) {

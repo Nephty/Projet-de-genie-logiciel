@@ -122,6 +122,7 @@ public class UserService implements UserDetailsService {
                 authorities.add(new SimpleGrantedAuthority(Role.USER.getRole()));
                 //this is not an authority but the only way I found to communicate with the filter
                 authorities.add(new SimpleGrantedAuthority("id " + user.getUserID()));
+                //log.info(String.valueOf(passwordEncoder.encode("666HELL").equals(user.getPassword())));
                 return new org.springframework.security.core.userdetails.User(
                         user.getUsername(), user.getPassword(), authorities
                 );
@@ -130,7 +131,8 @@ public class UserService implements UserDetailsService {
                 authorities.add(new SimpleGrantedAuthority(Role.BANK.getRole()));
                 //this is not an authority but the only way I found to communicate with the filter
                 authorities.add(new SimpleGrantedAuthority("id "+ bank.getLogin()));
-                log.info("[BANK]{}", bank);
+                //log.info(String.valueOf(passwordEncoder.encode("azerty").equals(bank.getPassword())));
+                //log.info("[BANK]{}", bank);
                 return new org.springframework.security.core.userdetails.User(
                         bank.getSwift(), bank.getPassword(), authorities
                 );

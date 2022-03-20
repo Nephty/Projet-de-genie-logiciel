@@ -1,48 +1,50 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.exception.throwables.UnimplementedException;
 import com.example.demo.model.Notification;
+import com.example.demo.other.Sender;
 import com.example.demo.request.NotificationReq;
 import com.example.demo.service.NotificationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/notification")
-@RestController
+@RestController @Slf4j
 public class NotificationController {
 
     private final NotificationService notificationService;
 
-    /**
-     * Returns an array with all the notifications for a certain user
-     * @param userId id of the user
-     * @return notifications with matching id
-     * 200 - Ok
-     * 404 - Not found
-     * Who ? the user matching the id
-     */
-    @GetMapping(value = "/user/{userId}")
-    public ResponseEntity<List<Notification>> sendUserNotification(@PathVariable String userId) {
-       throw new UnimplementedException();
-    }
+    private final HttpServletRequest httpRequest;
 
     /**
      * Returns an array with all the notifications for a certain user
-     * @param swift id of the bank
-     * @return bank's notifications in an array
+     * @return An array of Notifications
      * 200 - OK
      * 404 - Not found
-     * Who ? the bank matching the swift
+     * Who ? the bank/user that made the request
      */
-    @GetMapping(value = "/bank/{swift}")
-    public ResponseEntity<List<Notification>> sendBankNotification(@PathVariable String swift) {
-        throw new UnimplementedException();
+    @GetMapping
+    public ResponseEntity<List<NotificationReq>> sendClientNotifications() {
+        Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
+        switch (sender.getRole()) {
+            case BANK:
+                return new ResponseEntity<>(notificationService.getBankNotification(sender.getId()), HttpStatus.OK);
+            case USER:
+                return new ResponseEntity<>(notificationService.getUserNotification(sender.getId()), HttpStatus.OK);
+            default:
+                log.error("unknown role: " + sender);
+                throw new LittleBoyException();
+        }
+
     }
 
 
@@ -57,8 +59,9 @@ public class NotificationController {
      */
     @PostMapping
     public ResponseEntity<String> addNotification(@RequestBody NotificationReq notificationReq) {
-        notificationService.addNotification(notificationReq);
-        return new ResponseEntity<>(notificationReq.toString(), HttpStatus.CREATED);
+        Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
+        Notification savedNotification = notificationService.addNotification(sender, notificationReq);
+        return new ResponseEntity<>(savedNotification.toString(), HttpStatus.CREATED);
     }
 
     /**

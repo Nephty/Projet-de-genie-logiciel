@@ -2,14 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
-import com.example.demo.model.Account;
-import com.example.demo.model.AccountType;
-import com.example.demo.model.Bank;
-import com.example.demo.model.User;
-import com.example.demo.repository.AccountRepo;
-import com.example.demo.repository.AccountTypeRepo;
-import com.example.demo.repository.BankRepo;
-import com.example.demo.repository.UserRepo;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import com.example.demo.request.AccountReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +21,8 @@ public class AccountService {
 
     private final AccountTypeRepo accountTypeRepo;
 
+    private final SubAccountRepo subAccountRepo;
+
     public Account getAccount(String iban) {
         return accountRepo.findById(iban)
                 .orElseThrow(
@@ -40,7 +36,9 @@ public class AccountService {
 
     public void addAccount(AccountReq accountReq) {
         Account account = instantiateAccount(accountReq);
+        SubAccount defaultSubAccount = SubAccount.createDefault(account);
         accountRepo.save(account);
+        subAccountRepo.save(defaultSubAccount);
     }
 
     public void changeAccount(AccountReq accountReq) {

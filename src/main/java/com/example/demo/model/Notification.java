@@ -9,13 +9,11 @@ import java.sql.Date;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
-@Getter
-@EqualsAndHashCode
+
+
 @Embeddable
-@Setter
-@ToString
-@AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
 @Table(name = "notification")
 public class Notification {
@@ -70,9 +68,8 @@ public class Notification {
     private Boolean toBank = false;
 
     public Notification(NotificationReq notificationReq) {
-        notificationId = notificationReq.getNotificationId();
         comments = notificationReq.getComments();
-        date = notificationReq.getDate();
+        date = new Date(System.currentTimeMillis());
         status = notificationReq.getStatus();
     }
 

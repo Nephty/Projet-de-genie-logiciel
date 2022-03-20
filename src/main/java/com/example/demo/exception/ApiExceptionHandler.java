@@ -1,12 +1,13 @@
 package com.example.demo.exception;
 
 import com.example.demo.exception.throwables.ApiRequestException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 
-@ControllerAdvice
+@ControllerAdvice @Slf4j
 public class ApiExceptionHandler {
     /**
      * This method is called whenever an ApiRequestException is raised

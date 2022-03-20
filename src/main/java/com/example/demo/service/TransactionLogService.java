@@ -54,11 +54,22 @@ public class TransactionLogService {
                 transactionReq.setTransactionAmount(transactionReceived.getTransactionAmount());
                 transactionReq.setTransactionTypeId(transactionReceived.getTransactionTypeId().getTransactionTypeId());
                 transactionReq.setCurrencyId(transactionReceived.getSubAccount().getCurrencyType().getCurrencyId());
+                transactionReq.setCurrencyName(
+                        transactionReceived.getSubAccount().getCurrencyType().getCurrency_type_name()
+                );
+                transactionReq.setRecipientName(
+                        transactionReceived.getSubAccount().getIban().getUserId().getFullName()
+                );
+                transactionReq.setTransactionDate(transactionReceived.getTransaction_date());
+                transactionReq.setTransactionId(transactionReceived.getTransactionId());
                 //finding the matching transaction in the list to get the sender iban number
                 transactionLogs.forEach(transactionSent -> {
                     if(Objects.equals(transactionSent.getTransactionId(), transactionReceived.getTransactionId())
                             && transactionSent.getDirection() == 1) {
                         transactionReq.setSenderIban(transactionSent.getSubAccount().getIban().getIban());
+                        transactionReq.setSenderName(
+                                transactionSent.getSubAccount().getIban().getUserId().getFullName()
+                        );
                     }
                 });
                 if(transactionReq.getSenderIban() == null

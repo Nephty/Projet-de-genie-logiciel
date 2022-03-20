@@ -49,16 +49,16 @@ public class Portfolio {
                     int accountTypeId = obj.getJSONObject("accountId").getJSONObject("accountTypeId").getInt("accountTypeId");
                     AccountType accountType = null;
                     switch (accountTypeId) {
-                        case 0:
+                        case 1:
                             accountType = AccountType.COURANT;
                             break;
-                        case 1:
+                        case 2:
                             accountType = AccountType.JEUNE;
                             break;
-                        case 2:
+                        case 3:
                             accountType = AccountType.EPARGNE;
                             break;
-                        case 3:
+                        case 4:
                             accountType = AccountType.TERME;
                             break;
                     }

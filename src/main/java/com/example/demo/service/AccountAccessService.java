@@ -17,10 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j
@@ -53,18 +50,27 @@ public class AccountAccessService {
         return accountAccessRepo.getAllByUserId(userID);
     }
 
-    public List<User> getAllCustomers(String swift){
-        return accountAccessRepo.getAllCustomersInBank(swift);
-    }
-
-    private AccountAccess instantiateAccountAccess(AccountAccessReq accountAccessReq, HttpMethod method) {
+    /**
+     * Creates an entity based on the request that was made
+     * The method vary depending on the http method
+     * @param accountAccessReq incoming req
+     * @param method method used either PUT or POST
+     * @return An entity ready to be saved in the DB
+     * @throws ConflictException if the accountAccess already exists
+     * @throws LittleBoyException if the method provided is not PUT or POST
+     * @throws ResourceNotFound if the account that the client tries to modify doesn't exist
+     */
+    private AccountAccess instantiateAccountAccess(
+            AccountAccessReq accountAccessReq,
+            HttpMethod method
+    ) throws ConflictException, LittleBoyException, ResourceNotFound{
         AccountAccess accountAccess;
         switch (method) {
             case POST:
                 if(accountAccessRepo.existsById(
                         new AccountAccessPK(accountAccessReq.getAccountId(), accountAccessReq.getUserId())
                 )) {
-                   throw new ConflictException("account already exist" + accountAccessReq);
+                   throw new ConflictException("account already exist " + accountAccessReq);
                 }
                 accountAccess = new AccountAccess(accountAccessReq);
                 Account account = accountRepo.findById(accountAccessReq.getAccountId())
@@ -79,7 +85,7 @@ public class AccountAccessService {
                         new AccountAccessPK(accountAccessReq.getAccountId(), accountAccessReq.getUserId())
                 ).orElseThrow(()-> {
                     log.error("no such account access: "+ accountAccessReq);
-                    return new ConflictException(accountAccessReq.toString());
+                    return new ResourceNotFound(accountAccessReq.toString());
                 });
                 accountAccess.change(accountAccessReq);
                 return accountAccess;

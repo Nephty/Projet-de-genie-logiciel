@@ -47,7 +47,7 @@ public class NotificationService {
     public List<NotificationReq> getUserNotification(String userId) {
         User user = userRepo.findById(userId).orElseThrow(()-> {
             log.error("no user with such id:" + userId);
-            return new ResourceNotFound("no user with such id:" + userId);
+            return new ResourceNotFound("no user with such id: " + userId);
         });
         ArrayList<Notification> notifications = notificationRepo.findAllByUserId(user);
 
@@ -64,18 +64,32 @@ public class NotificationService {
         return formatResponse(notifications);
     }
 
+    /**
+     * @param notifications array of Notification entity fresh from the DB
+     * @return formatted array with unnecessary data removed
+     */
     private ArrayList<NotificationReq> formatResponse(ArrayList<Notification> notifications) {
         ArrayList<NotificationReq> response = new ArrayList<>();
-        notifications.forEach(notification -> {
+        for(Notification notification : notifications ){
             if(!notification.getToBank()) {
                 NotificationReq notificationReq = new NotificationReq(notification);
                 response.add(notificationReq);
             }
-        });
+        }
         return response;
     }
 
-    private Notification instantiateNotification(Sender sender, NotificationReq notificationReq) {
+    /**
+     * @param sender id and role of the client
+     * @param notificationReq request made by the client
+     * @return Notification entity to be added to the DB
+     * @throws ConflictException if the FK provided by the client are incorrect
+     * @throws LittleBoyException if the client role is not USER or BANK
+     */
+    private Notification instantiateNotification(
+            Sender sender,
+            NotificationReq notificationReq
+    ) throws ConflictException, LittleBoyException {
 
         Notification notification = new Notification(notificationReq);
         NotificationType notificationType = notificationTypeRepo.findById(notificationReq.getNotificationType())
@@ -107,7 +121,7 @@ public class NotificationService {
         });
         User user = userRepo.findById(userId).orElseThrow(()-> {
             log.error("no user with such id:" + userId);
-            return new ConflictException("no user with such id:" + userId);
+            return new ConflictException("no user with such id: " + userId);
         });
 
         notification.setBankId(bank);

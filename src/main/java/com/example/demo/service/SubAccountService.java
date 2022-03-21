@@ -45,7 +45,12 @@ public class SubAccountService {
         return subAccountRepo.save(subAccount);
     }
 
-    private SubAccount instantiateSubAccount(SubAccountReq subAccountReq) {
+    /**
+     * @param subAccountReq request made by the client
+     * @return subaccount entity based on the request
+     * @throws ConflictException if the FK provided by the client are incorrect
+     */
+    private SubAccount instantiateSubAccount(SubAccountReq subAccountReq) throws ConflictException {
         SubAccount subAccount = new SubAccount(subAccountReq);
         Account account = accountRepo.findById(subAccountReq.getIban())
                 .orElseThrow(()-> new ConflictException(subAccountReq.getIban()));

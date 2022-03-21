@@ -121,6 +121,24 @@ class AccountAccessServiceTest {
         verify(accessRepo,never()).save(any());
     }
 
+    @Test
+    void createShouldThrowWhenAccountAccessAlreadyExists(){
+        //given
+        AccountAccessReq accessReq = new AccountAccessReq(
+                "accountId",
+                "userId",
+                true,
+                false
+        );
+
+        when(accessRepo.existsById(any())).thenReturn(true);
+
+        //Then
+        assertThatThrownBy(() -> underTest.createAccountAccess(accessReq))
+                .isInstanceOf(ConflictException.class)
+                .hasMessageContaining("account already exist "+accessReq);
+    }
+
 
     @Test
     void canChangeAccountAccess() {
@@ -172,7 +190,7 @@ class AccountAccessServiceTest {
 
         //then
         assertThatThrownBy(()->underTest.changeAccountAccess(accessReq))
-                .isInstanceOf(ConflictException.class)
+                .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining(accessReq.toString());
 
         verify(accessRepo,never()).save(any());
@@ -231,15 +249,5 @@ class AccountAccessServiceTest {
         //then
         verify(accessRepo).getAllByUserId(userId);
         //We don't have to test if the method returns the good list because it's already tested in the repositories.
-    }
-
-    @Test
-    void canGetAllCustomers(){
-        //Given
-        String swift = "swift";
-        //When
-        underTest.getAllCustomers(swift);
-        //Then
-        verify(accessRepo).getAllCustomersInBank(swift);
     }
 }

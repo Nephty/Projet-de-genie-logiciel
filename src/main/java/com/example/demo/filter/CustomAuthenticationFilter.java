@@ -99,6 +99,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 
+    /**
+     * Creates a custom authentication error response
+     */
     @Override
     protected void unsuccessfulAuthentication(
             HttpServletRequest request,

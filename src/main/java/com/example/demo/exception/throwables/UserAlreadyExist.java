@@ -2,6 +2,9 @@ package com.example.demo.exception.throwables;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * When a user or a bank tries to create an account that already exists
+ */
 public class UserAlreadyExist extends ApiRequestException {
     public enum Reason {
         USERNAME("USERNAME"),

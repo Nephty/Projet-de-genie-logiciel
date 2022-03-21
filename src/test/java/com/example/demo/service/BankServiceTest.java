@@ -6,6 +6,7 @@ import com.example.demo.exception.throwables.UserAlreadyExist;
 import com.example.demo.model.Bank;
 import com.example.demo.model.CurrencyType;
 import com.example.demo.other.Sender;
+import com.example.demo.repository.AccountAccessRepo;
 import com.example.demo.repository.BankRepo;
 import com.example.demo.repository.CurrencyTypeRepo;
 import com.example.demo.request.BankReq;
@@ -36,13 +37,18 @@ class BankServiceTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private CurrencyTypeRepo currencyTypeRepo;
-
+    @Mock
+    private AccountAccessRepo accountAccessRepo;
 
     private BankService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new BankService(bankRepo,passwordEncoder,currencyTypeRepo);
+        underTest = new BankService(bankRepo,
+                passwordEncoder,
+                currencyTypeRepo,
+                accountAccessRepo
+        );
     }
 
     @Test
@@ -166,7 +172,7 @@ class BankServiceTest {
     }
 
     @Test
-    void changeBank() {
+    void canChangeBank() {
         //Given
         BankReq bankReq = new BankReq(
                 null,
@@ -276,13 +282,28 @@ class BankServiceTest {
     }
 
     @Test
+    void canGetAllCustomersOfABank(){
+        //Given
+        Sender sender = new Sender(
+                "testIban",
+                Role.BANK
+        );
+
+        //When
+        underTest.getAllCustomersOfABank(sender);
+
+        //Then
+        verify(accountAccessRepo).getAllCustomersInBank(sender.getId());
+    }
+
+    @Test
     @Disabled
     void getByLogin() {
         // TODO : delete login
     }
 
     @Test
-    void getAllBanks() {
+    void canGetAllBanks() {
         //When
         underTest.getAllBanks();
         //Then

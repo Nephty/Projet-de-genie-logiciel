@@ -22,6 +22,7 @@ public class TokenHandler {
     private final Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
 
     /**
+     * Creates an access and refresh token with the data provided
      * @param username username of the user or bank
      * @param issuer path at which the token was created
      * @param role role of the client
@@ -32,10 +33,11 @@ public class TokenHandler {
         if(id == null) {
             log.error("id is null");
         }
-        final int accessTokenMinBeforeExp = 60 * 24 * 24;
+        final int maxAccessTokenMinBeforeExp = 60 * 24 * 24;
+        final int accessTokenMinBeforeExp = 1;
         String accessToken = JWT.create()
                 .withSubject(username)
-                .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenMinBeforeExp * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + maxAccessTokenMinBeforeExp * 60 * 1000))
                 .withIssuer(issuer)
                 .withClaim(Role.getClaimName(), role.getRole())
                 .withClaim("userId", id)
@@ -57,6 +59,7 @@ public class TokenHandler {
     }
 
     /**
+     * Extract the token from a Bearer header and decrypt it, raise an error if the token is invalid
      * @param authorizationHeader the header with the token of the incoming request
      * @return the decoded jwt if the token is valid
      */

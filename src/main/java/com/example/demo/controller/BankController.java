@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Bank;
+import com.example.demo.model.User;
 import com.example.demo.other.Sender;
 import com.example.demo.request.BankReq;
 import com.example.demo.service.BankService;
@@ -83,6 +84,15 @@ public class BankController {
         return new ResponseEntity<>(
                 savedBank.toString(),
                 HttpStatus.CREATED
+        );
+    }
+
+    @GetMapping("/customer")
+    public ResponseEntity<List<User>> getAllBankCustomers() {
+        Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
+        return new ResponseEntity<>(
+                bankService.getAllCustomersOfABank(sender),
+                HttpStatus.OK
         );
     }
 }

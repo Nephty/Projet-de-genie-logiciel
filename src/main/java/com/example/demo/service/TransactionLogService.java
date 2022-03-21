@@ -1,13 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.throwables.ConflictException;
+import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.CompositePK.SubAccountPK;
-import com.example.demo.model.CurrencyType;
 import com.example.demo.model.SubAccount;
 import com.example.demo.model.TransactionLog;
 import com.example.demo.model.TransactionType;
-import com.example.demo.other.Generator;
 import com.example.demo.repository.SubAccountRepo;
 import com.example.demo.repository.TransactionLogRepo;
 import com.example.demo.repository.TransactionTypeRepo;
@@ -19,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j
@@ -37,11 +34,19 @@ public class TransactionLogService {
         return saved;
     }
 
+    /**
+     * This method both retrieves and format the transaction from a sub account
+     * in the DB the transaction are in pairs, one ascending and one descending this method regroups the pairs into one
+     * entity
+     * @param iban sub account iban
+     * @param currencyId sub account currency
+     * @return An array of all the transaction made and received by the subaccount
+     */
     public List<TransactionReq> getAllTransactionBySubAccount(String iban, Integer currencyId) {
         SubAccount subAccount = subAccountRepo.findById(new SubAccountPK(iban, currencyId))
                 .orElseThrow(()-> new ResourceNotFound(iban + " : " + currencyId.toString()));
         log.warn("fetching transaction for subaccount {}", subAccount);
-        ArrayList<TransactionLog> transactionLogs = transactionLogRepo.thisIsTheWay(subAccount);
+        ArrayList<TransactionLog> transactionLogs = transactionLogRepo.findAllLinkedToSubAccount(subAccount);
         log.warn("[FROM DB]logs length: {}", transactionLogs.size());
         ArrayList<TransactionReq> response = new ArrayList<>();
         transactionLogs.forEach(transactionLog -> System.out.println(transactionLog.toSimpleString()));
@@ -90,7 +95,13 @@ public class TransactionLogService {
         return response;
     }
 
-    private ArrayList<TransactionLog> instantiateTransaction(TransactionReq transactionReq) {
+    /**
+     * Creates a transaction entity and raise an error if the request is incorrect
+     * @param transactionReq request made by the client
+     * @return Transaction entity based on the client's request
+     * @throws ConflictException if the FK provided by the client are inconsistent with the DB
+     */
+    private ArrayList<TransactionLog> instantiateTransaction(TransactionReq transactionReq) throws ConflictException{
         TransactionLog transactionSent = new TransactionLog(transactionReq);
         TransactionLog transactionReceived = new TransactionLog(transactionReq);
 
@@ -143,6 +154,10 @@ public class TransactionLogService {
     }
 
     private int nextId(){
-        return transactionLogRepo.findMaximumId()+1;
+        Integer tmp = transactionLogRepo.findMaximumId();
+        if (tmp == null){
+            return 1;
+        }
+        return tmp+1;
     }
 }

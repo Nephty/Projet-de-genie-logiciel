@@ -52,7 +52,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
      * Checks if every field is properly filled in. Initializes the sign in process.
      */
     public void signIn() {
-        // TODO : Sécuriser le mot de passe
+        // Login with username and password
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {
@@ -66,12 +66,14 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             e.printStackTrace();
         }
 
+        // If the response is correct, initialise the tokens
         if (response.getStatus() == 200) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
             String body = response.getBody();
             JSONObject obj = new JSONObject(body);
             Main.setToken(obj.getString("access_token"));
             Main.setRefreshToken(obj.getString("refresh_token"));
+            // Creates the user
             try {
                 Unirest.setTimeouts(0, 0);
                 HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + usernameField.getText() + "?isUsername=true")
@@ -83,7 +85,9 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             } catch (UnirestException e) {
                 e.printStackTrace();
             }
+            // Creates user's portfolio
             Main.updatePortfolio();
+            // Load most of the scenes
             Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml");
             Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml");
             Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml");

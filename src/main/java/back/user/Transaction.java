@@ -12,6 +12,18 @@ public class Transaction {
     private String sendingDate;
     private Currencies currency;
 
+    /**
+     * Creates the Transaction object byt giving all the needed informations
+     *
+     * @param ID The ID of the transaction
+     * @param senderName The String of the senderName
+     * @param senderIBAN The String of the sender IBAN
+     * @param receiverName The String of the receiver name
+     * @param receiverIBAN The String of the receiver IBAN
+     * @param amount The amount of the transaction
+     * @param sendingDate The String of the sending date
+     * @param currency The int corresponding to the type of currency
+     */
     public Transaction(long ID, String senderName, String senderIBAN, String receiverName, String receiverIBAN, double amount, String sendingDate, Currencies currency){
         this.ID = ID;
         this.senderName = senderName;
@@ -23,6 +35,10 @@ public class Transaction {
         this.currency = currency;
     }
 
+
+    /**
+     * @return A String to display the transaction informations
+     */
     @Override
     public String toString(){
         // If the transaction is sent by the account owner

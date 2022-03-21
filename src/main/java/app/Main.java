@@ -20,10 +20,8 @@ import java.util.Locale;
 public class Main extends Application {
     public static Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale, PT_PT_Locale, LT_LT_Locale;
     public static Portfolio portfolio;
-    public static int cpt = 0;
     private static Profile user;
     private static Stage stage;
-    //    private static String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXRhbkBoZWxsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjQ4MjQxNTIxfQ.Hr0KX07H5BBM9-rI94BmLFMfHK4jdVFfxgM3KG0vOjQ";
     private static String token;
     private static String refreshToken;
     private static Wallet currentWallet;
@@ -77,6 +75,9 @@ public class Main extends Application {
         Main.currentAccount = currentAccount;
     }
 
+    /**
+     * Clear all the data in Main
+     */
     public static void clearData() {
         portfolio = null;
         user = null;
@@ -121,6 +122,7 @@ public class Main extends Application {
             default:
                 message = message + "An error has occured"; break;
         }
+        // TODO : Generate a pop-up with the message
     }
 
     @Override

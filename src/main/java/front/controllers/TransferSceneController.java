@@ -206,7 +206,8 @@ public class TransferSceneController extends Controller implements BackButtonNav
         String recipientActual = Main.getCurrentAccount().getIBAN();
 
         if (noLabelVisible()) {
-            // TODO : Gérer les erreurs (solde insufisant)
+            // TODO : Manage errors (insufficient balance)
+            // Creates the transfert if everything is correct
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
             try {

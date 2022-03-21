@@ -16,7 +16,7 @@ public class Request extends Communication {
     }
 
     public void send() {
-        // TODO : Envoyer la requête à l'API
+        // TODO : Send the request to the API
     }
 
     public Reason getReason() {

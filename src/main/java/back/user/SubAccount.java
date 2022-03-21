@@ -24,14 +24,17 @@ public class SubAccount {
         this.IBAN = IBAN;
         this.currency = currency;
         String token = Main.getToken();
+        // Fetch the amount for the subAccount
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account/sub-account?iban=" + IBAN + "&currencyId=" + "0") // Extension 2 : Changer la valeur de 0 en fonction de la monnaie
+        HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account/sub-account?iban=" + IBAN + "&currencyId=" + "0") // Extension 2 : Change the value of currencyId
                 .header("Authorization", "Bearer " + token)
                 .asString();
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
         this.amount = obj.getDouble("currentBalance");
 
+
+        // Fetch all the transactions
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/transaction?iban="+IBAN+"&currencyId=0")
                 .header("Authorization", "Bearer "+Main.getToken())
@@ -41,6 +44,7 @@ public class SubAccount {
         body2 = body2.substring(1,body2.length() -1);
         this.transactionHistory = new ArrayList<Transaction>();
 
+        // If there is at least one transaction, it creates the transactions objects
         if(!body2.equals("")){
             ArrayList<String> parsed = Portfolio.JSONArrayParser(body2);
             for(int i = 0; i<parsed.size();i++){

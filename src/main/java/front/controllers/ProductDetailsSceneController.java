@@ -101,6 +101,9 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         }
     }
 
+    /**
+     * Fetches the account
+     */
     public void fetchAccounts() {
         if (loadingAccountsLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;
@@ -116,18 +119,22 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             Calendar c = Calendar.getInstance();
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // Fetch accounts and put them in the listview
+            // Fetch accounts
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
             Wallet currentWallet = Main.getCurrentWallet();
             if (currentWallet == null) {
                 currentWallet = walletList.get(0);
             }
+            // Put the accounts in the listview
             accountsListView.setItems(FXCollections.observableArrayList(currentWallet.getAccountList()));
             // Fade the label "updating accounts..." out to 0.0 opacity
             sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
         }
     }
 
+    /**
+     * Updates the accounts
+     */
     public void updateAccounts() {
         // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc)
         if (loadingAccountsLabel.getOpacity() == 0.0) {
@@ -144,8 +151,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             Calendar c = Calendar.getInstance();
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // Fetch accounts and put them in the listview
-
+            // Update the portfolio and then fetch the accounts
             Main.updatePortfolio();
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
             String currentWallet = Main.getCurrentWallet().getBank().getSwiftCode();
@@ -155,6 +161,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                     accountList = wallet.getAccountList();
                 }
             }
+            // Put the accounts in the listview
             accountsListView.setItems(FXCollections.observableArrayList(accountList));
             // Fade the label "updating accounts..." out to 0.0 opacity
             sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);

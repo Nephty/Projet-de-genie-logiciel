@@ -20,6 +20,7 @@ public class Portfolio {
      */
     public Portfolio(String nationalRegistrationNumber) throws UnirestException {
         this.user = new Profile(nationalRegistrationNumber);
+        // It fetchs all the access that got the user
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/" + nationalRegistrationNumber)
                 .header("Authorization", "Bearer " + Main.getToken())
@@ -28,6 +29,7 @@ public class Portfolio {
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);
         this.walletList = new ArrayList<Wallet>();
+        // If the user got at least one account, it will parse the list of account access into list of account in the same bank (Wallet)
         if (!body.equals("")) {
             ArrayList<String> bodyList = JSONArrayParser(body);
 

@@ -95,7 +95,7 @@ public class Account {
      * Export the history of transactions
      */
     public void exportHistory() {
-        // TODO : Expoter l'historique
+        // TODO : Export history
     }
 
     public Profile getAccountOwner() {

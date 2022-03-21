@@ -65,6 +65,9 @@ public class FinancialProductsSceneController extends Controller implements Back
         fetchProducts();
     }
 
+    /**
+     * Updates the products
+     */
     public void updateProducts() {
         // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc)
         if (loadingProductsLabel.getOpacity() == 0.0) {
@@ -72,7 +75,7 @@ public class FinancialProductsSceneController extends Controller implements Back
             int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;
             FadeOutThread sleepAndFadeOutLoadingNotificationsLabelFadeThread;
-            // Fade the label "updating notifications..." in to 1.0 opacity
+            // Fade the label "updating product..." in to 1.0 opacity
             FadeInTransition.playFromStartOn(loadingProductsLabel, Duration.millis(fadeInDuration));
             // We use a new Thread, so we can sleep the method for a few hundreds of milliseconds so that the label
             // doesn't instantly go away when the notifications are retrieved.
@@ -81,12 +84,13 @@ public class FinancialProductsSceneController extends Controller implements Back
             Calendar c = Calendar.getInstance();
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // Fetch notifications and put them in the listview
+            // Update the portfolio
             Main.updatePortfolio();
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
 
-            // Fade the label "updating notifications..." out to 0.0 opacity
+            // Fade the label "updating products..." out to 0.0 opacity
             sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingProductsLabel);
+            // Put the wallets in listView
             productsListView.setItems(FXCollections.observableArrayList(walletList));
         }
     }
@@ -102,7 +106,7 @@ public class FinancialProductsSceneController extends Controller implements Back
             int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;
             FadeOutThread sleepAndFadeOutLoadingNotificationsLabelFadeThread;
-            // Fade the label "updating notifications..." in to 1.0 opacity
+            // Fade the label "updating products..." in to 1.0 opacity
             FadeInTransition.playFromStartOn(loadingProductsLabel, Duration.millis(fadeInDuration));
             // We use a new Thread, so we can sleep the method for a few hundreds of milliseconds so that the label
             // doesn't instantly go away when the notifications are retrieved.
@@ -111,11 +115,12 @@ public class FinancialProductsSceneController extends Controller implements Back
             Calendar c = Calendar.getInstance();
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // Fetch notifications and put them in the listview
+            // Fetch wallets from the portfolio
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
 
-            // Fade the label "updating notifications..." out to 0.0 opacity
+            // Fade the label "updating products..." out to 0.0 opacity
             sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingProductsLabel);
+            // Put the wallets in the listView
             productsListView.setItems(FXCollections.observableArrayList(walletList));
         }
     }

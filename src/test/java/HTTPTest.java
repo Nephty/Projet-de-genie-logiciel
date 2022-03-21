@@ -4,6 +4,7 @@ import back.user.Portfolio;
 import back.user.Profile;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -82,13 +83,14 @@ public class HTTPTest {
             HttpResponse<String> response = null;
             response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
                     .header("Content-Type", "application/json")
-                    .body("{\r\n    \"username\": \"" + "elonm" + "\",\r\n    \"userID\": \"" + "01.01.1-001.01" + "\",\r\n    \"email\": \"" + "elon.musk@tesla.com" + "\",\r\n    \"password\": \"" + "igotalotofmoney" + "\",\r\n    \"firstname\": \"" + "Elon" + "\",\r\n    \"lastname\": \"" + "Musk" + "\",\r\n    \"language\": \"" + "EN US" + "\"\r\n}")
+                    .body("{\r\n    \"username\": \"" + "elonm" + "\",\r\n    \"userID\": \"01.01.01-001.01\",\r\n    \"email\": \"" + "elon.musk@tesla.com" + "\",\r\n    \"password\": \"" + "igotalotofmoney" + "\",\r\n    \"firstname\": \"" + "Elon" + "\",\r\n    \"lastname\": \"" + "Musk" + "\",\r\n    \"language\": \"" + "EN US" + "\"\r\n}")
                     .asString();
 
+            System.out.println(response.getBody());
             assertEquals(201, response.getStatus());
         });
 
-        //Delete the user to finish the test
+        // Delete the user to finish the test
         assertDoesNotThrow(() ->{
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = Unirest.delete("https://flns-spring-test.herokuapp.com/api/user/01.01.1-001.01")
@@ -97,5 +99,35 @@ public class HTTPTest {
             assertEquals(200, response.getStatus());
         });
 
+    }
+
+    @Test
+    @DisplayName("Change password")
+    public void changePassword(){
+        Main.setToken((token));
+        assertDoesNotThrow(() ->{
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            response = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + Main.getToken())
+                    .body("{\r\n    \"username\": \"" +"elonm"+ "\",\r\n    \"userID\": \"" +"01.01.01-001.01"+ "\",\r\n    \"email\": \"" + "elon.musk@tesla.com" + "\",\r\n    \"password\": \"" + "igotnomoney" + "\",\r\n    \"firstname\": \"" + "Elon" + "\",\r\n    \"lastname\": \"" + "Musk" + "\",\r\n    \"language\": \"" + "EN US" + "\"\r\n}")
+                    .asString();
+        }) ;
+
+        // Try to login to check if the password is well changed
+        assertDoesNotThrow(() -> {
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            response = Unirest.post("https://flns-spring-test.herokuapp.com/api/login")
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .field("username", "elonm")
+                    .field("password", "igotnomoney")
+                    .field("role", "ROLE_USER")
+                    .asString();
+
+            System.out.println(response.getBody());
+            assertEquals(200, response.getStatus());
+        });
     }
 }

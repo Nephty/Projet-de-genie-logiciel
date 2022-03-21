@@ -152,7 +152,7 @@ public class HTTPTest {
             System.out.println(testWallet.getAccountUser().getFirstName());
             System.out.println(testWallet.getAccountList().get(0).getIBAN());
             assertEquals("Elon", testWallet.getAccountUser().getFirstName());
-            assertEquals("ABCDEF0123456789", testWallet.getAccountList().get(0).getIBAN());
+            assertEquals("0123456789ABCDEF", testWallet.getAccountList().get(0).getIBAN());
             assertEquals(1, testWallet.getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
         });
     }

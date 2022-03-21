@@ -1,0 +1,12 @@
+com.example.demo
+com.example.demo.controller
+com.example.demo.exception
+com.example.demo.exception.throwables
+com.example.demo.filter
+com.example.demo.model
+com.example.demo.model.CompositePK
+com.example.demo.other
+com.example.demo.repository
+com.example.demo.request
+com.example.demo.security
+com.example.demo.service

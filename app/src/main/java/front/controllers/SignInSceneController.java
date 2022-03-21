@@ -76,7 +76,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             Main.setToken(obj.getString("access_token"));
             Main.setRefreshToken(obj.getString("refresh_token"));
             try {
-                Main.setBank(new Bank(usernameField.getText())); // TODO : Optimise
+                Main.setBank(new Bank(usernameField.getText()));
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
             }

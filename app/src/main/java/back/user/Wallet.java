@@ -9,9 +9,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Wallet {
-    private final Profile accountUser;
-    private final ArrayList<Account> accountList;
-    private final Bank bank;
+    private Profile accountUser;
+    private ArrayList<Account> accountList;
+    private Bank bank;
 
     /**
      * Creates a Wallet object with the account user
@@ -66,7 +66,7 @@ public class Wallet {
 
 
     public void update() throws UnirestException {
-        accountList = new ArrayList<Account>();
+        this.accountList = new ArrayList<Account>();
 
         // Fetch all client's account access
         Unirest.setTimeouts(0, 0);
@@ -104,7 +104,7 @@ public class Wallet {
             boolean activated = obj.getBoolean("access");
             boolean archived = obj.getBoolean("hidden");
             boolean canPay = obj.getJSONObject("accountId").getBoolean("payment");
-            accountList.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
+            this.accountList.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
         }
     }
     public ArrayList<Account> getAccountList() {

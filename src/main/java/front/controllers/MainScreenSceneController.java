@@ -10,17 +10,12 @@ import javafx.scene.input.MouseEvent;
 
 public class MainScreenSceneController extends Controller implements LanguageButtonNavigator {
     @FXML
-    public Button changePasswordButton, manageDataButton, manageRequestsButton, clientsButton, languageButton, signOutButton;
+    public Button changePasswordButton, manageDataButton, manageRequestsButton, clientsButton, signOutButton;
 
     @FXML
     public void handleSignOutButtonClicked(MouseEvent event) {
         Main.setScene(Flow.back());
         // TODO : back-end : log out (clear any user data)
-    }
-
-    @FXML
-    public void handleLanguageButtonClicked(MouseEvent event) {
-        handleLanguageButtonNavigation(event);
     }
 
     @Override

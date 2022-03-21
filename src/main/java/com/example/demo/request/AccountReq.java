@@ -4,8 +4,7 @@ import com.example.demo.model.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
-@Data
+@Data @AllArgsConstructor
 public class AccountReq {
 
     private String iban;

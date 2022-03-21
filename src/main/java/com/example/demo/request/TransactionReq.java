@@ -1,10 +1,11 @@
 package com.example.demo.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Date;
 
-@Data
+@Data @AllArgsConstructor
 public class TransactionReq {
 
     private Integer transactionTypeId;

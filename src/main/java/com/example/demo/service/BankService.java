@@ -60,17 +60,21 @@ public class BankService {
          return new ArrayList<>(bankRepo.findAll());
     }
 
+    private void alreadyExistCheck(String swift, String name) {
+        if(bankRepo.existsById(swift)) {
+            throw new UserAlreadyExist(UserAlreadyExist.Reason.SWIFT);
+        }
+        if(bankRepo.existsByName(name)) {
+            throw new UserAlreadyExist(UserAlreadyExist.Reason.NAME);
+        }
+    }
+
     private Bank instantiateBank(Sender sender, BankReq bankReq, HttpMethod method) {
         Bank bank;
         CurrencyType currencyType;
         switch (method) {
             case POST:
-                if(bankRepo.existsById(bankReq.getSwift())) {
-                    throw new UserAlreadyExist(UserAlreadyExist.Reason.SWIFT);
-                }
-                if(bankRepo.existsByName(bankReq.getName())) {
-                    throw new UserAlreadyExist(UserAlreadyExist.Reason.NAME);
-                }
+                alreadyExistCheck(bankReq.getSwift(), bankReq.getName());
                 bank = new Bank(bankReq);
                 currencyType = currencyTypeRepo
                         .findById(bankReq.getDefaultCurrencyType())
@@ -81,6 +85,7 @@ public class BankService {
                 bank = bankRepo.findById(sender.getId())
                         .orElseThrow(()-> new ResourceNotFound(sender.getId()));
                 bank.change(bankReq);
+                alreadyExistCheck(bank.getSwift(), bank.getName());
                 if(bankReq.getDefaultCurrencyType() != null) {
                     currencyType = currencyTypeRepo
                             .findById(bankReq.getDefaultCurrencyType())

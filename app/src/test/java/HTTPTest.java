@@ -73,7 +73,6 @@ public class HTTPTest {
                     .field("role", "ROLE_USER")
                     .asString();
 
-            System.out.println(response.getBody());
             assertEquals(200, response.getStatus());
         });
     }
@@ -145,7 +144,6 @@ public class HTTPTest {
                     .field("role", "ROLE_USER")
                     .asString();
 
-            System.out.println(response.getBody());
             assertEquals(200, response.getStatus());
         });
 

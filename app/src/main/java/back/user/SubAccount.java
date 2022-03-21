@@ -29,6 +29,7 @@ public class SubAccount {
         HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account/sub-account?iban=" + IBAN + "&currencyId=" + "0") // Extension 2 : Change the value of currencyId
                 .header("Authorization", "Bearer " + token)
                 .asString();
+        Main.errorCheck(response.getStatus());
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
         this.amount = obj.getDouble("currentBalance");
@@ -39,7 +40,7 @@ public class SubAccount {
         HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/transaction?iban="+IBAN+"&currencyId=0")
                 .header("Authorization", "Bearer "+Main.getToken())
                 .asString();
-
+        Main.errorCheck(response2.getStatus());
         String body2 = response2.getBody();
         body2 = body2.substring(1,body2.length() -1);
         this.transactionHistory = new ArrayList<Transaction>();

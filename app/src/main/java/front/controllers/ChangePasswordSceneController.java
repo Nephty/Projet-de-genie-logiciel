@@ -80,8 +80,9 @@ public class ChangePasswordSceneController extends Controller implements BackBut
             response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + Main.getUser().getNationalRegistrationNumber() +"?isUsername=false")
                     .header("Authorization", "Bearer " + Main.getToken())
                     .asString();
+            Main.errorCheck(response.getStatus());
         } catch (UnirestException e) {
-            e.printStackTrace();
+            Main.ErrorManager(408);
         }
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
@@ -118,8 +119,9 @@ public class ChangePasswordSceneController extends Controller implements BackBut
                         .header("Authorization", "Bearer " + Main.getToken())
                         .body("{\r\n    \"username\": \"" + obj.getString("username") + "\",\r\n    \"userID\": \"" + obj.getString("userID") + "\",\r\n    \"email\": \"" + obj.getString("email") + "\",\r\n    \"password\": \"" + newPassword + "\",\r\n    \"firstname\": \"" + obj.getString("firstname") + "\",\r\n    \"lastname\": \"" + obj.getString("lastname") + "\",\r\n    \"language\": \"" + obj.getString("language") + "\"\r\n}")
                         .asString();
+                Main.errorCheck(response2.getStatus());
             } catch (UnirestException e) {
-                e.printStackTrace();
+                Main.ErrorManager(408);
             }
 
             int fadeInDuration = 1000;

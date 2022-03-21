@@ -74,6 +74,7 @@ public class Account {
                 .header("Content-Type", "application/json")
                 .body("{\r\n    \"accountId\": \""+this.IBAN+"\",\r\n    \"userId\": \""+this.accountCoOwner+"\",\r\n    \"access\": true,\r\n    \"hidden\": "+this.archived+"\r\n}")
                 .asString();
+        Main.errorCheck(response.getStatus());
         this.activated = true;
     }
 
@@ -87,6 +88,7 @@ public class Account {
                 .header("Content-Type", "application/json")
                 .body("{\r\n    \"accountId\": \""+this.IBAN+"\",\r\n    \"userId\": \""+this.accountCoOwner+"\",\r\n    \"access\": false,\r\n    \"hidden\": "+this.archived+"\r\n}")
                 .asString();
+        Main.errorCheck(response.getStatus());
         this.activated = false;
     }
 

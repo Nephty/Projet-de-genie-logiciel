@@ -217,8 +217,9 @@ public class TransferSceneController extends Controller implements BackButtonNav
                             .header("Content-Type", "application/json")
                             .body("{\r\n    \"transactionTypeId\": 1,\r\n    \"senderIban\": \"" + recipientActual + "\",\r\n    \"recipientIban\": \"" + IBAN + "\",\r\n    \"currencyId\": 0,\r\n    \"transactionAmount\": " + amount + "\r\n}")
                             .asString();
+                    Main.errorCheck(response.getStatus());
                 } catch (UnirestException e) {
-                    e.printStackTrace();
+                    Main.ErrorManager(408);
                 }
 
                 Main.setScene(Flow.forward(Scenes.MainScreenScene));

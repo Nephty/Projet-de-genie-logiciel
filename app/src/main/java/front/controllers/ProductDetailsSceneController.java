@@ -187,7 +187,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 try {
                     account.toggleOff();
                 } catch (UnirestException e) {
-                    e.printStackTrace();
+                    Main.ErrorManager(408);
                 }
 
             } else {
@@ -199,7 +199,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 try {
                     account.toggleOn();
                 } catch (UnirestException e) {
-                    e.printStackTrace();
+                    Main.ErrorManager(408);
                 }
             }
         }

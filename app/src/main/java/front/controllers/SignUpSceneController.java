@@ -149,8 +149,9 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
                         .header("Content-Type", "application/json")
                         .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userID\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\"\r\n}")
                         .asString();
+                Main.errorCheck(response.getStatus());
             } catch (UnirestException e) {
-                e.printStackTrace();
+                Main.ErrorManager(408);
             }
             userSignedUp = true;
             signedUpLabel.setVisible(true);

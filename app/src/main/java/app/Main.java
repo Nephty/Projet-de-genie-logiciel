@@ -94,7 +94,17 @@ public class Main extends Application {
         try {
             portfolio = new Portfolio(user.getNationalRegistrationNumber());
         } catch (UnirestException e) {
-            e.printStackTrace();
+            Main.ErrorManager(408);
+        }
+    }
+
+    /**
+     * Check if the response is an error
+     * @param statut The error statut
+     */
+    public static void errorCheck(int statut){
+        if(statut >= 400){
+            ErrorManager(statut);
         }
     }
 

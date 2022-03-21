@@ -63,8 +63,9 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                     .field("password", passwordField.getText())
                     .field("role", "ROLE_USER")
                     .asString();
+            Main.errorCheck(response.getStatus());
         } catch (UnirestException e) {
-            e.printStackTrace();
+            Main.ErrorManager(408);
         }
 
         // If the response is correct, initialise the tokens
@@ -80,11 +81,12 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                 HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + usernameField.getText() + "?isUsername=true")
                         .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
+                Main.errorCheck(response2.getStatus());
                 String body2 = response2.getBody();
                 JSONObject obj2 = new JSONObject(body2);
                 Main.setUser(new Profile(obj2.getString("userID"))); // TODO : Optimiser
             } catch (UnirestException e) {
-                e.printStackTrace();
+                Main.ErrorManager(408);
             }
             // Creates user's portfolio
             Main.updatePortfolio();

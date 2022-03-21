@@ -39,7 +39,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
         try {
             values = FXCollections.observableArrayList(Bank.fetchAllSWIFT());
         } catch (UnirestException e) {
-            e.printStackTrace();
+            Main.ErrorManager(408);
         }
         // TODO : back-end : fetch all available SWIFT codes and put them in the list
         SWIFTComboBox.setItems(values);

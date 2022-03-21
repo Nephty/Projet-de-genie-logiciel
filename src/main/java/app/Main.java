@@ -69,13 +69,22 @@ public class Main extends Application {
     @Override
     public void start(Stage stage_) {
         stage = stage_;
+        
+        Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale;
 
-        Scenes.AuthScene = SceneLoader.load("AuthScene.fxml");
-        Scenes.SignInScene = SceneLoader.load("SignInScene.fxml");
-        Scenes.LanguageScene = SceneLoader.load("LanguageScene.fxml");
-        Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml");
-        Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml");
-        Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml");
+        FR_BE_Locale = new Locale("fr", "BE");
+        EN_US_Locale = new Locale("en", "US");
+        NL_NL_Locale = new Locale("nl", "NL");
+
+        // TODO : if language = english, appLocale = english,...
+
+        appLocale = NL_NL_Locale;
+        Scenes.AuthScene = SceneLoader.load("AuthScene.fxml", appLocale);
+        Scenes.SignInScene = SceneLoader.load("SignInScene.fxml", appLocale);
+        Scenes.LanguageScene = SceneLoader.load("LanguageScene.fxml", appLocale);
+        Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml", appLocale);
+        Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", appLocale);
+        Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", appLocale);
 
 
         Flow.add(Scenes.AuthScene);

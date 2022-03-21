@@ -124,13 +124,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
                 Main.ErrorManager(408);
             }
 
-            int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
-            int sleepDuration = 3000;
-            FadeOutThread sleepAndFadeOutPasswordChangedLabelFadeThread;
-            FadeInTransition.playFromStartOn(passwordChangedLabel, Duration.millis(fadeInDuration));
-            sleepAndFadeOutPasswordChangedLabelFadeThread = new FadeOutThread();
-            sleepAndFadeOutPasswordChangedLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, passwordChangedLabel);
+            fadeInAndOutNode(3000, passwordChangedLabel);
 
             passwordChanged = true;
 

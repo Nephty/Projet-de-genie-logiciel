@@ -38,6 +38,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     private boolean userSignedUp = false;
 
     public void initialize() {
+        // TODO : set the user preferred language in the db
         ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
         // TODO : back-end : fetch all available languages and put them in the list
         languageComboBox.setItems(values);
@@ -69,7 +70,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             // if the user signed up, clear the form
             // if he didn't sign up, we're saving the inputs
             languageComboBox.setValue(null);
-            signedUpLabel.setVisible(false);
             emptyAllTextFields();
             hideAllLabels();
             userSignedUp = false;
@@ -153,8 +153,8 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
             }
+            fadeInAndOutNode(3000, signedUpLabel);
             userSignedUp = true;
-            signedUpLabel.setVisible(true);
             // Empty all data that we don't need, it's a security detail
             lastName = "";
             firstName = "";

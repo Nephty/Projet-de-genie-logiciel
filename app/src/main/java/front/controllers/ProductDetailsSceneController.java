@@ -179,10 +179,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
 
             // Toggle on or off the product
             if (account.isActivated()) {
-                FadeOutThread sleepAndFadeOutProductToggledOffLabelFadeThread;
-                FadeInTransition.playFromStartOn(toggledOffProductLabel, Duration.millis(fadeInDuration));
-                sleepAndFadeOutProductToggledOffLabelFadeThread = new FadeOutThread();
-                sleepAndFadeOutProductToggledOffLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, toggledOffProductLabel);
+                fadeInAndOutNode(1000, toggledOffProductLabel);
 
                 try {
                     account.toggleOff();
@@ -191,10 +188,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 }
 
             } else {
-                FadeOutThread sleepAndFadeOutProductToggledOnLabelFadeThread;
-                FadeInTransition.playFromStartOn(toggledOnProductLabel, Duration.millis(fadeInDuration));
-                sleepAndFadeOutProductToggledOnLabelFadeThread = new FadeOutThread();
-                sleepAndFadeOutProductToggledOnLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, toggledOnProductLabel);
+               fadeInAndOutNode(1000, toggledOnProductLabel);
 
                 try {
                     account.toggleOn();

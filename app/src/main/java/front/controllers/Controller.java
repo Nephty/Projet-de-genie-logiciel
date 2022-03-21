@@ -1,9 +1,12 @@
 package front.controllers;
 
+import front.animation.FadeInTransition;
+import front.animation.threads.FadeOutThread;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 
 import java.util.Calendar;
 
@@ -175,5 +178,23 @@ public class Controller {
     public void handleButtonMouseExited(MouseEvent event) {
         Button buttonSource = (Button) event.getSource();
         buttonSource.setStyle(formatNewCSSLineMouseExited(buttonSource));
+    }
+
+    /**
+     * Fades in and out the given node using its opacity values for a pre-determined durations in the following order :
+     * - fade in (opacity rises to a level of 1 over a period of 1 second)
+     * - sleep (opacity remains at a level of 1)
+     * - fade out (opacity decreases to a level of 0 over a period of 1 second)
+     * Note that this method forces the fade in and fade out transitions to last for exactly 1 second.
+     *
+     * @param sleepDuration the time that should pass by after the fade in transition and before the fade out transition
+     * @param node          the node which should fade in and out
+     */
+    public void fadeInAndOutNode(int sleepDuration, Node node) {
+        int fadeInDuration = 1000, fadeOutDuration = 1000;
+        FadeOutThread sleepAndFadeOutFadeThread;
+        FadeInTransition.playFromStartOn(node, Duration.millis(fadeInDuration));
+        sleepAndFadeOutFadeThread = new FadeOutThread();
+        sleepAndFadeOutFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, node);
     }
 }

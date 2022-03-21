@@ -80,15 +80,8 @@ public class RequestTransferPermissionSceneController extends Controller impleme
             request.send();
                  */
 
+            fadeInAndOutNode(3000, requestSentLabel);
             requestSent = true;
-
-            int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
-            int sleepDuration = 3000;
-            FadeOutThread sleepAndFadeOutRequestSentLabelFadeThread;
-            FadeInTransition.playFromStartOn(requestSentLabel, Duration.millis(fadeInDuration));
-            sleepAndFadeOutRequestSentLabelFadeThread = new FadeOutThread();
-            sleepAndFadeOutRequestSentLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, requestSentLabel);
 
             // Reset the form
             portfolioComboBox.getSelectionModel().clearSelection();

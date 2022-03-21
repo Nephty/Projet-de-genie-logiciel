@@ -107,6 +107,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Map<String, String> error = new HashMap<>();
         error.put("error:", failed.toString());
         log.error("unsuccessful auth: " + failed);
+        response.setStatus(401);
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), error);
     }

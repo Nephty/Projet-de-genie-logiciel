@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.exception.throwables.UnimplementedException;
 import com.example.demo.model.Bank;
 import com.example.demo.other.Sender;
 import com.example.demo.request.BankReq;

@@ -1,11 +1,12 @@
 package com.example.demo.request;
 
 import com.example.demo.model.Notification;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Date;
 
-@Data
+@Data @AllArgsConstructor
 public class NotificationReq {
 
     private Integer notificationType;

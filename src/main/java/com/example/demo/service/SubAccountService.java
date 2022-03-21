@@ -25,23 +25,24 @@ public class SubAccountService {
     private final AccountRepo accountRepo;
     private final CurrencyTypeRepo currencyTypeRepo;
 
-    public SubAccount getSubAccount(String iban, Integer currency){
-        return subAccountRepo.findById(new SubAccountPK(iban, currency))
+    public SubAccountReq getSubAccount(String iban, Integer currency){
+        SubAccount subAccount = subAccountRepo.findById(new SubAccountPK(iban, currency))
                 .orElseThrow(()-> new ResourceNotFound(iban + " : " + currency));
+        return new SubAccountReq(subAccount);
     }
 
     public void deleteSubAccount(String iban, Integer currencyId) {
         subAccountRepo.deleteById(new SubAccountPK(iban, currencyId));
     }
 
-    public void addSubAccount(SubAccountReq subAccountReq) {
+    public SubAccount addSubAccount(SubAccountReq subAccountReq) {
         SubAccount subAccount = instantiateSubAccount(subAccountReq);
-        subAccountRepo.save(subAccount);
+        return subAccountRepo.save(subAccount);
     }
 
-    public void changeSubAccount(SubAccountReq subAccountReq) {
+    public SubAccount changeSubAccount(SubAccountReq subAccountReq) {
         SubAccount subAccount = instantiateSubAccount(subAccountReq);
-        subAccountRepo.save(subAccount);
+        return subAccountRepo.save(subAccount);
     }
 
     private SubAccount instantiateSubAccount(SubAccountReq subAccountReq) {

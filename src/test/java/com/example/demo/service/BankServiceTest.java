@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.exception.throwables.UserAlreadyExist;
-import com.example.demo.model.Account;
 import com.example.demo.model.Bank;
 import com.example.demo.model.CurrencyType;
 import com.example.demo.other.Sender;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -268,10 +266,13 @@ class BankServiceTest {
     void getBank() {
         //Given
         String swift = "swift";
+        Optional<Bank> bank = Optional.of(new Bank());
+        when(bankRepo.findById(swift)).thenReturn(bank);
+
         //when
         underTest.getBank(swift);
         //then
-        verify(bankRepo).getById(swift);
+        verify(bankRepo).findById(swift);
     }
 
     @Test

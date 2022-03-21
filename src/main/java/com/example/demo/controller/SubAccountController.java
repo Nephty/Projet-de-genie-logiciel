@@ -9,9 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityExistsException;
-import java.util.Map;
-
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/account/sub-account")
 @RestController
@@ -27,9 +24,9 @@ public class SubAccountController {
      * 404 - Not found
      */
     @GetMapping
-    public ResponseEntity<SubAccount> getSubAccount(@RequestParam String iban, @RequestParam Integer currencyId){
-        SubAccount subAccount = subAccountService.getSubAccount(iban,currencyId);
-        return new ResponseEntity<>(subAccount,HttpStatus.OK);
+    public ResponseEntity<SubAccountReq> getSubAccount(@RequestParam String iban, @RequestParam Integer currencyId){
+        SubAccountReq subAccountReq = subAccountService.getSubAccount(iban,currencyId);
+        return new ResponseEntity<>(subAccountReq,HttpStatus.OK);
     }
 
     /**
@@ -42,8 +39,8 @@ public class SubAccountController {
      */
     @PostMapping
     public ResponseEntity<String> addSubAccount(@RequestBody SubAccountReq subAccountReq) {
-        subAccountService.addSubAccount(subAccountReq);
-        return new ResponseEntity<>(subAccountReq.toString(), HttpStatus.CREATED);
+        SubAccount savedSubAccount = subAccountService.addSubAccount(subAccountReq);
+        return new ResponseEntity<>(savedSubAccount.toString(), HttpStatus.CREATED);
     }
     /**
      * @param iban [param] id of the account linked
@@ -69,7 +66,7 @@ public class SubAccountController {
      */
     @PutMapping
     public ResponseEntity<String> changeSubAccount(@RequestBody SubAccountReq subAccountReq) {
-        subAccountService.changeSubAccount(subAccountReq);
-        return new ResponseEntity<>(subAccountReq.toString(), HttpStatus.CREATED);
+        SubAccount savedSubAccount = subAccountService.changeSubAccount(subAccountReq);
+        return new ResponseEntity<>(savedSubAccount.toString(), HttpStatus.CREATED);
     }
 }

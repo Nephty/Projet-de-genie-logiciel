@@ -55,9 +55,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User addUser(UserReq userReq) {
-        alreadyExists(userReq).ifPresent(userAlreadyExist -> {
-            throw userAlreadyExist;
-        });
+        //sender is null because this method is not authenticated
         User user = instantiateUser(null, userReq, HttpMethod.POST);
         log.info(user.toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -77,30 +75,31 @@ public class UserService implements UserDetailsService {
         uRepo.deleteById(id);
     }
 
-    private Optional<UserAlreadyExist> alreadyExists(UserReq userReq) {
-        if (uRepo.existsById(userReq.getUserId())){
-            log.warn("User "+userReq.getUserId()+" already exists");
-            return Optional.of(new UserAlreadyExist(UserAlreadyExist.Reason.ID));
+    private void alreadyExistsCheck(String userId, String username, String email) {
+        if (uRepo.existsById(userId)){
+            log.warn("User " + userId + " already exists");
+            throw new UserAlreadyExist(UserAlreadyExist.Reason.ID);
         }
-        if (uRepo.existsByUsername(userReq.getUsername())){
-            log.warn("Username "+userReq.getUsername()+" already exists");
-            return Optional.of(new UserAlreadyExist(UserAlreadyExist.Reason.USERNAME));
+        if (uRepo.existsByUsername(username)){
+            log.warn("Username " + username + " already exists");
+            throw new UserAlreadyExist(UserAlreadyExist.Reason.USERNAME);
         }
-        if (uRepo.existsByEmail(userReq.getEmail())){
-            log.warn("Email "+userReq.getEmail()+" already exists");
-            return Optional.of(new UserAlreadyExist(UserAlreadyExist.Reason.EMAIL));
+        if (uRepo.existsByEmail(email)){
+            log.warn("Email " + email + " already exists");
+            throw new UserAlreadyExist(UserAlreadyExist.Reason.EMAIL);
         }
-        return Optional.empty();
     }
 
     private User instantiateUser(Sender sender, UserReq userReq, HttpMethod method) {
         switch (method) {
             case POST:
+                alreadyExistsCheck(userReq.getUserId(), userReq.getUsername(), userReq.getEmail());
                 return new User(userReq);
             case PUT:
                 User user = uRepo.findById(sender.getId())
                         .orElseThrow(()-> new ResourceNotFound(sender.getId()));
                 user.change(userReq);
+                //alreadyExistsCheck(user.getUserID(), user.getUsername(), user.getEmail());
                 return user;
             default:
                 log.error("Invalid method {}", method);

@@ -4,7 +4,6 @@ import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.Account;
 import com.example.demo.model.AccountAccess;
-import com.example.demo.model.AccountType;
 import com.example.demo.model.CompositePK.AccountAccessPK;
 import com.example.demo.model.User;
 import com.example.demo.repository.AccountAccessRepo;
@@ -12,14 +11,12 @@ import com.example.demo.repository.AccountRepo;
 import com.example.demo.repository.UserRepo;
 import com.example.demo.request.AccountAccessReq;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Method;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -137,15 +134,16 @@ class AccountAccessServiceTest {
 
         Account tmpAccount = new Account();
         tmpAccount.setIban(accessReq.getAccountId());
-        Optional<Account> account = Optional.of(tmpAccount);
-        when(accountRepo.findById(accessReq.getAccountId()))
-                .thenReturn(account);
 
         User tmpUser = new User();
         tmpUser.setUserID(accessReq.getUserId());
-        Optional<User> user = Optional.of(tmpUser);
-        when(userRepo.findById(accessReq.getUserId()))
-                .thenReturn(user);
+
+        AccountAccess access = new AccountAccess(accessReq);
+        access.setAccountId(tmpAccount);
+        access.setUserId(tmpUser);
+
+        when(accessRepo.findById(new AccountAccessPK(accessReq.getAccountId(),accessReq.getUserId())))
+                .thenReturn(Optional.of(access));
 
         //When
         underTest.changeAccountAccess(accessReq);
@@ -158,12 +156,12 @@ class AccountAccessServiceTest {
         // If it saves the good accountAccess
         assertEquals(tmpAccount,captorValue.getAccountId());
         assertEquals(tmpUser,captorValue.getUserId());
-        assertEquals(accessReq.getAccess(),captorValue.getAccess());
-        assertEquals(accessReq.getHidden(),captorValue.getHidden());
+        assertEquals(access.getAccess(),captorValue.getAccess());
+        assertEquals(access.getHidden(),captorValue.getHidden());
     }
 
     @Test
-    void changeShouldThrowWhenAccountIdNotFound(){
+    void changeShouldThrowWhenAccountAccessNotFound(){
         //given
         AccountAccessReq accessReq = new AccountAccessReq(
                 "accountId",
@@ -175,34 +173,11 @@ class AccountAccessServiceTest {
         //then
         assertThatThrownBy(()->underTest.changeAccountAccess(accessReq))
                 .isInstanceOf(ConflictException.class)
-                .hasMessageContaining(accessReq.getAccountId());
+                .hasMessageContaining(accessReq.toString());
 
         verify(accessRepo,never()).save(any());
     }
 
-    @Test
-    void changeShouldThrowWhenUserIdNotFound(){
-        //given
-        AccountAccessReq accessReq = new AccountAccessReq(
-                "accountId",
-                "userId",
-                true,
-                false
-        );
-
-        Account tmpAccount = new Account();
-        tmpAccount.setIban(accessReq.getAccountId());
-        Optional<Account> account = Optional.of(tmpAccount);
-        when(accountRepo.findById(accessReq.getAccountId()))
-                .thenReturn(account);
-
-        //then
-        assertThatThrownBy(()->underTest.changeAccountAccess(accessReq))
-                .isInstanceOf(ConflictException.class)
-                .hasMessageContaining(accessReq.getUserId());
-
-        verify(accessRepo,never()).save(any());
-    }
 
 
     @Test

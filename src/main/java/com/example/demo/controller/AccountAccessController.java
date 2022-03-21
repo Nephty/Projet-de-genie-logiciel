@@ -5,14 +5,12 @@ import com.example.demo.model.AccountAccess;
 import com.example.demo.model.User;
 import com.example.demo.request.AccountAccessReq;
 import com.example.demo.service.AccountAccessService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/account-access")
@@ -76,8 +74,8 @@ public class AccountAccessController {
      */
     @PostMapping
     public ResponseEntity<String> addAccess(@RequestBody AccountAccessReq accountAccessReq){
-        AccountAccess res = accountAccessService.createAccountAccess(accountAccessReq);
-        return new ResponseEntity<>(res.toString(), HttpStatus.CREATED);
+        AccountAccess savedAccountAccess = accountAccessService.createAccountAccess(accountAccessReq);
+        return new ResponseEntity<>(savedAccountAccess.toString(), HttpStatus.CREATED);
     }
 
 
@@ -91,8 +89,8 @@ public class AccountAccessController {
      */
     @PutMapping
     public ResponseEntity<String> changeAccess(@RequestBody AccountAccessReq accountAccessReq) {
-        AccountAccess res = accountAccessService.changeAccountAccess(accountAccessReq);
-        return new ResponseEntity<>(res.toString(), HttpStatus.CREATED);
+        AccountAccess savedAccountAccess = accountAccessService.changeAccountAccess(accountAccessReq);
+        return new ResponseEntity<>(savedAccountAccess.toString(), HttpStatus.CREATED);
     }
 
     /**

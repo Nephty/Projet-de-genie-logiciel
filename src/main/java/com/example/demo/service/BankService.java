@@ -31,9 +31,6 @@ public class BankService {
     private final CurrencyTypeRepo currencyTypeRepo;
 
     public Bank addBank(BankReq bankReq) {
-        alreadyExists(bankReq).ifPresent(userAlreadyExist -> {
-            throw userAlreadyExist;
-        });
         Bank bank = instantiateBank(null, bankReq, HttpMethod.POST);
         bank.setPassword(passwordEncoder.encode(bank.getPassword()));
         return bankRepo.save(bank);
@@ -44,7 +41,6 @@ public class BankService {
     }
 
     public Bank changeBank(Sender sender,BankReq bankReq) {
-        //alreadyExists(bankReq).orElseThrow(() -> new ResourceNotFound(bankReq.toString()));
         Bank bank = instantiateBank(sender, bankReq, HttpMethod.PUT);
         bank.setPassword(passwordEncoder.encode(bank.getPassword()));
         return bankRepo.save(bank);
@@ -64,14 +60,13 @@ public class BankService {
          return new ArrayList<>(bankRepo.findAll());
     }
 
-    private Optional<UserAlreadyExist> alreadyExists(BankReq bankReq) {
-        if(bankRepo.existsById(bankReq.getSwift())) {
-            return Optional.of(new UserAlreadyExist(UserAlreadyExist.Reason.SWIFT));
+    private void alreadyExistCheck(String swift, String name) {
+        if(bankRepo.existsById(swift)) {
+            throw new UserAlreadyExist(UserAlreadyExist.Reason.SWIFT);
         }
-        if(bankRepo.existsByName(bankReq.getName())) {
-            return Optional.of(new UserAlreadyExist(UserAlreadyExist.Reason.NAME));
+        if(bankRepo.existsByName(name)) {
+            throw new UserAlreadyExist(UserAlreadyExist.Reason.NAME);
         }
-        return Optional.empty();
     }
 
     private Bank instantiateBank(Sender sender, BankReq bankReq, HttpMethod method) {
@@ -79,6 +74,7 @@ public class BankService {
         CurrencyType currencyType;
         switch (method) {
             case POST:
+                alreadyExistCheck(bankReq.getSwift(), bankReq.getName());
                 bank = new Bank(bankReq);
                 currencyType = currencyTypeRepo
                         .findById(bankReq.getDefaultCurrencyType())
@@ -89,6 +85,7 @@ public class BankService {
                 bank = bankRepo.findById(sender.getId())
                         .orElseThrow(()-> new ResourceNotFound(sender.getId()));
                 bank.change(bankReq);
+                //alreadyExistCheck(bank.getSwift(), bank.getName());
                 if(bankReq.getDefaultCurrencyType() != null) {
                     currencyType = currencyTypeRepo
                             .findById(bankReq.getDefaultCurrencyType())

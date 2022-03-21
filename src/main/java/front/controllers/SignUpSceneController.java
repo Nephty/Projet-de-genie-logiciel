@@ -236,7 +236,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             try {
                 response = Unirest.post("https://flns-spring-test.herokuapp.com/api/bank")
                         .header("Content-Type", "application/json")
-                        .body("{\r\n    \"swift\": \"" + SWIFT + "\",\r\n    \"name\": \"" + name + "\",\r\n    \"login\": \"" +" "+ "\",\r\n    \"password\": \"" + password + "\",\r\n    \"address\": \"" + city + "\",\r\n    \"country\": \"" + country + "\",\r\n    \"defaultCurrencyType\": 0\r\n}")
+                        .body("{\r\n    \"swift\": \"" + SWIFT + "\",\r\n    \"name\": \"" + name + "\",\r\n    \"login\": \"" + " " + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"address\": \"" + city + "\",\r\n    \"country\": \"" + country + "\",\r\n    \"defaultCurrencyType\": 0\r\n}")
                         .asString();
             } catch (UnirestException e) {
                 e.printStackTrace();

@@ -10,11 +10,12 @@ import java.util.ArrayList;
 
 public class Wallet {
     private final Profile accountUser;
-    private ArrayList<Account> accountList;
-    private Bank bank;
+    private final ArrayList<Account> accountList;
+    private final Bank bank;
 
     /**
      * Creates a Wallet object with the account user
+     *
      * @param accountUser The Profile object of the user
      * @throws UnirestException
      */

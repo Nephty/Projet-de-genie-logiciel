@@ -1,14 +1,15 @@
 package back.user;
 
 public class Notification extends Communication {
-    public String name;
     private final String content;
+    public String name;
     private boolean flag;
     private boolean dismiss;
 
 
     /**
      * Creates the Notification with all the informations needed
+     *
      * @param bank
      * @param profile
      * @param name
@@ -31,11 +32,11 @@ public class Notification extends Communication {
         return this.name;
     }
 
-    public void setDismiss(boolean value){
+    public void setDismiss(boolean value) {
         this.dismiss = value;
     }
 
-    public void setFlag(boolean value){
+    public void setFlag(boolean value) {
         this.flag = value;
     }
 }

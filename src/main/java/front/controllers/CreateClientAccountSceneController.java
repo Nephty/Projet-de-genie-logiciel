@@ -45,8 +45,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
      */
     public static boolean isValidIBAN(String IBAN) {
         if (IBAN == null) return false;
-        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 16))
-            return false;  // IBAN.length() == 16 already checks IBAN != ""
+        return (IBAN.matches("^[a-zA-Z0-9]*$")) && IBAN.length() == 16;  // IBAN.length() == 16 already checks IBAN != ""
         // TODO : Retirer commentaires
 //        for (int i = 0; i < IBAN.length(); i++) {
 //            switch (i) {
@@ -58,7 +57,6 @@ public class CreateClientAccountSceneController extends Controller implements Ba
 //                    if (!Character.isDigit(IBAN.charAt(i))) return false;
 //            }
 //        }
-        return true;
     }
 
     public void initialize() {
@@ -136,9 +134,9 @@ public class CreateClientAccountSceneController extends Controller implements Ba
             HttpResponse<String> response = null;
             try {
                 response = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
-                        .header("Authorization", "Bearer "+Main.getToken())
+                        .header("Authorization", "Bearer " + Main.getToken())
                         .header("Content-Type", "application/json")
-                        .body("{\r\n    \"iban\": \""+IBAN+"\",\r\n    \"swift\": \""+swift+"\",\r\n    \"userId\": \""+Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber()+"\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": "+repType+"\r\n}")
+                        .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber() + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + repType + "\r\n}")
                         .asString();
             } catch (UnirestException e) {
                 e.printStackTrace();
@@ -149,9 +147,9 @@ public class CreateClientAccountSceneController extends Controller implements Ba
             HttpResponse<String> response2 = null;
             try {
                 response2 = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
-                        .header("Authorization", "Bearer "+Main.getToken())
+                        .header("Authorization", "Bearer " + Main.getToken())
                         .header("Content-Type", "application/json")
-                        .body("{\r\n    \"accountId\": \""+IBAN+"\",\r\n    \"userId\": \""+Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber()+"\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
+                        .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber() + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
                         .asString();
             } catch (UnirestException e) {
                 e.printStackTrace();

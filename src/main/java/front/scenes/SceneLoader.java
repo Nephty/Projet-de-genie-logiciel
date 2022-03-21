@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Handles the loading of FXML files to create the Scenes.
@@ -18,7 +20,7 @@ public class SceneLoader {
      *
      * @param sceneName the name of the scene to load (that is, the name of the FXML file,
      *                  .fxml extension is not mandatory in the string, but it is in the name of the file
-     * @param locale the locale representing the correct language, for example en_US, fr_BE...
+     * @param locale    the locale representing the correct language, for example en_US, fr_BE...
      * @return the Scene that was created from the FXML file
      */
     public static Scene load(String sceneName, Locale locale) {

@@ -104,7 +104,6 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         String newPasswordConfirmation = confirmNewPasswordField.getText();
 
 
-
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
         boolean matches = encoder.matches(currentPasswordFromUser, currentPasswordFromDatabase);
 
@@ -128,7 +127,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
                 response2 = Unirest.put("https://flns-spring-test.herokuapp.com/api/bank")
                         .header("Content-Type", "application/json")
                         .header("Authorization", "Bearer " + Main.getToken())
-                        .body("{\r\n    \"swift\": \""+obj.getString("swift")+"\",\r\n    \"name\": \""+obj.getString("name")+"\",\r\n    \"login\": \""+ " " + "\",\r\n    \"password\": \""+newPassword+"\",\r\n    \"address\": \""+obj.getString("address")+"\",\r\n    \"country\": \""+obj.getString("country")+"\",\r\n    \"defaultCurrencyType\": 0\r\n}")
+                        .body("{\r\n    \"swift\": \"" + obj.getString("swift") + "\",\r\n    \"name\": \"" + obj.getString("name") + "\",\r\n    \"login\": \"" + " " + "\",\r\n    \"password\": \"" + newPassword + "\",\r\n    \"address\": \"" + obj.getString("address") + "\",\r\n    \"country\": \"" + obj.getString("country") + "\",\r\n    \"defaultCurrencyType\": 0\r\n}")
                         .asString();
             } catch (UnirestException e) {
                 e.printStackTrace();

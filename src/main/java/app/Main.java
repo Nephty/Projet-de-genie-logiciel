@@ -2,7 +2,6 @@ package app;
 
 import back.user.Account;
 import back.user.Bank;
-import back.user.Profile;
 import back.user.Wallet;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
@@ -17,6 +16,7 @@ import java.util.Locale;
  * Main runnable class that launches the application.
  */
 public class Main extends Application {
+    public static Locale appLocale;
     private static Bank bank;
     private static Stage stage;
     private static String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXRhbiIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjQ5NjE1MTEyLCJ1c2VySWQiOiIxMjM0NTY3ODkifQ.5LP2W6CDGPCgjnbTlQZNv18u7JZtgcU4pjpu6xMooJA";
@@ -68,11 +68,15 @@ public class Main extends Application {
         Main.currentAccount = currentAccount;
     }
 
+    public static Stage getStage() {
+        return stage;
+    }
+
     @Override
     public void start(Stage stage_) {
         stage = stage_;
-        
-        Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale;
+
+        Locale FR_BE_Locale, EN_US_Locale, NL_NL_Locale;
 
         FR_BE_Locale = new Locale("fr", "BE");
         EN_US_Locale = new Locale("en", "US");
@@ -81,6 +85,7 @@ public class Main extends Application {
         // TODO : if language = english, appLocale = english,...
 
         appLocale = NL_NL_Locale;
+
         Scenes.AuthScene = SceneLoader.load("AuthScene.fxml", appLocale);
         Scenes.SignInScene = SceneLoader.load("SignInScene.fxml", appLocale);
         Scenes.LanguageScene = SceneLoader.load("LanguageScene.fxml", appLocale);
@@ -94,9 +99,5 @@ public class Main extends Application {
         stage.setTitle("Benkyng app");
         stage.setScene(Scenes.AuthScene);
         stage.show();
-    }
-
-    public static Stage getStage() {
-        return stage;
     }
 }

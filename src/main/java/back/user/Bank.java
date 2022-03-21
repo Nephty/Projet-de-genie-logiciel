@@ -13,7 +13,6 @@ public class Bank {
     private final String swiftCode;
 
     /**
-     *
      * Creates a Bank object with an HTTP request by using the swift code
      *
      * @param swiftCode A String of the swift code of the bank
@@ -36,6 +35,7 @@ public class Bank {
 
     /**
      * Fetch all bank's swift code
+     *
      * @return An arraylist of all swift codes
      * @throws UnirestException For managing HTTP errors
      */
@@ -46,9 +46,9 @@ public class Bank {
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         String body = response.getBody();
-        body = body.substring(1, body.length() -1);
+        body = body.substring(1, body.length() - 1);
         ArrayList<String> bankList = JSONArrayParser(body);
-        for(int i = 0; i< bankList.size(); i++){
+        for (int i = 0; i < bankList.size(); i++) {
             JSONObject obj = new JSONObject(bankList.get(i));
             rep.add(obj.getString("swift"));
         }
@@ -58,6 +58,7 @@ public class Bank {
 
     /**
      * A method for parsing arrays in JSON
+     *
      * @param json The String to parse
      * @return A list of parsed Strings
      */

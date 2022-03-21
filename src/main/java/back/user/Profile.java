@@ -16,13 +16,14 @@ public class Profile {
 
     /**
      * Creates a Profile object with an HTTP request by using the user's national registration number
+     *
      * @param nationalRegistrationNumber The String of the user's national registration number
      * @throws UnirestException For managing HTTP errors
      */
     public Profile(String nationalRegistrationNumber) throws UnirestException {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
-        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber +"?isUsername=false")
+        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         String body = response.getBody();
@@ -35,8 +36,9 @@ public class Profile {
 
     /**
      * Creates a Profile object by giving all the needed informations
-     * @param firstName A string of the firstname
-     * @param lastName A string of the lastname
+     *
+     * @param firstName                  A string of the firstname
+     * @param lastName                   A string of the lastname
      * @param nationalRegistrationNumber A string of the national registration number
      */
     public Profile(String firstName, String lastName, String nationalRegistrationNumber) {
@@ -48,6 +50,7 @@ public class Profile {
 
     /**
      * Fetches all the customers of a bank
+     *
      * @param swift The String of the ban's swift
      * @return An ArrayList of all the customers
      */
@@ -64,15 +67,15 @@ public class Profile {
         }
 
         String body = response.getBody();
-        body = body.substring(1,body.length() -1);
+        body = body.substring(1, body.length() - 1);
         ArrayList<String> customerList = Bank.JSONArrayParser(body);
 
         ArrayList<String> userIdList = new ArrayList<String>();
 
-        for(int i = 0; i<customerList.size(); i++){
+        for (int i = 0; i < customerList.size(); i++) {
             JSONObject obj = new JSONObject(customerList.get(i));
-            if(!userIdList.contains(obj.getString("userID")) && (!obj.getString("userID").equals("000000000"))){
-                rep.add(new Profile(obj.getString("firstname"),obj.getString("lastname"),obj.getString("userID")));
+            if (!userIdList.contains(obj.getString("userID")) && (!obj.getString("userID").equals("000000000"))) {
+                rep.add(new Profile(obj.getString("firstname"), obj.getString("lastname"), obj.getString("userID")));
                 userIdList.add(obj.getString("userID"));
             }
         }
@@ -83,8 +86,8 @@ public class Profile {
      * @return A String to display the profile informations
      */
     @Override
-    public String toString(){
-        return this.firstName +"   "+this.lastName+ "     "+ this.nationalRegistrationNumber;
+    public String toString() {
+        return this.firstName + "   " + this.lastName + "     " + this.nationalRegistrationNumber;
     }
 
     public String getFirstName() {

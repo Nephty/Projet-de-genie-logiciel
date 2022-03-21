@@ -91,7 +91,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
             } catch (UnirestException e) {
                 e.printStackTrace();
             }
-            Scenes.ClientDetailsScene = SceneLoader.load("ClientDetailsScene.fxml");
+            Scenes.ClientDetailsScene = SceneLoader.load("ClientDetailsScene.fxml", Main.appLocale);
             Main.setScene(Flow.forward(Scenes.ClientDetailsScene));
         }
     }

@@ -6,8 +6,6 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
-import front.navigation.navigators.LanguageButtonNavigator;
-import front.scenes.Scenes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,7 +16,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.Arrays;
 
-public class SignUpSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
+public class SignUpSceneController extends Controller implements BackButtonNavigator {
     @FXML
     TextField confirmPasswordTextField, passwordTextField;
     @FXML
@@ -81,20 +79,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     @Override
     public void emulateBackButtonClicked() {
         handleBackButtonNavigation(null);
-    }
-
-    @Override
-    public void handleLanguageButtonNavigation(MouseEvent event) {
-        Main.setScene(Flow.forward(Scenes.LanguageScene));
-        if (userSignedUp) {
-            // if the user signed up, clear the form
-            // if he didn't sign up, we're saving the inputs
-            languageComboBox.setValue(null);
-            signedUpLabel.setVisible(false);
-            emptyAllTextFields();
-            hideAllLabels();
-            userSignedUp = false;
-        }
     }
 
     @FXML

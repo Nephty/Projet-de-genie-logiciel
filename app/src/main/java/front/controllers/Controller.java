@@ -10,9 +10,9 @@ import java.util.Calendar;
 /**
  * This mother Controller class gives access to a few useful methods to all children classes.
  * Having access to these methods provide shortcuts. For example :
- * The method isVisibleUsingOpacity returns whether the node's opacity is not 0, instead of using isVisible() (which
- * is totally different) and spares time, since you don't have to type "node.getOpacity() != 0". It also makes
- * the code more readable.
+ * The method formatCurrentTime() uses a <code>Calendar</code> object to return the current time in a defined format.
+ * This allows every controller to have access to a method to format time, rather than defining it in all FXML controllers.
+ * It also makes the code more readable.
  */
 public class Controller {
     /**

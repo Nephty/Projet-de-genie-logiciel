@@ -7,7 +7,6 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
-import front.navigation.navigators.LanguageButtonNavigator;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.fxml.FXML;
@@ -19,7 +18,7 @@ import org.json.JSONObject;
 
 import static app.Main.appLocale;
 
-public class SignInSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
+public class SignInSceneController extends Controller implements BackButtonNavigator {
     @FXML
     TextField passwordTextField;
     @FXML
@@ -121,11 +120,6 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     @Override
     public void emulateBackButtonClicked() {
         handleBackButtonNavigation(null);
-    }
-
-    @Override
-    public void handleLanguageButtonNavigation(MouseEvent event) {
-        Main.setScene(Flow.forward(Scenes.LanguageScene));
     }
 
     @FXML

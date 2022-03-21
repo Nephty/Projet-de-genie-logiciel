@@ -135,7 +135,7 @@ public class Main extends Application {
         PT_PT_Locale = new Locale("pt", "PT");
         LT_LT_Locale = new Locale("lt", "LT");
 
-        // TODO : if language = english, appLocale = english,...
+        // TODO : back-end : get the user's fav language and set it as the appLocale
 
         appLocale = EN_US_Locale;
 

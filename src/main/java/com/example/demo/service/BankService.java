@@ -85,7 +85,7 @@ public class BankService {
                 bank = bankRepo.findById(sender.getId())
                         .orElseThrow(()-> new ResourceNotFound(sender.getId()));
                 bank.change(bankReq);
-                alreadyExistCheck(bank.getSwift(), bank.getName());
+                //alreadyExistCheck(bank.getSwift(), bank.getName());
                 if(bankReq.getDefaultCurrencyType() != null) {
                     currencyType = currencyTypeRepo
                             .findById(bankReq.getDefaultCurrencyType())

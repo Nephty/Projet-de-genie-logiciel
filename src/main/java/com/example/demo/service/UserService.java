@@ -99,7 +99,7 @@ public class UserService implements UserDetailsService {
                 User user = uRepo.findById(sender.getId())
                         .orElseThrow(()-> new ResourceNotFound(sender.getId()));
                 user.change(userReq);
-                alreadyExistsCheck(user.getUserID(), user.getUsername(), user.getEmail());
+                //alreadyExistsCheck(user.getUserID(), user.getUsername(), user.getEmail());
                 return user;
             default:
                 log.error("Invalid method {}", method);

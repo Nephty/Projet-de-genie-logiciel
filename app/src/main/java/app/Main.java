@@ -136,7 +136,7 @@ public class Main extends Application {
         NL_NL_Locale = new Locale("nl", "NL");
         PT_PT_Locale = new Locale("pt", "PT");
         LT_LT_Locale = new Locale("lt", "LT");
-        RU_RU_Locale = new Locale("ru", "RU");  // Unable to implement : javafx cannot handle characters that are not unicode :(
+        RU_RU_Locale = new Locale("ru", "RU");
 
         // TODO : if language = english, appLocale = english,...
 

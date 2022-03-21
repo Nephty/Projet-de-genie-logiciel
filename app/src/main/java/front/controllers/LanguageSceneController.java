@@ -25,7 +25,7 @@ public class LanguageSceneController extends Controller implements BackButtonNav
     Label chooseLanguageLabel;
 
     public void initialize() {
-        languagesListView.setItems(FXCollections.observableArrayList(Main.FR_BE_Locale, Main.EN_US_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale));
+        languagesListView.setItems(FXCollections.observableArrayList(Main.FR_BE_Locale, Main.EN_US_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale));
     }
 
     @FXML

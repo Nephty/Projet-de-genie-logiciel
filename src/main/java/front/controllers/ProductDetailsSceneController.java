@@ -23,6 +23,8 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import static app.Main.appLocale;
+
 public class ProductDetailsSceneController extends Controller implements BackButtonNavigator {
 
     @FXML
@@ -69,7 +71,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             accountInactiveLabel.setVisible(false);
             Main.setCurrentAccount(accountsListView.getSelectionModel().getSelectedItems().get(0));
 
-            Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml");
+            Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml", appLocale);
             Main.setScene(Flow.forward(Scenes.TransactionsHistoryScene));
         }
     }

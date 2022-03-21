@@ -17,6 +17,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import org.json.JSONObject;
 
+import static app.Main.appLocale;
+
 public class SignInSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
     TextField passwordTextField;
@@ -88,17 +90,17 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             // Creates user's portfolio
             Main.updatePortfolio();
             // Load most of the scenes
-            Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml");
-            Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml");
-            Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml");
-            Scenes.RequestNewPortfolioScene = SceneLoader.load("RequestNewPortfolioScene.fxml");
-            Scenes.RequestTransferPermissionScene = SceneLoader.load("RequestTransferPermissionScene.fxml");
-            Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml");
-            Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml");
-            Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml");
-            Scenes.TransferScene = SceneLoader.load("TransferScene.fxml");
-            Scenes.EnterPINScene = SceneLoader.load("EnterPINScene.fxml");
-            Scenes.VisualizeToolScene = SceneLoader.load("VisualizeToolScene.fxml");
+            Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml", appLocale);
+            Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml", appLocale);
+            Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", appLocale);
+            Scenes.RequestNewPortfolioScene = SceneLoader.load("RequestNewPortfolioScene.fxml", appLocale);
+            Scenes.RequestTransferPermissionScene = SceneLoader.load("RequestTransferPermissionScene.fxml", appLocale);
+            Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", appLocale);
+            Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml", appLocale);
+            Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml", appLocale);
+            Scenes.TransferScene = SceneLoader.load("TransferScene.fxml", appLocale);
+            Scenes.EnterPINScene = SceneLoader.load("EnterPINScene.fxml", appLocale);
+            Scenes.VisualizeToolScene = SceneLoader.load("VisualizeToolScene.fxml", appLocale);
             Main.setScene(Flow.forward(Scenes.MainScreenScene));
         } else {
             if (!incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(true);

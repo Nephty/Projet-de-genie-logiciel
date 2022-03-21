@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Handles the loading of FXML files to create the Scenes.

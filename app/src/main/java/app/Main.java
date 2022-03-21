@@ -7,7 +7,13 @@ import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.util.Locale;
@@ -87,26 +93,38 @@ public class Main extends Application {
      * @param statut The error code
      */
     public static void ErrorManager(int statut) {
-        String message = "Error + "+statut+": ";
+        String message = "Error " + statut + ": ";
         switch(statut){
             case(401):
-                message = message + "access unauthorized, try to login again"; break;
+                message += "access unauthorized, try to login again"; break;
             case(403):
-                message = message + "forbidden, data are not correct, try again"; break;
+                message += "forbidden, data are not correct, try again"; break;
             case(404):
-                message = message + "not found, try again"; break;
+                message += "not found, try again"; break;
             case(409):
-                message = message + "conflict, data are not correct, try again"; break;
+                message += "conflict, data are not correct, try again"; break;
             case(500):
-                message = message + "internal server error, try again later"; break;
+                message += "internal server error, try again later"; break;
             case(502):
-                message = message + "bad gateway, try again later"; break;
+                message += "bad gateway, try again later"; break;
             case(503):
-                message = message + "service unavalaible, try again later"; break;
+                message += "service unavailable, try again later"; break;
             default:
-                message = message + "An error has occured"; break;
+                message += "An error has occurred"; break;
         }
-        // TODO : Generate a pop-up with the message
+        Stage errorWindow = new Stage();
+        errorWindow.setWidth(544);
+        errorWindow.setHeight(306);
+        Label errorLabel = new Label(message);
+        errorLabel.setAlignment(Pos.CENTER);
+        Button closeButton = new Button("X");
+        closeButton.setOnAction(e -> errorWindow.close());
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(errorLabel, closeButton);
+        vbox.setAlignment(Pos.CENTER);
+        Scene errorScene = new Scene(vbox);
+        errorWindow.setScene(errorScene);
+        errorWindow.showAndWait();
     }
 
     @Override

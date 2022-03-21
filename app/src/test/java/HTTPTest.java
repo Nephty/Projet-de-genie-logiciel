@@ -1,4 +1,7 @@
 import app.Main;
+import back.user.Bank;
+import back.user.Profile;
+import back.user.Wallet;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -138,7 +141,20 @@ public class HTTPTest {
         }
     }
 
-
-
+    @Test
+    @DisplayName("Getting a wallet for a user")
+    public void getWallet(){
+        Main.setToken(testToken);
+        // This test verify the requests : Wallet, Profile, Bank, Account, SubAccount, Transaction
+        assertDoesNotThrow(() ->{
+            Main.setBank(new Bank("ABCD"));
+            Wallet testWallet = new Wallet(new Profile("123456789"));
+            System.out.println(testWallet.getAccountUser().getFirstName());
+            System.out.println(testWallet.getAccountList().get(0).getIBAN());
+            assertEquals("Elon", testWallet.getAccountUser().getFirstName());
+            assertEquals("ABCDEF0123456789", testWallet.getAccountList().get(0).getIBAN());
+            assertEquals(1, testWallet.getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
+        });
+    }
 }
 

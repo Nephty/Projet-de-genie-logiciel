@@ -86,11 +86,11 @@ public class Controller {
             // Square buttons for PIN
             CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;";
         } else if (button.getPrefWidth() == 200) {
-            if (button.getText().toLowerCase().contains("path")) {
-                CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
-            } else {
+            if (button.getText().length() < 10) {
                 // Confirm button for PIN
                 CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;";
+            } else {
+                CSSLine = "-fx-background-color: rgb(190, 185, 180); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
             }
         } else if (button.getPrefWidth() == 250) {
             // Export buttons
@@ -132,11 +132,11 @@ public class Controller {
             // Square buttons for PIN
             CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -1.5; -fx-border-radius: 4;";
         } else if (button.getPrefWidth() == 200) {
-            if (button.getText().toLowerCase().contains("path")) {
-                CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
-            } else {
+            if (button.getText().length() < 10) {
                 // Confirm button for PIN
                 CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;";
+            } else {
+                CSSLine = "-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;";
             }
         } else if (button.getPrefWidth() == 250) {
             // Export buttons

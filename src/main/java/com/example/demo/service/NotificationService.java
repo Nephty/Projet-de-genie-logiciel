@@ -47,7 +47,7 @@ public class NotificationService {
     public List<NotificationReq> getUserNotification(String userId) {
         User user = userRepo.findById(userId).orElseThrow(()-> {
             log.error("no user with such id:" + userId);
-            return new ResourceNotFound("no user with such id:" + userId);
+            return new ResourceNotFound("no user with such id: " + userId);
         });
         ArrayList<Notification> notifications = notificationRepo.findAllByUserId(user);
 
@@ -70,12 +70,12 @@ public class NotificationService {
      */
     private ArrayList<NotificationReq> formatResponse(ArrayList<Notification> notifications) {
         ArrayList<NotificationReq> response = new ArrayList<>();
-        notifications.forEach(notification -> {
+        for(Notification notification : notifications ){
             if(!notification.getToBank()) {
                 NotificationReq notificationReq = new NotificationReq(notification);
                 response.add(notificationReq);
             }
-        });
+        }
         return response;
     }
 

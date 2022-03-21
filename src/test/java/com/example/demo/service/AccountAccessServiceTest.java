@@ -190,7 +190,7 @@ class AccountAccessServiceTest {
 
         //then
         assertThatThrownBy(()->underTest.changeAccountAccess(accessReq))
-                .isInstanceOf(ConflictException.class)
+                .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining(accessReq.toString());
 
         verify(accessRepo,never()).save(any());

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.throwables.ConflictException;
+import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.Bank;
 import com.example.demo.model.Notification;
 import com.example.demo.model.NotificationType;
@@ -13,6 +14,7 @@ import com.example.demo.repository.UserRepo;
 import com.example.demo.request.NotificationReq;
 import com.example.demo.security.Role;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -167,14 +169,61 @@ class NotificationServiceTest {
     }
 
     @Test
-    void deleteNotification() {
+    void canDeleteNotification() {
+        //Given
+        Integer notificationId = 0;
+        //when
+        underTest.deleteNotification(notificationId);
+        //Then
+        verify(notificationRepo).deleteById(notificationId);
     }
 
     @Test
-    void getUserNotification() {
+    void canGetUserNotification() {
+        //Given
+        User user = new User();
+        user.setUserID("id");
+        when(userRepo.findById("id")).thenReturn(Optional.of(user));
+
+        //When
+        underTest.getUserNotification(user.getUserID());
+
+        //Then
+        verify(notificationRepo).findAllByUserId(user);
     }
 
     @Test
-    void getBankNotification() {
+    void getUserNotificationShouldThrowWhenUserNotFound(){
+        //Given
+        String id = "id";
+
+        //Then
+        assertThatThrownBy(()->underTest.getUserNotification(id))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining("no user with such id: "+id);
+    }
+
+    @Test
+    void canGetBankNotification() {
+        //Given
+        Bank bank = new Bank();
+        bank.setSwift("swift");
+        when(bankRepo.findById("swift")).thenReturn(Optional.of(bank));
+
+        //When
+        underTest.getBankNotification(bank.getSwift());
+
+        //Then
+        verify(notificationRepo).findAllByBankId(bank);
+    }
+
+    @Test
+    void getBankNotificationShouldThrowWhenBankNotFound(){
+        String swift = "id";
+
+        //Then
+        assertThatThrownBy(() -> underTest.getBankNotification(swift))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining("no bank with such id: "+swift);
     }
 }

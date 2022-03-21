@@ -13,11 +13,17 @@ public class Wallet {
     private ArrayList<Account> accountList;
     private Bank bank;
 
+    /**
+     * Creates a Wallet object with the account user
+     * @param accountUser The Profile object of the user
+     * @throws UnirestException
+     */
     public Wallet(Profile accountUser) throws UnirestException {
         this.accountUser = accountUser;
         this.bank = Main.getBank();
         accountList = new ArrayList<Account>();
 
+        // Fetch all client's account access
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/" + this.accountUser.getNationalRegistrationNumber())
                 .header("Authorization", "Bearer " + Main.getToken())
@@ -27,7 +33,7 @@ public class Wallet {
         body = body.substring(1, body.length() - 1);
 
         ArrayList<String> bodyList = Bank.JSONArrayParser(body);
-
+        // Creates the accounts
         for (int i = 0; i < bodyList.size(); i++) {
             JSONObject obj = new JSONObject(bodyList.get(i));
             String swift = obj.getJSONObject("accountId").getJSONObject("swift").getString("swift");

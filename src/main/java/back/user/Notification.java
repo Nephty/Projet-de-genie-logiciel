@@ -6,6 +6,14 @@ public class Notification extends Communication {
     private boolean flag;
     private boolean dismiss;
 
+
+    /**
+     * Creates the Notification with all the informations needed
+     * @param bank
+     * @param profile
+     * @param name
+     * @param content
+     */
     public Notification(Bank bank, Profile profile, String name, String content) {
         this.client = profile;
         this.bank = bank;

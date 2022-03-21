@@ -13,6 +13,12 @@ public class Profile {
     private final String lastName;
     private final String nationalRegistrationNumber;
 
+
+    /**
+     * Creates a Profile object with an HTTP request by using the user's national registration number
+     * @param nationalRegistrationNumber The String of the user's national registration number
+     * @throws UnirestException For managing HTTP errors
+     */
     public Profile(String nationalRegistrationNumber) throws UnirestException {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
@@ -26,29 +32,25 @@ public class Profile {
         this.nationalRegistrationNumber = nationalRegistrationNumber;
     }
 
+
+    /**
+     * Creates a Profile object by giving all the needed informations
+     * @param firstName A string of the firstname
+     * @param lastName A string of the lastname
+     * @param nationalRegistrationNumber A string of the national registration number
+     */
     public Profile(String firstName, String lastName, String nationalRegistrationNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationalRegistrationNumber = nationalRegistrationNumber;
     }
 
-//    public void changePassword(String newPassword) throws UnirestException {
-//        Unirest.setTimeouts(0, 0);
-//        HttpResponse<String> response = null;
-//        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber +"?isUsername=false")
-//                .header("Authorization", "Bearer " + Main.getToken())
-//                .asString();
-//        String body = response.getBody();
-//        JSONObject obj = new JSONObject(body);
-//
-//        Unirest.setTimeouts(0, 0);
-//        HttpResponse<String> response2 = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
-//                .header("Authorization", "Bearer "+ Main.getToken())
-//                .header("Content-Type", "application/json")
-//                .body("{\r\n    \"name\": \""+this.firstName+"\",\r\n    \"id\": "+this.nationalRegistrationNumber+",\r\n    \"email\": \""+obj.getString("email")+"\",\r\n    \"password\": \""+newPassword+"\"\r\n}")
-//                .asString();
-//    }
 
+    /**
+     * Fetches all the customers of a bank
+     * @param swift The String of the ban's swift
+     * @return An ArrayList of all the customers
+     */
     public static ArrayList<Profile> fetchAllCustomers(String swift) {
         ArrayList<Profile> rep = new ArrayList<Profile>();
         Unirest.setTimeouts(0, 0);
@@ -77,6 +79,9 @@ public class Profile {
         return rep;
     }
 
+    /**
+     * @return A String to display the profile informations
+     */
     @Override
     public String toString(){
         return this.firstName +"   "+this.lastName+ "     "+ this.nationalRegistrationNumber;

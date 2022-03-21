@@ -63,8 +63,9 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                     .field("password", passwordField.getText())
                     .field("role", "ROLE_BANK")
                     .asString();
+            Main.errorCheck(response.getStatus());
         } catch (UnirestException e) {
-            e.printStackTrace();
+            Main.ErrorManager(408);
         }
 
         // If the login is correct, it set the tokens and creates the Bank
@@ -77,7 +78,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             try {
                 Main.setBank(new Bank(usernameField.getText())); // TODO : Optimise
             } catch (UnirestException e) {
-                e.printStackTrace();
+                Main.ErrorManager(408);
             }
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
             passwordField.setText("");

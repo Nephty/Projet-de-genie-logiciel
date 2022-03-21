@@ -26,6 +26,7 @@ public class Profile {
         response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
+        Main.errorCheck(response.getStatus());
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
         this.firstName = obj.getString("firstname");
@@ -60,8 +61,9 @@ public class Profile {
             response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access?swift=" + swift)
                     .header("Authorization", "Bearer " + Main.getToken())
                     .asString();
+            Main.errorCheck(response.getStatus());
         } catch (UnirestException e) {
-            e.printStackTrace();
+            Main.ErrorManager(408);
         }
 
         String body = response.getBody();

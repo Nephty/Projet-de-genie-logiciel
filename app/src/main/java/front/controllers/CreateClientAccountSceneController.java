@@ -138,8 +138,9 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                         .header("Content-Type", "application/json")
                         .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber() + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + repType + "\r\n}")
                         .asString();
+                Main.errorCheck(response.getStatus());
             } catch (UnirestException e) {
-                e.printStackTrace();
+                Main.ErrorManager(408);
             }
 
             // Create account access
@@ -151,8 +152,9 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                         .header("Content-Type", "application/json")
                         .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber() + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
                         .asString();
+                Main.errorCheck(response2.getStatus());
             } catch (UnirestException e) {
-                e.printStackTrace();
+                Main.ErrorManager(408);
             }
 
 

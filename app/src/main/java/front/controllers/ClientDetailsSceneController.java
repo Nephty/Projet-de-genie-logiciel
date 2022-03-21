@@ -182,7 +182,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
             try {
                 Main.getCurrentWallet().update();
             } catch (UnirestException e) {
-                e.printStackTrace();
+                Main.ErrorManager(408);
             }
             // Fetches the account list
             ArrayList<Account> accountList = Main.getCurrentWallet().getAccountList();

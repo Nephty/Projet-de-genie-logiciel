@@ -92,8 +92,9 @@ public class ChangePasswordSceneController extends Controller implements BackBut
             response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/" + Main.getBank().getSwiftCode())
                     .header("Authorization", "Bearer " + Main.getToken())
                     .asString();
+            Main.errorCheck(response.getStatus());
         } catch (UnirestException e) {
-            e.printStackTrace();
+            Main.ErrorManager(408);
         }
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
@@ -130,8 +131,9 @@ public class ChangePasswordSceneController extends Controller implements BackBut
                         .header("Authorization", "Bearer " + Main.getToken())
                         .body("{\r\n    \"swift\": \"" + obj.getString("swift") + "\",\r\n    \"name\": \"" + obj.getString("name") + "\",\r\n    \"login\": \"" + " " + "\",\r\n    \"password\": \"" + newPassword + "\",\r\n    \"address\": \"" + obj.getString("address") + "\",\r\n    \"country\": \"" + obj.getString("country") + "\",\r\n    \"defaultCurrencyType\": 0\r\n}")
                         .asString();
+                Main.errorCheck(response2.getStatus());
             } catch (UnirestException e) {
-                e.printStackTrace();
+                Main.ErrorManager(408);
             }
 
             int fadeInDuration = 1000;

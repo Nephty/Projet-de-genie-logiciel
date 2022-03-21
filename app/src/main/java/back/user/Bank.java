@@ -27,6 +27,7 @@ public class Bank {
                 .header("Authorization", "Bearer " + token)
                 .header("Content-Type", "application/json")
                 .asString();
+        Main.errorCheck(response.getStatus());
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
         this.name = obj.getString("name");
@@ -45,6 +46,7 @@ public class Bank {
         HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank")
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
+        Main.errorCheck(response.getStatus());
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);
         ArrayList<String> bankList = JSONArrayParser(body);

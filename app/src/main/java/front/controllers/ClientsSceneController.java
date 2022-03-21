@@ -89,7 +89,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
             try {
                 Main.setCurrentWallet(new Wallet(clientsListView.getSelectionModel().getSelectedItem()));
             } catch (UnirestException e) {
-                e.printStackTrace();
+                Main.ErrorManager(408);
             }
             Scenes.ClientDetailsScene = SceneLoader.load("ClientDetailsScene.fxml", Main.appLocale);
             Main.setScene(Flow.forward(Scenes.ClientDetailsScene));

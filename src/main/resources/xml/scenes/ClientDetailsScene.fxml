@@ -15,7 +15,7 @@
                     onMouseClicked="#handleBackButtonClicked" onMouseEntered="#handleButtonMouseEntered"
                     onMouseExited="#handleButtonMouseExited" prefHeight="36.0" prefWidth="120.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Back" textFill="#0a0a14">
+                    text="%common.backButton" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -34,22 +34,22 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefHeight="30.0" prefWidth="170.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Refresh client details">
+                    text="%ClientDetailsScene.fetchClientDetailsButton">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
             <Label fx:id="loadingClientDetailsLabel" layoutX="870.0" layoutY="29.0" opacity="0.0" prefHeight="16.0"
-                   prefWidth="154.0" text="Loading client details..."/>
+                   prefWidth="154.0" text="%ClientDetailsScene.fetchClientDetailsLabel"/>
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"
                    onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="326.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                   text="Client details not updated."/>
+                   text="%ClientDetailsScene.lastUpdateTimeLabel"/>
             <Button fx:id="exportDataButton" layoutX="1075.0" layoutY="150" onKeyReleased="#handleComponentKeyReleased"
                     onMouseClicked="#handleExportDataButtonClicked" onMouseEntered="#handleButtonMouseEntered"
                     onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Export data" textFill="#0a0a14">
+                    text="%common.exportDataButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -59,7 +59,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefHeight="30.0" prefWidth="170.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Create account" textFill="#0a0a14">
+                    text="%ClientDetailsScene.createAccountButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -69,14 +69,14 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefHeight="30.0" prefWidth="170.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Close account" textFill="#0a0a14">
+                    text="%ClientDetailsScene.closeAccountButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
             <ComboBox fx:id="sortByComboBox" layoutX="1075.0" layoutY="450.0"
                       onKeyReleased="#handleComponentKeyReleased" prefHeight="30.0" prefWidth="170.0"
-                      promptText="Sort by..."
+                      promptText="%common.sortByComboBox"
                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
@@ -84,13 +84,13 @@
             </ComboBox>
             <TextField fx:id="searchTextField" alignment="CENTER" layoutX="1075.0" layoutY="350.0"
                        onKeyPressed="#handleSearchTextFieldKeyPressed" onKeyReleased="#handleComponentKeyReleased"
-                       prefHeight="30.0" prefWidth="170.0" promptText="Search IBAN..."
+                       prefHeight="30.0" prefWidth="170.0" promptText="%ClientDetailsScene.searchField"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"/>
             <Button fx:id="searchButton" layoutX="1110.0" layoutY="400.0" onKeyReleased="#handleComponentKeyReleased"
                     onMouseClicked="#handleSearchButtonClicked" onMouseEntered="#handleButtonMouseEntered"
                     onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="100.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Search" textFill="#0a0a14">
+                    text="%common.searchButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -100,7 +100,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefHeight="30.0" prefWidth="170.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Remove client" textFill="#0a0a14">
+                    text="%ClientDetailsScene.removeClientButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -110,7 +110,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefHeight="30.0" prefWidth="75.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Cancel" textFill="#0a0a14" visible="false">
+                    text="%ClientDetailsScene.cancelButton" textFill="#0a0a14" visible="false">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -120,7 +120,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefHeight="30.0" prefWidth="75.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Confirm" textFill="#0a0a14" visible="false">
+                    text="%ClientDetailsScene.confirmButton" textFill="#0a0a14" visible="false">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>

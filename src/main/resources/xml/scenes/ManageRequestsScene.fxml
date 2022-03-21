@@ -18,7 +18,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleButtonKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Back" textFill="#0a0a14">
+                    text="%common.backButton" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -36,7 +36,7 @@
                     onKeyReleased="#handleButtonKeyReleased"
                     prefWidth="350.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="Transfer permission requests" textFill="#0a0a14">
+                    text="%ManageRequestsScene.transferPermissionRequestsButton" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -49,7 +49,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleButtonKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="Portfolio requests" textFill="#0a0a14">
+                    text="%ManageRequestsScene.portfolioRequestsButton" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -62,7 +62,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleButtonKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="Requests status" textFill="#0a0a14">
+                    text="%ManageRequestsScene.requestsStatusButton" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>

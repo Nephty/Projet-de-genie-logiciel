@@ -15,7 +15,7 @@
                     onMouseClicked="#handleBackButtonClicked" onMouseEntered="#handleButtonMouseEntered"
                     onMouseExited="#handleButtonMouseExited" prefHeight="36.0" prefWidth="120.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Back" textFill="#0a0a14">
+                    text="%common.backButton" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -29,17 +29,17 @@
             <Label fx:id="enterIBANLabel" alignment="CENTER" layoutX="432.0" layoutY="281.0"
                    onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="200.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                   text="Enter account IBAN :"/>
+                   text="%CreateClientAccountScene.enterIBANLabel"/>
             <TextField fx:id="IBANTextField" layoutX="649.0" layoutY="281.0"
                        onKeyPressed="#handleIBANTextFieldKeyPressed" onKeyReleased="#handleComponentKeyReleased"
-                       prefHeight="36.0" prefWidth="200.0" promptText="IBAN..."
+                       prefHeight="36.0" prefWidth="200.0" promptText="%CreateClientAccountScene.IBANField"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
             </TextField>
             <Label fx:id="invalidIBANLabel" layoutX="655.0" layoutY="261.0" prefHeight="17.0" prefWidth="93.0"
-                   text="Invalid IBAN." textFill="#c80000" visible="false"/>
+                   text="%CreateClientAccountScene.invalidIBANLabel" textFill="#c80000" visible="false"/>
             <ComboBox fx:id="accountTypeComboBox" layoutX="649.0" layoutY="334.0"
                       onKeyPressed="#handleAccountTypeComboBoxKeyPressed" onKeyReleased="#handleComponentKeyReleased"
-                      prefHeight="36.0" prefWidth="200.0" promptText="Account type..."
+                      prefHeight="36.0" prefWidth="200.0" promptText="%CreateClientAccountScene.accountTypeComboBox"
                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
@@ -50,19 +50,19 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefHeight="40.0" prefWidth="250.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Create account" textFill="#0a0a14">
+                    text="%CreateClientAccountScene.createAccountButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
             <Label fx:id="accountCreatedLabel" layoutX="540.0" layoutY="463.0" opacity="0.0" prefHeight="17.0"
-                   prefWidth="200.0" text="Account successfully created !" textFill="#00c800"/>
+                   prefWidth="200.0" text="%CreateClientAccountScene.accountCreatedLabel" textFill="#00c800"/>
             <Label fx:id="chooseAccountTypeLabel" alignment="CENTER" layoutX="432.0" layoutY="334.0"
                    onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="200.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                   text="Choose account type :"/>
+                   text="%CreateClientAccountScene.chooseAccountTypeLabel"/>
             <Label fx:id="noValueSelectedLabel" layoutX="655.0" layoutY="373.0" prefHeight="17.0" prefWidth="146.0"
-                   text="Please select a value." textFill="#c80000" visible="false"/>
+                   text="%CreateClientAccountScene.noValueSelectedLabel" textFill="#c80000" visible="false"/>
         </AnchorPane>
     </Pane>
 </Pane>

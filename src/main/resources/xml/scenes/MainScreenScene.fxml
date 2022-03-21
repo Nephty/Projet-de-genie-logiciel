@@ -16,7 +16,7 @@
                     onMouseClicked="#handleSignOutButtonClicked" prefHeight="36.0" prefWidth="120.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Sign out" textFill="#0a0a14">
+                    text="%MainScreenScene.signOutButton" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -28,7 +28,7 @@
                     onMouseClicked="#handleLanguageButtonClicked" prefHeight="36.0" prefWidth="120.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Language" textFill="#0a0a14">
+                    text="%common.languageButton" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -44,7 +44,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefWidth="350.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="Clients" textFill="#0a0a14">
+                    text="%MainScreenScene.clientsButton" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -56,7 +56,7 @@
                     onMouseClicked="#handleManageRequestsButtonClicked" prefHeight="70.0" prefWidth="350.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="Manage requests" textFill="#0a0a14">
+                    text="%MainScreenScene.manageRequestsButton" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -68,7 +68,7 @@
                     onMouseClicked="#handleManageDataButtonClicked" prefHeight="70.0" prefWidth="350.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="Manage data" textFill="#0a0a14">
+                    text="%MainScreenScene.manageDataButton" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -80,7 +80,7 @@
                     onMouseClicked="#handleChangePasswordButtonClicked" prefHeight="52.0" prefWidth="296.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="Change Password" textFill="#0a0a14">
+                    text="%common.changePasswordButton" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>

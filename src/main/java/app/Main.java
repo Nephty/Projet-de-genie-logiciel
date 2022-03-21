@@ -11,6 +11,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+
 /**
  * Main runnable class that launches the application.
  */
@@ -85,7 +87,6 @@ public class Main extends Application {
         Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml", appLocale);
         Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", appLocale);
         Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", appLocale);
-
 
         Flow.add(Scenes.AuthScene);
 

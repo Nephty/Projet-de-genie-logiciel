@@ -95,4 +95,24 @@ public class Flow {
         }
         return res.toString();
     }
+
+    /**
+     * Replaces the before last element of the flow and ensures the integrity of the last element.
+     * @param replaceWith The scene that will replace the before last scene in the flow
+     * @return The replaced scene
+     */
+    public static Scene replaceBeforeLastElement(Scene replaceWith) {
+        // Save last scene
+        Scene lastScene = Flow.tail();
+        // Get the replaced scene (returned value) : the new last element after the pop (which is the before last if we
+        // consider the original linked list)
+        Scene replacedScene = FLOW.pop();
+        // Removed the before last element
+        FLOW.pop();
+        // Add the replacement scene
+        FLOW.add(replaceWith);
+        // Restore the last element
+        FLOW.add(lastScene);
+        return replacedScene;
+    }
 }

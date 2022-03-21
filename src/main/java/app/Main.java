@@ -12,10 +12,13 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+
 /**
  * Main runnable class that launches the application.
  */
 public class Main extends Application {
+    public static Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale, PT_PT_Locale, LT_LT_Locale;
     public static Portfolio portfolio;
     public static int cpt = 0;
     private static Profile user;
@@ -124,11 +127,21 @@ public class Main extends Application {
     public void start(Stage stage_) {
         stage = stage_;
 
-        Scenes.AuthScene = SceneLoader.load("AuthScene.fxml");
-        Scenes.SignInScene = SceneLoader.load("SignInScene.fxml");
-        Scenes.LanguageScene = SceneLoader.load("LanguageScene.fxml");
-        Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml");
-        Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml");
+        FR_BE_Locale = new Locale("fr", "BE");
+        EN_US_Locale = new Locale("en", "US");
+        NL_NL_Locale = new Locale("nl", "NL");
+        PT_PT_Locale = new Locale("pt", "PT");
+        LT_LT_Locale = new Locale("lt", "LT");
+
+        // TODO : if language = english, appLocale = english,...
+
+        appLocale = EN_US_Locale;
+
+        Scenes.AuthScene = SceneLoader.load("AuthScene.fxml", appLocale);
+        Scenes.SignInScene = SceneLoader.load("SignInScene.fxml", appLocale);
+        Scenes.LanguageScene = SceneLoader.load("LanguageScene.fxml", appLocale);
+        Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml", appLocale);
+        Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", appLocale);
 
         Flow.add(Scenes.AuthScene);
 

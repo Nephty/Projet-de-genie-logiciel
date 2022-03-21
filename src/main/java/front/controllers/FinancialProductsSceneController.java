@@ -55,7 +55,7 @@ public class FinancialProductsSceneController extends Controller implements Back
         // If the user selected one wallet
         if (productsListView.getSelectionModel().getSelectedItems().size() == 1) {
             Main.setCurrentWallet(productsListView.getSelectionModel().getSelectedItems().get(0));
-            Scenes.ProductDetailsScene = SceneLoader.load("ProductDetailsScene.fxml");
+            Scenes.ProductDetailsScene = SceneLoader.load("ProductDetailsScene.fxml", Main.appLocale);
             Main.setScene(Flow.forward(Scenes.ProductDetailsScene));
         }
     }

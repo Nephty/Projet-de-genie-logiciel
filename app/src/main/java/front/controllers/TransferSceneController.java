@@ -87,17 +87,16 @@ public class TransferSceneController extends Controller implements BackButtonNav
         if (IBAN == null) return false;
         if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 16))
             return false;  // IBAN.length() == 16 already checks IBAN != ""
-        // TODO : Retirer les commentaires
-//        for (int i = 0; i < IBAN.length(); i++) {
-//            switch (i) {
-//                case 0:
-//                case 1:
-//                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
-//                    break;
-//                default:
-//                    if (!Character.isDigit(IBAN.charAt(i))) return false;
-//            }
-//        }
+        for (int i = 0; i < IBAN.length(); i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
+                    break;
+                default:
+                    if (!Character.isDigit(IBAN.charAt(i))) return false;
+            }
+        }
         return true;
     }
 

@@ -48,7 +48,7 @@ public class TransferProcessTests {
         assertFalse(isValidIBAN(i0));
         assertFalse(isValidIBAN(i1));
         assertFalse(isValidIBAN(i2));
-        assertTrue(isValidIBAN(i3));
+        assertFalse(isValidIBAN(i3));
         assertFalse(isValidIBAN(i4));
         assertFalse(isValidIBAN(i5));
         assertTrue(isValidIBAN(i6));

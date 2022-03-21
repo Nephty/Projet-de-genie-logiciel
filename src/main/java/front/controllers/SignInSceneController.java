@@ -88,16 +88,16 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", Main.appLocale);
             Main.setScene(Flow.forward(Scenes.MainScreenScene));
             // Load somes scenes
-            Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml");
-            Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml");
-            Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml");
-            Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml");
-            Scenes.ClientsScene = SceneLoader.load("ClientsScene.fxml");
-            Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml");
-            Scenes.AddClientScene = SceneLoader.load("AddClientScene.fxml");
-            Scenes.CreateClientAccountScene = SceneLoader.load("CreateClientAccountScene.fxml");
-            Scenes.ManageDataScene = SceneLoader.load("ManageDataScene.fxml");
-            Scenes.ImportDataScene = SceneLoader.load("ImportDataScene.fxml");
+            Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml", Main.appLocale);
+            Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml", Main.appLocale);
+            Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml", Main.appLocale);
+            Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", Main.appLocale);
+            Scenes.ClientsScene = SceneLoader.load("ClientsScene.fxml", Main.appLocale);
+            Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml", Main.appLocale);
+            Scenes.AddClientScene = SceneLoader.load("AddClientScene.fxml", Main.appLocale);
+            Scenes.CreateClientAccountScene = SceneLoader.load("CreateClientAccountScene.fxml", Main.appLocale);
+            Scenes.ManageDataScene = SceneLoader.load("ManageDataScene.fxml", Main.appLocale);
+            Scenes.ImportDataScene = SceneLoader.load("ImportDataScene.fxml", Main.appLocale);
 
         } else {
             if (!incorrectUsernameOrPasswordLabel.isVisible()) {

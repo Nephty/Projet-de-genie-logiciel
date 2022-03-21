@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.throwables.ConflictException;
+import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.model.SubAccount;
@@ -153,6 +154,10 @@ public class TransactionLogService {
     }
 
     private int nextId(){
-        return transactionLogRepo.findMaximumId()+1;
+        Integer tmp = transactionLogRepo.findMaximumId();
+        if (tmp == null){
+            return 1;
+        }
+        return tmp+1;
     }
 }

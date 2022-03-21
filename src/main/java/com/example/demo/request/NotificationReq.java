@@ -3,9 +3,11 @@ package com.example.demo.request;
 import com.example.demo.model.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
+@NoArgsConstructor
 @Data @AllArgsConstructor
 public class NotificationReq {
 

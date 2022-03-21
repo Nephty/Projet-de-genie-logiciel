@@ -107,7 +107,7 @@ public class NotificationService {
         });
         User user = userRepo.findById(userId).orElseThrow(()-> {
             log.error("no user with such id:" + userId);
-            return new ConflictException("no user with such id:" + userId);
+            return new ConflictException("no user with such id: " + userId);
         });
 
         notification.setBankId(bank);

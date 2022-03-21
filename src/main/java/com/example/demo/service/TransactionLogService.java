@@ -41,7 +41,7 @@ public class TransactionLogService {
         SubAccount subAccount = subAccountRepo.findById(new SubAccountPK(iban, currencyId))
                 .orElseThrow(()-> new ResourceNotFound(iban + " : " + currencyId.toString()));
         log.warn("fetching transaction for subaccount {}", subAccount);
-        ArrayList<TransactionLog> transactionLogs = transactionLogRepo.thisIsTheWay(subAccount);
+        ArrayList<TransactionLog> transactionLogs = transactionLogRepo.findAllLinkedToSubAccount(subAccount);
         log.warn("[FROM DB]logs length: {}", transactionLogs.size());
         ArrayList<TransactionReq> response = new ArrayList<>();
         transactionLogs.forEach(transactionLog -> System.out.println(transactionLog.toSimpleString()));

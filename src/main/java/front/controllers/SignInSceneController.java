@@ -23,7 +23,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     @FXML
     CheckBox showHidePasswordCheckBox;
     @FXML
-    Button languageButton, backButton, signInButton;
+    Button backButton, signInButton;
     @FXML
     TextField usernameField;
     @FXML
@@ -41,12 +41,6 @@ public class SignInSceneController extends Controller implements BackButtonNavig
         passwordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
         // Set selection property : if you type something in the password field, you also type it in the password text field
         passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
-    }
-
-    @FXML
-    public void handleLanguageButtonClicked(MouseEvent event) {
-        handleLanguageButtonNavigation(event);
-        hideAllLabels();
     }
 
     @FXML
@@ -87,8 +81,11 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
             passwordField.setText("");
             usernameField.setText("");
-            Main.setScene(Flow.forward(Scenes.MainScreenScene));
 
+
+            // RELOAD SCENES using SceneLoader.load to update language !
+            Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", Main.appLocale);
+            Main.setScene(Flow.forward(Scenes.MainScreenScene));
             Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml", Main.appLocale);
             Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml", Main.appLocale);
             Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml", Main.appLocale);

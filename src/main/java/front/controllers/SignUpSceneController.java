@@ -27,7 +27,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     Label SWIFTTakenLabel, nameTakenLabel, passwordDoesNotMatchLabel, languageNotChosenLabel,
             invalidCityLabel, invalidSWIFTLabel, invalidCountryLabel, invalidNameLabel;
     @FXML
-    Button backButton, languageButton, signUpButton;
+    Button backButton, signUpButton;
     @FXML
     TextField cityField, SWIFTField, countryField, nameField;
     @FXML
@@ -137,11 +137,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         hideAllLabels();
-    }
-
-    @FXML
-    public void handleLanguageButtonClicked(MouseEvent event) {
-        handleLanguageButtonNavigation(event);
     }
 
     @Override

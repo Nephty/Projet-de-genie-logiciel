@@ -69,8 +69,9 @@ public class BankService {
      * Throws an error if the bank already exists in the DB
      * @param swift param that must not be unique
      * @param name param that must be unique
+     * @throws UserAlreadyExist if there is already a bank with the same swift or name
      */
-    private void alreadyExistCheck(String swift, String name) {
+    private void alreadyExistCheck(String swift, String name) throws UserAlreadyExist {
         if(bankRepo.existsById(swift)) {
             throw new UserAlreadyExist(UserAlreadyExist.Reason.SWIFT);
         }
@@ -90,8 +91,15 @@ public class BankService {
      * @param bankReq incoming req
      * @param method method used either PUT or POST
      * @return An entity ready to be saved in the DB
+     * @throws ConflictException if the FK provided is incorrect
+     * @throws ResourceNotFound if the bank that the client tries to change doesn't exist
+     * @throws LittleBoyException if the method isn't POST or PUT
      */
-    private Bank instantiateBank(Sender sender, BankReq bankReq, HttpMethod method) {
+    private Bank instantiateBank(
+            Sender sender,
+            BankReq bankReq,
+            HttpMethod method
+    ) throws ConflictException, ResourceNotFound, LittleBoyException {
         Bank bank;
         CurrencyType currencyType;
         switch (method) {

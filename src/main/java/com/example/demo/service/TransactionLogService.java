@@ -33,6 +33,14 @@ public class TransactionLogService {
         return saved;
     }
 
+    /**
+     * This method both retrieves and format the transaction from a sub account
+     * in the DB the transaction are in pairs, one ascending and one descending this method regroups the pairs into one
+     * entity
+     * @param iban sub account iban
+     * @param currencyId sub account currency
+     * @return An array of all the transaction made and received by the subaccount
+     */
     public List<TransactionReq> getAllTransactionBySubAccount(String iban, Integer currencyId) {
         SubAccount subAccount = subAccountRepo.findById(new SubAccountPK(iban, currencyId))
                 .orElseThrow(()-> new ResourceNotFound(iban + " : " + currencyId.toString()));
@@ -86,7 +94,13 @@ public class TransactionLogService {
         return response;
     }
 
-    private ArrayList<TransactionLog> instantiateTransaction(TransactionReq transactionReq) {
+    /**
+     * Creates a transaction entity and raise an error if the request is incorrect
+     * @param transactionReq request made by the client
+     * @return Transaction entity based on the client's request
+     * @throws ConflictException if the FK provided by the client are inconsistent with the DB
+     */
+    private ArrayList<TransactionLog> instantiateTransaction(TransactionReq transactionReq) throws ConflictException{
         TransactionLog transactionSent = new TransactionLog(transactionReq);
         TransactionLog transactionReceived = new TransactionLog(transactionReq);
 

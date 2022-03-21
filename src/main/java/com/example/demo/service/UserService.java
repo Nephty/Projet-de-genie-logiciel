@@ -75,7 +75,14 @@ public class UserService implements UserDetailsService {
         uRepo.deleteById(id);
     }
 
-    private void alreadyExistsCheck(String userId, String username, String email) {
+    /**
+     * Raise an error if there already is a user in the DB with any of the params given
+     * @param userId id of the user
+     * @param username username
+     * @param email email of the user
+     * @throws UserAlreadyExist if the user already exists
+     */
+    private void alreadyExistsCheck(String userId, String username, String email) throws UserAlreadyExist{
         if (uRepo.existsById(userId)){
             log.warn("User " + userId + " already exists");
             throw new UserAlreadyExist(UserAlreadyExist.Reason.ID);
@@ -90,7 +97,18 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    private User instantiateUser(Sender sender, UserReq userReq, HttpMethod method) {
+    /**
+     * @param sender id and role of the client extracted from the JWT
+     * @param userReq request made by the client
+     * @param method http method used in the request
+     * @return A User entity based on the user request
+     * @throws ResourceNotFound if the user does not already exist in the DB in the case of a PUT method
+     * @throws LittleBoyException if the method provided is neither PUT nor POST
+     */
+    private User instantiateUser(Sender sender,
+                                 UserReq userReq,
+                                 HttpMethod method
+    ) throws ResourceNotFound, LittleBoyException {
         switch (method) {
             case POST:
                 alreadyExistsCheck(userReq.getUserId(), userReq.getUsername(), userReq.getEmail());
@@ -110,6 +128,11 @@ public class UserService implements UserDetailsService {
     //--------------------------------------------------------------------------------------------//
     //LOGIN PART
 
+    /**
+     * @param usernameAndRole String containing the username and the role separated by a fronts-lash
+     * @return UserDetails used by spring to authenticate the user
+     * @throws UsernameNotFoundException if the role doesn't match ROLE_USER or ROLE_BANK
+     */
     @Override
     public UserDetails loadUserByUsername(String usernameAndRole) throws UsernameNotFoundException {
         String[] usernameRole = usernameAndRole.split("/");
@@ -140,12 +163,23 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    private User getUserCredentials(String username) {
+    /**
+     * @param username username provided in the authentication request
+     * @return User entity matching the username
+     * @throws UsernameNotFoundException if the username provided doesn't match any user in the DB
+     */
+    private User getUserCredentials(String username) throws UsernameNotFoundException {
         return uRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
-    private Bank getBankCredentials(String swift) {
+    /**
+     * Fetch the bank data in the DB
+     * @param swift PK of the bank
+     * @return Bank entity
+     * @throws UsernameNotFoundException if the swift provided doesn't match any bank in the DB
+     */
+    private Bank getBankCredentials(String swift) throws UsernameNotFoundException {
         return bankRepo.findById(swift)
                 .orElseThrow(()-> {
                     log.error("no bank with such id: {}", swift);

@@ -56,8 +56,14 @@ public class AccountAccessService {
      * @param accountAccessReq incoming req
      * @param method method used either PUT or POST
      * @return An entity ready to be saved in the DB
+     * @throws ConflictException if the accountAccess already exists
+     * @throws LittleBoyException if the method provided is not PUT or POST
+     * @throws ResourceNotFound if the account that the client tries to modify doesn't exist
      */
-    private AccountAccess instantiateAccountAccess(AccountAccessReq accountAccessReq, HttpMethod method) {
+    private AccountAccess instantiateAccountAccess(
+            AccountAccessReq accountAccessReq,
+            HttpMethod method
+    ) throws ConflictException, LittleBoyException, ResourceNotFound{
         AccountAccess accountAccess;
         switch (method) {
             case POST:
@@ -79,7 +85,7 @@ public class AccountAccessService {
                         new AccountAccessPK(accountAccessReq.getAccountId(), accountAccessReq.getUserId())
                 ).orElseThrow(()-> {
                     log.error("no such account access: "+ accountAccessReq);
-                    return new ConflictException(accountAccessReq.toString());
+                    return new ResourceNotFound(accountAccessReq.toString());
                 });
                 accountAccess.change(accountAccessReq);
                 return accountAccess;

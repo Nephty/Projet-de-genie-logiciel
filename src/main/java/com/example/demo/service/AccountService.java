@@ -56,8 +56,11 @@ public class AccountService {
      * @param accountReq incoming req
      * @param method method used either PUT or POST
      * @return An entity ready to be saved in the DB
+     * @throws ConflictException if the FK provided do not exist
+     * @throws ResourceNotFound if the account that the client tries to change doesn't exist
+     * @throws LittleBoyException if the method isn't PUT or POST
      */
-    private Account instantiateAccount(AccountReq accountReq, HttpMethod method) {
+    private Account instantiateAccount(AccountReq accountReq, HttpMethod method) throws ConflictException, ResourceNotFound, LittleBoyException{
         Account account;
         switch (method) {
             case POST:

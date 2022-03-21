@@ -6,6 +6,7 @@ import com.example.demo.exception.throwables.UserAlreadyExist;
 import com.example.demo.model.Bank;
 import com.example.demo.model.CurrencyType;
 import com.example.demo.other.Sender;
+import com.example.demo.repository.AccountAccessRepo;
 import com.example.demo.repository.BankRepo;
 import com.example.demo.repository.CurrencyTypeRepo;
 import com.example.demo.request.BankReq;
@@ -37,12 +38,13 @@ class BankServiceTest {
     @Mock
     private CurrencyTypeRepo currencyTypeRepo;
 
+    private AccountAccessRepo accountAccessRepo;
 
     private BankService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new BankService(bankRepo,passwordEncoder,currencyTypeRepo);
+        underTest = new BankService(bankRepo,passwordEncoder,currencyTypeRepo, accountAccessRepo);
     }
 
     @Test

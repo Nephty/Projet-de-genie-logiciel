@@ -16,7 +16,7 @@ import java.util.Locale;
  * Main runnable class that launches the application.
  */
 public class Main extends Application {
-    public static Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale;
+    public static Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale, PT_PT_Locale, LT_LT_Locale;
     private static Bank bank;
     private static Stage stage;
     private static String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXRhbiIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjQ5NjE1MTEyLCJ1c2VySWQiOiIxMjM0NTY3ODkifQ.5LP2W6CDGPCgjnbTlQZNv18u7JZtgcU4pjpu6xMooJA";
@@ -79,6 +79,8 @@ public class Main extends Application {
         FR_BE_Locale = new Locale("fr", "BE");
         EN_US_Locale = new Locale("en", "US");
         NL_NL_Locale = new Locale("nl", "NL");
+        PT_PT_Locale = new Locale("pt", "PT");
+        LT_LT_Locale = new Locale("lt", "LT");
 
         // TODO : if language = english, appLocale = english,...
 

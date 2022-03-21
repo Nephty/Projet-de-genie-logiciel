@@ -36,9 +36,8 @@ public class Profile {
 
     /**
      * Creates a Profile object by giving all the needed informations
-     *
-     * @param firstName                  A string of the firstname
-     * @param lastName                   A string of the lastname
+     * @param firstName A string of the firstname
+     * @param lastName A string of the lastname
      * @param nationalRegistrationNumber A string of the national registration number
      */
     public Profile(String firstName, String lastName, String nationalRegistrationNumber) {
@@ -50,7 +49,6 @@ public class Profile {
 
     /**
      * Fetches all the customers of a bank
-     *
      * @param swift The String of the ban's swift
      * @return An ArrayList of all the customers
      */
@@ -67,16 +65,17 @@ public class Profile {
         }
 
         String body = response.getBody();
-        body = body.substring(1, body.length() - 1);
-        ArrayList<String> customerList = Bank.JSONArrayParser(body);
+        body = body.substring(1,body.length() -1);
 
-        ArrayList<String> userIdList = new ArrayList<String>();
-
-        for (int i = 0; i < customerList.size(); i++) {
-            JSONObject obj = new JSONObject(customerList.get(i));
-            if (!userIdList.contains(obj.getString("userID")) && (!obj.getString("userID").equals("000000000"))) {
-                rep.add(new Profile(obj.getString("firstname"), obj.getString("lastname"), obj.getString("userID")));
-                userIdList.add(obj.getString("userID"));
+        if(!body.equals("")) {
+            ArrayList<String> customerList = Bank.JSONArrayParser(body);
+            ArrayList<String> userIdList = new ArrayList<String>();
+            for (int i = 0; i < customerList.size(); i++) {
+                JSONObject obj = new JSONObject(customerList.get(i));
+                if (!userIdList.contains(obj.getString("userID")) && (!obj.getString("userID").equals("000000000"))) {
+                    rep.add(new Profile(obj.getString("firstname"), obj.getString("lastname"), obj.getString("userID")));
+                    userIdList.add(obj.getString("userID"));
+                }
             }
         }
         return rep;

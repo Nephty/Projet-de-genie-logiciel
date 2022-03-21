@@ -104,6 +104,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         String newPasswordConfirmation = confirmNewPasswordField.getText();
 
 
+        // Check if the password hash matches
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
         boolean matches = encoder.matches(currentPasswordFromUser, currentPasswordFromDatabase);
 
@@ -120,7 +121,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
 
         // If no label is visible, then the inputs are correct
         if (!incorrectCurrentPasswordLabel.isVisible() && !passwordDoesNotMatchLabel.isVisible()) {
-
+            // Changes the password
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response2 = null;
             try {

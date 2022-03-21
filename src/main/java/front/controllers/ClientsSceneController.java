@@ -128,8 +128,10 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
             sleepAndFadeOutLoadingClientsLabelFadeThread = new FadeOutThread();
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            ArrayList<Profile> customerList = Profile.fetchAllCustomers(Main.getBank().getSwiftCode());
 
+            // Fetches the clients
+            ArrayList<Profile> customerList = Profile.fetchAllCustomers(Main.getBank().getSwiftCode());
+            // Put the client list in a ListView
             clientsListView.setItems(FXCollections.observableArrayList(customerList));
             sleepAndFadeOutLoadingClientsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientsLabel);
         }

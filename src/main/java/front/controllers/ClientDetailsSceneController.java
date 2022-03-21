@@ -71,7 +71,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
 
     @FXML
     public void handleFetchClientDetailsButtonClicked(MouseEvent event) {
-        fetchClientDetails();
+        updateClientDetails();
     }
 
     @FXML
@@ -94,18 +94,18 @@ public class ClientDetailsSceneController extends Controller implements BackButt
 
     @FXML
     public void handleCloseAccountButtonClicked(MouseEvent event) {
-        // TODO : API fonctionne pas
-        if (clientDetailsListView.getSelectionModel().getSelectedItems().size() == 1) {
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
-            try {
-                response = Unirest.delete("https://flns-spring-test.herokuapp.com/api/account/" + clientDetailsListView.getSelectionModel().getSelectedItems().get(0).getIBAN())
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .asString();
-            } catch (UnirestException e) {
-                e.printStackTrace();
-            }
-        }
+        // TODO : Not implemented in API yet
+//        if(clientDetailsListView.getSelectionModel().getSelectedItems().size() == 1){
+//            Unirest.setTimeouts(0, 0);
+//            HttpResponse<String> response = null;
+//            try {
+//                response = Unirest.delete("https://flns-spring-test.herokuapp.com/api/account/" + clientDetailsListView.getSelectionModel().getSelectedItems().get(0).getIBAN())
+//                        .header("Authorization", "Bearer "+Main.getToken())
+//                        .asString();
+//            } catch (UnirestException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @FXML
@@ -144,6 +144,9 @@ public class ClientDetailsSceneController extends Controller implements BackButt
         // TODO : back-end : remove client from bank
     }
 
+    /**
+     * Fetches the client details
+     */
     public void fetchClientDetails() {
         if (loadingClientDetailsLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;
@@ -154,6 +157,34 @@ public class ClientDetailsSceneController extends Controller implements BackButt
             sleepAndFadeOutLoadingClientDetailsLabelFadeThread = new FadeOutThread();
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
+            // Fetches the accountList
+            ArrayList<Account> accountList = Main.getCurrentWallet().getAccountList();
+            // Add it to the listView
+            clientDetailsListView.setItems(FXCollections.observableArrayList(accountList));
+            sleepAndFadeOutLoadingClientDetailsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientDetailsLabel);
+        }
+    }
+
+    /**
+     * Update the client details by reloading the wallet
+     */
+    public void updateClientDetails() {
+        if (loadingClientDetailsLabel.getOpacity() == 0.0) {
+            int fadeInDuration = 1000;
+            int fadeOutDuration = fadeInDuration;
+            int sleepDuration = 1000;
+            FadeOutThread sleepAndFadeOutLoadingClientDetailsLabelFadeThread;
+            FadeInTransition.playFromStartOn(loadingClientDetailsLabel, Duration.millis(fadeInDuration));
+            sleepAndFadeOutLoadingClientDetailsLabelFadeThread = new FadeOutThread();
+            Calendar c = Calendar.getInstance();
+            lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
+            // Update the wallet
+            try {
+                Main.getCurrentWallet().update();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+            // Fetches the account list
             ArrayList<Account> accountList = Main.getCurrentWallet().getAccountList();
             clientDetailsListView.setItems(FXCollections.observableArrayList(accountList));
             sleepAndFadeOutLoadingClientDetailsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientDetailsLabel);

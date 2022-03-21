@@ -2,6 +2,7 @@ package front.controllers;
 
 import app.Main;
 import back.user.Bank;
+import back.user.Profile;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -52,6 +53,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
      * Checks if every field is properly filled in. Initializes the sign in process.
      */
     public void signIn() {
+        // Try to login with the username and password
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {
@@ -65,16 +67,15 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             e.printStackTrace();
         }
 
-        // TODO : Retirer quand ce sera réparé
+        // If the login is correct, it set the tokens and creates the Bank
         if ((response.getStatus() == 200)) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
             String body = response.getBody();
             JSONObject obj = new JSONObject(body);
-//            Main.setToken(obj.getString("access_token"));
-//            Main.setRefreshToken(obj.getString("refresh_token"));
+            Main.setToken(obj.getString("access_token"));
+            Main.setRefreshToken(obj.getString("refresh_token"));
             try {
-//                Main.setBank(new Bank(usernameField.getText())); // TODO : Optimiser
-                Main.setBank(new Bank("ABCD"));
+                Main.setBank(new Bank(usernameField.getText())); // TODO : Optimise
             } catch (UnirestException e) {
                 e.printStackTrace();
             }
@@ -86,16 +87,17 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             // RELOAD SCENES using SceneLoader.load to update language !
             Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", Main.appLocale);
             Main.setScene(Flow.forward(Scenes.MainScreenScene));
-            Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml", Main.appLocale);
-            Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml", Main.appLocale);
-            Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml", Main.appLocale);
-            Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", Main.appLocale);
-            Scenes.ClientsScene = SceneLoader.load("ClientsScene.fxml", Main.appLocale);
-            Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml", Main.appLocale);
-            Scenes.AddClientScene = SceneLoader.load("AddClientScene.fxml", Main.appLocale);
-            Scenes.CreateClientAccountScene = SceneLoader.load("CreateClientAccountScene.fxml", Main.appLocale);
-            Scenes.ManageDataScene = SceneLoader.load("ManageDataScene.fxml", Main.appLocale);
-            Scenes.ImportDataScene = SceneLoader.load("ImportDataScene.fxml", Main.appLocale);
+            // Load somes scenes
+            Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml");
+            Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml");
+            Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml");
+            Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml");
+            Scenes.ClientsScene = SceneLoader.load("ClientsScene.fxml");
+            Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml");
+            Scenes.AddClientScene = SceneLoader.load("AddClientScene.fxml");
+            Scenes.CreateClientAccountScene = SceneLoader.load("CreateClientAccountScene.fxml");
+            Scenes.ManageDataScene = SceneLoader.load("ManageDataScene.fxml");
+            Scenes.ImportDataScene = SceneLoader.load("ImportDataScene.fxml");
 
         } else {
             if (!incorrectUsernameOrPasswordLabel.isVisible()) {

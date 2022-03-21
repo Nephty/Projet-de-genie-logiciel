@@ -128,7 +128,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
         }
 
         if (!invalidIBANLabel.isVisible() && !isIBANTaken(IBAN) && !noValueSelectedLabel.isVisible()) {
-            // Creates account
+            // Creates account with all the values
             String swift = Main.getBank().getSwiftCode();
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;

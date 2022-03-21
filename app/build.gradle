@@ -52,3 +52,7 @@ test {
         events "passed", "skipped", "failed"
     }
 }
+
+task myJavadocs(type: Javadoc) {
+    source = sourceSets.main.allJava
+}

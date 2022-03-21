@@ -55,7 +55,7 @@ public class HTTPTest {
             assertEquals("Musk", portfolioTest.getUser().getLastName());
             assertEquals("123456789", portfolioTest.getUser().getNationalRegistrationNumber());
             assertEquals("Belfius", portfolioTest.getWalletList().get(0).getBank().getName());
-            assertEquals("ABCDEF0123456789", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
+            assertEquals("0123456789ABCDEF", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
             assertEquals(1,portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
         });
     }

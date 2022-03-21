@@ -93,14 +93,7 @@ public class ImportDataSceneController extends Controller implements BackButtonN
 
             // TODO : back-end : import data from the selected file
 
-            int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
-            int sleepDuration = 1000;
-            FadeOutThread sleepAndFadeOutImportDoneLabelFadeThread;
-            FadeInTransition.playFromStartOn(importSuccessfulLabel, Duration.millis(fadeInDuration));
-            sleepAndFadeOutImportDoneLabelFadeThread = new FadeOutThread();
-            sleepAndFadeOutImportDoneLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, importSuccessfulLabel);
-
+            fadeInAndOutNode(1000, importSuccessfulLabel);
             importDone = true;
 
             // Reset form

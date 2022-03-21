@@ -84,7 +84,7 @@
                     <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0" />
                 </effect>
             </Button>
-            <Label fx:id="signedUpLabel" layoutX="540.0" layoutY="594.0" prefHeight="17.0" prefWidth="200.0" text="%SignUpScene.signedUpLabel" textFill="#00c800" visible="false" />
+            <Label fx:id="signedUpLabel" layoutX="540.0" layoutY="594.0" opacity="0.0" prefHeight="17.0" prefWidth="200.0" text="%SignUpScene.signedUpLabel" textFill="#00c800" visible="true" />
             <CheckBox fx:id="showHidePasswordCheckBox" layoutX="904.0" layoutY="349.0" mnemonicParsing="false" onKeyReleased="#handleComponentKeyReleased" prefWidth="191.0" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -3.5; -fx-border-radius: 2;" text="%common.showPasswordCheckBox" />
         </AnchorPane>
     </Pane>

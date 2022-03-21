@@ -158,13 +158,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
             }
 
 
-            int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
-            int sleepDuration = 1000;
-            FadeOutThread sleepAndFadeOutAccountCreatedLabelFadeThread;
-            FadeInTransition.playFromStartOn(accountCreatedLabel, Duration.millis(fadeInDuration));
-            sleepAndFadeOutAccountCreatedLabelFadeThread = new FadeOutThread();
-            sleepAndFadeOutAccountCreatedLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, accountCreatedLabel);
+            fadeInAndOutNode(1000, accountCreatedLabel);
             accountCreated = true;
 
             // Reset the form

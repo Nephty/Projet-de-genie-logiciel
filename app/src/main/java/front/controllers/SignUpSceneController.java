@@ -146,7 +146,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             // if the user signed up, clear the form
             // if he didn't sign up, we're saving the inputs
             languageComboBox.setValue(null);
-            signedUpLabel.setVisible(false);
             emptyAllTextFields();
             hideAllLabels();
             userSignedUp = false;
@@ -165,7 +164,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             // if the user signed up, clear the form
             // if he didn't sign up, we're saving the inputs
             languageComboBox.setValue(null);
-            signedUpLabel.setVisible(false);
             emptyAllTextFields();
             hideAllLabels();
             userSignedUp = false;
@@ -238,7 +236,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
                 Main.ErrorManager(408);
             }
             userSignedUp = true;
-            signedUpLabel.setVisible(true);
+            fadeInAndOutNode(3000, signedUpLabel);
             // Empty all data that we don't need, it's a security detail
             city = "";
             SWIFT = "";
@@ -247,7 +245,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             password = "";
             passwordConfirmation = "";
             chosenLanguage = "";
-
         }
     }
 

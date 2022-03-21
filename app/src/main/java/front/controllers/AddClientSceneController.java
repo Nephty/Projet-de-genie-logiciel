@@ -100,13 +100,7 @@ public class AddClientSceneController extends Controller implements BackButtonNa
 
         if (!invalidNRNLabel.isVisible()) { // TODO : check if the client is not already in the database
             // TODO : back-end : add client
-            int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
-            int sleepDuration = 3000;
-            FadeOutThread sleepAndFadeOutRequestSentLabelFadeThread;
-            FadeInTransition.playFromStartOn(clientAddedLabel, Duration.millis(fadeInDuration));
-            sleepAndFadeOutRequestSentLabelFadeThread = new FadeOutThread();
-            sleepAndFadeOutRequestSentLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, clientAddedLabel);
+            fadeInAndOutNode(3000, clientAddedLabel);
             clientAdded = true;
 
             // Reset the form

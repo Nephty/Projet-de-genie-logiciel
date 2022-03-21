@@ -205,23 +205,25 @@ public class TransferSceneController extends Controller implements BackButtonNav
 
         String recipientActual = Main.getCurrentAccount().getIBAN();
 
-        if (noLabelVisible()) {
-            // TODO : Manage errors (insufficient balance)
-            // Creates the transfert if everything is correct
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
-            try {
-                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/transaction")
-                        .header("Authorization", "Bearer "+Main.getToken())
-                        .header("Content-Type", "application/json")
-                        .body("{\r\n    \"transactionTypeId\": 1,\r\n    \"senderIban\": \""+recipientActual+"\",\r\n    \"recipientIban\": \""+IBAN+"\",\r\n    \"currencyId\": 0,\r\n    \"transactionAmount\": "+amount+"\r\n}")
-                        .asString();
-            } catch (UnirestException e) {
-                e.printStackTrace();
-            }
+        if(recipientActual != IBAN) {
+            if (noLabelVisible()) {
+                // TODO : Manage errors (insufficient balance)
+                // Creates the transfer if everything is correct
+                Unirest.setTimeouts(0, 0);
+                HttpResponse<String> response = null;
+                try {
+                    response = Unirest.post("https://flns-spring-test.herokuapp.com/api/transaction")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .header("Content-Type", "application/json")
+                            .body("{\r\n    \"transactionTypeId\": 1,\r\n    \"senderIban\": \"" + recipientActual + "\",\r\n    \"recipientIban\": \"" + IBAN + "\",\r\n    \"currencyId\": 0,\r\n    \"transactionAmount\": " + amount + "\r\n}")
+                            .asString();
+                } catch (UnirestException e) {
+                    e.printStackTrace();
+                }
 
-            Main.setScene(Flow.forward(Scenes.MainScreenScene));
-            clearAllTextFields();
+                Main.setScene(Flow.forward(Scenes.MainScreenScene));
+                clearAllTextFields();
+            }
         }
     }
 

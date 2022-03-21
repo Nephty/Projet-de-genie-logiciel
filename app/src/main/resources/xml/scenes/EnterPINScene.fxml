@@ -16,7 +16,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Back" textFill="#0a0a14">
+                    text="%common.backButton" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -33,7 +33,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="Confirm" textFill="#0a0a14">
+                    text="%EnterPINScene.confirmButton" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -42,7 +42,7 @@
                 </effect>
             </Button>
             <PasswordField fx:id="PINField" layoutX="593.0" layoutY="62.0" mouseTransparent="true" prefHeight="60.0"
-                           prefWidth="95.0" promptText="PIN..."
+                           prefWidth="95.0" promptText="%EnterPINScene.PINField"
                            onKeyReleased="#handleComponentKeyReleased"
                            style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
@@ -171,11 +171,11 @@
                 </font>
             </Button>
             <Label fx:id="incorrectPINLabel" layoutX="595.0" layoutY="586.0" prefHeight="16.0" prefWidth="95.0"
-                   text="PIN incorrect." textFill="#c80000" visible="false"/>
+                   text="%EnterPINScene.incorrectPINLabel" textFill="#c80000" visible="false"/>
             <Label fx:id="tooManyAttemptsLabel" layoutX="595.0" layoutY="586.0" prefHeight="16.0" prefWidth="95.0"
-                   text="Too many attempts." textFill="#c80000" visible="false"/>
+                   text="%EnterPINScene.tooManyAttemptsLabel" textFill="#c80000" visible="false"/>
             <Label fx:id="correctPINLabel" layoutX="599.0" layoutY="586.0" opacity="0.0" prefHeight="16.0"
-                   prefWidth="82.0" text="PIN correct !" textFill="#00c800"/>
+                   prefWidth="82.0" text="%EnterPINScene.correctPINLabel" textFill="#00c800"/>
         </AnchorPane>
     </Pane>
 </Pane>

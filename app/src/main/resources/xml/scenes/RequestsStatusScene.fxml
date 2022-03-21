@@ -18,7 +18,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Back" textFill="#0a0a14">
+                    text="%common.backButton" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -37,15 +37,15 @@
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"
                    prefHeight="36.0" prefWidth="326.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                   text="Requests not updated."/>
+                   text="%RequestsStatusScene.lastUpdateTimeLabel"/>
             <Label fx:id="loadingRequestsLabel" layoutX="925.0" layoutY="29.0" opacity="0.0"
-                   prefHeight="16.0" prefWidth="135.0" text="Loading requests..."/>
+                   prefHeight="16.0" prefWidth="135.0" text="%RequestsStatusScene.loadingRequestsLabel"/>
             <Button fx:id="fetchRequestsButton" layoutX="1080.0" layoutY="22.0"
                     onMouseClicked="#handleFetchRequestsButtonClicked" prefHeight="30.0" prefWidth="170.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Refresh requests">
+                    text="%RequestsStatusScene.fetchRequestsButton">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>

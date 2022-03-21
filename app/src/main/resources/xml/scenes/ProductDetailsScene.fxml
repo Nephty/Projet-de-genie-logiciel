@@ -18,7 +18,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Back" textFill="#0a0a14">
+                    text="%common.backButton" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -37,13 +37,13 @@
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"
                    prefHeight="36.0" prefWidth="326.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                   text="Accounts not updated."/>
+                   text="%ProductDetailsScene.lastUpdateTimeLabel"/>
             <Button fx:id="historyButton" layoutX="1075.0" layoutY="250.0"
                     onMouseClicked="#handleHistoryButtonClicked" prefHeight="30.0" prefWidth="170.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="History" textFill="#0a0a14">
+                    text="%ProductDetailsScene.historyButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -53,19 +53,19 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Transfer" textFill="#0a0a14">
+                    text="%common.transferButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
             <Label fx:id="loadingAccountsLabel" layoutX="870.0" layoutY="29.0" opacity="0.0"
-                   prefHeight="16.0" prefWidth="154.0" text="Loading accounts..."/>
+                   prefHeight="16.0" prefWidth="154.0" text="%ProductDetailsScene.loadingAccountsLabel"/>
             <Button fx:id="fetchAccountsButton" layoutX="1075.0" layoutY="75.0"
                     onMouseClicked="#handleFetchAccountsButtonClicked" prefHeight="30.0" prefWidth="170.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Refresh accounts">
+                    text="%ProductDetailsScene.fetchAccountsButton">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -75,19 +75,19 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Toggle" textFill="#0a0a14">
+                    text="%ProductDetailsScene.toggleButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
             <Label fx:id="togglingProductLabel" layoutX="1094.0" layoutY="330.0" opacity="0.0"
-                   prefHeight="16.0" prefWidth="132.0" text="Toggling product..."/>
+                   prefHeight="16.0" prefWidth="132.0" text="%ProductDetailsScene.togglingProductLabel"/>
             <Label fx:id="toggledOnProductLabel" layoutX="1089.0" layoutY="385.0" opacity="0.0"
-                   prefHeight="16.0" prefWidth="143.0" text="Product toggled on !" textFill="#00c800"/>
+                   prefHeight="16.0" prefWidth="143.0" text="%ProductDetailsScene.toggledOnProductLabel" textFill="#00c800"/>
             <Label fx:id="toggledOffProductLabel" layoutX="1089.0" layoutY="385.0" opacity="0.0"
-                   prefHeight="16.0" prefWidth="143.0" text="Product toggled off !" textFill="#c80000"/>
+                   prefHeight="16.0" prefWidth="143.0" text="%ProductDetailsScene.toggledOffProductLabel" textFill="#c80000"/>
             <Label fx:id="accountInactiveLabel" layoutX="1090.0" layoutY="231.0" prefHeight="17.0"
-                   prefWidth="143.0" text="Account is not active." textFill="#c80000" visible="false"/>
+                   prefWidth="143.0" text="%ProductDetailsScene.accountInactiveLabel" textFill="#c80000" visible="false"/>
         </AnchorPane>
     </Pane>
 </Pane>

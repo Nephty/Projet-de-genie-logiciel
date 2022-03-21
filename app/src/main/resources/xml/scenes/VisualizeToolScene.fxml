@@ -18,7 +18,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Back" textFill="#0a0a14">
+                    text="%common.backButton" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -41,13 +41,13 @@
             <Label fx:id="accountsLabel" alignment="CENTER" layoutX="730.0" layoutY="75.0"
                    prefHeight="36.0" prefWidth="300.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                   text="Available accounts"/>
+                   text="%VisualizeToolScene.accountsLabel"/>
             <Button fx:id="setTableMode" layoutX="1075.0" layoutY="75"
                     onMouseClicked="#handleSetTableModeButtonClicked" prefHeight="30.0" prefWidth="170.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Table mode" textFill="#0a0a14">
+                    text="%VisualizeToolScene.setTableMode" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -57,7 +57,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Graph mode" textFill="#0a0a14">
+                    text="%VisualizeToolScene.setGraphMode" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -67,7 +67,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Pie chart mode" textFill="#0a0a14">
+                    text="%VisualizeToolScene.setPieChartMode" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -75,7 +75,7 @@
             <ComboBox fx:id="timeSpanComboBox" layoutX="1075.0" layoutY="275.0"
                       prefHeight="30.0" prefWidth="170.0"
                       onKeyReleased="#handleComponentKeyReleased"
-                      promptText="Time span..."
+                      promptText="%VisualizeToolScene.timeSpanComboBox"
                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
@@ -86,7 +86,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Add" textFill="#0a0a14">
+                    text="%VisualizeToolScene.addAccountButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
@@ -96,7 +96,7 @@
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Remove" textFill="#0a0a14">
+                    text="%VisualizeToolScene.removeAccountButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>

@@ -18,20 +18,16 @@ import java.util.Arrays;
 
 public class SignUpSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    TextField confirmPasswordTextField, passwordTextField;
-    @FXML
     CheckBox showHidePasswordCheckBox;
     @FXML
-    Label NRNTakenLabel, emailTakenLabel, usernameTakenLabel, passwordDoesNotMatchLabel, languageNotChosenLabel,
-            invalidLastNameLabel, invalidFirstNameLabel, invalidEmailLabel, invalidNRNLabel, invalidUsernameLabel;
+    Label NRNTakenLabel, emailTakenLabel, passwordDoesNotMatchLabel, languageNotChosenLabel,
+            invalidLastNameLabel, invalidFirstNameLabel, invalidEmailLabel, invalidNRNLabel, favoriteLanguageLabel, signedUpLabel;
     @FXML
     Button backButton, signUpButton;
     @FXML
-    TextField lastNameField, firstNameField, NRNField, emailAddressField, usernameField;
+    TextField lastNameField, firstNameField, NRNField, emailAddressField, confirmPasswordTextField, passwordTextField;
     @FXML
     PasswordField passwordField, confirmPasswordField;
-    @FXML
-    Label favoriteLanguageLabel, signedUpLabel;
     @FXML
     ComboBox<String> languageComboBox;
 
@@ -91,7 +87,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      */
     public void signUp() {
         String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
-                NRN = NRNField.getText(), username = usernameField.getText(), password = passwordField.getText(),
+                NRN = NRNField.getText(), password = passwordField.getText(),
                 passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
 
         // Manage the "invalid xxxx" labels visibility
@@ -108,9 +104,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         // Is the NRN valid (XX.XX.XX-XXX.XX format with numbers)
         if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(true);
         else if (isValidNRN(NRN) && invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(false);
-        // Is the username valid (numbers and letters only)
-        if (!isValidUsername(username) && !invalidUsernameLabel.isVisible()) invalidUsernameLabel.setVisible(true);
-        else if (isValidUsername(username) && invalidUsernameLabel.isVisible()) invalidUsernameLabel.setVisible(false);
 
 
         // PRO TIP : if the username is invalid, it cannot be taken, so we can safely give the same layout (coordinates)
@@ -119,9 +112,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
 
 
         // Manage the "xxxx already taken" labels visibility
-        // Is the username already taken ?
-        if (isUsernameTaken(username) && !usernameTakenLabel.isVisible()) usernameTakenLabel.setVisible(true);
-        else if (!isUsernameTaken(username) && usernameTakenLabel.isVisible()) usernameTakenLabel.setVisible(false);
         // Is the email already taken ?
         if (isEmailTaken(email) && !emailTakenLabel.isVisible()) emailTakenLabel.setVisible(true);
         else if (!isEmailTaken(email) && emailTakenLabel.isVisible()) emailTakenLabel.setVisible(false);
@@ -143,11 +133,12 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         if (noLabelVisible()) {
             // Then we can create a new user
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
+            HttpResponse<String> response;
+            String username = firstName + NRN;
             try {
                 response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
                         .header("Content-Type", "application/json")
-                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userID\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\"\r\n}")
+                        .body("{\r\n    \"username\": \""+username+"\",\r\n    \"userId\": \""+NRN+"\",\r\n    \"email\": \""+email+"\",\r\n    \"password\": \""+password+"\",\r\n    \"firstname\": \""+firstName+"\",\r\n    \"lastname\": \""+lastName+"\",\r\n    \"language\": \""+chosenLanguage+"\"\r\n}")
                         .asString();
                 Main.errorCheck(response.getStatus());
             } catch (UnirestException e) {
@@ -164,7 +155,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             password = "";
             passwordConfirmation = "";
             chosenLanguage = "";
-
         }
     }
 
@@ -177,19 +167,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      */
     private boolean noLabelVisible() {
         return !invalidLastNameLabel.isVisible() && !invalidFirstNameLabel.isVisible() && !invalidEmailLabel.isVisible()
-                && !invalidNRNLabel.isVisible() && !invalidUsernameLabel.isVisible()
-                && !passwordDoesNotMatchLabel.isVisible() && !languageNotChosenLabel.isVisible();
-    }
-
-    /**
-     * Checks if the username is already taken.
-     *
-     * @param username - <code>String</code> - the username to check
-     * @return <code>boolean</code> - whether the given username is already take or not
-     */
-    private boolean isUsernameTaken(String username) {
-        // TODO : back-end : implement this method
-        return false;
+                && !invalidNRNLabel.isVisible() && !passwordDoesNotMatchLabel.isVisible() && !languageNotChosenLabel.isVisible();
     }
 
     /**
@@ -312,23 +290,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         return true;
     }
 
-    /**
-     * Checks if the given string is valid username.
-     * Requirements :
-     * - username must not be empty
-     * - username must not be null
-     * - username must not be longer than 32 characters
-     * - username must contain characters from a-z, from A-Z and from 0-9
-     *
-     * @param username - <code>String</code> - the username to check
-     * @return whether the given username is a valid username or not
-     */
-    public static boolean isValidUsername(String username) {
-        if (username == null) return false;
-        if (username.equals("") || username.length() > 32) return false;
-        return username.matches("^[a-zA-Z0-9]*$");
-    }
-
     @FXML
     public void handleComponentKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
@@ -344,14 +305,12 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     public void hideAllLabels() {
         NRNTakenLabel.setVisible(false);
         emailTakenLabel.setVisible(false);
-        usernameTakenLabel.setVisible(false);
         passwordDoesNotMatchLabel.setVisible(false);
         languageNotChosenLabel.setVisible(false);
         invalidLastNameLabel.setVisible(false);
         invalidFirstNameLabel.setVisible(false);
         invalidEmailLabel.setVisible(false);
         invalidNRNLabel.setVisible(false);
-        invalidUsernameLabel.setVisible(false);
     }
 
     /**
@@ -362,7 +321,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         lastNameField.setText("");
         NRNField.setText("");
         emailAddressField.setText("");
-        usernameField.setText("");
         passwordField.setText("");
         confirmPasswordField.setText("");
     }

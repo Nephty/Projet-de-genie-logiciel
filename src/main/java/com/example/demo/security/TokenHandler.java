@@ -32,10 +32,11 @@ public class TokenHandler {
         if(id == null) {
             log.error("id is null");
         }
-        final int accessTokenMinBeforeExp = 60 * 24 * 24;
+        final int maxAccessTokenMinBeforeExp = 60 * 24 * 24;
+        final int accessTokenMinBeforeExp = 1;
         String accessToken = JWT.create()
                 .withSubject(username)
-                .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenMinBeforeExp * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + maxAccessTokenMinBeforeExp * 60 * 1000))
                 .withIssuer(issuer)
                 .withClaim(Role.getClaimName(), role.getRole())
                 .withClaim("userId", id)

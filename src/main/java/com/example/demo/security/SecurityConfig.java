@@ -50,4 +50,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    private void authorizationUserController(HttpSecurity http) throws Exception {
+        //http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user");
+    }
+
+    private void authorizationBankController(HttpSecurity http) {
+
+    }
 }

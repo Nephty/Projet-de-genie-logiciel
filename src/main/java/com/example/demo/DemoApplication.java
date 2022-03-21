@@ -1,10 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.model.AccountAccess;
+import com.example.demo.model.*;
 import com.example.demo.model.CompositePK.SubAccountPK;
-import com.example.demo.model.CurrencyType;
-import com.example.demo.model.SubAccount;
-import com.example.demo.model.User;
 import com.example.demo.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,11 +21,19 @@ public class DemoApplication {
 
 	}
 
-
-	CommandLineRunner run(AccountAccessRepo accountAccessRepo) {
+	CommandLineRunner run(AccountAccessRepo accountAccessRepo, BankRepo bankRepo, CurrencyTypeRepo currencyTypeRepo, PasswordEncoder passwordEncoder) {
 		return args -> {
 			System.out.println("Runner be RUNNIIIIIIIING");
-			accountAccessRepo.deleteAccountAccessByAccountIdAndUserId("fake8","123456789");
+			CurrencyType currencyType = currencyTypeRepo.getById(0);
+			bankRepo.save(new Bank(
+					"ABCD",
+					"Belfius",
+					"uwu",
+					passwordEncoder().encode("ABCD"),
+					"uwuwuwuwu",
+					"BE",
+					currencyType
+			));
 		};
 	}
 

@@ -76,18 +76,6 @@ public class User {
     }
 
     public void change(UserReq userReq) {
-        if(userReq.getUsername() != null) {
-            username = userReq.getUsername();
-        }
-        if(userReq.getFirstname() != null) {
-            firstname = userReq.getFirstname();
-        }
-        if(userReq.getLastname() != null) {
-            lastname = userReq.getLastname();
-        }
-        if(userReq.getEmail() != null) {
-            email = userReq.getEmail();
-        }
         if(userReq.getPassword() != null) {
             password = userReq.getPassword();
         }

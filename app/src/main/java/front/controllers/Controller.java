@@ -197,6 +197,4 @@ public class Controller {
         sleepAndFadeOutFadeThread = new FadeOutThread();
         sleepAndFadeOutFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, node);
     }
-
-    // TODO : NEPHTY : refactor code to replace every fade in and out transitions using this method
 }

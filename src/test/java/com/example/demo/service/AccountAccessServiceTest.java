@@ -121,6 +121,24 @@ class AccountAccessServiceTest {
         verify(accessRepo,never()).save(any());
     }
 
+    @Test
+    void createShouldThrowWhenAccountAccessAlreadyExists(){
+        //given
+        AccountAccessReq accessReq = new AccountAccessReq(
+                "accountId",
+                "userId",
+                true,
+                false
+        );
+
+        when(accessRepo.existsById(any())).thenReturn(true);
+
+        //Then
+        assertThatThrownBy(() -> underTest.createAccountAccess(accessReq))
+                .isInstanceOf(ConflictException.class)
+                .hasMessageContaining("account already exist "+accessReq);
+    }
+
 
     @Test
     void canChangeAccountAccess() {

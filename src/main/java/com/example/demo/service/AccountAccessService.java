@@ -64,7 +64,7 @@ public class AccountAccessService {
                 if(accountAccessRepo.existsById(
                         new AccountAccessPK(accountAccessReq.getAccountId(), accountAccessReq.getUserId())
                 )) {
-                   throw new ConflictException("account already exist" + accountAccessReq);
+                   throw new ConflictException("account already exist " + accountAccessReq);
                 }
                 accountAccess = new AccountAccess(accountAccessReq);
                 Account account = accountRepo.findById(accountAccessReq.getAccountId())

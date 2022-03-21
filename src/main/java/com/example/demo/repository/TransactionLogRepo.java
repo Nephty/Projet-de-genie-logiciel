@@ -10,16 +10,9 @@ import java.util.Optional;
 
 public interface TransactionLogRepo extends JpaRepository<TransactionLog, Integer> {
 
-    ArrayList<TransactionLog> findAllBySubAccount(SubAccount subAccount);
-
-    @Query(value = "SELECT s FROM TransactionLog s " +
-            "WHERE s.subAccount = ?1 " +
-            "OR s.transactionId in " +
-            "(select d.transactionId from TransactionLog d WHERE not d.subAccount = ?1 and d.direction = 0)")
-    ArrayList<TransactionLog> findAllLinkedToSubAccount(SubAccount subAccount);
 
     @Query(value = "SELECT s FROM TransactionLog s WHERE s.transactionId IN (SELECT d.transactionId FROM TransactionLog d WHERE d.subAccount= ?1)")
-    ArrayList<TransactionLog> thisIsTheWay(SubAccount subAccount);
+    ArrayList<TransactionLog> findAllLinkedToSubAccount(SubAccount subAccount);
 
     @Query("SELECT max(s.transactionId) from TransactionLog s")
     Integer findMaximumId();

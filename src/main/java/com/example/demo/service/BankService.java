@@ -6,7 +6,9 @@ import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.exception.throwables.UserAlreadyExist;
 import com.example.demo.model.Bank;
 import com.example.demo.model.CurrencyType;
+import com.example.demo.model.User;
 import com.example.demo.other.Sender;
+import com.example.demo.repository.AccountAccessRepo;
 import com.example.demo.repository.BankRepo;
 import com.example.demo.repository.CurrencyTypeRepo;
 import com.example.demo.request.BankReq;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -29,6 +32,8 @@ public class BankService {
     private final PasswordEncoder passwordEncoder;
 
     private final CurrencyTypeRepo currencyTypeRepo;
+
+    private final AccountAccessRepo accountAccessRepo;
 
     public Bank addBank(BankReq bankReq) {
         Bank bank = instantiateBank(null, bankReq, HttpMethod.POST);
@@ -60,6 +65,11 @@ public class BankService {
          return new ArrayList<>(bankRepo.findAll());
     }
 
+    /**
+     * Throws an error if the bank already exists in the DB
+     * @param swift param that must not be unique
+     * @param name param that must be unique
+     */
     private void alreadyExistCheck(String swift, String name) {
         if(bankRepo.existsById(swift)) {
             throw new UserAlreadyExist(UserAlreadyExist.Reason.SWIFT);
@@ -69,6 +79,18 @@ public class BankService {
         }
     }
 
+    public List<User> getAllCustomersOfABank(Sender sender){
+        return accountAccessRepo.getAllCustomersInBank(sender.getId());
+    }
+
+    /**
+     * Creates an entity based on the request that was made
+     * The method vary depending on the http method
+     * @param sender id and role of the client that made the request
+     * @param bankReq incoming req
+     * @param method method used either PUT or POST
+     * @return An entity ready to be saved in the DB
+     */
     private Bank instantiateBank(Sender sender, BankReq bankReq, HttpMethod method) {
         Bank bank;
         CurrencyType currencyType;

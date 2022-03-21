@@ -17,10 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j
@@ -53,10 +50,13 @@ public class AccountAccessService {
         return accountAccessRepo.getAllByUserId(userID);
     }
 
-    public List<User> getAllCustomers(String swift){
-        return accountAccessRepo.getAllCustomersInBank(swift);
-    }
-
+    /**
+     * Creates an entity based on the request that was made
+     * The method vary depending on the http method
+     * @param accountAccessReq incoming req
+     * @param method method used either PUT or POST
+     * @return An entity ready to be saved in the DB
+     */
     private AccountAccess instantiateAccountAccess(AccountAccessReq accountAccessReq, HttpMethod method) {
         AccountAccess accountAccess;
         switch (method) {

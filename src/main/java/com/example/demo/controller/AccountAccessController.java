@@ -52,19 +52,6 @@ public class AccountAccessController {
     }
 
     /**
-     * @param swift id of the bank
-     * @return An array with all the of customers of the bank
-     * Who ? no one besides a bank for all it's user
-     */
-    @GetMapping
-    public ResponseEntity<List<User>> sendAllCustomers(@RequestParam String swift){
-        return new ResponseEntity<>(
-                accountAccessService.getAllCustomers(swift),
-                HttpStatus.OK
-        );
-    }
-
-    /**
      * @param accountAccessReq [body] account access to be added to the DB
      * @return account access to String
      * 201 - Created

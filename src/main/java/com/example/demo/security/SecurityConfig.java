@@ -25,11 +25,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /**
+     * Specify the service to retrieve user for authentication and the encryption object
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
-
+    /**
+        Configuration for the security
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter =
@@ -49,13 +54,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    private void authorizationUserController(HttpSecurity http) throws Exception {
-        //http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user");
-    }
-
-    private void authorizationBankController(HttpSecurity http) {
-
     }
 }

@@ -3,11 +3,9 @@ package com.example.demo.service;
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.CompositePK.SubAccountPK;
-import com.example.demo.model.CurrencyType;
 import com.example.demo.model.SubAccount;
 import com.example.demo.model.TransactionLog;
 import com.example.demo.model.TransactionType;
-import com.example.demo.other.Generator;
 import com.example.demo.repository.SubAccountRepo;
 import com.example.demo.repository.TransactionLogRepo;
 import com.example.demo.repository.TransactionTypeRepo;
@@ -19,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j

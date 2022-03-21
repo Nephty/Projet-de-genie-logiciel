@@ -250,14 +250,4 @@ class AccountAccessServiceTest {
         verify(accessRepo).getAllByUserId(userId);
         //We don't have to test if the method returns the good list because it's already tested in the repositories.
     }
-
-    @Test
-    void canGetAllCustomers(){
-        //Given
-        String swift = "swift";
-        //When
-        underTest.getAllCustomers(swift);
-        //Then
-        verify(accessRepo).getAllCustomersInBank(swift);
-    }
 }

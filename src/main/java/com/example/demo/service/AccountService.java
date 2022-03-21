@@ -50,6 +50,13 @@ public class AccountService {
         return accountRepo.save(account);
     }
 
+    /**
+     * Creates an entity based on the request that was made
+     * The method vary depending on the http method
+     * @param accountReq incoming req
+     * @param method method used either PUT or POST
+     * @return An entity ready to be saved in the DB
+     */
     private Account instantiateAccount(AccountReq accountReq, HttpMethod method) {
         Account account;
         switch (method) {

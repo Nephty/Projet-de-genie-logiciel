@@ -3,6 +3,9 @@ package com.example.demo.security;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Different roles that a client can have
+ */
 @RequiredArgsConstructor
 @Getter
 public enum Role {

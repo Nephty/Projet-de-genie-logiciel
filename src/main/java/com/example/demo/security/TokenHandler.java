@@ -22,6 +22,7 @@ public class TokenHandler {
     private final Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
 
     /**
+     * Creates an access and refresh token with the data provided
      * @param username username of the user or bank
      * @param issuer path at which the token was created
      * @param role role of the client
@@ -58,6 +59,7 @@ public class TokenHandler {
     }
 
     /**
+     * Extract the token from a Bearer header and decrypt it, raise an error if the token is invalid
      * @param authorizationHeader the header with the token of the incoming request
      * @return the decoded jwt if the token is valid
      */

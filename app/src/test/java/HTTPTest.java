@@ -46,6 +46,7 @@ public class HTTPTest {
     @DisplayName("Getting a portfolio from api")
     public void getPortfolio() {
         // Pay attention of changements in the database
+        // This test verify the requests : Portfolio, Wallet, Profile, Bank, Account, SubAccount, Transaction
         Main.setToken(testToken);
         assertDoesNotThrow(() -> {
             Portfolio portfolioTest = new Portfolio("123456789");
@@ -55,7 +56,6 @@ public class HTTPTest {
             assertEquals("123456789", portfolioTest.getUser().getNationalRegistrationNumber());
             assertEquals("Belfius", portfolioTest.getWalletList().get(0).getBank().getName());
             assertEquals("ABCDEF0123456789", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
-            System.out.println(portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
             assertEquals(1,portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
         });
     }

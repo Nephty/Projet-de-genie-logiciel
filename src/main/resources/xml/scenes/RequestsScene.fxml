@@ -8,17 +8,17 @@
 <Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0"
       prefHeight="720.0"
       prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2"
-      fx:controller="front.controllers.ManageRequestsSceneController">
+      fx:controller="front.controllers.RequestsSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     prefHeight="70.0" prefWidth="1280.0">
             <Button fx:id="backButton" layoutX="14.0" layoutY="17.0"
                     onMouseClicked="#handleBackButtonClicked" prefHeight="36.0" prefWidth="120.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%common.backButton" textFill="#0a0a14">
+                    text="Back" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -28,15 +28,15 @@
             </Button>
         </AnchorPane>
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
-            <Button fx:id="transferPermissionRequestsButton" layoutX="465.0" layoutY="197.0"
-                    onMouseClicked="#handleTransferPermissionRequestsButtonClicked" prefHeight="70.0"
+            <Button fx:id="transferPermissionButton" layoutX="465.0" layoutY="197.0"
+                    onMouseClicked="#handleTransferPermissionButtonClicked" prefHeight="70.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     prefWidth="350.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="%ManageRequestsScene.transferPermissionRequestsButton" textFill="#0a0a14">
+                    text="Transfer permission" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -44,12 +44,12 @@
                     <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0"/>
                 </effect>
             </Button>
-            <Button fx:id="portfolioRequestsButton" layoutX="465.0" layoutY="290.0"
-                    onMouseClicked="#handlePortfolioRequestsButtonClicked" prefHeight="70.0" prefWidth="350.0"
+            <Button fx:id="newPortfolioButton" layoutX="465.0" layoutY="290.0"
+                    onMouseClicked="#handleNewPortfolioButtonClicked" prefHeight="70.0" prefWidth="350.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="%ManageRequestsScene.portfolioRequestsButton" textFill="#0a0a14">
+                    text="New portfolio" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -60,9 +60,9 @@
             <Button fx:id="requestsStatusButton" layoutX="465.0" layoutY="383.0"
                     onMouseClicked="#handleRequestsStatusButtonClicked" prefHeight="70.0" prefWidth="350.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleButtonKeyReleased"
+                    onKeyReleased="#handleComponentKeyReleased"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="%ManageRequestsScene.requestsStatusButton" textFill="#0a0a14">
+                    text="Requests status" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -73,4 +73,3 @@
         </AnchorPane>
     </Pane>
 </Pane>
-

@@ -16,7 +16,7 @@
                     onMouseClicked="#handleSignOutButtonClicked" prefHeight="36.0" prefWidth="120.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%MainScreenScene.signOutButton" textFill="#0a0a14">
+                    text="Sign out" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -28,7 +28,7 @@
                     onMouseClicked="#handleLanguageButtonClicked" prefHeight="36.0" prefWidth="120.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%common.languageButton" textFill="#0a0a14">
+                    text="Language" textFill="#0a0a14">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -39,12 +39,12 @@
         </AnchorPane>
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                     minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
-            <Button fx:id="clientsButton" layoutX="465.0" layoutY="197.0"
-                    onMouseClicked="#handleClientsButtonClicked" prefHeight="70.0"
+            <Button fx:id="financialProductsButton" layoutX="465.0" layoutY="197.0"
+                    onMouseClicked="#handleFinancialProductsButtonClicked" prefHeight="70.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefWidth="350.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="%MainScreenScene.clientsButton" textFill="#0a0a14">
+                    text="Financial Products" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -52,11 +52,11 @@
                     <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0"/>
                 </effect>
             </Button>
-            <Button fx:id="manageRequestsButton" layoutX="465.0" layoutY="290.0"
-                    onMouseClicked="#handleManageRequestsButtonClicked" prefHeight="70.0" prefWidth="350.0"
+            <Button fx:id="requestsButton" layoutX="465.0" layoutY="290.0"
+                    onMouseClicked="#handleRequestsButtonClicked" prefHeight="70.0" prefWidth="350.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="%MainScreenScene.manageRequestsButton" textFill="#0a0a14">
+                    text="Requests" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -64,11 +64,11 @@
                     <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0"/>
                 </effect>
             </Button>
-            <Button fx:id="manageDataButton" layoutX="465.0" layoutY="383.0"
-                    onMouseClicked="#handleManageDataButtonClicked" prefHeight="70.0" prefWidth="350.0"
+            <Button fx:id="notificationsButton" layoutX="465.0" layoutY="383.0"
+                    onMouseClicked="#handleNotificationsButtonClicked" prefHeight="70.0" prefWidth="350.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="%MainScreenScene.manageDataButton" textFill="#0a0a14">
+                    text="Notifications" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>
@@ -80,7 +80,7 @@
                     onMouseClicked="#handleChangePasswordButtonClicked" prefHeight="52.0" prefWidth="296.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
-                    text="%common.changePasswordButton" textFill="#0a0a14">
+                    text="Change Password" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>

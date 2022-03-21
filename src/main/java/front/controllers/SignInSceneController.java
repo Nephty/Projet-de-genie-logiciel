@@ -23,7 +23,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     @FXML
     CheckBox showHidePasswordCheckBox;
     @FXML
-    Button languageButton, backButton, signInButton;
+    Button backButton, signInButton;
     @FXML
     TextField usernameField;
     @FXML
@@ -41,12 +41,6 @@ public class SignInSceneController extends Controller implements BackButtonNavig
         passwordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
         // Set selection property : if you type something in the password field, you also type it in the password text field
         passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
-    }
-
-    @FXML
-    public void handleLanguageButtonClicked(MouseEvent event) {
-        handleLanguageButtonNavigation(event);
-        hideAllLabels();
     }
 
     @FXML

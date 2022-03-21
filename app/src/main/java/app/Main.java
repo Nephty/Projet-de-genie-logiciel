@@ -22,7 +22,7 @@ import java.util.Locale;
  * Main runnable class that launches the application.
  */
 public class Main extends Application {
-    public static Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale, PT_PT_Locale, LT_LT_Locale;
+    public static Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale, PT_PT_Locale, LT_LT_Locale, RU_RU_Locale;
     private static Bank bank;
     private static Stage stage;
     private static String token;
@@ -136,6 +136,7 @@ public class Main extends Application {
         NL_NL_Locale = new Locale("nl", "NL");
         PT_PT_Locale = new Locale("pt", "PT");
         LT_LT_Locale = new Locale("lt", "LT");
+        RU_RU_Locale = new Locale("ru", "RU");  // Unable to implement : javafx cannot handle characters that are not unicode :(
 
         // TODO : if language = english, appLocale = english,...
 

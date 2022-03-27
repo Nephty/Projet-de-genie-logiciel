@@ -35,12 +35,12 @@ public class TransactionLogService {
     }
 
     /**
-     * This method both retrieves and format the transaction from a sub account
+     * This method both retrieves and format the transaction from a subAccount
      * in the DB the transaction are in pairs, one ascending and one descending this method regroups the pairs into one
      * entity
-     * @param iban sub account iban
-     * @param currencyId sub account currency
-     * @return An array of all the transaction made and received by the subaccount
+     * @param iban subAccount iban
+     * @param currencyId subAccount currency
+     * @return An array of all the transaction made and received by the subAccount
      */
     public List<TransactionReq> getAllTransactionBySubAccount(String iban, Integer currencyId) {
         SubAccount subAccount = subAccountRepo.findById(new SubAccountPK(iban, currencyId))
@@ -110,9 +110,11 @@ public class TransactionLogService {
                 new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
         ).orElseThrow(
                 ()-> new ConflictException(
-                        "subAccount:" + transactionReq.getSenderIban() + " : " + transactionReq.getCurrencyId()
+                        "subAccount: " + transactionReq.getSenderIban() + " : " + transactionReq.getCurrencyId()
                 )
         );
+        // TODO : Do the transaction once a day
+        //  and check everything when it's done and not when we instantiation the transaction
         if(subAccountSender.getCurrentBalance() < transactionReq.getTransactionAmount()) {
             throw new ConflictException("Not enough fund");
         }
@@ -129,13 +131,17 @@ public class TransactionLogService {
                 );
 
 
+        // -- SENDER --
         transactionSent.setSubAccount(subAccountSender);
         transactionSent.setTransactionTypeId(transactionType);
         transactionSent.setDirection(1);
+
+        // -- RECEIVER --
         transactionReceived.setSubAccount(subAccountReceiver);
         transactionReceived.setTransactionTypeId(transactionType);
         transactionReceived.setDirection(0);
 
+        // -- ID GENERATION --
         Integer nextId = nextId();
         transactionSent.setTransactionId(nextId);
         transactionReceived.setTransactionId(nextId);
@@ -144,6 +150,7 @@ public class TransactionLogService {
         transactionLogs.add(transactionSent);
         transactionLogs.add(transactionReceived);
 
+        // TODO : do this once a day, and set the transaction type to done
         subAccountSender.setCurrentBalance(
                 subAccountSender.getCurrentBalance() - transactionReq.getTransactionAmount()
         );
@@ -155,9 +162,6 @@ public class TransactionLogService {
 
     private int nextId(){
         Integer tmp = transactionLogRepo.findMaximumId();
-        if (tmp == null){
-            return 1;
-        }
-        return tmp+1;
+        return tmp == null ? 1 : tmp+1;
     }
 }

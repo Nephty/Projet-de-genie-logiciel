@@ -11,10 +11,27 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, String> {
+    @Query("SELECT U " +
+            "FROM User U " +
+            "WHERE u.username = ?1")
     Optional<User> findByUsername(String username);
 
+    @Query("SELECT " +
+            "CASE WHEN COUNT(U) > 0 " +
+            "THEN true " +
+            "ELSE false " +
+            "END " +
+            "FROM User U " +
+            "WHERE U.username = ?1")
     boolean existsByUsername(String username);
 
+    @Query("SELECT " +
+            "CASE WHEN COUNT(U) > 0 " +
+            "THEN true " +
+            "ELSE false " +
+            "END " +
+            "FROM User U " +
+            "WHERE U.email = ?1")
     boolean existsByEmail(String email);
 }
 

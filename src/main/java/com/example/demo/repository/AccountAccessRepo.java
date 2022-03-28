@@ -19,20 +19,34 @@ import java.util.Optional;
 @Transactional
 public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountAccessPK> {
 
-    @Query("SELECT s FROM AccountAccess s, User u where u.userID = ?1 and s.userId = u.userID " +
+    @Query("SELECT s FROM AccountAccess s, User u " +
+            "where u.userID = ?1 " +
+            "and s.userId = u.userID " +
             "order by s.accountId.swift.swift")
     List<AccountAccess> getAllByUserId(String userID);
 
     ArrayList<AccountAccess> findAllByUserId(User user);
 
 
+    @Query("SELECT " +
+            "CASE WHEN COUNT(S) > 0 " +
+            "THEN true " +
+            "ELSE false " +
+            "END " +
+            "FROM AccountAccess s " +
+            "WHERE s.accountId = ?2 " +
+            "AND s.userId = ?1")
     boolean existsByUserIdAndAccountId(User user,Account account);
 
-    @Query("SELECT s.userId FROM AccountAccess s WHERE s.accountId.swift.swift = ?1")
+    @Query("SELECT s.userId " +
+            "FROM AccountAccess s " +
+            "WHERE s.accountId.swift.swift = ?1")
     List<User> getAllCustomersInBank(String swift);
 
     @Modifying
-    @Query("DELETE FROM AccountAccess a WHERE a.accountId.iban = ?1 AND a.userId.userID = ?2")
+    @Query("DELETE FROM AccountAccess a " +
+            "WHERE a.accountId.iban = ?1 " +
+            "AND a.userId.userID = ?2")
     void deleteAccountAccessByAccountIdAndUserId(String accountId, String userId);
 
 }

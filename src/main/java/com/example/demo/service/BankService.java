@@ -56,6 +56,12 @@ public class BankService {
                 .orElseThrow(()-> new ResourceNotFound(swift));
     }
 
+    public Bank getByLogin(String login) {
+        // TODO : rename this is findBySwift to delete login from the database.
+        return bankRepo.findByLogin(login)
+                .orElseThrow(() -> new ResourceNotFound(login));
+    }
+
     public ArrayList<Bank> getAllBanks() {
          return new ArrayList<>(bankRepo.findAll());
     }

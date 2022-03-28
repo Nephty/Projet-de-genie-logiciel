@@ -40,16 +40,18 @@ public class Portfolio {
             Bank bank = null;
             for (int i = 0; i < bodyList.size(); i++) {
                 JSONObject obj = new JSONObject(bodyList.get(i));
-                String swift = obj.getJSONObject("accountId").getJSONObject("swift").getString("swift");
+                String swift = obj.getJSONObject("account").getString("swift");
                 if (oldSwift.equals(swift) || i == 0) {
                     if (i == 0) {
                         oldSwift = swift;
-                        bank = new Bank(swift);
+                        String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
+                        bank = new Bank(swift, bankName);
                     }
-                    Profile owner = new Profile(obj.getJSONObject("accountId").getJSONObject("userId").getString("firstname"), obj.getJSONObject("accountId").getJSONObject("userId").getString("lastname"), obj.getJSONObject("accountId").getJSONObject("userId").getString("userID"));
-                    Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
-                    String iban = obj.getJSONObject("accountId").getString("iban");
-                    int accountTypeId = obj.getJSONObject("accountId").getJSONObject("accountTypeId").getInt("accountTypeId");
+                    // TODO : Remettre firstname, lastname et coOwner quand ce sera implémentée dans l'API
+                    Profile owner = new Profile(obj.getJSONObject("account").getString("ownerName"), "", obj.getJSONObject("account").getString("userId"));
+                    //Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
+                    String iban = obj.getString("accountId");
+                    int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
                     AccountType accountType = null;
                     switch (accountTypeId) {
                         case 1:
@@ -67,36 +69,39 @@ public class Portfolio {
                     }
                     boolean activated = obj.getBoolean("access");
                     boolean archived = obj.getBoolean("hidden");
-                    boolean canPay = obj.getJSONObject("accountId").getBoolean("payment");
-                    accountList.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
+                    boolean canPay = obj.getJSONObject("account").getBoolean("payment");
+                    // TODO : Remettre coOwner
+                    accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
                 } else {
                     this.walletList.add(new Wallet(this.user, bank, accountList));
                     accountList = new ArrayList<Account>();
-                    bank = new Bank(swift);
+                    String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
+                    bank = new Bank(swift, bankName);
                     oldSwift = swift;
-                    Profile owner = new Profile(obj.getJSONObject("accountId").getJSONObject("userId").getString("userID"));
-                    Profile coOwner = new Profile(obj.getJSONObject("userId").getString("userID"));
-                    String iban = obj.getJSONObject("accountId").getString("iban");
-                    int accountTypeId = obj.getJSONObject("accountId").getJSONObject("accountTypeId").getInt("accountTypeId");
+                    Profile owner = new Profile(obj.getJSONObject("account").getString("ownerName"), "", obj.getJSONObject("account").getString("userId"));
+                    //Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
+                    String iban = obj.getString("accountId");
+                    int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
                     AccountType accountType = null;
                     switch (accountTypeId) {
-                        case 0:
+                        case 1:
                             accountType = AccountType.COURANT;
                             break;
-                        case 1:
+                        case 2:
                             accountType = AccountType.JEUNE;
                             break;
-                        case 2:
+                        case 3:
                             accountType = AccountType.EPARGNE;
                             break;
-                        case 3:
+                        case 4:
                             accountType = AccountType.TERME;
                             break;
                     }
                     boolean activated = obj.getBoolean("access");
                     boolean archived = obj.getBoolean("hidden");
-                    boolean canPay = obj.getJSONObject("accountId").getBoolean("payment");
-                    accountList.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
+                    boolean canPay = obj.getJSONObject("account").getBoolean("payment");
+                    // TODO : Remettre coOwner
+                    accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
                 }
             }
             this.walletList.add(new Wallet(this.user, bank, accountList));

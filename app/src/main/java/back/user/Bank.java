@@ -13,7 +13,6 @@ public class Bank {
     private final String swiftCode;
 
     /**
-     *
      * Creates a Bank object with an HTTP request by using the swift code
      *
      * @param swiftCode A String of the swift code of the bank
@@ -36,6 +35,7 @@ public class Bank {
 
     /**
      * Fetch all bank's swift code
+     *
      * @return An arraylist of all swift codes
      * @throws UnirestException For managing HTTP errors
      */

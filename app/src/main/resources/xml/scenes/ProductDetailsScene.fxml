@@ -83,11 +83,14 @@
             <Label fx:id="togglingProductLabel" layoutX="1094.0" layoutY="330.0" opacity="0.0"
                    prefHeight="16.0" prefWidth="132.0" text="%ProductDetailsScene.togglingProductLabel"/>
             <Label fx:id="toggledOnProductLabel" layoutX="1089.0" layoutY="385.0" opacity="0.0"
-                   prefHeight="16.0" prefWidth="143.0" text="%ProductDetailsScene.toggledOnProductLabel" textFill="#00c800"/>
+                   prefHeight="16.0" prefWidth="143.0" text="%ProductDetailsScene.toggledOnProductLabel"
+                   textFill="#00c800"/>
             <Label fx:id="toggledOffProductLabel" layoutX="1089.0" layoutY="385.0" opacity="0.0"
-                   prefHeight="16.0" prefWidth="143.0" text="%ProductDetailsScene.toggledOffProductLabel" textFill="#c80000"/>
+                   prefHeight="16.0" prefWidth="143.0" text="%ProductDetailsScene.toggledOffProductLabel"
+                   textFill="#c80000"/>
             <Label fx:id="accountInactiveLabel" layoutX="1090.0" layoutY="231.0" prefHeight="17.0"
-                   prefWidth="143.0" text="%ProductDetailsScene.accountInactiveLabel" textFill="#c80000" visible="false"/>
+                   prefWidth="143.0" text="%ProductDetailsScene.accountInactiveLabel" textFill="#c80000"
+                   visible="false"/>
         </AnchorPane>
     </Pane>
 </Pane>

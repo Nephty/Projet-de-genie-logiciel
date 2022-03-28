@@ -8,6 +8,7 @@ public class Notification extends Communication {
 
     /**
      * Creates the Notification with all the informations needed
+     *
      * @param bank
      * @param profile
      * @param name

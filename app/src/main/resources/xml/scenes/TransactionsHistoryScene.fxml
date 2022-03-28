@@ -49,7 +49,8 @@
                 </effect>
             </Button>
             <Label fx:id="loadingTransactionsHistoryLabel" layoutX="870.0" layoutY="29.0" opacity="0.0"
-                   prefHeight="16.0" prefWidth="154.0" text="%TransactionsHistoryScene.loadingTransactionsHistoryLabel"/>
+                   prefHeight="16.0" prefWidth="154.0"
+                   text="%TransactionsHistoryScene.loadingTransactionsHistoryLabel"/>
             <Button fx:id="fetchTransactionsHistoryButton" layoutX="1075.0" layoutY="75.0"
                     onMouseClicked="#handleFetchTransactionsHistoryButtonClicked" prefHeight="30.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"

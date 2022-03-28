@@ -5,8 +5,6 @@ import back.user.Bank;
 import back.user.Reason;
 import back.user.Request;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import front.animation.FadeInTransition;
-import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
@@ -18,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
 public class RequestNewPortfolioSceneController extends Controller implements BackButtonNavigator {
     @FXML

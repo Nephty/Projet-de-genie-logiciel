@@ -11,8 +11,9 @@ public class Wallet {
 
     /**
      * Creates a Wallet object with all the needed informations
+     *
      * @param accountUser The Profile object of the user
-     * @param bank The Bank object of the bank
+     * @param bank        The Bank object of the bank
      * @param accountList The list of account
      * @throws UnirestException
      */

@@ -13,6 +13,7 @@ public class Profile {
 
     /**
      * Creates a Profile object with an HTTP request by using the user's national registration number
+     *
      * @param nationalRegistrationNumber The String of the user's national registration number
      * @throws UnirestException For managing HTTP errors
      */
@@ -33,8 +34,9 @@ public class Profile {
 
     /**
      * Creates a Profile object by giving all the needed informations
-     * @param firstName A string of the firstname
-     * @param lastName A string of the lastname
+     *
+     * @param firstName                  A string of the firstname
+     * @param lastName                   A string of the lastname
      * @param nationalRegistrationNumber A string of the national registration number
      */
     public Profile(String firstName, String lastName, String nationalRegistrationNumber) {

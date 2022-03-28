@@ -4,8 +4,6 @@ import app.Main;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import front.animation.FadeInTransition;
-import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.navigation.navigators.LanguageButtonNavigator;
@@ -17,7 +15,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 import org.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -77,7 +74,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + Main.getUser().getNationalRegistrationNumber() +"?isUsername=false")
+            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + Main.getUser().getNationalRegistrationNumber() + "?isUsername=false")
                     .header("Authorization", "Bearer " + Main.getToken())
                     .asString();
             Main.errorCheck(response.getStatus());

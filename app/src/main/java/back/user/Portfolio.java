@@ -15,6 +15,7 @@ public class Portfolio {
 
     /**
      * Creates a portfolio with an HTTP request by using the user's national registration code
+     *
      * @param nationalRegistrationNumber The user's national registration code
      * @throws UnirestException For managing HTTP errors
      */
@@ -104,6 +105,7 @@ public class Portfolio {
 
     /**
      * A method for parsing arrays in JSON
+     *
      * @param json The String to parse
      * @return A list of parsed Strings
      */

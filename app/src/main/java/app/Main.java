@@ -100,37 +100,47 @@ public class Main extends Application {
 
     /**
      * Check if the response is an error
+     *
      * @param statut The error statut
      */
-    public static void errorCheck(int statut){
-        if(statut >= 400){
+    public static void errorCheck(int statut) {
+        if (statut >= 400) {
             ErrorManager(statut);
         }
     }
 
     /**
      * Manages HTTP errors
+     *
      * @param statut The error code
      */
     public static void ErrorManager(int statut) {
-        String message = "Error + "+statut+": ";
-        switch(statut){
-            case(401):
-                message = message + "access unauthorized, try to login again"; break;
-            case(403):
-                message = message + "forbidden, data are not correct, try again"; break;
-            case(404):
-                message = message + "not found, try again"; break;
-            case(409):
-                message = message + "conflict, data are not correct, try again"; break;
-            case(500):
-                message = message + "internal server error, try again later"; break;
-            case(502):
-                message = message + "bad gateway, try again later"; break;
-            case(503):
-                message = message + "service unavalaible, try again later"; break;
+        String message = "Error + " + statut + ": ";
+        switch (statut) {
+            case (401):
+                message = message + "access unauthorized, try to login again";
+                break;
+            case (403):
+                message = message + "forbidden, data are not correct, try again";
+                break;
+            case (404):
+                message = message + "not found, try again";
+                break;
+            case (409):
+                message = message + "conflict, data are not correct, try again";
+                break;
+            case (500):
+                message = message + "internal server error, try again later";
+                break;
+            case (502):
+                message = message + "bad gateway, try again later";
+                break;
+            case (503):
+                message = message + "service unavalaible, try again later";
+                break;
             default:
-                message = message + "An error has occured"; break;
+                message = message + "An error has occured";
+                break;
         }
         // TODO : Generate a pop-up with the message
     }

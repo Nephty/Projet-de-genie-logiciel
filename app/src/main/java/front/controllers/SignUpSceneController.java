@@ -33,6 +33,104 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
 
     private boolean userSignedUp = false;
 
+    /**
+     * Checks if the given <code>String</code> is a valid last name.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z and from A-Z or a dash (-)
+     *
+     * @param lastName - <code>String</code> - the last name to check
+     * @return <code>boolean</code> - whether the given last name is a valid last name or not
+     */
+    public static boolean isValidLastName(String lastName) {
+        if (lastName == null) return false;
+        return (!lastName.equals("") && (lastName.matches("^[a-zA-Z-]*$")));
+    }
+
+    /**
+     * Checks if the given <code>String</code> is a valid first name.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z, from A-Z or a dash (-).
+     *
+     * @param firstName - <code>String</code> - the last name to check
+     * @return <code>boolean</code> - whether the given first name is a valid first name or not
+     */
+    public static boolean isValidFirstName(String firstName) {
+        return isValidLastName(firstName);
+    }
+
+    /**
+     * Checks if the given <code>String</code> is a valid email.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z, from A-Z, from 0-9 or characters that are either @ or .
+     * - string must only contain one @
+     * - string must contain at most one . after the @
+     * - string must contain at least one character from a-z or from A-Z before the @
+     *
+     * @param email - <code>String</code> - the email to check
+     * @return <code>boolean</code> - whether the given email is a valid email or not
+     */
+    public static boolean isValidEmail(String email) {
+        if (email == null) return false;
+        if (email.equals("") || !email.matches("^[a-zA-Z0-9@.]*$")) return false;
+        boolean hasOneAt = false;  // if the string contains at least one @
+        boolean hasOneDotAfterAt = false;  // if the string contains at least one . after the first @
+        boolean hasOneCharBeforeAt = false; // if the string contains at least one character before the first @
+        for (char c : email.toCharArray()) {
+            if (c == '@' && hasOneAt) return false; // string has 2 @, invalid email
+            if (c == '@') hasOneAt = true; // first @ we encounter
+            if (c == '.' && hasOneAt) hasOneDotAfterAt = true; // first . we encounter after the first @
+            if (("" + c).matches("^[a-zA-Z]") && !hasOneAt) hasOneCharBeforeAt = true;
+        }
+        return hasOneAt && hasOneDotAfterAt && hasOneCharBeforeAt;
+    }
+
+    /**
+     * Checks if the given string is a valid NRN.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must match the format XX.XX.XX-XXX.XX where X in an integer in range 0-9
+     *
+     * @param NRN - <code>String</code> - the NRN to check
+     * @return <code>boolean</code> whether the given NRN is a valid NRN or not
+     */
+    public static boolean isValidNRN(String NRN) {
+        if (NRN == null) return false;
+        if (NRN.length() != 15) return false;  // NRN.length() == 15 already checks NRN != ""
+        for (int i = 0; i < 15; i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                case 3:
+                case 4:
+                case 6:
+                case 7:
+                case 9:
+                case 10:
+                case 11:
+                case 13:
+                case 14:
+                    if (!Character.isDigit(NRN.charAt(i))) return false;
+                    break;
+                case 2:
+                case 5:
+                case 12:
+                    if (NRN.charAt(i) != '.') return false;
+                    break;
+                case 8:
+                    if (NRN.charAt(i) != '-') return false;
+                    break;
+            }
+        }
+        return true;
+    }
+
     public void initialize() {
         // TODO : set the user preferred language in the db
         ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
@@ -138,7 +236,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             try {
                 response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
                         .header("Content-Type", "application/json")
-                        .body("{\r\n    \"username\": \""+username+"\",\r\n    \"userId\": \""+NRN+"\",\r\n    \"email\": \""+email+"\",\r\n    \"password\": \""+password+"\",\r\n    \"firstname\": \""+firstName+"\",\r\n    \"lastname\": \""+lastName+"\",\r\n    \"language\": \""+chosenLanguage+"\"\r\n}")
+                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userId\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\"\r\n}")
                         .asString();
                 Main.errorCheck(response.getStatus());
             } catch (UnirestException e) {
@@ -190,104 +288,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     private boolean isNRNTaken(String NRN) {
         // TODO : back-end : implement this method
         return false;
-    }
-
-    /**
-     * Checks if the given <code>String</code> is a valid last name.
-     * Requirements :
-     * - string must not be empty
-     * - string must not be null
-     * - string must only contain characters from a-z and from A-Z or a dash (-)
-     *
-     * @param lastName - <code>String</code> - the last name to check
-     * @return <code>boolean</code> - whether the given last name is a valid last name or not
-     */
-    public static boolean isValidLastName(String lastName) {
-        if (lastName == null) return false;
-        return (!lastName.equals("") && (lastName.matches("^[a-zA-Z-]*$")));
-    }
-
-    /**
-     * Checks if the given <code>String</code> is a valid first name.
-     * Requirements :
-     * - string must not be empty
-     * - string must not be null
-     * - string must only contain characters from a-z, from A-Z or a dash (-).
-     *
-     * @param firstName - <code>String</code> - the last name to check
-     * @return <code>boolean</code> - whether the given first name is a valid first name or not
-     */
-    public static boolean isValidFirstName(String firstName) {
-        return isValidLastName(firstName);
-    }
-
-    /**
-     * Checks if the given <code>String</code> is a valid email.
-     * Requirements :
-     * - string must not be empty
-     * - string must not be null
-     * - string must only contain characters from a-z, from A-Z, from 0-9 or characters that are either @ or .
-     * - string must only contain one @
-     * - string must contain at most one . after the @
-     * - string must contain at least one character from a-z or from A-Z before the @
-     *
-     * @param email - <code>String</code> - the email to check
-     * @return <code>boolean</code> - whether the given email is a valid email or not
-     */
-    public static boolean isValidEmail(String email) {
-        if (email == null) return false;
-        if (email.equals("") || !email.matches("^[a-zA-Z0-9@.]*$")) return false;
-        boolean hasOneAt = false;  // if the string contains at least one @
-        boolean hasOneDotAfterAt = false;  // if the string contains at least one . after the first @
-        boolean hasOneCharBeforeAt = false; // if the string contains at least one character before the first @
-        for (char c : email.toCharArray()) {
-            if (c == '@' && hasOneAt) return false; // string has 2 @, invalid email
-            if (c == '@') hasOneAt = true; // first @ we encounter
-            if (c == '.' && hasOneAt) hasOneDotAfterAt = true; // first . we encounter after the first @
-            if (("" + c).matches("^[a-zA-Z]") && !hasOneAt) hasOneCharBeforeAt = true;
-        }
-        return hasOneAt && hasOneDotAfterAt && hasOneCharBeforeAt;
-    }
-
-    /**
-     * Checks if the given string is a valid NRN.
-     * Requirements :
-     * - string must not be empty
-     * - string must not be null
-     * - string must match the format XX.XX.XX-XXX.XX where X in an integer in range 0-9
-     *
-     * @param NRN - <code>String</code> - the NRN to check
-     * @return <code>boolean</code> whether the given NRN is a valid NRN or not
-     */
-    public static boolean isValidNRN(String NRN) {
-        if (NRN == null) return false;
-        if (NRN.length() != 15) return false;  // NRN.length() == 15 already checks NRN != ""
-        for (int i = 0; i < 15; i++) {
-            switch (i) {
-                case 0:
-                case 1:
-                case 3:
-                case 4:
-                case 6:
-                case 7:
-                case 9:
-                case 10:
-                case 11:
-                case 13:
-                case 14:
-                    if (!Character.isDigit(NRN.charAt(i))) return false;
-                    break;
-                case 2:
-                case 5:
-                case 12:
-                    if (NRN.charAt(i) != '.') return false;
-                    break;
-                case 8:
-                    if (NRN.charAt(i) != '-') return false;
-                    break;
-            }
-        }
-        return true;
     }
 
     @FXML

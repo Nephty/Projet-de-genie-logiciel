@@ -188,7 +188,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 }
 
             } else {
-               fadeInAndOutNode(1000, toggledOnProductLabel);
+                fadeInAndOutNode(1000, toggledOnProductLabel);
 
                 try {
                     account.toggleOn();

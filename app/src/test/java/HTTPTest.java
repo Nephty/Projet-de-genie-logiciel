@@ -56,7 +56,7 @@ public class HTTPTest {
             assertEquals("123456789", portfolioTest.getUser().getNationalRegistrationNumber());
             assertEquals("Belfius", portfolioTest.getWalletList().get(0).getBank().getName());
             assertEquals("0123456789ABCDEF", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
-            assertEquals(1,portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
+            assertEquals(1, portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
         });
     }
 
@@ -79,8 +79,8 @@ public class HTTPTest {
 
     @Test
     @DisplayName("Register a account")
-    public void register(){
-        assertDoesNotThrow(() ->{
+    public void register() {
+        assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
             response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
@@ -108,10 +108,10 @@ public class HTTPTest {
         JSONObject obj = new JSONObject(response.getBody());
 
         // Delete the user to finish the test
-        assertDoesNotThrow(() ->{
+        assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/user/01.01.01-001.01")
-                    .header("Authorization", "Bearer " +obj.getString("access_token"))
+                    .header("Authorization", "Bearer " + obj.getString("access_token"))
                     .asString();
             assertEquals(200, response2.getStatus());
         });
@@ -120,18 +120,18 @@ public class HTTPTest {
 
     @Test
     @DisplayName("Change password")
-    public void changePassword(){
+    public void changePassword() {
         Main.setToken((testToken));
         // Current password is igotalotofmoney
-        assertDoesNotThrow(() ->{
+        assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
             response = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + Main.getToken())
-                    .body("{\r\n    \"username\": \"" +"elonm"+ "\",\r\n    \"userID\": \"" +"123456789"+ "\",\r\n    \"email\": \"" + "elon.musk@tesla.com" + "\",\r\n    \"password\": \"" + "igotnomoney" + "\",\r\n    \"firstname\": \"" + "Elon" + "\",\r\n    \"lastname\": \"" + "Musk" + "\",\r\n    \"language\": \"" + "EN US" + "\"\r\n}")
+                    .body("{\r\n    \"username\": \"" + "elonm" + "\",\r\n    \"userID\": \"" + "123456789" + "\",\r\n    \"email\": \"" + "elon.musk@tesla.com" + "\",\r\n    \"password\": \"" + "igotnomoney" + "\",\r\n    \"firstname\": \"" + "Elon" + "\",\r\n    \"lastname\": \"" + "Musk" + "\",\r\n    \"language\": \"" + "EN US" + "\"\r\n}")
                     .asString();
-        }) ;
+        });
 
         // Try to login to check if the password is well changed
         assertDoesNotThrow(() -> {
@@ -154,7 +154,7 @@ public class HTTPTest {
             response = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + Main.getToken())
-                    .body("{\r\n    \"username\": \"" +"elonm"+ "\",\r\n    \"userID\": \"" +"123456789"+ "\",\r\n    \"email\": \"" + "elon.musk@tesla.com" + "\",\r\n    \"password\": \"" + "igotalotofmoney" + "\",\r\n    \"firstname\": \"" + "Elon" + "\",\r\n    \"lastname\": \"" + "Musk" + "\",\r\n    \"language\": \"" + "EN US" + "\"\r\n}")
+                    .body("{\r\n    \"username\": \"" + "elonm" + "\",\r\n    \"userID\": \"" + "123456789" + "\",\r\n    \"email\": \"" + "elon.musk@tesla.com" + "\",\r\n    \"password\": \"" + "igotalotofmoney" + "\",\r\n    \"firstname\": \"" + "Elon" + "\",\r\n    \"lastname\": \"" + "Musk" + "\",\r\n    \"language\": \"" + "EN US" + "\"\r\n}")
                     .asString();
         } catch (UnirestException e) {
             e.printStackTrace();

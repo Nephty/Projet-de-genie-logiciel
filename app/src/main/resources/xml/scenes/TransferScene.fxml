@@ -48,7 +48,8 @@
             <Label fx:id="invalidRecipientLabel" layoutX="431.0" layoutY="144.0" prefHeight="16.0" prefWidth="114.0"
                    text="%TransferScene.invalidRecipientLabel" textFill="#c80000" visible="false"/>
             <TextField fx:id="IBANField" layoutX="423.0" layoutY="254.0" onKeyPressed="#handleIBANFieldKeyPressed"
-                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="%TransferScene.IBANField"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
+                       promptText="%TransferScene.IBANField"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
                     <Font size="20.0"/>
@@ -90,7 +91,8 @@
             </Button>
             <Label fx:id="transferExecutedLabel" layoutX="570.0" layoutY="591.0" prefHeight="17.0" prefWidth="140.0"
                    text="%TransferScene.transferExecutedLabel" textFill="#00c800" visible="false"/>
-            <Label fx:id="charactersLeftLabel" layoutX="714.0" layoutY="324.0" text="%TransferScene.charactersLeftLabel"/>
+            <Label fx:id="charactersLeftLabel" layoutX="714.0" layoutY="324.0"
+                   text="%TransferScene.charactersLeftLabel"/>
         </AnchorPane>
     </Pane>
 </Pane>

@@ -9,6 +9,7 @@ public interface BackButtonNavigator {
     /**
      * Describes the handling of the back button navigation : what should we do (regarding the UI navigation) when the
      * user clicks on the back button ?
+     *
      * @param mouseEvent The event received from the action
      */
     void handleBackButtonNavigation(MouseEvent mouseEvent);

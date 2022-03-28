@@ -2,8 +2,6 @@ package front.controllers;
 
 import app.Main;
 import back.user.Wallet;
-import front.animation.FadeInTransition;
-import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
@@ -15,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Arrays;

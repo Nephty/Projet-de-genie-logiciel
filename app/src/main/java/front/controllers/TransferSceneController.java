@@ -204,7 +204,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
 
         String recipientActual = Main.getCurrentAccount().getIBAN();
 
-        if(recipientActual != IBAN) {
+        if (recipientActual != IBAN) {
             if (noLabelVisible()) {
                 // TODO : Manage errors (insufficient balance)
                 // Creates the transfer if everything is correct

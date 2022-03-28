@@ -5,8 +5,9 @@ public class Request extends Communication {
 
     /**
      * Creates a request with all the informations needed
+     *
      * @param client The Profile object of a user
-     * @param bank The Bank object of the destinated bank
+     * @param bank   The Bank object of the destinated bank
      * @param reason The reason of the request
      */
     public Request(Profile client, Bank bank, Reason reason) {

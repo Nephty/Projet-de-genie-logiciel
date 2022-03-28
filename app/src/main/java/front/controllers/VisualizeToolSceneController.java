@@ -97,7 +97,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 double amount = 0;
                 try {
                     amount = account.getAmount();
-                    account.getAmountDaysAgo(0);
+                    // account.getAmountDaysAgo(0);
                 } catch (SizeLimitExceededException e) {
                     e.printStackTrace();
                 }

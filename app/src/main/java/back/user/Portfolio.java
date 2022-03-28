@@ -110,7 +110,7 @@ public class Portfolio {
      * @return A list of parsed Strings
      */
     public static ArrayList<String> JSONArrayParser(String json) {
-        ArrayList<String> rep = new ArrayList<String>();
+        ArrayList<String> rep = new ArrayList<>();
         int crochet = 0;
         int save = 0;
         for (int i = 0; i < json.length(); i++) {

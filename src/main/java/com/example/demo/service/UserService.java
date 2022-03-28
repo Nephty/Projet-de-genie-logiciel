@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUserByUsername(String username) {
-        return uRepo.findByUsername(username)
+        return uRepo.findUserByUsername(username)
                 .orElseThrow(()-> new ResourceNotFound("No user with this username: "+ username));
     }
 
@@ -142,19 +142,14 @@ public class UserService implements UserDetailsService {
             case "ROLE_USER":
                 User user = getUserCredentials(usernameRole[0]);
                 authorities.add(new SimpleGrantedAuthority(Role.USER.getRole()));
-                //this is not an authority but the only way I found to communicate with the filter
-                authorities.add(new SimpleGrantedAuthority("id " + user.getUserID()));
-                //log.info(String.valueOf(passwordEncoder.encode("666HELL").equals(user.getPassword())));
+                log.info("user loaded by username {}", user);
                 return new org.springframework.security.core.userdetails.User(
-                        user.getUsername(), user.getPassword(), authorities
+                        user.getUserID(), user.getPassword(), authorities
                 );
             case "ROLE_BANK":
                 Bank bank = getBankCredentials(usernameRole[0]);
                 authorities.add(new SimpleGrantedAuthority(Role.BANK.getRole()));
-                //this is not an authority but the only way I found to communicate with the filter
-                authorities.add(new SimpleGrantedAuthority("id "+ bank.getLogin()));
-                //log.info(String.valueOf(passwordEncoder.encode("azerty").equals(bank.getPassword())));
-                //log.info("[BANK]{}", bank);
+
                 return new org.springframework.security.core.userdetails.User(
                         bank.getSwift(), bank.getPassword(), authorities
                 );
@@ -169,8 +164,11 @@ public class UserService implements UserDetailsService {
      * @throws UsernameNotFoundException if the username provided doesn't match any user in the DB
      */
     private User getUserCredentials(String username) throws UsernameNotFoundException {
-        return uRepo.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+        return uRepo.findUserByUsername(username)
+                .orElseThrow(() -> {
+                    log.warn("no user with such username: {}", username);
+                    return new UsernameNotFoundException(username);
+                });
     }
 
     /**

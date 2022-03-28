@@ -242,8 +242,13 @@ class AccountAccessServiceTest {
     void canGetAccountAccessByUserId() {
         //Given
         String userId = "userId";
-
+        User tmpUser = new User();
+        tmpUser.setUserID(userId);
+        Optional<User> user = Optional.of(tmpUser);
         //when
+        when(userRepo.findById(userId))
+                .thenReturn(user);
+
         underTest.getAccountAccessByUserId(userId);
 
         //then

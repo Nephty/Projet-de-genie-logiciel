@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.Account;
 import com.example.demo.request.AccountReq;
 import com.example.demo.service.AccountService;
@@ -39,7 +40,8 @@ public class AccountController {
      */
     @PostMapping
     public ResponseEntity<String> createAccount(@RequestBody AccountReq accountReq){
-        log.info("incoming account: {}", accountReq.toString());
+        if(!accountReq.isPostValid()) throw new MissingParamException();
+
         Account savedAccount = accountService.addAccount(accountReq);
         return new ResponseEntity<>(savedAccount.toString(), HttpStatus.CREATED);
     }
@@ -55,7 +57,8 @@ public class AccountController {
      */
     @PutMapping
     public ResponseEntity<String> changeAccount(@RequestBody AccountReq accountReq){
-        log.info("incoming account: {}", accountReq.toString());
+        if(!accountReq.isPutValid()) throw new MissingParamException();
+
         Account savedAccount = accountService.changeAccount(accountReq);
         return new ResponseEntity<>(savedAccount.toString(), HttpStatus.CREATED);
     }

@@ -4,6 +4,7 @@ import com.example.demo.model.*;
 import com.example.demo.model.CompositePK.AccountAccessPK;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -118,6 +119,12 @@ class AccountAccessRepoTest {
         //then
         assertEquals(1,result.size());
         assertEquals("testId", result.get(0).getUserId().getUserID());
+    }
+
+    @Test
+    @Disabled
+    void existsByUserIdAndAccountId(){
+        // TODO test this method
     }
 
     @Test

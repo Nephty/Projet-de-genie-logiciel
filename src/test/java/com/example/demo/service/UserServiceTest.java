@@ -295,7 +295,7 @@ class UserServiceTest {
 
     @Test
     @Disabled
-    void loadUserByUsername() {
+    void canLoadUserByUsername() {
         //TODO test this method ??
     }
 }

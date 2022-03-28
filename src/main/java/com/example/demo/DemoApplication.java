@@ -25,6 +25,7 @@ public class DemoApplication {
 		return args -> {
 			System.out.println("Runner be RUNNIIIIIIIING");
 			CurrencyType currencyType = currencyTypeRepo.getById(0);
+			/*
 			bankRepo.save(new Bank(
 					"ABCD",
 					"Belfius",
@@ -33,7 +34,7 @@ public class DemoApplication {
 					"uwuwuwuwu",
 					"BE",
 					currencyType
-			));
+			));*/
 		};
 	}
 

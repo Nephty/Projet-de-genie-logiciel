@@ -29,6 +29,13 @@ public class NotificationReq {
 
     private String notificationTypeName;
 
+    public boolean isPostValid() {
+        return notificationType != null
+                && comments != null
+                && status != null
+                && recipientId != null;
+    }
+
     public NotificationReq(Notification notification) {
         if(notification.getToBank()) {
             senderName = notification.getUserId().getFullName();
@@ -44,5 +51,4 @@ public class NotificationReq {
         notificationType = notification.getNotificationType().getNotificationTypeId();
         notificationTypeName = notification.getNotificationType().getNotificationTypeName();
     }
-
 }

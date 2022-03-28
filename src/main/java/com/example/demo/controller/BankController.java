@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.Bank;
 import com.example.demo.model.User;
 import com.example.demo.other.Sender;
@@ -32,7 +33,8 @@ public class BankController {
      */
     @PostMapping
     public ResponseEntity<String> addBank(@RequestBody BankReq bankReq) {
-        log.info("incoming bank: {}", bankReq.toString());
+        if(!bankReq.isPostValid()) throw new MissingParamException();
+
         Bank savedBank = bankService.addBank(bankReq);
         return new ResponseEntity<>(savedBank.toString(), HttpStatus.CREATED);
     }
@@ -77,6 +79,8 @@ public class BankController {
      */
     @PutMapping
     public ResponseEntity<String> changeBank(@RequestBody BankReq bankReq) {
+        if(!bankReq.isPutValid()) throw new MissingParamException();
+
         Bank savedBank = bankService.changeBank(
                 (Sender)httpRequest.getAttribute(Sender.getAttributeName()),
                 bankReq

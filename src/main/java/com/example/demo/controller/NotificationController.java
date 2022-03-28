@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.exception.throwables.LittleBoyException;
+import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.Notification;
 import com.example.demo.other.Sender;
 import com.example.demo.request.NotificationReq;
@@ -58,6 +59,8 @@ public class NotificationController {
      */
     @PostMapping
     public ResponseEntity<String> addNotification(@RequestBody NotificationReq notificationReq) {
+        if(!notificationReq.isPostValid()) throw new MissingParamException();
+
         Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
         Notification savedNotification = notificationService.addNotification(sender, notificationReq);
         return new ResponseEntity<>(savedNotification.toString(), HttpStatus.CREATED);

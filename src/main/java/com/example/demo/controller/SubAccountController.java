@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.SubAccount;
 import com.example.demo.request.SubAccountReq;
 import com.example.demo.service.SubAccountService;
@@ -39,6 +40,8 @@ public class SubAccountController {
      */
     @PostMapping
     public ResponseEntity<String> addSubAccount(@RequestBody SubAccountReq subAccountReq) {
+        if(!subAccountReq.isPostValid()) throw new MissingParamException();
+
         SubAccount savedSubAccount = subAccountService.addSubAccount(subAccountReq);
         return new ResponseEntity<>(savedSubAccount.toString(), HttpStatus.CREATED);
     }
@@ -66,6 +69,8 @@ public class SubAccountController {
      */
     @PutMapping
     public ResponseEntity<String> changeSubAccount(@RequestBody SubAccountReq subAccountReq) {
+        if(!subAccountReq.isPutValid()) throw new MissingParamException();
+
         SubAccount savedSubAccount = subAccountService.changeSubAccount(subAccountReq);
         return new ResponseEntity<>(savedSubAccount.toString(), HttpStatus.CREATED);
     }

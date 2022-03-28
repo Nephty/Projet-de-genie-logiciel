@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -17,8 +18,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
+import javax.naming.SizeLimitExceededException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -28,13 +30,13 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @FXML
     public ComboBox<Timespan> timeSpanComboBox;
     @FXML
-    public ListView ChartsArea;  // TODO : this is just a reserved area for visualisation purposes
-    @FXML
     public ListView<Account> availableAccountsListView, addedAccountsListView;
     @FXML
     public Label availableAccountsLabel, addedAccountsLabel;
     @FXML
-    public AnchorPane chartsPane;
+    public StackPane chartsPane;
+    @FXML
+    public PieChart pieChartInPane;
 
     private PieChart pieChart;
     private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -52,13 +54,8 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         availableAccountsListView.setItems(FXCollections.observableArrayList(accounts));
 
         // TODO : load all graphs and only change their visibility when switching mode
-        pieChartData.add(new PieChart.Data("test0", 12));
-        pieChartData.add(new PieChart.Data("test1", 20));
-        pieChart = new PieChart(pieChartData);
+        // pieChartData.add(new Data("test0", 1));
         // TODO : center the chart
-        // TODO can we not just put it in the fxml ?
-        pieChart.setTitle("Data");
-        chartsPane.getChildren().add(pieChart);
     }
 
     @Override
@@ -90,24 +87,49 @@ public class VisualizeToolSceneController extends Controller implements BackButt
 
     @FXML
     public void handleSetPieChartModeButtonClicked(MouseEvent event) {
-        // pieChart.setVisible(true);
     }
 
     @FXML
     public void handleAddAccountButtonClicked(MouseEvent event) {
         if (availableAccountsListView.getSelectionModel().getSelectedItems().size() > 0) {
-            addedAccountsListView.getItems().addAll(availableAccountsListView.getSelectionModel().getSelectedItems());
-            availableAccountsListView.getItems().removeAll(addedAccountsListView.getItems());
-            // TODO : update graphs ?
+            ObservableList<Account> selection = availableAccountsListView.getSelectionModel().getSelectedItems();
+            addedAccountsListView.getItems().addAll(selection);
+            // Update pie chart
+            for (Account account : selection) {
+                double amount = 0;
+                try {
+                    amount = account.getAmount();
+                } catch (SizeLimitExceededException e) {
+                    e.printStackTrace();
+                }
+                pieChartData.add(new Data(account.getIBAN(), amount));
+            }
+            pieChartInPane.setData(pieChartData);
+            // TODO : update table
+            // TODO : update graph
+            availableAccountsListView.getItems().removeAll(selection);
         }
     }
 
     @FXML
     public void handleRemoveAccountModeButtonClicked(MouseEvent event) {
         if (addedAccountsListView.getSelectionModel().getSelectedItems().size() > 0) {
-            availableAccountsListView.getItems().addAll(addedAccountsListView.getSelectionModel().getSelectedItems());
-            addedAccountsListView.getItems().removeAll(availableAccountsListView.getItems());
-            // TODO : update graphs ?
+            ObservableList<Account> selection = addedAccountsListView.getSelectionModel().getSelectedItems();
+            availableAccountsListView.getItems().addAll(selection);
+            // TODO : nothing working
+            // Update pie chart
+            for (Data data : pieChartData) {
+                for (Account account : selection) {
+                    if (data.getName().equals(account.getIBAN())) {
+                        pieChartData.remove(data);
+                        break;
+                    }
+                }
+            }
+            pieChartInPane.setData(pieChartData);
+            addedAccountsListView.getItems().removeAll(selection);
+            // TODO : update table
+            // TODO : update graph
         }
     }
 

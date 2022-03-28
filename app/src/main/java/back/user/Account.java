@@ -5,6 +5,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import javax.naming.SizeLimitExceededException;
 import java.util.ArrayList;
 
 public class Account {
@@ -126,5 +127,10 @@ public class Account {
 
     public ArrayList<SubAccount> getSubAccountList() {
         return this.subAccountList;
+    }
+
+    public double getAmount() throws SizeLimitExceededException {
+        if (subAccountList.size() != 1) throw new SizeLimitExceededException("There should only be one sub account in account " + IBAN);
+        return subAccountList.get(0).getAmount();
     }
 }

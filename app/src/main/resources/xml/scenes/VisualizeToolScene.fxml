@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
@@ -18,7 +19,11 @@
             </Button>
         </AnchorPane>
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleComponentKeyReleased" prefHeight="650.0" prefWidth="1280.0">
-            <AnchorPane fx:id="chartsPane" layoutX="30.0" layoutY="75.0" onKeyReleased="#handleComponentKeyReleased" prefHeight="550.0" prefWidth="650.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;" />
+            <StackPane fx:id="chartsPane" layoutX="30.0" layoutY="75.0" onKeyReleased="#handleComponentKeyReleased" prefHeight="550.0" prefWidth="650.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;">
+                <children>
+                   <PieChart fx:id="pieChartInPane" prefHeight="583.0" prefWidth="689.0"/>
+                </children>
+            </StackPane>
             <ListView fx:id="availableAccountsListView" fixedCellSize="50.0" layoutX="730.0" layoutY="396.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleAvailableAccountsListViewMouseClicked" prefHeight="174.0" prefWidth="300.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;" />
             <ListView fx:id="addedAccountsListView" fixedCellSize="50.0" layoutX="730.0" layoutY="136.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleAddedAccountsListViewMouseClicked" prefHeight="174.0" prefWidth="300.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;" />
             <Label fx:id="availableAccountsLabel" alignment="CENTER" layoutX="730.0" layoutY="335.0" prefHeight="36.0" prefWidth="300.0" style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%VisualizeToolScene.availableAccountsLabel" />

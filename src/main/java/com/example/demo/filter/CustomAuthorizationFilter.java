@@ -50,10 +50,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 DecodedJWT decodedJWT = jwtHandler.extractToken(authorizationHeader);
                 String username = decodedJWT.getSubject();
                 String role = decodedJWT.getClaim(Role.getClaimName()).asString();
-                String userId = decodedJWT.getClaim("userId").asString();
-                if(userId == null) {
-                    log.error("id is null");
-                }
+
                 Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority(role));
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -66,7 +63,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 request.setAttribute(
                         Sender.getAttributeName(),
                         new Sender(
-                                role.equals(Role.USER.getRole()) ? userId : username,
+                                username,
                                 role.equals(Role.USER.getRole()) ? Role.USER : Role.BANK
                         )
                 );

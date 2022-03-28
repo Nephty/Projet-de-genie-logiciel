@@ -62,8 +62,6 @@ public class TokenController {
         } else {
             throw new AuthenticationException("incorrect role: " + role);
         }
-        //TODO figure what to do with the refresh token
-        tokens.put("refresh_token", authorizationHeader.substring("Bearer ".length()));
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }

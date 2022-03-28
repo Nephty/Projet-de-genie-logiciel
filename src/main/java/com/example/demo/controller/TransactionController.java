@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.TransactionLog;
+import com.example.demo.other.Sender;
 import com.example.demo.request.TransactionReq;
 import com.example.demo.service.TransactionLogService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,8 @@ import java.util.List;
 public class TransactionController {
 
     private final TransactionLogService transactionLogService;
+
+    private final HttpServletRequest httpRequest;
 
     /**
      * @param transactionReq [body] Transaction to send to the DB
@@ -30,9 +34,14 @@ public class TransactionController {
      */
     @PostMapping
     public ResponseEntity<String> makeTransfer(@RequestBody TransactionReq transactionReq) {
+        log.info("insert transaction req: {}", transactionReq);
         if(!transactionReq.isPostValid()) throw new MissingParamException();
 
-        ArrayList<TransactionLog> savedTransaction = transactionLogService.addTransaction(transactionReq);
+        Sender sender = (Sender) httpRequest.getAttribute(Sender.getAttributeName());
+        ArrayList<TransactionLog> savedTransaction = transactionLogService.addTransaction(
+                sender,
+                transactionReq
+        );
         return new ResponseEntity<>(savedTransaction.toString(), HttpStatus.CREATED);
     }
 

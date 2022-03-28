@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUserByUsername(String username) {
-        return uRepo.findByUsername(username)
+        return uRepo.findUserByUsername(username)
                 .orElseThrow(()-> new ResourceNotFound("No user with this username: "+ username));
     }
 
@@ -164,7 +164,7 @@ public class UserService implements UserDetailsService {
      * @throws UsernameNotFoundException if the username provided doesn't match any user in the DB
      */
     private User getUserCredentials(String username) throws UsernameNotFoundException {
-        return uRepo.findByUsername(username)
+        return uRepo.findUserByUsername(username)
                 .orElseThrow(() -> {
                     log.warn("no user with such username: {}", username);
                     return new UsernameNotFoundException(username);

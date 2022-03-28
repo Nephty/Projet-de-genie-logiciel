@@ -8,8 +8,6 @@ import java.util.Optional;
 
 public interface BankRepo extends JpaRepository<Bank, String> {
 
-    Optional<Bank> findByLogin(String login);
-
     @Query("SELECT " +
             "CASE WHEN COUNT(b) > 0 " +
             "THEN true " +

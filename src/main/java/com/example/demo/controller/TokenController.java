@@ -42,27 +42,22 @@ public class TokenController {
         TokenHandler jwtHandler = new TokenHandler();
         DecodedJWT decodedJWT = jwtHandler.extractToken(authorizationHeader);
 
-        String username = decodedJWT.getSubject();
         String role = decodedJWT.getClaim(Role.getClaimName()).asString();
-        String id = decodedJWT.getClaim("userId").asString();
+        String id = decodedJWT.getSubject();
 
         Map<String, String> tokens;
 
         if(role.equals(Role.USER.getRole())) {
-            User user = userService.getUserByUsername(username);
             tokens = jwtHandler.createTokens(
-                    user.getUsername(),
+                    id,
                     request.getRequestURL().toString(),
-                    Role.USER,
-                    id
+                    Role.USER
             );
         } else if(role.equals(Role.BANK.getRole())) {
-            Bank bank = bankService.getByLogin(username);
             tokens = jwtHandler.createTokens(
-                    bank.getLogin(),
+                    id,
                     request.getRequestURL().toString(),
-                    Role.BANK,
-                    id
+                    Role.BANK
             );
         } else {
             throw new AuthenticationException("incorrect role: " + role);

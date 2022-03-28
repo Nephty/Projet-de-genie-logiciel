@@ -29,27 +29,25 @@ public class TokenHandler {
      * @param id id of the client
      * @return A map with the access and refresh token
      */
-    public Map<String, String> createTokens(String username, String issuer, Role role, String id) {
+    public Map<String, String> createTokens(String id, String issuer, Role role) {
         if(id == null) {
             log.error("id is null");
         }
         final int maxAccessTokenMinBeforeExp = 60 * 24 * 24;
         final int accessTokenMinBeforeExp = 1;
         String accessToken = JWT.create()
-                .withSubject(username)
+                .withSubject(id)
                 .withExpiresAt(new Date(System.currentTimeMillis() + maxAccessTokenMinBeforeExp * 60 * 1000))
                 .withIssuer(issuer)
                 .withClaim(Role.getClaimName(), role.getRole())
-                .withClaim("userId", id)
                 .sign(algorithm);
 
         final int refreshTokenMinBeforeExp = 60 * 24 * 14;
         String refreshToken = JWT.create()
-                .withSubject(username)
+                .withSubject(id)
                 .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenMinBeforeExp * 60 * 1000))
                 .withIssuer(issuer)
                 .withClaim(Role.getClaimName(), role.getRole())
-                .withClaim("userId", id)
                 .sign(algorithm);
 
         Map<String, String> tokens = new HashMap<>();

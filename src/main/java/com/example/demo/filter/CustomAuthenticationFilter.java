@@ -67,18 +67,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Role role;
         User user = (User)authResult.getPrincipal();
 
-
-        //ugly but necessary
-        final String[] id = {null};
-        user.getAuthorities().forEach(auth -> {
-            if(auth.getAuthority().startsWith("id ")) {
-                id[0] = auth.getAuthority().substring(3);
-            }
-        });
-        if(id[0] == null) {
-            log.error("id is null");
-        }
-
         switch (request.getParameter("role")) {
             case "ROLE_USER":
                 role = Role.USER;
@@ -92,8 +80,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         tokens = jwtHandler.createTokens(
                 user.getUsername(),
                 request.getRequestURL().toString(),
-                role,
-                id[0]
+                role
         );
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);

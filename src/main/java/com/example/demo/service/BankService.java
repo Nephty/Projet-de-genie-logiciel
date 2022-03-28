@@ -56,11 +56,6 @@ public class BankService {
                 .orElseThrow(()-> new ResourceNotFound(swift));
     }
 
-    public Bank getByLogin(String login) {
-        return bankRepo.findByLogin(login)
-                .orElseThrow(() -> new ResourceNotFound(login));
-    }
-
     public ArrayList<Bank> getAllBanks() {
          return new ArrayList<>(bankRepo.findAll());
     }

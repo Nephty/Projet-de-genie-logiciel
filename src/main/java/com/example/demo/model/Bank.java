@@ -25,12 +25,6 @@ public class Bank {
     private String name;
 
     @Column(
-            nullable = false,
-            unique = true
-    )
-    private String login;
-
-    @Column(
             nullable = false
     )
     private String password;
@@ -54,7 +48,6 @@ public class Bank {
     public Bank(BankReq bankReq) {
         swift = bankReq.getSwift();
         name = bankReq.getName();
-        login = bankReq.getLogin();
         password = bankReq.getPassword();
         address = bankReq.getAddress();
         country = bankReq.getCountry();

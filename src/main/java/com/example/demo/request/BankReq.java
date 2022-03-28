@@ -13,8 +13,6 @@ public class BankReq {
 
     private String name;
 
-    private String login;
-
     private String password;
 
     private String address;

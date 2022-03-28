@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
  * Contains the data inside a token relevant to id the client
  * inserted as an httpRequest attribute in every authenticated request
  */
-@Slf4j @Getter @RequiredArgsConstructor @ToString
+@Getter
+@RequiredArgsConstructor
+@ToString
 public class Sender {
 
     private final String id;
@@ -22,4 +24,5 @@ public class Sender {
     public static String getAttributeName() {
         return attributeName;
     }
+
 }

@@ -20,7 +20,9 @@ public class AccountReq {
 
     //Response only
 
-    private String ownerName;
+    private String ownerFirstname;
+
+    private String ownerLastname;
 
     private BankReq linkedBank;
 
@@ -42,7 +44,8 @@ public class AccountReq {
         iban = account.getIban();
         swift = account.getSwift().getSwift();
         userId = account.getUserId().getUserID();
-        ownerName = account.getUserId().getFullName();
+        ownerFirstname = account.getUserId().getFirstname();
+        ownerLastname = account.getUserId().getLastname();
         accountTypeId = account.getAccountTypeId().getAccountTypeId();
         payment = account.getPayment();
         linkedBank = new BankReq(account.getSwift());

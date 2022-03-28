@@ -54,8 +54,6 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         availableAccountsListView.setItems(FXCollections.observableArrayList(accounts));
 
         // TODO : load all graphs and only change their visibility when switching mode
-        // pieChartData.add(new Data("test0", 1));
-        // TODO : center the chart
     }
 
     @Override
@@ -116,20 +114,19 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         if (addedAccountsListView.getSelectionModel().getSelectedItems().size() > 0) {
             ObservableList<Account> selection = addedAccountsListView.getSelectionModel().getSelectedItems();
             availableAccountsListView.getItems().addAll(selection);
-            // TODO : nothing working
             // Update pie chart
-            for (Data data : pieChartData) {
-                for (Account account : selection) {
-                    if (data.getName().equals(account.getIBAN())) {
+            for (Account account : selection) {
+                for (Data data : pieChartData) {
+                    if (account.getIBAN().equals(data.getName())) {
                         pieChartData.remove(data);
                         break;
                     }
                 }
             }
             pieChartInPane.setData(pieChartData);
-            addedAccountsListView.getItems().removeAll(selection);
             // TODO : update table
             // TODO : update graph
+            addedAccountsListView.getItems().removeAll(selection);
         }
     }
 

@@ -239,7 +239,6 @@ public class VisualizeToolSceneController extends Controller implements BackButt
 
                 break;
         }
-
         return valuesHistory;
     }
 }

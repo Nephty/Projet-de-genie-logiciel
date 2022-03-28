@@ -88,13 +88,4 @@ public class User {
         return lastname + " " + firstname;
     }
 
-    public boolean isInvalid() {
-        return userID.length() <= 5
-                || username.length() < 3
-                || lastname.length() == 0
-                || firstname.length() == 0
-                || email.length() <= 5
-                || password.length() <= 5
-                || language.length() < 2;
-    }
 }

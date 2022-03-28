@@ -48,10 +48,6 @@ public class UserController {
      */
     @GetMapping
     public ResponseEntity<List<User>> sendAllUser() {
-        log.info(
-                "[SENDER]{}",
-                httpRequest.getAttribute(Sender.getAttributeName())
-                );
         return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 
@@ -66,7 +62,8 @@ public class UserController {
      */
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody UserReq userReq) {
-        log.info("inserting {}", userReq);
+        if(!userReq.isPostValid()) throw new MissingParamException();
+
         User savedUser = userService.addUser(userReq);
         return new ResponseEntity<>(savedUser.toString(),HttpStatus.CREATED);
     }
@@ -81,6 +78,8 @@ public class UserController {
      */
     @PutMapping
     public ResponseEntity<String> changeUser(@RequestBody UserReq userReq) {
+        if(!userReq.isPutValid()) throw new MissingParamException();
+
         User savedUser = userService.changeUser(userReq, (Sender)httpRequest.getAttribute(Sender.getAttributeName()));
         return new ResponseEntity<>(savedUser.toString(),HttpStatus.CREATED);
     }

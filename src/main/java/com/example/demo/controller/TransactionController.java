@@ -30,7 +30,8 @@ public class TransactionController {
      */
     @PostMapping
     public ResponseEntity<String> makeTransfer(@RequestBody TransactionReq transactionReq) {
-        log.info("insert transaction {}", transactionReq);
+        if(!transactionReq.isPostValid()) throw new MissingParamException();
+
         ArrayList<TransactionLog> savedTransaction = transactionLogService.addTransaction(transactionReq);
         return new ResponseEntity<>(savedTransaction.toString(), HttpStatus.CREATED);
     }

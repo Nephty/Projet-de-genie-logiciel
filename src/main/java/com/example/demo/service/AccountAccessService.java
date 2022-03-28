@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j
@@ -46,8 +47,16 @@ public class AccountAccessService {
                 .orElseThrow(()-> new ResourceNotFound(accountId + " : " + userId));
     }
 
-    public List<AccountAccess> getAccountAccessByUserId(String userID){
-        return accountAccessRepo.getAllByUserId(userID);
+    public List<AccountAccessReq> getAccountAccessByUserId(String userID){
+        User user = userRepo.findById(userID)
+                .orElseThrow(()-> {
+                    log.warn("No user with such id: " + userID);
+                    return new ResourceNotFound("no user with such id: " + userID);
+                });
+        return accountAccessRepo.findAllByUserId(user)
+                .stream()
+                .map(accountAccess -> new AccountAccessReq(accountAccess))
+                .collect(Collectors.toList());
     }
 
     /**

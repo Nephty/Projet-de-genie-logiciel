@@ -19,6 +19,16 @@ public class SubAccountReq {
 
     private String currencyTypeName;
 
+    public boolean isPostValid() {
+        return iban != null
+                && currencyType != null
+                && currentBalance != null;
+    }
+
+    public boolean isPutValid() {
+        return currentBalance != null || currencyType != null;
+    }
+
     public SubAccountReq(SubAccount subAccount) {
         iban = subAccount.getIban().getIban();
         currencyType = subAccount.getCurrencyType().getCurrencyId();

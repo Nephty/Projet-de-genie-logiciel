@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,8 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
     @Query("SELECT s FROM AccountAccess s, User u where u.userID = ?1 and s.userId = u.userID " +
             "order by s.accountId.swift.swift")
     List<AccountAccess> getAllByUserId(String userID);
+
+    ArrayList<AccountAccess> findAllByUserId(User user);
 
 
     boolean existsByUserIdAndAccountId(User user,Account account);

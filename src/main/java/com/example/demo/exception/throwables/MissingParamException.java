@@ -10,6 +10,10 @@ public class MissingParamException extends ApiRequestException {
         super(message, HttpStatus.BAD_REQUEST);
     }
 
+    public MissingParamException() {
+        super("Bad request format", HttpStatus.BAD_REQUEST);
+    }
+
     public MissingParamException(String message, Throwable cause) {
         super(message, cause, HttpStatus.BAD_REQUEST);
     }

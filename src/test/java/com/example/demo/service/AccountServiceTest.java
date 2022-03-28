@@ -49,7 +49,9 @@ class AccountServiceTest {
                 "swift",
                 "userId",
                 1,
-                false
+                false,
+                "name",
+                null
         );
 
         Bank tmpBank = new Bank();
@@ -108,7 +110,9 @@ class AccountServiceTest {
                 "swift",
                 "userId",
                 1,
-                false
+                false,
+                "name",
+                null
         );
 
         Bank tmpBank = new Bank();
@@ -153,7 +157,9 @@ class AccountServiceTest {
                 "swift",
                 "userId",
                 1,
-                false
+                false,
+                "name",
+                null
         );
 
         //then
@@ -172,7 +178,9 @@ class AccountServiceTest {
                 "swift",
                 "userId",
                 1,
-                false
+                false,
+                "name",
+                null
         );
 
         Bank tmpBank = new Bank();
@@ -197,7 +205,9 @@ class AccountServiceTest {
                 "swift",
                 "userId",
                 1,
-                false
+                false,
+                "name",
+                null
         );
 
         Bank tmpBank = new Bank();
@@ -228,7 +238,9 @@ class AccountServiceTest {
                 "swift",
                 "userId",
                 1,
-                false
+                false,
+                "name",
+                null
         );
 
         Bank tmpBank = new Bank();
@@ -271,7 +283,9 @@ class AccountServiceTest {
                 "swift",
                 "userId",
                 1,
-                false
+                false,
+                "name",
+                null
         );
 
         //then

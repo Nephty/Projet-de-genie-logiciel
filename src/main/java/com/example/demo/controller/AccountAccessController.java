@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.AccountAccess;
 import com.example.demo.model.User;
 import com.example.demo.request.AccountAccessReq;
@@ -28,7 +29,7 @@ public class AccountAccessController {
      * Who ? the user
      */
     @GetMapping(value = "{userId}")
-    public ResponseEntity<List<AccountAccess>> sendAccountAccess(@PathVariable String userId){
+    public ResponseEntity<List<AccountAccessReq>> sendAccountAccess(@PathVariable String userId){
         return new ResponseEntity<>(
                 accountAccessService.getAccountAccessByUserId(userId),
                 HttpStatus.OK
@@ -61,6 +62,8 @@ public class AccountAccessController {
      */
     @PostMapping
     public ResponseEntity<String> addAccess(@RequestBody AccountAccessReq accountAccessReq){
+        if(!accountAccessReq.isPostValid()) throw new MissingParamException();
+
         AccountAccess savedAccountAccess = accountAccessService.createAccountAccess(accountAccessReq);
         return new ResponseEntity<>(savedAccountAccess.toString(), HttpStatus.CREATED);
     }
@@ -76,6 +79,8 @@ public class AccountAccessController {
      */
     @PutMapping
     public ResponseEntity<String> changeAccess(@RequestBody AccountAccessReq accountAccessReq) {
+        if(!accountAccessReq.isPutValid()) throw new MissingParamException();
+
         AccountAccess savedAccountAccess = accountAccessService.changeAccountAccess(accountAccessReq);
         return new ResponseEntity<>(savedAccountAccess.toString(), HttpStatus.CREATED);
     }

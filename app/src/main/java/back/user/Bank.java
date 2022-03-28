@@ -35,10 +35,11 @@ public class Bank {
 
     /**
      * Creates a Bank object with all the needed informations
+     *
      * @param swiftCode A String of the swift code of the bank
-     * @param name A String of the name of the Bank
+     * @param name      A String of the name of the Bank
      */
-    public Bank(String swiftCode, String name){
+    public Bank(String swiftCode, String name) {
         this.swiftCode = swiftCode;
         this.name = name;
     }

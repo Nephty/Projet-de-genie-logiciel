@@ -2,6 +2,8 @@ package back.user;
 
 import app.Main;
 
+import java.time.Instant;
+
 public class Transaction {
     private long ID;
     private String senderName;
@@ -79,5 +81,10 @@ public class Transaction {
 
     public Currencies getCurrency() {
         return this.currency;
+    }
+
+    public long getSendingDateAsDateObject() {
+        // TODO : make this method return the date of the transaction as ms since epoch
+        return Instant.now().toEpochMilli();
     }
 }

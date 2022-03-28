@@ -65,7 +65,7 @@ public class SubAccount {
         }
     }
 
-    public void exportHistory(){
+    public void exportHistory() {
 
     }
 

@@ -78,7 +78,7 @@ public class Portfolio {
                     String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
                     bank = new Bank(swift, bankName);
                     oldSwift = swift;
-                    Profile owner = new Profile(obj.getJSONObject("account").getString("ownerName"), "", obj.getJSONObject("account").getString("userId"));
+                    Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), obj.getJSONObject("account").getString("userId"));
                     //Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
                     String iban = obj.getString("accountId");
                     int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");

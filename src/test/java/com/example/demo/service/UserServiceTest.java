@@ -88,13 +88,13 @@ class UserServiceTest {
                 "password",
                 "language"
         ));
-        when(userRepo.findByUsername(username)).thenReturn(user);
+        when(userRepo.findUserByUsername(username)).thenReturn(user);
 
         //When
         User returnedUser = underTest.getUserByUsername(username);
 
         //then
-        verify(userRepo).findByUsername(username);
+        verify(userRepo).findUserByUsername(username);
         assertThat(returnedUser).isEqualTo(user.get());
     }
 

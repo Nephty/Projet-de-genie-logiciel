@@ -11,11 +11,8 @@ import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.*;
 import javafx.scene.chart.PieChart.Data;
-import javafx.scene.chart.StackedAreaChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -51,7 +48,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     public StackedAreaChart<String, Double> stackedAreaChart;
     private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
     CategoryAxis xAxis;
-    CategoryAxis yAxis;
+    NumberAxis yAxis;
     ArrayList<Double> valuesHistory;
 
 
@@ -70,8 +67,11 @@ public class VisualizeToolSceneController extends Controller implements BackButt
 
         xAxis = new CategoryAxis();
         xAxis.setLabel("Time");
-        yAxis = new CategoryAxis();
+        yAxis = new NumberAxis(0, 1000, 100);
         yAxis.setLabel("Money");
+        stackedAreaChart = new StackedAreaChart(xAxis, yAxis);
+
+        stackedAreaChart.setVisible(false);
         // TODO : load all graphs and only change their visibility when switching mode
     }
 
@@ -95,20 +95,31 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @FXML
     public void handleSetTableModeButtonClicked(MouseEvent event) {
         // TODO : change to table mode
+        pieChart.setVisible(false);
+        stackedAreaChart.setVisible(false);
     }
 
     @FXML
     public void handleSetGraphModeButtonClicked(MouseEvent event) {
         ArrayList<String> dates = new ArrayList<>();
         XYChart.Series<String, Double> data = new XYChart.Series<>();
+        SubAccount subAccountToVisualize = addedAccountsListView.getItems().get(0);
+        valuesHistory = computeValuesHistoryProcess(subAccountToVisualize.getAmount(), subAccountToVisualize.getTransactionHistory(), timeSpanComboBox.getValue(), subAccountToVisualize);
         switch (timeSpanComboBox.getValue()) {
             case DAILY:
+                // For every day, add a new data that follow the pattern (String, Double) <=> (Date, Amount of money)
+                // and add every date to the dates list (we use this list for the x-axis
                 for (int i = 0; i < 30; i++) {
                     LocalDate datePoint = LocalDate.now().minus(Period.ofDays(30-i));
                     dates.add(datePoint.toString());
-                    data.getData().add(new XYChart.Data<>());
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(i));
+                    data.getData().add(dataPoint);
                 }
                 xAxis.setCategories(FXCollections.observableArrayList(dates));
+                for (int i = 0; i < stackedAreaChart.getData().size(); i++) {
+                    stackedAreaChart.getData().set(i, null);
+                }
+                stackedAreaChart.getData().add(data);
                 break;
             case WEEKLY:
                 for (int i = 0; i < 8; i++) {
@@ -129,11 +140,16 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 xAxis.setCategories(FXCollections.observableArrayList(dates));
                 break;
         }
-        // TODO : change to graph mode
+        pieChart.setVisible(false);
+        stackedAreaChart.setVisible(true);
+        // TODO : set last chart to invisible
     }
 
     @FXML
     public void handleSetPieChartModeButtonClicked(MouseEvent event) {
+        stackedAreaChart.setVisible(false);
+        pieChart.setVisible(true);
+        // TODO : set last chart to invisible
     }
 
     @FXML

@@ -2,14 +2,20 @@ package front.controllers;
 
 import app.Main;
 import back.Timespan;
-import back.user.*;
+import back.user.Account;
+import back.user.SubAccount;
+import back.user.Transaction;
+import back.user.Wallet;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.chart.StackedAreaChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -40,10 +46,13 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @FXML
     public StackPane chartsPane;
     @FXML
-    public PieChart pieChartInPane;
-
-    private PieChart pieChart;
+    public PieChart pieChart;
+    @FXML
+    public StackedAreaChart<String, Double> stackedAreaChart;
     private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+    CategoryAxis xAxis;
+    CategoryAxis yAxis;
+    ArrayList<Double> valuesHistory;
 
 
     public void initialize() {
@@ -59,6 +68,10 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         }
         availableAccountsListView.setItems(FXCollections.observableArrayList(subAccounts));
 
+        xAxis = new CategoryAxis();
+        xAxis.setLabel("Time");
+        yAxis = new CategoryAxis();
+        yAxis.setLabel("Money");
         // TODO : load all graphs and only change their visibility when switching mode
     }
 
@@ -86,6 +99,36 @@ public class VisualizeToolSceneController extends Controller implements BackButt
 
     @FXML
     public void handleSetGraphModeButtonClicked(MouseEvent event) {
+        ArrayList<String> dates = new ArrayList<>();
+        XYChart.Series<String, Double> data = new XYChart.Series<>();
+        switch (timeSpanComboBox.getValue()) {
+            case DAILY:
+                for (int i = 0; i < 30; i++) {
+                    LocalDate datePoint = LocalDate.now().minus(Period.ofDays(30-i));
+                    dates.add(datePoint.toString());
+                    data.getData().add(new XYChart.Data<>());
+                }
+                xAxis.setCategories(FXCollections.observableArrayList(dates));
+                break;
+            case WEEKLY:
+                for (int i = 0; i < 8; i++) {
+                    dates.add(LocalDate.now().minus(Period.ofWeeks(8-i)).toString());
+                }
+                xAxis.setCategories(FXCollections.observableArrayList(dates));
+                break;
+            case MONTHLY:
+                for (int i = 0; i < 6; i++) {
+                    dates.add(LocalDate.now().minus(Period.ofMonths(6-i)).toString());
+                }
+                xAxis.setCategories(FXCollections.observableArrayList(dates));
+                break;
+            case YEARLY:
+                for (int i = 0; i < 4; i++) {
+                    dates.add(LocalDate.now().minus(Period.ofYears(4-i)).toString());
+                }
+                xAxis.setCategories(FXCollections.observableArrayList(dates));
+                break;
+        }
         // TODO : change to graph mode
     }
 
@@ -106,7 +149,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 if (amount == 0) amount = 0.01; // very small amount so that it still appears on the chart
                 pieChartData.add(new Data(account.getIBAN(), amount));
             }
-            pieChartInPane.setData(pieChartData);
+            pieChart.setData(pieChartData);
             // TODO : update table
             // TODO : update graph
             availableAccountsListView.getItems().removeAll(selection);
@@ -128,13 +171,11 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                     }
                 }
             }
-            pieChartInPane.setData(pieChartData);
+            pieChart.setData(pieChartData);
             // TODO : update table
             // TODO : update graph
             addedAccountsListView.getItems().removeAll(selection);
-            ArrayList<Double> valuesHistory = computeValuesHistoryProcess(selectedSubAccount.getAmount(), selectedSubAccount.getTransactionHistory(),
-                    timeSpanComboBox.getValue(),
-                    selectedSubAccount);
+            valuesHistory = computeValuesHistoryProcess(selectedSubAccount.getAmount(), selectedSubAccount.getTransactionHistory(), timeSpanComboBox.getValue(), selectedSubAccount);
         }
     }
 
@@ -294,9 +335,9 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     (HashMap<String, ArrayList<Transaction>> hashMap, Timespan timeSpan) {
         HashMap<String, ArrayList<Transaction>> comprehensiveHashMap = new HashMap<>();
 
-        int daysSpan = 30;
         switch (timeSpan) {
             case DAILY:
+                int daysSpan = 30;
                 LocalDate date30DaysAgo = LocalDate.now().minus(Period.ofDays(daysSpan));
                 int day30DaysAgoAfterIteration;
                 for (int i = 0; i < daysSpan; i++) {
@@ -342,7 +383,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 break;
             case YEARLY:
                 int yearsSpan = 4;
-                LocalDate date4YearsAgo = LocalDate.now().minus(Period.ofDays(daysSpan));
+                LocalDate date4YearsAgo = LocalDate.now().minus(Period.ofDays(yearsSpan));
                 int year4YearsAgoAfterIteration;
                 for (int i = 0; i < yearsSpan; i++) {
                     year4YearsAgoAfterIteration = date4YearsAgo.getYear() + i;

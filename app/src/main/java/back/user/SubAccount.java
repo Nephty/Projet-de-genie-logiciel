@@ -95,4 +95,8 @@ public class SubAccount {
     public ArrayList<Transaction> getTransactionHistory() {
         return this.transactionHistory;
     }
+
+    public String getIBAN() {
+        return IBAN;
+    }
 }

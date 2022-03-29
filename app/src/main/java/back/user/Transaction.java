@@ -1,7 +1,5 @@
 package back.user;
 
-import app.Main;
-
 import java.time.Instant;
 
 public class Transaction {
@@ -44,7 +42,7 @@ public class Transaction {
     @Override
     public String toString() {
         // If the transaction is sent by the account owner
-        if (this.senderIBAN.equals(Main.getCurrentAccount().getIBAN())) {
+        if (this.senderIBAN.equals("BE327777888877778888")) { // TODO : reset this to Main.getCurrentAccount().getIBAN()
             return this.sendingDate + "      " + this.receiverName + "      " + this.receiverIBAN + "       -" + this.amount + "€";
         } else {
             return this.sendingDate + "      " + this.senderName + "      " + this.senderIBAN + "       +" + this.amount + "€";

@@ -2,9 +2,7 @@ package front.controllers;
 
 import app.Main;
 import back.Timespan;
-import back.user.Account;
-import back.user.Transaction;
-import back.user.Wallet;
+import back.user.*;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
@@ -21,10 +19,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
-import javax.naming.SizeLimitExceededException;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class VisualizeToolSceneController extends Controller implements BackButtonNavigator {
     @FXML
@@ -32,7 +34,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @FXML
     public ComboBox<Timespan> timeSpanComboBox;
     @FXML
-    public ListView<Account> availableAccountsListView, addedAccountsListView;
+    public ListView<SubAccount> availableAccountsListView, addedAccountsListView;
     @FXML
     public Label availableAccountsLabel, addedAccountsLabel;
     @FXML
@@ -49,11 +51,13 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         timeSpanComboBox.setItems(timespanValues);
         timeSpanComboBox.setValue(Timespan.DAILY);
 
-        ArrayList<Account> accounts = new ArrayList<>();
+        ArrayList<SubAccount> subAccounts = new ArrayList<>();
         for (Wallet wallet : Main.getPortfolio().getWalletList()) {
-            accounts.addAll(wallet.getAccountList());
+            for (Account account : wallet.getAccountList()) {
+                subAccounts.addAll(account.getSubAccountList());
+            }
         }
-        availableAccountsListView.setItems(FXCollections.observableArrayList(accounts));
+        availableAccountsListView.setItems(FXCollections.observableArrayList(subAccounts));
 
         // TODO : load all graphs and only change their visibility when switching mode
     }
@@ -92,17 +96,13 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @FXML
     public void handleAddAccountButtonClicked(MouseEvent event) {
         if (availableAccountsListView.getSelectionModel().getSelectedItems().size() > 0) {
-            ObservableList<Account> selection = availableAccountsListView.getSelectionModel().getSelectedItems();
+            ObservableList<SubAccount> selection = availableAccountsListView.getSelectionModel().getSelectedItems();
             addedAccountsListView.getItems().addAll(selection);
             // Update pie chart
-            for (Account account : selection) {
+            for (SubAccount account : selection) {
                 double amount = 0;
-                try {
-                    amount = account.getAmount();
-                    // account.getAmountDaysAgo(0);
-                } catch (SizeLimitExceededException e) {
-                    e.printStackTrace();
-                }
+                amount = account.getAmount();
+                // account.getAmountDaysAgo(0);
                 if (amount == 0) amount = 0.01; // very small amount so that it still appears on the chart
                 pieChartData.add(new Data(account.getIBAN(), amount));
             }
@@ -116,10 +116,11 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @FXML
     public void handleRemoveAccountModeButtonClicked(MouseEvent event) {
         if (addedAccountsListView.getSelectionModel().getSelectedItems().size() > 0) {
-            ObservableList<Account> selection = addedAccountsListView.getSelectionModel().getSelectedItems();
+            ObservableList<SubAccount> selection = addedAccountsListView.getSelectionModel().getSelectedItems();
+            SubAccount selectedSubAccount = selection.get(0);
             availableAccountsListView.getItems().addAll(selection);
             // Update pie chart
-            for (Account account : selection) {
+            for (SubAccount account : selection) {
                 for (Data data : pieChartData) {
                     if (account.getIBAN().equals(data.getName())) {
                         pieChartData.remove(data);
@@ -131,6 +132,9 @@ public class VisualizeToolSceneController extends Controller implements BackButt
             // TODO : update table
             // TODO : update graph
             addedAccountsListView.getItems().removeAll(selection);
+            ArrayList<Double> valuesHistory = computeValuesHistoryProcess(selectedSubAccount.getAmount(), selectedSubAccount.getTransactionHistory(),
+                    timeSpanComboBox.getValue(),
+                    selectedSubAccount);
         }
     }
 
@@ -208,6 +212,183 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     }
 
     /**
+     * Separates all transactions given in the history into a <code>HashMap</code> that uses String as keys. These
+     * strings represent all the different time stamps. If the given timespan is DAILY, every key is a day of the year.
+     * If it is WEEKLY, every key is a week of the year. If it is MONTHLY, every key is a month. If it is YEARLY, every
+     * key is a year. Using these keys, we can retrieve a list of all transactions that happened on that
+     * day/week/month/year in an ArrayList of Transaction.
+     *
+     * @param history  The transactions history
+     * @param timeSpan The timespan to follow
+     * @return A HashMap that has every time stamps as keys that lead to ArrayLists of Transactions that happened during
+     * that time range (day/week/month/year).
+     */
+    public HashMap<String, ArrayList<Transaction>> separateTransactionsIntoHashMap(ArrayList<Transaction> history, Timespan timeSpan) {
+        HashMap<String, ArrayList<Transaction>> dateTransactionSeparator = new HashMap<>();
+        switch (timeSpan) {
+            case DAILY:
+                for (Transaction t : history) {
+                    String sendingDate = t.getSendingDate();
+                    String sendingDateDayOfYearAsString = String.valueOf(StringDateParser.getDayOfYearFromString(sendingDate));
+                    if (dateTransactionSeparator.containsKey(sendingDateDayOfYearAsString)) {
+                        ArrayList<Transaction> oldContent = dateTransactionSeparator.get(sendingDateDayOfYearAsString);
+                        oldContent.add(t);
+                        dateTransactionSeparator.put(sendingDateDayOfYearAsString, oldContent);
+                    } else {
+                        dateTransactionSeparator.put(sendingDateDayOfYearAsString, new ArrayList<>(List.of(t)));
+                    }
+                }
+                break;
+            case WEEKLY:
+                for (Transaction t : history) {
+                    String sendingDate = t.getSendingDate();
+                    String sendingDateWeekOfYearAsString = String.valueOf(StringDateParser.getYearWeekFromString(sendingDate));
+                    if (dateTransactionSeparator.containsKey(sendingDateWeekOfYearAsString)) {
+                        dateTransactionSeparator.get(sendingDateWeekOfYearAsString).add(t);
+                    } else {
+                        dateTransactionSeparator.put(sendingDateWeekOfYearAsString, new ArrayList<>(List.of(t)));
+                    }
+                }
+                break;
+            case MONTHLY:
+                for (Transaction t : history) {
+                    String sendingDate = t.getSendingDate();
+                    String sendingDateMonth = String.valueOf(StringDateParser.getMonthFromString(sendingDate));
+                    if (dateTransactionSeparator.containsKey(sendingDateMonth)) {
+                        dateTransactionSeparator.get(sendingDateMonth).add(t);
+                    } else {
+                        dateTransactionSeparator.put(sendingDateMonth, new ArrayList<>(List.of(t)));
+                    }
+                }
+                break;
+            case YEARLY:
+                for (Transaction t : history) {
+                    String sendingDate = t.getSendingDate();
+                    String sendingDateYear = String.valueOf(StringDateParser.getYearFromString(sendingDate));
+                    if (dateTransactionSeparator.containsKey(sendingDateYear)) {
+                        dateTransactionSeparator.get(sendingDateYear).add(t);
+                    } else {
+                        dateTransactionSeparator.put(sendingDateYear, new ArrayList<>(List.of(t)));
+                    }
+                }
+                break;
+        }
+        return dateTransactionSeparator;
+    }
+
+    /**
+     * Prepares a comprehensive <code>HashMap</code> that contains every key required for time analysis according to the
+     * given timespan. If the timespan is DAILY, the hashmap will have a key for every day of the last 30 days. If it is
+     * WEEKLY, the hashmap will have a key for every week of the last 8 weeks. If it is MONTHLY, the hashmap will have a
+     * key for every month of the last 6 months. If it is YEARLY, the hashmap will have a key for every year of the last
+     * 4 years. Every key leads to an empty ArrayList of Transaction. This method prepares the hashmap for analysis :
+     * if no transaction occurred on a specific day, we still need to acknowledge that. If we don't, we may encounter
+     * issues when tracing the value history of an account.
+     *
+     * @param hashMap  Data we already have for every day : use the method <code>SeparateTransactionsIntoHashMap</code>
+     *                 to format an ArrayList of transaction into an HashMap that this method can use
+     * @param timeSpan The timespan to follow
+     * @return A comprehensive HashMap containing an ArrayList for every time stamp. Value computation can now begin.
+     */
+    public HashMap<String, ArrayList<Transaction>> prepareComprehensiveTransactionsHashMap
+    (HashMap<String, ArrayList<Transaction>> hashMap, Timespan timeSpan) {
+        HashMap<String, ArrayList<Transaction>> comprehensiveHashMap = new HashMap<>();
+
+        int daysSpan = 30;
+        switch (timeSpan) {
+            case DAILY:
+                LocalDate date30DaysAgo = LocalDate.now().minus(Period.ofDays(daysSpan));
+                int day30DaysAgoAfterIteration;
+                for (int i = 0; i < daysSpan; i++) {
+                    day30DaysAgoAfterIteration = (date30DaysAgo.getDayOfYear() + i) % 365;
+                    if (hashMap.containsKey(String.valueOf(day30DaysAgoAfterIteration))) {
+                        // There is data for that particular day
+                        comprehensiveHashMap.put(String.valueOf(day30DaysAgoAfterIteration), hashMap.get(String.valueOf(day30DaysAgoAfterIteration)));
+                    } else {
+                        // There is no data for that day : add an empty list
+                        comprehensiveHashMap.put(String.valueOf(day30DaysAgoAfterIteration), new ArrayList<>());
+                    }
+                }
+                break;
+            case WEEKLY:
+                int weeksSpan = 8;
+                LocalDate date8WeeksAgo = LocalDate.now().minus(Period.ofDays(weeksSpan * 7));
+                int week8WeeksAgoAfterIteration;
+                for (int i = 0; i < weeksSpan; i++) {
+                    week8WeeksAgoAfterIteration = ((date8WeeksAgo.getDayOfYear() / 7) + i) % 52;
+                    if (hashMap.containsKey(String.valueOf(week8WeeksAgoAfterIteration))) {
+                        // There is data for that particular week
+                        comprehensiveHashMap.put(String.valueOf(week8WeeksAgoAfterIteration), hashMap.get(String.valueOf(week8WeeksAgoAfterIteration)));
+                    } else {
+                        // There is no data for that week : add an empty list
+                        comprehensiveHashMap.put(String.valueOf(week8WeeksAgoAfterIteration), new ArrayList<>());
+                    }
+                }
+                break;
+            case MONTHLY:
+                int monthsSpan = 6;
+                LocalDate date6MonthsAgo = LocalDate.now().minus(Period.ofDays(182));
+                int month6MonthsAgoAfterIteration;
+                for (int i = 0; i < monthsSpan; i++) {
+                    month6MonthsAgoAfterIteration = (date6MonthsAgo.getMonth().getValue() + i) % 12;
+                    if (hashMap.containsKey(String.valueOf(month6MonthsAgoAfterIteration))) {
+                        // There is data for that particular month
+                        comprehensiveHashMap.put(String.valueOf(month6MonthsAgoAfterIteration), hashMap.get(String.valueOf(month6MonthsAgoAfterIteration)));
+                    } else {
+                        // There is no data for that month : add an empty list
+                        comprehensiveHashMap.put(String.valueOf(month6MonthsAgoAfterIteration), new ArrayList<>());
+                    }
+                }
+                break;
+            case YEARLY:
+                int yearsSpan = 4;
+                LocalDate date4YearsAgo = LocalDate.now().minus(Period.ofDays(daysSpan));
+                int year4YearsAgoAfterIteration;
+                for (int i = 0; i < yearsSpan; i++) {
+                    year4YearsAgoAfterIteration = date4YearsAgo.getYear() + i;
+                    if (hashMap.containsKey(String.valueOf(year4YearsAgoAfterIteration))) {
+                        // There is data for that particular year
+                        comprehensiveHashMap.put(String.valueOf(year4YearsAgoAfterIteration), hashMap.get(String.valueOf(year4YearsAgoAfterIteration)));
+                    } else {
+                        // There is no data for that year : add an empty list
+                        comprehensiveHashMap.put(String.valueOf(year4YearsAgoAfterIteration), new ArrayList<>());
+                    }
+                }
+                break;
+        }
+        return comprehensiveHashMap;
+    }
+
+    /**
+     * Computes all values of accounts holdings at regular intervals using the given transactions and puts all the values
+     * in an array list that corresponds to how much money was on an account at regular intervals. These intervals are given
+     * by the HashMap that matches strings to lists of transactions. These lists of transactions must reflect the intervals
+     * of time. For example, the lists of transactions are the transactions that happened every day for 30 days. If so,
+     * the returned arraylist will contain the holding history of an account recorded every day for 30 days.
+     *
+     * @param initialValue The initial amount of money on the account
+     * @param transactions A hashmap that maps dates to a list of transactions (every entry in the hashmap is regularly
+     *                     spaced one from another
+     * @param account      The account from which we track the history
+     * @return An arraylist containing the holdings history at every regular timestamp
+     */
+    public ArrayList<Double> computeValuesHistory(double initialValue, HashMap<String, ArrayList<Transaction>> transactions, SubAccount account) {
+        double value = initialValue;
+        ArrayList<Double> values = new ArrayList<>();
+        for (String key : transactions.keySet()) {
+            for (Transaction t : transactions.get(key)) {
+                if (t.getSenderIBAN().equals(account.getIBAN())) { // TODO : reset this to Main.getCurrentAccount().getIBAN()
+                    value -= t.getAmount();
+                } else {
+                    value += t.getAmount();
+                }
+            }
+            values.add(value);
+        }
+        return values;
+    }
+
+    /**
      * Using an initial value, a list of transactions and a timespan, returns a list of values that correspond to the
      * amount of money that was held by an account periodically (according to the timespan). If we give an initial value
      * of 50, a list of transactions and a timespan of DAILY, returns a list of values that correspond to the amounts of
@@ -219,26 +400,77 @@ public class VisualizeToolSceneController extends Controller implements BackButt
      * @param history      The transaction history for the account (WARNING : needs to be complete, or the computations will
      *                     be inaccurate)
      * @param timeSpan     The timespan that has to separate every value (one day, one week, one month or one year)
+     * @param account      The account we track the history from
      * @return A list of values that represent the amounts of money held by an account that has the given initial value
      * of money as of today, evaluated every day/week/month/year (according to the given timespan)
      */
-    public ArrayList<Double> computeValuesHistory(int initialValue, ArrayList<Transaction> history, Timespan timeSpan) {
-        ArrayList<Double> valuesHistory = new ArrayList<>();
-        // TODO : compute value of account at given time stamps now that we have all required transactions
-        //  Idea : iterate over every transaction and if it is a new day/week/... then make a new value for the list
-        switch (timeSpan) {
-            case DAILY:
-                break;
-            case WEEKLY:
-
-                break;
-            case MONTHLY:
-
-                break;
-            case YEARLY:
-
-                break;
-        }
+    public ArrayList<Double> computeValuesHistoryProcess(double initialValue, ArrayList<Transaction> history, Timespan timeSpan, SubAccount account) {
+        ArrayList<Double> valuesHistory;
+        HashMap<String, ArrayList<Transaction>> transactionsSeparated = separateTransactionsIntoHashMap(history, timeSpan);
+        HashMap<String, ArrayList<Transaction>> comprehensiveData = prepareComprehensiveTransactionsHashMap(transactionsSeparated, timeSpan);
+        valuesHistory = computeValuesHistory(initialValue, comprehensiveData, account);
         return valuesHistory;
+    }
+
+    public static class StringDateParser {
+        public static int getDayFromString(String date) {
+            try {
+                LocalDate asDateObject = LocalDate.parse(date);
+                return asDateObject.getDayOfMonth();
+            } catch (DateTimeParseException e) {
+                if (date.matches("^\\d{2}-\\d{2}-\\d{4}")) {
+                    return getDayFromString(date.substring(6) + "-" + date.substring(3, 5) + "-" + date.substring(0, 2));
+                }
+                return -1;
+            }
+        }
+
+        public static int getMonthFromString(String date) {
+            try {
+                LocalDate asDateObject = LocalDate.parse(date);
+                return asDateObject.getMonth().getValue();
+            } catch (DateTimeParseException e) {
+                if (date.matches("^\\d{2}-\\d{2}-\\d{4}")) {
+                    return getMonthFromString(date.substring(6) + "-" + date.substring(3, 5) + "-" + date.substring(0, 2));
+                }
+                return -1;
+            }
+        }
+
+        public static int getYearFromString(String date) {
+            try {
+                LocalDate asDateObject = LocalDate.parse(date);
+                return asDateObject.getYear();
+            } catch (DateTimeParseException e) {
+                if (date.matches("^\\d{2}-\\d{2}-\\d{4}")) {
+                    return getYearFromString(date.substring(6) + "-" + date.substring(3, 5) + "-" + date.substring(0, 2));
+                }
+                return -1;
+            }
+        }
+
+        public static int getYearWeekFromString(String date) {
+            try {
+                LocalDate asDateObject = LocalDate.parse(date);
+                return asDateObject.getDayOfYear() / 7;
+            } catch (DateTimeParseException e) {
+                if (date.matches("^\\d{2}-\\d{2}-\\d{4}")) {
+                    return getYearWeekFromString(date.substring(6) + "-" + date.substring(3, 5) + "-" + date.substring(0, 2));
+                }
+                return -1;
+            }
+        }
+
+        public static int getDayOfYearFromString(String date) {
+            try {
+                LocalDate asDateObject = LocalDate.parse(date);
+                return asDateObject.getDayOfYear();
+            } catch (DateTimeParseException e) {
+                if (date.matches("^\\d{2}-\\d{2}-\\d{4}")) {
+                    return getDayOfYearFromString(date.substring(6) + "-" + date.substring(3, 5) + "-" + date.substring(0, 2));
+                }
+                return -1;
+            }
+        }
     }
 }

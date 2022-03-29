@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j
@@ -36,22 +37,25 @@ public class UserService implements UserDetailsService {
     private final BankRepo bankRepo;
 
 
-    public User getUserById(String id) {
-        return uRepo.findById(id)
-                .orElseThrow(() ->
+    public UserReq getUserById(String id) {
+        User user = uRepo.findById(id).orElseThrow(() ->
                         new ResourceNotFound("No user with id: " + id)
-                );
+        );
+        return new UserReq(user);
     }
 
-    public User getUserByUsername(String username) {
-        return uRepo.findUserByUsername(username)
+    public UserReq getUserByUsername(String username) {
+        User user = uRepo.findUserByUsername(username)
                 .orElseThrow(()-> new ResourceNotFound("No user with this username: "+ username));
+        return new UserReq(user);
     }
 
 
-    public List<User> getAllUser() {
+    public List<UserReq> getAllUser() {
         log.info("Fetching all user");
-        return uRepo.findAll();
+        return uRepo.findAll().stream()
+                .map(user -> new UserReq(user))
+                .collect(Collectors.toList());
     }
 
     public User addUser(UserReq userReq) {

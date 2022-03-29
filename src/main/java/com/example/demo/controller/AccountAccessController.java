@@ -45,7 +45,7 @@ public class AccountAccessController {
      * Who ? the owner of the account and the bank
      */
     @GetMapping(value = "{userId}/{accountId}")
-    public ResponseEntity<AccountAccess> sendAccountAccess(@PathVariable String userId, @PathVariable String accountId){
+    public ResponseEntity<AccountAccessReq> sendAccountAccess(@PathVariable String userId, @PathVariable String accountId){
         return new ResponseEntity<>(
                 accountAccessService.findAccountAccess(accountId, userId),
                 HttpStatus.OK

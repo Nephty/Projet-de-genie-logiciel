@@ -57,11 +57,11 @@ class UserServiceTest {
         when(userRepo.findById(id)).thenReturn(user);
 
         //When
-        User userReturned = underTest.getUserById(id);
+        UserReq userReturned = underTest.getUserById(id);
 
         //Then
         verify(userRepo).findById(id);
-        assertThat(userReturned).isEqualTo(user.get());
+        assertThat(userReturned).isEqualTo(new UserReq(user.get()));
     }
 
     @Test

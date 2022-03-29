@@ -48,7 +48,6 @@ public class AccountReq {
         ownerLastname = account.getUserId().getLastname();
         accountTypeId = account.getAccountTypeId().getAccountTypeId();
         payment = account.getPayment();
-        linkedBank = new BankReq(account.getSwift());
-        linkedBank.setPassword(null);
+        linkedBank = new BankReq(account.getSwift(), true);
     }
 }

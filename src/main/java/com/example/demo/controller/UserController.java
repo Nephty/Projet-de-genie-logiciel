@@ -32,7 +32,7 @@ public class UserController {
      * Who ? the user itself and any bank that has this user
      */
     @GetMapping(value = "{id}")
-    public ResponseEntity<User> sendUser(@PathVariable String id, @RequestParam Boolean isUsername) {
+    public ResponseEntity<UserReq> sendUser(@PathVariable String id, @RequestParam Boolean isUsername) {
         if(isUsername == null) {
             throw new MissingParamException("isUsername param must be present");
         }
@@ -47,7 +47,7 @@ public class UserController {
      * Who ? no one besides a bank for all it's user
      */
     @GetMapping
-    public ResponseEntity<List<User>> sendAllUser() {
+    public ResponseEntity<List<UserReq>> sendAllUser() {
         return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 

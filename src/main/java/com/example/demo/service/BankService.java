@@ -51,9 +51,10 @@ public class BankService {
         return bankRepo.save(bank);
     }
 
-    public Bank getBank(String swift) {
-        return bankRepo.findById(swift)
+    public BankReq getBank(String swift) {
+        Bank bank = bankRepo.findById(swift)
                 .orElseThrow(()-> new ResourceNotFound(swift));
+        return new BankReq(bank, false);
     }
 
     public ArrayList<Bank> getAllBanks() {
@@ -102,8 +103,8 @@ public class BankService {
                 alreadyExistCheck(bankReq.getSwift(), bankReq.getName());
                 bank = new Bank(bankReq);
                 currencyType = currencyTypeRepo
-                        .findById(bankReq.getDefaultCurrencyType())
-                        .orElseThrow(() -> new ConflictException(bankReq.getDefaultCurrencyType().toString()));
+                        .findById(bankReq.getDefaultCurrencyId())
+                        .orElseThrow(() -> new ConflictException(bankReq.getDefaultCurrencyId().toString()));
                 bank.setDefaultCurrencyType(currencyType);
                 return bank;
             case PUT:
@@ -111,10 +112,10 @@ public class BankService {
                         .orElseThrow(()-> new ResourceNotFound(sender.getId()));
                 bank.change(bankReq);
                 //alreadyExistCheck(bank.getSwift(), bank.getName());
-                if(bankReq.getDefaultCurrencyType() != null) {
+                if(bankReq.getDefaultCurrencyId() != null) {
                     currencyType = currencyTypeRepo
-                            .findById(bankReq.getDefaultCurrencyType())
-                            .orElseThrow(() -> new ConflictException(bankReq.getDefaultCurrencyType().toString()));
+                            .findById(bankReq.getDefaultCurrencyId())
+                            .orElseThrow(() -> new ConflictException(bankReq.getDefaultCurrencyId().toString()));
                     bank.setDefaultCurrencyType(currencyType);
                 }
                 return bank;

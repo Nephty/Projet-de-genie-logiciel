@@ -166,21 +166,6 @@ public class Main extends Application {
         Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml", appLocale);
         Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", appLocale);
 
-//        try{
-//
-//            setUser(new Profile("123456789"));
-//            updatePortfolio();
-//            setCurrentWallet(portfolio.getWalletList().get(0));
-//            setCurrentAccount(getCurrentWallet().getAccountList().get(0));
-//            getCurrentAccount().exportHistory("/home/frix/Documents");
-//        }catch(UnirestException e){
-//            e.printStackTrace();
-//        }
-//
-//        setCurrentWallet(portfolio.getWalletList().get(0));
-//        setCurrentAccount(getCurrentWallet().getAccountList().get(0));
-//        getCurrentAccount().exportHistory("/home/frix/Documents");
-
         Flow.add(Scenes.AuthScene);
 
         stage.setResizable(false);

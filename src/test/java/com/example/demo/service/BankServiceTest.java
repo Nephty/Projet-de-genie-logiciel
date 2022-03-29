@@ -57,7 +57,6 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 "swift",
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
@@ -100,7 +99,6 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 id,
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
@@ -123,7 +121,6 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 "swift",
                 name,
-                "login",
                 "password",
                 "address",
                 "country",
@@ -145,7 +142,6 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 "swift",
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
@@ -177,7 +173,6 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 null,
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
@@ -227,7 +222,6 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 null,
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
@@ -248,7 +242,6 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 null,
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",

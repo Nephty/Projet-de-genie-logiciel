@@ -48,7 +48,6 @@ class TransactionLogRepoTest {
         Bank bank = new Bank(
                 "testSwift",
                 "test",
-                "login",
                 "password",
                 "address",
                 "English",

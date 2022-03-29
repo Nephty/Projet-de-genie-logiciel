@@ -57,18 +57,18 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 "swift",
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
-                0
+                0,
+                "EUR"
         );
 
             // -- CurrencyType --
         CurrencyType tmpType = new CurrencyType();
-        tmpType.setCurrencyId(bankReq.getDefaultCurrencyType());
+        tmpType.setCurrencyId(bankReq.getDefaultCurrencyId());
         Optional<CurrencyType> currencyType = Optional.of(tmpType);
-        when(currencyTypeRepo.findById(bankReq.getDefaultCurrencyType()))
+        when(currencyTypeRepo.findById(bankReq.getDefaultCurrencyId()))
                 .thenReturn(currencyType);
 
         when(passwordEncoder.encode(bankReq.getPassword()))
@@ -100,11 +100,11 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 id,
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
-                0
+                0,
+                "EUR"
         );
         when(bankRepo.existsById(id)).thenReturn(true);
 
@@ -123,11 +123,11 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 "swift",
                 name,
-                "login",
                 "password",
                 "address",
                 "country",
-                0
+                0,
+                "EUR"
         );
         when(bankRepo.existsByName(name)).thenReturn(true);
 
@@ -145,11 +145,11 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 "swift",
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
-                currencyType
+                currencyType,
+                "EUR"
         );
 
         //then
@@ -177,11 +177,11 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 null,
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
-                0
+                0,
+                "EUR"
         );
         Sender sender = new Sender("swift", Role.BANK);
 
@@ -192,9 +192,9 @@ class BankServiceTest {
 
             // -- Currency --
         CurrencyType tmpType = new CurrencyType();
-        tmpType.setCurrencyId(bankReq.getDefaultCurrencyType());
+        tmpType.setCurrencyId(bankReq.getDefaultCurrencyId());
         Optional<CurrencyType> currencyType = Optional.of(tmpType);
-        when(currencyTypeRepo.findById(bankReq.getDefaultCurrencyType()))
+        when(currencyTypeRepo.findById(bankReq.getDefaultCurrencyId()))
                 .thenReturn(currencyType);
 
             // -- Password --
@@ -227,11 +227,11 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 null,
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
-                0
+                0,
+                "EUR"
         );
         Sender sender = new Sender("swift", Role.BANK);
 
@@ -248,11 +248,11 @@ class BankServiceTest {
         BankReq bankReq = new BankReq(
                 null,
                 "name",
-                "login",
                 "password",
                 "address",
                 "country",
-                0
+                0,
+                "EUR"
         );
         Sender sender = new Sender("swift", Role.BANK);
 
@@ -264,7 +264,7 @@ class BankServiceTest {
         //then
         assertThatThrownBy(() -> underTest.changeBank(sender,bankReq))
                 .isInstanceOf(ConflictException.class)
-                .hasMessageContaining(bankReq.getDefaultCurrencyType().toString());
+                .hasMessageContaining(bankReq.getDefaultCurrencyId().toString());
         verify(bankRepo,never()).save(any());
     }
 
@@ -273,6 +273,10 @@ class BankServiceTest {
         //Given
         String swift = "swift";
         Optional<Bank> bank = Optional.of(new Bank());
+        bank.get().setDefaultCurrencyType(new CurrencyType(
+                0,
+                "EUR"
+        ));
         when(bankRepo.findById(swift)).thenReturn(bank);
 
         //when

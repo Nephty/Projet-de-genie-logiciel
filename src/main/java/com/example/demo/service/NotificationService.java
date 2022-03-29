@@ -16,6 +16,8 @@ import com.example.demo.request.NotificationReq;
 import com.example.demo.security.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,38 +46,47 @@ public class NotificationService {
         notificationRepo.deleteById(notificationId);
     }
 
-    public List<NotificationReq> getUserNotification(String userId) {
-        User user = userRepo.findById(userId).orElseThrow(()-> {
-            log.error("no user with such id:" + userId);
-            return new ResourceNotFound("no user with such id: " + userId);
-        });
-        ArrayList<Notification> notifications = notificationRepo.findAllByUserId(user);
+    public List<NotificationReq> getNotifications(Sender sender) {
+        ArrayList<Notification> notifications;
+        switch (sender.getRole()) {
+            case BANK:
+                Bank bank = bankRepo.findById(sender.getId()).orElseThrow(()-> {
+                    log.warn("no bank with such id: " + sender.getId());
+                    return new ResourceNotFound("no bank with such id: " + sender.getId());
+                });
+                 notifications = notificationRepo.findAllByBankId(bank);
 
-        return formatResponse(notifications);
-    }
-
-    public List<NotificationReq> getBankNotification(String swift) {
-        Bank bank = bankRepo.findById(swift).orElseThrow(()-> {
-            log.error("no bank with such id: " + swift);
-            return new ResourceNotFound("no bank with such id: " + swift);
-        });
-        ArrayList<Notification> notifications = notificationRepo.findAllByBankId(bank);
-
-        return formatResponse(notifications);
+                return formatResponse(notifications, sender.getRole());
+            case USER:
+                User user = userRepo.findById(sender.getId()).orElseThrow(()-> {
+                    log.error("no user with such id:" + sender.getId());
+                    return new ResourceNotFound("no user with such id: " + sender.getId());
+                });
+                notifications = notificationRepo.findAllByUserId(user);
+                log.info("fetching notifications for user: {}", notifications.size());
+                return formatResponse(notifications, sender.getRole());
+            default:
+                log.error("unknown role: " + sender);
+                throw new LittleBoyException();
+        }
     }
 
     /**
      * @param notifications array of Notification entity fresh from the DB
      * @return formatted array with unnecessary data removed
      */
-    private ArrayList<NotificationReq> formatResponse(ArrayList<Notification> notifications) {
+    private ArrayList<NotificationReq> formatResponse(ArrayList<Notification> notifications, Role role) {
         ArrayList<NotificationReq> response = new ArrayList<>();
-        for(Notification notification : notifications ){
-            if(!notification.getToBank()) {
-                NotificationReq notificationReq = new NotificationReq(notification);
-                response.add(notificationReq);
+
+        notifications.forEach(notification -> {
+            log.info("test: {}", role == Role.USER && !notification.getToBank());
+            if(role == Role.USER && !notification.getToBank()) {
+                response.add(new NotificationReq(notification));
             }
-        }
+            if(role == Role.BANK && notification.getToBank()) {
+                response.add(new NotificationReq(notification));
+            }
+        });
         return response;
     }
 

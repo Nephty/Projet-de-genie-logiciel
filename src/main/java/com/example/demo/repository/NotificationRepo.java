@@ -9,9 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.ArrayList;
 
 public interface NotificationRepo extends JpaRepository<Notification, Integer> {
+    /*
     @Query("SELECT notif " +
             "FROM Notification notif " +
-            "where notif.userId = ?1")
+            "where notif.userId = ?1")*/
     ArrayList<Notification> findAllByUserId(User user);
 
     @Query("SELECT notif " +

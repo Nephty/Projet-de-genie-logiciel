@@ -57,11 +57,11 @@ class UserServiceTest {
         when(userRepo.findById(id)).thenReturn(user);
 
         //When
-        User userReturned = underTest.getUserById(id);
+        UserReq userReturned = underTest.getUserById(id);
 
         //Then
         verify(userRepo).findById(id);
-        assertThat(userReturned).isEqualTo(user.get());
+        assertThat(userReturned).isEqualTo(new UserReq(user.get()));
     }
 
     @Test
@@ -88,14 +88,14 @@ class UserServiceTest {
                 "password",
                 "language"
         ));
-        when(userRepo.findByUsername(username)).thenReturn(user);
+        when(userRepo.findUserByUsername(username)).thenReturn(user);
 
         //When
-        User returnedUser = underTest.getUserByUsername(username);
+        UserReq returnedUser = underTest.getUserByUsername(username);
 
         //then
-        verify(userRepo).findByUsername(username);
-        assertThat(returnedUser).isEqualTo(user.get());
+        verify(userRepo).findUserByUsername(username);
+        assertThat(returnedUser).isEqualTo(new UserReq(user.get()));
     }
 
     @Test

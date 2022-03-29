@@ -57,7 +57,7 @@ public class BankController {
      * 404 - Not found
      */
     @GetMapping(value = "{swift}")
-    public ResponseEntity<Bank> sendBank(@PathVariable String swift) {
+    public ResponseEntity<BankReq> sendBank(@PathVariable String swift) {
         return new ResponseEntity<>(bankService.getBank(swift), HttpStatus.OK);
     }
 

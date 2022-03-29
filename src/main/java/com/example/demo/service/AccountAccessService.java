@@ -42,9 +42,10 @@ public class AccountAccessService {
         accountAccessRepo.deleteAccountAccessByAccountIdAndUserId(accountId,userId);
     }
 
-    public AccountAccess findAccountAccess(String accountId,String userId){
-        return accountAccessRepo.findById(new AccountAccessPK(accountId, userId))
+    public AccountAccessReq findAccountAccess(String accountId,String userId){
+        AccountAccess accountAccess = accountAccessRepo.findById(new AccountAccessPK(accountId, userId))
                 .orElseThrow(()-> new ResourceNotFound(accountId + " : " + userId));
+        return new AccountAccessReq(accountAccess);
     }
 
     public List<AccountAccessReq> getAccountAccessByUserId(String userID){

@@ -19,7 +19,12 @@ public class BankReq {
 
     private String country;
 
-    private Integer defaultCurrencyType;
+    private Integer defaultCurrencyId;
+
+    //Response only
+
+    private String defaultCurrencyName;
+
     @JsonIgnore
     public boolean isPostValid() {
         return swift != null
@@ -27,19 +32,20 @@ public class BankReq {
                 && password != null
                 && address != null
                 && country != null
-                && defaultCurrencyType != null;
+                && defaultCurrencyId != null;
     }
     @JsonIgnore
     public boolean isPutValid() {
         return password != null;
     }
 
-    public BankReq(Bank bank) {
+    public BankReq(Bank bank, boolean censored) {
         swift = bank.getSwift();
         name = bank.getName();
-        password = bank.getPassword();
+        password = censored ? null : bank.getPassword();
         address = bank.getAddress();
         country = bank.getCountry();
-        defaultCurrencyType = bank.getDefaultCurrencyType().getCurrencyId();
+        defaultCurrencyId = bank.getDefaultCurrencyType().getCurrencyId();
+        defaultCurrencyName = bank.getDefaultCurrencyType().getCurrency_type_name();
     }
 }

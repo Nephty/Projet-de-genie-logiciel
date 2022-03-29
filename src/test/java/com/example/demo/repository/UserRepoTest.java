@@ -1,26 +1,48 @@
 package com.example.demo.repository;
 
+import com.example.demo.model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DataJpaTest
 class UserRepoTest {
 
-    @BeforeEach
-    void setUp() {
-    }
+    @Autowired
+    private UserRepo underTest;
 
     @AfterEach
     void tearDown() {
+        underTest.deleteAll();
     }
 
     @Test
-    @Disabled
     void findByUsername() {
-        // TODO: 3/27/22  
+        //Given
+        User user = new User(
+                "testId",
+                "username",
+                "lastname",
+                "firstname",
+                "email",
+                "password",
+                "language"
+        );
+        underTest.save(user);
+
+        User res = underTest.findUserByUsername(user.getUsername()).get();
+
+        //Then
+        assertEquals(user.getUsername(),res.getUsername());
+
+
     }
 
     @Test

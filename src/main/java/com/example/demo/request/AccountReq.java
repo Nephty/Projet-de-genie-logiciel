@@ -4,7 +4,9 @@ import com.example.demo.model.Account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Data @AllArgsConstructor
 public class AccountReq {
 
@@ -48,7 +50,6 @@ public class AccountReq {
         ownerLastname = account.getUserId().getLastname();
         accountTypeId = account.getAccountTypeId().getAccountTypeId();
         payment = account.getPayment();
-        linkedBank = new BankReq(account.getSwift());
-        linkedBank.setPassword(null);
+        linkedBank = new BankReq(account.getSwift(), true);
     }
 }

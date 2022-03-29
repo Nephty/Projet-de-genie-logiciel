@@ -185,8 +185,10 @@ class NotificationServiceTest {
         user.setUserID("id");
         when(userRepo.findById("id")).thenReturn(Optional.of(user));
 
+        Sender sender = new Sender(user.getUserID(), Role.USER);
+
         //When
-        underTest.getUserNotification(user.getUserID());
+        underTest.getNotifications(sender);
 
         //Then
         verify(notificationRepo).findAllByUserId(user);
@@ -196,9 +198,11 @@ class NotificationServiceTest {
     void getUserNotificationShouldThrowWhenUserNotFound(){
         //Given
         String id = "id";
+        Role role = Role.USER;
+        Sender sender = new Sender(id, role);
 
         //Then
-        assertThatThrownBy(()->underTest.getUserNotification(id))
+        assertThatThrownBy(()->underTest.getNotifications(sender))
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining("no user with such id: "+id);
     }
@@ -208,10 +212,11 @@ class NotificationServiceTest {
         //Given
         Bank bank = new Bank();
         bank.setSwift("swift");
+        Sender sender = new Sender(bank.getSwift(), Role.BANK);
         when(bankRepo.findById("swift")).thenReturn(Optional.of(bank));
 
         //When
-        underTest.getBankNotification(bank.getSwift());
+        underTest.getNotifications(sender);
 
         //Then
         verify(notificationRepo).findAllByBankId(bank);
@@ -220,9 +225,11 @@ class NotificationServiceTest {
     @Test
     void getBankNotificationShouldThrowWhenBankNotFound(){
         String swift = "id";
+        Role role = Role.BANK;
+        Sender sender = new Sender(swift, role);
 
         //Then
-        assertThatThrownBy(() -> underTest.getBankNotification(swift))
+        assertThatThrownBy(() -> underTest.getNotifications(sender))
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining("no bank with such id: "+swift);
     }

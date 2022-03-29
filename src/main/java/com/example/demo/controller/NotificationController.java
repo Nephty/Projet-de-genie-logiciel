@@ -35,16 +35,9 @@ public class NotificationController {
     @GetMapping
     public ResponseEntity<List<NotificationReq>> sendClientNotifications() {
         Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
-        switch (sender.getRole()) {
-            case BANK:
-                return new ResponseEntity<>(notificationService.getBankNotification(sender.getId()), HttpStatus.OK);
-            case USER:
-                return new ResponseEntity<>(notificationService.getUserNotification(sender.getId()), HttpStatus.OK);
-            default:
-                log.error("unknown role: " + sender);
-                throw new LittleBoyException();
-        }
+        log.info("sender: {}", sender);
 
+        return new ResponseEntity<>(notificationService.getNotifications(sender), HttpStatus.OK);
     }
 
 

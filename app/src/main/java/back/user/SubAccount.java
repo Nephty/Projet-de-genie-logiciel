@@ -6,6 +6,10 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,7 +41,6 @@ public class SubAccount {
         JSONObject obj = new JSONObject(body);
         this.amount = obj.getDouble("currentBalance");
 
-
         // Fetch all the transactions
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/transaction?iban=" + IBAN + "&currencyId=0")
@@ -65,8 +68,53 @@ public class SubAccount {
         }
     }
 
-    public void exportHistory() {
+    public void exportHistory(String path, boolean isCsv){
+        try {
+            File file;
+            if(isCsv){
+                file = new File(path + "/transactionHistory.csv");
+            } else{
+                file = new File(path + "/transactionHistory.json");
+            }
 
+            file.createNewFile();
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            String res = "";
+            if(isCsv){
+                for (int i = 0; i < this.transactionHistory.size(); i++) {
+                    Transaction t = transactionHistory.get(i);
+                    if (t.getSenderIBAN().equals(Main.getCurrentAccount().getIBAN())) {
+                        res = convertToCSV(new String[]{t.getSendingDate(), t.getReceiverName(), t.getReceiverIBAN(), ("-"+t.getAmount() + "€")});
+                    } else {
+                        res = convertToCSV(new String[]{t.getSendingDate(), t.getSenderName(), t.getSenderIBAN(), ("+"+t.getAmount() + "€")});
+                    }
+                    bw.write(res + "\n");
+                }
+            } else{
+                JSONObject obj = new JSONObject();
+                ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
+                for (int i = 0; i < this.transactionHistory.size(); i++) {
+                    Transaction t = transactionHistory.get(i);
+                    JSONObject obj2 = new JSONObject();
+                    obj2.put("sendingDate", t.getSendingDate());
+                    obj2.put("senderName", t.getSenderName());
+                    obj2.put("senderIBAN", t.getSenderIBAN());
+                    obj2.put("receiverName", t.getReceiverName());
+                    obj2.put("receiverIBAN", t.getReceiverIBAN());
+                    obj2.put("amount", t.getAmount());
+                    jsonList.add(obj2);
+                }
+                obj.put("transactionList", jsonList);
+                 res = obj.toString();
+                 bw.write(res);
+            }
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String convertToCSV(String[] data) {

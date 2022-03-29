@@ -62,7 +62,7 @@ public class Transaction {
     }
 
     public String getReceiverIBAN() {
-        return this.senderName;
+        return this.senderIBAN;
     }
 
     public double getAmount() {

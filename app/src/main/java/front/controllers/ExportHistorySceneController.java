@@ -57,6 +57,8 @@ public class ExportHistorySceneController extends Controller implements BackButt
         //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
         //                   3. If the user selected a path and the noPathSelectedLabel is no visible, export to JSON at the selected path
         //                   4. After the export is done, set exportDone to true and fade in and out exportSuccessfulLabel
+        // TODO : Retirer le hardcodage et mettre le chemin custom
+        Main.getCurrentAccount().getSubAccountList().get(0).exportHistory("/home/frix/Documents", false);
     }
 
     @FXML
@@ -65,6 +67,9 @@ public class ExportHistorySceneController extends Controller implements BackButt
         //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
         //                   3. If the user selected a path and the noPathSelectedLabel is no visible, export to CSV at the selected path
         //                   4. After the export is done, set exportDone to true and set exportSuccessfulLabel visibility to true
+        // TODO : Retirer le hardcodage et mettre le chemin custom
+        Main.getCurrentAccount().getSubAccountList().get(0).exportHistory("/home/frix/Documents", true);
+
     }
 
     @FXML

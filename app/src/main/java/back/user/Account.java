@@ -93,13 +93,6 @@ public class Account {
     }
 
 
-    /**
-     * Export the history of transactions
-     */
-    public void exportHistory() {
-        // TODO : Export history
-    }
-
     public Profile getAccountOwner() {
         return this.accountOwner;
     }

@@ -63,13 +63,14 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                     .field("password", passwordField.getText())
                     .field("role", "ROLE_BANK")
                     .asString();
-            Main.errorCheck(response.getStatus());
+            // don't show the pop-up if the error is invalid username/password or random error ?
+            if (response.getStatus() != 403 && response.getStatus() != 405) Main.errorCheck(response.getStatus());
         } catch (UnirestException e) {
             Main.ErrorManager(408);
         }
 
         // If the login is correct, it set the tokens and creates the Bank
-        if ((response.getStatus() == 200)) {
+        if ((response.getStatus() == 200) ) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
             String body = response.getBody();
             JSONObject obj = new JSONObject(body);

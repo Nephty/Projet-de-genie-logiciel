@@ -91,7 +91,6 @@ public class VisualizeToolSceneController extends Controller implements BackButt
 
     @FXML
     public void handleSetTableModeButtonClicked(MouseEvent event) {
-        // TODO : change to table mode
         pieChart.setVisible(false);
         stackedAreaChart.setVisible(false);
     }
@@ -100,20 +99,21 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     public void handleSetGraphModeButtonClicked(MouseEvent event) {
         pieChart.setVisible(false);
         stackedAreaChart.setVisible(true);
-        // TODO : set last chart to invisible
     }
 
     @FXML
     public void handleSetPieChartModeButtonClicked(MouseEvent event) {
         stackedAreaChart.setVisible(false);
         pieChart.setVisible(true);
-        // TODO : set last chart to invisible
     }
 
     @FXML
     public void handleAddAccountButtonClicked(MouseEvent event) {
         if (availableAccountsListView.getSelectionModel().getSelectedItems().size() > 0) {
+            // Prepare selected data for utilization
             ObservableList<SubAccount> selection = availableAccountsListView.getSelectionModel().getSelectedItems();
+
+            // Copy accounts to the added accounts listview
             addedAccountsListView.getItems().addAll(selection);
 
             // Update pie chart
@@ -125,63 +125,12 @@ public class VisualizeToolSceneController extends Controller implements BackButt
             pieChart.setData(pieChartData);
 
             // Update stacked area chart
-            ArrayList<String> dates;
             for (SubAccount subAccount : selection) {
-                XYChart.Series<String, Double> data = new XYChart.Series<>();
-                data.setName(subAccount.getIBAN());
-                valuesHistory = computeValuesHistoryProcess(subAccount.getAmount(), subAccount.getTransactionHistory(), timeSpanComboBox.getValue(), subAccount);
-                for (Double d : valuesHistory) System.out.print(d + " - ");
-                switch (timeSpanComboBox.getValue()) {
-                    case DAILY:
-                        // For every day, add a new data that follow the pattern (String, Double) <=> (Date, Amount of money)
-                        // and add every date to the dates list (we use this list for the x-axis
-                        dates = new ArrayList<>();
-                        for (int i = 0; i < 30; i++) {
-                            LocalDate datePoint = LocalDate.now().minus(Period.ofDays(29 - i));
-                            dates.add(datePoint.toString());
-                            XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(29 - i));
-                            data.getData().add(dataPoint);
-                        }
-                        bottomAxis.setCategories(FXCollections.observableArrayList(dates));
-                        break;
-                    case WEEKLY:
-                        dates = new ArrayList<>();
-                        for (int i = 0; i < 8; i++) {
-                            LocalDate datePoint = LocalDate.now().minus(Period.ofWeeks(7 - i));
-                            dates.add(datePoint.toString());
-                            XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(7 - i));
-                            data.getData().add(dataPoint);
-                        }
-                        bottomAxis.setCategories(FXCollections.observableArrayList(dates));
-                        break;
-                    case MONTHLY:
-                        dates = new ArrayList<>();
-                        for (int i = 0; i < 6; i++) {
-                            LocalDate datePoint = LocalDate.now().minus(Period.ofMonths(5 - i));
-                            dates.add(datePoint.toString());
-                            XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(5 - i));
-                            data.getData().add(dataPoint);
-                        }
-                        bottomAxis.setCategories(FXCollections.observableArrayList(dates));
-                        break;
-                    case YEARLY:
-                        dates = new ArrayList<>();
-                        for (int i = 0; i < 4; i++) {
-                            LocalDate datePoint = LocalDate.now().minus(Period.ofYears(3 - i));
-                            dates.add(datePoint.toString());
-                            XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(3 - i));
-                            data.getData().add(dataPoint);
-                        }
-                        bottomAxis.setCategories(FXCollections.observableArrayList(dates));
-                        break;
-                }
-                stackedAreaChartData.add(data);
-                stackedAreaChart.setData(stackedAreaChartData);
+                addAccountToStackedAreaChartData(subAccount, timeSpanComboBox.getValue());
             }
+            stackedAreaChart.setData(stackedAreaChartData);
 
-
-            // TODO : update table
-
+            // Remove accounts from the available accounts listview
             availableAccountsListView.getItems().removeAll(selection);
         }
     }
@@ -203,8 +152,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
             }
             pieChart.setData(pieChartData);
 
-
-            // TODO : update stacked area chart
+            // Update stacked area chart
             ArrayList<XYChart.Series> toRemove = new ArrayList<>();
             for (SubAccount subAccount : selection) {
                 for (XYChart.Series series : stackedAreaChartData) {
@@ -215,8 +163,6 @@ public class VisualizeToolSceneController extends Controller implements BackButt
             }
             stackedAreaChartData.removeAll(toRemove);
             stackedAreaChart.setData(stackedAreaChartData);
-
-            // TODO : update table
 
             addedAccountsListView.getItems().removeAll(selection);
         }
@@ -240,6 +186,58 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     public void handleAddedAccountsListViewMouseClicked(MouseEvent mouseEvent) {
         removeAccountButton.setDisable(false);
         addAccountButton.setDisable(true);
+    }
+
+
+    /**
+     * Using a timespan, adds the given subAccount to the stacked area chart data for visualization purposes. Prepares
+     * a dates arraylist of strings that will be used as a new x-axis and creates a new series of data for the chart.
+     * Adds the newly created series to the data. The chart is not actively being updated : we must do
+     * [chart].setData([data])
+     * @param subAccount The account to add to the data
+     * @param timeSpan The timespan to follow
+     */
+    public void addAccountToStackedAreaChartData(SubAccount subAccount, Timespan timeSpan) {
+        ArrayList<String> dates = new ArrayList<>();
+        XYChart.Series<String, Double> data = new XYChart.Series<>();
+        data.setName(subAccount.getIBAN());
+        valuesHistory = computeValuesHistoryProcess(subAccount.getAmount(), subAccount.getTransactionHistory(), timeSpanComboBox.getValue(), subAccount);
+        switch (timeSpan) {
+            case DAILY:
+                for (int i = 0; i < 30; i++) {
+                    LocalDate datePoint = LocalDate.now().minus(Period.ofDays(29 - i));
+                    dates.add(datePoint.toString());
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(29 - i));
+                    data.getData().add(dataPoint);
+                }
+                break;
+            case WEEKLY:
+                for (int i = 0; i < 8; i++) {
+                    LocalDate datePoint = LocalDate.now().minus(Period.ofWeeks(7 - i));
+                    dates.add(datePoint.toString());
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(7 - i));
+                    data.getData().add(dataPoint);
+                }
+                break;
+            case MONTHLY:
+                for (int i = 0; i < 6; i++) {
+                    LocalDate datePoint = LocalDate.now().minus(Period.ofMonths(5 - i));
+                    dates.add(datePoint.toString());
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(5 - i));
+                    data.getData().add(dataPoint);
+                }
+                break;
+            case YEARLY:
+                for (int i = 0; i < 4; i++) {
+                    LocalDate datePoint = LocalDate.now().minus(Period.ofYears(3 - i));
+                    dates.add(datePoint.toString());
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(3 - i));
+                    data.getData().add(dataPoint);
+                }
+                break;
+        }
+        bottomAxis.setCategories(FXCollections.observableArrayList(dates));
+        stackedAreaChartData.add(data);
     }
 
     /**

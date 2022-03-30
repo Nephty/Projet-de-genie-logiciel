@@ -2,7 +2,7 @@ package front.controllers;
 
 import app.Main;
 import back.user.Bank;
-import back.user.Reason;
+import back.user.CommunicationType;
 import back.user.Request;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
@@ -67,7 +67,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
             if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false);
 
             // Create the request and send it
-            Request request = new Request(Main.getUser(), new Bank(SWIFTComboBox.getValue()), Reason.NEW_PORTFOLIO);
+            Request request = new Request(Main.getUser(), new Bank(SWIFTComboBox.getValue()), CommunicationType.NEW_PORTFOLIO);
             request.send();
 
             fadeInAndOutNode(3000, requestSentLabel);

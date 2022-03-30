@@ -2,10 +2,13 @@ package front.controllers;
 
 import app.Main;
 import front.navigation.Flow;
+import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+
+import static app.Main.appLocale;
 
 public class MainScreenSceneController extends Controller {
     @FXML
@@ -29,6 +32,7 @@ public class MainScreenSceneController extends Controller {
 
     @FXML
     public void handleNotificationsButtonClicked(MouseEvent event) {
+        Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml", appLocale);
         Main.setScene(Flow.forward(Scenes.NotificationsScene));
     }
 

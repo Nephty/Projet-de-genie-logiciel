@@ -2,10 +2,15 @@ package front.controllers;
 
 import app.Main;
 import back.user.Notification;
+import back.user.Portfolio;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +19,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class NotificationsSceneController extends Controller implements BackButtonNavigator {
@@ -24,7 +31,6 @@ public class NotificationsSceneController extends Controller implements BackButt
     public Label loadingNotificationsLabel;
     @FXML
     public Label lastUpdateTimeLabel;
-    // TODO : back-end : implement notifications to make this a ListView<Notification>
     @FXML
     public ListView<Notification> notificationsListView;
 
@@ -32,7 +38,6 @@ public class NotificationsSceneController extends Controller implements BackButt
 
     public void initialize() {
         fetchNotifications();
-//        notificationsListView.setItems(FXCollections.observableArrayList(new Notification("notification A"), new Notification("notification B")));
     }
 
     @FXML
@@ -53,14 +58,14 @@ public class NotificationsSceneController extends Controller implements BackButt
     @FXML
     public void handleDismissButtonClicked(MouseEvent event) {
         if (notificationsListView.getSelectionModel().getSelectedItems().size() > 0) {
-            // TODO : back-end : implement "dismissed" attribute of notification, change it accordingly for all selected notifications and commit changes to database
+            notificationsListView.getSelectionModel().getSelectedItems().get(0).dismiss();
         }
     }
 
     @FXML
     public void handleFlagButtonClicked(MouseEvent event) {
         if (notificationsListView.getSelectionModel().getSelectedItems().size() > 0) {
-            // TODO : back-end : implement "flagged" attribute of notification, change it accordingly for all selected notifications and commit changes to database
+            notificationsListView.getSelectionModel().getSelectedItems().get(0).changeFlag();
         }
     }
 
@@ -87,6 +92,28 @@ public class NotificationsSceneController extends Controller implements BackButt
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch notifications and put them in the listview
             // TODO : back-end : fetch notifications from the database and put them in the listview only if they are not dismissed
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            try {
+                response = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+
+            String body = response.getBody();
+            String toParse = body.substring(1,body.length() - 1);
+            ArrayList<String> notificationList = Portfolio.JSONArrayParser(toParse);
+            ArrayList<Notification> notifList = new ArrayList<Notification>();
+            for(int i = 0; i<notificationList.size(); i++){
+                JSONObject obj = new JSONObject(notificationList.get(i));
+                if(obj.getInt("notificationType") == 4){
+                    notifList.add(new Notification(obj.getString("senderName"), obj.getString("comments"),obj.getString("date")));
+                }
+            }
+            notificationsListView.setItems(FXCollections.observableArrayList(notifList));
+
             // Fade the label "updating notifications..." out to 0.0 opacity
             sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingNotificationsLabel);
         }

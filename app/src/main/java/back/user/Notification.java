@@ -2,40 +2,43 @@ package back.user;
 
 public class Notification extends Communication {
     private final String content;
-    public String name;
+    private String senderName;
+    private String date;
     private boolean flag;
     private boolean dismiss;
 
-    /**
-     * Creates the Notification with all the informations needed
-     *
-     * @param bank
-     * @param profile
-     * @param name
-     * @param content
-     */
-    public Notification(Bank bank, Profile profile, String name, String content) {
-        this.client = profile;
-        this.bank = bank;
+    public Notification(String senderName, String content, String date) {
         this.content = content;
-        this.name = name;
-        this.flag = false;
-        this.dismiss = false;
+        this.senderName = senderName;
+        this.date = date;
+        this.flag = flag;
+        this.dismiss = dismiss;
+    }
+
+    @Override
+    public String toString(){
+        return this.date + "      " + this.senderName + "     " + this.content;
     }
 
     public String getContent() {
         return this.content;
     }
 
-    public String getName() {
-        return this.name;
+    public String getSenderName() {
+        return this.senderName;
     }
 
-    public void setDismiss(boolean value) {
-        this.dismiss = value;
+    public void dismiss() {
+        this.dismiss = true;
+        // TODO : DELETE Notification
     }
 
-    public void setFlag(boolean value) {
-        this.flag = value;
+    public void changeFlag() {
+        // TODO : POST Notification
+        if(flag){
+            this.flag = false;
+        } else{
+            this.flag = true;
+        }
     }
 }

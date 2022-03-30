@@ -22,7 +22,7 @@ import java.util.Locale;
  * Main runnable class that launches the application.
  */
 public class Main extends Application {
-    public static Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale, PT_PT_Locale, LT_LT_Locale, RU_RU_Locale;
+    public static Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale, PT_PT_Locale, LT_LT_Locale, RU_RU_Locale, DE_DE_Locale, PL_PL_Locale;
     private static Bank bank;
     private static Stage stage;
     private static String token;
@@ -137,7 +137,8 @@ public class Main extends Application {
         PT_PT_Locale = new Locale("pt", "PT");
         LT_LT_Locale = new Locale("lt", "LT");
         RU_RU_Locale = new Locale("ru", "RU");
-
+        DE_DE_Locale = new Locale("de", "DE");
+        PL_PL_Locale = new Locale("pl", "PL");
         // TODO : if language = english, appLocale = english,...
 
         appLocale = EN_US_Locale;

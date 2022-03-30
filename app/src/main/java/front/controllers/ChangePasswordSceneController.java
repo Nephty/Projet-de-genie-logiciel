@@ -114,7 +114,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
                 response2 = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
                         .header("Content-Type", "application/json")
                         .header("Authorization", "Bearer " + Main.getToken())
-                        .body("{\r\n    \"username\": \"" + obj.getString("username") + "\",\r\n    \"userID\": \"" + obj.getString("userID") + "\",\r\n    \"email\": \"" + obj.getString("email") + "\",\r\n    \"password\": \"" + newPassword + "\",\r\n    \"firstname\": \"" + obj.getString("firstname") + "\",\r\n    \"lastname\": \"" + obj.getString("lastname") + "\",\r\n    \"language\": \"" + obj.getString("language") + "\"\r\n}")
+                        .body("{\r\n    \"username\": \"" + obj.getString("username") + "\",\r\n    \"userId\": \"" + obj.getString("userId") + "\",\r\n    \"email\": \"" + obj.getString("email") + "\",\r\n    \"password\": \"" + newPassword + "\",\r\n    \"firstname\": \"" + obj.getString("firstname") + "\",\r\n    \"lastname\": \"" + obj.getString("lastname") + "\",\r\n    \"language\": \"" + obj.getString("language") + "\"\r\n}")
                         .asString();
                 Main.errorCheck(response2.getStatus());
             } catch (UnirestException e) {

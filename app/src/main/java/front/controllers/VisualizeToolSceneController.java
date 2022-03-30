@@ -45,10 +45,14 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @FXML
     public PieChart pieChart;
     @FXML
-    public StackedAreaChart<String, Double> stackedAreaChart;
+    public StackedAreaChart stackedAreaChart;
+    @FXML
+    public CategoryAxis bottomAxis;
+    @FXML
+    public NumberAxis leftAxis;
+
     private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-    CategoryAxis xAxis;
-    NumberAxis yAxis;
+    private ObservableList<XYChart.Series<String, Double>> stackedAreaChartData = FXCollections.observableArrayList();
     ArrayList<Double> valuesHistory;
 
 
@@ -65,13 +69,6 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         }
         availableAccountsListView.setItems(FXCollections.observableArrayList(subAccounts));
 
-        xAxis = new CategoryAxis();
-        xAxis.setLabel("Time");
-        yAxis = new NumberAxis(0, 1000, 100);
-        yAxis.setLabel("Money");
-        stackedAreaChart = new StackedAreaChart(xAxis, yAxis);
-
-        stackedAreaChart.setVisible(false);
         // TODO : load all graphs and only change their visibility when switching mode
     }
 
@@ -101,45 +98,6 @@ public class VisualizeToolSceneController extends Controller implements BackButt
 
     @FXML
     public void handleSetGraphModeButtonClicked(MouseEvent event) {
-        ArrayList<String> dates = new ArrayList<>();
-        XYChart.Series<String, Double> data = new XYChart.Series<>();
-        SubAccount subAccountToVisualize = addedAccountsListView.getItems().get(0);
-        valuesHistory = computeValuesHistoryProcess(subAccountToVisualize.getAmount(), subAccountToVisualize.getTransactionHistory(), timeSpanComboBox.getValue(), subAccountToVisualize);
-        switch (timeSpanComboBox.getValue()) {
-            case DAILY:
-                // For every day, add a new data that follow the pattern (String, Double) <=> (Date, Amount of money)
-                // and add every date to the dates list (we use this list for the x-axis
-                for (int i = 0; i < 30; i++) {
-                    LocalDate datePoint = LocalDate.now().minus(Period.ofDays(30-i));
-                    dates.add(datePoint.toString());
-                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(i));
-                    data.getData().add(dataPoint);
-                }
-                xAxis.setCategories(FXCollections.observableArrayList(dates));
-                for (int i = 0; i < stackedAreaChart.getData().size(); i++) {
-                    stackedAreaChart.getData().set(i, null);
-                }
-                stackedAreaChart.getData().add(data);
-                break;
-            case WEEKLY:
-                for (int i = 0; i < 8; i++) {
-                    dates.add(LocalDate.now().minus(Period.ofWeeks(8-i)).toString());
-                }
-                xAxis.setCategories(FXCollections.observableArrayList(dates));
-                break;
-            case MONTHLY:
-                for (int i = 0; i < 6; i++) {
-                    dates.add(LocalDate.now().minus(Period.ofMonths(6-i)).toString());
-                }
-                xAxis.setCategories(FXCollections.observableArrayList(dates));
-                break;
-            case YEARLY:
-                for (int i = 0; i < 4; i++) {
-                    dates.add(LocalDate.now().minus(Period.ofYears(4-i)).toString());
-                }
-                xAxis.setCategories(FXCollections.observableArrayList(dates));
-                break;
-        }
         pieChart.setVisible(false);
         stackedAreaChart.setVisible(true);
         // TODO : set last chart to invisible
@@ -157,17 +115,73 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         if (availableAccountsListView.getSelectionModel().getSelectedItems().size() > 0) {
             ObservableList<SubAccount> selection = availableAccountsListView.getSelectionModel().getSelectedItems();
             addedAccountsListView.getItems().addAll(selection);
+
             // Update pie chart
-            for (SubAccount account : selection) {
-                double amount = 0;
-                amount = account.getAmount();
-                // account.getAmountDaysAgo(0);
+            for (SubAccount subAccount : selection) {
+                double amount = subAccount.getAmount();
                 if (amount == 0) amount = 0.01; // very small amount so that it still appears on the chart
-                pieChartData.add(new Data(account.getIBAN(), amount));
+                pieChartData.add(new Data(subAccount.getIBAN(), amount));
             }
             pieChart.setData(pieChartData);
+
+            // Update stacked area chart
+            ArrayList<String> dates;
+            for (SubAccount subAccount : selection) {
+                XYChart.Series<String, Double> data = new XYChart.Series<>();
+                data.setName(subAccount.getIBAN());
+                valuesHistory = computeValuesHistoryProcess(subAccount.getAmount(), subAccount.getTransactionHistory(), timeSpanComboBox.getValue(), subAccount);
+                for (Double d : valuesHistory) System.out.print(d + " - ");
+                switch (timeSpanComboBox.getValue()) {
+                    case DAILY:
+                        // For every day, add a new data that follow the pattern (String, Double) <=> (Date, Amount of money)
+                        // and add every date to the dates list (we use this list for the x-axis
+                        dates = new ArrayList<>();
+                        for (int i = 0; i < 30; i++) {
+                            LocalDate datePoint = LocalDate.now().minus(Period.ofDays(29 - i));
+                            dates.add(datePoint.toString());
+                            XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(29 - i));
+                            data.getData().add(dataPoint);
+                        }
+                        bottomAxis.setCategories(FXCollections.observableArrayList(dates));
+                        break;
+                    case WEEKLY:
+                        dates = new ArrayList<>();
+                        for (int i = 0; i < 8; i++) {
+                            LocalDate datePoint = LocalDate.now().minus(Period.ofWeeks(7 - i));
+                            dates.add(datePoint.toString());
+                            XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(7 - i));
+                            data.getData().add(dataPoint);
+                        }
+                        bottomAxis.setCategories(FXCollections.observableArrayList(dates));
+                        break;
+                    case MONTHLY:
+                        dates = new ArrayList<>();
+                        for (int i = 0; i < 6; i++) {
+                            LocalDate datePoint = LocalDate.now().minus(Period.ofMonths(5 - i));
+                            dates.add(datePoint.toString());
+                            XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(5 - i));
+                            data.getData().add(dataPoint);
+                        }
+                        bottomAxis.setCategories(FXCollections.observableArrayList(dates));
+                        break;
+                    case YEARLY:
+                        dates = new ArrayList<>();
+                        for (int i = 0; i < 4; i++) {
+                            LocalDate datePoint = LocalDate.now().minus(Period.ofYears(3 - i));
+                            dates.add(datePoint.toString());
+                            XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(3 - i));
+                            data.getData().add(dataPoint);
+                        }
+                        bottomAxis.setCategories(FXCollections.observableArrayList(dates));
+                        break;
+                }
+                stackedAreaChartData.add(data);
+                stackedAreaChart.setData(stackedAreaChartData);
+            }
+
+
             // TODO : update table
-            // TODO : update graph
+
             availableAccountsListView.getItems().removeAll(selection);
         }
     }
@@ -176,8 +190,8 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     public void handleRemoveAccountModeButtonClicked(MouseEvent event) {
         if (addedAccountsListView.getSelectionModel().getSelectedItems().size() > 0) {
             ObservableList<SubAccount> selection = addedAccountsListView.getSelectionModel().getSelectedItems();
-            SubAccount selectedSubAccount = selection.get(0);
             availableAccountsListView.getItems().addAll(selection);
+
             // Update pie chart
             for (SubAccount account : selection) {
                 for (Data data : pieChartData) {
@@ -188,10 +202,23 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 }
             }
             pieChart.setData(pieChartData);
+
+
+            // TODO : update stacked area chart
+            ArrayList<XYChart.Series> toRemove = new ArrayList<>();
+            for (SubAccount subAccount : selection) {
+                for (XYChart.Series series : stackedAreaChartData) {
+                    if (series.getName().equals(subAccount.getIBAN())) {
+                        toRemove.add(series);
+                    }
+                }
+            }
+            stackedAreaChartData.removeAll(toRemove);
+            stackedAreaChart.setData(stackedAreaChartData);
+
             // TODO : update table
-            // TODO : update graph
+
             addedAccountsListView.getItems().removeAll(selection);
-            valuesHistory = computeValuesHistoryProcess(selectedSubAccount.getAmount(), selectedSubAccount.getTransactionHistory(), timeSpanComboBox.getValue(), selectedSubAccount);
         }
     }
 
@@ -414,6 +441,12 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 break;
         }
         return comprehensiveHashMap;
+    }
+
+    @FXML
+    public void handleTimeSpanComboBoxMouseClicked(MouseEvent mouseEvent) {
+        // pour toutes les series déjà présente, update pour qu'elles contiennent toutes les données sur le new timespan
+        // stackedAreaChart = new StackedAreaChart(bottomAxis, leftAxis);
     }
 
     /**

@@ -6,7 +6,6 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
-import front.scenes.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -85,7 +84,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
      */
     public static boolean isValidIBAN(String IBAN) {
         if (IBAN == null) return false;
-        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 16))
+        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 20))
             return false;  // IBAN.length() == 16 already checks IBAN != ""
         for (int i = 0; i < IBAN.length(); i++) {
             switch (i) {
@@ -221,7 +220,9 @@ public class TransferSceneController extends Controller implements BackButtonNav
                     Main.ErrorManager(408);
                 }
 
-                Main.setScene(Flow.forward(Scenes.MainScreenScene));
+                Main.setScene(Flow.back());
+                Main.setScene(Flow.back());
+                Main.setScene(Flow.back());
                 clearAllTextFields();
             }
         }

@@ -58,7 +58,7 @@ public class Profile {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access?swift=" + swift)
+            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/customer")
                     .header("Authorization", "Bearer " + Main.getToken())
                     .asString();
             Main.errorCheck(response.getStatus());

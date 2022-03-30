@@ -1,23 +1,41 @@
 package back.user;
 
-public class Request extends Communication {
-    private final CommunicationType communicationType;
+import app.Main;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
-    /**
-     * Creates a request with all the informations needed
-     *
-     * @param client The Profile object of a user
-     * @param bank   The Bank object of the destinated bank
-     * @param communicationType The communicationType of the request
-     */
-    public Request(Profile client, Bank bank, CommunicationType communicationType) {
-        this.client = client;
-        this.bank = bank;
+public class Request extends Communication {
+    private CommunicationType communicationType;
+    private String recipientId;
+
+
+    public Request(String swift, CommunicationType communicationType) {
+        this.recipientId = swift;
         this.communicationType = communicationType;
     }
 
     public void send() {
         // TODO : Send the request to the API
+        int comType = 6;
+        switch(this.communicationType.toString()){
+            case("CREATE_ACCOUNT"): comType = 0; break;
+            case("CREATE_SUB_ACCOUNT"): comType = 1; break;
+            case("TRANSFER_PERMISSION"): comType = 2; break;
+            case("NEW_PORTFOLIO"): comType = 3; break;
+            case("NEW_WALLET"): comType = 5; break;
+        }
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.post("https://flns-spring-test.herokuapp.com/api/notification")
+                    .header("Authorization", "Bearer "+ Main.getToken())
+                    .header("Content-Type", "application/json")
+                    .body("{\r\n    \"notificationType\": "+ comType +",\r\n    \"comments\": \" \",\r\n    \"status\": \"Unchecked\",\r\n    \"recipientId\": \""+this.recipientId+"\"\r\n}")
+                    .asString();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
     }
 
     public CommunicationType getReason() {

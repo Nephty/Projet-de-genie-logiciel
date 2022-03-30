@@ -62,7 +62,6 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     @FXML
     public void handleSendRequestButtonMouseClicked(MouseEvent event) {
         if (portfolioComboBox.getValue() != null && !portfolioComboBox.getValue().equals("")) {
-            System.out.println("here");
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
                 /*

@@ -34,7 +34,7 @@ public class Notification extends Communication {
     }
 
     public void changeFlag() {
-        // TODO : POST Notification
+        // TODO : PUT Notification
         if(flag){
             this.flag = false;
         } else{

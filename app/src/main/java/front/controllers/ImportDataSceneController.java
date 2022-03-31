@@ -28,7 +28,6 @@ public class ImportDataSceneController extends Controller implements BackButtonN
     private boolean fileChosen = false;
     private FileChooser exportDataFileChooser;
     
-    @Override
     public void initialize() {
         exportDataFileChooser = new FileChooser();
         ExtensionFilter JSONFilter = new ExtensionFilter("JSON files (*.json)", "*.json");

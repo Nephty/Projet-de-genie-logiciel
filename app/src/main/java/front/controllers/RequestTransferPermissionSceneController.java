@@ -66,7 +66,7 @@ public class RequestTransferPermissionSceneController extends Controller impleme
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
             // Create the request and send it
-            Request request = new Request(Main.getUser(), portfolioComboBox.getValue(), CommunicationType.NEW_PORTFOLIO);
+            Request request = new Request(portfolioComboBox.getValue(), CommunicationType.NEW_PORTFOLIO);
             request.send();
 
             fadeInAndOutNode(1000, requestSentLabel);

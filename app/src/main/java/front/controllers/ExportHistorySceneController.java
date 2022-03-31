@@ -9,16 +9,21 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.DirectoryChooser;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ExportHistorySceneController extends Controller implements BackButtonNavigator {
     public static ArrayList<Object> exportData;
-    private final boolean exportDone = false;
+    private boolean exportDone = false, directoryChosen = false;
     @FXML
     public Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
     @FXML
     public Label choosePathLabel, noPathSelectedLabel, requestNotSentLabel, exportSuccessfulLabel, exportLocationLabel;
+
+    private File selectedDirectory;
+    DirectoryChooser directoryChooser = new DirectoryChooser();
 
     public static void setExportData(ArrayList<Object> arrayList) {
         exportData = arrayList;
@@ -37,9 +42,12 @@ public class ExportHistorySceneController extends Controller implements BackButt
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
-        exportLocationLabel.setText("Export location not set.");
         if (exportDone) {
+            exportLocationLabel.setText("Export location not set.");
             if (noPathSelectedLabel.isVisible()) noPathSelectedLabel.setVisible(false);
+            selectedDirectory = null;
+            exportDone = false;
+            directoryChosen = false;
         }
     }
 
@@ -47,28 +55,50 @@ public class ExportHistorySceneController extends Controller implements BackButt
 
     @FXML
     public void handleChoosePathButtonClicked(MouseEvent event) {
-        // TODO : back-end ? : 1. Open the file explorer so the user can choose a path
-        //                     2. If the user chooses a path, set the text of the exportLocationLabel to the selected path (eg : Selected path : /home/username/Documents)
+        selectedDirectory = directoryChooser.showDialog(Main.getStage());
+        if (selectedDirectory != null) {
+            exportLocationLabel.setText("Selected path : " + selectedDirectory.getPath());
+            directoryChosen = true;
+            exportDone = false;
+        }
     }
 
     @FXML
     public void handleJSONExportButtonClicked(MouseEvent event) {
-        // TODO : back-end : 1. If the user selected a path and the noPathSelectedLabel is visible, hide it
-        //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
-        //                   3. If the user selected a path and the noPathSelectedLabel is no visible, export to JSON at the selected path
-        //                   4. After the export is done, set exportDone to true and fade in and out exportSuccessfulLabel
-        // TODO : Retirer le hardcodage et mettre le chemin custom
-        Main.getCurrentAccount().getSubAccountList().get(0).exportHistory("/home/frix/Documents", false);
+        if (!noPathSelectedLabel.isVisible() && selectedDirectory == null) noPathSelectedLabel.setVisible(true);
+        else if (noPathSelectedLabel.isVisible() && selectedDirectory != null) noPathSelectedLabel.setVisible(false);
+
+        if (!noPathSelectedLabel.isVisible()) {
+            // TODO : export les données de l'arraylist et non pas du compte actuel de Main
+            Main.getCurrentAccount().getSubAccountList().get(0).exportHistory(selectedDirectory.getAbsolutePath(), false);
+            exportDone = true;
+
+            fadeInAndOutNode(1000, exportSuccessfulLabel);
+
+            // Reset form
+            directoryChosen = false;
+            exportLocationLabel.setText("Export location not set.");
+            selectedDirectory = null;
+        }
     }
 
     @FXML
     public void handleCSVExportButtonClicked(MouseEvent event) {
-        // TODO : back-end : 1. If the user selected a path and the noPathSelectedLabel is visible, hide it
-        //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
-        //                   3. If the user selected a path and the noPathSelectedLabel is no visible, export to CSV at the selected path
-        //                   4. After the export is done, set exportDone to true and set exportSuccessfulLabel visibility to true
-        // TODO : Retirer le hardcodage et mettre le chemin custom
-        Main.getCurrentAccount().getSubAccountList().get(0).exportHistory("/home/frix/Documents", true);
+        if (!noPathSelectedLabel.isVisible() && selectedDirectory == null) noPathSelectedLabel.setVisible(true);
+        else if (noPathSelectedLabel.isVisible() && selectedDirectory != null) noPathSelectedLabel.setVisible(false);
+
+        if (!noPathSelectedLabel.isVisible()) {
+            // TODO : export les données de l'arraylist et non pas du compte actuel de Main
+            Main.getCurrentAccount().getSubAccountList().get(0).exportHistory(selectedDirectory.getAbsolutePath(), true);
+            exportDone = true;
+
+            fadeInAndOutNode(1000, exportSuccessfulLabel);
+
+            // Reset form
+            directoryChosen = false;
+            exportLocationLabel.setText("Export location not set.");
+            selectedDirectory = null;
+        }
 
     }
 

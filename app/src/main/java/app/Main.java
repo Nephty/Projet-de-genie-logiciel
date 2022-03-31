@@ -145,6 +145,10 @@ public class Main extends Application {
         // TODO : Generate a pop-up with the message
     }
 
+    public static Stage getStage() {
+        return stage;
+    }
+
     @Override
     public void start(Stage stage_) {
         stage = stage_;

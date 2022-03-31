@@ -94,7 +94,7 @@ class AccountAccessRepoTest {
     }
 
     @Test
-    void canGetAllByUserId() {
+    void canFindAllByUserId() {
         //given
 
         AccountAccess testedWithTestId = new AccountAccess(
@@ -114,7 +114,7 @@ class AccountAccessRepoTest {
         underTest.save(testedWithoutTestId);
 
         // when
-        List<AccountAccess> result = underTest.getAllByUserId("testId");
+        List<AccountAccess> result = underTest.findAllByUserId(testedWithTestId.getUserId());
         //then
         assertEquals(1,result.size());
         assertEquals("testId", result.get(0).getUserId().getUserID());

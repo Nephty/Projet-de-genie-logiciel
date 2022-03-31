@@ -11,9 +11,11 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 
 
-@Embeddable
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Entity
 @Table(name = "notification")
 public class Notification {

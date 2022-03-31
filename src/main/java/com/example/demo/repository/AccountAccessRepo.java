@@ -19,14 +19,8 @@ import java.util.Optional;
 @Transactional
 public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountAccessPK> {
 
-    @Query("SELECT s FROM AccountAccess s, User u " +
-            "where u.userID = ?1 " +
-            "and s.userId = u.userID " +
-            "order by s.accountId.swift.swift")
-    List<AccountAccess> getAllByUserId(String userID);
-
+    @Query("select a from AccountAccess a where a.userId = ?1")
     ArrayList<AccountAccess> findAllByUserId(User user);
-
 
     @Query("SELECT " +
             "CASE WHEN (COUNT(s.userId) > 0) " +

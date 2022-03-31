@@ -1,14 +1,12 @@
 package com.example.demo.request;
 
-import com.example.demo.model.Account;
 import com.example.demo.model.AccountAccess;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-
-@Data @AllArgsConstructor
+@Data @AllArgsConstructor @NoArgsConstructor
 public class AccountAccessReq {
 
     private String accountId;
@@ -32,7 +30,6 @@ public class AccountAccessReq {
     }
 
     //Response
-
     private AccountReq account;
 
     //TODO assert payer has access and account is active

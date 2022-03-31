@@ -23,7 +23,6 @@ public class TokenHandler {
 
     /**
      * Creates an access and refresh token with the data provided
-     * @param username username of the user or bank
      * @param issuer path at which the token was created
      * @param role role of the client
      * @param id id of the client
@@ -33,11 +32,12 @@ public class TokenHandler {
         if(id == null) {
             log.error("id is null");
         }
-        final int maxAccessTokenMinBeforeExp = 60 * 24 * 24;
-        final int accessTokenMinBeforeExp = 1;
+        final int maxAccessTokenMinBeforeExp = 60 * 24 * 24 * (60 * 1000);
+        final int accessTokenMinBeforeExp = 60 * 1000;
+        final int testAccessTokenMinBeforeExp = 0;
         String accessToken = JWT.create()
                 .withSubject(id)
-                .withExpiresAt(new Date(System.currentTimeMillis() + maxAccessTokenMinBeforeExp * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenMinBeforeExp))
                 .withIssuer(issuer)
                 .withClaim(Role.getClaimName(), role.getRole())
                 .sign(algorithm);

@@ -1,6 +1,7 @@
 package com.example.demo.filter;
 
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.exception.throwables.AuthenticationException;
 import com.example.demo.other.Sender;
@@ -71,11 +72,15 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             } catch (NestedServletException e) {
                 writeErrorToResponse(response, HttpStatus.BAD_REQUEST.value(), e);
-                log.error("Request format not respected: {}", e.getMessage());
+                log.warn("Request format not respected: {}", e.getMessage());
                 if(!(e.getCause() instanceof DataIntegrityViolationException)) {
                     log.error("Unknown cause:{}", e.getCause().toString());
                 }
-            } catch (Exception e) {
+            } catch (TokenExpiredException e) {
+                writeErrorToResponse(response, HttpStatus.PRECONDITION_FAILED.value(), e);
+                log.warn("Token expired");
+            }
+            catch (Exception e) {
                 log.error("Error type {}", e.getClass().toString());
                 log.error("Error logging in {}", e.getMessage());
                 writeErrorToResponse(response, 401 ,e);

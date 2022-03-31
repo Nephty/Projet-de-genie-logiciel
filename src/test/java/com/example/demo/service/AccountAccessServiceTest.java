@@ -2,10 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
-import com.example.demo.model.Account;
-import com.example.demo.model.AccountAccess;
+import com.example.demo.model.*;
 import com.example.demo.model.CompositePK.AccountAccessPK;
-import com.example.demo.model.User;
 import com.example.demo.repository.AccountAccessRepo;
 import com.example.demo.repository.AccountRepo;
 import com.example.demo.repository.UserRepo;
@@ -217,8 +215,30 @@ class AccountAccessServiceTest {
         String accountId = "accountId";
         String userId = "userId";
 
+        // We have to instantiate all of these objects because of the constructor of AccountAccessReq.
+
+        //-- USER
+        User user = new User();
+        user.setUserID(userId);
+
+        // -- BANK
+        Bank bank = new Bank();
+        bank.setDefaultCurrencyType(new CurrencyType());
+
+        // -- ACCOUNT
+        Account acc = new Account();
+        acc.setIban(accountId);
+        acc.setSwift(bank);
+        acc.setAccountTypeId(new AccountType());
+        acc.setUserId(user);
+
         AccountAccessPK accessPK = new AccountAccessPK(accountId,userId);
-        when(accessRepo.findById(accessPK)).thenReturn(Optional.of(new AccountAccess()));
+
+        AccountAccess returnedAccess = new AccountAccess();
+        returnedAccess.setAccountId(acc);
+        returnedAccess.setUserId(user);
+
+        when(accessRepo.findById(accessPK)).thenReturn(Optional.of(returnedAccess));
 
         //when
         underTest.findAccountAccess(accountId,userId);
@@ -252,7 +272,7 @@ class AccountAccessServiceTest {
         underTest.getAccountAccessByUserId(userId);
 
         //then
-        verify(accessRepo).getAllByUserId(userId);
+        verify(accessRepo).findAllByUserId(tmpUser);
         //We don't have to test if the method returns the good list because it's already tested in the repositories.
     }
 }

@@ -29,7 +29,7 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
 
 
     @Query("SELECT " +
-            "CASE WHEN COUNT(S) > 0 " +
+            "CASE WHEN (COUNT(s.userId) > 0) " +
             "THEN true " +
             "ELSE false " +
             "END " +

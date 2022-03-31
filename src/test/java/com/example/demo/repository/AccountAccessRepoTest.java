@@ -121,9 +121,31 @@ class AccountAccessRepoTest {
     }
 
     @Test
-    @Disabled
     void existsByUserIdAndAccountId(){
-        // TODO test this method
+        //Given
+        AccountAccess accessInDb = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(accessInDb);
+
+        //When
+        boolean shouldBeTrue = underTest.existsByUserIdAndAccountId(
+                accessInDb.getUserId(),
+                accessInDb.getAccountId()
+        );
+
+        boolean shouldBeFalse = underTest.existsByUserIdAndAccountId(
+                userRepo.getById("test2Id"),
+                accessInDb.getAccountId()
+        );
+
+        //Then
+        assertTrue(shouldBeTrue);
+        assertFalse(shouldBeFalse);
+
     }
 
     @Test
@@ -170,12 +192,12 @@ class AccountAccessRepoTest {
         //given
         String accountId = "testIban";
         String userId = "testId";
-        String persist_Userid = "test2Id";
+        String persistUserid = "test2Id";
         //when
         underTest.deleteAccountAccessByAccountIdAndUserId(accountId,userId);
 
         //then
         assertFalse(underTest.existsByUserIdAndAccountId(userRepo.getById(userId),accountRepo.getById(accountId)));
-        assertTrue(underTest.existsByUserIdAndAccountId(userRepo.getById(persist_Userid),accountRepo.getById(accountId)));
+        assertTrue(underTest.existsByUserIdAndAccountId(userRepo.getById(persistUserid),accountRepo.getById(accountId)));
     }
 }

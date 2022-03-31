@@ -16,7 +16,6 @@ public class Request extends Communication {
     }
 
     public void send() {
-        // TODO : Send the request to the API
         int comType = 6;
         switch(this.communicationType.toString()){
             case("CREATE_ACCOUNT"): comType = 0; break;

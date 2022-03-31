@@ -70,11 +70,10 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
             Request request = new Request(SWIFTComboBox.getValue(), CommunicationType.NEW_PORTFOLIO);
             request.send();
 
-            fadeInAndOutNode(3000, requestSentLabel);
+            fadeInAndOutNode(1000, requestSentLabel);
             requestSent = true;
 
             // Reset the form
-
             SWIFTComboBox.setValue("");
         } else if (!noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(true);
     }

@@ -1,6 +1,8 @@
 package front.controllers;
 
 import app.Main;
+import back.user.CommunicationType;
+import back.user.Request;
 import back.user.Wallet;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
@@ -15,7 +17,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class RequestTransferPermissionSceneController extends Controller implements BackButtonNavigator {
     @FXML
@@ -23,20 +24,20 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     @FXML
     public Label selectPortfolioLabel, noPortfolioSelectedLabel, requestNotSentLabel, requestSentLabel;
     @FXML
-    public ComboBox<String> portfolioComboBox;
+    public ComboBox<Wallet> portfolioComboBox;
     @FXML
     public Button sendRequestButton;
 
     private boolean requestSent = false;
 
-    private ObservableList<String> values;
+    private ObservableList<Wallet> values;
     private ArrayList<Wallet> wallets; // TODO : FRIX : il faut mettre des trucs dans les wallets pour que le code marche :pensive:
 
     // TODO : Attention, il faut remplacer "Portfolio" par "Wallet". C'est une confusion de termes
 
     public void initialize() {
-        values = FXCollections.observableArrayList(Arrays.asList("portfolio1", "portfolio2"));
-        // TODO : back-end : fetch all available portfolios and put their name in the list
+        Main.updatePortfolio();
+        values = FXCollections.observableArrayList(Main.getPortfolio().getWalletList());
         portfolioComboBox.setItems(values);
     }
 
@@ -54,29 +55,21 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (requestSent) {
-            portfolioComboBox.setValue("");
+            portfolioComboBox.setValue(null);
             requestSent = false;
         }
     }
 
     @FXML
     public void handleSendRequestButtonMouseClicked(MouseEvent event) {
-        if (portfolioComboBox.getValue() != null && !portfolioComboBox.getValue().equals("")) {
+        if (portfolioComboBox.getValue() != null) {
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
-                /*
-            int a = 0;
             // Create the request and send it
-            for (int i = 0; i < wallets.size(); i++) {
-                if (wallets.get(i).getBank().getName().equals(portfolioComboBox.getValue())) {
-                    a = i;
-                }
-            }
-            Request request = new Request(Main.getUser(), wallets.get(a).getBank(), Reason.NEW_PORTFOLIO);
+            Request request = new Request(Main.getUser(), portfolioComboBox.getValue(), CommunicationType.NEW_PORTFOLIO);
             request.send();
-                 */
 
-            fadeInAndOutNode(3000, requestSentLabel);
+            fadeInAndOutNode(1000, requestSentLabel);
             requestSent = true;
 
             // Reset the form

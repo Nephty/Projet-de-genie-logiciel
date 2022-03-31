@@ -26,6 +26,16 @@ public class ImportDataSceneController extends Controller implements BackButtonN
     private boolean importDone = false;
     private File selectedFile;  // TODO : is this the right class we should use ?
     private boolean fileChosen = false;
+    private FileChooser exportDataFileChooser;
+    
+    @Override
+    public void initialize() {
+        exportDataFileChooser = new FileChooser();
+        ExtensionFilter JSONFilter = new ExtensionFilter("JSON files (*.json)", "*.json");
+        ExtensionFilter CSVFilter = new ExtensionFilter("CSV files (*.csv)", "*.csv");
+        exportDataFileChooser.getExtensionFilters().add(JSONFilter);
+        exportDataFileChooser.getExtensionFilters().add(CSVFilter);
+    }
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -65,11 +75,6 @@ public class ImportDataSceneController extends Controller implements BackButtonN
 
     @FXML
     public void handleChooseFileButtonClicked(MouseEvent event) {
-        FileChooser exportDataFileChooser = new FileChooser();
-        ExtensionFilter JSONFilter = new ExtensionFilter("JSON files (*.json)", "*.json");
-        ExtensionFilter CSVFilter = new ExtensionFilter("CSV files (*.csv)", "*.csv");
-        exportDataFileChooser.getExtensionFilters().add(JSONFilter);
-        exportDataFileChooser.getExtensionFilters().add(CSVFilter);
         selectedFile = exportDataFileChooser.showOpenDialog(Main.getStage());
         if (selectedFile != null) {
             // File chosen (in file variable)

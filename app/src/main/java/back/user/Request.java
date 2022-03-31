@@ -16,13 +16,6 @@ public class Request extends Communication {
         this.wallet = null;
     }
 
-    /**
-     * Creates a request with all the required information
-     *
-     * @param client            The Profile object of a user
-     * @param wallet            The Wallet object of the destinated bank
-     * @param communicationType The communicationType of the request
-     */
     public Request(Profile client, Wallet wallet, CommunicationType communicationType) {
         this.client = client;
         this.wallet = wallet;

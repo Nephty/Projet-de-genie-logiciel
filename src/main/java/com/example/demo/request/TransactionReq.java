@@ -1,6 +1,7 @@
 package com.example.demo.request;
 
 import com.example.demo.model.TransactionLog;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,8 @@ public class TransactionReq {
 
     private Date transactionDate;
 
+    private String comments;
+
     //Only for response
 
     private String senderName;
@@ -32,12 +35,17 @@ public class TransactionReq {
 
     private Integer transactionId;
 
+    private Boolean processed;
+
+    @JsonIgnore
     public boolean isPostValid() {
         return transactionTypeId != null
                 && senderIban != null
                 && recipientIban != null
                 && currencyId != null
-                && transactionAmount != null;
+                && transactionAmount != null
+                && comments != null
+                && processed == null;
     }
 
     public TransactionReq(TransactionLog transactionSent, TransactionLog transactionReceived) {
@@ -51,5 +59,7 @@ public class TransactionReq {
         transactionDate = transactionReceived.getTransaction_date();
         currencyName = transactionReceived.getSubAccount().getCurrencyType().getCurrency_type_name();
         transactionId = transactionReceived.getTransactionId();
+        comments = transactionSent.getComments();
+        processed = transactionSent.getProcessed();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.request;
 
 import com.example.demo.model.SubAccount;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -19,12 +20,14 @@ public class SubAccountReq {
 
     private String currencyTypeName;
 
+    @JsonIgnore
     public boolean isPostValid() {
         return iban != null
                 && currencyType != null
                 && currentBalance != null;
     }
 
+    @JsonIgnore
     public boolean isPutValid() {
         return currentBalance != null || currencyType != null;
     }

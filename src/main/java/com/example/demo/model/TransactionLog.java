@@ -59,6 +59,16 @@ public class TransactionLog {
     )
     private Double transactionAmount;
 
+    @Column(
+            nullable = false
+    )
+    private Boolean processed;
+
+    @Column(
+            nullable = false
+    )
+    private String comments;
+
     public TransactionLog(TransactionReq transactionReq) {
         Date now = new Date(System.currentTimeMillis());
         // setting to current time if the date is not provided or if it's from before to not allow forgery
@@ -68,6 +78,10 @@ public class TransactionLog {
         } else {
             transaction_date = transactionReq.getTransactionDate();
         }
+        // if it's null then we default it to false
+        processed = transactionReq.getProcessed() == null ? false : transactionReq.getProcessed();
+
+        comments = transactionReq.getComments();
 
         transactionAmount = transactionReq.getTransactionAmount();
     }

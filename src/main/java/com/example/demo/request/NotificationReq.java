@@ -1,6 +1,7 @@
 package com.example.demo.request;
 
 import com.example.demo.model.Notification;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class NotificationReq {
 
     private String notificationTypeName;
 
+    @JsonIgnore
     public boolean isPostValid() {
         return notificationType != null
                 && comments != null

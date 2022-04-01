@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.exception.throwables.UserAlreadyExist;
+import com.example.demo.model.Bank;
+import com.example.demo.model.CurrencyType;
 import com.example.demo.model.User;
 import com.example.demo.other.Sender;
 import com.example.demo.repository.BankRepo;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -282,6 +285,7 @@ class UserServiceTest {
         verify(userRepo,never()).save(any());//The user is never saved.
 
     }
+
     @Test
     void canDeleteUser() {
         //Given
@@ -292,10 +296,49 @@ class UserServiceTest {
         verify(userRepo).deleteById(id);
     }
 
+    @Test
+    void canLoadUserByUsernameForUser() {
+        //Given
+        String username = "username";
+        String usernameAndRole = username + "/" + Role.USER.getRole();
+        User user = new User(
+                "testId",
+                username,
+                "lastName",
+                "firstName",
+                "email",
+                "password",
+                "language"
+        );
+        when(userRepo.findUserByUsername("username")).thenReturn(Optional.of(user));
+        //When
+        UserDetails userDetails = underTest.loadUserByUsername(usernameAndRole);
+        //Then
+        assertEquals(userDetails.getUsername(), user.getUserID());
+        assertEquals(userDetails.getPassword(), user.getPassword());
+    }
 
     @Test
-    @Disabled
-    void canLoadUserByUsername() {
-        //TODO test this method ??
+    void canLoadUserByUsernameForBank() {
+        //Given
+        String swift = "username";
+        String usernameAndRole = swift + "/" + Role.BANK.getRole();
+        Bank bank = new Bank(
+                swift,
+                "name",
+                "password",
+                "address",
+                "US",
+                new CurrencyType(
+                        0,
+                        "EUR"
+                )
+        );
+        when(bankRepo.findById(swift)).thenReturn(Optional.of(bank));
+        //When
+        UserDetails userDetails = underTest.loadUserByUsername(usernameAndRole);
+        //Then
+        assertEquals(userDetails.getUsername(), bank.getSwift());
+        assertEquals(userDetails.getPassword(), bank.getPassword());
     }
 }

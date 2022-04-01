@@ -56,7 +56,7 @@ public class TransactionReq {
         transactionAmount = transactionReceived.getTransactionAmount();
         senderName = transactionSent.getSubAccount().getIban().getUserId().getFullName();
         recipientName = transactionReceived.getSubAccount().getIban().getUserId().getFullName();
-        transactionDate = transactionReceived.getTransaction_date();
+        transactionDate = transactionReceived.getTransactionDate();
         currencyName = transactionReceived.getSubAccount().getCurrencyType().getCurrency_type_name();
         transactionId = transactionReceived.getTransactionId();
         comments = transactionSent.getComments();

@@ -28,7 +28,7 @@ public class TransactionScheduler {
     public void performDueTransactions() {
         log.info("[SCHEDULED TASK] Performing transaction");
         ArrayList<TransactionLog> transactionsToPerform = transactionLogRepo
-                .findAllByTransaction_dateBeforeAndProcessedOrderByTransactionId(
+                .findAllByTransactionDateBeforeAndProcessedOrderByTransactionId(
                         new Date(System.currentTimeMillis()), false
                 );
         for(int i = 0; i < transactionsToPerform.size(); i+= 2) {
@@ -42,7 +42,7 @@ public class TransactionScheduler {
 
     private void assertFromSameTransfer(TransactionLog transactionA, TransactionLog transactionB) {
         //Remove after making sure the query works
-        if(transactionA.getTransaction_date().after(new Date(System.currentTimeMillis()))) {
+        if(transactionA.getTransactionDate().after(new Date(System.currentTimeMillis()))) {
             log.error("Do better SQL plz");
         }
         if(transactionA.getTransactionId().intValue() != transactionB.getTransactionId().intValue()

@@ -135,7 +135,9 @@ class TransactionLogRepoTest {
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount,
-                100.0
+                100.0,
+                false,
+                "comments"
         );
         underTest.save(transactionLog);
 
@@ -145,7 +147,9 @@ class TransactionLogRepoTest {
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount1,
-                100.0
+                100.0,
+                false,
+                "comments"
         );
         underTest.save(transactionLog2);
 
@@ -155,7 +159,9 @@ class TransactionLogRepoTest {
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount1,
-                100.0
+                100.0,
+                false,
+                "comments"
         );
         underTest.save(transactionLog3);
 
@@ -192,7 +198,9 @@ class TransactionLogRepoTest {
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount,
-                100.0
+                100.0,
+                false,
+                "comments"
         );
         underTest.save(transactionLog);
 
@@ -202,7 +210,9 @@ class TransactionLogRepoTest {
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount1,
-                100.0
+                100.0,
+                false,
+                "comments"
         );
         underTest.save(transactionLog2);
 
@@ -212,7 +222,9 @@ class TransactionLogRepoTest {
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount1,
-                100.0
+                100.0,
+                false,
+                "comments"
         );
         underTest.save(transactionLog3);
 

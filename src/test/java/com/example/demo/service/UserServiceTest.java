@@ -18,6 +18,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -319,6 +320,18 @@ class UserServiceTest {
     }
 
     @Test
+    void loadUserByUsernameShouldThrowWhenUsernameNotFound(){
+        //Given
+        String username = "username";
+        String usernameAndRole = username + "/" + Role.USER.getRole();
+
+        //Then
+        assertThatThrownBy(() -> underTest.loadUserByUsername(usernameAndRole))
+                .isInstanceOf(UsernameNotFoundException.class)
+                .hasMessageContaining(username);
+    }
+
+    @Test
     void canLoadUserByUsernameForBank() {
         //Given
         String swift = "username";
@@ -340,5 +353,17 @@ class UserServiceTest {
         //Then
         assertEquals(userDetails.getUsername(), bank.getSwift());
         assertEquals(userDetails.getPassword(), bank.getPassword());
+    }
+
+    @Test
+    void loadUserByUsernameShouldThrowWhenBankNotFound(){
+        //Given
+        String swift = "username";
+        String usernameAndRole = swift + "/" + Role.BANK.getRole();
+
+        //When
+        assertThatThrownBy(() -> underTest.loadUserByUsername(usernameAndRole))
+                .isInstanceOf(UsernameNotFoundException.class)
+                .hasMessageContaining(swift);
     }
 }

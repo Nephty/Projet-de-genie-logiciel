@@ -3,7 +3,9 @@ package com.example.demo.repository;
 import com.example.demo.model.SubAccount;
 import com.example.demo.model.TransactionLog;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -17,9 +19,22 @@ public interface TransactionLogRepo extends JpaRepository<TransactionLog, Intege
     @Query("SELECT max(s.transactionId) from TransactionLog s")
     Integer findMaximumId();
 
+    @Query("select t " +
+            "from TransactionLog t " +
+            "where t.processed = ?1 " +
+            "order by t.transactionId")
     ArrayList<TransactionLog> findAllByProcessedOrderByTransactionId(Boolean processed);
 
+    @Transactional
+    @Modifying
+    @Query("delete from TransactionLog t " +
+            "where t.transactionId = ?1")
     void deleteAllByTransactionId(Integer transactionId);
 
-    ArrayList<TransactionLog> findAllByTransaction_dateBeforeAndProcessedOrderByTransactionId(Date now, Boolean processed);
+    @Query("select t " +
+            "from TransactionLog t " +
+            "where t.transactionDate < ?1 " +
+            "and t.processed = ?2 " +
+            "order by t.transactionId")
+    ArrayList<TransactionLog> findAllByTransactionDateBeforeAndProcessedOrderByTransactionId(Date now, Boolean processed);
 }

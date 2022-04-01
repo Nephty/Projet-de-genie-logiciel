@@ -44,7 +44,7 @@ public class TransactionLog {
     private TransactionType transactionTypeId;
 
     @Column(name="transaction_date")
-    private Date transaction_date;
+    private Date transactionDate;
 
     @ManyToOne
     @JoinColumns({
@@ -74,12 +74,12 @@ public class TransactionLog {
         // setting to current time if the date is not provided or if it's from before to not allow forgery
         // of date execution
         if(transactionReq.getTransactionDate() == null || transactionReq.getTransactionDate().before(now)) {
-            transaction_date = now;
+            transactionDate = now;
         } else {
-            transaction_date = transactionReq.getTransactionDate();
+            transactionDate = transactionReq.getTransactionDate();
         }
         // if it's null then we default it to false
-        processed = transactionReq.getProcessed() == null ? false : transactionReq.getProcessed();
+        processed = transactionReq.getProcessed() != null && transactionReq.getProcessed();
 
         comments = transactionReq.getComments();
 

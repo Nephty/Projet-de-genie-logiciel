@@ -275,4 +275,15 @@ class AccountAccessServiceTest {
         verify(accessRepo).findAllByUserId(tmpUser);
         //We don't have to test if the method returns the good list because it's already tested in the repositories.
     }
+
+    @Test
+    void getByUserIdShouldThrowWhenUserIdNotFound(){
+        //Given
+        String userId = "notAnUserId";
+
+        //Then
+        assertThatThrownBy(() -> underTest.getAccountAccessByUserId(userId))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining("No user with such id: " + userId);
+    }
 }

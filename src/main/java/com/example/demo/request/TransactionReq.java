@@ -20,13 +20,13 @@ public class TransactionReq {
 
     private Double transactionAmount;
 
+    private Date transactionDate;
+
     //Only for response
 
     private String senderName;
 
     private String recipientName;
-
-    private Date transactionDate;
 
     private String currencyName;
 

@@ -60,7 +60,12 @@ public class TransactionLog {
     private Double transactionAmount;
 
     public TransactionLog(TransactionReq transactionReq) {
-        transaction_date = new Date(System.currentTimeMillis());
+        if(transactionReq.getTransactionDate() == null) {
+            transaction_date = new Date(System.currentTimeMillis());
+        } else {
+            transaction_date = transactionReq.getTransactionDate();
+        }
+
         transactionAmount = transactionReq.getTransactionAmount();
     }
 

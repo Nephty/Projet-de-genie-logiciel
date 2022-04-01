@@ -63,21 +63,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             Authentication authResult
     ) throws IOException {
         TokenHandler jwtHandler = new TokenHandler();
-        Map<String, String> tokens;
-        Role role;
         User user = (User)authResult.getPrincipal();
+        Role role = Role.getRoleFromString(request.getParameter("role"))
+                .orElseThrow(()-> new MissingParamException(request.getParameter("role")));
 
-        switch (request.getParameter("role")) {
-            case "ROLE_USER":
-                role = Role.USER;
-                break;
-            case "ROLE_BANK":
-                role = Role.BANK;
-                break;
-            default:
-                throw new MissingParamException(request.getParameter("role"));
-        }
-        tokens = jwtHandler.createTokens(
+        Map<String, String> tokens = jwtHandler.createTokens(
                 user.getUsername(),
                 request.getRequestURL().toString(),
                 role

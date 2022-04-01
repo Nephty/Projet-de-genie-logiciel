@@ -24,7 +24,7 @@ public class TransactionScheduler {
 
     private final TransactionLogRepo transactionLogRepo;
 
-    @Scheduled(initialDelay = 5, fixedRate = day)
+    //@Scheduled(initialDelay = 5, fixedRate = day)
     public void performDueTransactions() {
         log.info("[SCHEDULED TASK] Performing transaction");
         ArrayList<TransactionLog> transactionsToPerform = transactionLogRepo

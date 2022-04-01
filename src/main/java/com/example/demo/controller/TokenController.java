@@ -2,8 +2,6 @@ package com.example.demo.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.exception.throwables.AuthenticationException;
-import com.example.demo.model.Bank;
-import com.example.demo.model.User;
 import com.example.demo.security.Role;
 import com.example.demo.security.TokenHandler;
 import com.example.demo.service.BankService;
@@ -45,23 +43,12 @@ public class TokenController {
         String role = decodedJWT.getClaim(Role.getClaimName()).asString();
         String id = decodedJWT.getSubject();
 
-        Map<String, String> tokens;
+        Map<String, String> tokens = jwtHandler.createTokens(
+                id,
+                request.getRequestURL().toString(),
+                Role.getRoleFromString(role).orElseThrow(() -> new AuthenticationException("incorrect role: " + role))
+        );
 
-        if(role.equals(Role.USER.getRole())) {
-            tokens = jwtHandler.createTokens(
-                    id,
-                    request.getRequestURL().toString(),
-                    Role.USER
-            );
-        } else if(role.equals(Role.BANK.getRole())) {
-            tokens = jwtHandler.createTokens(
-                    id,
-                    request.getRequestURL().toString(),
-                    Role.BANK
-            );
-        } else {
-            throw new AuthenticationException("incorrect role: " + role);
-        }
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }

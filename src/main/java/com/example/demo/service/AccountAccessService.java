@@ -52,7 +52,7 @@ public class AccountAccessService {
         User user = userRepo.findById(userID)
                 .orElseThrow(()-> {
                     log.warn("No user with such id: " + userID);
-                    return new ResourceNotFound("no user with such id: " + userID);
+                    return new ResourceNotFound("No user with such id: " + userID);
                 });
         return accountAccessRepo.findAllByUserId(user)
                 .stream()

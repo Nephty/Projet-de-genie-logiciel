@@ -1,6 +1,7 @@
 package com.example.demo.request;
 
 import com.example.demo.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpMethod;
@@ -23,6 +24,7 @@ public class UserReq {
 
     private String language;
 
+    @JsonIgnore
     public boolean isPostValid() {
         return userId != null
                 && username != null
@@ -33,6 +35,7 @@ public class UserReq {
                 && language != null;
     }
 
+    @JsonIgnore
     public boolean isPutValid() {
         return password != null || language != null;
     }

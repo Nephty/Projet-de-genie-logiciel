@@ -301,12 +301,6 @@ class BankServiceTest {
     }
 
     @Test
-    @Disabled
-    void getByLogin() {
-        // TODO : delete login
-    }
-
-    @Test
     void canGetAllBanks() {
         //When
         underTest.getAllBanks();

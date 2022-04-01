@@ -41,19 +41,53 @@ class UserRepoTest {
 
         //Then
         assertEquals(user.getUsername(),res.getUsername());
-
-
     }
 
     @Test
-    @Disabled
     void existsByUsername() {
-        // TODO: 3/27/22  
+        // Given
+        User user = new User(
+                "testId",
+                "imATest",
+                "lastName",
+                "firstName",
+                "test@email.com",
+                "passwordTested",
+                "EN"
+        );
+        underTest.save(user);
+
+        //When
+        boolean shouldBeTrue = underTest.existsByUsername("imATest");
+        boolean shouldBeFalse = underTest.existsByUsername("notAnUsername");
+
+        //Then
+        assertTrue(shouldBeTrue);
+        assertFalse(shouldBeFalse);
     }
 
     @Test
-    @Disabled
     void existsByEmail() {
-        // TODO: 3/27/22  
+        // Given
+        User user = new User(
+                "testId",
+                "imATest",
+                "lastName",
+                "firstName",
+                "test@email.com",
+                "passwordTested",
+                "EN"
+        );
+        underTest.save(user);
+
+        // When
+        boolean shouldBeTrue = underTest.existsByEmail("test@email.com");
+        boolean shouldBeFalse = underTest.existsByEmail("notAnEmail");
+
+        // Then
+        assertTrue(shouldBeTrue);
+        assertFalse(shouldBeFalse);
+
+
     }
 }

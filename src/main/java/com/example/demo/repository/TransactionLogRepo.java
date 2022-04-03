@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public interface TransactionLogRepo extends JpaRepository<TransactionLog, Integer> {
 
@@ -21,5 +20,12 @@ public interface TransactionLogRepo extends JpaRepository<TransactionLog, Intege
 
     void deleteAllByTransactionId(Integer transactionId);
 
-    ArrayList<TransactionLog> findAllByTransaction_dateBeforeAndProcessedOrderByTransactionId(Date now, Boolean processed);
+    ArrayList<TransactionLog> findAllByTransactionDateBeforeAndProcessedOrderByTransactionId(Date now, Boolean processed);
+
+    default ArrayList<TransactionLog> findAllToExecute() {
+        return findAllByTransactionDateBeforeAndProcessedOrderByTransactionId(
+                new Date(System.currentTimeMillis()),
+                false
+        );
+    }
 }

@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class User {
     @Column(name="nrn")
     @Id
-    private String userID;
+    private String userId;
 
     @Column(
             nullable = false,
@@ -52,12 +52,12 @@ public class User {
     private String language;
 
     public User(String userID){
-        this.userID = userID;
+        this.userId = userID;
     }
 
     public User(String userID, String username, String lastname,
                 String firstname, String email, String language) {
-        this.userID = userID;
+        this.userId = userID;
         this.username = username;
         this.lastname = lastname;
         this.firstname = firstname;
@@ -66,7 +66,7 @@ public class User {
     }
 
     public User(UserReq userReq) {
-        userID = userReq.getUserId();
+        userId = userReq.getUserId();
         username = userReq.getUsername();
         firstname = userReq.getFirstname();
         lastname = userReq.getLastname();

@@ -40,7 +40,7 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
     @Modifying
     @Query("DELETE FROM AccountAccess a " +
             "WHERE a.accountId.iban = ?1 " +
-            "AND a.userId.userID = ?2")
+            "AND a.userId.userId = ?2")
     void deleteAccountAccessByAccountIdAndUserId(String accountId, String userId);
 
 }

@@ -45,7 +45,7 @@ public class AccountReq {
     public AccountReq(Account account) {
         iban = account.getIban();
         swift = account.getSwift().getSwift();
-        userId = account.getUserId().getUserID();
+        userId = account.getUserId().getUserId();
         ownerFirstname = account.getUserId().getFirstname();
         ownerLastname = account.getUserId().getLastname();
         accountTypeId = account.getAccountTypeId().getAccountTypeId();

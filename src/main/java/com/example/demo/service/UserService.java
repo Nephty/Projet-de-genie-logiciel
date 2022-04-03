@@ -21,11 +21,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -148,7 +146,7 @@ public class UserService implements UserDetailsService {
                 authorities.add(new SimpleGrantedAuthority(Role.USER.getRole()));
                 log.info("user loaded by username {}", user);
                 return new org.springframework.security.core.userdetails.User(
-                        user.getUserID(), user.getPassword(), authorities
+                        user.getUserId(), user.getPassword(), authorities
                 );
             case "ROLE_BANK":
                 Bank bank = getBankCredentials(usernameRole[0]);

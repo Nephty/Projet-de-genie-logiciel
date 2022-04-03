@@ -129,13 +129,14 @@ public class TransactionLogService {
         transactionLogs.add(transactionSent);
         transactionLogs.add(transactionReceived);
 
-        // TODO : do this once a day, and set the transaction type to done
+       /*
         subAccountSender.setCurrentBalance(
                 subAccountSender.getCurrentBalance() - transactionReq.getTransactionAmount()
         );
         subAccountReceiver.setCurrentBalance(
                 subAccountReceiver.getCurrentBalance() + transactionReq.getTransactionAmount()
         );
+        */
         return transactionLogs;
     }
 
@@ -151,7 +152,7 @@ public class TransactionLogService {
             throw new AuthorizationException("Not enough fund");
         }
         //when the sender is not the account owner
-        if(!transaction.getSubAccount().getIban().getUserId().getUserID().equals(sender.getId())) {
+        if(!transaction.getSubAccount().getIban().getUserId().getUserId().equals(sender.getId())) {
             AccountAccess accountAccess = accountAccessRepo.findById(
                     new AccountAccessPK(transaction.getSubAccount().getIban().getIban(), sender.getId())
             ).orElseThrow(()-> {

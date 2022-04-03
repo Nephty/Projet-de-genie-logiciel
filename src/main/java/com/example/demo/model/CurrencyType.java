@@ -23,7 +23,8 @@ public class CurrencyType {
 
     @Column(
             nullable = false,
-            unique = true
+            unique = true,
+            name = "currency_type_name"
     )
-    private String currency_type_name;
+    private String currencyTypeName;
 }

@@ -14,7 +14,6 @@ import com.example.demo.repository.UserRepo;
 import com.example.demo.request.NotificationReq;
 import com.example.demo.security.Role;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -182,10 +181,10 @@ class NotificationServiceTest {
     void canGetUserNotification() {
         //Given
         User user = new User();
-        user.setUserID("id");
+        user.setUserId("id");
         when(userRepo.findById("id")).thenReturn(Optional.of(user));
 
-        Sender sender = new Sender(user.getUserID(), Role.USER);
+        Sender sender = new Sender(user.getUserId(), Role.USER);
 
         //When
         underTest.getNotifications(sender);

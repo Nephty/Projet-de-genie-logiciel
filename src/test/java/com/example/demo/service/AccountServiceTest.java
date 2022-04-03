@@ -5,7 +5,6 @@ import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.request.AccountReq;
-import com.example.demo.request.SubAccountReq;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -60,7 +59,7 @@ class AccountServiceTest {
         tmpBank.setDefaultCurrencyType(new CurrencyType(0,"EUR"));
 
         User tmpUser = new User();
-        tmpUser.setUserID(accountReq.getUserId());
+        tmpUser.setUserId(accountReq.getUserId());
 
         AccountType tmpType = new AccountType();
         tmpType.setAccountTypeId(accountReq.getAccountTypeId());
@@ -125,7 +124,7 @@ class AccountServiceTest {
                 .thenReturn(bank);
 
         User tmpUser = new User();
-        tmpUser.setUserID(accountReq.getUserId());
+        tmpUser.setUserId(accountReq.getUserId());
         Optional<User> user = Optional.of(tmpUser);
         when(userRepo.findById(accountReq.getUserId()))
                 .thenReturn(user);
@@ -222,7 +221,7 @@ class AccountServiceTest {
                 .thenReturn(bank);
 
         User tmpUser = new User();
-        tmpUser.setUserID(accountReq.getUserId());
+        tmpUser.setUserId(accountReq.getUserId());
         Optional<User> user = Optional.of(tmpUser);
         when(userRepo.findById(accountReq.getUserId()))
                 .thenReturn(user);
@@ -253,7 +252,7 @@ class AccountServiceTest {
         tmpBank.setSwift(accountReq.getSwift());
 
         User tmpUser = new User();
-        tmpUser.setUserID(accountReq.getUserId());
+        tmpUser.setUserId(accountReq.getUserId());
 
         AccountType tmpType = new AccountType();
         tmpType.setAccountTypeId(accountReq.getAccountTypeId());

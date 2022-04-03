@@ -6,6 +6,7 @@ import com.example.demo.repository.TransactionLogRepo;
 import com.example.demo.request.NotificationReq;
 import com.example.demo.security.Role;
 import com.example.demo.service.NotificationService;
+import com.example.demo.service.TransactionLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,6 +25,7 @@ public class TransactionScheduler {
 
     private final TransactionLogRepo transactionLogRepo;
     private final NotificationService notificationService;
+    private final TransactionLogService transactionLogService;
 
     @Scheduled(initialDelay = 5, fixedRate = day)
     public void performDueTransactions() {
@@ -41,6 +43,7 @@ public class TransactionScheduler {
                     //the sending transaction has a direction of 1
                     && assertCanMakeTransaction(transactionA.getDirection() == 1 ? transactionA : transactionB)
             ) {
+                // TODO Use the TransactionLogService to separate the scheduler with the service
                 performAndSaveTransaction(
                         transactionA.getDirection() == 1 ? transactionA : transactionB,
                         transactionA.getDirection() == 0 ? transactionA : transactionB
@@ -51,11 +54,6 @@ public class TransactionScheduler {
     }
 
     private boolean assertFromSameTransfer(TransactionLog transactionA, TransactionLog transactionB) {
-        //Remove after making sure the query works
-        if(transactionA.getTransactionDate().after(new Date(System.currentTimeMillis()))) {
-            log.error("Do better SQL plz");
-            return false;
-        }
         // not the same id or same direction -> inconsistent state
         if(transactionA.getTransactionId().intValue() != transactionB.getTransactionId().intValue()
                 || transactionA.getDirection().intValue() == transactionB.getDirection().intValue()

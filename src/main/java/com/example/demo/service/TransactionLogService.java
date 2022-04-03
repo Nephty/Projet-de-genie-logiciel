@@ -9,7 +9,9 @@ import com.example.demo.repository.AccountAccessRepo;
 import com.example.demo.repository.SubAccountRepo;
 import com.example.demo.repository.TransactionLogRepo;
 import com.example.demo.repository.TransactionTypeRepo;
+import com.example.demo.request.NotificationReq;
 import com.example.demo.request.TransactionReq;
+import com.example.demo.security.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class TransactionLogService {
     private final SubAccountRepo subAccountRepo;
     private final TransactionTypeRepo transactionTypeRepo;
     private final AccountAccessRepo accountAccessRepo;
+    private final NotificationService notificationService;
 
     public ArrayList<TransactionLog> addTransaction(Sender sender, TransactionReq transactionReq) {
         ArrayList<TransactionLog> transactions = instantiateTransaction(sender, transactionReq);
@@ -77,6 +80,7 @@ public class TransactionLogService {
             Sender sender,
             TransactionReq transactionReq
     ) throws ConflictException{
+        // Can't make transaction to ourselves.
         if(transactionReq.getSenderIban().equals(transactionReq.getRecipientIban())) {
             log.warn("transaction to = transaction from");
             throw new AuthorizationException("You can't make a transaction to the same account you emitted it");
@@ -85,6 +89,7 @@ public class TransactionLogService {
         TransactionLog transactionReceived = new TransactionLog(transactionReq);
 
 
+        // -- SubAccount SENDER --
         SubAccount subAccountSender = subAccountRepo.findById(
                 new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
         ).orElseThrow(
@@ -92,9 +97,8 @@ public class TransactionLogService {
                         "subAccount: " + transactionReq.getSenderIban() + " : " + transactionReq.getCurrencyId()
                 )
         );
-        // TODO : Do the transaction once a day
-        //  and check everything when it's done and not when we instantiation the transaction
 
+        // -- SubAccount RECEIVER --
         SubAccount subAccountReceiver = subAccountRepo.findById(
                 new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
         ).orElseThrow(
@@ -102,6 +106,8 @@ public class TransactionLogService {
                         "subAccount:" + transactionReq.getRecipientIban() + " : " + transactionReq.getCurrencyId()
                 )
         );
+
+        // -- TransactionType --
         TransactionType transactionType = transactionTypeRepo.findById(transactionReq.getTransactionTypeId())
                 .orElseThrow(
                         ()-> new ConflictException("transId:" + transactionReq.getTransactionTypeId().toString())

@@ -258,6 +258,18 @@ class TransactionLogRepoTest {
         underTest.save(transactionLog);
 
         TransactionLog transactionLog2 = new TransactionLog(
+                1,
+                0,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog2);
+
+        TransactionLog transactionLog3 = new TransactionLog(
                 2,
                 1,
                 transactionTypeRepo.getById(0),
@@ -267,7 +279,19 @@ class TransactionLogRepoTest {
                 false,
                 "comments"
         );
-        underTest.save(transactionLog2);
+        underTest.save(transactionLog3);
+
+        TransactionLog transactionLog4 = new TransactionLog(
+                3,
+                1,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2000,5,25)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog4);
 
         // When
         ArrayList<TransactionLog> result = underTest.
@@ -277,8 +301,11 @@ class TransactionLogRepoTest {
                 );
 
         // Then
-        assertEquals(1,result.size());
+        assertEquals(3,result.size());
         assertEquals(transactionLog.getTransactionId(),result.get(0).getTransactionId());
+        assertEquals(transactionLog2.getTransactionId(),result.get(1).getTransactionId());
+        assertEquals(transactionLog4.getTransactionId(),result.get(2).getTransactionId()); // Order by test
+
     }
 
     @Test

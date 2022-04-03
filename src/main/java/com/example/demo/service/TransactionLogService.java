@@ -118,7 +118,8 @@ public class TransactionLogService {
         transactionReceived.setTransactionTypeId(transactionType);
         transactionReceived.setDirection(0);
 
-        assertCanMakeTransaction(sender, transactionSent);
+        assertCanMakeTransaction(transactionSent);
+        assertSenderHaveAccess(sender,transactionSent);
 
         // -- ID GENERATION --
         Integer nextId = nextId();
@@ -139,7 +140,9 @@ public class TransactionLogService {
         return transactionLogs;
     }
 
-    private void assertCanMakeTransaction(Sender sender, TransactionLog transaction) {
+    // TODO: 4/3/22 JAVADOC
+    private void
+    assertCanMakeTransaction(TransactionLog transaction) {
         if(!transaction.getSubAccount().getIban().getPayment()) {
             log.warn("This account can't make payment");
             throw new AuthorizationException("This account can't make payment");
@@ -150,6 +153,10 @@ public class TransactionLogService {
         if(transaction.getSubAccount().getCurrentBalance() < transaction.getTransactionAmount()) {
             throw new AuthorizationException("Not enough fund");
         }
+    }
+
+    // TODO: 4/3/22 Javadoc
+    private void assertSenderHaveAccess(Sender sender, TransactionLog transaction){
         //when the sender is not the account owner
         if(!transaction.getSubAccount().getIban().getUserId().getUserID().equals(sender.getId())) {
             AccountAccess accountAccess = accountAccessRepo.findById(
@@ -163,9 +170,37 @@ public class TransactionLogService {
                 throw new AuthorizationException("Your access to this account is disabled");
             }
         }
-
     }
 
+
+    /**
+     *
+     * Execute the transaction from the subAccount of the sender to the SubAccount of the Receiver.
+     * If the transaction couldn't be executed, it throws an exception.
+     * @see #assertCanMakeTransaction(TransactionLog transaction) assertCanMakeTransaction
+     * @param transactionSent Sender transaction (Direction = 1)
+     * @param transactionReceive Receiver transaction (Direction = 0)
+     */
+    public void executeTransaction(TransactionLog transactionSent, TransactionLog transactionReceive){
+        assertCanMakeTransaction(transactionSent);
+
+        transactionSent.getSubAccount().setCurrentBalance(
+                transactionSent.getSubAccount().getCurrentBalance() - transactionSent.getTransactionAmount()
+        );
+        transactionSent.setProcessed(true);
+        transactionReceive.getSubAccount().setCurrentBalance(
+                transactionReceive.getSubAccount().getCurrentBalance() + transactionReceive.getTransactionAmount()
+        );
+        transactionReceive.setProcessed(true);
+
+        transactionLogRepo.save(transactionSent);
+        transactionLogRepo.save(transactionReceive);
+    }
+
+    /**
+     * Find the maximum transactionId in the database and return the next value.
+     * @return the next possible transactionIf
+     */
     private int nextId(){
         Integer tmp = transactionLogRepo.findMaximumId();
         return tmp == null ? 1 : tmp+1;

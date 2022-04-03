@@ -37,5 +37,12 @@ public interface TransactionLogRepo extends JpaRepository<TransactionLog, Transa
             Boolean processed
     );
 
+    default ArrayList<TransactionLog> findAllToExecute() {
+        return findAllByTransactionDateBeforeAndProcessedOrderByTransactionId(
+                new Date(System.currentTimeMillis()),
+                false
+        );
+    }
+
     void deleteAllByTransactionId(Integer transactionId);
 }

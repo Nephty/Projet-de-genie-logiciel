@@ -1,7 +1,11 @@
 package com.example.demo.scheduler;
 
 import com.example.demo.model.TransactionLog;
+import com.example.demo.other.Sender;
 import com.example.demo.repository.TransactionLogRepo;
+import com.example.demo.request.NotificationReq;
+import com.example.demo.security.Role;
+import com.example.demo.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,6 +23,7 @@ public class TransactionScheduler {
     private final long day = 24 * hour;
 
     private final TransactionLogRepo transactionLogRepo;
+    private final NotificationService notificationService;
 
     @Scheduled(initialDelay = 5, fixedRate = day)
     public void performDueTransactions() {
@@ -97,5 +102,26 @@ public class TransactionScheduler {
         transactionSent.setProcessed(true);
         transactionReceived.setProcessed(true);
         transactionLogRepo.saveAll(Arrays.asList(transactionSent, transactionReceived));
+    }
+
+    /**
+     * Send a notification to the owner of the account that sent the notification.
+     * It warns the user that his transaction couldn't be executed.
+     * @param transactionSent The transaction that couldn't be executed.
+     * @param reason The reason why the transaction couldn't be executed.
+     */
+    private void sendDeletedNotification(TransactionLog transactionSent,String reason){
+        Sender bankSender = new Sender(
+                transactionSent.getSubAccount().getIban().getSwift().getSwift(),
+                Role.BANK
+        );
+
+        NotificationReq notification = new NotificationReq();
+        notification.setNotificationType(5);
+        notification.setComments(reason);
+        notification.setStatus("UNCHECKED");
+        notification.setRecipientId(transactionSent.getSubAccount().getIban().getUserId().getUserId());
+
+        notificationService.addNotification(bankSender,notification);
     }
 }

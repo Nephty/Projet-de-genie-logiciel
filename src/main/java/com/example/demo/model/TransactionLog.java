@@ -6,6 +6,7 @@ import com.example.demo.model.CompositePK.TransactionLogPK;
 import com.example.demo.request.TransactionReq;
 import lombok.*;
 import org.hibernate.engine.internal.Cascade;
+import org.springframework.data.jpa.repository.Temporal;
 
 import javax.persistence.*;
 import java.sql.Date;

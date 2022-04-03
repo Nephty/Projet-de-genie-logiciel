@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +30,7 @@ public class TransactionScheduler {
         log.info("[SCHEDULED TASK] Performing transaction");
         ArrayList<TransactionLog> transactionsToPerform = transactionLogRepo
                 .findAllByTransactionDateBeforeAndProcessedOrderByTransactionId(
-                        new Date(System.currentTimeMillis()), false
+                        new Date(System.currentTimeMillis()),false
                 );
         for(int i = 0; i < transactionsToPerform.size(); i+= 2) {
             TransactionLog transactionA = transactionsToPerform.get(i);

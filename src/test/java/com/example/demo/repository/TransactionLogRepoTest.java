@@ -1,16 +1,24 @@
 package com.example.demo.repository;
 
+import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.model.*;
 import com.example.demo.model.CompositePK.SubAccountPK;
+import com.example.demo.model.CompositePK.TransactionLogPK;
+import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -233,5 +241,117 @@ class TransactionLogRepoTest {
 
         //Then
         assertEquals(2,result);
+    }
+
+    @Test
+    void canFindAllOldWaitingTransaction(){
+        TransactionLog transactionLog = new TransactionLog(
+                1,
+                1,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog);
+
+        TransactionLog transactionLog2 = new TransactionLog(
+                2,
+                1,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2020,5,25)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog2);
+
+        // When
+        ArrayList<TransactionLog> result = underTest.
+                findAllByTransactionDateBeforeAndProcessedOrderByTransactionId(
+                        Date.valueOf(LocalDate.of(2010,10,10)),
+                        false
+                );
+
+        // Then
+        assertEquals(1,result.size());
+        assertEquals(transactionLog.getTransactionId(),result.get(0).getTransactionId());
+    }
+
+    @Test
+    void canDeleteAllByTransactionId(){
+        // Given
+        TransactionLog transactionLog = new TransactionLog(
+                1,
+                1,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog);
+
+        TransactionLog transactionLog2 = new TransactionLog(
+                1,
+                0,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog2);
+
+        // When
+        underTest.deleteAllByTransactionId(1);
+
+        // Then
+        assertFalse(underTest.findById(new TransactionLogPK(1,1)).isPresent());
+        assertFalse(underTest.findById(new TransactionLogPK(1,0)).isPresent());
+    }
+
+    @Test
+    void canFindAllProcessedOrderByTransactionId(){
+        // Given
+        TransactionLog transactionLog = new TransactionLog(
+                1,
+                1,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog);
+
+        TransactionLog transactionLog2 = new TransactionLog(
+                2,
+                1,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2020,5,25)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog2);
+
+        // When
+        ArrayList<TransactionLog> result = underTest.findAllByProcessedOrderByTransactionId(false);
+
+        // Then
+        assertEquals(2,result.size());
+        //Test at the same time the order by.
+        assertEquals(1,result.get(0).getTransactionId());
+        assertEquals(2,result.get(1).getTransactionId());
+
+
     }
 }

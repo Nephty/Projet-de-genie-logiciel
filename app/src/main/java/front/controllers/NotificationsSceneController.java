@@ -91,7 +91,6 @@ public class NotificationsSceneController extends Controller implements BackButt
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch notifications and put them in the listview
-            // TODO : back-end : fetch notifications from the database and put them in the listview only if they are not dismissed
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
             try {
@@ -106,10 +105,12 @@ public class NotificationsSceneController extends Controller implements BackButt
             String toParse = body.substring(1,body.length() - 1);
             ArrayList<String> notificationList = Portfolio.JSONArrayParser(toParse);
             ArrayList<Notification> notifList = new ArrayList<Notification>();
-            for(int i = 0; i<notificationList.size(); i++){
-                JSONObject obj = new JSONObject(notificationList.get(i));
-                if(obj.getInt("notificationType") == 4){
-                    notifList.add(new Notification(obj.getString("senderName"), obj.getString("comments"),obj.getString("date")));
+            if(!notificationList.get(0).equals("")){
+                for(int i = 0; i<notificationList.size(); i++){
+                    JSONObject obj = new JSONObject(notificationList.get(i));
+                    if(obj.getInt("notificationType") == 4){
+                        notifList.add(new Notification(obj.getString("senderName"), obj.getString("comments"),obj.getString("date"), obj.getLong("notificationId")));
+                    }
                 }
             }
             notificationsListView.setItems(FXCollections.observableArrayList(notifList));

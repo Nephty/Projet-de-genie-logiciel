@@ -1,18 +1,23 @@
 package back.user;
 
+import app.Main;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 public class Notification extends Communication {
     private final String content;
     private String senderName;
     private String date;
     private boolean flag;
-    private boolean dismiss;
+    private long ID;
 
-    public Notification(String senderName, String content, String date) {
+    public Notification(String senderName, String content, String date, long ID) {
         this.content = content;
         this.senderName = senderName;
         this.date = date;
+        this.ID = ID;
         this.flag = flag;
-        this.dismiss = dismiss;
     }
 
     @Override
@@ -29,8 +34,15 @@ public class Notification extends Communication {
     }
 
     public void dismiss() {
-        this.dismiss = true;
         // TODO : DELETE Notification
+        Unirest.setTimeouts(0, 0);
+        try {
+            HttpResponse<String> response = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
+                    .header("Authorization", "Bearer " + Main.getToken())
+                    .asString();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
     }
 
     public void changeFlag() {

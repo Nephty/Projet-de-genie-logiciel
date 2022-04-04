@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,14 +62,24 @@ class AccountAccessRepoTest {
         currencyTypeRepo.save(currencyType);
 
         Bank bank = new Bank(
-                "testSwift",
+                "testSwift1",
                 "test",
                 "password",
                 "address",
-                "English",
+                "UK",
                 currencyType
         );
         bankRepo.save(bank);
+
+        Bank bank2 = new Bank(
+                "testSwift2",
+                "test2",
+                "password",
+                "address",
+                "UK",
+                currencyType
+        );
+        bankRepo.save(bank2);
 
         AccountType accountType = new AccountType(
                 0,
@@ -89,6 +100,26 @@ class AccountAccessRepoTest {
                 new Date(System.currentTimeMillis())
         );
         accountRepo.save(account);
+
+        Account account2 = new Account(
+                "testIban2",
+                bank2,
+                user,
+                accountType,
+                false,
+                Date.valueOf(LocalDate.now())
+        );
+        accountRepo.save(account2);
+
+        Account account3 = new Account(
+                "testIban3",
+                bank,
+                user,
+                accountType,
+                false,
+                Date.valueOf(LocalDate.now())
+        );
+        accountRepo.save(account3);
 
 
     }
@@ -118,6 +149,53 @@ class AccountAccessRepoTest {
         //then
         assertEquals(1,result.size());
         assertEquals("testId", result.get(0).getUserId().getUserId());
+    }
+
+    @Test
+    void isFindAllByUserIdOrderedByBank(){
+        // Bug encountered during development (used in the client application)
+
+        // Given
+        AccountAccess testedBank1a = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testedBank1a);
+
+        AccountAccess testedBank2 = new AccountAccess(
+                accountRepo.getById("testIban2"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testedBank2);
+
+        AccountAccess testedBank1b = new AccountAccess(
+                accountRepo.getById("testIban3"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testedBank1b);
+
+        // when
+        List<AccountAccess> result = underTest.findAllByUserId(testedBank1a.getUserId());
+
+        //Then
+        assertEquals(
+                testedBank1a.getAccountId().getSwift().getSwift(),
+                result.get(0).getAccountId().getSwift().getSwift()
+        );
+        assertEquals(
+                testedBank1b.getAccountId().getSwift().getSwift(),
+                result.get(1).getAccountId().getSwift().getSwift()
+        );
+        assertEquals(
+                testedBank2.getAccountId().getSwift().getSwift(),
+                result.get(2).getAccountId().getSwift().getSwift()
+        );
     }
 
     @Test
@@ -151,7 +229,7 @@ class AccountAccessRepoTest {
     @Test
     void canGetAllCustomersInBank(){
         //Given
-        String swift = "testSwift";
+        String swift = "testSwift1";
 
         AccountAccess testedWithTestId = new AccountAccess(
                 accountRepo.getById("testIban"),

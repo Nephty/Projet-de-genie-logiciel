@@ -12,6 +12,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,7 +53,8 @@ class AccountServiceTest {
                 false,
                 "name",
                 "lastname",
-                null
+                null,
+                Date.valueOf(LocalDate.now())
         );
 
         Bank tmpBank = new Bank();
@@ -113,7 +116,8 @@ class AccountServiceTest {
                 false,
                 "name",
                 "lastname",
-                null
+                null,
+                Date.valueOf(LocalDate.now())
         );
 
         Bank tmpBank = new Bank();
@@ -161,7 +165,8 @@ class AccountServiceTest {
                 false,
                 "name",
                 "lastname",
-                null
+                null,
+                Date.valueOf(LocalDate.now())
         );
 
         //then
@@ -183,7 +188,8 @@ class AccountServiceTest {
                 false,
                 "name",
                 "lastname",
-                null
+                null,
+                Date.valueOf(LocalDate.now())
         );
 
         Bank tmpBank = new Bank();
@@ -211,7 +217,8 @@ class AccountServiceTest {
                 false,
                 "name",
                 "lastname",
-                null
+                null,
+                Date.valueOf(LocalDate.now())
         );
 
         Bank tmpBank = new Bank();
@@ -245,7 +252,8 @@ class AccountServiceTest {
                 false,
                 "name",
                 "lastname",
-                null
+                null,
+                Date.valueOf(LocalDate.now())
         );
 
         Bank tmpBank = new Bank();
@@ -291,7 +299,8 @@ class AccountServiceTest {
                 false,
                 "name",
                 "lastname",
-                null
+                null,
+                Date.valueOf(LocalDate.now())
         );
 
         //then

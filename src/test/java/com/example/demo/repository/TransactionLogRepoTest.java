@@ -84,7 +84,8 @@ class TransactionLogRepoTest {
                 bank,
                 user,
                 accountType,
-                false
+                false,
+                Date.valueOf(LocalDate.now())
         );
         accountRepo.save(account);
 
@@ -105,7 +106,8 @@ class TransactionLogRepoTest {
                 bank,
                 user1,
                 accountType,
-                false
+                false,
+                Date.valueOf(LocalDate.now())
         );
         accountRepo.save(account1);
     }
@@ -134,7 +136,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog = new TransactionLog(
                 1,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount,
@@ -146,7 +148,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog2 = new TransactionLog(
                 1,
-                0,
+                false,
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount1,
@@ -158,7 +160,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog3 = new TransactionLog(
                 2,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount1,
@@ -197,7 +199,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog = new TransactionLog(
                 1,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount,
@@ -209,7 +211,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog2 = new TransactionLog(
                 1,
-                0,
+                false,
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount1,
@@ -221,7 +223,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog3 = new TransactionLog(
                 2,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 new Date(System.currentTimeMillis()),
                 subAccount1,
@@ -242,7 +244,7 @@ class TransactionLogRepoTest {
     void canFindAllOldWaitingTransaction(){
         TransactionLog transactionLog = new TransactionLog(
                 1,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2002,10,31)),
                 null,
@@ -254,7 +256,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog2 = new TransactionLog(
                 1,
-                0,
+                false,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2002,10,31)),
                 null,
@@ -266,7 +268,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog3 = new TransactionLog(
                 2,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2020,5,25)),
                 null,
@@ -278,7 +280,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog4 = new TransactionLog(
                 3,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2000,5,25)),
                 null,
@@ -306,7 +308,7 @@ class TransactionLogRepoTest {
     void canFindAllToExecute(){
         TransactionLog transactionLog = new TransactionLog(
                 1,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2002,10,31)),
                 null,
@@ -318,7 +320,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog2 = new TransactionLog(
                 1,
-                0,
+                false,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2002,10,31)),
                 null,
@@ -330,7 +332,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog3 = new TransactionLog(
                 2,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2600,5,25)),
                 null,
@@ -342,7 +344,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog4 = new TransactionLog(
                 3,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2000,5,25)),
                 null,
@@ -367,7 +369,7 @@ class TransactionLogRepoTest {
         // Given
         TransactionLog transactionLog = new TransactionLog(
                 1,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2002,10,31)),
                 null,
@@ -379,7 +381,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog2 = new TransactionLog(
                 1,
-                0,
+                false,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2002,10,31)),
                 null,
@@ -393,8 +395,8 @@ class TransactionLogRepoTest {
         underTest.deleteAllByTransactionId(1);
 
         // Then
-        assertFalse(underTest.findById(new TransactionLogPK(1,1)).isPresent());
-        assertFalse(underTest.findById(new TransactionLogPK(1,0)).isPresent());
+        assertFalse(underTest.findById(new TransactionLogPK(1,true)).isPresent());
+        assertFalse(underTest.findById(new TransactionLogPK(1,false)).isPresent());
     }
 
     @Test
@@ -402,7 +404,7 @@ class TransactionLogRepoTest {
         // Given
         TransactionLog transactionLog = new TransactionLog(
                 1,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2002,10,31)),
                 null,
@@ -414,7 +416,7 @@ class TransactionLogRepoTest {
 
         TransactionLog transactionLog2 = new TransactionLog(
                 2,
-                1,
+                true,
                 transactionTypeRepo.getById(0),
                 Date.valueOf(LocalDate.of(2020,5,25)),
                 null,

@@ -15,11 +15,11 @@ import java.util.Objects;
 public class TransactionLogPK implements Serializable {
 
     private Integer transactionId;
-    private Integer direction;
+    private Boolean isSender;
 
     @Override
     public int hashCode(){
-        return Objects.hash(getTransactionId(), getDirection());
+        return Objects.hash(getTransactionId(), getIsSender());
     }
 
     @Override
@@ -33,6 +33,6 @@ public class TransactionLogPK implements Serializable {
         TransactionLogPK other = (TransactionLogPK) obj;
 
         return Objects.equals(getTransactionId(), other.getTransactionId())
-                && Objects.equals(getDirection(),other.getDirection());
+                && Objects.equals(getIsSender(),other.getIsSender());
     }
 }

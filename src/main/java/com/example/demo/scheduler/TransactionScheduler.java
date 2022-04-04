@@ -28,7 +28,7 @@ public class TransactionScheduler {
     private final NotificationService notificationService;
     private final TransactionLogService transactionLogService;
 
-    @Scheduled(initialDelay = 5, fixedRate = 5 * minute,timeUnit = TimeUnit.SECONDS)
+    @Scheduled(initialDelay = 5, fixedRate = 5 * minute, timeUnit = TimeUnit.SECONDS)
     public void performDueTransactions() {
         ArrayList<TransactionLog> transactionsToPerform = transactionLogRepo.findAllToExecute();
         log.info("[SCHEDULED TASK] Performing transactions (n={})", transactionsToPerform.size());
@@ -43,9 +43,9 @@ public class TransactionScheduler {
 
             transactionLogService.executeTransaction(
                     // -- Sender
-                    transactionA.getDirection() == 1 ? transactionA : transactionB,
+                    transactionA.getIsSender() ? transactionA : transactionB,
                     // -- Receiver
-                    transactionA.getDirection() == 0 ? transactionA : transactionB
+                    transactionA.getIsSender() ? transactionB : transactionA
             );
         }
         log.info("[SCHEDULED TASK] Completed scheduled task");

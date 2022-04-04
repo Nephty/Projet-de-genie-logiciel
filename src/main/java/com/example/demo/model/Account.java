@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 
 @ToString
@@ -44,6 +45,12 @@ public class Account {
     @Column(nullable = false)
     private Boolean payment;
 
+    @Column(
+            nullable = false,
+            name = "next_process"
+    )
+    private Date nextProcess;
+
     public Account(String iban, Bank swift) {
         this.iban = iban;
         this.swift = swift;
@@ -52,6 +59,7 @@ public class Account {
     public Account(AccountReq accountReq) {
         this.iban = accountReq.getIban();
         this.payment = accountReq.getPayment();
+        nextProcess = new Date(System.currentTimeMillis()); //TODO determine next process
     }
 
     public void change(AccountReq accountReq) {

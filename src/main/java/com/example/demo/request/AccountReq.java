@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @NoArgsConstructor
 @Data @AllArgsConstructor
 public class AccountReq {
@@ -27,6 +29,8 @@ public class AccountReq {
     private String ownerLastname;
 
     private BankReq linkedBank;
+
+    private Date nextProcess;
 
     @JsonIgnore
     public boolean isPostValid() {
@@ -51,5 +55,6 @@ public class AccountReq {
         accountTypeId = account.getAccountTypeId().getAccountTypeId();
         payment = account.getPayment();
         linkedBank = new BankReq(account.getSwift(), true);
+        nextProcess = account.getNextProcess();
     }
 }

@@ -27,10 +27,10 @@ public class TransactionLog {
 
     @Id
     @Column(
-            name = "direction",
+            name = "is_sender",
             nullable = false
     )
-    private Integer direction;
+    private Boolean isSender;
 
     @ManyToOne
     @JoinColumn(
@@ -85,7 +85,7 @@ public class TransactionLog {
     public String toSimpleString() {
         return "Transaction(" +
                 transactionId + ",\n" +
-                direction + ",\n" +
+                isSender + ",\n" +
                 subAccount.getIban().getIban() + ")";
     }
 }

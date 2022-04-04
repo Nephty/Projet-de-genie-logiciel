@@ -55,10 +55,10 @@ public class TransactionLogService {
         ArrayList<TransactionReq> response = new ArrayList<>();
         // mapping the ugliness from the DB to a nicer response
         transactionLogs.stream()
-                .filter(transactionLog -> transactionLog.getDirection() == 0)
+                .filter(transactionLog -> !transactionLog.getIsSender())
                 .forEach(transactionReceived -> {
                     transactionLogs.stream()
-                            .filter(transactionLog -> transactionLog.getDirection() == 1)
+                            .filter(transactionLog -> transactionLog.getIsSender())
                             .forEach(transactionSent -> {
                                 if(transactionSent.getTransactionId().intValue()
                                         == transactionReceived.getTransactionId().intValue()) {
@@ -117,12 +117,12 @@ public class TransactionLogService {
         // -- SENDER --
         transactionSent.setSubAccount(subAccountSender);
         transactionSent.setTransactionTypeId(transactionType);
-        transactionSent.setDirection(1);
+        transactionSent.setIsSender(true);
 
         // -- RECEIVER --
         transactionReceived.setSubAccount(subAccountReceiver);
         transactionReceived.setTransactionTypeId(transactionType);
-        transactionReceived.setDirection(0);
+        transactionReceived.setIsSender(false);
 
         canInstantiateTransaction(sender,transactionSent);
 
@@ -237,7 +237,7 @@ public class TransactionLogService {
         NotificationReq notification = new NotificationReq();
         notification.setNotificationType(5);
         notification.setComments(reason);
-        notification.setStatus("UNCHECKED");
+        notification.setIsFlagged(true);
         notification.setRecipientId(transactionSent.getSubAccount().getIban().getUserId().getUserId());
 
         notificationService.addNotification(bankSender,notification);

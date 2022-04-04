@@ -237,7 +237,7 @@ public class TransactionLogService {
         NotificationReq notification = new NotificationReq();
         notification.setNotificationType(5);
         notification.setComments(reason);
-        notification.setStatus("UNCHECKED");
+        notification.setIsFlagged(true);
         notification.setRecipientId(transactionSent.getSubAccount().getIban().getUserId().getUserId());
 
         notificationService.addNotification(bankSender,notification);

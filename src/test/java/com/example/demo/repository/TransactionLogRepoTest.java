@@ -1,25 +1,20 @@
 package com.example.demo.repository;
 
-import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.model.*;
 import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.model.CompositePK.TransactionLogPK;
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @DataJpaTest
 class TransactionLogRepoTest {
@@ -305,7 +300,66 @@ class TransactionLogRepoTest {
         assertEquals(transactionLog.getTransactionId(),result.get(0).getTransactionId());
         assertEquals(transactionLog2.getTransactionId(),result.get(1).getTransactionId());
         assertEquals(transactionLog4.getTransactionId(),result.get(2).getTransactionId()); // Order by test
+    }
 
+    @Test
+    void canFindAllToExecute(){
+        TransactionLog transactionLog = new TransactionLog(
+                1,
+                1,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog);
+
+        TransactionLog transactionLog2 = new TransactionLog(
+                1,
+                0,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog2);
+
+        TransactionLog transactionLog3 = new TransactionLog(
+                2,
+                1,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2600,5,25)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog3);
+
+        TransactionLog transactionLog4 = new TransactionLog(
+                3,
+                1,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2000,5,25)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog4);
+
+        // When
+        ArrayList<TransactionLog> result = underTest.findAllToExecute();
+
+        // Then
+        assertEquals(3,result.size());
+        assertEquals(transactionLog.getTransactionId(),result.get(0).getTransactionId());
+        assertEquals(transactionLog2.getTransactionId(),result.get(1).getTransactionId());
+        assertEquals(transactionLog4.getTransactionId(),result.get(2).getTransactionId()); // Order by test
     }
 
     @Test

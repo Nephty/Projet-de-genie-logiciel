@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.TemporalType;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface TransactionLogRepo extends JpaRepository<TransactionLog, TransactionLogPK> {
@@ -39,7 +40,7 @@ public interface TransactionLogRepo extends JpaRepository<TransactionLog, Transa
 
     default ArrayList<TransactionLog> findAllToExecute() {
         return findAllByTransactionDateBeforeAndProcessedOrderByTransactionId(
-                new Date(System.currentTimeMillis()),
+                Date.valueOf(LocalDate.now()),
                 false
         );
     }

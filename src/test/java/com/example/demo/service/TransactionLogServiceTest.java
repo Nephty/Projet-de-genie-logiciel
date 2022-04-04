@@ -1,6 +1,11 @@
 package com.example.demo.service;
 
-import com.example.demo.model.*;
+import com.example.demo.exception.throwables.AuthorizationException;
+import com.example.demo.exception.throwables.ResourceNotFound;
+import com.example.demo.model.Account;
+import com.example.demo.model.CurrencyType;
+import com.example.demo.model.SubAccount;
+import com.example.demo.model.TransactionLog;
 import com.example.demo.repository.AccountAccessRepo;
 import com.example.demo.repository.SubAccountRepo;
 import com.example.demo.repository.TransactionLogRepo;
@@ -13,12 +18,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TransactionLogServiceTest {
@@ -31,6 +37,8 @@ class TransactionLogServiceTest {
     private TransactionTypeRepo transactionTypeRepo;
     @Mock
     private AccountAccessRepo accountAccessRepo;
+    @Mock
+    private NotificationService notificationService;
 
     private TransactionLogService underTest;
 
@@ -40,19 +48,20 @@ class TransactionLogServiceTest {
                 transactionLogRepo,
                 subAccountRepo,
                 transactionTypeRepo,
-                accountAccessRepo
+                accountAccessRepo,
+                notificationService
         );
     }
 
     @Test
     @Disabled
-    void addTransaction() {
+    void canAddTransaction() {
         // TODO: 4/3/22 test 
     }
 
     @Test
     @Disabled
-    void getAllTransactionBySubAccount() {
+    void canGetAllTransactionBySubAccount() {
         // TODO: 4/3/22 test
     }
 
@@ -65,7 +74,7 @@ class TransactionLogServiceTest {
         acc.setPayment(true);
 
         Account acc2 = new Account();
-        acc.setPayment(true);
+        acc2.setPayment(true);
 
 
         TransactionLog transactionLogSender = new TransactionLog(
@@ -114,18 +123,129 @@ class TransactionLogServiceTest {
     @Test
     @Disabled
     void executeShouldThrowWhenPaymentNotEnable(){
-        // TODO: 4/3/22 test that the method throws an exception 
+        // TODO: 4/3/22 modify the test because it can't throw an exception with the scheduler
+        // Given
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        Account acc = new Account();
+        acc.setPayment(false);
+
+        Account acc2 = new Account();
+        acc2.setPayment(true);
+
+
+        TransactionLog transactionLogSender = new TransactionLog(
+                1,
+                0,
+                null,
+                null,
+                new SubAccount(acc,currencyType,200.0),
+                50.0,
+                false,
+                "comments"
+        );
+
+        TransactionLog transactionLogReceiver = new TransactionLog(
+                1,
+                1,
+                null,
+                null,
+                new SubAccount(acc2,currencyType,100.0),
+                50.0,
+                false,
+                "comments"
+        );
+
+        // Then
+        assertThatThrownBy(() -> underTest.executeTransaction(transactionLogSender,transactionLogReceiver))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("This account can't make payment");
+        verify(transactionLogRepo,never()).save(any());
     }
     
     @Test
     @Disabled
     void executeShouldThrowWhenAmountIsLowerOrEqualToZero(){
-        // TODO: 4/3/22 test that the method throws an exception 
+        // TODO: 4/3/22 modify the test because it can't throw an exception with the scheduler
+        // Given
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        Account acc = new Account();
+        acc.setPayment(true);
+
+        Account acc2 = new Account();
+        acc2.setPayment(true);
+
+
+        TransactionLog transactionLogSender = new TransactionLog(
+                1,
+                0,
+                null,
+                null,
+                new SubAccount(acc,currencyType,200.0),
+                -40.0,
+                false,
+                "comments"
+        );
+
+        TransactionLog transactionLogReceiver = new TransactionLog(
+                1,
+                1,
+                null,
+                null,
+                new SubAccount(acc2,currencyType,100.0),
+                50.0,
+                false,
+                "comments"
+        );
+
+        // Then
+        assertThatThrownBy(() -> underTest.executeTransaction(transactionLogSender,transactionLogReceiver))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("Can't make transaction lower or equal to 0");
+        verify(transactionLogRepo,never()).save(any());
     }
     
     @Test
     @Disabled
     void executeShouldThrowWhenAccountHasNotEnoughFound(){
-        // TODO: 4/3/22 test that the method throws an exception  
+        // TODO: 4/3/22 modify the test because it can't throw an exception with the scheduler
+        // Given
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        Account acc = new Account();
+        acc.setPayment(true);
+
+        Account acc2 = new Account();
+        acc2.setPayment(true);
+
+
+        TransactionLog transactionLogSender = new TransactionLog(
+                1,
+                0,
+                null,
+                null,
+                new SubAccount(acc,currencyType,200.0),
+                400.0,
+                false,
+                "comments"
+        );
+
+        TransactionLog transactionLogReceiver = new TransactionLog(
+                1,
+                1,
+                null,
+                null,
+                new SubAccount(acc2,currencyType,100.0),
+                50.0,
+                false,
+                "comments"
+        );
+
+        // Then
+        assertThatThrownBy(() -> underTest.executeTransaction(transactionLogSender,transactionLogReceiver))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("Not enough fund");
+        verify(transactionLogRepo,never()).save(any());
     }
 }

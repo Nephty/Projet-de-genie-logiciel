@@ -11,13 +11,13 @@ import com.example.demo.repository.UserRepo;
 import com.example.demo.request.UserReq;
 import com.example.demo.security.Role;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -147,7 +147,7 @@ class UserServiceTest {
         verify(passwordEncoder).encode("pass");
         assertEquals("EncodedPassword",capturedUser.getPassword());
 
-        assertEquals(userReq.getUserId(),capturedUser.getUserID());
+        assertEquals(userReq.getUserId(),capturedUser.getUserId());
         assertEquals(userReq.getUsername(),capturedUser.getUsername());
         assertEquals(userReq.getLastname(),capturedUser.getLastname());
         assertEquals(userReq.getFirstname(),capturedUser.getFirstname());
@@ -236,7 +236,7 @@ class UserServiceTest {
         Sender sender = new Sender("userId",Role.USER);
 
         Optional<User> user = Optional.of(new User(userReq));
-        user.get().setUserID(sender.getId());
+        user.get().setUserId(sender.getId());
         when(userRepo.findById(sender.getId())).thenReturn(user);
 
         when(passwordEncoder.encode(userReq.getPassword()))
@@ -255,7 +255,7 @@ class UserServiceTest {
         assertEquals("EncodedPassword",capturedUser.getPassword());
 
         //The user saved is the good one
-        assertEquals(sender.getId(),capturedUser.getUserID());
+        assertEquals(sender.getId(),capturedUser.getUserId());
         assertEquals(userReq.getUsername(),capturedUser.getUsername());
         assertEquals(userReq.getLastname(),capturedUser.getLastname());
         assertEquals(userReq.getFirstname(),capturedUser.getFirstname());
@@ -314,8 +314,20 @@ class UserServiceTest {
         //When
         UserDetails userDetails = underTest.loadUserByUsername(usernameAndRole);
         //Then
-        assertEquals(userDetails.getUsername(), user.getUserID());
+        assertEquals(userDetails.getUsername(), user.getUserId());
         assertEquals(userDetails.getPassword(), user.getPassword());
+    }
+
+    @Test
+    void loadUserByUsernameShouldThrowWhenUsernameNotFound(){
+        //Given
+        String username = "username";
+        String usernameAndRole = username + "/" + Role.USER.getRole();
+
+        //Then
+        assertThatThrownBy(() -> underTest.loadUserByUsername(usernameAndRole))
+                .isInstanceOf(UsernameNotFoundException.class)
+                .hasMessageContaining(username);
     }
 
     @Test
@@ -340,5 +352,17 @@ class UserServiceTest {
         //Then
         assertEquals(userDetails.getUsername(), bank.getSwift());
         assertEquals(userDetails.getPassword(), bank.getPassword());
+    }
+
+    @Test
+    void loadUserByUsernameShouldThrowWhenBankNotFound(){
+        //Given
+        String swift = "username";
+        String usernameAndRole = swift + "/" + Role.BANK.getRole();
+
+        //When
+        assertThatThrownBy(() -> underTest.loadUserByUsername(usernameAndRole))
+                .isInstanceOf(UsernameNotFoundException.class)
+                .hasMessageContaining(swift);
     }
 }

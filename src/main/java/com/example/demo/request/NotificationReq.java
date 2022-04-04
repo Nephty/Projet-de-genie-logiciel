@@ -44,7 +44,7 @@ public class NotificationReq {
             recipientId = notification.getBankId().getSwift();
         } else {
             senderName = notification.getBankId().getName();
-            recipientId = notification.getUserId().getUserID();
+            recipientId = notification.getUserId().getUserId();
         }
         date = notification.getDate();
         notificationId = notification.getNotificationId();

@@ -17,10 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -57,7 +55,7 @@ class AccountAccessServiceTest {
                 .thenReturn(account);
 
         User tmpUser = new User();
-        tmpUser.setUserID(accessReq.getUserId());
+        tmpUser.setUserId(accessReq.getUserId());
         Optional<User> user = Optional.of(tmpUser);
         when(userRepo.findById(accessReq.getUserId()))
                 .thenReturn(user);
@@ -152,7 +150,7 @@ class AccountAccessServiceTest {
         tmpAccount.setIban(accessReq.getAccountId());
 
         User tmpUser = new User();
-        tmpUser.setUserID(accessReq.getUserId());
+        tmpUser.setUserId(accessReq.getUserId());
 
         AccountAccess access = new AccountAccess(accessReq);
         access.setAccountId(tmpAccount);
@@ -219,7 +217,7 @@ class AccountAccessServiceTest {
 
         //-- USER
         User user = new User();
-        user.setUserID(userId);
+        user.setUserId(userId);
 
         // -- BANK
         Bank bank = new Bank();
@@ -263,7 +261,7 @@ class AccountAccessServiceTest {
         //Given
         String userId = "userId";
         User tmpUser = new User();
-        tmpUser.setUserID(userId);
+        tmpUser.setUserId(userId);
         Optional<User> user = Optional.of(tmpUser);
         //when
         when(userRepo.findById(userId))

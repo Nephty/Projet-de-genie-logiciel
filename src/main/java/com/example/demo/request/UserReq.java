@@ -4,7 +4,6 @@ import com.example.demo.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.http.HttpMethod;
 
 @AllArgsConstructor
 @Data
@@ -41,7 +40,7 @@ public class UserReq {
     }
 
     public UserReq(User user) {
-        userId = user.getUserID();
+        userId = user.getUserId();
         username = user.getUsername();
         lastname = user.getLastname();
         firstname = user.getFirstname();

@@ -1,16 +1,12 @@
 package com.example.demo.model;
 
 
-import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.model.CompositePK.TransactionLogPK;
 import com.example.demo.request.TransactionReq;
 import lombok.*;
-import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
 import java.sql.Date;
-
-import static javax.persistence.GenerationType.SEQUENCE;
 
 @Getter
 @Setter
@@ -44,7 +40,7 @@ public class TransactionLog {
     private TransactionType transactionTypeId;
 
     @Column(name="transaction_date")
-    private Date transaction_date;
+    private Date transactionDate;
 
     @ManyToOne
     @JoinColumns({
@@ -74,9 +70,9 @@ public class TransactionLog {
         // setting to current time if the date is not provided or if it's from before to not allow forgery
         // of date execution
         if(transactionReq.getTransactionDate() == null || transactionReq.getTransactionDate().before(now)) {
-            transaction_date = now;
+            transactionDate = now;
         } else {
-            transaction_date = transactionReq.getTransactionDate();
+            transactionDate = transactionReq.getTransactionDate();
         }
         // if it's null then we default it to false
         processed = transactionReq.getProcessed() == null ? false : transactionReq.getProcessed();

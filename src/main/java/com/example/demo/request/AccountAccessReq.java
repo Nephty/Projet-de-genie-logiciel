@@ -49,7 +49,7 @@ public class AccountAccessReq {
     public AccountAccessReq(AccountAccess accountAccess) {
         accountId = accountAccess.getAccountId().getIban();
         account = new AccountReq(accountAccess.getAccountId());
-        userId = accountAccess.getUserId().getUserID();
+        userId = accountAccess.getUserId().getUserId();
         access = accountAccess.getAccess();
         hidden = accountAccess.getHidden();
     }

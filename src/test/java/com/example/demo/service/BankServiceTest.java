@@ -12,7 +12,6 @@ import com.example.demo.repository.CurrencyTypeRepo;
 import com.example.demo.request.BankReq;
 import com.example.demo.security.Role;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -22,10 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

@@ -46,6 +46,6 @@ public class BankReq {
         address = bank.getAddress();
         country = bank.getCountry();
         defaultCurrencyId = bank.getDefaultCurrencyType().getCurrencyId();
-        defaultCurrencyName = bank.getDefaultCurrencyType().getCurrency_type_name();
+        defaultCurrencyName = bank.getDefaultCurrencyType().getCurrencyTypeName();
     }
 }

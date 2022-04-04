@@ -36,6 +36,6 @@ public class SubAccountReq {
         iban = subAccount.getIban().getIban();
         currencyType = subAccount.getCurrencyType().getCurrencyId();
         currentBalance = subAccount.getCurrentBalance();
-        currencyTypeName = subAccount.getCurrencyType().getCurrency_type_name();
+        currencyTypeName = subAccount.getCurrencyType().getCurrencyTypeName();
     }
 }

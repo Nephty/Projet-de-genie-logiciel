@@ -16,7 +16,7 @@ public class NotificationReq {
 
     private String comments;
 
-    private String status;
+    private Boolean isFlagged;
 
     private String recipientId;
 
@@ -34,7 +34,6 @@ public class NotificationReq {
     public boolean isPostValid() {
         return notificationType != null
                 && comments != null
-                && status != null
                 && recipientId != null;
     }
 
@@ -48,7 +47,7 @@ public class NotificationReq {
         }
         date = notification.getDate();
         notificationId = notification.getNotificationId();
-        status = notification.getStatus();
+        isFlagged = notification.getIsFlagged();
         comments = notification.getComments();
         notificationType = notification.getNotificationType().getNotificationTypeId();
         notificationTypeName = notification.getNotificationType().getNotificationTypeName();

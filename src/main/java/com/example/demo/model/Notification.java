@@ -47,8 +47,12 @@ public class Notification {
     private String comments;
     @Column
     private Date date;
-    @Column
-    private String status;
+
+    @Column(
+            nullable = false,
+            name = "is_flagged"
+    )
+    private Boolean isFlagged;
 
     @ManyToOne
     @JoinColumn(
@@ -72,7 +76,7 @@ public class Notification {
     public Notification(NotificationReq notificationReq) {
         comments = notificationReq.getComments();
         date = new Date(System.currentTimeMillis());
-        status = notificationReq.getStatus();
+        isFlagged = notificationReq.getIsFlagged() == null ? false : notificationReq.getIsFlagged();
     }
 
 }

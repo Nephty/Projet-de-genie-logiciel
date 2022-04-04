@@ -38,12 +38,11 @@ public class TransactionScheduler {
             TransactionLog transactionA = transactionsToPerform.get(i);
             TransactionLog transactionB = transactionsToPerform.get(i + 1);
             if(assertFromSameTransfer(transactionA, transactionB)
-                    //the sending transaction has a direction of 1
-                    && assertCanMakeTransaction(transactionA.getDirection() == 1 ? transactionA : transactionB)
+                    && assertCanMakeTransaction(transactionA.getIsSender() ? transactionA : transactionB)
             ) {
                 performAndSaveTransaction(
-                        transactionA.getDirection() == 1 ? transactionA : transactionB,
-                        transactionA.getDirection() == 0 ? transactionA : transactionB
+                        transactionA.getIsSender() ? transactionA : transactionB,
+                        transactionB.getIsSender() ? transactionA : transactionB
                 );
             }
         }
@@ -58,7 +57,7 @@ public class TransactionScheduler {
         }
         // not the same id or same direction -> inconsistent state
         if(transactionA.getTransactionId().intValue() != transactionB.getTransactionId().intValue()
-                || transactionA.getDirection().intValue() == transactionB.getDirection().intValue()
+                || transactionA.getIsSender().equals(transactionB.getIsSender())
         ) {
             log.error("[SCHEDULE]Error matching the id of transaction pair {}, {}",
                     transactionA.getTransactionId(),
@@ -119,9 +118,15 @@ public class TransactionScheduler {
         NotificationReq notification = new NotificationReq();
         notification.setNotificationType(5);
         notification.setComments(reason);
-        notification.setStatus("UNCHECKED");
+        notification.setIsFlagged(true);
         notification.setRecipientId(transactionSent.getSubAccount().getIban().getUserId().getUserId());
 
         notificationService.addNotification(bankSender,notification);
     }
 }
+
+/*
+TODO: Rework the notifications: flag and read and remove status
+    transaction.direction -> bool
+    account interest and transaction fee and other restrictions
+ */

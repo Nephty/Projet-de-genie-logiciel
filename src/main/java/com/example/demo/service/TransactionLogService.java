@@ -50,7 +50,7 @@ public class TransactionLogService {
                 .orElseThrow(()-> new ResourceNotFound(iban + " : " + currencyId.toString()));
         ArrayList<TransactionLog> transactionLogs = transactionLogRepo.findAllLinkedToSubAccount(subAccount);
         if(transactionLogs.size() % 2 != 0) {
-            log.error("inconsistent state for transaction table, subaccount: " + iban + " / " + currencyId);
+            log.error("inconsistent state for transaction table, subAccount: " + iban + " / " + currencyId);
         }
         ArrayList<TransactionReq> response = new ArrayList<>();
         // mapping the ugliness from the DB to a nicer response
@@ -124,47 +124,32 @@ public class TransactionLogService {
         transactionReceived.setTransactionTypeId(transactionType);
         transactionReceived.setDirection(0);
 
-        assertCanMakeTransaction(transactionSent);
-        assertSenderHaveAccess(sender,transactionSent);
+        canInstantiateTransaction(sender,transactionSent);
 
         // -- ID GENERATION --
         Integer nextId = nextId();
         transactionSent.setTransactionId(nextId);
         transactionReceived.setTransactionId(nextId);
 
+        if (transactionSent.getTransactionTypeId().getTransactionTypeId() == 2) {
+            executeTransaction(transactionSent,transactionReceived);
+        }
         ArrayList<TransactionLog> transactionLogs = new ArrayList<>();
         transactionLogs.add(transactionSent);
         transactionLogs.add(transactionReceived);
 
-       /*
-        subAccountSender.setCurrentBalance(
-                subAccountSender.getCurrentBalance() - transactionReq.getTransactionAmount()
-        );
-        subAccountReceiver.setCurrentBalance(
-                subAccountReceiver.getCurrentBalance() + transactionReq.getTransactionAmount()
-        );
-        */
         return transactionLogs;
     }
 
-    // TODO: 4/3/22 JAVADOC
-    private void
-    assertCanMakeTransaction(TransactionLog transaction) {
+
+    private void canInstantiateTransaction(Sender sender, TransactionLog transaction)
+            throws AuthorizationException{
         if(!transaction.getSubAccount().getIban().getPayment()) {
-            log.warn("This account can't make payment");
             throw new AuthorizationException("This account can't make payment");
         }
         if(transaction.getTransactionAmount() <= 0) {
             throw new AuthorizationException("Can't make transaction lower or equal to 0");
         }
-        if(transaction.getSubAccount().getCurrentBalance() < transaction.getTransactionAmount()) {
-            throw new AuthorizationException("Not enough fund");
-        }
-    }
-
-    // TODO: 4/3/22 Javadoc
-    private void assertSenderHaveAccess(Sender sender, TransactionLog transaction){
-        //when the sender is not the account owner
         if(!transaction.getSubAccount().getIban().getUserId().getUserId().equals(sender.getId())) {
             AccountAccess accountAccess = accountAccessRepo.findById(
                     new AccountAccessPK(transaction.getSubAccount().getIban().getIban(), sender.getId())
@@ -179,30 +164,98 @@ public class TransactionLogService {
         }
     }
 
-
     /**
      *
      * Execute the transaction from the subAccount of the sender to the SubAccount of the Receiver.
      * If the transaction couldn't be executed, it throws an exception.
-     * @see #assertCanMakeTransaction(TransactionLog transaction) assertCanMakeTransaction
      * @param transactionSent Sender transaction (Direction = 1)
      * @param transactionReceive Receiver transaction (Direction = 0)
      */
     public void executeTransaction(TransactionLog transactionSent, TransactionLog transactionReceive){
-        assertCanMakeTransaction(transactionSent);
+        if (assertCanMakeTransaction(transactionSent,transactionReceive)) {
+            // -- SEND --
+            transactionSent.getSubAccount().setCurrentBalance(
+                    transactionSent.getSubAccount().getCurrentBalance() - transactionSent.getTransactionAmount()
+            );
+            transactionSent.setProcessed(true);
 
-        transactionSent.getSubAccount().setCurrentBalance(
-                transactionSent.getSubAccount().getCurrentBalance() - transactionSent.getTransactionAmount()
-        );
-        transactionSent.setProcessed(true);
-        transactionReceive.getSubAccount().setCurrentBalance(
-                transactionReceive.getSubAccount().getCurrentBalance() + transactionReceive.getTransactionAmount()
-        );
-        transactionReceive.setProcessed(true);
+            // -- RECEIVE --
+            transactionReceive.getSubAccount().setCurrentBalance(
+                    transactionReceive.getSubAccount().getCurrentBalance() + transactionSent.getTransactionAmount()
+            );
+            transactionReceive.setProcessed(true);
 
-        transactionLogRepo.save(transactionSent);
-        transactionLogRepo.save(transactionReceive);
+            // -- SubAccount SAVE --
+            subAccountRepo.save(transactionSent.getSubAccount());
+            subAccountRepo.save(transactionReceive.getSubAccount());
+            // -- Transaction SAVE --
+            transactionLogRepo.save(transactionSent);
+            transactionLogRepo.save(transactionReceive);
+        }
     }
+
+    /**
+     * Test if the transaction can be done.
+     * If not, it sends a notification to the owner of the account with the reason why the transaction couldn't be done.
+     * It also deletes the notification from the DB.
+     * @param transactionSent The transaction that needs to be tested (direction = 1)
+     * @return true if the transaction can be executed, false otherwise.
+     */
+    private boolean assertCanMakeTransaction(TransactionLog transactionSent,TransactionLog transactionReceive) {
+        if(!transactionSent.getSubAccount().getIban().getPayment()) {
+            transactionLogRepo.deleteAllByTransactionId(transactionSent.getTransactionId());
+            sendDeletedNotification(
+                    transactionSent,
+                    formatReason(transactionSent,transactionReceive,"Your account can't make payment")
+            );
+            log.warn("Account {} can't make payment",transactionSent.getSubAccount().getIban().getIban());
+            return false;
+        }
+        else if(transactionSent.getSubAccount().getCurrentBalance() < transactionSent.getTransactionAmount()) {
+            transactionLogRepo.deleteAllByTransactionId(transactionSent.getTransactionId());
+            String reason = "Not enough fund : \n" +
+                    "You had "+transactionSent.getSubAccount().getCurrentBalance()+" left on your account " +
+                    "and the amount of the transaction was "+transactionSent.getTransactionAmount();
+            sendDeletedNotification(transactionSent, formatReason(transactionSent,transactionReceive,reason));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Send a notification to the owner of the account that sent the notification.
+     * It warns the user that his transaction couldn't be executed.
+     * @param transactionSent The transaction that couldn't be executed.
+     * @param reason The reason why the transaction couldn't be executed.
+     */
+    private void sendDeletedNotification(TransactionLog transactionSent,String reason){
+        Sender bankSender = new Sender(
+                transactionSent.getSubAccount().getIban().getSwift().getSwift(),
+                Role.BANK
+        );
+
+        NotificationReq notification = new NotificationReq();
+        notification.setNotificationType(5);
+        notification.setComments(reason);
+        notification.setStatus("UNCHECKED");
+        notification.setRecipientId(transactionSent.getSubAccount().getIban().getUserId().getUserId());
+
+        notificationService.addNotification(bankSender,notification);
+    }
+
+
+    private String formatReason(TransactionLog send, TransactionLog receive, String reason){
+        String res = "Transaction couldn't be executed \n";
+        res += "From : "+send.getSubAccount().getIban().getIban() + "\n";
+        res += "To : "+receive.getSubAccount().getIban().getUserId().getFullName()
+                +" ("+receive.getSubAccount().getIban().getIban() + ")\n";
+        res += "Date : "+send.getTransactionDate() + "\n";
+        res += "Amount : "+send.getTransactionAmount() + "\n";
+        res += reason;
+        return res;
+    }
+
+
 
     /**
      * Find the maximum transactionId in the database and return the next value.

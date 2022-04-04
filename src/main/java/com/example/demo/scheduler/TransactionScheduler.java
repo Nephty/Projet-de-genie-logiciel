@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 @Component @Slf4j @RequiredArgsConstructor
 public class TransactionScheduler {
@@ -27,7 +28,7 @@ public class TransactionScheduler {
     private final NotificationService notificationService;
     private final TransactionLogService transactionLogService;
 
-    @Scheduled(initialDelay = 5, fixedRate = day)
+    @Scheduled(initialDelay = 5, fixedRate = 5 * minute,timeUnit = TimeUnit.SECONDS)
     public void performDueTransactions() {
         ArrayList<TransactionLog> transactionsToPerform = transactionLogRepo.findAllToExecute();
         log.info("[SCHEDULED TASK] Performing transactions (n={})", transactionsToPerform.size());
@@ -39,87 +40,15 @@ public class TransactionScheduler {
         for(int i = 0; i < transactionsToPerform.size(); i+= 2) {
             TransactionLog transactionA = transactionsToPerform.get(i);
             TransactionLog transactionB = transactionsToPerform.get(i + 1);
-            if(assertFromSameTransfer(transactionA, transactionB)
-                    //the sending transaction has a direction of 1
-                    && assertCanMakeTransaction(transactionA.getDirection() == 1 ? transactionA : transactionB)
-            ) {
-                // TODO Use the TransactionLogService to separate the scheduler with the service
-                performAndSaveTransaction(
-                        transactionA.getDirection() == 1 ? transactionA : transactionB,
-                        transactionA.getDirection() == 0 ? transactionA : transactionB
-                );
-            }
+
+            transactionLogService.executeTransaction(
+                    // -- Sender
+                    transactionA.getDirection() == 1 ? transactionA : transactionB,
+                    // -- Receiver
+                    transactionA.getDirection() == 0 ? transactionA : transactionB
+            );
         }
         log.info("[SCHEDULED TASK] Completed scheduled task");
     }
 
-    private boolean assertFromSameTransfer(TransactionLog transactionA, TransactionLog transactionB) {
-        // not the same id or same direction -> inconsistent state
-        if(transactionA.getTransactionId().intValue() != transactionB.getTransactionId().intValue()
-                || transactionA.getDirection().intValue() == transactionB.getDirection().intValue()
-        ) {
-            log.error("[SCHEDULE]Error matching the id of transaction pair {}, {}",
-                    transactionA.getTransactionId(),
-                    transactionB.getTransactionId()
-            );
-            //transactionLogRepo.deleteAllByTransactionId(transactionA.getTransactionId());
-            //transactionLogRepo.deleteAllByTransactionId(transactionB.getTransactionId());
-            return false;
-        }
-        return true;
-    }
-
-    private boolean assertCanMakeTransaction(TransactionLog transactionSent) {
-        if(!transactionSent.getSubAccount().getIban().getPayment()) {
-            log.warn("[SCHEDULE]This account can't make payment {}", transactionSent.getTransactionId());
-            //transactionLogRepo.deleteAllByTransactionId(transactionSent.getTransactionId());
-            return false;
-        }
-        if(transactionSent.getTransactionAmount() <= 0) {
-            log.warn("[SCHEDULE]Can't make transaction lower or equal to 0, {}", transactionSent.getTransactionId());
-            //transactionLogRepo.deleteAllByTransactionId(transactionSent.getTransactionId());
-            return false;
-        }
-        if(transactionSent.getSubAccount().getCurrentBalance() < transactionSent.getTransactionAmount()) {
-            log.warn("[SCHEDULE]Not enough fund {}", transactionSent.getTransactionId());
-            //transactionLogRepo.deleteAllByTransactionId(transactionSent.getTransactionId());
-            return false;
-        }
-        return true;
-    }
-
-    private void performAndSaveTransaction(TransactionLog transactionSent, TransactionLog transactionReceived) {
-        log.info("before: {} {}", transactionSent.getSubAccount().getCurrentBalance(), transactionReceived.getSubAccount().getCurrentBalance());
-        transactionSent.getSubAccount().setCurrentBalance(
-                transactionSent.getSubAccount().getCurrentBalance() - transactionSent.getTransactionAmount()
-        );
-        transactionReceived.getSubAccount().setCurrentBalance(
-                transactionReceived.getSubAccount().getCurrentBalance() + transactionSent.getTransactionAmount()
-        );
-        log.info("after: {} {}", transactionSent.getSubAccount().getCurrentBalance(), transactionReceived.getSubAccount().getCurrentBalance());
-        transactionSent.setProcessed(true);
-        transactionReceived.setProcessed(true);
-        transactionLogRepo.saveAll(Arrays.asList(transactionSent, transactionReceived));
-    }
-
-    /**
-     * Send a notification to the owner of the account that sent the notification.
-     * It warns the user that his transaction couldn't be executed.
-     * @param transactionSent The transaction that couldn't be executed.
-     * @param reason The reason why the transaction couldn't be executed.
-     */
-    private void sendDeletedNotification(TransactionLog transactionSent,String reason){
-        Sender bankSender = new Sender(
-                transactionSent.getSubAccount().getIban().getSwift().getSwift(),
-                Role.BANK
-        );
-
-        NotificationReq notification = new NotificationReq();
-        notification.setNotificationType(5);
-        notification.setComments(reason);
-        notification.setStatus("UNCHECKED");
-        notification.setRecipientId(transactionSent.getSubAccount().getIban().getUserId().getUserId());
-
-        notificationService.addNotification(bankSender,notification);
-    }
 }

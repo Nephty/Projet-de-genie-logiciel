@@ -129,6 +129,8 @@ public class Main extends Application {
             case (409):
                 message = message + "conflict, data are not correct, try again";
                 break;
+            case(412):
+                message = message + "Try to login again"; break;
             case (500):
                 message = message + "internal server error, try again later";
                 break;

@@ -91,10 +91,6 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             // Creates user's portfolio
             Main.updatePortfolio();
             // Load most of the scenes
-            Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml", appLocale);
-            Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", appLocale);
-            Scenes.RequestNewPortfolioScene = SceneLoader.load("RequestNewPortfolioScene.fxml", appLocale);
-            Scenes.RequestTransferPermissionScene = SceneLoader.load("RequestTransferPermissionScene.fxml", appLocale);
             Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", appLocale);
             Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml", appLocale);
             Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml", appLocale);

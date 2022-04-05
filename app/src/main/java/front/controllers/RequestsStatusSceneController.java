@@ -36,7 +36,6 @@ public class RequestsStatusSceneController extends Controller implements BackBut
 
     public void initialize() {
         fetchRequests();
-//        requestsListView.setItems(FXCollections.observableArrayList(new Request("request A"), new Request("request B")));
     }
 
     @FXML
@@ -97,13 +96,12 @@ public class RequestsStatusSceneController extends Controller implements BackBut
                 for(int i = 0; i<requestList.size(); i++){
                     JSONObject obj = new JSONObject(requestList.get(i));
                     if(obj.getInt("notificationType") != 4){
-                        // TODO : Afficher les requests en attente
                         CommunicationType comType = CommunicationType.CUSTOM;
                         int notifType = obj.getInt("notificationType");
                         switch(notifType){
                             case(0): comType = CommunicationType.CREATE_ACCOUNT; break;
                             case(1): comType = CommunicationType.CREATE_SUB_ACCOUNT; break;
-                            case(2): comType = CommunicationType.NEW_PORTFOLIO; break;
+                            case(2): comType = CommunicationType.TRANSFER_PERMISSION; break;
                             case(3): comType = CommunicationType.NEW_WALLET; break;
                         }
                         reqList.add(new Request(obj.getString("recipientId"), comType, obj.getString("date")));

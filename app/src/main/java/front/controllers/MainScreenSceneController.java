@@ -27,6 +27,7 @@ public class MainScreenSceneController extends Controller {
 
     @FXML
     public void handleRequestsButtonClicked(MouseEvent event) {
+        Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml", appLocale);
         Main.setScene(Flow.forward(Scenes.RequestsScene));
     }
 

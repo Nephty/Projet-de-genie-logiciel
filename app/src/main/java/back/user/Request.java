@@ -8,16 +8,13 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class Request extends Communication {
     private CommunicationType communicationType;
     private String recipientId;
+    private String date;
 
 
-    public Request(String swift, CommunicationType communicationType) {
+    public Request(String swift, CommunicationType communicationType, String date) {
         this.recipientId = swift;
         this.communicationType = communicationType;
-    }
-
-    public Request(Wallet wallet, CommunicationType communicationType) {
-        this.communicationType = communicationType;
-        this.recipientId = wallet.getBank().getSwiftCode();
+        this.date = date;
     }
 
     public void send() {
@@ -40,6 +37,19 @@ public class Request extends Communication {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toString(){
+        String comType = "";
+        switch(this.communicationType.toString()){
+            case("CREATE_ACCOUNT"): comType = "Create account"; break;
+            case("CREATE_SUB_ACCOUNT"): comType = "Create account"; break;
+            case("TRANSFER_PERMISSION"): comType = "Transfer permission"; break;
+            case("NEW_PORTFOLIO"): comType = "New portfolio"; break;
+            case("NEW_WALLET"): comType = "New wallet"; break;
+        }
+        return this.date + "      "+ this.recipientId + "      " + comType + "         waiting for the bank's approvment";
     }
 
     public CommunicationType getReason() {

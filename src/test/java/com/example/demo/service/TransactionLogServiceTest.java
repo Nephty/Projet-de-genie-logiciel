@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.throwables.AuthorizationException;
+import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.*;
 import com.example.demo.model.CompositePK.SubAccountPK;
@@ -59,7 +60,144 @@ class TransactionLogServiceTest {
     @Test
     @Disabled
     void canAddTransaction() {
-        // TODO: 4/3/22 test
+        // TODO: 4/3/22 test can add Transaction
+
+        // Given
+
+    }
+
+    @Test
+    void addTransactionShouldThrowWhenSenderIsReceiver(){
+        // Given
+        String id = "userId";
+        Sender sender = new Sender(id,Role.USER);
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("senderIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(10.0);
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("You can't make a transaction to the same account you emitted it");
+
+    }
+
+    @Test
+    void addTransactionShouldThrowWhenSenderNotFound(){
+        // Given
+        String id = "userId";
+        Sender sender = new Sender(id,Role.USER);
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(10.0);
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(ConflictException.class)
+                .hasMessageContaining(
+                        "subAccount: " + transactionReq.getSenderIban() + " : " + transactionReq.getCurrencyId()
+                );
+    }
+
+    @Test
+    void addTransactionShouldThrowWhenReceiverNotFound(){
+        // Given
+        String id = "userId";
+        Sender sender = new Sender(id,Role.USER);
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(10.0);
+
+        // -- SubAccount SENDER
+        SubAccount subAccountSender = new SubAccount(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+                )).thenReturn(Optional.of(subAccountSender));
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(ConflictException.class)
+                .hasMessageContaining(
+                        "subAccount: " + transactionReq.getRecipientIban() + " : " + transactionReq.getCurrencyId()
+                );
+    }
+
+    @Test
+    void addTransactionShouldThrowWhenTransactionTypeNotFound(){
+        // Given
+        String id = "userId";
+        Sender sender = new Sender(id,Role.USER);
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(10.0);
+
+        // -- SubAccount SENDER --
+        SubAccount subAccountSender = new SubAccount(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountSender));
+
+        // -- SubAccount RECEIVER --
+        SubAccount subAccountReceiver = new SubAccount(
+                new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountReceiver));
+
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(ConflictException.class)
+                .hasMessageContaining(
+                        "transId:" + transactionReq.getTransactionTypeId().toString()
+                );
+    }
+
+    @Test
+    @Disabled
+    void canInstantiateTransaction(){
+        // TODO: 4/5/22 test
+    }
+
+    @Test
+    @Disabled
+    void instantiateTransactionShouldThrowWhenAccountCantMakePayment(){
+        // TODO: 4/5/22 test
+    }
+
+    @Test
+    @Disabled
+    void instantiateTransactionShouldThrowWhenAmountLowerOrEqualToZero(){
+        // TODO: 4/5/22 lower or equal to zero
+    }
+
+    @Test
+    @Disabled
+    void instantiateTransactionShouldThrowWhenUserDontHaveAccessToAccount(){
+        // TODO: 4/5/22 no access
+    }
+
+    @Test
+    @Disabled
+    void instantiateTransactionShouldThrowWhenAccessDisabled(){
+        // TODO: 4/5/22 access disabled
     }
 
     @Test
@@ -318,7 +456,7 @@ class TransactionLogServiceTest {
     }
 
     @Test
-    void executeShouldThrowWhenAccountHasNotEnoughFound(){
+    void executeShouldStopWhenAccountHasNotEnoughFound(){
         // Given
         CurrencyType currencyType = new CurrencyType(0,"EUR");
 

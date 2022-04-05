@@ -104,7 +104,7 @@ public class TransactionLogService {
                 new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
         ).orElseThrow(
                 ()-> new ConflictException(
-                        "subAccount:" + transactionReq.getRecipientIban() + " : " + transactionReq.getCurrencyId()
+                        "subAccount: " + transactionReq.getRecipientIban() + " : " + transactionReq.getCurrencyId()
                 )
         );
 

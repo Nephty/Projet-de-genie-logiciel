@@ -49,7 +49,7 @@ public class AccountAccess {
             access = accountAccessReq.getAccess();
         }
         if(accountAccessReq.getHidden() != null) {
-            access = accountAccessReq.getHidden();
+            hidden = accountAccessReq.getHidden();
         }
     }
 }

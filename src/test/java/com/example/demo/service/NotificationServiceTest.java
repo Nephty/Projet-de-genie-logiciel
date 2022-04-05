@@ -243,12 +243,16 @@ class NotificationServiceTest {
         notificationReq.setRecipientId("testIban");
         Notification notification = new Notification(notificationReq);
 
+        NotificationReq putReq = new NotificationReq();
+        putReq.setNotificationId(notification.getNotificationId());
+        putReq.setIsFlagged(true);
+
         Optional<Notification> optionalNotification = Optional.of(notification);
         when(notificationRepo.findById(notification.getNotificationId()))
                 .thenReturn(optionalNotification);
 
         // When
-        underTest.changeNotification(true,notification.getNotificationId());
+        underTest.changeNotification(putReq);
 
         // Then
         ArgumentCaptor<Notification> notificationArgumentCaptor = ArgumentCaptor.forClass(Notification.class);
@@ -262,13 +266,14 @@ class NotificationServiceTest {
     @Test
     void changeShouldThrowWhenNotificationNotFound(){
         // Given
-        int id = 0;
-        boolean flag = false;
+        NotificationReq putReq = new NotificationReq();
+        putReq.setNotificationId(0);
+        putReq.setIsFlagged(false);
 
         // Then
-        assertThatThrownBy(()->underTest.changeNotification(flag,id))
+        assertThatThrownBy(()->underTest.changeNotification(putReq))
                 .isInstanceOf(ResourceNotFound.class)
-                .hasMessageContaining("No notification with such id: "+id);
+                .hasMessageContaining("No notification with such id: "+ putReq.getNotificationId());
     }
 
 }

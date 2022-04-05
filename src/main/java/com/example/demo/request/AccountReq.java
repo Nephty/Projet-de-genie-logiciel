@@ -37,8 +37,7 @@ public class AccountReq {
         return iban != null
                 && swift != null
                 && userId != null
-                && accountTypeId != null
-                && payment != null;
+                && accountTypeId != null;
     }
 
     @JsonIgnore

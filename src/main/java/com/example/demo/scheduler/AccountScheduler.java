@@ -1,15 +1,84 @@
 package com.example.demo.scheduler;
 
+import com.example.demo.exception.throwables.LittleBoyException;
+import com.example.demo.model.Account;
+import com.example.demo.model.AccountType;
+import com.example.demo.model.SubAccount;
+import com.example.demo.repository.AccountRepo;
+import com.example.demo.repository.SubAccountRepo;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-@Component
-public class AccountScheduler {
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
-    private final long minute = 60;
-    private final long hour = 60 * minute;
-    private final long day = 24 * hour;
+@Component @RequiredArgsConstructor @Slf4j
+public class AccountScheduler extends AbstractScheduler {
 
-    @Scheduled(fixedRate = day)
-    public void processAccount() {}
+    private final AccountRepo accountRepo;
+    private final SubAccountRepo subAccountRepo;
+
+    @Scheduled(fixedRate = day, timeUnit = TimeUnit.SECONDS)
+    public void processAccount() {
+        log.info("[SCHEDULED]Started account processing");
+        int[] nbAccounts = {0, 0};
+        accountRepo.findAccountsToProcess().forEach(account -> {
+            AccountType accountType = account.getAccountTypeId();
+            if(accountType.getAnnualFee() != null && accountType.getAnnualFee() > 0) {
+                nbAccounts[0]++;
+                debitFee(account);
+            }
+            if(accountType.getAnnualReturn() != null && accountType.getAnnualReturn() > 0) {
+                nbAccounts[1]++;
+                addInterest(account);
+            }
+            updateAccount(account);
+        });
+        log.info("[SCHEDULED]Debited {} and topped {} account(s)", nbAccounts[0], nbAccounts[1]);
+    }
+
+    private void debitFee(Account account) {
+        final double fee = account.getAccountTypeId().getAnnualFee();
+        ArrayList<SubAccount> linkedSubAccount = subAccountRepo.findAllByIban(account);
+        linkedSubAccount.forEach(subAccount -> {
+            subAccount.setCurrentBalance(
+                    subAccount.getCurrentBalance() - subAccount.getCurrentBalance() * fee
+            );
+        });
+        subAccountRepo.saveAll(linkedSubAccount);
+    }
+
+    private void addInterest(Account account) {
+        final double interest = account.getAccountTypeId().getAnnualReturn();
+        ArrayList<SubAccount> linkedSubAccount = subAccountRepo.findAllByIban(account);
+        linkedSubAccount.forEach(subAccount -> {
+            subAccount.setCurrentBalance(
+                    subAccount.getCurrentBalance() + subAccount.getCurrentBalance() * interest
+            );
+        });
+        subAccountRepo.saveAll(linkedSubAccount);
+    }
+
+    private void updateAccount(Account account) {
+
+        Instant nextProcessDate = account.getNextProcess()
+                .toLocalDate()
+                .plusYears(1)
+                .atStartOfDay(ZoneId.systemDefault())
+                .toInstant();
+        account.setNextProcess(new Date(
+                nextProcessDate.toEpochMilli()
+        ));
+        Account savedAccount = accountRepo.save(account);
+        log.info("new process date: {}, {}",
+                savedAccount.getNextProcess(),
+                account.getNextProcess().toLocalDate().plusYears(1)
+        );
+    }
 }

@@ -20,9 +20,9 @@ public class NotificationReq {
 
     private String recipientId;
 
-    //Response only
-
     private Integer notificationId;
+
+    //Response only
 
     private Date date;
 
@@ -35,6 +35,12 @@ public class NotificationReq {
         return notificationType != null
                 && comments != null
                 && recipientId != null;
+    }
+
+    @JsonIgnore
+    public boolean isPutValid() {
+        return notificationId != null
+                && isFlagged != null;
     }
 
     public NotificationReq(Notification notification) {

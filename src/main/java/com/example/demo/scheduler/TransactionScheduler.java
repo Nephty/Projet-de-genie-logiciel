@@ -18,17 +18,13 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 @Component @Slf4j @RequiredArgsConstructor
-public class TransactionScheduler {
-
-    private final long minute = 60;
-    private final long hour = 60 * minute;
-    private final long day = 24 * hour;
+public class TransactionScheduler extends AbstractScheduler {
 
     private final TransactionLogRepo transactionLogRepo;
     private final NotificationService notificationService;
     private final TransactionLogService transactionLogService;
 
-    @Scheduled(initialDelay = 5, fixedRate = 5 * minute, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(initialDelay = 5, fixedRate = minute, timeUnit = TimeUnit.SECONDS)
     public void performDueTransactions() {
         ArrayList<TransactionLog> transactionsToPerform = transactionLogRepo.findAllToExecute();
         log.info("[SCHEDULED TASK] Performing transactions (n={})", transactionsToPerform.size());

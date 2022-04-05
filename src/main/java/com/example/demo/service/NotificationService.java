@@ -43,10 +43,10 @@ public class NotificationService {
     }
 
 
-    public Notification changeNotification(boolean isFlagged, Integer id){
-        Notification notification = notificationRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFound("No notification with such id: "+id));
-        notification.setIsFlagged(isFlagged);
+    public Notification changeNotification(NotificationReq notificationReq) {
+        Notification notification = notificationRepo.findById(notificationReq.getNotificationId())
+                .orElseThrow(() -> new ResourceNotFound("No notification with such id: "+ notificationReq.getNotificationId()));
+        notification.change(notificationReq);
         return notificationRepo.save(notification);
     }
 

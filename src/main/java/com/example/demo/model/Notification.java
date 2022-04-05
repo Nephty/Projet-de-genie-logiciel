@@ -79,4 +79,8 @@ public class Notification {
         isFlagged = notificationReq.getIsFlagged() == null ? false : notificationReq.getIsFlagged();
     }
 
+    public void change(NotificationReq notificationReq) {
+        isFlagged = notificationReq.getIsFlagged();
+    }
+
 }

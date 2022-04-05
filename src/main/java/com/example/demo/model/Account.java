@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.Duration;
 
 
 @ToString
@@ -58,8 +59,10 @@ public class Account {
 
     public Account(AccountReq accountReq) {
         this.iban = accountReq.getIban();
-        this.payment = accountReq.getPayment();
-        nextProcess = new Date(System.currentTimeMillis()); //TODO determine next process
+        this.payment = false; // It's the default mode for accounts according to the instructions
+        nextProcess = new Date(
+                new Date(System.currentTimeMillis()).toLocalDate().plusYears(1).toEpochDay()
+        );
     }
 
     public void change(AccountReq accountReq) {

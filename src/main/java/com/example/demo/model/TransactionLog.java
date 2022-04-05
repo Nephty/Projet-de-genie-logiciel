@@ -75,7 +75,7 @@ public class TransactionLog {
             transactionDate = transactionReq.getTransactionDate();
         }
         // if it's null then we default it to false
-        processed = transactionReq.getProcessed() == null ? false : transactionReq.getProcessed();
+        processed = transactionReq.getProcessed() != null && transactionReq.getProcessed();
 
         comments = transactionReq.getComments();
 

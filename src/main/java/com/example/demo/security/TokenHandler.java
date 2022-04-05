@@ -29,7 +29,7 @@ public class TokenHandler {
             log.error("id is null");
         }
         final int maxAccessTokenMinBeforeExp = 60 * 24 * 24 * (60 * 1000);
-        final int accessTokenMinBeforeExp = 60 * 1000;
+        final int accessTokenMinBeforeExp = 60 * 1000 * 30;
         final int testAccessTokenMinBeforeExp = 0;
         String accessToken = JWT.create()
                 .withSubject(id)

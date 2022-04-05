@@ -7,7 +7,10 @@ import com.example.demo.model.SubAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public interface SubAccountRepo extends JpaRepository<SubAccount, SubAccountPK> {
+
+    ArrayList<SubAccount> findAllByIban(Account iban);
 }

@@ -79,8 +79,7 @@ public class NotificationService {
         ArrayList<NotificationReq> response = new ArrayList<>();
 
         notifications.forEach(notification -> {
-            log.info("test: {}", role == Role.USER && !notification.getToBank());
-            if(role == Role.USER && !notification.getToBank()) {
+            if(role == Role.USER) {
                 response.add(new NotificationReq(notification));
             }
             if(role == Role.BANK && notification.getToBank()) {

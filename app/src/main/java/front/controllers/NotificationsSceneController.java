@@ -109,7 +109,7 @@ public class NotificationsSceneController extends Controller implements BackButt
                 for(int i = 0; i<notificationList.size(); i++){
                     JSONObject obj = new JSONObject(notificationList.get(i));
                     if(obj.getInt("notificationType") == 4){
-                        notifList.add(new Notification(obj.getString("senderName"), obj.getString("comments"),obj.getString("date"), obj.getLong("notificationId")));
+                        notifList.add(new Notification(obj.getString("senderName"), obj.getString("comments"),obj.getString("date"), obj.getLong("notificationId"), obj.getBoolean("isFlagged")));
                     }
                 }
             }

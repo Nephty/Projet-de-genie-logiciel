@@ -12,7 +12,7 @@ public class Notification extends Communication {
     private boolean flag;
     private long ID;
 
-    public Notification(String senderName, String content, String date, long ID) {
+    public Notification(String senderName, String content, String date, long ID, boolean flag) {
         this.content = content;
         this.senderName = senderName;
         this.date = date;
@@ -34,7 +34,6 @@ public class Notification extends Communication {
     }
 
     public void dismiss() {
-        // TODO : DELETE Notification
         Unirest.setTimeouts(0, 0);
         try {
             HttpResponse<String> response = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)

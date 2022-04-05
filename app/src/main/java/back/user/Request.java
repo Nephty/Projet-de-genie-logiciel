@@ -13,14 +13,11 @@ public class Request extends Communication {
     public Request(String swift, CommunicationType communicationType) {
         this.recipientId = swift;
         this.communicationType = communicationType;
-        this.wallet = null;
     }
 
     public Request(Wallet wallet, CommunicationType communicationType) {
-        this.wallet = wallet;
         this.communicationType = communicationType;
-        this.bank = null;
-        this.recipientId = null;
+        this.recipientId = wallet.getBank().getSwiftCode();
     }
 
     public void send() {

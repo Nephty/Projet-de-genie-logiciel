@@ -1,11 +1,17 @@
 package front.controllers;
 
 import app.Main;
+import back.user.Notification;
+import back.user.Portfolio;
 import back.user.Request;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +20,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class RequestsStatusSceneController extends Controller implements BackButtonNavigator {
@@ -70,7 +78,31 @@ public class RequestsStatusSceneController extends Controller implements BackBut
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch requests and put them in the listview
-            // TODO : back-end : fetch requests from the database and put them in the listview
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            try {
+                response = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+
+            String body = response.getBody();
+            String toParse = body.substring(1,body.length() - 1);
+            ArrayList<String> requestList = Portfolio.JSONArrayParser(toParse);
+            ArrayList<Request> reqList = new ArrayList<Request>();
+            if(!requestList.get(0).equals("")){
+                for(int i = 0; i<requestList.size(); i++){
+                    JSONObject obj = new JSONObject(requestList.get(i));
+                    if(obj.getInt("notificationType") != 4){
+                        // TODO : Afficher les requests en attente
+                        //reqList.add(new Request(obj.getString("recipientId"),obj.getString("")));
+                    }
+                }
+            }
+            //notificationsListView.setItems(FXCollections.observableArrayList(notifList));
+
             // Fade the label "updating requests..." out to 0.0 opacity
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);
         }

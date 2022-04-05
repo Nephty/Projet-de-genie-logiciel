@@ -16,7 +16,10 @@ import java.util.ArrayList;
 
 public interface TransactionLogRepo extends JpaRepository<TransactionLog, TransactionLogPK> {
 
-    @Query(value = "SELECT s FROM TransactionLog s WHERE s.transactionId IN (SELECT d.transactionId FROM TransactionLog d WHERE d.subAccount= ?1)")
+    @Query("SELECT s " +
+            "FROM TransactionLog s " +
+            "WHERE s.transactionId " +
+            "IN (SELECT d.transactionId FROM TransactionLog d WHERE d.subAccount= ?1)")
     ArrayList<TransactionLog> findAllLinkedToSubAccount(SubAccount subAccount);
 
     @Query("SELECT max(s.transactionId) from TransactionLog s")

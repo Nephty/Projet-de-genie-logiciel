@@ -2,14 +2,14 @@ package com.example.demo.service;
 
 import com.example.demo.exception.throwables.AuthorizationException;
 import com.example.demo.exception.throwables.ResourceNotFound;
-import com.example.demo.model.Account;
-import com.example.demo.model.CurrencyType;
-import com.example.demo.model.SubAccount;
-import com.example.demo.model.TransactionLog;
-import com.example.demo.repository.AccountAccessRepo;
-import com.example.demo.repository.SubAccountRepo;
-import com.example.demo.repository.TransactionLogRepo;
-import com.example.demo.repository.TransactionTypeRepo;
+import com.example.demo.model.*;
+import com.example.demo.model.CompositePK.SubAccountPK;
+import com.example.demo.other.Sender;
+import com.example.demo.repository.*;
+import com.example.demo.request.NotificationReq;
+import com.example.demo.request.SubAccountReq;
+import com.example.demo.request.TransactionReq;
+import com.example.demo.security.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -56,13 +59,120 @@ class TransactionLogServiceTest {
     @Test
     @Disabled
     void canAddTransaction() {
-        // TODO: 4/3/22 test 
+        // TODO: 4/3/22 test
     }
 
     @Test
-    @Disabled
     void canGetAllTransactionBySubAccount() {
         // TODO: 4/3/22 test
+
+        // Given
+        String iban = "iban";
+        Integer currency = 0;
+
+        // -- SubAccount --
+        SubAccountReq subAccountReq = new SubAccountReq(
+                iban,
+                currency,
+                200.0,
+                "EUR"
+        );
+
+        // -- User 1 --
+        User user = new User(
+                "userId",
+                "username",
+                "lastName",
+                "firstname",
+                "email",
+                "FR"
+        );
+
+        // -- User 2 --
+        User user2 = new User(
+                "userId",
+                "username",
+                "lastName",
+                "firstname",
+                "email",
+                "FR"
+        );
+
+        // -- Bank --
+        Bank bank = new Bank(
+                "swift",
+                "name",
+                "pwd",
+                "address",
+                "country",
+                new CurrencyType(0,"EUR")
+        );
+
+        // -- User1's account --
+        Account acc = new Account();
+        acc.setIban(iban);
+        acc.setPayment(false);
+        acc.setSwift(bank);
+        acc.setUserId(user);
+
+        // -- User2's account --
+        Account acc2 = new Account();
+        acc2.setPayment(true);
+        acc2.setSwift(bank);
+        acc2.setUserId(user2);
+
+        // -- CurrencyType --
+        CurrencyType tmpType = new CurrencyType();
+        tmpType.setCurrencyId(subAccountReq.getCurrencyType());
+
+        Optional<SubAccount> expectedValue = Optional.of(
+                new SubAccount(acc,tmpType,subAccountReq.getCurrentBalance()));
+        when(subAccountRepo.findById(any()))
+                .thenReturn(expectedValue);
+
+        // -- TransactionType --
+        TransactionType transactionType = new TransactionType(1,"type",0.0);
+
+
+        // -- From user1's account --
+        TransactionLog goodTransactionLogSender = new TransactionLog(
+                1,
+                true,
+                transactionType,
+                null,
+                new SubAccount(acc,tmpType,200.0),
+                50.0,
+                false,
+                "comments"
+        );
+
+        // -- To user2's account --
+        TransactionLog goodTransactionLogReceiver = new TransactionLog(
+                1,
+                false,
+                transactionType,
+                null,
+                new SubAccount(acc2,tmpType,100.0),
+                50.0,
+                false,
+                "comments"
+        );
+
+        ArrayList<TransactionLog> res = new ArrayList<>();
+        res.add(goodTransactionLogReceiver);
+        res.add(goodTransactionLogSender);
+
+        when(transactionLogRepo.findAllLinkedToSubAccount(expectedValue.get()))
+                .thenReturn(res);
+
+        // When
+        List<TransactionReq> result = underTest.getAllTransactionBySubAccount(iban,currency);
+
+        // Then
+        assertEquals(1,result.size());
+        assertEquals(1,result.get(0).getTransactionId());
+        assertEquals(iban,result.get(0).getSenderIban());
+        assertEquals(currency,result.get(0).getCurrencyId());
     }
 
     @Test
@@ -79,7 +189,7 @@ class TransactionLogServiceTest {
 
         TransactionLog transactionLogSender = new TransactionLog(
                 1,
-                0,
+                true,
                 null,
                 null,
                 new SubAccount(acc,currencyType,200.0),
@@ -90,7 +200,7 @@ class TransactionLogServiceTest {
 
         TransactionLog transactionLogReceiver = new TransactionLog(
                 1,
-                1,
+                false,
                 null,
                 null,
                 new SubAccount(acc2,currencyType,100.0),
@@ -108,35 +218,55 @@ class TransactionLogServiceTest {
         List<TransactionLog> transactionCaptured = transactionCaptor.getAllValues();
 
         // -- RECEIVER --
-        TransactionLog transactionReceiverCaptured = transactionCaptured.get(0).getDirection()==0
+        TransactionLog transactionReceiverCaptured = !transactionCaptured.get(0).getIsSender()
                 ? transactionCaptured.get(0) : transactionCaptured.get(1);
         assertTrue(transactionReceiverCaptured.getProcessed());
         assertEquals(100+50, transactionReceiverCaptured.getSubAccount().getCurrentBalance());
 
         // -- SENDER --
-        TransactionLog transactionSenderCaptured = transactionCaptured.get(0).getDirection()==1
+        TransactionLog transactionSenderCaptured = transactionCaptured.get(0).getIsSender()
                 ? transactionCaptured.get(0) : transactionCaptured.get(1);
         assertTrue(transactionSenderCaptured.getProcessed());
         assertEquals(200-50,transactionSenderCaptured.getSubAccount().getCurrentBalance());
     }
     
     @Test
-    @Disabled
-    void executeShouldThrowWhenPaymentNotEnable(){
-        // TODO: 4/3/22 modify the test because it can't throw an exception with the scheduler
+    void executeShouldStopWhenPaymentNotEnable(){
         // Given
         CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        User user = new User(
+                "userId",
+                "username",
+                "lastName",
+                "firstname",
+                "email",
+                "FR"
+        );
+
+        Bank bank = new Bank(
+                "swift",
+                "name",
+                "pwd",
+                "address",
+                "country",
+                new CurrencyType(0,"EUR")
+        );
 
         Account acc = new Account();
         acc.setPayment(false);
+        acc.setSwift(bank);
+        acc.setUserId(user);
 
         Account acc2 = new Account();
         acc2.setPayment(true);
+        acc2.setSwift(bank);
+        acc2.setUserId(user);
 
 
         TransactionLog transactionLogSender = new TransactionLog(
                 1,
-                0,
+                true,
                 null,
                 null,
                 new SubAccount(acc,currencyType,200.0),
@@ -147,7 +277,7 @@ class TransactionLogServiceTest {
 
         TransactionLog transactionLogReceiver = new TransactionLog(
                 1,
-                1,
+                false,
                 null,
                 null,
                 new SubAccount(acc2,currencyType,100.0),
@@ -156,73 +286,74 @@ class TransactionLogServiceTest {
                 "comments"
         );
 
-        // Then
-        assertThatThrownBy(() -> underTest.executeTransaction(transactionLogSender,transactionLogReceiver))
-                .isInstanceOf(AuthorizationException.class)
-                .hasMessageContaining("This account can't make payment");
+
+        // When
+        underTest.executeTransaction(transactionLogSender,transactionLogReceiver);
+
+        //Then
+        verify(transactionLogRepo).deleteAllByTransactionId(transactionLogSender.getTransactionId());
         verify(transactionLogRepo,never()).save(any());
-    }
-    
-    @Test
-    @Disabled
-    void executeShouldThrowWhenAmountIsLowerOrEqualToZero(){
-        // TODO: 4/3/22 modify the test because it can't throw an exception with the scheduler
-        // Given
-        CurrencyType currencyType = new CurrencyType(0,"EUR");
+        verify(subAccountRepo,never()).save(any());
 
-        Account acc = new Account();
-        acc.setPayment(true);
+        // -- Notification SEND --
+        ArgumentCaptor<Sender> senderCaptor = ArgumentCaptor.forClass(Sender.class);
+        ArgumentCaptor<NotificationReq> notificationCaptor = ArgumentCaptor.forClass(NotificationReq.class);
 
-        Account acc2 = new Account();
-        acc2.setPayment(true);
+        verify(notificationService).addNotification(senderCaptor.capture(),notificationCaptor.capture());
 
-
-        TransactionLog transactionLogSender = new TransactionLog(
-                1,
-                0,
-                null,
-                null,
-                new SubAccount(acc,currencyType,200.0),
-                -40.0,
-                false,
-                "comments"
+        // -- From --
+        Sender bankSender = senderCaptor.getValue();
+        assertEquals(
+                transactionLogSender.getSubAccount().getIban().getSwift().getSwift(),
+                bankSender.getId()
         );
 
-        TransactionLog transactionLogReceiver = new TransactionLog(
-                1,
-                1,
-                null,
-                null,
-                new SubAccount(acc2,currencyType,100.0),
-                50.0,
-                false,
-                "comments"
+        // -- TO --
+        NotificationReq notification = notificationCaptor.getValue();
+        assertEquals(
+                transactionLogSender.getSubAccount().getIban().getUserId().getUserId(),
+                notification.getRecipientId()
         );
 
-        // Then
-        assertThatThrownBy(() -> underTest.executeTransaction(transactionLogSender,transactionLogReceiver))
-                .isInstanceOf(AuthorizationException.class)
-                .hasMessageContaining("Can't make transaction lower or equal to 0");
-        verify(transactionLogRepo,never()).save(any());
     }
-    
+
     @Test
-    @Disabled
     void executeShouldThrowWhenAccountHasNotEnoughFound(){
-        // TODO: 4/3/22 modify the test because it can't throw an exception with the scheduler
         // Given
         CurrencyType currencyType = new CurrencyType(0,"EUR");
 
+        User user = new User(
+                "userId",
+                "username",
+                "lastName",
+                "firstname",
+                "email",
+                "FR"
+        );
+
+        Bank bank = new Bank(
+                "swift",
+                "name",
+                "pwd",
+                "address",
+                "country",
+                new CurrencyType(0,"EUR")
+        );
+
         Account acc = new Account();
         acc.setPayment(true);
+        acc.setSwift(bank);
+        acc.setUserId(user);
 
         Account acc2 = new Account();
         acc2.setPayment(true);
+        acc2.setSwift(bank);
+        acc2.setUserId(user);
 
 
         TransactionLog transactionLogSender = new TransactionLog(
                 1,
-                0,
+                true,
                 null,
                 null,
                 new SubAccount(acc,currencyType,200.0),
@@ -233,7 +364,7 @@ class TransactionLogServiceTest {
 
         TransactionLog transactionLogReceiver = new TransactionLog(
                 1,
-                1,
+                false,
                 null,
                 null,
                 new SubAccount(acc2,currencyType,100.0),
@@ -242,10 +373,32 @@ class TransactionLogServiceTest {
                 "comments"
         );
 
+        // When
+        underTest.executeTransaction(transactionLogSender,transactionLogReceiver);
+
         // Then
-        assertThatThrownBy(() -> underTest.executeTransaction(transactionLogSender,transactionLogReceiver))
-                .isInstanceOf(AuthorizationException.class)
-                .hasMessageContaining("Not enough fund");
+        verify(transactionLogRepo).deleteAllByTransactionId(transactionLogSender.getTransactionId());
         verify(transactionLogRepo,never()).save(any());
+        verify(subAccountRepo,never()).save(any());
+
+        // -- Notification SEND --
+        ArgumentCaptor<Sender> senderCaptor = ArgumentCaptor.forClass(Sender.class);
+        ArgumentCaptor<NotificationReq> notificationCaptor = ArgumentCaptor.forClass(NotificationReq.class);
+
+        verify(notificationService).addNotification(senderCaptor.capture(),notificationCaptor.capture());
+
+        // -- From --
+        Sender bankSender = senderCaptor.getValue();
+        assertEquals(
+                transactionLogSender.getSubAccount().getIban().getSwift().getSwift(),
+                bankSender.getId()
+        );
+
+        // -- TO --
+        NotificationReq notification = notificationCaptor.getValue();
+        assertEquals(
+                transactionLogSender.getSubAccount().getIban().getUserId().getUserId(),
+                notification.getRecipientId()
+        );
     }
 }

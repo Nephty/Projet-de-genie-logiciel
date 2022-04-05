@@ -57,7 +57,7 @@ class NotificationServiceTest {
         NotificationReq notificationReq = new NotificationReq();
         notificationReq.setNotificationType(1);
         notificationReq.setComments("testComments");
-        notificationReq.setStatus("Unchecked");
+        notificationReq.setIsFlagged(false);
         notificationReq.setRecipientId("testIban");
 
         Sender sender = new Sender("testId", Role.USER);
@@ -91,7 +91,7 @@ class NotificationServiceTest {
         assertEquals(notificationType,captorValue.getNotificationType());
         assertEquals(bank,captorValue.getBankId());
         assertEquals(user,captorValue.getUserId());
-        assertEquals(notificationReq.getStatus(),captorValue.getStatus());
+        assertEquals(notificationReq.getIsFlagged(),captorValue.getIsFlagged());
         assertEquals(notificationReq.getComments(),captorValue.getComments());
     }
 
@@ -101,7 +101,7 @@ class NotificationServiceTest {
         NotificationReq notificationReq = new NotificationReq();
         notificationReq.setNotificationType(1);
         notificationReq.setComments("testComments");
-        notificationReq.setStatus("Unchecked");
+        notificationReq.setIsFlagged(false);
         notificationReq.setRecipientId("testIban");
 
         Sender sender = new Sender("testId", Role.USER);
@@ -118,7 +118,7 @@ class NotificationServiceTest {
         NotificationReq notificationReq = new NotificationReq();
         notificationReq.setNotificationType(1);
         notificationReq.setComments("testComments");
-        notificationReq.setStatus("Unchecked");
+        notificationReq.setIsFlagged(false);
         notificationReq.setRecipientId("testIban");
 
         Sender sender = new Sender("testId", Role.USER);
@@ -143,7 +143,7 @@ class NotificationServiceTest {
         NotificationReq notificationReq = new NotificationReq();
         notificationReq.setNotificationType(1);
         notificationReq.setComments("testComments");
-        notificationReq.setStatus("Unchecked");
+        notificationReq.setIsFlagged(false);
         notificationReq.setRecipientId("testIban");
 
         Sender sender = new Sender("testId", Role.USER);

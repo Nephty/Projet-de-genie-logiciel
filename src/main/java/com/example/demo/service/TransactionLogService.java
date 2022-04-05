@@ -51,6 +51,7 @@ public class TransactionLogService {
         ArrayList<TransactionLog> transactionLogs = transactionLogRepo.findAllLinkedToSubAccount(subAccount);
         if(transactionLogs.size() % 2 != 0) {
             log.error("inconsistent state for transaction table, subAccount: " + iban + " / " + currencyId);
+            throw new LittleBoyException();
         }
         ArrayList<TransactionReq> response = new ArrayList<>();
         // mapping the ugliness from the DB to a nicer response

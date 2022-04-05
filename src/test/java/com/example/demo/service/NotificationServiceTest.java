@@ -232,4 +232,43 @@ class NotificationServiceTest {
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining("no bank with such id: "+swift);
     }
+
+    @Test
+    void canChangeNotification(){
+        // Given
+        NotificationReq notificationReq = new NotificationReq();
+        notificationReq.setNotificationType(1);
+        notificationReq.setComments("testComments");
+        notificationReq.setIsFlagged(false);
+        notificationReq.setRecipientId("testIban");
+        Notification notification = new Notification(notificationReq);
+
+        Optional<Notification> optionalNotification = Optional.of(notification);
+        when(notificationRepo.findById(notification.getNotificationId()))
+                .thenReturn(optionalNotification);
+
+        // When
+        underTest.changeNotification(true,notification.getNotificationId());
+
+        // Then
+        ArgumentCaptor<Notification> notificationArgumentCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationRepo).save(notificationArgumentCaptor.capture());
+        Notification result = notificationArgumentCaptor.getValue();
+
+        assertEquals(true,result.getIsFlagged());
+        assertEquals(notification.getUserId(),result.getUserId());
+    }
+
+    @Test
+    void changeShouldThrowWhenNotificationNotFound(){
+        // Given
+        int id = 0;
+        boolean flag = false;
+
+        // Then
+        assertThatThrownBy(()->underTest.changeNotification(flag,id))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining("No notification with such id: "+id);
+    }
+
 }

@@ -42,6 +42,14 @@ public class NotificationService {
         return notificationRepo.save(notification);
     }
 
+
+    public Notification changeNotification(boolean isFlagged, Integer id){
+        Notification notification = notificationRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFound("No notification with such id: "+id));
+        notification.setIsFlagged(isFlagged);
+        return notificationRepo.save(notification);
+    }
+
     public void deleteNotification(Integer notificationId) {
         notificationRepo.deleteById(notificationId);
     }

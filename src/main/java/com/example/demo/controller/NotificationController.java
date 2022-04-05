@@ -71,4 +71,19 @@ public class NotificationController {
         notificationService.deleteNotification(id);
         return new ResponseEntity<>(id.toString(), HttpStatus.OK);
     }
+
+
+    /**
+     * @param isFlagged Is the notification flagged
+     * @param id The id of the notification
+     * @return Notification to String
+     * 201 - Created
+     * 400 - Bad Request
+     */
+    @PutMapping
+    public ResponseEntity<String> changeNotification(
+            @RequestParam boolean isFlagged, @RequestParam Integer id) {
+        Notification savedNotification = notificationService.changeNotification(isFlagged,id);
+        return new ResponseEntity<>(savedNotification.toString(),HttpStatus.OK);
+    }
 }

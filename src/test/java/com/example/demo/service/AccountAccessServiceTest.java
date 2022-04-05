@@ -152,9 +152,12 @@ class AccountAccessServiceTest {
         User tmpUser = new User();
         tmpUser.setUserId(accessReq.getUserId());
 
-        AccountAccess access = new AccountAccess(accessReq);
-        access.setAccountId(tmpAccount);
-        access.setUserId(tmpUser);
+        AccountAccess access = new AccountAccess(
+                tmpAccount,
+                tmpUser,
+                false,
+                true
+        );
 
         when(accessRepo.findById(new AccountAccessPK(accessReq.getAccountId(),accessReq.getUserId())))
                 .thenReturn(Optional.of(access));
@@ -163,15 +166,15 @@ class AccountAccessServiceTest {
         underTest.changeAccountAccess(accessReq);
 
         //then
-        ArgumentCaptor<AccountAccess> userArgumentCaptor = ArgumentCaptor.forClass(AccountAccess.class);
-        verify(accessRepo).save(userArgumentCaptor.capture());
-        AccountAccess captorValue = userArgumentCaptor.getValue();
+        ArgumentCaptor<AccountAccess> argumentCaptor = ArgumentCaptor.forClass(AccountAccess.class);
+        verify(accessRepo).save(argumentCaptor.capture());
+        AccountAccess captorValue = argumentCaptor.getValue();
 
         // If it saves the good accountAccess
         assertEquals(tmpAccount,captorValue.getAccountId());
         assertEquals(tmpUser,captorValue.getUserId());
-        assertEquals(access.getAccess(),captorValue.getAccess());
-        assertEquals(access.getHidden(),captorValue.getHidden());
+        assertEquals(accessReq.getAccess(),captorValue.getAccess());
+        assertEquals(accessReq.getHidden(),captorValue.getHidden());
     }
 
     @Test

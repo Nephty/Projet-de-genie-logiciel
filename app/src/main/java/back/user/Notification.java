@@ -1,42 +1,35 @@
 package back.user;
 
+import app.Main;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 public class Notification extends Communication {
     private final String content;
-    public String name;
+    private String senderName;
+    private String date;
     private boolean flag;
-    private boolean dismiss;
+    private long ID;
 
-
-    /**
-     * Creates the Notification with all the informations needed
-     *
-     * @param bank
-     * @param profile
-     * @param name
-     * @param content
-     */
-    public Notification(Bank bank, Profile profile, String name, String content) {
-        this.client = profile;
-        this.bank = bank;
+    public Notification(String senderName, String content, String date, long ID, boolean flag) {
         this.content = content;
-        this.name = name;
-        this.flag = false;
-        this.dismiss = false;
+        this.senderName = senderName;
+        this.date = date;
+        this.ID = ID;
+        this.flag = flag;
+    }
+
+    @Override
+    public String toString(){
+        return this.date + "      " + this.senderName + "     " + this.content;
     }
 
     public String getContent() {
         return this.content;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public void setDismiss(boolean value) {
-        this.dismiss = value;
-    }
-
-    public void setFlag(boolean value) {
-        this.flag = value;
+    public String getSenderName() {
+        return this.senderName;
     }
 }

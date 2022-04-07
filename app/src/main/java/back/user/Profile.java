@@ -75,9 +75,9 @@ public class Profile {
             ArrayList<String> userIdList = new ArrayList<String>();
             for (int i = 0; i < customerList.size(); i++) {
                 JSONObject obj = new JSONObject(customerList.get(i));
-                if (!userIdList.contains(obj.getString("userID")) && (!obj.getString("userID").equals("000000000"))) {
-                    rep.add(new Profile(obj.getString("firstname"), obj.getString("lastname"), obj.getString("userID")));
-                    userIdList.add(obj.getString("userID"));
+                if (!userIdList.contains(obj.getString("userId"))) {
+                    rep.add(new Profile(obj.getString("firstname"), obj.getString("lastname"), obj.getString("userId")));
+                    userIdList.add(obj.getString("userId"));
                 }
             }
         }

@@ -38,11 +38,12 @@ public class Wallet {
         // Creates the accounts
         for (int i = 0; i < bodyList.size(); i++) {
             JSONObject obj = new JSONObject(bodyList.get(i));
-            String swift = obj.getJSONObject("accountId").getJSONObject("swift").getString("swift");
-            Profile owner = new Profile(obj.getJSONObject("accountId").getJSONObject("userId").getString("firstname"), obj.getJSONObject("accountId").getJSONObject("userId").getString("lastname"), obj.getJSONObject("accountId").getJSONObject("userId").getString("userID"));
-            Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
-            String iban = obj.getJSONObject("accountId").getString("iban");
-            int accountTypeId = obj.getJSONObject("accountId").getJSONObject("accountTypeId").getInt("accountTypeId");
+            String swift = obj.getString("accountId");
+            Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), obj.getString("userId"));
+            // TODO : Réparer
+            // Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
+            String iban = obj.getString("accountId");
+            int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
             AccountType accountType = null;
             switch (accountTypeId) {
                 case 0:
@@ -60,8 +61,9 @@ public class Wallet {
             }
             boolean activated = obj.getBoolean("access");
             boolean archived = obj.getBoolean("hidden");
-            boolean canPay = obj.getJSONObject("accountId").getBoolean("payment");
-            accountList.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
+            boolean canPay = obj.getJSONObject("account").getBoolean("payment");
+            // TODO : Remettre coOwner
+            accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
         }
     }
 
@@ -83,11 +85,12 @@ public class Wallet {
         // Creates the accounts
         for (int i = 0; i < bodyList.size(); i++) {
             JSONObject obj = new JSONObject(bodyList.get(i));
-            String swift = obj.getJSONObject("accountId").getJSONObject("swift").getString("swift");
-            Profile owner = new Profile(obj.getJSONObject("accountId").getJSONObject("userId").getString("firstname"), obj.getJSONObject("accountId").getJSONObject("userId").getString("lastname"), obj.getJSONObject("accountId").getJSONObject("userId").getString("userID"));
-            Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
-            String iban = obj.getJSONObject("accountId").getString("iban");
-            int accountTypeId = obj.getJSONObject("accountId").getJSONObject("accountTypeId").getInt("accountTypeId");
+            String swift = obj.getString("accountId");
+            Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), obj.getString("userId"));
+            // TODO : Réparer
+            // Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
+            String iban = obj.getString("accountId");
+            int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
             AccountType accountType = null;
             switch (accountTypeId) {
                 case 0:
@@ -105,8 +108,9 @@ public class Wallet {
             }
             boolean activated = obj.getBoolean("access");
             boolean archived = obj.getBoolean("hidden");
-            boolean canPay = obj.getJSONObject("accountId").getBoolean("payment");
-            this.accountList.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
+            boolean canPay = obj.getJSONObject("account").getBoolean("payment");
+            // TODO : Remettre coOwner
+            accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
         }
     }
     public ArrayList<Account> getAccountList() {

@@ -94,6 +94,20 @@ public class Account {
     }
 
 
+    public void delete(){
+        // TODO : Fonctionne pas
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.delete("https://flns-spring-test.herokuapp.com/api/account/"+this.IBAN)
+                    .header("Authorization", "Bearer "+ Main.getToken())
+                    .asString();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void exportHistory() {
         // TODO : Export history
     }

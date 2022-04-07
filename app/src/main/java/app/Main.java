@@ -4,6 +4,8 @@ import back.user.Account;
 import back.user.Portfolio;
 import back.user.Profile;
 import back.user.Wallet;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
@@ -11,6 +13,7 @@ import front.scenes.Scenes;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 import java.util.Locale;
 
@@ -47,6 +50,10 @@ public class Main extends Application {
         return token;
     }
 
+    public static String getRefreshToken() {
+        return refreshToken;
+    }
+
     public static void setToken(String newToken) {
         token = newToken;
     }
@@ -73,6 +80,22 @@ public class Main extends Application {
 
     public static void setCurrentAccount(Account currentAccount) {
         Main.currentAccount = currentAccount;
+    }
+
+    public static void refreshToken() {
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/token/refresh")
+                    .header("Authorization", "Bearer " + Main.getRefreshToken())
+                    .asString();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+        String body = response.getBody();
+        JSONObject obj = new JSONObject(body);
+        setToken(obj.getString("access_token"));
+        setRefreshToken(obj.getString("refresh_token"));
     }
 
     /**
@@ -104,7 +127,10 @@ public class Main extends Application {
      * @param statut The error statut
      */
     public static void errorCheck(int statut) {
-        if (statut >= 400) {
+        if(statut == 412){
+            refreshToken();
+        }
+        if (statut >= 400 || statut != 412) {
             ErrorManager(statut);
         }
     }
@@ -129,8 +155,6 @@ public class Main extends Application {
             case (409):
                 message = message + "conflict, data are not correct, try again";
                 break;
-            case(412):
-                message = message + "Try to login again"; break;
             case (500):
                 message = message + "internal server error, try again later";
                 break;

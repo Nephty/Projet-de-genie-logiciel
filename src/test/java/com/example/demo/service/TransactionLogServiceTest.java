@@ -2,17 +2,19 @@ package com.example.demo.service;
 
 import com.example.demo.exception.throwables.AuthorizationException;
 import com.example.demo.exception.throwables.ConflictException;
-import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.*;
+import com.example.demo.model.CompositePK.AccountAccessPK;
 import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.other.Sender;
-import com.example.demo.repository.*;
+import com.example.demo.repository.AccountAccessRepo;
+import com.example.demo.repository.SubAccountRepo;
+import com.example.demo.repository.TransactionLogRepo;
+import com.example.demo.repository.TransactionTypeRepo;
 import com.example.demo.request.NotificationReq;
 import com.example.demo.request.SubAccountReq;
 import com.example.demo.request.TransactionReq;
 import com.example.demo.security.Role;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -20,13 +22,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -58,11 +58,91 @@ class TransactionLogServiceTest {
     }
 
     @Test
-    @Disabled
     void canAddTransaction() {
-        // TODO: 4/3/22 test can add Transaction
-
         // Given
+        String id = "userId";
+        Sender sender = new Sender("",Role.USER); // id !=
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(10.0);
+
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        // -- Account SENDER --
+        Account accountSender = new Account();
+        accountSender.setPayment(true);
+        User user = new User();
+        user.setUserId(id);
+        accountSender.setUserId(user);
+
+        // -- Account RECEIVER --
+        Account accountReceiver = new Account();
+
+        // -- SubAccount SENDER --
+        SubAccount subAccountSender = new SubAccount(
+                accountSender,
+                currencyType,
+                150.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountSender));
+
+        // -- SubAccount RECEIVER --
+        SubAccount subAccountReceiver = new SubAccount(
+                accountReceiver,
+                currencyType,
+                100.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountReceiver));
+
+        // -- TransactionType --
+        TransactionType transactionType = new TransactionType(0,"name",0.0);
+        when(transactionTypeRepo.findById(1)).thenReturn(Optional.of(transactionType));
+
+
+        // -- AccountAccess Sender --
+        AccountAccess senderAccess = new AccountAccess(
+                accountSender,
+                user,
+                true, // access is false
+                false
+        );
+        when(accountAccessRepo.findById(
+                new AccountAccessPK(subAccountSender.getIban().getIban(), sender.getId())))
+                .thenReturn(Optional.of(senderAccess));
+
+        // When
+        underTest.addTransaction(sender,transactionReq);
+
+        // Then
+        ArgumentCaptor<TransactionLog> transactionCaptor = ArgumentCaptor.forClass(TransactionLog.class);
+        verify(transactionLogRepo,times(2)).save(transactionCaptor.capture());
+        List<TransactionLog> transactionCaptured = transactionCaptor.getAllValues();
+
+
+        // -- Next id working --
+        assertEquals(1,transactionCaptured.get(0).getTransactionId());
+        assertEquals(1,transactionCaptured.get(1).getTransactionId());
+
+        // -- RECEIVER --
+        TransactionLog transactionReceiverCaptured = !transactionCaptured.get(0).getIsSender()
+                ? transactionCaptured.get(0) : transactionCaptured.get(1);
+        assertFalse(transactionReceiverCaptured.getProcessed());
+        assertEquals(subAccountReceiver,transactionReceiverCaptured.getSubAccount());
+        assertEquals(transactionReq.getTransactionAmount(),transactionReceiverCaptured.getTransactionAmount());
+
+        // -- SENDER --
+        TransactionLog transactionSenderCaptured = transactionCaptured.get(0).getIsSender()
+                ? transactionCaptured.get(0) : transactionCaptured.get(1);
+        assertFalse(transactionSenderCaptured.getProcessed());
+        assertEquals(subAccountSender,transactionSenderCaptured.getSubAccount());
+        assertEquals(transactionReq.getTransactionAmount(),transactionSenderCaptured.getTransactionAmount());
 
     }
 
@@ -171,33 +251,227 @@ class TransactionLogServiceTest {
     }
 
     @Test
-    @Disabled
-    void canInstantiateTransaction(){
-        // TODO: 4/5/22 test
-    }
-
-    @Test
-    @Disabled
     void instantiateTransactionShouldThrowWhenAccountCantMakePayment(){
-        // TODO: 4/5/22 test
+        // Given
+        String id = "userId";
+        Sender sender = new Sender(id,Role.USER);
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(10.0);
+
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        // -- Account SENDER --
+        Account accountSender = new Account();
+        accountSender.setPayment(false);
+
+        // -- Account RECEIVER --
+        Account accountReceiver = new Account();
+
+        // -- SubAccount SENDER --
+        SubAccount subAccountSender = new SubAccount(
+                accountSender,
+                currencyType,
+                150.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountSender));
+
+        // -- SubAccount RECEIVER --
+        SubAccount subAccountReceiver = new SubAccount(
+                accountReceiver,
+                currencyType,
+                100.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountReceiver));
+
+        // -- TransactionType --
+        TransactionType transactionType = new TransactionType(0,"name",0.0);
+        when(transactionTypeRepo.findById(1)).thenReturn(Optional.of(transactionType));
+
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("This account can't make payment");
     }
 
     @Test
-    @Disabled
     void instantiateTransactionShouldThrowWhenAmountLowerOrEqualToZero(){
-        // TODO: 4/5/22 lower or equal to zero
+        // Given
+        String id = "userId";
+        Sender sender = new Sender(id,Role.USER);
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(-10.0); // <= 0
+
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        // -- Account SENDER --
+        Account accountSender = new Account();
+        accountSender.setPayment(true);
+
+        // -- Account RECEIVER --
+        Account accountReceiver = new Account();
+
+        // -- SubAccount SENDER --
+        SubAccount subAccountSender = new SubAccount(
+                accountSender,
+                currencyType,
+                150.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountSender));
+
+        // -- SubAccount RECEIVER --
+        SubAccount subAccountReceiver = new SubAccount(
+                accountReceiver,
+                currencyType,
+                100.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountReceiver));
+
+        // -- TransactionType --
+        TransactionType transactionType = new TransactionType(0,"name",0.0);
+        when(transactionTypeRepo.findById(1)).thenReturn(Optional.of(transactionType));
+
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("Can't make transaction lower or equal to 0");
     }
 
     @Test
-    @Disabled
     void instantiateTransactionShouldThrowWhenUserDontHaveAccessToAccount(){
-        // TODO: 4/5/22 no access
+        // Given
+        String id = "userId";
+        Sender sender = new Sender("",Role.USER); // id !=
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(10.0);
+
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        // -- Account SENDER --
+        Account accountSender = new Account();
+        accountSender.setPayment(true);
+        User user = new User();
+        user.setUserId(id);
+        accountSender.setUserId(user);
+
+        // -- Account RECEIVER --
+        Account accountReceiver = new Account();
+
+        // -- SubAccount SENDER --
+        SubAccount subAccountSender = new SubAccount(
+                accountSender,
+                currencyType,
+                150.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountSender));
+
+        // -- SubAccount RECEIVER --
+        SubAccount subAccountReceiver = new SubAccount(
+                accountReceiver,
+                currencyType,
+                100.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountReceiver));
+
+        // -- TransactionType --
+        TransactionType transactionType = new TransactionType(0,"name",0.0);
+        when(transactionTypeRepo.findById(1)).thenReturn(Optional.of(transactionType));
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("You don't have access to this account");
     }
 
     @Test
-    @Disabled
     void instantiateTransactionShouldThrowWhenAccessDisabled(){
-        // TODO: 4/5/22 access disabled
+        // Given
+        String id = "userId";
+        Sender sender = new Sender("",Role.USER); // id !=
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(10.0);
+
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        // -- Account SENDER --
+        Account accountSender = new Account();
+        accountSender.setPayment(true);
+        User user = new User();
+        user.setUserId(id);
+        accountSender.setUserId(user);
+
+        // -- Account RECEIVER --
+        Account accountReceiver = new Account();
+
+        // -- SubAccount SENDER --
+        SubAccount subAccountSender = new SubAccount(
+                accountSender,
+                currencyType,
+                150.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountSender));
+
+        // -- SubAccount RECEIVER --
+        SubAccount subAccountReceiver = new SubAccount(
+                accountReceiver,
+                currencyType,
+                100.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountReceiver));
+
+        // -- TransactionType --
+        TransactionType transactionType = new TransactionType(0,"name",0.0);
+        when(transactionTypeRepo.findById(1)).thenReturn(Optional.of(transactionType));
+
+
+        // -- AccountAccess Sender --
+        AccountAccess senderAccess = new AccountAccess(
+                accountSender,
+                user,
+                false, // access is false
+                false
+        );
+        when(accountAccessRepo.findById(
+                new AccountAccessPK(subAccountSender.getIban().getIban(), sender.getId())))
+                .thenReturn(Optional.of(senderAccess));
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("Your access to this account is disabled");
     }
 
     @Test

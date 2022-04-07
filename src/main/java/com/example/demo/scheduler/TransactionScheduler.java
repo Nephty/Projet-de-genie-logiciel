@@ -12,9 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 @Component @Slf4j @RequiredArgsConstructor
@@ -29,22 +27,51 @@ public class TransactionScheduler extends AbstractScheduler {
         ArrayList<TransactionLog> transactionsToPerform = transactionLogRepo.findAllToExecute();
         log.info("[SCHEDULED TASK] Performing transactions (n={})", transactionsToPerform.size());
         if(transactionsToPerform.size() % 2 != 0) {
-            //an error occurred and needs to be fixed manually
-            log.error("Could not perform the transaction because a pair is incomplete");
-            return;
+            //Shouldn't be happening but if it happens we have to manage it correctly.
+            ArrayList<TransactionLog> badFormatTransaction = transactionLogRepo.findBadFormatTransaction();
+            for (TransactionLog t : badFormatTransaction){
+                transactionLogRepo.deleteAllByTransactionId(t.getTransactionId());
+                sendBadFormatTransaction(t);
+            }
         }
-        for(int i = 0; i < transactionsToPerform.size(); i+= 2) {
-            TransactionLog transactionA = transactionsToPerform.get(i);
-            TransactionLog transactionB = transactionsToPerform.get(i + 1);
+        else {
+            for (int i = 0; i < transactionsToPerform.size(); i += 2) {
+                TransactionLog transactionA = transactionsToPerform.get(i);
+                TransactionLog transactionB = transactionsToPerform.get(i + 1);
 
-            transactionLogService.executeTransaction(
-                    // -- Sender
-                    transactionA.getIsSender() ? transactionA : transactionB,
-                    // -- Receiver
-                    transactionA.getIsSender() ? transactionB : transactionA
-            );
+                transactionLogService.executeTransaction(
+                        // -- Sender
+                        transactionA.getIsSender() ? transactionA : transactionB,
+                        // -- Receiver
+                        transactionA.getIsSender() ? transactionB : transactionA
+                );
+            }
+            log.info("[SCHEDULED TASK] Completed scheduled task");
         }
-        log.info("[SCHEDULED TASK] Completed scheduled task");
+    }
+
+    private void sendBadFormatTransaction(TransactionLog transaction){
+        String reason = "An error occur with your transaction : ";
+        reason += "We've lost the ";
+        reason += transaction.getIsSender() ? "Receiver.\n" : "Sender.\n";
+        reason += "To resolve that problem, we've deleted this Transaction.\n We apologise for the troubles\n";
+        reason += "Transaction description : \n";
+        reason += "Account : " + transaction.getSubAccount().getIban() + "\n";
+        reason += "Date : " + transaction.getTransactionDate() + "\n";
+        reason += "Amount :" + transaction.getTransactionAmount();
+
+        Sender bankSender = new Sender(
+                transaction.getSubAccount().getIban().getSwift().getSwift(),
+                Role.BANK
+        );
+
+        NotificationReq notification = new NotificationReq();
+        notification.setNotificationType(5);
+        notification.setComments(reason);
+        notification.setIsFlagged(true);
+        notification.setRecipientId(transaction.getSubAccount().getIban().getUserId().getUserId());
+
+        notificationService.addNotification(bankSender,notification);
     }
 
 }

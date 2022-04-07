@@ -4,12 +4,8 @@ import com.example.demo.model.CompositePK.TransactionLogPK;
 import com.example.demo.model.SubAccount;
 import com.example.demo.model.TransactionLog;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.Temporal;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.TemporalType;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,6 +36,13 @@ public interface TransactionLogRepo extends JpaRepository<TransactionLog, Transa
             Date now,
             Boolean processed
     );
+
+    @Query("SELECT t from TransactionLog t " +
+            "WHERE not exists " +
+            "(SELECT b FROM TransactionLog b " +
+            "WHERE t.transactionId = b.transactionId " +
+            "and not t.isSender = b.isSender)")
+    ArrayList<TransactionLog> findBadFormatTransaction();
 
     default ArrayList<TransactionLog> findAllToExecute() {
         return findAllByTransactionDateBeforeAndProcessedOrderByTransactionId(

@@ -270,7 +270,7 @@ class TransactionLogRepoTest {
                 2,
                 true,
                 transactionTypeRepo.getById(0),
-                Date.valueOf(LocalDate.of(2020,5,25)),
+                Date.valueOf(LocalDate.of(3000,12,12)),
                 null,
                 100.0,
                 false,
@@ -397,6 +397,53 @@ class TransactionLogRepoTest {
         // Then
         assertFalse(underTest.findById(new TransactionLogPK(1,true)).isPresent());
         assertFalse(underTest.findById(new TransactionLogPK(1,false)).isPresent());
+    }
+
+    @Test
+    void canFindBadFormatTransaction(){
+        // Given
+        TransactionLog transactionLog = new TransactionLog(
+                1,
+                true,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog);
+
+        TransactionLog transactionLog2 = new TransactionLog(
+                1,
+                false,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog2);
+
+        TransactionLog transactionLog3 = new TransactionLog(
+                2,
+                true,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(3000,12,12)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog3);
+
+        // When
+        ArrayList<TransactionLog> result = underTest.findBadFormatTransaction();
+
+        // Then
+        assertEquals(1,result.size());
+        assertEquals(transactionLog3.getTransactionId(),result.get(0).getTransactionId());
     }
 
     @Test

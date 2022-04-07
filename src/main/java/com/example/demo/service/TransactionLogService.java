@@ -1,9 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.exception.throwables.*;
-import com.example.demo.model.*;
+import com.example.demo.exception.throwables.AuthorizationException;
+import com.example.demo.exception.throwables.ConflictException;
+import com.example.demo.exception.throwables.LittleBoyException;
+import com.example.demo.exception.throwables.ResourceNotFound;
+import com.example.demo.model.AccountAccess;
 import com.example.demo.model.CompositePK.AccountAccessPK;
 import com.example.demo.model.CompositePK.SubAccountPK;
+import com.example.demo.model.SubAccount;
+import com.example.demo.model.TransactionLog;
+import com.example.demo.model.TransactionType;
 import com.example.demo.other.Sender;
 import com.example.demo.repository.AccountAccessRepo;
 import com.example.demo.repository.SubAccountRepo;
@@ -125,6 +131,7 @@ public class TransactionLogService {
         transactionReceived.setTransactionTypeId(transactionType);
         transactionReceived.setIsSender(false);
 
+        // -- CAN INSTANTIATE ? --
         canInstantiateTransaction(sender,transactionSent);
 
         // -- ID GENERATION --

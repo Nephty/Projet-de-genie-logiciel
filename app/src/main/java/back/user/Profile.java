@@ -70,7 +70,6 @@ public class Profile {
         body = body.substring(1,body.length() -1);
 
         if(!body.equals("")) {
-            body = body.substring(1, body.length() - 1);
             ArrayList<String> customerList = Bank.JSONArrayParser(body);
             ArrayList<String> userIdList = new ArrayList<String>();
             for (int i = 0; i < customerList.size(); i++) {

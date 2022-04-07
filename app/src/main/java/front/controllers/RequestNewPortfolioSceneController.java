@@ -38,7 +38,6 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
         } catch (UnirestException e) {
             Main.ErrorManager(408);
         }
-        // TODO : back-end : fetch all available SWIFT codes and put them in the list
         SWIFTComboBox.setItems(values);
     }
 

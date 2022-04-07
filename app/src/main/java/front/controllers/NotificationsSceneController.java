@@ -66,6 +66,7 @@ public class NotificationsSceneController extends Controller implements BackButt
     public void handleFlagButtonClicked(MouseEvent event) {
         if (notificationsListView.getSelectionModel().getSelectedItems().size() > 0) {
             notificationsListView.getSelectionModel().getSelectedItems().get(0).changeFlag();
+            fetchNotifications();
         }
     }
 

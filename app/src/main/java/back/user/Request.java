@@ -21,8 +21,6 @@ public class Request extends Communication {
     }
 
     public void send() {
-        // TODO : Vérifier si la requête existe pas déjà
-
         boolean alreadySent = false;
 
         Unirest.setTimeouts(0, 0);

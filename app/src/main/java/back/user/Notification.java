@@ -45,11 +45,22 @@ public class Notification extends Communication {
     }
 
     public void changeFlag() {
-        // TODO : PUT Notification
         if(flag){
             this.flag = false;
         } else{
             this.flag = true;
+        }
+
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.put("https://flns-spring-test.herokuapp.com/api/notification")
+                    .header("Authorization", "Bearer "+ Main.getToken())
+                    .header("Content-Type", "application/json")
+                    .body("{\r\n    \"notificationId\": "+this.ID+",\r\n    \"isFlagged\": "+this.flag+"\r\n}")
+                    .asString();
+        } catch (UnirestException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -31,7 +31,7 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     private boolean requestSent = false;
 
     private ObservableList<Wallet> values;
-    private ArrayList<Wallet> wallets; // TODO : FRIX : il faut mettre des trucs dans les wallets pour que le code marche :pensive:
+    private ArrayList<Wallet> wallets;
 
     // TODO : Attention, il faut remplacer "Portfolio" par "Wallet". C'est une confusion de termes
 

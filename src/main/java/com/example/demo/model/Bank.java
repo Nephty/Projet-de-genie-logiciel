@@ -2,8 +2,6 @@ package com.example.demo.model;
 
 
 import com.example.demo.request.BankReq;
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;

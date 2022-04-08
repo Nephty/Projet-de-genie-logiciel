@@ -1,12 +1,10 @@
 package com.example.demo.model;
 
 import com.example.demo.request.AccountReq;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.time.Duration;
 
 
 @ToString

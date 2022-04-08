@@ -4,7 +4,6 @@ import com.example.demo.request.NotificationReq;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Date;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -76,7 +75,7 @@ public class Notification {
     public Notification(NotificationReq notificationReq) {
         comments = notificationReq.getComments();
         date = new Date(System.currentTimeMillis());
-        isFlagged = notificationReq.getIsFlagged() == null ? false : notificationReq.getIsFlagged();
+        isFlagged = notificationReq.getIsFlagged() != null && notificationReq.getIsFlagged();
     }
 
     public void change(NotificationReq notificationReq) {

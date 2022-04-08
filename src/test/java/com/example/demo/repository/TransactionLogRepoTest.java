@@ -446,42 +446,4 @@ class TransactionLogRepoTest {
         assertEquals(transactionLog3.getTransactionId(),result.get(0).getTransactionId());
     }
 
-    @Test
-    void canFindAllProcessedOrderByTransactionId(){
-        // Given
-        TransactionLog transactionLog = new TransactionLog(
-                1,
-                true,
-                transactionTypeRepo.getById(0),
-                Date.valueOf(LocalDate.of(2002,10,31)),
-                null,
-                100.0,
-                false,
-                "comments"
-        );
-        underTest.save(transactionLog);
-
-        TransactionLog transactionLog2 = new TransactionLog(
-                2,
-                true,
-                transactionTypeRepo.getById(0),
-                Date.valueOf(LocalDate.of(2020,5,25)),
-                null,
-                100.0,
-                false,
-                "comments"
-        );
-        underTest.save(transactionLog2);
-
-        // When
-        ArrayList<TransactionLog> result = underTest.findAllByProcessedOrderByTransactionId(false);
-
-        // Then
-        assertEquals(2,result.size());
-        //Test at the same time the order by.
-        assertEquals(1,result.get(0).getTransactionId());
-        assertEquals(2,result.get(1).getTransactionId());
-
-
-    }
 }

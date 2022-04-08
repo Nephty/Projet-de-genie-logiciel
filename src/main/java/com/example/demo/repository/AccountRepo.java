@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.util.ArrayList;
 
-
+/**
+ * All the db request on the {@link Account} table.
+ */
 @Repository
 public interface AccountRepo extends JpaRepository<Account, String> {
 

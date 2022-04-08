@@ -4,7 +4,6 @@ import com.example.demo.security.Role;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Contains the data inside a token relevant to id the client

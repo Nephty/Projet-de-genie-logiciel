@@ -1,7 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import com.example.demo.repository.TransactionLogRepo;
 import com.example.demo.service.TransactionLogService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,8 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.ArrayList;
 
 
 @SpringBootApplication

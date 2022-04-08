@@ -3,7 +3,6 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.AccountAccess;
-import com.example.demo.model.User;
 import com.example.demo.request.AccountAccessReq;
 import com.example.demo.service.AccountAccessService;
 import lombok.RequiredArgsConstructor;

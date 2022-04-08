@@ -1,6 +1,5 @@
 package com.example.demo.scheduler;
 
-import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.model.Account;
 import com.example.demo.model.AccountType;
 import com.example.demo.model.SubAccount;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;

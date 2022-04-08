@@ -58,15 +58,6 @@
                    prefWidth="300.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
                    text="%VisualizeToolScene.addedAccountsLabel"/>
-            <Button fx:id="setTableMode" layoutX="1075.0" layoutY="75" onKeyReleased="#handleComponentKeyReleased"
-                    onMouseClicked="#handleSetTableModeButtonClicked" onMouseEntered="#handleButtonMouseEntered"
-                    onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0"
-                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%VisualizeToolScene.setTableMode" textFill="#0a0a14">
-                <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
-                </effect>
-            </Button>
             <Button fx:id="setGraphMode" layoutX="1075.0" layoutY="125.0" onKeyReleased="#handleComponentKeyReleased"
                     onMouseClicked="#handleSetGraphModeButtonClicked" onMouseEntered="#handleButtonMouseEntered"
                     onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0"
@@ -76,7 +67,7 @@
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
-            <Button fx:id="setPieChartMode" layoutX="1075.0" layoutY="175.0" onKeyReleased="#handleComponentKeyReleased"
+            <Button fx:id="setPieChartMode" layoutX="1075.0" layoutY="75.0" onKeyReleased="#handleComponentKeyReleased"
                     onMouseClicked="#handleSetPieChartModeButtonClicked" onMouseEntered="#handleButtonMouseEntered"
                     onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
@@ -85,10 +76,9 @@
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
-            <ComboBox fx:id="timeSpanComboBox" layoutX="1075.0" layoutY="275.0"
-                      onMouseClicked="#handleTimeSpanComboBoxMouseClicked"
-                      onKeyReleased="#handleComponentKeyReleased" prefHeight="30.0" prefWidth="170.0"
-                      promptText="%VisualizeToolScene.timeSpanComboBox"
+            <ComboBox fx:id="timeSpanComboBox" layoutX="1075.0" layoutY="225.0"
+                      onKeyReleased="#handleComponentKeyReleased"
+                      prefHeight="30.0" prefWidth="170.0" promptText="%VisualizeToolScene.timeSpanComboBox"
                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>

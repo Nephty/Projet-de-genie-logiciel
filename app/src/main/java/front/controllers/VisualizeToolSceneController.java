@@ -8,6 +8,8 @@ import back.user.Transaction;
 import back.user.Wallet;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,14 +28,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class VisualizeToolSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, setTableMode, setGraphMode, setPieChartMode, addAccountButton, removeAccountButton;
+    public Button backButton, setGraphMode, setPieChartMode, addAccountButton, removeAccountButton;
     @FXML
     public ComboBox<Timespan> timeSpanComboBox;
     @FXML
@@ -55,7 +54,6 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     private ObservableList<XYChart.Series<String, Double>> stackedAreaChartData = FXCollections.observableArrayList();
     ArrayList<Double> valuesHistory;
 
-
     public void initialize() {
         ObservableList<Timespan> timespanValues = FXCollections.observableArrayList(Arrays.asList(Timespan.DAILY, Timespan.WEEKLY, Timespan.MONTHLY, Timespan.YEARLY));
         timeSpanComboBox.setItems(timespanValues);
@@ -68,6 +66,19 @@ public class VisualizeToolSceneController extends Controller implements BackButt
             }
         }
         availableAccountsListView.setItems(FXCollections.observableArrayList(subAccounts));
+
+        // Add a listener that checks for value change in the combo box to reset the stacked area chart
+        timeSpanComboBox.valueProperty().addListener(new ChangeListener<Timespan>() {
+            @Override
+            public void changed(ObservableValue<? extends Timespan> observable, Timespan oldValue, Timespan newValue) {
+                stackedAreaChartData = FXCollections.observableArrayList();
+                stackedAreaChart.setData(stackedAreaChartData);
+                for (SubAccount subAccount : addedAccountsListView.getItems()) {
+                    // TODO : add a series for every sub account
+                    addAccountToStackedAreaChartData(subAccount, timeSpanComboBox.getValue());
+                }
+            }
+        });
 
         // TODO : load all graphs and only change their visibility when switching mode
     }
@@ -87,12 +98,6 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @FXML
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
-    }
-
-    @FXML
-    public void handleSetTableModeButtonClicked(MouseEvent event) {
-        pieChart.setVisible(false);
-        stackedAreaChart.setVisible(false);
     }
 
     @FXML
@@ -201,13 +206,13 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         ArrayList<String> dates = new ArrayList<>();
         XYChart.Series<String, Double> data = new XYChart.Series<>();
         data.setName(subAccount.getIBAN());
-        valuesHistory = computeValuesHistoryProcess(subAccount.getAmount(), subAccount.getTransactionHistory(), timeSpanComboBox.getValue(), subAccount);
+        valuesHistory = computeValuesHistoryProcess(subAccount, timeSpanComboBox.getValue());
         switch (timeSpan) {
             case DAILY:
                 for (int i = 0; i < 30; i++) {
                     LocalDate datePoint = LocalDate.now().minus(Period.ofDays(29 - i));
                     dates.add(datePoint.toString());
-                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(29 - i));
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(i));
                     data.getData().add(dataPoint);
                 }
                 break;
@@ -215,7 +220,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 for (int i = 0; i < 8; i++) {
                     LocalDate datePoint = LocalDate.now().minus(Period.ofWeeks(7 - i));
                     dates.add(datePoint.toString());
-                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(7 - i));
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(i));
                     data.getData().add(dataPoint);
                 }
                 break;
@@ -223,7 +228,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 for (int i = 0; i < 6; i++) {
                     LocalDate datePoint = LocalDate.now().minus(Period.ofMonths(5 - i));
                     dates.add(datePoint.toString());
-                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(5 - i));
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(i));
                     data.getData().add(dataPoint);
                 }
                 break;
@@ -231,7 +236,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 for (int i = 0; i < 4; i++) {
                     LocalDate datePoint = LocalDate.now().minus(Period.ofYears(3 - i));
                     dates.add(datePoint.toString());
-                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(3 - i));
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(i));
                     data.getData().add(dataPoint);
                 }
                 break;
@@ -441,12 +446,6 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         return comprehensiveHashMap;
     }
 
-    @FXML
-    public void handleTimeSpanComboBoxMouseClicked(MouseEvent mouseEvent) {
-        // pour toutes les series déjà présente, update pour qu'elles contiennent toutes les données sur le new timespan
-        // stackedAreaChart = new StackedAreaChart(bottomAxis, leftAxis);
-    }
-
     /**
      * Computes all values of accounts holdings at regular intervals using the given transactions and puts all the values
      * in an array list that corresponds to how much money was on an account at regular intervals. These intervals are given
@@ -463,9 +462,11 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     public ArrayList<Double> computeValuesHistory(double initialValue, HashMap<String, ArrayList<Transaction>> transactions, SubAccount account) {
         double value = initialValue;
         ArrayList<Double> values = new ArrayList<>();
-        for (String key : transactions.keySet()) {
+        Set<String> keySet = transactions.keySet();
+        ArrayList<String> sortedKeySet = sortStringNaturalsKeySet(keySet);
+        for (String key : sortedKeySet) {
             for (Transaction t : transactions.get(key)) {
-                if (t.getSenderIBAN().equals(account.getIBAN())) { // TODO : reset this to Main.getCurrentAccount().getIBAN()
+                if (t.getSenderIBAN().equals(account.getIBAN())) {
                     value -= t.getAmount();
                 } else {
                     value += t.getAmount();
@@ -477,6 +478,19 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     }
 
     /**
+     * Sorts a set of string keys in numerical order. Entries in the set MUST be integer numbers contained in strings.
+     * Also, every entry must be a sequence : the algorithm won't work if you try to sort ["1", "3", "4"].
+     * Example : ordering ["12", "13", "11"] will return ["11", "12", "13"].
+     * @param keySet The set to order
+     * @return An ordered copy of the original set
+     */
+    private ArrayList<String> sortStringNaturalsKeySet(Set<String> keySet) {
+        ArrayList<String> newKeySet = new ArrayList<>(keySet);
+        newKeySet.sort(Comparator.comparingInt(Integer::parseInt));
+        return newKeySet;
+    }
+
+    /**
      * Using an initial value, a list of transactions and a timespan, returns a list of values that correspond to the
      * amount of money that was held by an account periodically (according to the timespan). If we give an initial value
      * of 50, a list of transactions and a timespan of DAILY, returns a list of values that correspond to the amounts of
@@ -484,16 +498,14 @@ public class VisualizeToolSceneController extends Controller implements BackButt
      * separate every value). If the timespan is WEEKLY, MONTHLY or YEARLY, every value will have a one week, month or
      * year interval respectively.
      *
-     * @param initialValue The initial amount of money held by an account
-     * @param history      The transaction history for the account (WARNING : needs to be complete, or the computations will
-     *                     be inaccurate)
      * @param timeSpan     The timespan that has to separate every value (one day, one week, one month or one year)
      * @param account      The account we track the history from
      * @return A list of values that represent the amounts of money held by an account that has the given initial value
      * of money as of today, evaluated every day/week/month/year (according to the given timespan)
      */
-    public ArrayList<Double> computeValuesHistoryProcess(double initialValue, ArrayList<Transaction> history, Timespan timeSpan, SubAccount account) {
-        ArrayList<Double> valuesHistory;
+    public ArrayList<Double> computeValuesHistoryProcess(SubAccount account, Timespan timeSpan) {
+        double initialValue = account.getAmount();
+        ArrayList<Transaction> history = account.getTransactionHistory();
         HashMap<String, ArrayList<Transaction>> transactionsSeparated = separateTransactionsIntoHashMap(history, timeSpan);
         HashMap<String, ArrayList<Transaction>> comprehensiveData = prepareComprehensiveTransactionsHashMap(transactionsSeparated, timeSpan);
         valuesHistory = computeValuesHistory(initialValue, comprehensiveData, account);

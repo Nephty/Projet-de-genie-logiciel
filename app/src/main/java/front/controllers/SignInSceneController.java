@@ -125,6 +125,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     @FXML
     public void handleComponentKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) emulateSignInButtonClicked();
+        keyEvent.consume();
     }
 
     public void emulateSignInButtonClicked() {

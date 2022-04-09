@@ -40,17 +40,6 @@ public class BankController {
     }
 
     /**
-     * @param swift id of the bank to be deleted
-     * @return swift sent
-     * 200 - OK
-     */
-    @DeleteMapping(value = "{swift}")
-    public ResponseEntity<String> deleteBank(@PathVariable String swift) {
-        bankService.deleteBank(swift);
-        return new ResponseEntity<>(swift, HttpStatus.CREATED);
-    }
-
-    /**
      * @param swift id of the bank to retrieve
      * @return the bank with the matching id
      * 200 - OK

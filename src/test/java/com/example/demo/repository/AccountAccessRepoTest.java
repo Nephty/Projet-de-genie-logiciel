@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -145,7 +146,7 @@ class AccountAccessRepoTest {
         underTest.save(testedWithoutTestId);
 
         // when
-        List<AccountAccess> result = underTest.findAllByUserId(testedWithTestId.getUserId());
+        ArrayList<AccountAccess> result = underTest.findAllByUserId(testedWithTestId.getUserId());
         //then
         assertEquals(1,result.size());
         assertEquals("testId", result.get(0).getUserId().getUserId());
@@ -181,7 +182,7 @@ class AccountAccessRepoTest {
         underTest.save(testedBank1b);
 
         // when
-        List<AccountAccess> result = underTest.findAllByUserId(testedBank1a.getUserId());
+        ArrayList<AccountAccess> result = underTest.findAllByUserId(testedBank1a.getUserId());
 
         //Then
         assertEquals(
@@ -277,5 +278,42 @@ class AccountAccessRepoTest {
         //then
         assertFalse(underTest.existsByUserIdAndAccountId(userRepo.getById(userId),accountRepo.getById(accountId)));
         assertTrue(underTest.existsByUserIdAndAccountId(userRepo.getById(persistUserid),accountRepo.getById(accountId)));
+    }
+
+    @Test
+    void canGetAllOwners(){
+        // Given
+        String iban = "testIban";
+
+        AccountAccess test1 = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(test1);
+
+        AccountAccess test2 = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("test2Id"),
+                true,
+                false
+        );
+        underTest.save(test2);
+
+        AccountAccess test3 = new AccountAccess(
+                accountRepo.getById("testIban2"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(test3);
+
+        // When
+        List<User> result = underTest.getAllOwners(accountRepo.getById(iban));
+
+        // Then
+        assertEquals(2,result.size());
+
     }
 }

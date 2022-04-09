@@ -29,13 +29,22 @@ public class AccountAccessController {
      * 204 - Not found
      * Who ? the user
      */
-    @GetMapping(value = "{userId}")
-    public ResponseEntity<List<AccountAccessReq>> sendAccountAccess(@PathVariable String userId){
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<AccountAccessReq>> sendAccountAccess(@RequestParam String userId){
         return new ResponseEntity<>(
                 accountAccessService.getAccountAccessByUserId(userId),
                 HttpStatus.OK
         );
     }
+
+    @GetMapping(value = "/all/co-owner")
+    public ResponseEntity<List<User>> getAllOwners(@RequestParam String iban){
+        return new ResponseEntity<>(
+                accountAccessService.findAllOwners(iban),
+                HttpStatus.OK
+        );
+    }
+
 
     /**
      * @param userId id of the user with the access

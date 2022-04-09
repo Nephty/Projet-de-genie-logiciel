@@ -28,6 +28,8 @@ public class NotificationReq {
 
     private String senderName;
 
+    private String senderId;
+
     private String notificationTypeName;
 
     @JsonIgnore
@@ -45,9 +47,11 @@ public class NotificationReq {
 
     public NotificationReq(Notification notification) {
         if(notification.getToBank()) {
+            senderId = notification.getUserId().getUserId();
             senderName = notification.getUserId().getFullName();
             recipientId = notification.getBankId().getSwift();
         } else {
+            senderId = notification.getBankId().getSwift();
             senderName = notification.getBankId().getName();
             recipientId = notification.getUserId().getUserId();
         }

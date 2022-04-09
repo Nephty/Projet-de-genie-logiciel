@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j
@@ -39,10 +38,6 @@ public class BankService {
         Bank bank = instantiateBank(null, bankReq, HttpMethod.POST);
         bank.setPassword(passwordEncoder.encode(bank.getPassword()));
         return bankRepo.save(bank);
-    }
-
-    public void deleteBank(String swift) {
-        bankRepo.deleteById(swift);
     }
 
     public Bank changeBank(Sender sender,BankReq bankReq) {

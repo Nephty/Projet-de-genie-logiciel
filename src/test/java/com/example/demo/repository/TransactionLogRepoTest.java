@@ -13,8 +13,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class TransactionLogRepoTest {
@@ -270,7 +269,7 @@ class TransactionLogRepoTest {
                 2,
                 true,
                 transactionTypeRepo.getById(0),
-                Date.valueOf(LocalDate.of(2020,5,25)),
+                Date.valueOf(LocalDate.of(3000,12,12)),
                 null,
                 100.0,
                 false,
@@ -400,7 +399,7 @@ class TransactionLogRepoTest {
     }
 
     @Test
-    void canFindAllProcessedOrderByTransactionId(){
+    void canFindBadFormatTransaction(){
         // Given
         TransactionLog transactionLog = new TransactionLog(
                 1,
@@ -415,10 +414,10 @@ class TransactionLogRepoTest {
         underTest.save(transactionLog);
 
         TransactionLog transactionLog2 = new TransactionLog(
-                2,
-                true,
+                1,
+                false,
                 transactionTypeRepo.getById(0),
-                Date.valueOf(LocalDate.of(2020,5,25)),
+                Date.valueOf(LocalDate.of(2002,10,31)),
                 null,
                 100.0,
                 false,
@@ -426,15 +425,87 @@ class TransactionLogRepoTest {
         );
         underTest.save(transactionLog2);
 
+        TransactionLog transactionLog3 = new TransactionLog(
+                2,
+                true,
+                transactionTypeRepo.getById(0),
+                Date.valueOf(LocalDate.of(3000,12,12)),
+                null,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog3);
+
         // When
-        ArrayList<TransactionLog> result = underTest.findAllByProcessedOrderByTransactionId(false);
+        ArrayList<TransactionLog> result = underTest.findBadFormatTransaction();
 
         // Then
-        assertEquals(2,result.size());
-        //Test at the same time the order by.
-        assertEquals(1,result.get(0).getTransactionId());
-        assertEquals(2,result.get(1).getTransactionId());
-
-
+        assertEquals(1,result.size());
+        assertEquals(transactionLog3.getTransactionId(),result.get(0).getTransactionId());
     }
+
+    @Test
+    void findAllLinkedToSubAccountShouldNotThrowNullPointerException(){
+        // issue: when we delete an account, it set the iban of the account to NULL in the DB.
+        // It wasn't handled before, so we're making this test to make sure this won't happen again.
+        // TODO: 4/9/22 resolve that issue
+        // Given
+        SubAccount subAccount = new SubAccount(
+                accountRepo.getById("testIban"),
+                currencyTypeRepo.getById(0),
+                400.0
+        );
+        subAccountRepo.save(subAccount);
+
+        SubAccount subAccount1 = new SubAccount(
+                accountRepo.getById("test2Iban"),
+                currencyTypeRepo.getById(0),
+                200.0
+        );
+        subAccountRepo.save(subAccount1);
+
+        TransactionLog transactionLog = new TransactionLog(
+                1,
+                true,
+                transactionTypeRepo.getById(0),
+                new Date(System.currentTimeMillis()),
+                subAccount,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog);
+
+        TransactionLog transactionLog2 = new TransactionLog(
+                1,
+                false,
+                transactionTypeRepo.getById(0),
+                new Date(System.currentTimeMillis()),
+                subAccount1,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog2);
+
+        TransactionLog transactionLog3 = new TransactionLog(
+                2,
+                true,
+                transactionTypeRepo.getById(0),
+                new Date(System.currentTimeMillis()),
+                subAccount1,
+                100.0,
+                false,
+                "comments"
+        );
+        underTest.save(transactionLog3);
+
+        // When
+        //subAccountRepo.delete(subAccount1);
+
+        // Then
+        assertDoesNotThrow(()->underTest.findAllLinkedToSubAccount(subAccount));
+    }
+
 }

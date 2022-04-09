@@ -73,8 +73,7 @@ public class NotificationController {
 
 
     /**
-     * @param isFlagged Is the notification flagged
-     * @param id The id of the notification
+     * @param notificationReq notification to modify in the DB.
      * @return Notification to String
      * 201 - Created
      * 400 - Bad Request

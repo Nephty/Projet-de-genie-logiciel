@@ -72,11 +72,6 @@ public class UserService implements UserDetailsService {
         return uRepo.save(user);
     }
 
-    public void deleteUser(String id) {
-        log.info("Deleting user with id of {}", id);
-        uRepo.deleteById(id);
-    }
-
     /**
      * Raise an error if there already is a user in the DB with any of the params given
      * @param userId id of the user

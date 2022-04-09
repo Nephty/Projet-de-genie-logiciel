@@ -3,7 +3,6 @@ package com.example.demo.filter;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.demo.exception.throwables.AuthenticationException;
 import com.example.demo.other.Sender;
 import com.example.demo.security.Role;
 import com.example.demo.security.TokenHandler;

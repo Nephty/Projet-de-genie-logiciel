@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.Instant;
+import java.time.ZoneId;
 
 
 /**
@@ -64,19 +66,23 @@ public class Account {
     public Account(AccountReq accountReq) {
         this.iban = accountReq.getIban();
         this.payment = false; // It's the default mode for accounts according to the instructions
+        Instant nextProcessInstant = new Date(System.currentTimeMillis())
+                    .toLocalDate()
+                // 4 = fixed rate -> next process in 5 years else is next year
+                    .plusYears(accountReq.getAccountTypeId() == 4 ? 5 : 1)
+                    .atStartOfDay(ZoneId.systemDefault())
+                    .toInstant();
+
         nextProcess = new Date(
-                new Date(System.currentTimeMillis()).toLocalDate().plusYears(1).toEpochDay()
+                nextProcessInstant.toEpochMilli()
         );
     }
 
     /**
-     * Modify the Payment of the Account (could also modify the iban)
+     * Modify the Payment of the Account
      * @param accountReq Custom request for changing the account (only the Payment is required)
      */
     public void change(AccountReq accountReq) {
-        if(accountReq.getIban() != null) {
-            iban = accountReq.getIban();
-        }
         if(accountReq.getPayment() != null) {
             payment = accountReq.getPayment();
         }

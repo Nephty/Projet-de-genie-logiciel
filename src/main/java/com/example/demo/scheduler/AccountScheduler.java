@@ -44,11 +44,10 @@ public class AccountScheduler extends AbstractScheduler {
     private void debitFee(Account account) {
         final double fee = account.getAccountTypeId().getAnnualFee();
         ArrayList<SubAccount> linkedSubAccount = subAccountRepo.findAllByIban(account);
-        linkedSubAccount.forEach(subAccount -> {
-            subAccount.setCurrentBalance(
-                    subAccount.getCurrentBalance() - subAccount.getCurrentBalance() * fee
-            );
-        });
+        linkedSubAccount.forEach(subAccount ->
+                subAccount.setCurrentBalance(
+                        subAccount.getCurrentBalance() - subAccount.getCurrentBalance() * fee
+        ));
         subAccountRepo.saveAll(linkedSubAccount);
     }
 
@@ -64,19 +63,15 @@ public class AccountScheduler extends AbstractScheduler {
     }
 
     private void updateAccount(Account account) {
-
-        Instant nextProcessDate = account.getNextProcess()
+        Instant nextProcessInstant = account.getNextProcess()
                 .toLocalDate()
                 .plusYears(1)
                 .atStartOfDay(ZoneId.systemDefault())
                 .toInstant();
+
         account.setNextProcess(new Date(
-                nextProcessDate.toEpochMilli()
+                nextProcessInstant.toEpochMilli()
         ));
-        Account savedAccount = accountRepo.save(account);
-        log.info("new process date: {}, {}",
-                savedAccount.getNextProcess(),
-                account.getNextProcess().toLocalDate().plusYears(1)
-        );
+        accountRepo.save(account);
     }
 }

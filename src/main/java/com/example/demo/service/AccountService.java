@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.AuthorizationException;
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.exception.throwables.ResourceNotFound;
@@ -38,6 +39,9 @@ public class AccountService {
     }
 
     public Account addAccount(AccountReq accountReq) {
+        if(accountReq.getAccountTypeId() == 4 && accountReq.getPayment()) {
+            throw new AuthorizationException("This is a fixed account you can't allow payment to it");
+        }
         Account account = instantiateAccount(accountReq, HttpMethod.POST);
         SubAccount defaultSubAccount = SubAccount.createDefault(account);
         accountRepo.save(account);
@@ -47,6 +51,10 @@ public class AccountService {
 
     public Account changeAccount(AccountReq accountReq) {
         Account account = instantiateAccount(accountReq, HttpMethod.PUT);
+        //Fixed account
+        if(account.getAccountTypeId().getAccountTypeId() == 4 && accountReq.getPayment()) {
+            throw new AuthorizationException("This is a fixed account you can't allow payment to it");
+        }
         return accountRepo.save(account);
     }
 

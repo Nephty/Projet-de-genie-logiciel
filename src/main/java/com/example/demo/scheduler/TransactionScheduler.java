@@ -60,6 +60,7 @@ public class TransactionScheduler extends AbstractScheduler {
         reason += "Date : " + transaction.getTransactionDate() + "\n";
         reason += "Amount :" + transaction.getTransactionAmount();
 
+
         Sender bankSender = new Sender(
                 transaction.getSubAccount().getIban().getSwift().getSwift(),
                 Role.BANK

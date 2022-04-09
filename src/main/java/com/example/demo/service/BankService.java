@@ -40,10 +40,6 @@ public class BankService {
         return bankRepo.save(bank);
     }
 
-    public void deleteBank(String swift) {
-        bankRepo.deleteById(swift);
-    }
-
     public Bank changeBank(Sender sender,BankReq bankReq) {
         Bank bank = instantiateBank(sender, bankReq, HttpMethod.PUT);
         bank.setPassword(passwordEncoder.encode(bank.getPassword()));

@@ -90,7 +90,7 @@ public class TransactionLogService {
         // Can't make transaction to ourselves.
         if(transactionReq.getSenderIban().equals(transactionReq.getRecipientIban())) {
             log.warn("transaction to = transaction from");
-            throw new AuthorizationException("You can't make a transaction to the same account you emitted it");
+            throw new AuthorizationException("You can't make a transaction to the same account you emitted it from");
         }
         TransactionLog transactionSent = new TransactionLog(transactionReq);
         TransactionLog transactionReceived = new TransactionLog(transactionReq);
@@ -150,17 +150,21 @@ public class TransactionLogService {
     }
 
 
-    private void canInstantiateTransaction(Sender sender, TransactionLog transaction)
+    private void canInstantiateTransaction(Sender sender, TransactionLog transactionSent)
             throws AuthorizationException{
-        if(!transaction.getSubAccount().getIban().getPayment()) {
+        if(!transactionSent.getSubAccount().getIban().getPayment()) {
             throw new AuthorizationException("This account can't make payment");
         }
-        if(transaction.getTransactionAmount() <= 0) {
+        if(transactionSent.getTransactionAmount() <= 0) {
             throw new AuthorizationException("Can't make transaction lower or equal to 0");
         }
-        if(!transaction.getSubAccount().getIban().getUserId().getUserId().equals(sender.getId())) {
+        if(transactionSent.getSubAccount().getCurrentBalance() <
+                transactionSent.getTransactionAmount() + transactionSent.getFee()) {
+            throw new AuthorizationException("You don't have enough money");
+        }
+        if(!transactionSent.getSubAccount().getIban().getUserId().getUserId().equals(sender.getId())) {
             AccountAccess accountAccess = accountAccessRepo.findById(
-                    new AccountAccessPK(transaction.getSubAccount().getIban().getIban(), sender.getId())
+                    new AccountAccessPK(transactionSent.getSubAccount().getIban().getIban(), sender.getId())
             ).orElseThrow(()-> {
                 log.warn("User doesn't have access to this account");
                 throw new AuthorizationException("You don't have access to this account");
@@ -219,7 +223,8 @@ public class TransactionLogService {
             log.warn("Account {} can't make payment",transactionSent.getSubAccount().getIban().getIban());
             return false;
         }
-        else if(transactionSent.getSubAccount().getCurrentBalance() < transactionSent.getTransactionAmount()) {
+        else if(transactionSent.getSubAccount().getCurrentBalance() <
+                transactionSent.getTransactionAmount() + transactionSent.getFee()) {
             transactionLogRepo.deleteAllByTransactionId(transactionSent.getTransactionId());
             String reason = "Not enough fund : \n" +
                     "You had "+transactionSent.getSubAccount().getCurrentBalance()+" left on your account " +
@@ -236,7 +241,7 @@ public class TransactionLogService {
      * @param transactionSent The transaction that couldn't be executed.
      * @param reason The reason why the transaction couldn't be executed.
      */
-    private void sendDeletedNotification(TransactionLog transactionSent,String reason){
+    public void sendDeletedNotification(TransactionLog transactionSent,String reason){
         Sender bankSender = new Sender(
                 transactionSent.getSubAccount().getIban().getSwift().getSwift(),
                 Role.BANK

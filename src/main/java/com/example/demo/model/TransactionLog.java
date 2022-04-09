@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import com.example.demo.model.CompositePK.TransactionLogPK;
 import com.example.demo.request.TransactionReq;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -54,6 +55,14 @@ public class TransactionLog {
             nullable = false
     )
     private Double transactionAmount;
+
+    @JsonIgnore
+    public double getFee() {
+        if(!isSender) {
+            return 0;
+        }
+        return transactionAmount * transactionTypeId.getTransactionFee();
+    }
 
     @Column(
             nullable = false

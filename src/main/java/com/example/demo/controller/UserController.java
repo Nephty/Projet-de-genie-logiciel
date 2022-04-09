@@ -83,17 +83,4 @@ public class UserController {
         User savedUser = userService.changeUser(userReq, (Sender)httpRequest.getAttribute(Sender.getAttributeName()));
         return new ResponseEntity<>(savedUser.toString(),HttpStatus.CREATED);
     }
-
-    /**
-     * @param id id of the user to delete in the DB
-     * @return id sent
-     * 200 - OK
-     * Who ? user itself
-     * What ? delete its assets
-     */
-    @DeleteMapping(value = "{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable String id) {
-        userService.deleteUser(id);
-        return new ResponseEntity<>(id,HttpStatus.OK);
-    }
 }

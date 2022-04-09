@@ -29,8 +29,6 @@ public class FinancialProductsSceneController extends Controller implements Back
     @FXML
     public ListView<Wallet> productsListView;
 
-    private Wallet selectedWallet;
-
     public void initialize() {
         fetchProducts();
     }
@@ -123,11 +121,6 @@ public class FinancialProductsSceneController extends Controller implements Back
             // Put the wallets in the listView
             productsListView.setItems(FXCollections.observableArrayList(walletList));
         }
-    }
-
-    @FXML
-    public void handleVisualizeToolButtonClicked(MouseEvent event) {
-        Main.setScene(Flow.forward(Scenes.VisualizeToolScene));
     }
 
     @FXML

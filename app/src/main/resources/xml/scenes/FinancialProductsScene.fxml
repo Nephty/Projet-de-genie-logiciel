@@ -48,16 +48,6 @@
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
-            <Button fx:id="visualizeToolButton" layoutX="1075.0" layoutY="250.0"
-                    onMouseClicked="#handleVisualizeToolButtonClicked" prefHeight="30.0" prefWidth="170.0"
-                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleComponentKeyReleased"
-                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%FinancialProductsScene.visualizeToolButton" textFill="#0a0a14">
-                <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
-                </effect>
-            </Button>
             <Label fx:id="loadingProductsLabel" layoutX="870.0" layoutY="29.0" opacity="0.0"
                    prefHeight="16.0" prefWidth="154.0" text="%FinancialProductsScene.loadingProductsLabel"/>
             <Button fx:id="fetchProductsButton" layoutX="1075.0" layoutY="75.0"

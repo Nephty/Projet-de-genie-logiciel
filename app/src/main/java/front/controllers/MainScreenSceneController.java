@@ -12,7 +12,7 @@ import static app.Main.appLocale;
 
 public class MainScreenSceneController extends Controller {
     @FXML
-    public Button changePasswordButton, notificationsButton, requestsButton, financialProductsButton, signOutButton;
+    public Button changePasswordButton, notificationsButton, requestsButton, visualizeToolButton, financialProductsButton, signOutButton;
 
     @FXML
     public void handleSignOutButtonClicked(MouseEvent event) {
@@ -40,5 +40,10 @@ public class MainScreenSceneController extends Controller {
     @FXML
     public void handleChangePasswordButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.ChangePasswordScene));
+    }
+
+    @FXML
+    public void handleVisualizeToolButtonClicked(MouseEvent mouseEvent) {
+        Main.setScene(Flow.forward(Scenes.VisualizeToolScene));
     }
 }

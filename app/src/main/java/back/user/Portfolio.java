@@ -23,7 +23,7 @@ public class Portfolio {
         this.user = new Profile(nationalRegistrationNumber);
         // It fetchs all the access that got the user
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/" + nationalRegistrationNumber)
+        HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + nationalRegistrationNumber)
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         Main.errorCheck(response.getStatus());

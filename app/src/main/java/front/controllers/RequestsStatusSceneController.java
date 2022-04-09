@@ -6,6 +6,7 @@ import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,7 +28,6 @@ public class RequestsStatusSceneController extends Controller implements BackBut
 
     public void initialize() {
         fetchRequests();
-//        requestsListView.setItems(FXCollections.observableArrayList(new Request("request A"), new Request("request B")));
     }
 
     @FXML
@@ -71,6 +71,8 @@ public class RequestsStatusSceneController extends Controller implements BackBut
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch requests and put them in the listview
             // TODO : back-end : fetch ALL requests from the database and put them in the listview
+
+            //requestsListView.setItems(FXCollections.observableArrayList();
             // Fade the label "updating requests..." out to 0.0 opacity
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);
         }

@@ -187,7 +187,8 @@ public class TransactionLogService {
         if (assertCanMakeTransaction(transactionSent,transactionReceive)) {
             // -- SEND --
             transactionSent.getSubAccount().setCurrentBalance(
-                    transactionSent.getSubAccount().getCurrentBalance() - transactionSent.getTransactionAmount()
+                    transactionSent.getSubAccount().getCurrentBalance() -
+                            (transactionSent.getTransactionAmount() + transactionSent.getFee())
             );
             transactionSent.setProcessed(true);
 

@@ -3,8 +3,6 @@ package front.controllers;
 import app.Main;
 import back.user.Account;
 import back.user.Profile;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
@@ -12,6 +10,7 @@ import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -20,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class ClientDetailsSceneController extends Controller implements BackButtonNavigator {
@@ -35,6 +35,9 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     @FXML
     public TextField searchTextField;
     private boolean searched = false;
+
+    private ObservableList<Account> allData = FXCollections.observableArrayList();
+    private ObservableList<Account> currentData = FXCollections.observableArrayList();
 
     public static void setCurrentProfile(Profile profile) {
         currentProfile = profile;
@@ -114,6 +117,26 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     @FXML
     public void handleSearchButtonClicked(MouseEvent event) {
         searched = true;
+        String entry = searchTextField.getText().toLowerCase();
+        if (entry.equals("")) {
+            currentData = allData;
+            clientDetailsListView.setItems(currentData);
+            return;
+        }
+        currentData = FXCollections.observableArrayList();
+
+        for (Account account : allData) {
+            ArrayList<String> accountParameters = new ArrayList<>(Arrays.asList(account.getIBAN().toLowerCase(),
+                    account.getAccountOwner().toString().toLowerCase(), account.getAccountType().toString().toLowerCase(),
+                    account.getAccountCoOwner().toString().toLowerCase(), account.getBank().toString().toLowerCase()));
+            for (String param : accountParameters) {
+                if (param.contains(entry)) {
+                    currentData.add(account);
+                    break;
+                }
+            }
+        }
+        clientDetailsListView.setItems(currentData);
     }
 
     @FXML
@@ -152,6 +175,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
             ArrayList<Account> accountList = Main.getCurrentWallet().getAccountList();
             // Add it to the listView
             clientDetailsListView.setItems(FXCollections.observableArrayList(accountList));
+            allData = clientDetailsListView.getItems();
             sleepAndFadeOutLoadingClientDetailsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientDetailsLabel);
         }
     }

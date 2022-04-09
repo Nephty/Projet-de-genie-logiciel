@@ -11,6 +11,7 @@ import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -19,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class ClientsSceneController extends Controller implements BackButtonNavigator {
@@ -32,6 +34,9 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     public ComboBox<String> sortByComboBox;
     @FXML
     public TextField searchTextField;
+
+    private ObservableList<Profile> allData = FXCollections.observableArrayList();
+    private ObservableList<Profile> currentData = FXCollections.observableArrayList();
 
     private boolean searched = false;
 
@@ -100,8 +105,9 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     public void handleSearchTextFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateSearchButtonClicked();
+        } else {
+            searched = false;
         }
-        searched = false;
     }
 
     private void emulateSearchButtonClicked() {
@@ -111,6 +117,25 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     @FXML
     public void handleSearchButtonClicked(MouseEvent event) {
         searched = true;
+        String entry = searchTextField.getText().toLowerCase();
+        if (entry.equals("")) {
+            currentData = allData;
+            clientsListView.setItems(currentData);
+            return;
+        }
+        currentData = FXCollections.observableArrayList();
+
+        for (Profile profile : allData) {
+            ArrayList<String> profileParameters = new ArrayList<>(Arrays.asList(profile.getFirstName().toLowerCase(),
+                    profile.getLastName().toLowerCase(), profile.getNationalRegistrationNumber().toLowerCase()));
+            for (String param : profileParameters) {
+                if (param.contains(entry)) {
+                    currentData.add(profile);
+                    break;
+                }
+            }
+        }
+        clientsListView.setItems(currentData);
     }
 
     @FXML
@@ -133,6 +158,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
             ArrayList<Profile> customerList = Profile.fetchAllCustomers(Main.getBank().getSwiftCode());
             // Put the client list in a ListView
             clientsListView.setItems(FXCollections.observableArrayList(customerList));
+            allData = clientsListView.getItems();
             sleepAndFadeOutLoadingClientsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientsLabel);
         }
     }

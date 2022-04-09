@@ -8,8 +8,6 @@ import back.user.Transaction;
 import back.user.Wallet;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -68,19 +66,13 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         availableAccountsListView.setItems(FXCollections.observableArrayList(subAccounts));
 
         // Add a listener that checks for value change in the combo box to reset the stacked area chart
-        timeSpanComboBox.valueProperty().addListener(new ChangeListener<Timespan>() {
-            @Override
-            public void changed(ObservableValue<? extends Timespan> observable, Timespan oldValue, Timespan newValue) {
-                stackedAreaChartData = FXCollections.observableArrayList();
-                stackedAreaChart.setData(stackedAreaChartData);
-                for (SubAccount subAccount : addedAccountsListView.getItems()) {
-                    // TODO : add a series for every sub account
-                    addAccountToStackedAreaChartData(subAccount, timeSpanComboBox.getValue());
-                }
+        timeSpanComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            stackedAreaChartData = FXCollections.observableArrayList();
+            stackedAreaChart.setData(stackedAreaChartData);
+            for (SubAccount subAccount : addedAccountsListView.getItems()) {
+                addAccountToStackedAreaChartData(subAccount, timeSpanComboBox.getValue());
             }
         });
-
-        // TODO : load all graphs and only change their visibility when switching mode
     }
 
     @Override
@@ -199,8 +191,9 @@ public class VisualizeToolSceneController extends Controller implements BackButt
      * a dates arraylist of strings that will be used as a new x-axis and creates a new series of data for the chart.
      * Adds the newly created series to the data. The chart is not actively being updated : we must do
      * [chart].setData([data])
+     *
      * @param subAccount The account to add to the data
-     * @param timeSpan The timespan to follow
+     * @param timeSpan   The timespan to follow
      */
     public void addAccountToStackedAreaChartData(SubAccount subAccount, Timespan timeSpan) {
         ArrayList<String> dates = new ArrayList<>();
@@ -212,7 +205,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 for (int i = 0; i < 30; i++) {
                     LocalDate datePoint = LocalDate.now().minus(Period.ofDays(29 - i));
                     dates.add(datePoint.toString());
-                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(i));
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(29 - i));
                     data.getData().add(dataPoint);
                 }
                 break;
@@ -220,7 +213,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 for (int i = 0; i < 8; i++) {
                     LocalDate datePoint = LocalDate.now().minus(Period.ofWeeks(7 - i));
                     dates.add(datePoint.toString());
-                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(i));
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(7 - i));
                     data.getData().add(dataPoint);
                 }
                 break;
@@ -228,7 +221,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 for (int i = 0; i < 6; i++) {
                     LocalDate datePoint = LocalDate.now().minus(Period.ofMonths(5 - i));
                     dates.add(datePoint.toString());
-                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(i));
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(5 - i));
                     data.getData().add(dataPoint);
                 }
                 break;
@@ -236,7 +229,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 for (int i = 0; i < 4; i++) {
                     LocalDate datePoint = LocalDate.now().minus(Period.ofYears(3 - i));
                     dates.add(datePoint.toString());
-                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(i));
+                    XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(datePoint.toString(), valuesHistory.get(3 - i));
                     data.getData().add(dataPoint);
                 }
                 break;
@@ -463,14 +456,12 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         double value = initialValue;
         ArrayList<Double> values = new ArrayList<>();
         Set<String> keySet = transactions.keySet();
-        ArrayList<String> sortedKeySet = sortStringNaturalsKeySet(keySet);
-        for (String key : sortedKeySet) {
-            for (Transaction t : transactions.get(key)) {
-                if (t.getSenderIBAN().equals(account.getIBAN())) {
-                    value -= t.getAmount();
-                } else {
-                    value += t.getAmount();
-                }
+        ArrayList<String> sortedKeySet = reverseSortStringNaturalsKeySet(keySet);
+        values.add(value);
+        for (int i = 0; i < sortedKeySet.size() - 1; i++) {
+            for (Transaction t : transactions.get(sortedKeySet.get(i))) {
+                if (t.getSenderIBAN().equals(account.getIBAN())) value += t.getAmount();
+                else value -= t.getAmount();
             }
             values.add(value);
         }
@@ -478,16 +469,89 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     }
 
     /**
-     * Sorts a set of string keys in numerical order. Entries in the set MUST be integer numbers contained in strings.
-     * Also, every entry must be a sequence : the algorithm won't work if you try to sort ["1", "3", "4"].
-     * Example : ordering ["12", "13", "11"] will return ["11", "12", "13"].
+     * Sorts a set of string keys in cyclic order. Entries must be integer numbers contained in strings that represent
+     * days, weeks or months. Entries must follow a sequence ("3", "4", "5", "6"...) but they can be cyclic, that is
+     * entries could be "1", "2", "3", "4", "49", "50", "51", "52" and cycle back to 1 after 52 is reached.
+     * After sorting and before returning, the list is reversed.
+     *
      * @param keySet The set to order
-     * @return An ordered copy of the original set
+     * @return An inverted ordered copy of the original set
      */
-    private ArrayList<String> sortStringNaturalsKeySet(Set<String> keySet) {
+    private ArrayList<String> reverseSortStringNaturalsKeySet(Set<String> keySet) {
         ArrayList<String> newKeySet = new ArrayList<>(keySet);
         newKeySet.sort(Comparator.comparingInt(Integer::parseInt));
+
+        // If the set is in the monthly timespan and the first element is 0, move it to the front of the set
+        // We must always do that because December must always be the last element and the integer comparator will
+        // always put it first in the list.
+        if (newKeySet.size() == 6 && newKeySet.get(0).equals("0")) {
+            newKeySet.remove(0);
+            newKeySet.add("0");
+        }
+        // If the size of the set is 6 and the last is 0, then there is a gap in the monthly timespan.
+        // In all cases where a gap occur in the monthly timespan, 0 is the last entry.
+        // Case where we need to put some months behind
+        // To know how many elements we need to move, we use a central symmetry, it is easy to see why.
+        // Taking the case of the weekly timespan :
+        // Low bound = 5 --> Elements to move = 1
+        // Low bound = 4 --> Elements to move = 2
+        // Low bound = 3 --> Elements to move = 3
+        // Low bound = 2 --> Elements to move = 4
+        // Low bound = 1 --> Elements to move = 5
+        // This is a central symmetry where the center is 3
+        // Thus, the mathematical function that takes the low bound in input and returns the number of elements to move
+        // is : f(x) = x - 2 ( x - center ) <=> f(x) = - x + 2 * center <=> f(x) = - x + size_of_the_list
+        String gapLowBound = identifyGapLowBound(newKeySet, newKeySet.size() - 1);
+        int numberOfEntriesToMove;
+        if (!gapLowBound.equals("")) {
+            numberOfEntriesToMove = newKeySet.size() - Integer.parseInt(gapLowBound);
+            // For the moving operation, we convert the arraylist to a linkedlist since moving the last element of an
+            // arraylist to the beginning of this arraylist is a very expensive operation.
+            // Using linkedlists, this operation is much cheaper
+            LinkedList<String> newKeySetAsLinkedList = new LinkedList<>(newKeySet);
+            for (int i = 0; i < numberOfEntriesToMove; i++) {
+                String elementToMove = newKeySetAsLinkedList.get(newKeySetAsLinkedList.size() - 1);
+                newKeySetAsLinkedList.addFirst(elementToMove);
+                newKeySetAsLinkedList.removeLast();
+            }
+            Collections.reverse(newKeySetAsLinkedList);
+            return new ArrayList<>(newKeySetAsLinkedList);
+        }
+        Collections.reverse(newKeySet);
         return newKeySet;
+    }
+
+    /**
+     * Looks at the last element of the given arraylist and checks if this value is below a certain threshold.
+     * If so, returns the said element, if not, removes it from a copy of the list and calls the method recursively
+     * on the new shrunk list.
+     * For example, in the monthly timespan, if the last element is <= 4, then this is the low bound of the gap, because
+     * all possible gaped sets with their gap highlighted and their low bound are :
+     * [1, 2, 3, 4, *5, 0*]     --> 5
+     * [1, 2, 3, *4, 11*, 0]    --> 4
+     * [1, 2, *3, 10*, 11, 0]   --> 3
+     * [1, *2, 9*, 10, 11, 0]   --> 2
+     * [*1, 8*, 9, 10, 11, 0]   --> 1
+     * To get the maximum value of the low bound, we only need to know the size of the list since the worst case is
+     * the case where the last element is the only one "gaped" from the others. This means that subtracting 1 from
+     * the size of the list gives us the maximum value of the low bound.
+     * WARNING : we cannot use this method on yearly timespan. This timespan isn't cyclic, whereas daily, weekly & monthly
+     * timespan are cyclic.
+     *
+     * @param newKeySet The list of elements which we need to find the low gap value of. This set MUST come from the
+     *                  method <code>sortStringNaturalsKeySet</code> and be sorted using the comparingInt method
+     *                  from Comparator.
+     * @return The value of the low bound of the gap. See method explanation to know what this value is.
+     */
+    private String identifyGapLowBound(ArrayList<String> newKeySet, int maxValueForLowBound) {
+        ArrayList<String> copy = (ArrayList<String>) newKeySet.clone();
+        if (newKeySet.size() == 0) return "";
+        String lastElementOfCopy = copy.get(copy.size() - 1);
+        if (Integer.parseInt(lastElementOfCopy) <= maxValueForLowBound && !lastElementOfCopy.equals("0")) return lastElementOfCopy;
+        else {
+            copy.remove(copy.size() - 1);
+            return identifyGapLowBound(copy, maxValueForLowBound);
+        }
     }
 
     /**
@@ -498,8 +562,8 @@ public class VisualizeToolSceneController extends Controller implements BackButt
      * separate every value). If the timespan is WEEKLY, MONTHLY or YEARLY, every value will have a one week, month or
      * year interval respectively.
      *
-     * @param timeSpan     The timespan that has to separate every value (one day, one week, one month or one year)
-     * @param account      The account we track the history from
+     * @param timeSpan The timespan that has to separate every value (one day, one week, one month or one year)
+     * @param account  The account we track the history from
      * @return A list of values that represent the amounts of money held by an account that has the given initial value
      * of money as of today, evaluated every day/week/month/year (according to the given timespan)
      */

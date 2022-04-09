@@ -69,6 +69,9 @@ public class SubAccount {
     }
 
     public void exportHistory(String path, boolean isCsv){
+        // TODO : Gérer les cas où le fichier existe, etc
+        // TODO : Afficher un truc quand c'est fait
+        // TODO : Historique de transaction vide ?
         try {
             File file;
             if(isCsv){

@@ -6,6 +6,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * The model for the table account_access.
+ * This class as a composite primary key designed with an idClass {@link AccountAccessPK} <br>
+ * Check the entity relationShip diagram in the documentation if you need more info about this table <br>
+ * Setters, Getters, NoArgsConstructor, AllArgsConstructor and ToString method are implemented by {@link lombok}
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,11 +44,20 @@ public class AccountAccess {
     @Column
     private Boolean hidden;
 
+    /**
+     * Custom constructor for AccountAccess with the custom Request. <br>
+     * Set the access and the hidden attributes.
+     * @param accountAccessReq Custom request for creating/modifying an AccountAccess
+     */
     public AccountAccess(AccountAccessReq accountAccessReq) {
         access = accountAccessReq.getAccess();
         hidden = accountAccessReq.getHidden();
     }
 
+    /**
+     * Modify the Access and/or the hidden attributes if they are present in the Request.
+     * @param accountAccessReq Custom request for creating/modifying an AccountAccess
+     */
     public void change(AccountAccessReq accountAccessReq) {
         if(accountAccessReq.getAccess() != null) {
             access = accountAccessReq.getAccess();

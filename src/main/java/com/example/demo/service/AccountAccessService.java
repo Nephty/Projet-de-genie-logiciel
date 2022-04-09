@@ -60,6 +60,12 @@ public class AccountAccessService {
                 .collect(Collectors.toList());
     }
 
+    public List<User> findAllOwners(String accountId){
+        Account account = accountRepo.findById(accountId)
+                .orElseThrow(() -> new ResourceNotFound("No account with such id: "+accountId));
+        return accountAccessRepo.getAllOwners(account);
+    }
+
     /**
      * Creates an entity based on the request that was made
      * The method vary depending on the http method

@@ -15,6 +15,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -195,8 +197,6 @@ class AccountAccessServiceTest {
         verify(accessRepo,never()).save(any());
     }
 
-
-
     @Test
     void canDeleteAccountAccess() {
         //Given
@@ -286,5 +286,50 @@ class AccountAccessServiceTest {
         assertThatThrownBy(() -> underTest.getAccountAccessByUserId(userId))
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining("No user with such id: " + userId);
+    }
+    
+    @Test
+    void canGetAllOwners(){
+        // TODO: 4/9/22 Ask frix if he needs the owners or only the coOwners
+
+        //Given
+        String accountId = "accountId";
+
+        Account acc = new Account();
+        acc.setIban(accountId);
+
+        //-- USER 1
+        User user = new User();
+        user.setUserId("userID");
+
+        // -- USER 2
+        User user2 = new User();
+        user2.setUserId("user2Id");
+
+        when(accountRepo.findById(accountId)).thenReturn(Optional.of(acc));
+
+        ArrayList<User> shouldReturn = new ArrayList<>();
+        shouldReturn.add(user);
+        shouldReturn.add(user2);
+
+        when(accessRepo.getAllOwners(acc)).thenReturn(shouldReturn);
+
+        // When
+        List<User> result = underTest.findAllOwners(accountId);
+
+        // Then
+        assertEquals(2,result.size());
+
+    }
+
+    @Test
+    void canGetAllOwnersShouldThrowWhenAccountNotFound(){
+        //Given
+        String accountId = "accountId";
+
+        // Then
+        assertThatThrownBy(()->underTest.findAllOwners(accountId))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining("No account with such id: "+accountId);
     }
 }

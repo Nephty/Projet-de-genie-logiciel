@@ -3,6 +3,7 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.AccountAccess;
+import com.example.demo.model.User;
 import com.example.demo.request.AccountAccessReq;
 import com.example.demo.service.AccountAccessService;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +49,14 @@ public class AccountAccessController {
     public ResponseEntity<AccountAccessReq> sendAccountAccess(@PathVariable String userId, @PathVariable String accountId){
         return new ResponseEntity<>(
                 accountAccessService.findAccountAccess(accountId, userId),
+                HttpStatus.OK
+        );
+    }
+    
+    @GetMapping(value = "/co-owner/{accountId}")
+    public ResponseEntity<List<User>> getAllOwners(@PathVariable String accountId){
+        return new ResponseEntity<>(
+                accountAccessService.findAllOwners(accountId),
                 HttpStatus.OK
         );
     }

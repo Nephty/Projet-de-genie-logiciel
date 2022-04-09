@@ -14,9 +14,19 @@ import java.util.ArrayList;
 @Repository
 public interface AccountRepo extends JpaRepository<Account, String> {
 
+    /**
+     * (Only used in {@link #findAccountsToProcess()}
+     * @param date The date to use in the request.
+     * @return {@link ArrayList} of the {@link Account} that must pay a fee or receive an annual return
+     */
     @Query("select a from Account a where a.nextProcess < ?1")
     ArrayList<Account> findAllByNextProcessBefore(Date date);
 
+    /**
+     * Find all the account that must pay a fee or receive an annual return.
+     * (ie the next process is before the actual Date)
+     * @return {@link #findAllByNextProcessBefore(Date)} with the date of the day.
+     */
     default ArrayList<Account> findAccountsToProcess() {
         return findAllByNextProcessBefore(new Date(System.currentTimeMillis()));
     }

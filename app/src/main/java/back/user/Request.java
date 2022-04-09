@@ -1,5 +1,10 @@
 package back.user;
 
+import app.Main;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 public class Request extends Communication {
     private CommunicationType communicationType;
     private String recipientId;
@@ -25,7 +30,7 @@ public class Request extends Communication {
             response = null;
             try {
                 response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account")
-                        .header("Authorization", "Bearer "+Main.getToken())
+                        .header("Authorization", "Bearer "+ Main.getToken())
                         .header("Content-Type", "application/json")
                         .body("{\r\n    \"iban\": \"" + this.content + "\",\r\n    \"payment\": " + "true" + "\r\n}")
                         .asString();

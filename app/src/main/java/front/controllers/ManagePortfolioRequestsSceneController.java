@@ -34,13 +34,14 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     public TableView<Request> requestsTableView;
     @FXML
     public Label lastUpdateTimeLabel, loadingRequestsLabel, noRequestSelectedLabel;
-    TableColumn<Request, String> recipientIDColumn = new TableColumn<>("Recipient ID"),
-            dateColumn = new TableColumn<>("Date");
+    TableColumn<Request, String> senderIDColumn = new TableColumn<>("Sender ID"),
+            recipientIDColumn = new TableColumn<>("Recipient ID"), dateColumn = new TableColumn<>("Date");
 
     public void initialize() {
+        senderIDColumn.setCellValueFactory(new PropertyValueFactory<>("senderId"));
         recipientIDColumn.setCellValueFactory(new PropertyValueFactory<>("recipientId"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        requestsTableView.getColumns().setAll(recipientIDColumn, dateColumn);
+        requestsTableView.getColumns().setAll(senderIDColumn, recipientIDColumn, dateColumn);
         fetchRequests();
     }
 
@@ -131,7 +132,7 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
                     }
                 }
             }
-            requestsListView.setItems(FXCollections.observableArrayList(reqList));
+            requestsTableView.setItems(FXCollections.observableArrayList(reqList));
 
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);
         }

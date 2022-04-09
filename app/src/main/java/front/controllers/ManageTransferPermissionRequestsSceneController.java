@@ -34,13 +34,14 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
     public TableView<Request> requestsTableView;
     @FXML
     public Label lastUpdateTimeLabel, loadingRequestsLabel, noRequestSelectedLabel;
-    TableColumn<Request, String> recipientIDColumn = new TableColumn<>("Recipient ID"),
-            dateColumn = new TableColumn<>("Date");
+    TableColumn<Request, String> senderIDColumn = new TableColumn<>("Sender ID"),
+            recipientIDColumn = new TableColumn<>("Recipient ID"), dateColumn = new TableColumn<>("Date");
 
     public void initialize() {
+        senderIDColumn.setCellValueFactory(new PropertyValueFactory<>("senderId"));
         recipientIDColumn.setCellValueFactory(new PropertyValueFactory<>("recipientId"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        requestsTableView.getColumns().setAll(recipientIDColumn, dateColumn);
+        requestsTableView.getColumns().setAll(senderIDColumn, recipientIDColumn, dateColumn);
         fetchRequests();
     }
 
@@ -72,7 +73,7 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
     public void handleDenyButtonClicked(MouseEvent event) {
         if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
-            requestsListView.getSelectionModel().getSelectedItems().get(0).deny();
+            requestsTableView.getSelectionModel().getSelectedItems().get(0).deny();
         } else if (!noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(true);
     }
 
@@ -80,7 +81,7 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
     public void handleApproveButtonClicked(MouseEvent event) {
         if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
-            requestsListView.getSelectionModel().getSelectedItems().get(0).approve();
+            requestsTableView.getSelectionModel().getSelectedItems().get(0).approve();
         } else if (!noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(true);
     }
 
@@ -130,7 +131,7 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
                     }
                 }
             }
-            requestsListView.setItems(FXCollections.observableArrayList(reqList));
+            requestsTableView.setItems(FXCollections.observableArrayList(reqList));
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);
         }
     }

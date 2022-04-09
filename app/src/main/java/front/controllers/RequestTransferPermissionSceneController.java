@@ -1,6 +1,7 @@
 package front.controllers;
 
 import app.Main;
+import back.user.Account;
 import back.user.CommunicationType;
 import back.user.Request;
 import back.user.Wallet;
@@ -24,20 +25,30 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     @FXML
     public Label selectPortfolioLabel, noPortfolioSelectedLabel, requestNotSentLabel, requestSentLabel;
     @FXML
-    public ComboBox<Wallet> portfolioComboBox;
+    public ComboBox<Account> portfolioComboBox;
     @FXML
     public Button sendRequestButton;
 
     private boolean requestSent = false;
 
-    private ObservableList<Wallet> values;
+    private ObservableList<Account> values;
     private ArrayList<Wallet> wallets;
 
     // TODO : Attention, il faut remplacer "Portfolio" par "Wallet". C'est une confusion de termes
 
     public void initialize() {
         Main.updatePortfolio();
-        values = FXCollections.observableArrayList(Main.getPortfolio().getWalletList());
+        ArrayList<Account> accountList = new ArrayList<Account>();
+
+        ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
+        for(int i = 0; i<walletList.size(); i++){
+            Wallet wallet = walletList.get(i);
+            for(int j = 0; j<wallet.getAccountList().size(); j++){
+                accountList.add(wallet.getAccountList().get(j));
+            }
+        }
+
+        values = FXCollections.observableArrayList(accountList);
         portfolioComboBox.setItems(values);
     }
 
@@ -65,8 +76,9 @@ public class RequestTransferPermissionSceneController extends Controller impleme
         if (portfolioComboBox.getValue() != null) {
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
+            // TODO : Changer IBAN
             // Create the request and send it
-            Request request = new Request(portfolioComboBox.getValue().getBank().getSwiftCode(), CommunicationType.TRANSFER_PERMISSION, "");
+            Request request = new Request(portfolioComboBox.getValue().getBank().getSwiftCode(), CommunicationType.TRANSFER_PERMISSION, "", "IBAN");
             request.send();
 
             fadeInAndOutNode(1000, requestSentLabel);

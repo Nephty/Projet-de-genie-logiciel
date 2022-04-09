@@ -12,9 +12,10 @@ public class Request extends Communication {
     private CommunicationType communicationType;
     private String recipientId;
     private String date;
+    private String content;
 
 
-    public Request(String swift, CommunicationType communicationType, String date) {
+    public Request(String swift, CommunicationType communicationType, String date, String content) {
         this.recipientId = swift;
         this.communicationType = communicationType;
         this.date = date;

@@ -104,7 +104,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
                             case(2): comType = CommunicationType.TRANSFER_PERMISSION; break;
                             case(3): comType = CommunicationType.NEW_WALLET; break;
                         }
-                        reqList.add(new Request(obj.getString("recipientId"), comType, obj.getString("date")));
+                        reqList.add(new Request(obj.getString("recipientId"), comType, obj.getString("date"),""));
                     }
                 }
             }

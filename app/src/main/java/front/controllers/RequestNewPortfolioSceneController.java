@@ -66,7 +66,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
             if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false);
 
             // Create the request and send it
-            Request request = new Request(SWIFTComboBox.getValue(), CommunicationType.NEW_WALLET, "");
+            Request request = new Request(SWIFTComboBox.getValue(), CommunicationType.NEW_WALLET, "", "");
             request.send();
 
             fadeInAndOutNode(1000, requestSentLabel);

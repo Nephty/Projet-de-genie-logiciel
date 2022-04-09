@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -27,13 +28,15 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     @FXML
     public Button backButton, exportDataButton, addClientButton, detailsButton, searchButton, fetchClientsButton;
     @FXML
-    public ListView<Profile> clientsListView;
-    @FXML
     public Label lastUpdateTimeLabel, loadingClientsLabel;
     @FXML
     public ComboBox<String> sortByComboBox;
     @FXML
     public TextField searchTextField;
+    @FXML
+    public TableView<Profile> clientsTableView;
+    TableColumn<Profile, String> firstNameColumn = new TableColumn<>("First name"),
+            lastNameColumn = new TableColumn<>("Last name"), NRNColumn = new TableColumn<>("National registration number");
 
     private ObservableList<Profile> allData = FXCollections.observableArrayList();
     private ObservableList<Profile> currentData = FXCollections.observableArrayList();
@@ -41,6 +44,10 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     private boolean searched = false;
 
     public void initialize() {
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        NRNColumn.setCellValueFactory(new PropertyValueFactory<>("nationalRegistrationNumber"));
+        clientsTableView.getColumns().setAll(firstNameColumn, lastNameColumn, NRNColumn);
         fetchClients();
         sortByComboBox.setItems(FXCollections.observableArrayList("user", "id"));
     }
@@ -73,12 +80,12 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     @FXML
     public void handleExportDataButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.ExportDataScene));
-        if (clientsListView.getSelectionModel().getSelectedItems().size() != 0) {
+        if (clientsTableView.getSelectionModel().getSelectedItems().size() != 0) {
             // If items selected, only send selected items for export
-            ExportDataSceneController.setExportData(new ArrayList<>(clientsListView.getSelectionModel().getSelectedItems()));
+            ExportDataSceneController.setExportData(new ArrayList<>(clientsTableView.getSelectionModel().getSelectedItems()));
         } else {
             // Send all items for export
-            ExportDataSceneController.setExportData(new ArrayList<>(clientsListView.getItems()));
+            ExportDataSceneController.setExportData(new ArrayList<>(clientsTableView.getItems()));
         }
     }
 
@@ -90,9 +97,9 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
 
     @FXML
     public void handleDetailsButtonClicked(MouseEvent event) {
-        if (clientsListView.getSelectionModel().getSelectedItems().size() == 1) {
+        if (clientsTableView.getSelectionModel().getSelectedItems().size() == 1) {
             try {
-                Main.setCurrentWallet(new Wallet(clientsListView.getSelectionModel().getSelectedItem()));
+                Main.setCurrentWallet(new Wallet(clientsTableView.getSelectionModel().getSelectedItem()));
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
             }
@@ -120,7 +127,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
         String entry = searchTextField.getText().toLowerCase();
         if (entry.equals("")) {
             currentData = allData;
-            clientsListView.setItems(currentData);
+            clientsTableView.setItems(currentData);
             return;
         }
         currentData = FXCollections.observableArrayList();
@@ -135,7 +142,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
                 }
             }
         }
-        clientsListView.setItems(currentData);
+        clientsTableView.setItems(currentData);
     }
 
     @FXML
@@ -157,8 +164,8 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
             // Fetches the clients
             ArrayList<Profile> customerList = Profile.fetchAllCustomers(Main.getBank().getSwiftCode());
             // Put the client list in a ListView
-            clientsListView.setItems(FXCollections.observableArrayList(customerList));
-            allData = clientsListView.getItems();
+            clientsTableView.setItems(FXCollections.observableArrayList(customerList));
+            allData = clientsTableView.getItems();
             sleepAndFadeOutLoadingClientsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientsLabel);
         }
     }

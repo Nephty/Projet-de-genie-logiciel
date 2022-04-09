@@ -18,7 +18,7 @@ public class HTTPTest {
     private static String testToken;
 
     @BeforeAll
-    public static void initialize(){
+    public static void initialize() {
         // Login to get the right token
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
@@ -38,7 +38,7 @@ public class HTTPTest {
 
     @Test
     @DisplayName("Login to an account")
-    public void login(){
+    public void login() {
         assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
@@ -55,17 +55,17 @@ public class HTTPTest {
 
     @Test
     @DisplayName("Register an account")
-    public void register(){
+    public void register() {
         // Register a new account
-        assertDoesNotThrow(() ->{
+        assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
-                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/bank")
-                        .header("Content-Type", "application/json")
-                        .body("{\r\n    \"swift\": \"NEWBANK\",\r\n    \"name\": \"TestBank\",\r\n    \"login\": \" \",\r\n    \"password\": \"1234\",\r\n    \"address\": \"44 Wall Street\",\r\n    \"country\": \"US\",\r\n    \"defaultCurrencyType\": 0\r\n}")
-                        .asString();
+            response = Unirest.post("https://flns-spring-test.herokuapp.com/api/bank")
+                    .header("Content-Type", "application/json")
+                    .body("{\r\n    \"swift\": \"NEWBANK\",\r\n    \"name\": \"TestBank\",\r\n    \"login\": \" \",\r\n    \"password\": \"1234\",\r\n    \"address\": \"44 Wall Street\",\r\n    \"country\": \"US\",\r\n    \"defaultCurrencyType\": 0\r\n}")
+                    .asString();
 
-                assertEquals(201, response.getStatus());
+            assertEquals(201, response.getStatus());
         });
 
         // Try to login to the account to get the token
@@ -89,7 +89,7 @@ public class HTTPTest {
         Unirest.setTimeouts(0, 0);
         try {
             HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/bank/NEWBANK")
-                    .header("Authorization", "Bearer "+ obj.getString("access_token"))
+                    .header("Authorization", "Bearer " + obj.getString("access_token"))
                     .asString();
         } catch (UnirestException e) {
             e.printStackTrace();
@@ -100,17 +100,17 @@ public class HTTPTest {
 
     @Test
     @DisplayName("Change password")
-    public void changePassword(){
+    public void changePassword() {
         // Current password is ABCD
-        assertDoesNotThrow(() ->{
+        assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/bank")
-                    .header("Authorization", "Bearer "+ testToken)
+                    .header("Authorization", "Bearer " + testToken)
                     .header("Content-Type", "application/json")
                     .body("{\r\n    \"swift\": \"ABCD\",\r\n    \"name\": \"Belfius\",\r\n    \"password\": \"ABDC\"\r\n}")
                     .asString();
             assertEquals(201, response.getStatus());
-        }) ;
+        });
 
         // Try to login to check if the password is well changed
         assertDoesNotThrow(() -> {
@@ -132,7 +132,7 @@ public class HTTPTest {
         try {
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response2 = Unirest.put("https://flns-spring-test.herokuapp.com/api/bank")
-                    .header("Authorization", "Bearer "+ testToken)
+                    .header("Authorization", "Bearer " + testToken)
                     .header("Content-Type", "application/json")
                     .body("{\r\n    \"swift\": \"ABCD\",\r\n    \"name\": \"Belfius\",\r\n    \"password\": \"ABCD\"\r\n}")
                     .asString();
@@ -143,10 +143,10 @@ public class HTTPTest {
 
     @Test
     @DisplayName("Getting a wallet for a user")
-    public void getWallet(){
+    public void getWallet() {
         Main.setToken(testToken);
         // This test verify the requests : Wallet, Profile, Bank, Account, SubAccount, Transaction
-        assertDoesNotThrow(() ->{
+        assertDoesNotThrow(() -> {
             Main.setBank(new Bank("ABCD"));
             Wallet testWallet = new Wallet(new Profile("123456789"));
             System.out.println(testWallet.getAccountUser().getFirstName());

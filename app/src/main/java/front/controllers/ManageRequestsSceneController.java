@@ -11,9 +11,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class ManageRequestsSceneController extends Controller implements BackButtonNavigator {
-
     @FXML
-    public Button backButton, transferPermissionRequestsButton, portfolioRequestsButton, requestsStatusButton;
+    public Button backButton, transferPermissionRequestsButton, portfolioRequestsButton;
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {

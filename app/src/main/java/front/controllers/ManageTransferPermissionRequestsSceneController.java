@@ -9,7 +9,9 @@ import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -21,11 +23,16 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
     @FXML
     public Button backButton, denyButton, approveButton, fetchRequestsButton;
     @FXML
-    public ListView<Request> requestsListView;
+    public TableView<Request> requestsTableView;
     @FXML
     public Label lastUpdateTimeLabel, loadingRequestsLabel, noRequestSelectedLabel;
+    TableColumn<Request, String> recipientIDColumn = new TableColumn<>("Recipient ID"),
+            dateColumn = new TableColumn<>("Date");
 
     public void initialize() {
+        recipientIDColumn.setCellValueFactory(new PropertyValueFactory<>("recipientId"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        requestsTableView.getColumns().setAll(recipientIDColumn, dateColumn);
         fetchRequests();
     }
 
@@ -55,7 +62,7 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
 
     @FXML
     public void handleDenyButtonClicked(MouseEvent event) {
-        if (requestsListView.getSelectionModel().getSelectedItems().size() > 0) {
+        if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
             // TODO : back-end : implement "denied" attribute of request, change it accordingly for all selected requests and commit changes to database
         } else if (!noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(true);
@@ -63,7 +70,7 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
 
     @FXML
     public void handleApproveButtonClicked(MouseEvent event) {
-        if (requestsListView.getSelectionModel().getSelectedItems().size() > 0) {
+        if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
             // TODO : back-end : implement "approved" attribute of request, change it accordingly for all selected requests and commit changes to database
         } else if (!noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(true);

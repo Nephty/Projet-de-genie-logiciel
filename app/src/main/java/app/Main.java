@@ -11,9 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.util.Locale;
@@ -80,37 +78,47 @@ public class Main extends Application {
 
     /**
      * Check if the response is an error
+     *
      * @param statut The error statut
      */
-    public static void errorCheck(int statut){
-        if(statut >= 400){
+    public static void errorCheck(int statut) {
+        if (statut >= 400) {
             ErrorManager(statut);
         }
     }
 
     /**
      * Manages HTTP errors
+     *
      * @param statut The error code
      */
     public static void ErrorManager(int statut) {
         String message = "Error " + statut + ": ";
-        switch(statut){
-            case(401):
-                message += "access unauthorized, try to login again"; break;
-            case(403):
-                message += "forbidden, data are not correct, try again"; break;
-            case(404):
-                message += "not found, try again"; break;
-            case(409):
-                message += "conflict, data are not correct, try again"; break;
-            case(500):
-                message += "internal server error, try again later"; break;
-            case(502):
-                message += "bad gateway, try again later"; break;
-            case(503):
-                message += "service unavailable, try again later"; break;
+        switch (statut) {
+            case (401):
+                message += "access unauthorized, try to login again";
+                break;
+            case (403):
+                message += "forbidden, data are not correct, try again";
+                break;
+            case (404):
+                message += "not found, try again";
+                break;
+            case (409):
+                message += "conflict, data are not correct, try again";
+                break;
+            case (500):
+                message += "internal server error, try again later";
+                break;
+            case (502):
+                message += "bad gateway, try again later";
+                break;
+            case (503):
+                message += "service unavailable, try again later";
+                break;
             default:
-                message += "An error has occurred"; break;
+                message += "An error has occurred";
+                break;
         }
         Stage errorWindow = new Stage();
         errorWindow.setWidth(544);
@@ -135,7 +143,7 @@ public class Main extends Application {
         EN_US_Locale = new Locale("en", "US");
         NL_NL_Locale = new Locale("nl", "NL");
         PT_PT_Locale = new Locale("pt", "PT");
-        LT_LT_Locale = new Locale("lt", "LT");
+        LT_LT_Locale = new Locale("lt", "lt");
         RU_RU_Locale = new Locale("ru", "RU");
         DE_DE_Locale = new Locale("de", "DE");
         PL_PL_Locale = new Locale("pl", "PL");

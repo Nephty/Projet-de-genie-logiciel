@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -27,13 +28,16 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     @FXML
     public Button backButton, fetchClientDetailsButton, exportDataButton, createAccountButton, closeAccountButton, searchButton, removeClientButton, cancelRemovalButton, confirmRemovalButton;
     @FXML
-    public ListView<Account> clientDetailsListView;
+    public TableView<Account> clientDetailsTableView;
     @FXML
     public Label loadingClientDetailsLabel, lastUpdateTimeLabel;
     @FXML
     public ComboBox<String> sortByComboBox;
     @FXML
     public TextField searchTextField;
+    TableColumn<Account, String> accountOwnerColumn = new TableColumn<>("Account owner"),
+            bankColumn = new TableColumn<>("Bank"), IBANColumn = new TableColumn<>("IBAN"),
+            accountTypeColumn = new TableColumn<>("Account type"), statusColumn = new TableColumn<>("Status");
     private boolean searched = false;
 
     private ObservableList<Account> allData = FXCollections.observableArrayList();
@@ -44,6 +48,12 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     }
 
     public void initialize() {
+        accountOwnerColumn.setCellValueFactory(new PropertyValueFactory<>("accountOwner"));
+        bankColumn.setCellValueFactory(new PropertyValueFactory<>("bank"));
+        IBANColumn.setCellValueFactory(new PropertyValueFactory<>("IBAN"));
+        accountTypeColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("statusAsString"));
+        clientDetailsTableView.getColumns().setAll(IBANColumn, bankColumn, accountOwnerColumn, accountTypeColumn, statusColumn);
         fetchClientDetails();
     }
 
@@ -80,12 +90,12 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     @FXML
     public void handleExportDataButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.ExportDataScene));
-        if (clientDetailsListView.getSelectionModel().getSelectedItems().size() != 0) {
+        if (clientDetailsTableView.getSelectionModel().getSelectedItems().size() != 0) {
             // If items selected, only send selected items for export
-            ExportDataSceneController.setExportData(new ArrayList<>(clientDetailsListView.getSelectionModel().getSelectedItems()));
+            ExportDataSceneController.setExportData(new ArrayList<>(clientDetailsTableView.getSelectionModel().getSelectedItems()));
         } else {
             // Send all items for export
-            ExportDataSceneController.setExportData(new ArrayList<>(clientDetailsListView.getItems()));
+            ExportDataSceneController.setExportData(new ArrayList<>(clientDetailsTableView.getItems()));
         }
     }
 
@@ -98,7 +108,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     @FXML
     public void handleCloseAccountButtonClicked(MouseEvent event) {
         // TODO : Not implemented in API yet
-        clientDetailsListView.getSelectionModel().getSelectedItems().get(0).delete();
+        clientDetailsTableView.getSelectionModel().getSelectedItems().get(0).delete();
         updateClientDetails();
     }
 
@@ -120,7 +130,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
         String entry = searchTextField.getText().toLowerCase();
         if (entry.equals("")) {
             currentData = allData;
-            clientDetailsListView.setItems(currentData);
+            clientDetailsTableView.setItems(currentData);
             return;
         }
         currentData = FXCollections.observableArrayList();
@@ -136,7 +146,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
                 }
             }
         }
-        clientDetailsListView.setItems(currentData);
+        clientDetailsTableView.setItems(currentData);
     }
 
     @FXML
@@ -174,8 +184,8 @@ public class ClientDetailsSceneController extends Controller implements BackButt
             // Fetches the accountList
             ArrayList<Account> accountList = Main.getCurrentWallet().getAccountList();
             // Add it to the listView
-            clientDetailsListView.setItems(FXCollections.observableArrayList(accountList));
-            allData = clientDetailsListView.getItems();
+            clientDetailsTableView.setItems(FXCollections.observableArrayList(accountList));
+            allData = clientDetailsTableView.getItems();
             sleepAndFadeOutLoadingClientDetailsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientDetailsLabel);
         }
     }
@@ -201,7 +211,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
             }
             // Fetches the account list
             ArrayList<Account> accountList = Main.getCurrentWallet().getAccountList();
-            clientDetailsListView.setItems(FXCollections.observableArrayList(accountList));
+            clientDetailsTableView.setItems(FXCollections.observableArrayList(accountList));
             sleepAndFadeOutLoadingClientDetailsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingClientDetailsLabel);
         }
     }

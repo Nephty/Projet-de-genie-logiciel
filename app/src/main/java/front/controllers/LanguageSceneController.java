@@ -9,7 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -18,14 +20,20 @@ import java.util.Locale;
 
 public class LanguageSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public ListView<Locale> languagesListView;
+    public TableView<Locale> languagesTableView;
+    TableColumn<Locale, String> countryColumn = new TableColumn<>("Country"),
+            languageColumn = new TableColumn<>("Language"), displayNameColumn = new TableColumn<>("Display name");
     @FXML
     Button backButton, addButton, setButton;
     @FXML
     Label chooseLanguageLabel;
 
     public void initialize() {
-        languagesListView.setItems(FXCollections.observableArrayList(Main.FR_BE_Locale, Main.EN_US_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale));
+        countryColumn.setCellValueFactory(new PropertyValueFactory<>("displayCountry"));
+        languageColumn.setCellValueFactory(new PropertyValueFactory<>("displayLanguage"));
+        displayNameColumn.setCellValueFactory(new PropertyValueFactory<>("displayName"));
+        languagesTableView.getColumns().setAll(countryColumn, languageColumn, displayNameColumn);
+        languagesTableView.setItems(FXCollections.observableArrayList(Main.FR_BE_Locale, Main.EN_US_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale));
     }
 
     @FXML
@@ -35,9 +43,7 @@ public class LanguageSceneController extends Controller implements BackButtonNav
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
-        System.out.println(Flow.tail());
         Main.setScene(Flow.back());
-        System.out.println(Flow.getContentAsString());
     }
 
     @Override
@@ -51,8 +57,8 @@ public class LanguageSceneController extends Controller implements BackButtonNav
 
     @FXML
     public void handleSetButtonMouseClicked(MouseEvent event) {
-        if (languagesListView.getSelectionModel().getSelectedItems().size() == 1) {
-            Main.appLocale = languagesListView.getSelectionModel().getSelectedItems().get(0);
+        if (languagesTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            Main.appLocale = languagesTableView.getSelectionModel().getSelectedItems().get(0);
             // Reload scenes
             Scenes.AuthScene = SceneLoader.load("AuthScene.fxml", Main.appLocale);
             Scenes.SignInScene = SceneLoader.load("SignInScene.fxml", Main.appLocale);

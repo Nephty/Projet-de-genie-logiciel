@@ -113,6 +113,7 @@ public class Wallet {
             accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
         }
     }
+
     public ArrayList<Account> getAccountList() {
         return this.accountList;
     }

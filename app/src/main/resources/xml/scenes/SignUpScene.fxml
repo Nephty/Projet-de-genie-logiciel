@@ -1,91 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.*?>
-
-<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.controllers.SignUpSceneController">
+<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0"
+      prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2"
+      fx:controller="front.controllers.SignUpSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleComponentKeyReleased" prefHeight="70.0" prefWidth="1280.0">
-            <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleBackButtonClicked" onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%common.backButton" textFill="#0a0a14">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    onKeyReleased="#handleComponentKeyReleased" prefHeight="70.0" prefWidth="1280.0">
+            <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onKeyReleased="#handleComponentKeyReleased"
+                    onMouseClicked="#handleBackButtonClicked" onMouseEntered="#handleButtonMouseEntered"
+                    onMouseExited="#handleButtonMouseExited" prefHeight="36.0" prefWidth="120.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="%common.backButton" textFill="#0a0a14">
                 <font>
-                    <Font size="14.0" />
+                    <Font size="14.0"/>
                 </font>
                 <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </Button>
         </AnchorPane>
-        <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleComponentKeyReleased" prefHeight="650.0" prefWidth="1280.0">
-            <Label fx:id="SWIFTTakenLabel" layoutX="187.0" layoutY="80.0" prefHeight="16.0" prefWidth="140.0" text="%SignUpScene.SWIFTTakenLabel" textFill="#c80000" visible="false" />
-            <TextField fx:id="SWIFTField" layoutX="178.0" layoutY="100.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.SWIFTField" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+        <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    onKeyReleased="#handleComponentKeyReleased" prefHeight="650.0" prefWidth="1280.0">
+            <Label fx:id="SWIFTTakenLabel" layoutX="187.0" layoutY="80.0" prefHeight="16.0" prefWidth="140.0"
+                   text="%SignUpScene.SWIFTTakenLabel" textFill="#c80000" visible="false"/>
+            <TextField fx:id="SWIFTField" layoutX="178.0" layoutY="100.0" onKeyPressed="#handleComponentKeyPressed"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
+                       promptText="%SignUpScene.SWIFTField"
+                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
-                    <Font size="20.0" />
+                    <Font size="20.0"/>
                 </font>
             </TextField>
-            <TextField fx:id="cityField" layoutX="178.0" layoutY="190.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.cityField" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+            <TextField fx:id="cityField" layoutX="178.0" layoutY="190.0" onKeyPressed="#handleComponentKeyPressed"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
+                       promptText="%SignUpScene.cityField"
+                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
-                    <Font size="20.0" />
+                    <Font size="20.0"/>
                 </font>
             </TextField>
-            <TextField fx:id="countryField" layoutX="178.0" layoutY="280.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.countryField" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+            <TextField fx:id="countryField" layoutX="178.0" layoutY="280.0" onKeyPressed="#handleComponentKeyPressed"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
+                       promptText="%SignUpScene.countryField"
+                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
-                    <Font size="20.0" />
+                    <Font size="20.0"/>
                 </font>
             </TextField>
-            <Label fx:id="nameTakenLabel" layoutX="674.0" layoutY="80.0" prefHeight="16.0" prefWidth="168.0" text="%SignUpScene.nameTakenLabel" textFill="#c80000" visible="false" />
-            <TextField fx:id="nameField" layoutX="668.0" layoutY="100.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.nameField" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+            <Label fx:id="nameTakenLabel" layoutX="674.0" layoutY="80.0" prefHeight="16.0" prefWidth="168.0"
+                   text="%SignUpScene.nameTakenLabel" textFill="#c80000" visible="false"/>
+            <TextField fx:id="nameField" layoutX="668.0" layoutY="100.0" onKeyPressed="#handleComponentKeyPressed"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
+                       promptText="%SignUpScene.nameField"
+                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
-                    <Font size="20.0" />
+                    <Font size="20.0"/>
                 </font>
             </TextField>
-            <TextField fx:id="passwordTextField" layoutX="668.0" layoutY="190.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.passwordField" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+            <TextField fx:id="passwordTextField" layoutX="668.0" layoutY="190.0"
+                       onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased"
+                       prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.passwordField"
+                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
-                    <Font size="20.0" />
+                    <Font size="20.0"/>
                 </font>
             </TextField>
-            <PasswordField fx:id="passwordField" layoutX="668.0" layoutY="190.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.passwordField" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+            <PasswordField fx:id="passwordField" layoutX="668.0" layoutY="190.0"
+                           onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased"
+                           prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.passwordField"
+                           style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
-                    <Font size="20.0" />
+                    <Font size="20.0"/>
                 </font>
             </PasswordField>
-            <Label fx:id="passwordDoesNotMatchLabel" layoutX="674.0" layoutY="260.0" prefHeight="16.0" prefWidth="270.0" text="%common.passwordDoesNotMatchLabel" textFill="#c80000" visible="false" />
-            <TextField fx:id="confirmPasswordTextField" layoutX="668.0" layoutY="280.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.confirmPasswordField" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+            <Label fx:id="passwordDoesNotMatchLabel" layoutX="674.0" layoutY="260.0" prefHeight="16.0" prefWidth="270.0"
+                   text="%common.passwordDoesNotMatchLabel" textFill="#c80000" visible="false"/>
+            <TextField fx:id="confirmPasswordTextField" layoutX="668.0" layoutY="280.0"
+                       onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased"
+                       prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.confirmPasswordField"
+                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
-                    <Font size="20.0" />
+                    <Font size="20.0"/>
                 </font>
             </TextField>
-            <PasswordField fx:id="confirmPasswordField" layoutX="668.0" layoutY="280.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.confirmPasswordField" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+            <PasswordField fx:id="confirmPasswordField" layoutX="668.0" layoutY="280.0"
+                           onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased"
+                           prefHeight="60.0" prefWidth="435.0" promptText="%SignUpScene.confirmPasswordField"
+                           style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
                 <font>
-                    <Font size="20.0" />
+                    <Font size="20.0"/>
                 </font>
             </PasswordField>
-            <Label fx:id="languageNotChosenLabel" layoutX="670.0" layoutY="362.0" prefHeight="16.0" prefWidth="176.0" text="%SignUpScene.languageNotChosenLabel" textFill="#c80000" visible="false" />
-            <Label fx:id="favoriteLanguageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="668.0" layoutY="382.0" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%SignUpScene.favoriteLanguageLabel">
+            <Label fx:id="languageNotChosenLabel" layoutX="670.0" layoutY="362.0" prefHeight="16.0" prefWidth="176.0"
+                   text="%SignUpScene.languageNotChosenLabel" textFill="#c80000" visible="false"/>
+            <Label fx:id="favoriteLanguageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="668.0"
+                   layoutY="382.0" prefHeight="36.0" prefWidth="200.0"
+                   style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                   text="%SignUpScene.favoriteLanguageLabel">
                 <font>
-                    <Font size="14.0" />
+                    <Font size="14.0"/>
                 </font>
             </Label>
-            <ComboBox fx:id="languageComboBox" layoutX="903.0" layoutY="382.0" onKeyPressed="#handleComponentKeyPressed" onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="200.0" promptText="%SignUpScene.languageComboBox" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
+            <ComboBox fx:id="languageComboBox" layoutX="903.0" layoutY="382.0" onKeyPressed="#handleComponentKeyPressed"
+                      onKeyReleased="#handleComponentKeyReleased" prefHeight="36.0" prefWidth="200.0"
+                      promptText="%SignUpScene.languageComboBox"
+                      style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                 <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>
             </ComboBox>
-            <Label fx:id="invalidSWIFTLabel" layoutX="187.0" layoutY="80.0" prefHeight="16.0" prefWidth="140.0" text="%SignUpScene.invalidSWIFTLabel" textFill="#c80000" visible="false" />
-            <Label fx:id="invalidCityLabel" layoutX="187.0" layoutY="170.0" prefHeight="16.0" prefWidth="140.0" text="%SignUpScene.invalidCityLabel" textFill="#c80000" visible="false" />
-            <Label fx:id="invalidCountryLabel" layoutX="187.0" layoutY="260.0" prefHeight="16.0" prefWidth="140.0" text="%SignUpScene.invalidCountryLabel" textFill="#c80000" visible="false" />
-            <Label fx:id="invalidNameLabel" layoutX="674.0" layoutY="80.0" prefHeight="16.0" prefWidth="168.0" text="%SignUpScene.invalidNameLabel" textFill="#c80000" visible="false" />
-            <Button fx:id="signUpButton" layoutX="492.0" layoutY="538.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleSignUpButtonClicked" onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited" prefHeight="52.0" prefWidth="296.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;" text="%common.signUpButton" textFill="#0a0a14">
+            <Label fx:id="invalidSWIFTLabel" layoutX="187.0" layoutY="80.0" prefHeight="16.0" prefWidth="140.0"
+                   text="%SignUpScene.invalidSWIFTLabel" textFill="#c80000" visible="false"/>
+            <Label fx:id="invalidCityLabel" layoutX="187.0" layoutY="170.0" prefHeight="16.0" prefWidth="140.0"
+                   text="%SignUpScene.invalidCityLabel" textFill="#c80000" visible="false"/>
+            <Label fx:id="invalidCountryLabel" layoutX="187.0" layoutY="260.0" prefHeight="16.0" prefWidth="140.0"
+                   text="%SignUpScene.invalidCountryLabel" textFill="#c80000" visible="false"/>
+            <Label fx:id="invalidNameLabel" layoutX="674.0" layoutY="80.0" prefHeight="16.0" prefWidth="168.0"
+                   text="%SignUpScene.invalidNameLabel" textFill="#c80000" visible="false"/>
+            <Button fx:id="signUpButton" layoutX="492.0" layoutY="538.0" onKeyReleased="#handleComponentKeyReleased"
+                    onMouseClicked="#handleSignUpButtonClicked" onMouseEntered="#handleButtonMouseEntered"
+                    onMouseExited="#handleButtonMouseExited" prefHeight="52.0" prefWidth="296.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
+                    text="%common.signUpButton" textFill="#0a0a14">
                 <font>
-                    <Font size="20.0" />
+                    <Font size="20.0"/>
                 </font>
                 <effect>
-                    <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0" />
+                    <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0"/>
                 </effect>
             </Button>
-            <Label fx:id="signedUpLabel" layoutX="540.0" layoutY="594.0" opacity="0.0" prefHeight="17.0" prefWidth="200.0" text="%SignUpScene.signedUpLabel" textFill="#00c800" visible="true" />
-            <CheckBox fx:id="showHidePasswordCheckBox" layoutX="904.0" layoutY="349.0" mnemonicParsing="false" onKeyReleased="#handleComponentKeyReleased" prefWidth="191.0" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -3.5; -fx-border-radius: 2;" text="%common.showPasswordCheckBox" />
+            <Label fx:id="signedUpLabel" layoutX="540.0" layoutY="594.0" opacity="0.0" prefHeight="17.0"
+                   prefWidth="200.0" text="%SignUpScene.signedUpLabel" textFill="#00c800" visible="true"/>
+            <CheckBox fx:id="showHidePasswordCheckBox" layoutX="904.0" layoutY="349.0" mnemonicParsing="false"
+                      onKeyReleased="#handleComponentKeyReleased" prefWidth="191.0"
+                      style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -3.5; -fx-border-radius: 2;"
+                      text="%common.showPasswordCheckBox"/>
         </AnchorPane>
     </Pane>
 </Pane>

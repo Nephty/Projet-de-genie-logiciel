@@ -1,10 +1,5 @@
 package back.user;
 
-import app.Main;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-
 public class Notification extends Communication {
     private final String content;
     private String senderName;
@@ -21,7 +16,7 @@ public class Notification extends Communication {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.date + "      " + this.senderName + "     " + this.content;
     }
 

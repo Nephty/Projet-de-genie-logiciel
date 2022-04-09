@@ -37,8 +37,9 @@ public class Profile {
 
     /**
      * Creates a Profile object by giving all the needed informations
-     * @param firstName A string of the firstname
-     * @param lastName A string of the lastname
+     *
+     * @param firstName                  A string of the firstname
+     * @param lastName                   A string of the lastname
      * @param nationalRegistrationNumber A string of the national registration number
      */
     public Profile(String firstName, String lastName, String nationalRegistrationNumber) {
@@ -50,6 +51,7 @@ public class Profile {
 
     /**
      * Fetches all the customers of a bank
+     *
      * @param swift The String of the ban's swift
      * @return An ArrayList of all the customers
      */
@@ -67,9 +69,9 @@ public class Profile {
         }
 
         String body = response.getBody();
-        body = body.substring(1,body.length() -1);
+        body = body.substring(1, body.length() - 1);
 
-        if(!body.equals("")) {
+        if (!body.equals("")) {
             ArrayList<String> customerList = Bank.JSONArrayParser(body);
             ArrayList<String> userIdList = new ArrayList<String>();
             for (int i = 0; i < customerList.size(); i++) {

@@ -98,6 +98,7 @@ public class Flow {
 
     /**
      * Replaces the before last element of the flow and ensures the integrity of the last element.
+     *
      * @param replaceWith The scene that will replace the before last scene in the flow
      * @return The replaced scene
      */

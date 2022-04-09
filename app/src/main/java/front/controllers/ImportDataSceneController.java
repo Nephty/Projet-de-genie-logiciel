@@ -1,8 +1,6 @@
 package front.controllers;
 
 import app.Main;
-import front.animation.FadeInTransition;
-import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
@@ -13,7 +11,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.Duration;
 
 import java.io.File;
 
@@ -27,7 +24,7 @@ public class ImportDataSceneController extends Controller implements BackButtonN
     private File selectedFile;  // TODO : is this the right class we should use ?
     private boolean fileChosen = false;
     private FileChooser exportDataFileChooser;
-    
+
     public void initialize() {
         exportDataFileChooser = new FileChooser();
         ExtensionFilter JSONFilter = new ExtensionFilter("JSON files (*.json)", "*.json");

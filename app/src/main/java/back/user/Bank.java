@@ -91,4 +91,9 @@ public class Bank {
     public String getSwiftCode() {
         return this.swiftCode;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

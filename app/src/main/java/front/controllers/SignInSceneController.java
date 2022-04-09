@@ -2,7 +2,6 @@ package front.controllers;
 
 import app.Main;
 import back.user.Bank;
-import back.user.Profile;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -70,7 +69,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
         }
 
         // If the login is correct, it set the tokens and creates the Bank
-        if ((response.getStatus() == 200) ) {
+        if ((response.getStatus() == 200)) {
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
             String body = response.getBody();
             JSONObject obj = new JSONObject(body);
@@ -93,7 +92,6 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml", Main.appLocale);
             Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml", Main.appLocale);
             Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml", Main.appLocale);
-            Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", Main.appLocale);
             Scenes.ClientsScene = SceneLoader.load("ClientsScene.fxml", Main.appLocale);
             Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml", Main.appLocale);
             Scenes.AddClientScene = SceneLoader.load("AddClientScene.fxml", Main.appLocale);

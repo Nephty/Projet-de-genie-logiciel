@@ -41,11 +41,6 @@ public class ManageRequestsSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleRequestsStatusButtonClicked(MouseEvent event) {
-        Main.setScene(Flow.forward(Scenes.RequestsStatusScene));
-    }
-
-    @FXML
     public void handleButtonKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();

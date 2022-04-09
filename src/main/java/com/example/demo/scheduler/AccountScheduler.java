@@ -53,10 +53,11 @@ public class AccountScheduler extends AbstractScheduler {
 
     private void addInterest(Account account) {
         final double interest = account.getAccountTypeId().getAnnualReturn();
+        final int years = account.getAccountTypeId().getAccountTypeId() == 4 ? 5 : 1;
         ArrayList<SubAccount> linkedSubAccount = subAccountRepo.findAllByIban(account);
         linkedSubAccount.forEach(subAccount -> {
             subAccount.setCurrentBalance(
-                    subAccount.getCurrentBalance() + subAccount.getCurrentBalance() * interest
+                    findNewAmount(subAccount.getCurrentBalance(), interest, years)
             );
         });
         subAccountRepo.saveAll(linkedSubAccount);
@@ -73,5 +74,9 @@ public class AccountScheduler extends AbstractScheduler {
                 nextProcessInstant.toEpochMilli()
         ));
         accountRepo.save(account);
+    }
+
+    private Double findNewAmount(double currAmount, double interestRate, int years) {
+        return Math.pow(((1+ interestRate) * currAmount), years);
     }
 }

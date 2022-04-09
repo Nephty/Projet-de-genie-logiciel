@@ -19,6 +19,7 @@ public class Request extends Communication {
         this.recipientId = swift;
         this.communicationType = communicationType;
         this.date = date;
+        this.content = content;
     }
 
     public void send() {
@@ -50,7 +51,7 @@ public class Request extends Communication {
                         case(2): comType = CommunicationType.TRANSFER_PERMISSION; break;
                         case(3): comType = CommunicationType.NEW_WALLET; break;
                     }
-                    if(this.recipientId.equals(obj.getString("recipientId")) && this.communicationType == comType){
+                    if(this.recipientId.equals(obj.getString("recipientId")) && this.communicationType == comType && this.content.equals(obj.getString("comments"))){
                         alreadySent = true;
                     }
                 }
@@ -71,7 +72,7 @@ public class Request extends Communication {
                 response2 = Unirest.post("https://flns-spring-test.herokuapp.com/api/notification")
                         .header("Authorization", "Bearer "+ Main.getToken())
                         .header("Content-Type", "application/json")
-                        .body("{\r\n    \"notificationType\": "+ comType +",\r\n    \"comments\": \" \",\r\n    \"status\": \"Unchecked\",\r\n    \"recipientId\": \""+this.recipientId+"\"\r\n}")
+                        .body("{\r\n    \"notificationType\": "+ comType +",\r\n    \"comments\": \""+this.content+"\",\r\n    \"status\": \"Unchecked\",\r\n    \"recipientId\": \""+this.recipientId+"\"\r\n}")
                         .asString();
             } catch (UnirestException e) {
                 e.printStackTrace();

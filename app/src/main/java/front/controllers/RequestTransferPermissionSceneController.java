@@ -47,7 +47,6 @@ public class RequestTransferPermissionSceneController extends Controller impleme
                 accountList.add(wallet.getAccountList().get(j));
             }
         }
-
         values = FXCollections.observableArrayList(accountList);
         portfolioComboBox.setItems(values);
     }
@@ -76,9 +75,8 @@ public class RequestTransferPermissionSceneController extends Controller impleme
         if (portfolioComboBox.getValue() != null) {
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
-            // TODO : Changer IBAN
             // Create the request and send it
-            Request request = new Request(portfolioComboBox.getValue().getBank().getSwiftCode(), CommunicationType.TRANSFER_PERMISSION, "", "IBAN");
+            Request request = new Request(portfolioComboBox.getValue().getBank().getSwiftCode(), CommunicationType.TRANSFER_PERMISSION, "", portfolioComboBox.getValue().getIBAN());
             request.send();
 
             fadeInAndOutNode(1000, requestSentLabel);

@@ -422,7 +422,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 break;
             case YEARLY:
                 int yearsSpan = 4;
-                LocalDate date4YearsAgo = LocalDate.now().minus(Period.ofDays(yearsSpan));
+                LocalDate date4YearsAgo = LocalDate.now().minus(Period.ofYears(yearsSpan - 1));
                 int year4YearsAgoAfterIteration;
                 for (int i = 0; i < yearsSpan; i++) {
                     year4YearsAgoAfterIteration = date4YearsAgo.getYear() + i;

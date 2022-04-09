@@ -60,7 +60,21 @@ public class Request extends Communication {
     }
 
     public void deny(){
+        if (this.communicationType.equals(CommunicationType.TRANSFER_PERMISSION)) {
+            // Send a notification to the client
+            Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank "+Main.getBank().getName()+" hasn't given you the transfer permissions for the account "+this.content);
+            notif.send();
 
+            // Delete this request
+            Unirest.setTimeouts(0, 0);
+            try {
+                HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+this.ID)
+                        .header("Authorization", "Bearer "+ Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void delete(){

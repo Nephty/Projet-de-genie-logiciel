@@ -129,11 +129,17 @@ public class CreateClientAccountSceneController extends Controller implements Ba
             String swift = Main.getBank().getSwiftCode();
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
+            String userId;
+            if(!Main.getNewClient().equals(null)){
+                userId = Main.getNewClient();
+            } else{
+                userId = Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber();
+            }
             try {
                 response = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
                         .header("Authorization", "Bearer " + Main.getToken())
                         .header("Content-Type", "application/json")
-                        .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber() + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + repType + "\r\n}")
+                        .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + repType + "\r\n}")
                         .asString();
                 Main.errorCheck(response.getStatus());
             } catch (UnirestException e) {
@@ -147,7 +153,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                 response2 = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
                         .header("Authorization", "Bearer " + Main.getToken())
                         .header("Content-Type", "application/json")
-                        .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber() + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
+                        .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
                         .asString();
                 Main.errorCheck(response2.getStatus());
             } catch (UnirestException e) {

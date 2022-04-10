@@ -45,6 +45,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         NRNColumn.setCellValueFactory(new PropertyValueFactory<>("nationalRegistrationNumber"));
+        clientsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchClients();
     }
 

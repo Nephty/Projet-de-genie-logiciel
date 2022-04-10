@@ -7,10 +7,7 @@ import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -32,6 +29,7 @@ public class LanguageSceneController extends Controller implements BackButtonNav
         countryColumn.setCellValueFactory(new PropertyValueFactory<>("displayCountry"));
         languageColumn.setCellValueFactory(new PropertyValueFactory<>("displayLanguage"));
         displayNameColumn.setCellValueFactory(new PropertyValueFactory<>("displayName"));
+        languagesTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         languagesTableView.setItems(FXCollections.observableArrayList(Main.FR_BE_Locale, Main.EN_US_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale));
     }
 

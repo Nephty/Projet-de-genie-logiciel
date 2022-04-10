@@ -50,6 +50,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
         accountTypeColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
         transferPermissionColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
         statusColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
+        clientDetailsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchClientDetails();
     }
 

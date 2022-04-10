@@ -12,10 +12,7 @@ import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -46,6 +43,7 @@ public class NotificationsSceneController extends Controller implements BackButt
         senderColumn.setCellValueFactory(new PropertyValueFactory<>("senderName"));
         contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
         notificationsTableView.setPlaceholder(new Label("No notifications."));
+        notificationsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchNotifications();
     }
 

@@ -13,10 +13,7 @@ import front.scenes.Scenes;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -57,6 +54,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         subAccountsColumn.setCellValueFactory(a -> new SimpleStringProperty(String.valueOf(a.getValue().getSubAccountList().size())));
         activatedColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
         accountsTableView.setPlaceholder(new Label("No account available."));
+        accountsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchAccounts();
     }
 

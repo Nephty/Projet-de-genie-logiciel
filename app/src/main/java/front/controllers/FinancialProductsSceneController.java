@@ -11,10 +11,7 @@ import front.scenes.Scenes;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -38,6 +35,7 @@ public class FinancialProductsSceneController extends Controller implements Back
         bankSWIFTColumn.setCellValueFactory(w -> new SimpleStringProperty(w.getValue().getBank().getSwiftCode()));
         accountsColumn.setCellValueFactory(w -> new SimpleStringProperty(String.valueOf(w.getValue().getNumberOfAccounts())));
         productsTableView.setPlaceholder(new Label("No products available."));
+        productsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchProducts();
     }
 

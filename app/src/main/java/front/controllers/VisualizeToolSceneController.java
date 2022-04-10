@@ -55,6 +55,8 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     public void initialize() {
         availableAccountsTableView.setPlaceholder(new Label("No account available."));
         addedAccountsTableView.setPlaceholder(new Label("No account added."));
+        availableAccountsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        addedAccountsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         availableIBANColumn.setCellValueFactory(sa -> new SimpleStringProperty(sa.getValue().getIBAN()));
         availableAmountColumn.setCellValueFactory(sa -> new SimpleStringProperty(String.valueOf(sa.getValue().getAmount())));
         addedIBANColumn.setCellValueFactory(sa -> new SimpleStringProperty(sa.getValue().getIBAN()));

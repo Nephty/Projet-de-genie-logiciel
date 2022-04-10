@@ -3,6 +3,7 @@ package front.controllers;
 import app.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import front.scenes.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -97,6 +98,8 @@ public class AddClientSceneController extends Controller implements BackButtonNa
 
         if (!invalidNRNLabel.isVisible()) { // TODO : check if the client is not already in the database
             // TODO : back-end : add client
+            Main.setNewClient(NRN);
+            Main.setScene(Flow.forward(Scenes.CreateClientAccountScene));
             fadeInAndOutNode(3000, clientAddedLabel);
             clientAdded = true;
 

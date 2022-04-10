@@ -27,6 +27,7 @@ public class Main extends Application {
     private static String refreshToken;
     private static Wallet currentWallet;
     private static Account currentAccount;
+    private static String newClient;
 
     public static void main(String[] args) {
         launch(args);
@@ -34,6 +35,14 @@ public class Main extends Application {
 
     public static void setScene(Scene scene) {
         stage.setScene(scene);
+    }
+
+    public static void setNewClient(String NRN){
+        newClient = NRN;
+    }
+
+    public static String getNewClient(){
+        return newClient;
     }
 
     public static Bank getBank() {

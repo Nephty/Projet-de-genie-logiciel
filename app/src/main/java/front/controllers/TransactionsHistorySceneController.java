@@ -24,13 +24,13 @@ import java.util.Calendar;
 
 public class TransactionsHistorySceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, exportButton, fetchTransactionsHistoryButton;
+    Button backButton, exportButton, fetchTransactionsHistoryButton;
     @FXML
-    public TableView<Transaction> transactionsHistoryTableView;
+    TableView<Transaction> transactionsHistoryTableView;
     @FXML
-    public TableColumn<Transaction, String> senderNameColumn, senderIBANColumn, receiverNameColumn, receiverIBANColumn, dateColumn, amountColumn;
+    TableColumn<Transaction, String> senderNameColumn, senderIBANColumn, receiverNameColumn, receiverIBANColumn, dateColumn, amountColumn;
     @FXML
-    public Label lastUpdateTimeLabel, loadingTransactionsHistoryLabel;
+    Label lastUpdateTimeLabel, loadingTransactionsHistoryLabel;
 
     public void initialize() {
         senderNameColumn.setCellValueFactory(new PropertyValueFactory<>("senderName"));
@@ -53,12 +53,12 @@ public class TransactionsHistorySceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
 
     @FXML
-    public void handleExportButtonClicked(MouseEvent event) {
+    void handleExportButtonClicked(MouseEvent event) {
         if (transactionsHistoryTableView.getSelectionModel().getSelectedItems().size() <= 1) {
             // Export all transactions
             ExportHistorySceneController.setExportData(new ArrayList<>(transactionsHistoryTableView.getItems()));
@@ -70,7 +70,7 @@ public class TransactionsHistorySceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleFetchTransactionsHistoryButtonClicked(MouseEvent event) {
+    void handleFetchTransactionsHistoryButtonClicked(MouseEvent event) {
         fetchTransactions();
     }
 
@@ -102,7 +102,7 @@ public class TransactionsHistorySceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

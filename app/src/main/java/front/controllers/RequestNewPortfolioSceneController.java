@@ -19,11 +19,11 @@ import javafx.scene.input.MouseEvent;
 
 public class RequestNewPortfolioSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, sendRequestButton;
+    Button backButton, sendRequestButton;
     @FXML
-    public Label selectSWIFTLabel, noSWIFTSelectedLabel, requestSentLabel, requestNotSentLabel; // Note : we don't use the last label
+    Label selectSWIFTLabel, noSWIFTSelectedLabel, requestSentLabel, requestNotSentLabel; // Note : we don't use the last label
     @FXML
-    public ComboBox<String> SWIFTComboBox;
+    ComboBox<String> SWIFTComboBox;
 
     private boolean requestSent = false;
 
@@ -52,7 +52,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (requestSent) {
             SWIFTComboBox.setValue(SWIFTComboBox.getPromptText()); // TODO : this is not showing the prompt text
@@ -61,7 +61,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleSendRequestButton(MouseEvent event) throws UnirestException {
+    void handleSendRequestButton(MouseEvent event) throws UnirestException {
         if (SWIFTComboBox.getValue() != null && !SWIFTComboBox.getValue().equals("")) {
             if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false);
 
@@ -78,7 +78,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();
@@ -86,7 +86,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleSWIFTComboBoxMouseClicked(MouseEvent mouseEvent) {
+    void handleSWIFTComboBoxMouseClicked(MouseEvent mouseEvent) {
         requestSent = false;
     }
 }

@@ -28,25 +28,25 @@ import java.util.*;
 
 public class VisualizeToolSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, setGraphMode, setPieChartMode, addAccountButton, removeAccountButton;
+    Button backButton, setGraphMode, setPieChartMode, addAccountButton, removeAccountButton;
     @FXML
-    public ComboBox<Timespan> timeSpanComboBox;
+    ComboBox<Timespan> timeSpanComboBox;
     @FXML
-    public TableView<SubAccount> availableAccountsTableView, addedAccountsTableView;
+    TableView<SubAccount> availableAccountsTableView, addedAccountsTableView;
     @FXML
-    public Label availableAccountsLabel, addedAccountsLabel;
+    Label availableAccountsLabel, addedAccountsLabel;
     @FXML
-    public StackPane chartsPane;
+    StackPane chartsPane;
     @FXML
-    public PieChart pieChart;
+    PieChart pieChart;
     @FXML
-    public StackedAreaChart stackedAreaChart;
+    StackedAreaChart stackedAreaChart;
     @FXML
-    public CategoryAxis bottomAxis;
+    CategoryAxis bottomAxis;
     @FXML
-    public NumberAxis leftAxis;
+    NumberAxis leftAxis;
     @FXML
-    public TableColumn<SubAccount, String> availableIBANColumn, availableAmountColumn, addedIBANColumn, addedAmountColumn;
+    TableColumn<SubAccount, String> availableIBANColumn, availableAmountColumn, addedIBANColumn, addedAmountColumn;
 
     private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
     private ObservableList<XYChart.Series<String, Double>> stackedAreaChartData = FXCollections.observableArrayList();
@@ -95,24 +95,24 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
 
     @FXML
-    public void handleSetGraphModeButtonClicked(MouseEvent event) {
+    void handleSetGraphModeButtonClicked(MouseEvent event) {
         pieChart.setVisible(false);
         stackedAreaChart.setVisible(true);
     }
 
     @FXML
-    public void handleSetPieChartModeButtonClicked(MouseEvent event) {
+    void handleSetPieChartModeButtonClicked(MouseEvent event) {
         stackedAreaChart.setVisible(false);
         pieChart.setVisible(true);
     }
 
     @FXML
-    public void handleAddAccountButtonClicked(MouseEvent event) {
+    void handleAddAccountButtonClicked(MouseEvent event) {
         if (availableAccountsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             // Prepare selected data for utilization
             ObservableList<SubAccount> selection = availableAccountsTableView.getSelectionModel().getSelectedItems();
@@ -140,7 +140,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleRemoveAccountModeButtonClicked(MouseEvent event) {
+    void handleRemoveAccountModeButtonClicked(MouseEvent event) {
         if (addedAccountsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             ObservableList<SubAccount> selection = addedAccountsTableView.getSelectionModel().getSelectedItems();
             availableAccountsTableView.getItems().addAll(selection);
@@ -173,7 +173,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();
@@ -181,13 +181,13 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleAvailableAccountsListViewMouseClicked(MouseEvent mouseEvent) {
+    void handleAvailableAccountsListViewMouseClicked(MouseEvent mouseEvent) {
         removeAccountButton.setDisable(true);
         addAccountButton.setDisable(false);
     }
 
     @FXML
-    public void handleAddedAccountsListViewMouseClicked(MouseEvent mouseEvent) {
+    void handleAddedAccountsListViewMouseClicked(MouseEvent mouseEvent) {
         removeAccountButton.setDisable(false);
         addAccountButton.setDisable(true);
     }

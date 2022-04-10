@@ -20,14 +20,18 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 
 public class RequestTransferPermissionSceneController extends Controller implements BackButtonNavigator {
+
     @FXML
-    public Button backButton;
+    Button backButton;
+
     @FXML
-    public Label selectPortfolioLabel, noPortfolioSelectedLabel, requestNotSentLabel, requestSentLabel;
+    Label selectPortfolioLabel, noPortfolioSelectedLabel, requestNotSentLabel, requestSentLabel;
+
     @FXML
-    public ComboBox<Account> portfolioComboBox;
+    ComboBox<Account> portfolioComboBox;
+
     @FXML
-    public Button sendRequestButton;
+    Button sendRequestButton;
 
     private boolean requestSent = false;
 
@@ -61,8 +65,9 @@ public class RequestTransferPermissionSceneController extends Controller impleme
         handleBackButtonNavigation(null);
     }
 
+
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (requestSent) {
             portfolioComboBox.setValue(null);
@@ -70,8 +75,9 @@ public class RequestTransferPermissionSceneController extends Controller impleme
         }
     }
 
+
     @FXML
-    public void handleSendRequestButtonMouseClicked(MouseEvent event) {
+    void handleSendRequestButtonMouseClicked(MouseEvent event) {
         if (portfolioComboBox.getValue() != null) {
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
@@ -87,16 +93,18 @@ public class RequestTransferPermissionSceneController extends Controller impleme
         } else if (!noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(true);
     }
 
+
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();
         }
     }
 
+
     @FXML
-    public void handlePortfolioComboBoxMouseCLicked(MouseEvent mouseEvent) {
+    void handlePortfolioComboBoxMouseCLicked(MouseEvent mouseEvent) {
         requestSent = false;
     }
 }

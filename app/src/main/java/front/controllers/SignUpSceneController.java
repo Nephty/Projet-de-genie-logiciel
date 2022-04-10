@@ -58,7 +58,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         hideAllLabels();
     }
@@ -82,7 +82,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     }
 
     @FXML
-    public void handleSignUpButtonClicked(MouseEvent mouseEvent) {
+    void handleSignUpButtonClicked(MouseEvent mouseEvent) {
         signUp();
     }
 
@@ -297,7 +297,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     }
 
     @FXML
-    public void handleComponentKeyPressed(KeyEvent keyEvent) {
+    void handleComponentKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) emulateSignUpButtonClicked();
     }
 
@@ -332,7 +332,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

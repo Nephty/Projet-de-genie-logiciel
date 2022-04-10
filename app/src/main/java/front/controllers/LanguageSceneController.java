@@ -20,8 +20,9 @@ import java.util.Locale;
 
 public class LanguageSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public TableView<Locale> languagesTableView;
-    public TableColumn<Locale, String> displayNameColumn, languageColumn, countryColumn;
+    TableView<Locale> languagesTableView;
+    @FXML
+    TableColumn<Locale, String> displayNameColumn, languageColumn, countryColumn;
     @FXML
     Button backButton, addButton, setButton;
     @FXML
@@ -35,7 +36,7 @@ public class LanguageSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent mouseEvent) {
+    void handleBackButtonClicked(MouseEvent mouseEvent) {
         handleBackButtonNavigation(mouseEvent);
     }
 
@@ -50,11 +51,11 @@ public class LanguageSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleAddButtonMouseClicked(MouseEvent event) {
+    void handleAddButtonMouseClicked(MouseEvent event) {
     }
 
     @FXML
-    public void handleSetButtonMouseClicked(MouseEvent event) {
+    void handleSetButtonMouseClicked(MouseEvent event) {
         if (languagesTableView.getSelectionModel().getSelectedItems().size() == 1) {
             Main.appLocale = languagesTableView.getSelectionModel().getSelectedItems().get(0);
             // Reload scenes
@@ -70,7 +71,7 @@ public class LanguageSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

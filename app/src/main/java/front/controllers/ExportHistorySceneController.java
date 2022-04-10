@@ -18,9 +18,9 @@ public class ExportHistorySceneController extends Controller implements BackButt
     public static ArrayList<Object> exportData;
     private boolean exportDone = false, directoryChosen = false;
     @FXML
-    public Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
+    Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
     @FXML
-    public Label choosePathLabel, noPathSelectedLabel, requestNotSentLabel, exportSuccessfulLabel, exportLocationLabel;
+    Label choosePathLabel, noPathSelectedLabel, requestNotSentLabel, exportSuccessfulLabel, exportLocationLabel;
 
     private File selectedDirectory;
     DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -40,7 +40,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (exportDone) {
             exportLocationLabel.setText("Export location not set.");
@@ -54,7 +54,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
     // TODO : don't forget form reset
 
     @FXML
-    public void handleChoosePathButtonClicked(MouseEvent event) {
+    void handleChoosePathButtonClicked(MouseEvent event) {
         selectedDirectory = directoryChooser.showDialog(Main.getStage());
         if (selectedDirectory != null) {
             exportLocationLabel.setText("Selected path : " + selectedDirectory.getPath());
@@ -64,7 +64,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleJSONExportButtonClicked(MouseEvent event) {
+    void handleJSONExportButtonClicked(MouseEvent event) {
         if (!noPathSelectedLabel.isVisible() && selectedDirectory == null) noPathSelectedLabel.setVisible(true);
         else if (noPathSelectedLabel.isVisible() && selectedDirectory != null) noPathSelectedLabel.setVisible(false);
 
@@ -83,7 +83,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleCSVExportButtonClicked(MouseEvent event) {
+    void handleCSVExportButtonClicked(MouseEvent event) {
         if (!noPathSelectedLabel.isVisible() && selectedDirectory == null) noPathSelectedLabel.setVisible(true);
         else if (noPathSelectedLabel.isVisible() && selectedDirectory != null) noPathSelectedLabel.setVisible(false);
 
@@ -103,7 +103,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

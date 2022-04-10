@@ -29,13 +29,13 @@ import java.util.Calendar;
 
 public class RequestsStatusSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, fetchRequestsButton;
+    Button backButton, fetchRequestsButton;
     @FXML
-    public TableView<Request> requestsTableView;
+    TableView<Request> requestsTableView;
     @FXML
-    public TableColumn<Request, String> dateColumn, typeColumn, contentColumn;
+    TableColumn<Request, String> dateColumn, typeColumn, contentColumn;
     @FXML
-    public Label lastUpdateTimeLabel, loadingRequestsLabel;
+    Label lastUpdateTimeLabel, loadingRequestsLabel;
 
     public void initialize() {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -45,7 +45,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
 
@@ -60,7 +60,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleFetchRequestsButtonClicked(MouseEvent event) {
+    void handleFetchRequestsButtonClicked(MouseEvent event) {
         fetchRequests();
     }
 
@@ -122,7 +122,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

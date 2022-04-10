@@ -12,38 +12,38 @@ import static app.Main.appLocale;
 
 public class MainScreenSceneController extends Controller {
     @FXML
-    public Button changePasswordButton, notificationsButton, requestsButton, visualizeToolButton, financialProductsButton, signOutButton;
+    Button changePasswordButton, notificationsButton, requestsButton, visualizeToolButton, financialProductsButton, signOutButton;
 
     @FXML
-    public void handleSignOutButtonClicked(MouseEvent event) {
+    void handleSignOutButtonClicked(MouseEvent event) {
         Main.clearData();
         Main.setScene(Flow.back());
     }
 
     @FXML
-    public void handleFinancialProductsButtonClicked(MouseEvent event) {
+    void handleFinancialProductsButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.FinancialProductsScene));
     }
 
     @FXML
-    public void handleRequestsButtonClicked(MouseEvent event) {
+    void handleRequestsButtonClicked(MouseEvent event) {
         Scenes.RequestsScene = SceneLoader.load("RequestsScene.fxml", appLocale);
         Main.setScene(Flow.forward(Scenes.RequestsScene));
     }
 
     @FXML
-    public void handleNotificationsButtonClicked(MouseEvent event) {
+    void handleNotificationsButtonClicked(MouseEvent event) {
         Scenes.NotificationsScene = SceneLoader.load("NotificationsScene.fxml", appLocale);
         Main.setScene(Flow.forward(Scenes.NotificationsScene));
     }
 
     @FXML
-    public void handleChangePasswordButtonClicked(MouseEvent event) {
+    void handleChangePasswordButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.ChangePasswordScene));
     }
 
     @FXML
-    public void handleVisualizeToolButtonClicked(MouseEvent mouseEvent) {
+    void handleVisualizeToolButtonClicked(MouseEvent mouseEvent) {
         Main.setScene(Flow.forward(Scenes.VisualizeToolScene));
     }
 }

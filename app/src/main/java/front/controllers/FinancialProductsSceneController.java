@@ -25,13 +25,13 @@ import java.util.Calendar;
 
 public class FinancialProductsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, fetchProductsButton, detailsButton, visualizeToolButton;
+    Button backButton, fetchProductsButton, detailsButton, visualizeToolButton;
     @FXML
-    public Label lastUpdateTimeLabel, loadingProductsLabel;
+    Label lastUpdateTimeLabel, loadingProductsLabel;
     @FXML
-    public TableView<Wallet> productsTableView;
+    TableView<Wallet> productsTableView;
     @FXML
-    public TableColumn<Wallet, String> bankNameColumn, bankSWIFTColumn, accountsColumn;
+    TableColumn<Wallet, String> bankNameColumn, bankSWIFTColumn, accountsColumn;
 
     public void initialize() {
         bankNameColumn.setCellValueFactory(w -> new SimpleStringProperty(w.getValue().getBank().getName()));
@@ -51,12 +51,12 @@ public class FinancialProductsSceneController extends Controller implements Back
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
 
     @FXML
-    public void handleDetailsButtonClicked(MouseEvent event) {
+    void handleDetailsButtonClicked(MouseEvent event) {
         // If the user selected one wallet
         if (productsTableView.getSelectionModel().getSelectedItems().size() == 1) {
             Main.setCurrentWallet(productsTableView.getSelectionModel().getSelectedItems().get(0));
@@ -66,7 +66,7 @@ public class FinancialProductsSceneController extends Controller implements Back
     }
 
     @FXML
-    public void handleFetchProductButtonClicked(MouseEvent event) {
+    void handleFetchProductButtonClicked(MouseEvent event) {
         fetchProducts();
     }
 
@@ -131,7 +131,7 @@ public class FinancialProductsSceneController extends Controller implements Back
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

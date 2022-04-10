@@ -20,13 +20,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class ChangePasswordSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
-    public Button backButton, languageButton;
+    Button backButton, languageButton;
     @FXML
-    public PasswordField currentPasswordField, newPasswordField, confirmNewPasswordField;
+    PasswordField currentPasswordField, newPasswordField, confirmNewPasswordField;
     @FXML
-    public Label incorrectCurrentPasswordLabel, passwordDoesNotMatchLabel, passwordChangedLabel;
+    Label incorrectCurrentPasswordLabel, passwordDoesNotMatchLabel, passwordChangedLabel;
     @FXML
-    public Button changePasswordButton;
+    Button changePasswordButton;
 
     private boolean passwordChanged = false;
 
@@ -41,7 +41,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (passwordChanged) {
             incorrectCurrentPasswordLabel.setVisible(false);
@@ -59,17 +59,17 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleLanguageButtonClicked(MouseEvent event) {
+    void handleLanguageButtonClicked(MouseEvent event) {
         handleLanguageButtonNavigation(event);
     }
 
     @FXML
-    public void handleComponentKeyPressed(KeyEvent keyEvent) {
+    void handleComponentKeyPressed(KeyEvent keyEvent) {
         passwordChanged = false;
     }
 
     @FXML
-    public void handleChangePasswordButtonClicked(MouseEvent event) {
+    void handleChangePasswordButtonClicked(MouseEvent event) {
         // Fetch the current password in the API
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
@@ -137,7 +137,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

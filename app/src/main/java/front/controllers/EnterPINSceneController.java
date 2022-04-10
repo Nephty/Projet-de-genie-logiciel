@@ -14,13 +14,13 @@ import javafx.scene.input.MouseEvent;
 public class EnterPINSceneController extends Controller implements BackButtonNavigator {
     private final String correctPIN = "1235";
     @FXML
-    public Button backButton, confirmButton;
+    Button backButton, confirmButton;
     @FXML
-    public PasswordField PINField;
+    PasswordField PINField;
     @FXML
-    public Button button1, button2, button3, button4, button5, button6, button7, button8, button9, button0, buttonDel;
+    Button button1, button2, button3, button4, button5, button6, button7, button8, button9, button0, buttonDel;
     @FXML
-    public Label incorrectPINLabel, correctPINLabel, tooManyAttemptsLabel;
+    Label incorrectPINLabel, correctPINLabel, tooManyAttemptsLabel;
     private int attempts = 0;
     private boolean executingTransfer = false;
 
@@ -35,14 +35,14 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         attempts = 0;
         tooManyAttemptsLabel.setVisible(false);
     }
 
     @FXML
-    public void handleConfirmButtonClicked(MouseEvent event) {
+    void handleConfirmButtonClicked(MouseEvent event) {
         if (!executingTransfer) {
             executingTransfer = true;
             attempts++;
@@ -72,7 +72,7 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleButtonKeyPressed(KeyEvent keyEvent) {
+    void handleButtonKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case ENTER:
                 emulateConfirmButtonMouseClicked();
@@ -97,7 +97,7 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleNumButtonMouseClicked(MouseEvent event) {
+    void handleNumButtonMouseClicked(MouseEvent event) {
         Button buttonSource = (Button) event.getSource();
         if (buttonSource.getText().equals("<")) {
             if (PINField.getText().length() > 0) {
@@ -133,7 +133,7 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

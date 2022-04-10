@@ -28,17 +28,17 @@ import java.util.Calendar;
 
 public class NotificationsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, dismissButton, flagButton, fetchNotificationsButton;
+    Button backButton, dismissButton, flagButton, fetchNotificationsButton;
     @FXML
-    public Label loadingNotificationsLabel;
+    Label loadingNotificationsLabel;
     @FXML
-    public Label lastUpdateTimeLabel;
+    Label lastUpdateTimeLabel;
     @FXML
-    public TableView<Notification> notificationsTableView;
+    TableView<Notification> notificationsTableView;
     @FXML
-    public TableColumn<Notification, String> dateColumn, senderColumn, contentColumn;
+    TableColumn<Notification, String> dateColumn, senderColumn, contentColumn;
     @FXML
-    public TableColumn<Notification, Long> IDColumn;
+    TableColumn<Notification, Long> IDColumn;
 
     public void initialize() {
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
@@ -49,7 +49,7 @@ public class NotificationsSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
 
@@ -64,14 +64,14 @@ public class NotificationsSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleDismissButtonClicked(MouseEvent event) {
+    void handleDismissButtonClicked(MouseEvent event) {
         if (notificationsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             notificationsTableView.getSelectionModel().getSelectedItems().get(0).dismiss();
         }
     }
 
     @FXML
-    public void handleFlagButtonClicked(MouseEvent event) {
+    void handleFlagButtonClicked(MouseEvent event) {
         if (notificationsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             notificationsTableView.getSelectionModel().getSelectedItems().get(0).changeFlag();
             fetchNotifications();
@@ -130,12 +130,12 @@ public class NotificationsSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleFetchNotificationsButtonClicked(MouseEvent event) {
+    void handleFetchNotificationsButtonClicked(MouseEvent event) {
         fetchNotifications();
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

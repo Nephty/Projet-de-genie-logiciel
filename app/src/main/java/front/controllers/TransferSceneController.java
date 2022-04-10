@@ -20,11 +20,11 @@ public class TransferSceneController extends Controller implements BackButtonNav
     private final int charactersLeft = 256;
     private final int previousMessageLength = 0;
     @FXML
-    public Button backButton, transferButton;
+    Button backButton, transferButton;
     @FXML
-    public TextField amountField, recipientField, IBANField, messageField, dateField;
+    TextField amountField, recipientField, IBANField, messageField, dateField;
     @FXML
-    public Label invalidAmountLabel, invalidRecipientLabel, invalidIBAN, invalidMessageLabel, invalidDateLabel,
+    Label invalidAmountLabel, invalidRecipientLabel, invalidIBAN, invalidMessageLabel, invalidDateLabel,
             transferExecutedLabel, charactersLeftLabel;
 
     public static void executeTransfer() {
@@ -175,7 +175,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         transferExecutedLabel.setVisible(false);
         clearAllTextFields();
@@ -238,28 +238,28 @@ public class TransferSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleAmountFieldKeyPressed(KeyEvent keyEvent) {
+    void handleAmountFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateTransferButtonClicked();
         }
     }
 
     @FXML
-    public void handleRecipientFieldKeyPressed(KeyEvent keyEvent) {
+    void handleRecipientFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateTransferButtonClicked();
         }
     }
 
     @FXML
-    public void handleIBANFieldKeyPressed(KeyEvent keyEvent) {
+    void handleIBANFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateTransferButtonClicked();
         }
     }
 
     @FXML
-    public void handleMessageFieldKeyPressed(KeyEvent keyEvent) {
+    void handleMessageFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateTransferButtonClicked();
         }
@@ -267,14 +267,14 @@ public class TransferSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleDateFieldKeyPressed(KeyEvent keyEvent) {
+    void handleDateFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateTransferButtonClicked();
         }
     }
 
     @FXML
-    public void handleTransferButtonClicked(MouseEvent event) {
+    void handleTransferButtonClicked(MouseEvent event) {
         transfer();
     }
 
@@ -287,7 +287,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

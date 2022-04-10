@@ -31,23 +31,23 @@ import static app.Main.appLocale;
 public class ProductDetailsSceneController extends Controller implements BackButtonNavigator {
 
     @FXML
-    public Button backButton, historyButton, fetchAccountsButton, transferButton, toggleButton;
+    Button backButton, historyButton, fetchAccountsButton, transferButton, toggleButton;
     @FXML
-    public TableView<Account> accountsTableView;
+    TableView<Account> accountsTableView;
     @FXML
-    public TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, activatedColumn;
+    TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, activatedColumn;
     @FXML
-    public Label lastUpdateTimeLabel;
+    Label lastUpdateTimeLabel;
     @FXML
-    public Label loadingAccountsLabel;
+    Label loadingAccountsLabel;
     @FXML
-    public Label togglingProductLabel;
+    Label togglingProductLabel;
     @FXML
-    public Label toggledOnProductLabel;
+    Label toggledOnProductLabel;
     @FXML
-    public Label toggledOffProductLabel;
+    Label toggledOffProductLabel;
     @FXML
-    public Label accountInactiveLabel;
+    Label accountInactiveLabel;
 
     public void initialize() {
         bankNameColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().getBank().getName()));
@@ -70,13 +70,13 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         accountInactiveLabel.setVisible(false);
     }
 
     @FXML
-    public void handleHistoryButtonClicked(MouseEvent event) {
+    void handleHistoryButtonClicked(MouseEvent event) {
         if (accountsTableView.getSelectionModel().getSelectedItems().size() == 1) {
             accountInactiveLabel.setVisible(false);
             Main.setCurrentAccount(accountsTableView.getSelectionModel().getSelectedItems().get(0));
@@ -87,12 +87,12 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleFetchAccountsButtonClicked(MouseEvent event) {
+    void handleFetchAccountsButtonClicked(MouseEvent event) {
         updateAccounts();
     }
 
     @FXML
-    public void handleTransferButtonClicked(MouseEvent event) {
+    void handleTransferButtonClicked(MouseEvent event) {
         if (accountsTableView.getSelectionModel().getSelectedItems().size() == 1) {
             if (accountsTableView.getSelectionModel().getSelectedItem().isActivated()) {
                 Main.setScene(Flow.forward(Scenes.TransferScene));
@@ -105,7 +105,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleToggleButtonClicked(MouseEvent event) {
+    void handleToggleButtonClicked(MouseEvent event) {
         // If the user selected one wallet
         if (accountsTableView.getSelectionModel().getSelectedItems().size() == 1) {
             toggleProduct(accountsTableView.getSelectionModel().getSelectedItems().get(0));
@@ -210,7 +210,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent event) {
+    void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

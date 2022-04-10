@@ -30,10 +30,10 @@
                        onKeyReleased="#handleComponentKeyReleased" prefHeight="550.0" prefWidth="1000.0"
                        style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;">
                 <columns>
-                    <TableColumn fx:id="IDColumn" prefWidth="75.0" style="-fx-alignment: CENTER;" text="ID"/>
-                    <TableColumn fx:id="dateColumn" prefWidth="150.0" style="-fx-alignment: CENTER;" text="Date"/>
-                    <TableColumn fx:id="senderColumn" prefWidth="150.0" style="-fx-alignment: CENTER;" text="Sender"/>
-                    <TableColumn fx:id="contentColumn" prefWidth="624.0" style="-fx-alignment: CENTER;" text="Content"/>
+                    <TableColumn fx:id="IDColumn" prefWidth="75.0" style="-fx-alignment: CENTER;" text="%NotificationsScene.IDColumn"/>
+                    <TableColumn fx:id="dateColumn" prefWidth="150.0" style="-fx-alignment: CENTER;" text="%common.DateColumn"/>
+                    <TableColumn fx:id="senderColumn" prefWidth="150.0" style="-fx-alignment: CENTER;" text="%NotificationsScene.SenderColumn"/>
+                    <TableColumn fx:id="contentColumn" prefWidth="624.0" style="-fx-alignment: CENTER;" text="%common.ContentColumn"/>
                 </columns>
             </TableView>
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"

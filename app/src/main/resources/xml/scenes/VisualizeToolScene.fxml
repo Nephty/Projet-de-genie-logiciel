@@ -32,14 +32,14 @@
             </StackPane>
             <TableView fx:id="availableAccountsTableView" fixedCellSize="50.0" layoutX="730.0" layoutY="396.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleAvailableAccountsListViewMouseClicked" prefHeight="174.0" prefWidth="300.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;">
                 <columns>
-                    <TableColumn fx:id="availableIBANColumn" prefWidth="200.0" style="-fx-alignment: CENTER;" text="IBAN" />
-                    <TableColumn fx:id="availableAmountColumn" prefWidth="74.0" style="-fx-alignment: CENTER;" text="Amount" />
+                    <TableColumn fx:id="availableIBANColumn" prefWidth="200.0" style="-fx-alignment: CENTER;" text="%common.IBANColumn" />
+                    <TableColumn fx:id="availableAmountColumn" prefWidth="74.0" style="-fx-alignment: CENTER;" text="%common.AmountColumn" />
                 </columns>
             </TableView>
             <TableView fx:id="addedAccountsTableView" fixedCellSize="50.0" layoutX="730.0" layoutY="136.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleAddedAccountsListViewMouseClicked" prefHeight="174.0" prefWidth="300.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;">
                 <columns>
-                    <TableColumn fx:id="addedIBANColumn" prefWidth="200.0" style="-fx-alignment: CENTER;" text="IBAN" />
-                    <TableColumn fx:id="addedAmountColumn" prefWidth="74.0" style="-fx-alignment: CENTER;" text="Amount" />
+                    <TableColumn fx:id="addedIBANColumn" prefWidth="200.0" style="-fx-alignment: CENTER;" text="%common.IBANColumn" />
+                    <TableColumn fx:id="addedAmountColumn" prefWidth="74.0" style="-fx-alignment: CENTER;" text="%common.AmountColumn" />
                 </columns>
             </TableView>
             <Label fx:id="availableAccountsLabel" alignment="CENTER" layoutX="730.0" layoutY="335.0" prefHeight="36.0" prefWidth="300.0" style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%VisualizeToolScene.availableAccountsLabel" />

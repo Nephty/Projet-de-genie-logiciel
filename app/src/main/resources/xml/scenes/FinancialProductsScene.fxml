@@ -33,9 +33,9 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn fx:id="bankNameColumn" style="-fx-alignment: CENTER;" text="Bank name"/>
-                    <TableColumn fx:id="bankSWIFTColumn" style="-fx-alignment: CENTER;" text="Bank SWIFT"/>
-                    <TableColumn fx:id="accountsColumn" style="-fx-alignment: CENTER;" text="Accounts"/>
+                    <TableColumn fx:id="bankNameColumn" style="-fx-alignment: CENTER;" text="%common.BankNameColumn"/>
+                    <TableColumn fx:id="bankSWIFTColumn" style="-fx-alignment: CENTER;" text="%FinancialProductsScene.BankSWIFTColumn"/>
+                    <TableColumn fx:id="accountsColumn" style="-fx-alignment: CENTER;" text="%FinancialProductsScene.AccountsColumn"/>
                 </columns>
             </TableView>
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0" prefHeight="36.0"
@@ -55,7 +55,7 @@
                     onMouseClicked="#handleArchivedAccountsButtonClicked" onMouseEntered="#handleButtonMouseEntered"
                     onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="Archived accounts" textFill="#0a0a14">
+                    text="%FinancialProductsScene.ArchivedAccountsButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
                 </effect>

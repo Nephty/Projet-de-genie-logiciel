@@ -38,12 +38,12 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn fx:id="bankNameColumn" style="-fx-alignment: CENTER;" text="Bank"/>
-                    <TableColumn fx:id="IBANColumn" style="-fx-alignment: CENTER;" text="IBAN"/>
-                    <TableColumn fx:id="accountTypeColumn" style="-fx-alignment: CENTER;" text="Type"/>
-                    <TableColumn fx:id="transferPermissionsColumn" style="-fx-alignment: CENTER;" text="Transfer permissions"/>
-                    <TableColumn fx:id="subAccountsColumn" style="-fx-alignment: CENTER;" text="Sub accounts"/>
-                    <TableColumn fx:id="activatedColumn" style="-fx-alignment: CENTER;" text="Activated"/>
+                    <TableColumn fx:id="bankNameColumn" style="-fx-alignment: CENTER;" text="%common.BankNameColumn"/>
+                    <TableColumn fx:id="IBANColumn" style="-fx-alignment: CENTER;" text="%common.IBANColumn"/>
+                    <TableColumn fx:id="accountTypeColumn" style="-fx-alignment: CENTER;" text="%common.AccountTypeColumn"/>
+                    <TableColumn fx:id="transferPermissionsColumn" style="-fx-alignment: CENTER;" text="%common.TransferPermissionColumn"/>
+                    <TableColumn fx:id="subAccountsColumn" style="-fx-alignment: CENTER;" text="%common.SubAccountsColumn"/>
+                    <TableColumn fx:id="activatedColumn" style="-fx-alignment: CENTER;" text="%common.ActivatedColumn"/>
                 </columns>
             </TableView>
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"

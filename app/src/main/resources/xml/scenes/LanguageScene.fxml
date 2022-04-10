@@ -42,9 +42,9 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn fx:id="displayNameColumn" style="-fx-alignment: CENTER;" text="Name"/>
-                    <TableColumn fx:id="languageColumn" style="-fx-alignment: CENTER;" text="Language"/>
-                    <TableColumn fx:id="countryColumn" style="-fx-alignment: CENTER;" text="Country"/>
+                    <TableColumn fx:id="displayNameColumn" style="-fx-alignment: CENTER;" text="%LanguageScene.DisplayNameColumn"/>
+                    <TableColumn fx:id="languageColumn" style="-fx-alignment: CENTER;" text="%LanguageScene.LanguageColumn"/>
+                    <TableColumn fx:id="countryColumn" style="-fx-alignment: CENTER;" text="%LanguageScene.CountryColumn"/>
                 </columns>
             </TableView>
             <Button fx:id="addButton" layoutX="1075.0" layoutY="75.0"

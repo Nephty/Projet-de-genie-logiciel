@@ -45,11 +45,7 @@ public class Notification extends Communication {
     }
 
     public void changeFlag() {
-        if(flag){
-            this.flag = false;
-        } else{
-            this.flag = true;
-        }
+        this.flag = !flag;
 
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
@@ -70,5 +66,9 @@ public class Notification extends Communication {
 
     public String getDate() {
         return date;
+    }
+
+    public boolean isFlagged() {
+        return flag;
     }
 }

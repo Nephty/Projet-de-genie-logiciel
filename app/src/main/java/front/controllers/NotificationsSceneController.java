@@ -11,12 +11,12 @@ import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Point3D;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.util.Duration;
 import org.json.JSONObject;
 
@@ -37,6 +37,13 @@ public class NotificationsSceneController extends Controller implements BackButt
     @FXML
     TableColumn<Notification, Long> IDColumn;
 
+    private ArrayList<Notification> content = new ArrayList<>();
+    private ArrayList<String> flaggedNotificationsContent = new ArrayList<>();
+
+    private MouseEvent fakeMouseEventFlagButtonCLicked = new MouseEvent(MouseEvent.MOUSE_CLICKED, 19.0, 18.0, 1075.0+19.0, 200.0+18.0, MouseButton.PRIMARY, 1, false, false, false, false, true,  false, false, false, false, false, new PickResult(flagButton, new Point3D(46.0, 11.0, 2.2737367544323206E-13), 1877.2215562071458));
+
+    private boolean alreadyUpdatedBackground = false;
+
     public void initialize() {
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -44,12 +51,23 @@ public class NotificationsSceneController extends Controller implements BackButt
         contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
         notificationsTableView.setPlaceholder(new Label("No notifications."));
         notificationsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        for (Notification n : content) {
+            if (n.isFlagged()) flaggedNotificationsContent.add(n.getContent());
+        }
+
+        // TODO : 10-04-2022 22:12:47 i gave up - update all notifications background
         fetchNotifications();
+    }
+
+    private void emulateFlagButtonClicked() {
+        handleFlagButtonClicked(null);
     }
 
     @FXML
     void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
+        alreadyUpdatedBackground = false;
     }
 
     @Override
@@ -65,16 +83,46 @@ public class NotificationsSceneController extends Controller implements BackButt
     @FXML
     void handleDismissButtonClicked(MouseEvent event) {
         if (notificationsTableView.getSelectionModel().getSelectedItems().size() > 0) {
-            notificationsTableView.getSelectionModel().getSelectedItems().get(0).dismiss();
+            for (Notification n : notificationsTableView.getSelectionModel().getSelectedItems())
+                n.dismiss();
         }
     }
 
     @FXML
     void handleFlagButtonClicked(MouseEvent event) {
+        System.out.println("event = " + event.getPickResult());
         if (notificationsTableView.getSelectionModel().getSelectedItems().size() > 0) {
-            notificationsTableView.getSelectionModel().getSelectedItems().get(0).changeFlag();
-            fetchNotifications();
+            ObservableList<Notification> selection = notificationsTableView.getSelectionModel().getSelectedItems();
+            for (Notification n : selection) {
+                n.changeFlag();
+                if (n.isFlagged()) flaggedNotificationsContent.add(n.getContent());
+                else flaggedNotificationsContent.remove(n.getContent());
+                updateBackgroundColorsAccordingToFlagging(contentColumn);
+            }
         }
+    }
+
+    private void updateBackgroundColorsAccordingToFlagging(TableColumn<Notification, String> tableColumn) {
+        tableColumn.setCellFactory(tv -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item);
+                }
+                TableRow<Notification> currentRow = getTableRow();
+                if (!isEmpty()) {
+                    if (flaggedNotificationsContent.contains(item)) {
+                        currentRow.setStyle("-fx-background-color:lightcoral");
+                    } else {
+                        currentRow.setStyle("");
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -110,18 +158,17 @@ public class NotificationsSceneController extends Controller implements BackButt
             }
 
             String body = response.getBody();
-            String toParse = body.substring(1,body.length() - 1);
+            String toParse = body.substring(1, body.length() - 1);
             ArrayList<String> notificationList = Portfolio.JSONArrayParser(toParse);
-            ArrayList<Notification> notifList = new ArrayList<Notification>();
-            if(!notificationList.get(0).equals("")){
-                for(int i = 0; i<notificationList.size(); i++){
+            if (!notificationList.get(0).equals("")) {
+                for (int i = 0; i < notificationList.size(); i++) {
                     JSONObject obj = new JSONObject(notificationList.get(i));
-                    if(obj.getInt("notificationType") == 4){
-                        notifList.add(new Notification(obj.getString("senderName"), obj.getString("comments"),obj.getString("date"), obj.getLong("notificationId"), obj.getBoolean("isFlagged")));
+                    if (obj.getInt("notificationType") == 4) {
+                        content.add(new Notification(obj.getString("senderName"), obj.getString("comments"), obj.getString("date"), obj.getLong("notificationId"), obj.getBoolean("isFlagged")));
                     }
                 }
             }
-            notificationsTableView.setItems(FXCollections.observableArrayList(notifList));
+            notificationsTableView.setItems(FXCollections.observableArrayList(content));
 
             // Fade the label "updating notifications..." out to 0.0 opacity
             sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingNotificationsLabel);

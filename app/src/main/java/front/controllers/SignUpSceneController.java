@@ -22,12 +22,12 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     @FXML
     CheckBox showHidePasswordCheckBox;
     @FXML
-    Label NRNTakenLabel, emailTakenLabel, usernameTakenLabel, passwordDoesNotMatchLabel, languageNotChosenLabel,
-            invalidLastNameLabel, invalidFirstNameLabel, invalidEmailLabel, invalidNRNLabel, invalidUsernameLabel;
+    Label NRNTakenLabel, emailTakenLabel, passwordDoesNotMatchLabel, languageNotChosenLabel,
+            invalidLastNameLabel, invalidFirstNameLabel, invalidEmailLabel, invalidNRNLabel;
     @FXML
     Button backButton, signUpButton;
     @FXML
-    TextField lastNameField, firstNameField, NRNField, emailAddressField, usernameField;
+    TextField lastNameField, firstNameField, NRNField, emailAddressField;
     @FXML
     PasswordField passwordField, confirmPasswordField;
     @FXML
@@ -36,6 +36,132 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     ComboBox<String> languageComboBox;
 
     private boolean userSignedUp = false;
+
+    public void initialize() {
+        // TODO : set the user preferred language in the db
+        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList(Main.FR_BE_Locale.getDisplayName(), Main.EN_US_Locale.getDisplayName(), Main.NL_NL_Locale.getDisplayName(), Main.PT_PT_Locale.getDisplayName(), Main.LT_LT_Locale.getDisplayName(), Main.RU_RU_Locale.getDisplayName(), Main.DE_DE_Locale.getDisplayName(), Main.PL_PL_Locale.getDisplayName()));
+        // TODO : back-end : fetch all available languages and put them in the list
+        languageComboBox.setItems(values);
+
+        passwordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        passwordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        confirmPasswordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        confirmPasswordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        // Set visible property : if the checkbox is not ticked, show the password field, else, show the password text field
+        passwordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        passwordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        confirmPasswordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        confirmPasswordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        // Set selection property : if you type something in the password field, you also type it in the password text field
+        passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
+        confirmPasswordTextField.textProperty().bindBidirectional(confirmPasswordField.textProperty());
+    }
+
+    @FXML
+    public void handleBackButtonClicked(MouseEvent event) {
+        handleBackButtonNavigation(event);
+        hideAllLabels();
+    }
+
+    @Override
+    public void handleBackButtonNavigation(MouseEvent event) {
+        Main.setScene(Flow.back());
+        if (userSignedUp) {
+            // if the user signed up, clear the form
+            // if he didn't sign up, we're saving the inputs
+            languageComboBox.setValue(null);
+            emptyAllTextFields();
+            hideAllLabels();
+            userSignedUp = false;
+        }
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
+    }
+
+    @FXML
+    public void handleSignUpButtonClicked(MouseEvent mouseEvent) {
+        signUp();
+    }
+
+    /**
+     * Checks if every field is properly filled in. Initializes the sign up process.
+     */
+    public void signUp() {
+        String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
+                NRN = NRNField.getText(), password = passwordField.getText(),
+                passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
+
+        // Manage the "invalid xxxx" labels visibility
+        // Is the last name valid (A-Z, a-z) ? Show/hide the incorrect last name label accordingly
+        if (!isValidLastName(lastName) && !invalidLastNameLabel.isVisible()) invalidLastNameLabel.setVisible(true);
+        else if (isValidLastName(lastName) && invalidLastNameLabel.isVisible()) invalidLastNameLabel.setVisible(false);
+        // Is the first name valid (A-Z, a-z) ? Show/hide the incorrect first name label accordingly
+        if (!isValidFirstName(firstName) && !invalidFirstNameLabel.isVisible()) invalidFirstNameLabel.setVisible(true);
+        else if (isValidFirstName(firstName) && invalidFirstNameLabel.isVisible())
+            invalidFirstNameLabel.setVisible(false);
+        // Is the email valid (A-Z, a-z, 0-9, contains only one @, contains a . after the @) ? Show/hide the incorrect email label accordingly
+        if (!isValidEmail(email) && !invalidEmailLabel.isVisible()) invalidEmailLabel.setVisible(true);
+        else if (isValidEmail(email) && invalidEmailLabel.isVisible()) invalidEmailLabel.setVisible(false);
+        // Is the NRN valid (XX.XX.XX-XXX.XX format with numbers)
+        if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(true);
+        else if (isValidNRN(NRN) && invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(false);
+
+
+        // PRO TIP : if the username is invalid, it cannot be taken, so we can safely give the same layout (coordinates)
+        // the labels "invalid username" and "username taken". If the label "invalid username" shows up, it is
+        // impossible for the "username taken" label to show up and vice versa.
+
+
+        // Manage the "xxxx already taken" labels visibility
+        // Is the email already taken ?
+        if (isEmailTaken(email) && !emailTakenLabel.isVisible()) emailTakenLabel.setVisible(true);
+        else if (!isEmailTaken(email) && emailTakenLabel.isVisible()) emailTakenLabel.setVisible(false);
+        // Is the NRN already taken ?
+        if (isNRNTaken(NRN) && !NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(true);
+        else if (!isNRNTaken(NRN) && NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(false);
+
+        // Manage the "password does not match" label visibility
+        if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
+            passwordDoesNotMatchLabel.setVisible(true);
+        else if (passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible())
+            passwordDoesNotMatchLabel.setVisible(false);
+
+        if (chosenLanguage == null && !languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(true);
+        else if (chosenLanguage != null && languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(false);
+
+
+        // No label is visible implies that every field is properly filled in
+        if (noLabelVisible()) {
+            // Then we can create a new user
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            String username = lastName + NRN;
+            try {
+                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
+                        .header("Content-Type", "application/json")
+                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userID\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\"\r\n}")
+                        .asString();
+                Main.errorCheck(response.getStatus());
+            } catch (UnirestException e) {
+                Main.ErrorManager(408);
+            }
+            fadeInAndOutNode(3000, signedUpLabel);
+            userSignedUp = true;
+            // Empty all data that we don't need, it's a security detail
+            lastName = "";
+            firstName = "";
+            email = "";
+            NRN = "";
+            username = "";
+            password = "";
+            passwordConfirmation = "";
+            chosenLanguage = "";
+
+        }
+    }
 
     /**
      * Checks if the given <code>String</code> is a valid last name.
@@ -136,154 +262,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     }
 
     /**
-     * Checks if the given string is valid username.
-     * Requirements :
-     * - username must not be empty
-     * - username must not be null
-     * - username must not be longer than 32 characters
-     * - username must contain characters from a-z, from A-Z and from 0-9
-     *
-     * @param username - <code>String</code> - the username to check
-     * @return whether the given username is a valid username or not
-     */
-    public static boolean isValidUsername(String username) {
-        if (username == null) return false;
-        if (username.equals("") || username.length() > 32) return false;
-        return username.matches("^[a-zA-Z0-9]*$");
-    }
-
-    public void initialize() {
-        // TODO : set the user preferred language in the db
-        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
-        // TODO : back-end : fetch all available languages and put them in the list
-        languageComboBox.setItems(values);
-
-        passwordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
-        passwordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
-        confirmPasswordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
-        confirmPasswordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
-        // Set visible property : if the checkbox is not ticked, show the password field, else, show the password text field
-        passwordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
-        passwordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
-        confirmPasswordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
-        confirmPasswordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
-        // Set selection property : if you type something in the password field, you also type it in the password text field
-        passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
-        confirmPasswordTextField.textProperty().bindBidirectional(confirmPasswordField.textProperty());
-    }
-
-    @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
-        handleBackButtonNavigation(event);
-        hideAllLabels();
-    }
-
-    @Override
-    public void handleBackButtonNavigation(MouseEvent event) {
-        Main.setScene(Flow.back());
-        if (userSignedUp) {
-            // if the user signed up, clear the form
-            // if he didn't sign up, we're saving the inputs
-            languageComboBox.setValue(null);
-            emptyAllTextFields();
-            hideAllLabels();
-            userSignedUp = false;
-        }
-    }
-
-    @Override
-    public void emulateBackButtonClicked() {
-        handleBackButtonNavigation(null);
-    }
-
-    @FXML
-    public void handleSignUpButtonClicked(MouseEvent mouseEvent) {
-        signUp();
-    }
-
-    /**
-     * Checks if every field is properly filled in. Initializes the sign up process.
-     */
-    public void signUp() {
-        String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
-                NRN = NRNField.getText(), username = usernameField.getText(), password = passwordField.getText(),
-                passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
-
-        // Manage the "invalid xxxx" labels visibility
-        // Is the last name valid (A-Z, a-z) ? Show/hide the incorrect last name label accordingly
-        if (!isValidLastName(lastName) && !invalidLastNameLabel.isVisible()) invalidLastNameLabel.setVisible(true);
-        else if (isValidLastName(lastName) && invalidLastNameLabel.isVisible()) invalidLastNameLabel.setVisible(false);
-        // Is the first name valid (A-Z, a-z) ? Show/hide the incorrect first name label accordingly
-        if (!isValidFirstName(firstName) && !invalidFirstNameLabel.isVisible()) invalidFirstNameLabel.setVisible(true);
-        else if (isValidFirstName(firstName) && invalidFirstNameLabel.isVisible())
-            invalidFirstNameLabel.setVisible(false);
-        // Is the email valid (A-Z, a-z, 0-9, contains only one @, contains a . after the @) ? Show/hide the incorrect email label accordingly
-        if (!isValidEmail(email) && !invalidEmailLabel.isVisible()) invalidEmailLabel.setVisible(true);
-        else if (isValidEmail(email) && invalidEmailLabel.isVisible()) invalidEmailLabel.setVisible(false);
-        // Is the NRN valid (XX.XX.XX-XXX.XX format with numbers)
-        if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(true);
-        else if (isValidNRN(NRN) && invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(false);
-        // Is the username valid (numbers and letters only)
-        if (!isValidUsername(username) && !invalidUsernameLabel.isVisible()) invalidUsernameLabel.setVisible(true);
-        else if (isValidUsername(username) && invalidUsernameLabel.isVisible()) invalidUsernameLabel.setVisible(false);
-
-
-        // PRO TIP : if the username is invalid, it cannot be taken, so we can safely give the same layout (coordinates)
-        // the labels "invalid username" and "username taken". If the label "invalid username" shows up, it is
-        // impossible for the "username taken" label to show up and vice versa.
-
-
-        // Manage the "xxxx already taken" labels visibility
-        // Is the username already taken ?
-        if (isUsernameTaken(username) && !usernameTakenLabel.isVisible()) usernameTakenLabel.setVisible(true);
-        else if (!isUsernameTaken(username) && usernameTakenLabel.isVisible()) usernameTakenLabel.setVisible(false);
-        // Is the email already taken ?
-        if (isEmailTaken(email) && !emailTakenLabel.isVisible()) emailTakenLabel.setVisible(true);
-        else if (!isEmailTaken(email) && emailTakenLabel.isVisible()) emailTakenLabel.setVisible(false);
-        // Is the NRN already taken ?
-        if (isNRNTaken(NRN) && !NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(true);
-        else if (!isNRNTaken(NRN) && NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(false);
-
-        // Manage the "password does not match" label visibility
-        if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
-            passwordDoesNotMatchLabel.setVisible(true);
-        else if (passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible())
-            passwordDoesNotMatchLabel.setVisible(false);
-
-        if (chosenLanguage == null && !languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(true);
-        else if (chosenLanguage != null && languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(false);
-
-
-        // No label is visible implies that every field is properly filled in
-        if (noLabelVisible()) {
-            // Then we can create a new user
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
-            try {
-                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
-                        .header("Content-Type", "application/json")
-                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userID\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\"\r\n}")
-                        .asString();
-                Main.errorCheck(response.getStatus());
-            } catch (UnirestException e) {
-                Main.ErrorManager(408);
-            }
-            fadeInAndOutNode(3000, signedUpLabel);
-            userSignedUp = true;
-            // Empty all data that we don't need, it's a security detail
-            lastName = "";
-            firstName = "";
-            email = "";
-            NRN = "";
-            username = "";
-            password = "";
-            passwordConfirmation = "";
-            chosenLanguage = "";
-
-        }
-    }
-
-    /**
      * Checks if any label that show if any field is not properly filled in is visible. If any is visible,
      * the user didn't properly fill in every field. If none are visible, every field is properly filled in.
      * This is directly used to check if every field is properly filled in to begin the sign up process.
@@ -292,19 +270,8 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      */
     private boolean noLabelVisible() {
         return !invalidLastNameLabel.isVisible() && !invalidFirstNameLabel.isVisible() && !invalidEmailLabel.isVisible()
-                && !invalidNRNLabel.isVisible() && !invalidUsernameLabel.isVisible()
+                && !invalidNRNLabel.isVisible()
                 && !passwordDoesNotMatchLabel.isVisible() && !languageNotChosenLabel.isVisible();
-    }
-
-    /**
-     * Checks if the username is already taken.
-     *
-     * @param username - <code>String</code> - the username to check
-     * @return <code>boolean</code> - whether the given username is already take or not
-     */
-    private boolean isUsernameTaken(String username) {
-        // TODO : back-end : implement this method
-        return false;
     }
 
     /**
@@ -344,14 +311,12 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     public void hideAllLabels() {
         NRNTakenLabel.setVisible(false);
         emailTakenLabel.setVisible(false);
-        usernameTakenLabel.setVisible(false);
         passwordDoesNotMatchLabel.setVisible(false);
         languageNotChosenLabel.setVisible(false);
         invalidLastNameLabel.setVisible(false);
         invalidFirstNameLabel.setVisible(false);
         invalidEmailLabel.setVisible(false);
         invalidNRNLabel.setVisible(false);
-        invalidUsernameLabel.setVisible(false);
     }
 
     /**
@@ -362,7 +327,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         lastNameField.setText("");
         NRNField.setText("");
         emailAddressField.setText("");
-        usernameField.setText("");
         passwordField.setText("");
         confirmPasswordField.setText("");
     }

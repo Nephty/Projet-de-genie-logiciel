@@ -14,7 +14,9 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -32,11 +34,17 @@ public class NotificationsSceneController extends Controller implements BackButt
     @FXML
     public Label lastUpdateTimeLabel;
     @FXML
-    public ListView<Notification> notificationsListView;
-
-    private Notification selectedNotification;
+    public TableView<Notification> notificationsTableView;
+    @FXML
+    public TableColumn<Notification, String> dateColumn, senderColumn, contentColumn;
+    @FXML
+    public TableColumn<Notification, Long> IDColumn;
 
     public void initialize() {
+        IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        senderColumn.setCellValueFactory(new PropertyValueFactory<>("senderName"));
+        contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
         fetchNotifications();
     }
 
@@ -57,15 +65,15 @@ public class NotificationsSceneController extends Controller implements BackButt
 
     @FXML
     public void handleDismissButtonClicked(MouseEvent event) {
-        if (notificationsListView.getSelectionModel().getSelectedItems().size() > 0) {
-            notificationsListView.getSelectionModel().getSelectedItems().get(0).dismiss();
+        if (notificationsTableView.getSelectionModel().getSelectedItems().size() > 0) {
+            notificationsTableView.getSelectionModel().getSelectedItems().get(0).dismiss();
         }
     }
 
     @FXML
     public void handleFlagButtonClicked(MouseEvent event) {
-        if (notificationsListView.getSelectionModel().getSelectedItems().size() > 0) {
-            notificationsListView.getSelectionModel().getSelectedItems().get(0).changeFlag();
+        if (notificationsTableView.getSelectionModel().getSelectedItems().size() > 0) {
+            notificationsTableView.getSelectionModel().getSelectedItems().get(0).changeFlag();
             fetchNotifications();
         }
     }
@@ -114,7 +122,7 @@ public class NotificationsSceneController extends Controller implements BackButt
                     }
                 }
             }
-            notificationsListView.setItems(FXCollections.observableArrayList(notifList));
+            notificationsTableView.setItems(FXCollections.observableArrayList(notifList));
 
             // Fade the label "updating notifications..." out to 0.0 opacity
             sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingNotificationsLabel);

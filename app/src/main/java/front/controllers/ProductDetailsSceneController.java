@@ -10,11 +10,14 @@ import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -30,8 +33,9 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     @FXML
     public Button backButton, historyButton, fetchAccountsButton, transferButton, toggleButton;
     @FXML
-    public ListView<Account> accountsListView;
-
+    public TableView<Account> accountsTableView;
+    @FXML
+    public TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, activatedColumn;
     @FXML
     public Label lastUpdateTimeLabel;
     @FXML
@@ -46,6 +50,12 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     public Label accountInactiveLabel;
 
     public void initialize() {
+        bankNameColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().getBank().getName()));
+        IBANColumn.setCellValueFactory(new PropertyValueFactory<>("IBAN"));
+        accountTypeColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
+        transferPermissionsColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
+        subAccountsColumn.setCellValueFactory(a -> new SimpleStringProperty(String.valueOf(a.getValue().getSubAccountList().size())));
+        activatedColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
         fetchAccounts();
     }
 
@@ -67,9 +77,9 @@ public class ProductDetailsSceneController extends Controller implements BackBut
 
     @FXML
     public void handleHistoryButtonClicked(MouseEvent event) {
-        if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
+        if (accountsTableView.getSelectionModel().getSelectedItems().size() == 1) {
             accountInactiveLabel.setVisible(false);
-            Main.setCurrentAccount(accountsListView.getSelectionModel().getSelectedItems().get(0));
+            Main.setCurrentAccount(accountsTableView.getSelectionModel().getSelectedItems().get(0));
 
             Scenes.TransactionsHistoryScene = SceneLoader.load("TransactionsHistoryScene.fxml", appLocale);
             Main.setScene(Flow.forward(Scenes.TransactionsHistoryScene));
@@ -83,11 +93,11 @@ public class ProductDetailsSceneController extends Controller implements BackBut
 
     @FXML
     public void handleTransferButtonClicked(MouseEvent event) {
-        if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
-            if (accountsListView.getSelectionModel().getSelectedItem().isActivated()) {
+        if (accountsTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            if (accountsTableView.getSelectionModel().getSelectedItem().isActivated()) {
                 Main.setScene(Flow.forward(Scenes.TransferScene));
                 accountInactiveLabel.setVisible(false);
-                Main.setCurrentAccount(accountsListView.getSelectionModel().getSelectedItems().get(0));
+                Main.setCurrentAccount(accountsTableView.getSelectionModel().getSelectedItems().get(0));
             } else {
                 accountInactiveLabel.setVisible(true);
             }
@@ -97,8 +107,8 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     @FXML
     public void handleToggleButtonClicked(MouseEvent event) {
         // If the user selected one wallet
-        if (accountsListView.getSelectionModel().getSelectedItems().size() == 1) {
-            toggleProduct(accountsListView.getSelectionModel().getSelectedItems().get(0));
+        if (accountsTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            toggleProduct(accountsTableView.getSelectionModel().getSelectedItems().get(0));
             accountInactiveLabel.setVisible(false);
         }
     }
@@ -128,7 +138,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 currentWallet = walletList.get(0);
             }
             // Put the accounts in the listview
-            accountsListView.setItems(FXCollections.observableArrayList(currentWallet.getAccountList()));
+            accountsTableView.setItems(FXCollections.observableArrayList(currentWallet.getAccountList()));
             // Fade the label "updating accounts..." out to 0.0 opacity
             sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
         }
@@ -164,7 +174,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
                 }
             }
             // Put the accounts in the listview
-            accountsListView.setItems(FXCollections.observableArrayList(accountList));
+            accountsTableView.setItems(FXCollections.observableArrayList(accountList));
             // Fade the label "updating accounts..." out to 0.0 opacity
             sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
         }

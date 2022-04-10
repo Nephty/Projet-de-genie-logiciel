@@ -8,15 +8,13 @@ import back.user.Transaction;
 import back.user.Wallet;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.chart.PieChart.Data;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -34,7 +32,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     @FXML
     public ComboBox<Timespan> timeSpanComboBox;
     @FXML
-    public ListView<SubAccount> availableAccountsListView, addedAccountsListView;
+    public TableView<SubAccount> availableAccountsTableView, addedAccountsTableView;
     @FXML
     public Label availableAccountsLabel, addedAccountsLabel;
     @FXML
@@ -47,12 +45,21 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     public CategoryAxis bottomAxis;
     @FXML
     public NumberAxis leftAxis;
+    @FXML
+    public TableColumn<SubAccount, String> availableIBANColumn, availableAmountColumn, addedIBANColumn, addedAmountColumn;
 
     private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
     private ObservableList<XYChart.Series<String, Double>> stackedAreaChartData = FXCollections.observableArrayList();
     ArrayList<Double> valuesHistory;
 
     public void initialize() {
+        availableAccountsTableView.setPlaceholder(new Label(""));
+        addedAccountsTableView.setPlaceholder(new Label(""));
+        availableIBANColumn.setCellValueFactory(sa -> new SimpleStringProperty(sa.getValue().getIBAN()));
+        availableAmountColumn.setCellValueFactory(sa -> new SimpleStringProperty(String.valueOf(sa.getValue().getAmount())));
+        addedIBANColumn.setCellValueFactory(sa -> new SimpleStringProperty(sa.getValue().getIBAN()));
+        addedAmountColumn.setCellValueFactory(sa -> new SimpleStringProperty(String.valueOf(sa.getValue().getAmount())));
+
         ObservableList<Timespan> timespanValues = FXCollections.observableArrayList(Arrays.asList(Timespan.DAILY, Timespan.WEEKLY, Timespan.MONTHLY, Timespan.YEARLY));
         timeSpanComboBox.setItems(timespanValues);
         timeSpanComboBox.setValue(Timespan.DAILY);
@@ -63,13 +70,13 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                 subAccounts.addAll(account.getSubAccountList());
             }
         }
-        availableAccountsListView.setItems(FXCollections.observableArrayList(subAccounts));
+        availableAccountsTableView.setItems(FXCollections.observableArrayList(subAccounts));
 
         // Add a listener that checks for value change in the combo box to reset the stacked area chart
         timeSpanComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             stackedAreaChartData = FXCollections.observableArrayList();
             stackedAreaChart.setData(stackedAreaChartData);
-            for (SubAccount subAccount : addedAccountsListView.getItems()) {
+            for (SubAccount subAccount : addedAccountsTableView.getItems()) {
                 addAccountToStackedAreaChartData(subAccount, timeSpanComboBox.getValue());
             }
         });
@@ -106,12 +113,12 @@ public class VisualizeToolSceneController extends Controller implements BackButt
 
     @FXML
     public void handleAddAccountButtonClicked(MouseEvent event) {
-        if (availableAccountsListView.getSelectionModel().getSelectedItems().size() > 0) {
+        if (availableAccountsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             // Prepare selected data for utilization
-            ObservableList<SubAccount> selection = availableAccountsListView.getSelectionModel().getSelectedItems();
+            ObservableList<SubAccount> selection = availableAccountsTableView.getSelectionModel().getSelectedItems();
 
             // Copy accounts to the added accounts listview
-            addedAccountsListView.getItems().addAll(selection);
+            addedAccountsTableView.getItems().addAll(selection);
 
             // Update pie chart
             for (SubAccount subAccount : selection) {
@@ -128,15 +135,15 @@ public class VisualizeToolSceneController extends Controller implements BackButt
             stackedAreaChart.setData(stackedAreaChartData);
 
             // Remove accounts from the available accounts listview
-            availableAccountsListView.getItems().removeAll(selection);
+            availableAccountsTableView.getItems().removeAll(selection);
         }
     }
 
     @FXML
     public void handleRemoveAccountModeButtonClicked(MouseEvent event) {
-        if (addedAccountsListView.getSelectionModel().getSelectedItems().size() > 0) {
-            ObservableList<SubAccount> selection = addedAccountsListView.getSelectionModel().getSelectedItems();
-            availableAccountsListView.getItems().addAll(selection);
+        if (addedAccountsTableView.getSelectionModel().getSelectedItems().size() > 0) {
+            ObservableList<SubAccount> selection = addedAccountsTableView.getSelectionModel().getSelectedItems();
+            availableAccountsTableView.getItems().addAll(selection);
 
             // Update pie chart
             for (SubAccount account : selection) {
@@ -161,7 +168,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
             stackedAreaChartData.removeAll(toRemove);
             stackedAreaChart.setData(stackedAreaChartData);
 
-            addedAccountsListView.getItems().removeAll(selection);
+            addedAccountsTableView.getItems().removeAll(selection);
         }
     }
 

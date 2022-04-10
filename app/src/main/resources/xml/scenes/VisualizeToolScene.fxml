@@ -1,106 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.chart.StackedAreaChart?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
-      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="front.controllers.VisualizeToolSceneController">
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.controllers.VisualizeToolSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                    onKeyReleased="#handleComponentKeyReleased" prefHeight="70.0" prefWidth="1280.0">
-            <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onKeyReleased="#handleComponentKeyReleased"
-                    onMouseClicked="#handleBackButtonClicked" onMouseEntered="#handleButtonMouseEntered"
-                    onMouseExited="#handleButtonMouseExited" prefHeight="36.0" prefWidth="120.0"
-                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%common.backButton" textFill="#0a0a14">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleComponentKeyReleased" prefHeight="70.0" prefWidth="1280.0">
+            <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleBackButtonClicked" onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%common.backButton" textFill="#0a0a14">
                 <font>
-                    <Font size="14.0"/>
+                    <Font size="14.0" />
                 </font>
                 <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
                 </effect>
             </Button>
         </AnchorPane>
-        <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                    onKeyReleased="#handleComponentKeyReleased" prefHeight="650.0" prefWidth="1280.0">
-            <StackPane fx:id="chartsPane" layoutX="30.0" layoutY="75.0" onKeyReleased="#handleComponentKeyReleased"
-                       prefHeight="550.0" prefWidth="650.0"
-                       style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;">
-                <PieChart fx:id="pieChart" prefHeight="583.0" prefWidth="689.0"/>
+        <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleComponentKeyReleased" prefHeight="650.0" prefWidth="1280.0">
+            <StackPane fx:id="chartsPane" layoutX="30.0" layoutY="75.0" onKeyReleased="#handleComponentKeyReleased" prefHeight="550.0" prefWidth="650.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;">
+                <PieChart fx:id="pieChart" prefHeight="583.0" prefWidth="689.0" />
                 <StackedAreaChart fx:id="stackedAreaChart" visible="false">
                     <xAxis>
-                        <CategoryAxis fx:id="bottomAxis" side="BOTTOM"/>
+                        <CategoryAxis fx:id="bottomAxis" side="BOTTOM" />
                     </xAxis>
                     <yAxis>
-                        <NumberAxis fx:id="leftAxis" side="LEFT"/>
+                        <NumberAxis fx:id="leftAxis" side="LEFT" />
                     </yAxis>
                 </StackedAreaChart>
             </StackPane>
-            <ListView fx:id="availableAccountsListView" fixedCellSize="50.0" layoutX="730.0" layoutY="396.0"
-                      onKeyReleased="#handleComponentKeyReleased"
-                      onMouseClicked="#handleAvailableAccountsListViewMouseClicked" prefHeight="174.0" prefWidth="300.0"
-                      style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;"/>
-            <ListView fx:id="addedAccountsListView" fixedCellSize="50.0" layoutX="730.0" layoutY="136.0"
-                      onKeyReleased="#handleComponentKeyReleased"
-                      onMouseClicked="#handleAddedAccountsListViewMouseClicked" prefHeight="174.0" prefWidth="300.0"
-                      style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;"/>
-            <Label fx:id="availableAccountsLabel" alignment="CENTER" layoutX="730.0" layoutY="335.0" prefHeight="36.0"
-                   prefWidth="300.0"
-                   style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                   text="%VisualizeToolScene.availableAccountsLabel"/>
-            <Label fx:id="addedAccountsLabel" alignment="CENTER" layoutX="730.0" layoutY="75.0" prefHeight="36.0"
-                   prefWidth="300.0"
-                   style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                   text="%VisualizeToolScene.addedAccountsLabel"/>
-            <Button fx:id="setGraphMode" layoutX="1075.0" layoutY="125.0" onKeyReleased="#handleComponentKeyReleased"
-                    onMouseClicked="#handleSetGraphModeButtonClicked" onMouseEntered="#handleButtonMouseEntered"
-                    onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0"
-                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%VisualizeToolScene.setGraphMode" textFill="#0a0a14">
+            <TableView fx:id="availableAccountsTableView" fixedCellSize="50.0" layoutX="730.0" layoutY="396.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleAvailableAccountsListViewMouseClicked" prefHeight="174.0" prefWidth="300.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;">
+                <columns>
+                    <TableColumn fx:id="availableIBANColumn" prefWidth="200.0" style="-fx-alignment: CENTER;" text="IBAN" />
+                    <TableColumn fx:id="availableAmountColumn" prefWidth="74.0" style="-fx-alignment: CENTER;" text="Amount" />
+                </columns>
+            </TableView>
+            <TableView fx:id="addedAccountsTableView" fixedCellSize="50.0" layoutX="730.0" layoutY="136.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleAddedAccountsListViewMouseClicked" prefHeight="174.0" prefWidth="300.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;">
+                <columns>
+                    <TableColumn fx:id="addedIBANColumn" prefWidth="200.0" style="-fx-alignment: CENTER;" text="IBAN" />
+                    <TableColumn fx:id="addedAmountColumn" prefWidth="74.0" style="-fx-alignment: CENTER;" text="Amount" />
+                </columns>
+            </TableView>
+            <Label fx:id="availableAccountsLabel" alignment="CENTER" layoutX="730.0" layoutY="335.0" prefHeight="36.0" prefWidth="300.0" style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%VisualizeToolScene.availableAccountsLabel" />
+            <Label fx:id="addedAccountsLabel" alignment="CENTER" layoutX="730.0" layoutY="75.0" prefHeight="36.0" prefWidth="300.0" style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%VisualizeToolScene.addedAccountsLabel" />
+            <Button fx:id="setGraphMode" layoutX="1075.0" layoutY="125.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleSetGraphModeButtonClicked" onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%VisualizeToolScene.setGraphMode" textFill="#0a0a14">
                 <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
                 </effect>
             </Button>
-            <Button fx:id="setPieChartMode" layoutX="1075.0" layoutY="75.0" onKeyReleased="#handleComponentKeyReleased"
-                    onMouseClicked="#handleSetPieChartModeButtonClicked" onMouseEntered="#handleButtonMouseEntered"
-                    onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0"
-                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%VisualizeToolScene.setPieChartMode" textFill="#0a0a14">
+            <Button fx:id="setPieChartMode" layoutX="1075.0" layoutY="75.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleSetPieChartModeButtonClicked" onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%VisualizeToolScene.setPieChartMode" textFill="#0a0a14">
                 <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
                 </effect>
             </Button>
-            <ComboBox fx:id="timeSpanComboBox" layoutX="1075.0" layoutY="225.0"
-                      onKeyReleased="#handleComponentKeyReleased"
-                      prefHeight="30.0" prefWidth="170.0" promptText="%VisualizeToolScene.timeSpanComboBox"
-                      style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
+            <ComboBox fx:id="timeSpanComboBox" layoutX="1075.0" layoutY="225.0" onKeyReleased="#handleComponentKeyReleased" prefHeight="30.0" prefWidth="170.0" promptText="%VisualizeToolScene.timeSpanComboBox" style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
                 <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
                 </effect>
             </ComboBox>
-            <Button fx:id="addAccountButton" layoutX="730.0" layoutY="595" onKeyReleased="#handleComponentKeyReleased"
-                    onMouseClicked="#handleAddAccountButtonClicked" onMouseEntered="#handleButtonMouseEntered"
-                    onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="135.0"
-                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%VisualizeToolScene.addAccountButton" textFill="#0a0a14">
+            <Button fx:id="addAccountButton" layoutX="730.0" layoutY="595" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleAddAccountButtonClicked" onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%VisualizeToolScene.addAccountButton" textFill="#0a0a14">
                 <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
                 </effect>
             </Button>
-            <Button fx:id="removeAccountButton" layoutX="895.0" layoutY="595"
-                    onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleRemoveAccountModeButtonClicked"
-                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    prefHeight="30.0" prefWidth="135.0"
-                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%VisualizeToolScene.removeAccountButton" textFill="#0a0a14">
+            <Button fx:id="removeAccountButton" layoutX="895.0" layoutY="595" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleRemoveAccountModeButtonClicked" onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%VisualizeToolScene.removeAccountButton" textFill="#0a0a14">
                 <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
                 </effect>
             </Button>
         </AnchorPane>

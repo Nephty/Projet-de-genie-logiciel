@@ -9,7 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -18,31 +20,18 @@ import java.util.Locale;
 
 public class LanguageSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public ListView<Locale> languagesListView;
+    public TableView<Locale> languagesTableView;
+    public TableColumn<Locale, String> displayNameColumn, languageColumn, countryColumn;
     @FXML
     Button backButton, addButton, setButton;
     @FXML
     Label chooseLanguageLabel;
 
     public void initialize() {
-        /*
-        String path = System.getProperty("user.dir") + "/src/main/resources/lang";
-        File dir = new File(path);
-        File[] files = dir.listFiles();
-        assert files != null;  // this asserts that files is not null because we know there will be data in the lang directory
-        ArrayList<Language> lst = new ArrayList<Language>();
-        HashMap<String, Language> stringToLanguageMap = new HashMap<String, Language>();
-
-        for (File item : files) {
-            String str = item.getName();
-            // remove the .json at the end of the string, replace the _ with a space and put the result to upper case
-            // en_us.json --> EN US                     fr_be.json --> FR BE
-            str = str.substring(0, str.length() - 4).replace('_', ' ').toUpperCase();
-            lst.add(new Language(str));
-        }
-        languagesListView.setItems(FXCollections.observableArrayList(lst));
-         */
-        languagesListView.setItems(FXCollections.observableArrayList(Main.FR_BE_Locale, Main.EN_US_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale));
+        countryColumn.setCellValueFactory(new PropertyValueFactory<>("displayCountry"));
+        languageColumn.setCellValueFactory(new PropertyValueFactory<>("displayLanguage"));
+        displayNameColumn.setCellValueFactory(new PropertyValueFactory<>("displayName"));
+        languagesTableView.setItems(FXCollections.observableArrayList(Main.FR_BE_Locale, Main.EN_US_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale));
     }
 
     @FXML
@@ -66,8 +55,8 @@ public class LanguageSceneController extends Controller implements BackButtonNav
 
     @FXML
     public void handleSetButtonMouseClicked(MouseEvent event) {
-        if (languagesListView.getSelectionModel().getSelectedItems().size() == 1) {
-            Main.appLocale = languagesListView.getSelectionModel().getSelectedItems().get(0);
+        if (languagesTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            Main.appLocale = languagesTableView.getSelectionModel().getSelectedItems().get(0);
             // Reload scenes
             Scenes.AuthScene = SceneLoader.load("AuthScene.fxml", Main.appLocale);
             Scenes.SignInScene = SceneLoader.load("SignInScene.fxml", Main.appLocale);

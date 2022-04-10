@@ -11,7 +11,9 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -24,11 +26,19 @@ public class TransactionsHistorySceneController extends Controller implements Ba
     @FXML
     public Button backButton, exportButton, fetchTransactionsHistoryButton;
     @FXML
-    public ListView<Transaction> transactionsHistoryListView;
+    public TableView<Transaction> transactionsHistoryTableView;
+    @FXML
+    public TableColumn<Transaction, String> senderNameColumn, senderIBANColumn, receiverNameColumn, receiverIBANColumn, dateColumn, amountColumn;
     @FXML
     public Label lastUpdateTimeLabel, loadingTransactionsHistoryLabel;
 
     public void initialize() {
+        senderNameColumn.setCellValueFactory(new PropertyValueFactory<>("senderName"));
+        senderIBANColumn.setCellValueFactory(new PropertyValueFactory<>("senderIBAN"));
+        receiverNameColumn.setCellValueFactory(new PropertyValueFactory<>("receiverName"));
+        receiverIBANColumn.setCellValueFactory(new PropertyValueFactory<>("receiverIBAN"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("sendingDate"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         fetchTransactions();
     }
 
@@ -49,13 +59,13 @@ public class TransactionsHistorySceneController extends Controller implements Ba
 
     @FXML
     public void handleExportButtonClicked(MouseEvent event) {
-        if (transactionsHistoryListView.getSelectionModel().getSelectedItems().size() == 0) {
+        if (transactionsHistoryTableView.getSelectionModel().getSelectedItems().size() == 0) {
             // Export all transactions
             // TODO : back-end : set exportData to all transactions
             // ExportHistorySceneController.setExportData(ALL TRANSACTIONS)
         } else {
             // Export selected data
-            ExportHistorySceneController.setExportData(new ArrayList<>(transactionsHistoryListView.getSelectionModel().getSelectedItems()));
+            ExportHistorySceneController.setExportData(new ArrayList<>(transactionsHistoryTableView.getSelectionModel().getSelectedItems()));
         }
         Main.setScene(Flow.forward(Scenes.ExportHistoryScene));
     }
@@ -87,7 +97,7 @@ public class TransactionsHistorySceneController extends Controller implements Ba
 
             ArrayList<String> strList = new ArrayList<String>();
 
-            transactionsHistoryListView.setItems(FXCollections.observableArrayList(transactionList));
+            transactionsHistoryTableView.setItems(FXCollections.observableArrayList(transactionList));
             sleepAndFadeOutLoadingTransactionsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingTransactionsHistoryLabel);
         }
     }

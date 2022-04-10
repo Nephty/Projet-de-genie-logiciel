@@ -8,9 +8,10 @@ public class Wallet {
     private final ArrayList<Account> accountList;
     private final Profile accountUser;
     private final Bank bank;
+    private int numberOfAccounts = 0;
 
     /**
-     * Creates a Wallet object with all the needed informations
+     * Creates a Wallet object with all the needed information
      *
      * @param accountUser The Profile object of the user
      * @param bank        The Bank object of the bank
@@ -21,10 +22,11 @@ public class Wallet {
         this.accountUser = accountUser;
         this.bank = bank;
         this.accountList = accountList;
+        this.numberOfAccounts = accountList.size();
     }
 
     /**
-     * @return A String to display Wallet informations
+     * @return A String to display Wallet information
      */
     @Override
     public String toString() {
@@ -44,5 +46,10 @@ public class Wallet {
 
     public Bank getBank() {
         return this.bank;
+    }
+
+    public int getNumberOfAccounts() {
+        this.numberOfAccounts = accountList.size();
+        return numberOfAccounts;
     }
 }

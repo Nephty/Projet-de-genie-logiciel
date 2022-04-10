@@ -63,4 +63,12 @@ public class Notification extends Communication {
             e.printStackTrace();
         }
     }
+
+    public Long getID() {
+        return ID;
+    }
+
+    public String getDate() {
+        return date;
+    }
 }

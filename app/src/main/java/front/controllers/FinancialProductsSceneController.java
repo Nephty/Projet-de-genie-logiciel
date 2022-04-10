@@ -8,11 +8,13 @@ import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -27,9 +29,14 @@ public class FinancialProductsSceneController extends Controller implements Back
     @FXML
     public Label lastUpdateTimeLabel, loadingProductsLabel;
     @FXML
-    public ListView<Wallet> productsListView;
+    public TableView<Wallet> productsTableView;
+    @FXML
+    public TableColumn<Wallet, String> bankNameColumn, bankSWIFTColumn, accountsColumn;
 
     public void initialize() {
+        bankNameColumn.setCellValueFactory(w -> new SimpleStringProperty(w.getValue().getBank().getName()));
+        bankSWIFTColumn.setCellValueFactory(w -> new SimpleStringProperty(w.getValue().getBank().getSwiftCode()));
+        accountsColumn.setCellValueFactory(w -> new SimpleStringProperty(String.valueOf(w.getValue().getNumberOfAccounts())));
         fetchProducts();
     }
 
@@ -51,8 +58,8 @@ public class FinancialProductsSceneController extends Controller implements Back
     @FXML
     public void handleDetailsButtonClicked(MouseEvent event) {
         // If the user selected one wallet
-        if (productsListView.getSelectionModel().getSelectedItems().size() == 1) {
-            Main.setCurrentWallet(productsListView.getSelectionModel().getSelectedItems().get(0));
+        if (productsTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            Main.setCurrentWallet(productsTableView.getSelectionModel().getSelectedItems().get(0));
             Scenes.ProductDetailsScene = SceneLoader.load("ProductDetailsScene.fxml", Main.appLocale);
             Main.setScene(Flow.forward(Scenes.ProductDetailsScene));
         }
@@ -89,7 +96,7 @@ public class FinancialProductsSceneController extends Controller implements Back
             // Fade the label "updating products..." out to 0.0 opacity
             sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingProductsLabel);
             // Put the wallets in listView
-            productsListView.setItems(FXCollections.observableArrayList(walletList));
+            productsTableView.setItems(FXCollections.observableArrayList(walletList));
         }
     }
 
@@ -119,7 +126,7 @@ public class FinancialProductsSceneController extends Controller implements Back
             // Fade the label "updating products..." out to 0.0 opacity
             sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingProductsLabel);
             // Put the wallets in the listView
-            productsListView.setItems(FXCollections.observableArrayList(walletList));
+            productsTableView.setItems(FXCollections.observableArrayList(walletList));
         }
     }
 

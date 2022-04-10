@@ -2,7 +2,6 @@ package front.controllers;
 
 import app.Main;
 import back.user.CommunicationType;
-import back.user.Notification;
 import back.user.Portfolio;
 import back.user.Request;
 import com.mashape.unirest.http.HttpResponse;
@@ -16,7 +15,9 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -30,11 +31,16 @@ public class RequestsStatusSceneController extends Controller implements BackBut
     @FXML
     public Button backButton, fetchRequestsButton;
     @FXML
-    public ListView<Request> requestsListView;
+    public TableView<Request> requestsTableView;
+    @FXML
+    public TableColumn<Request, String> dateColumn, typeColumn, contentColumn;
     @FXML
     public Label lastUpdateTimeLabel, loadingRequestsLabel;
 
     public void initialize() {
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("communicationType"));
+        contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
         fetchRequests();
     }
 
@@ -104,11 +110,11 @@ public class RequestsStatusSceneController extends Controller implements BackBut
                             case(2): comType = CommunicationType.TRANSFER_PERMISSION; break;
                             case(3): comType = CommunicationType.NEW_WALLET; break;
                         }
-                        reqList.add(new Request(obj.getString("recipientId"), comType, obj.getString("date"),""));
+                        reqList.add(new Request(obj.getString("recipientId"), comType, obj.getString("date"), obj.getString("comments")));
                     }
                 }
             }
-            requestsListView.setItems(FXCollections.observableArrayList(reqList));
+            requestsTableView.setItems(FXCollections.observableArrayList(reqList));
 
             // Fade the label "updating requests..." out to 0.0 opacity
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);

@@ -18,6 +18,7 @@ public class Account {
     private final boolean canPay;
     private final ArrayList<SubAccount> subAccountList;
     private boolean activated;
+    private int numberOfSubAccounts = 0;
 
 
     /**
@@ -45,6 +46,7 @@ public class Account {
         this.canPay = canPay;
         this.subAccountList = new ArrayList<SubAccount>();
         this.subAccountList.add(new SubAccount(this.IBAN, Currencies.EUR));
+        this.numberOfSubAccounts = this.subAccountList.size();
     }
 
     /**
@@ -121,12 +123,18 @@ public class Account {
         return this.subAccountList;
     }
 
+    public boolean canPay() {
+        return canPay;
+    }
+
+    // TODO : remove
     public double getAmount() throws SizeLimitExceededException {
         if (subAccountList.size() != 1)
             throw new SizeLimitExceededException("There should only be one sub account in account " + IBAN);
         return subAccountList.get(0).getAmount();
     }
 
+    // TODO : remove
     public double getAmountDaysAgo(int days) throws SizeLimitExceededException {
         if (subAccountList.size() != 1)
             throw new SizeLimitExceededException("There should only be one sub account in account " + IBAN);

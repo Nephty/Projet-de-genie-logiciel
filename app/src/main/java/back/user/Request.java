@@ -96,4 +96,16 @@ public class Request extends Communication {
     public CommunicationType getReason() {
         return this.communicationType;
     }
+
+    public CommunicationType getCommunicationType() {
+        return communicationType;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getContent() {
+        return content;
+    }
 }

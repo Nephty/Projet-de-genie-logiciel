@@ -30,10 +30,22 @@
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                     onKeyReleased="#handleComponentKeyReleased"
                     minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
-            <ListView fx:id="accountsListView" fixedCellSize="50.0" layoutX="30.0" layoutY="75.0"
-                      onKeyReleased="#handleComponentKeyReleased"
-                      prefHeight="550.0" prefWidth="1000.0"
-                      style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;"/>
+            <TableView fx:id="accountsTableView" fixedCellSize="40.0" layoutX="30.0" layoutY="75.0"
+                       onKeyReleased="#handleComponentKeyReleased"
+                       prefHeight="550.0" prefWidth="1000.0"
+                       style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn fx:id="bankNameColumn" style="-fx-alignment: CENTER;" text="Bank"/>
+                    <TableColumn fx:id="IBANColumn" style="-fx-alignment: CENTER;" text="IBAN"/>
+                    <TableColumn fx:id="accountTypeColumn" style="-fx-alignment: CENTER;" text="Type"/>
+                    <TableColumn fx:id="transferPermissionsColumn" style="-fx-alignment: CENTER;" text="Transfer permissions"/>
+                    <TableColumn fx:id="subAccountsColumn" style="-fx-alignment: CENTER;" text="Sub accounts"/>
+                    <TableColumn fx:id="activatedColumn" style="-fx-alignment: CENTER;" text="Activated"/>
+                </columns>
+            </TableView>
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"
                    prefHeight="36.0" prefWidth="326.0"
                    style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"

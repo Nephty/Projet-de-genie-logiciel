@@ -37,6 +37,7 @@ public class FinancialProductsSceneController extends Controller implements Back
         bankNameColumn.setCellValueFactory(w -> new SimpleStringProperty(w.getValue().getBank().getName()));
         bankSWIFTColumn.setCellValueFactory(w -> new SimpleStringProperty(w.getValue().getBank().getSwiftCode()));
         accountsColumn.setCellValueFactory(w -> new SimpleStringProperty(String.valueOf(w.getValue().getNumberOfAccounts())));
+        productsTableView.setPlaceholder(new Label("No products available."));
         fetchProducts();
     }
 
@@ -136,5 +137,10 @@ public class FinancialProductsSceneController extends Controller implements Back
             emulateBackButtonClicked();
             event.consume();
         }
+    }
+
+    @FXML
+    void handleArchivedAccountsButtonClicked(MouseEvent mouseEvent) {
+        Main.setScene(Flow.forward(Scenes.ArchivedAccountsScene));
     }
 }

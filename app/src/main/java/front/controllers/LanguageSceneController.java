@@ -32,6 +32,7 @@ public class LanguageSceneController extends Controller implements BackButtonNav
         countryColumn.setCellValueFactory(new PropertyValueFactory<>("displayCountry"));
         languageColumn.setCellValueFactory(new PropertyValueFactory<>("displayLanguage"));
         displayNameColumn.setCellValueFactory(new PropertyValueFactory<>("displayName"));
+        languagesTableView.setPlaceholder(new Label("No language available. Make sure your installation contains all the required language files. If you see this message, contact administrators ASAP."));
         languagesTableView.setItems(FXCollections.observableArrayList(Main.FR_BE_Locale, Main.EN_US_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale));
     }
 

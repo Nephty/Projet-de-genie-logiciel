@@ -39,6 +39,7 @@ public class TransactionsHistorySceneController extends Controller implements Ba
         receiverIBANColumn.setCellValueFactory(new PropertyValueFactory<>("receiverIBAN"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("sendingDate"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        transactionsHistoryTableView.setPlaceholder(new Label("No transaction."));
         fetchTransactions();
     }
 

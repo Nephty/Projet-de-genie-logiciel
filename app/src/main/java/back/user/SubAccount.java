@@ -43,7 +43,7 @@ public class SubAccount {
 
         // Fetch all the transactions
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/transaction?iban=" + IBAN + "&currencyId=0")
+        HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/transaction?iban=" + IBAN + "&currencyId=" + "0")
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         Main.errorCheck(response2.getStatus());

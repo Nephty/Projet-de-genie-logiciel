@@ -41,6 +41,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("communicationType"));
         contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
+        requestsTableView.setPlaceholder(new Label("No request."));
         fetchRequests();
     }
 

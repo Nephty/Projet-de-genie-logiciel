@@ -146,4 +146,8 @@ public class Account {
         }
         return 0;
     }
+
+    public void restore() {
+        // TODO : restore the account ("un-archive" it)
+    }
 }

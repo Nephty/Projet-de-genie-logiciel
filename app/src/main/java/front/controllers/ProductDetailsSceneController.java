@@ -56,6 +56,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         transferPermissionsColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
         subAccountsColumn.setCellValueFactory(a -> new SimpleStringProperty(String.valueOf(a.getValue().getSubAccountList().size())));
         activatedColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
+        accountsTableView.setPlaceholder(new Label("No account available."));
         fetchAccounts();
     }
 

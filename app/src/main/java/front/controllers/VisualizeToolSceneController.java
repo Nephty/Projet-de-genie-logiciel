@@ -53,8 +53,8 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     ArrayList<Double> valuesHistory;
 
     public void initialize() {
-        availableAccountsTableView.setPlaceholder(new Label(""));
-        addedAccountsTableView.setPlaceholder(new Label(""));
+        availableAccountsTableView.setPlaceholder(new Label("No account available."));
+        addedAccountsTableView.setPlaceholder(new Label("No account added."));
         availableIBANColumn.setCellValueFactory(sa -> new SimpleStringProperty(sa.getValue().getIBAN()));
         availableAmountColumn.setCellValueFactory(sa -> new SimpleStringProperty(String.valueOf(sa.getValue().getAmount())));
         addedIBANColumn.setCellValueFactory(sa -> new SimpleStringProperty(sa.getValue().getIBAN()));

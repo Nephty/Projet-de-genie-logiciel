@@ -45,6 +45,7 @@ public class NotificationsSceneController extends Controller implements BackButt
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         senderColumn.setCellValueFactory(new PropertyValueFactory<>("senderName"));
         contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
+        notificationsTableView.setPlaceholder(new Label("No notifications."));
         fetchNotifications();
     }
 

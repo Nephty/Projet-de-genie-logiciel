@@ -34,11 +34,11 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn fx:id="IBANColumn" style="-fx-alignment: CENTER;" text="IBAN"/>
-                    <TableColumn fx:id="accountTypeColumn" style="-fx-alignment: CENTER;" text="Type"/>
+                    <TableColumn fx:id="IBANColumn" style="-fx-alignment: CENTER;" text="%common.IBANColumn"/>
+                    <TableColumn fx:id="accountTypeColumn" style="-fx-alignment: CENTER;" text="%common.AccountTypeColumn"/>
                     <TableColumn fx:id="transferPermissionColumn" style="-fx-alignment: CENTER;"
-                                 text="Transfer permission"/>
-                    <TableColumn fx:id="statusColumn" style="-fx-alignment: CENTER;" text="Activated"/>
+                                 text="%common.TransferPermissionColumn"/>
+                    <TableColumn fx:id="statusColumn" style="-fx-alignment: CENTER;" text="%common.ActivatedColumn"/>
                 </columns>
             </TableView>
             <Button fx:id="fetchClientDetailsButton" layoutX="1075.0" layoutY="75.0"

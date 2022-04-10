@@ -34,9 +34,9 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn fx:id="IDColumn" style="-fx-alignment: CENTER;" text="ID"/>
-                    <TableColumn fx:id="dateColumn" style="-fx-alignment: CENTER;" text="Date"/>
-                    <TableColumn fx:id="senderIDColumn" style="-fx-alignment: CENTER;" text="Sender ID"/>
+                    <TableColumn fx:id="IDColumn" style="-fx-alignment: CENTER;" text="%common.IDColumn"/>
+                    <TableColumn fx:id="dateColumn" style="-fx-alignment: CENTER;" text="%common.DateColumn"/>
+                    <TableColumn fx:id="senderIDColumn" style="-fx-alignment: CENTER;" text="%common.SenderIDColumn"/>
                 </columns>
             </TableView>
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"

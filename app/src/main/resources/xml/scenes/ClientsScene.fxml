@@ -34,9 +34,9 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn fx:id="firstNameColumn" style="-fx-alignment: CENTER;" text="First name"/>
-                    <TableColumn fx:id="lastNameColumn" style="-fx-alignment: CENTER;" text="Last name"/>
-                    <TableColumn fx:id="NRNColumn" style="-fx-alignment: CENTER;" text="National registration number"/>
+                    <TableColumn fx:id="firstNameColumn" style="-fx-alignment: CENTER;" text="%ClientsScene.FirstNameColumn"/>
+                    <TableColumn fx:id="lastNameColumn" style="-fx-alignment: CENTER;" text="%Clients.LastNameColumn"/>
+                    <TableColumn fx:id="NRNColumn" style="-fx-alignment: CENTER;" text="%ClientsScene.NRNColumn"/>
                 </columns>
             </TableView>
             <Button fx:id="fetchClientsButton" layoutX="1075.0" layoutY="75.0"

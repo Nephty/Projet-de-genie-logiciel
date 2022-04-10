@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 
 public class ManageDataSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, importDataButton, exportAllClientDataButton;
+    Button backButton, importDataButton, exportAllClientDataButton;
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -25,12 +25,12 @@ public class ManageDataSceneController extends Controller implements BackButtonN
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent keyEvent) {
+    void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateBackButtonClicked();
             keyEvent.consume();
@@ -38,12 +38,12 @@ public class ManageDataSceneController extends Controller implements BackButtonN
     }
 
     @FXML
-    public void handleImportDataButtonClicked(MouseEvent event) {
+    void handleImportDataButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.ImportDataScene));
     }
 
     @FXML
-    public void handleExportAllClientDataButtonClicked(MouseEvent event) {
+    void handleExportAllClientDataButtonClicked(MouseEvent event) {
         // TODO : back-end : set export data to all clients data
         // ExportDataSceneController.setExportData(ALL CLIENTS);
         Main.setScene(Flow.forward(Scenes.ExportDataScene));

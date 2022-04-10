@@ -20,7 +20,7 @@ public class Profile {
      * @param nationalRegistrationNumber The String of the user's national registration number
      * @throws UnirestException For managing HTTP errors
      */
-    public Profile(String nationalRegistrationNumber){
+    public Profile(String nationalRegistrationNumber) {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {

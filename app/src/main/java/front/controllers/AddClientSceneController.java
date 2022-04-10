@@ -14,11 +14,11 @@ import javafx.scene.input.MouseEvent;
 
 public class AddClientSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, addClientButton;
+    Button backButton, addClientButton;
     @FXML
-    public Label enterNRNLabel, invalidNRNLabel, requestNotSentLabel, clientAddedLabel;
+    Label enterNRNLabel, invalidNRNLabel, requestNotSentLabel, clientAddedLabel;
     @FXML
-    public TextField NRNTextField;
+    TextField NRNTextField;
 
     private boolean clientAdded = false;
 
@@ -74,12 +74,12 @@ public class AddClientSceneController extends Controller implements BackButtonNa
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent keyEvent) {
+    void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             keyEvent.consume();
@@ -90,7 +90,7 @@ public class AddClientSceneController extends Controller implements BackButtonNa
     }
 
     @FXML
-    public void handleAddClientButtonClicked(MouseEvent event) {
+    void handleAddClientButtonClicked(MouseEvent event) {
         String NRN = NRNTextField.getText();
 
         if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(true);
@@ -113,7 +113,7 @@ public class AddClientSceneController extends Controller implements BackButtonNa
     }
 
     @FXML
-    public void handleNRNTextFieldKeyPressed(KeyEvent keyEvent) {
+    void handleNRNTextFieldKeyPressed(KeyEvent keyEvent) {
         clientAdded = false;
     }
 }

@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 
 public class ManageRequestsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, transferPermissionRequestsButton, portfolioRequestsButton;
+    Button backButton, transferPermissionRequestsButton, portfolioRequestsButton;
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -25,22 +25,22 @@ public class ManageRequestsSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
 
     @FXML
-    public void handleTransferPermissionRequestsButtonClicked(MouseEvent event) {
+    void handleTransferPermissionRequestsButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.ManageTransferPermissionRequestsScene));
     }
 
     @FXML
-    public void handlePortfolioRequestsButtonClicked(MouseEvent event) {
+    void handlePortfolioRequestsButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.ManagePortfolioRequestsScene));
     }
 
     @FXML
-    public void handleButtonKeyReleased(KeyEvent event) {
+    void handleButtonKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

@@ -169,13 +169,13 @@ public class Controller {
     }
 
     @FXML
-    public void handleButtonMouseEntered(MouseEvent event) {
+    void handleButtonMouseEntered(MouseEvent event) {
         Button buttonSource = (Button) event.getSource();
         buttonSource.setStyle(formatNewCSSLineMouseEntered(buttonSource));
     }
 
     @FXML
-    public void handleButtonMouseExited(MouseEvent event) {
+    void handleButtonMouseExited(MouseEvent event) {
         Button buttonSource = (Button) event.getSource();
         buttonSource.setStyle(formatNewCSSLineMouseExited(buttonSource));
     }

@@ -36,7 +36,8 @@
                 <columns>
                     <TableColumn fx:id="IBANColumn" style="-fx-alignment: CENTER;" text="IBAN"/>
                     <TableColumn fx:id="accountTypeColumn" style="-fx-alignment: CENTER;" text="Type"/>
-                    <TableColumn fx:id="transferPermissionColumn" style="-fx-alignment: CENTER;" text="Transfer permission"/>
+                    <TableColumn fx:id="transferPermissionColumn" style="-fx-alignment: CENTER;"
+                                 text="Transfer permission"/>
                     <TableColumn fx:id="statusColumn" style="-fx-alignment: CENTER;" text="Activated"/>
                 </columns>
             </TableView>

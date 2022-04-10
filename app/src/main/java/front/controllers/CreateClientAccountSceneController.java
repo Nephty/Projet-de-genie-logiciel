@@ -19,13 +19,13 @@ import javafx.scene.input.MouseEvent;
 
 public class CreateClientAccountSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, createAccountButton;
+    Button backButton, createAccountButton;
     @FXML
-    public Label enterIBANLabel, accountCreatedLabel, chooseAccountTypeLabel, invalidIBANLabel, noValueSelectedLabel;
+    Label enterIBANLabel, accountCreatedLabel, chooseAccountTypeLabel, invalidIBANLabel, noValueSelectedLabel;
     @FXML
-    public TextField IBANTextField;
+    TextField IBANTextField;
     @FXML
-    public ComboBox<AccountType> accountTypeComboBox;
+    ComboBox<AccountType> accountTypeComboBox;
 
     private boolean accountCreated = false;
 
@@ -42,7 +42,8 @@ public class CreateClientAccountSceneController extends Controller implements Ba
      */
     public static boolean isValidIBAN(String IBAN) {
         if (IBAN == null) return false;
-        if (!IBAN.matches("^[a-zA-Z0-9]*$") || IBAN.length() != 16) return false;  // IBAN.length() == 16 already checks IBAN != ""
+        if (!IBAN.matches("^[a-zA-Z0-9]*$") || IBAN.length() != 16)
+            return false;  // IBAN.length() == 16 already checks IBAN != ""
         for (int i = 0; i < IBAN.length(); i++) {
             switch (i) {
                 case 0:
@@ -61,7 +62,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (accountCreated) {
             IBANTextField.setText("");
@@ -81,7 +82,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent keyEvent) {
+    void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             keyEvent.consume();
@@ -96,7 +97,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleCreateAccountButtonClicked(MouseEvent event) {
+    void handleCreateAccountButtonClicked(MouseEvent event) {
         String IBAN = IBANTextField.getText();
 
         if (!invalidIBANLabel.isVisible() && !isValidIBAN(IBAN)) invalidIBANLabel.setVisible(true);
@@ -130,9 +131,9 @@ public class CreateClientAccountSceneController extends Controller implements Ba
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
             String userId;
-            if(!Main.getNewClient().equals(null)){
+            if (!Main.getNewClient().equals(null)) {
                 userId = Main.getNewClient();
-            } else{
+            } else {
                 userId = Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber();
             }
             try {
@@ -176,12 +177,12 @@ public class CreateClientAccountSceneController extends Controller implements Ba
     }
 
     @FXML
-    public void handleIBANTextFieldKeyPressed() {
+    void handleIBANTextFieldKeyPressed() {
         accountCreated = false;
     }
 
     @FXML
-    public void handleAccountTypeComboBoxKeyPressed() {
+    void handleAccountTypeComboBoxKeyPressed() {
         accountCreated = false;
     }
 }

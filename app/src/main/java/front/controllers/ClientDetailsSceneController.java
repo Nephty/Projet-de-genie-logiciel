@@ -27,15 +27,15 @@ import java.util.Calendar;
 public class ClientDetailsSceneController extends Controller implements BackButtonNavigator {
     private static Profile currentProfile;
     @FXML
-    public Button backButton, fetchClientDetailsButton, exportDataButton, createAccountButton, closeAccountButton, searchButton, removeClientButton, cancelRemovalButton, confirmRemovalButton;
+    Button backButton, fetchClientDetailsButton, exportDataButton, createAccountButton, closeAccountButton, searchButton, removeClientButton, cancelRemovalButton, confirmRemovalButton;
     @FXML
-    public TableView<Account> clientDetailsTableView;
+    TableView<Account> clientDetailsTableView;
     @FXML
-    public Label loadingClientDetailsLabel, lastUpdateTimeLabel;
+    Label loadingClientDetailsLabel, lastUpdateTimeLabel;
     @FXML
-    public TextField searchTextField;
+    TextField searchTextField;
     @FXML
-    public TableColumn<Account, String> IBANColumn, accountTypeColumn, transferPermissionColumn, statusColumn;
+    TableColumn<Account, String> IBANColumn, accountTypeColumn, transferPermissionColumn, statusColumn;
     private boolean searched = false;
 
     private ObservableList<Account> allData = FXCollections.observableArrayList();
@@ -64,7 +64,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent keyEvent) {
+    void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             keyEvent.consume();
@@ -72,18 +72,18 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (searched) searchTextField.setText("");
     }
 
     @FXML
-    public void handleFetchClientDetailsButtonClicked(MouseEvent event) {
+    void handleFetchClientDetailsButtonClicked(MouseEvent event) {
         updateClientDetails();
     }
 
     @FXML
-    public void handleExportDataButtonClicked(MouseEvent event) {
+    void handleExportDataButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.ExportDataScene));
         if (clientDetailsTableView.getSelectionModel().getSelectedItems().size() != 0) {
             // If items selected, only send selected items for export
@@ -95,20 +95,20 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleCreateAccountButtonClicked(MouseEvent event) {
+    void handleCreateAccountButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.CreateClientAccountScene));
         // TODO : bring user data to the scene so we can create the account for the right user
     }
 
     @FXML
-    public void handleCloseAccountButtonClicked(MouseEvent event) {
+    void handleCloseAccountButtonClicked(MouseEvent event) {
         // TODO : Not implemented in API yet
         clientDetailsTableView.getSelectionModel().getSelectedItems().get(0).delete();
         updateClientDetails();
     }
 
     @FXML
-    public void handleSearchTextFieldKeyPressed(KeyEvent keyEvent) {
+    void handleSearchTextFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateSearchButtonClicked();
         }
@@ -120,7 +120,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleSearchButtonClicked(MouseEvent event) {
+    void handleSearchButtonClicked(MouseEvent event) {
         searched = true;
         String entry = searchTextField.getText().toLowerCase();
         if (entry.equals("")) {
@@ -145,19 +145,19 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     }
 
     @FXML
-    public void handleRemoveClientButtonClicked(MouseEvent event) {
+    void handleRemoveClientButtonClicked(MouseEvent event) {
         confirmRemovalButton.setVisible(!confirmRemovalButton.isVisible());
         cancelRemovalButton.setVisible(!cancelRemovalButton.isVisible());
     }
 
     @FXML
-    public void handleCancelRemovalButtonClicked(MouseEvent event) {
+    void handleCancelRemovalButtonClicked(MouseEvent event) {
         confirmRemovalButton.setVisible(false);
         cancelRemovalButton.setVisible(false);
     }
 
     @FXML
-    public void handleConfirmRemovalButtonClicked(MouseEvent event) {
+    void handleConfirmRemovalButtonClicked(MouseEvent event) {
         confirmRemovalButton.setVisible(false);
         cancelRemovalButton.setVisible(false);
         // TODO : back-end : remove client from bank

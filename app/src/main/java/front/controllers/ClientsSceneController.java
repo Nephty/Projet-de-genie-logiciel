@@ -26,15 +26,15 @@ import java.util.Calendar;
 
 public class ClientsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, exportDataButton, addClientButton, detailsButton, searchButton, fetchClientsButton;
+    Button backButton, exportDataButton, addClientButton, detailsButton, searchButton, fetchClientsButton;
     @FXML
-    public Label lastUpdateTimeLabel, loadingClientsLabel;
+    Label lastUpdateTimeLabel, loadingClientsLabel;
     @FXML
-    public TextField searchTextField;
+    TextField searchTextField;
     @FXML
-    public TableView<Profile> clientsTableView;
+    TableView<Profile> clientsTableView;
     @FXML
-    public TableColumn<Profile, String> firstNameColumn, lastNameColumn, NRNColumn;
+    TableColumn<Profile, String> firstNameColumn, lastNameColumn, NRNColumn;
 
     private ObservableList<Profile> allData = FXCollections.observableArrayList();
     private ObservableList<Profile> currentData = FXCollections.observableArrayList();
@@ -59,7 +59,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent keyEvent) {
+    void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             keyEvent.consume();
@@ -67,13 +67,13 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (searched) searchTextField.setText("");
     }
 
     @FXML
-    public void handleExportDataButtonClicked(MouseEvent event) {
+    void handleExportDataButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.ExportDataScene));
         if (clientsTableView.getSelectionModel().getSelectedItems().size() != 0) {
             // If items selected, only send selected items for export
@@ -85,13 +85,13 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     }
 
     @FXML
-    public void handleAddClientButtonClicked(MouseEvent event) {
+    void handleAddClientButtonClicked(MouseEvent event) {
         // TODO : Ajouter un client en donnat son numéro puis en switchant sur la scene créer compte pour lui créer un compte
         Main.setScene(Flow.forward(Scenes.AddClientScene));
     }
 
     @FXML
-    public void handleDetailsButtonClicked(MouseEvent event) {
+    void handleDetailsButtonClicked(MouseEvent event) {
         if (clientsTableView.getSelectionModel().getSelectedItems().size() == 1) {
             try {
                 Main.setCurrentWallet(new Wallet(clientsTableView.getSelectionModel().getSelectedItem()));
@@ -104,7 +104,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     }
 
     @FXML
-    public void handleSearchTextFieldKeyPressed(KeyEvent keyEvent) {
+    void handleSearchTextFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             emulateSearchButtonClicked();
         } else {
@@ -117,7 +117,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     }
 
     @FXML
-    public void handleSearchButtonClicked(MouseEvent event) {
+    void handleSearchButtonClicked(MouseEvent event) {
         searched = true;
         String entry = searchTextField.getText().toLowerCase();
         if (entry.equals("")) {
@@ -141,7 +141,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     }
 
     @FXML
-    public void handleFetchClientsButtonClicked(MouseEvent event) {
+    void handleFetchClientsButtonClicked(MouseEvent event) {
         fetchClients();
     }
 

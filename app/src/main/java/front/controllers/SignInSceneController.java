@@ -44,7 +44,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     }
 
     @FXML
-    public void handleSignInButtonClicked(MouseEvent event) {
+    void handleSignInButtonClicked(MouseEvent event) {
         signIn();
     }
 
@@ -107,7 +107,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         hideAllLabels();
     }
@@ -128,12 +128,12 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     }
 
     @FXML
-    public void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
+    void handleUsernameFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) emulateSignInButtonClicked();
     }
 
     @FXML
-    public void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
+    void handlePasswordFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) emulateSignInButtonClicked();
     }
 
@@ -146,7 +146,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     }
 
     @FXML
-    public void handleButtonKeyReleased(KeyEvent event) {
+    void handleButtonKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             event.consume();

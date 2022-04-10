@@ -12,21 +12,18 @@ public class AuthSceneController extends Controller implements LanguageButtonNav
     @FXML
     Button languageButton, signInButton, signUpButton;
 
-    public AuthSceneController() {
-    }
-
     @FXML
-    private void handleLanguageButtonClicked(MouseEvent event) {
+    void handleLanguageButtonClicked(MouseEvent event) {
         handleLanguageButtonNavigation(event);
     }
 
     @FXML
-    private void handleSignInButtonClicked(MouseEvent event) {
+    void handleSignInButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.SignInScene));
     }
 
     @FXML
-    private void handleSignUpButtonClicked(MouseEvent event) {
+    void handleSignUpButtonClicked(MouseEvent event) {
         Main.setScene(Flow.forward(Scenes.SignUpScene));
     }
 

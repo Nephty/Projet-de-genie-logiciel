@@ -20,13 +20,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class ChangePasswordSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
-    public Button backButton, languageButton;
+    Button backButton;
     @FXML
-    public PasswordField currentPasswordField, newPasswordField, confirmNewPasswordField;
+    PasswordField currentPasswordField, newPasswordField, confirmNewPasswordField;
     @FXML
-    public Label incorrectCurrentPasswordLabel, passwordDoesNotMatchLabel, passwordChangedLabel;
+    Label incorrectCurrentPasswordLabel, passwordDoesNotMatchLabel, passwordChangedLabel;
     @FXML
-    public Button changePasswordButton;
+    Button changePasswordButton;
 
     private boolean passwordChanged = false;
 
@@ -41,7 +41,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (passwordChanged) {
             currentPasswordField.setText("");
@@ -59,20 +59,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleLanguageButtonClicked(MouseEvent event) {
-        handleLanguageButtonNavigation(event);
-        if (passwordChanged) {
-            currentPasswordField.setText("");
-            newPasswordField.setText("");
-            confirmNewPasswordField.setText("");
-        }
-        incorrectCurrentPasswordLabel.setVisible(false);
-        passwordDoesNotMatchLabel.setVisible(false);
-        passwordChangedLabel.setVisible(false);
-    }
-
-    @FXML
-    public void handleComponentKeyReleased(KeyEvent keyEvent) {
+    void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             keyEvent.consume();
@@ -148,7 +135,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     @FXML
-    public void handleAnyPasswordFieldKeyPressed() {
+    void handleAnyPasswordFieldKeyPressed() {
         passwordChanged = false;
     }
 }

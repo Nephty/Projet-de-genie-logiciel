@@ -29,11 +29,11 @@ import java.util.Calendar;
 
 public class ManagePortfolioRequestsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, denyButton, approveButton, fetchRequestsButton;
+    Button backButton, denyButton, approveButton, fetchRequestsButton;
     @FXML
-    public TableView<Request> requestsTableView;
+    TableView<Request> requestsTableView;
     @FXML
-    public Label lastUpdateTimeLabel, loadingRequestsLabel, noRequestSelectedLabel;
+    Label lastUpdateTimeLabel, loadingRequestsLabel, noRequestSelectedLabel;
     @FXML
     TableColumn<Request, String> IDColumn, senderIDColumn, dateColumn;
 
@@ -56,7 +56,7 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent keyEvent) {
+    void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             keyEvent.consume();
@@ -64,12 +64,12 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
     }
 
     @FXML
-    public void handleDenyButtonClicked(MouseEvent event) {
+    void handleDenyButtonClicked(MouseEvent event) {
         if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
             // TODO : back-end : implement "denied" attribute of request, change it accordingly for all selected requests and commit changes to database
@@ -77,7 +77,7 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     }
 
     @FXML
-    public void handleApproveButtonClicked(MouseEvent event) {
+    void handleApproveButtonClicked(MouseEvent event) {
         if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
             // TODO : back-end : implement "approved" attribute of request, change it accordingly for all selected requests and commit changes to database
@@ -85,7 +85,7 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     }
 
     @FXML
-    public void handleFetchRequestsButtonClicked(MouseEvent event) {
+    void handleFetchRequestsButtonClicked(MouseEvent event) {
         fetchRequests();
     }
 
@@ -112,22 +112,30 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
             }
 
             String body = response.getBody();
-            String toParse = body.substring(1,body.length() - 1);
+            String toParse = body.substring(1, body.length() - 1);
             ArrayList<String> requestList = Bank.JSONArrayParser(toParse);
             ArrayList<Request> reqList = new ArrayList<Request>();
-            if(!requestList.get(0).equals("")){
-                for(int i = 0; i<requestList.size(); i++){
+            if (!requestList.get(0).equals("")) {
+                for (int i = 0; i < requestList.size(); i++) {
                     JSONObject obj = new JSONObject(requestList.get(i));
-                    if(obj.getInt("notificationType") == 0){
+                    if (obj.getInt("notificationType") == 0) {
                         CommunicationType comType = CommunicationType.CUSTOM;
                         int notifType = obj.getInt("notificationType");
-                        switch(notifType){
-                            case(0): comType = CommunicationType.CREATE_ACCOUNT; break;
-                            case(1): comType = CommunicationType.CREATE_SUB_ACCOUNT; break;
-                            case(2): comType = CommunicationType.TRANSFER_PERMISSION; break;
-                            case(3): comType = CommunicationType.NEW_WALLET; break;
+                        switch (notifType) {
+                            case (0):
+                                comType = CommunicationType.CREATE_ACCOUNT;
+                                break;
+                            case (1):
+                                comType = CommunicationType.CREATE_SUB_ACCOUNT;
+                                break;
+                            case (2):
+                                comType = CommunicationType.TRANSFER_PERMISSION;
+                                break;
+                            case (3):
+                                comType = CommunicationType.NEW_WALLET;
+                                break;
                         }
-                        reqList.add(new Request(obj.getString("senderName"), comType, obj.getString("date"),"",obj.getString("senderId"),obj.getLong("notificationId")));
+                        reqList.add(new Request(obj.getString("senderName"), comType, obj.getString("date"), "", obj.getString("senderId"), obj.getLong("notificationId")));
                     }
                 }
             }

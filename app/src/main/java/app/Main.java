@@ -37,12 +37,12 @@ public class Main extends Application {
         stage.setScene(scene);
     }
 
-    public static void setNewClient(String NRN){
-        newClient = NRN;
+    public static String getNewClient() {
+        return newClient;
     }
 
-    public static String getNewClient(){
-        return newClient;
+    public static void setNewClient(String NRN) {
+        newClient = NRN;
     }
 
     public static Bank getBank() {

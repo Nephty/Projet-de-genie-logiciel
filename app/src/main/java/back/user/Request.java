@@ -13,7 +13,7 @@ public class Request extends Communication {
     private String senderID;
     private long ID;
 
-    public Request(String swift, CommunicationType communicationType, String date, String content, String senderID,long ID) {
+    public Request(String swift, CommunicationType communicationType, String date, String content, String senderID, long ID) {
         this.recipientId = swift;
         this.communicationType = communicationType;
         this.date = date;
@@ -30,7 +30,7 @@ public class Request extends Communication {
             response = null;
             try {
                 response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account")
-                        .header("Authorization", "Bearer "+ Main.getToken())
+                        .header("Authorization", "Bearer " + Main.getToken())
                         .header("Content-Type", "application/json")
                         .body("{\r\n    \"iban\": \"" + this.content + "\",\r\n    \"payment\": " + "true" + "\r\n}")
                         .asString();
@@ -39,14 +39,14 @@ public class Request extends Communication {
             }
 
             // Send a notification to the client
-            Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank "+Main.getBank().getName()+" has given you the transfer permissions for the account "+this.content);
+            Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank " + Main.getBank().getName() + " has given you the transfer permissions for the account " + this.content);
             notif.send();
 
             // Delete this request
             Unirest.setTimeouts(0, 0);
             try {
-                HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+this.ID)
-                        .header("Authorization", "Bearer "+ Main.getToken())
+                HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
+                        .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
             } catch (UnirestException e) {
                 e.printStackTrace();
@@ -56,17 +56,17 @@ public class Request extends Communication {
 
     }
 
-    public void deny(){
+    public void deny() {
         if (this.communicationType.equals(CommunicationType.TRANSFER_PERMISSION)) {
             // Send a notification to the client
-            Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank "+Main.getBank().getName()+" hasn't given you the transfer permissions for the account "+this.content);
+            Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank " + Main.getBank().getName() + " hasn't given you the transfer permissions for the account " + this.content);
             notif.send();
 
             // Delete this request
             Unirest.setTimeouts(0, 0);
             try {
-                HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+this.ID)
-                        .header("Authorization", "Bearer "+ Main.getToken())
+                HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
+                        .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
             } catch (UnirestException e) {
                 e.printStackTrace();
@@ -74,7 +74,7 @@ public class Request extends Communication {
         }
     }
 
-    public void delete(){
+    public void delete() {
 
     }
 
@@ -95,7 +95,7 @@ public class Request extends Communication {
                 comType = "New wallet";
                 break;
         }
-        return this.date + "      "+ this.recipientId + "      " + comType;
+        return this.date + "      " + this.recipientId + "      " + comType;
     }
 
     public CommunicationType getReason() {

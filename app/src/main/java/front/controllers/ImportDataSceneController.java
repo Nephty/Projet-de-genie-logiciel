@@ -16,9 +16,9 @@ import java.io.File;
 
 public class ImportDataSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    public Button backButton, choosePathButton, importButton;
+    Button backButton, choosePathButton, importButton;
     @FXML
-    public Label chooseFileLabel, importSuccessfulLabel, noPathSelectedLabel, importFileLabel;
+    Label chooseFileLabel, importSuccessfulLabel, noPathSelectedLabel, importFileLabel;
 
     private boolean importDone = false;
     private File selectedFile;  // TODO : is this the right class we should use ?
@@ -44,7 +44,7 @@ public class ImportDataSceneController extends Controller implements BackButtonN
     }
 
     @FXML
-    public void handleBackButtonClicked(MouseEvent event) {
+    void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (importDone) {
             selectedFile = null;
@@ -55,7 +55,7 @@ public class ImportDataSceneController extends Controller implements BackButtonN
     }
 
     @FXML
-    public void handleComponentKeyReleased(KeyEvent keyEvent) {
+    void handleComponentKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
             keyEvent.consume();
@@ -70,7 +70,7 @@ public class ImportDataSceneController extends Controller implements BackButtonN
     }
 
     @FXML
-    public void handleChooseFileButtonClicked(MouseEvent event) {
+    void handleChooseFileButtonClicked(MouseEvent event) {
         selectedFile = exportDataFileChooser.showOpenDialog(Main.getStage());
         if (selectedFile != null) {
             // File chosen (in file variable)
@@ -85,7 +85,7 @@ public class ImportDataSceneController extends Controller implements BackButtonN
     }
 
     @FXML
-    public void handleImportButtonClicked(MouseEvent event) {
+    void handleImportButtonClicked(MouseEvent event) {
         if (!noPathSelectedLabel.isVisible() && !fileChosen) noPathSelectedLabel.setVisible(true);
         else if (noPathSelectedLabel.isVisible() && fileChosen) noPathSelectedLabel.setVisible(false);
 

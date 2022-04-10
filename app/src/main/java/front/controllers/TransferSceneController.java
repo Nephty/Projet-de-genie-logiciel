@@ -84,7 +84,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
      */
     public static boolean isValidIBAN(String IBAN) {
         if (IBAN == null) return false;
-        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 20))
+        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 16))
             return false;  // IBAN.length() == 16 already checks IBAN != ""
         for (int i = 0; i < IBAN.length(); i++) {
             switch (i) {

@@ -59,10 +59,9 @@ public class TransactionsHistorySceneController extends Controller implements Ba
 
     @FXML
     public void handleExportButtonClicked(MouseEvent event) {
-        if (transactionsHistoryTableView.getSelectionModel().getSelectedItems().size() == 0) {
+        if (transactionsHistoryTableView.getSelectionModel().getSelectedItems().size() <= 1) {
             // Export all transactions
-            // TODO : back-end : set exportData to all transactions
-            // ExportHistorySceneController.setExportData(ALL TRANSACTIONS)
+            ExportHistorySceneController.setExportData(new ArrayList<>(transactionsHistoryTableView.getItems()));
         } else {
             // Export selected data
             ExportHistorySceneController.setExportData(new ArrayList<>(transactionsHistoryTableView.getSelectionModel().getSelectedItems()));

@@ -30,13 +30,11 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     @FXML
     public Label lastUpdateTimeLabel, loadingClientsLabel;
     @FXML
-    public ComboBox<String> sortByComboBox;
-    @FXML
     public TextField searchTextField;
     @FXML
     public TableView<Profile> clientsTableView;
-    TableColumn<Profile, String> firstNameColumn = new TableColumn<>("First name"),
-            lastNameColumn = new TableColumn<>("Last name"), NRNColumn = new TableColumn<>("National registration number");
+    @FXML
+    public TableColumn<Profile, String> firstNameColumn, lastNameColumn, NRNColumn;
 
     private ObservableList<Profile> allData = FXCollections.observableArrayList();
     private ObservableList<Profile> currentData = FXCollections.observableArrayList();
@@ -47,9 +45,7 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         NRNColumn.setCellValueFactory(new PropertyValueFactory<>("nationalRegistrationNumber"));
-        clientsTableView.getColumns().setAll(firstNameColumn, lastNameColumn, NRNColumn);
         fetchClients();
-        sortByComboBox.setItems(FXCollections.observableArrayList("user", "id"));
     }
 
     @Override
@@ -74,7 +70,6 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (searched) searchTextField.setText("");
-        sortByComboBox.valueProperty().set(null);
     }
 
     @FXML

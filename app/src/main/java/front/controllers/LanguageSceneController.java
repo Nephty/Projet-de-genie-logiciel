@@ -21,8 +21,8 @@ import java.util.Locale;
 public class LanguageSceneController extends Controller implements BackButtonNavigator {
     @FXML
     public TableView<Locale> languagesTableView;
-    TableColumn<Locale, String> countryColumn = new TableColumn<>("Country"),
-            languageColumn = new TableColumn<>("Language"), displayNameColumn = new TableColumn<>("Display name");
+    @FXML
+    TableColumn<Locale, String> countryColumn, languageColumn, displayNameColumn;
     @FXML
     Button backButton, addButton, setButton;
     @FXML
@@ -32,7 +32,6 @@ public class LanguageSceneController extends Controller implements BackButtonNav
         countryColumn.setCellValueFactory(new PropertyValueFactory<>("displayCountry"));
         languageColumn.setCellValueFactory(new PropertyValueFactory<>("displayLanguage"));
         displayNameColumn.setCellValueFactory(new PropertyValueFactory<>("displayName"));
-        languagesTableView.getColumns().setAll(countryColumn, languageColumn, displayNameColumn);
         languagesTableView.setItems(FXCollections.observableArrayList(Main.FR_BE_Locale, Main.EN_US_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale));
     }
 

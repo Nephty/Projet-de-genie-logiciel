@@ -42,18 +42,18 @@ public class CreateClientAccountSceneController extends Controller implements Ba
      */
     public static boolean isValidIBAN(String IBAN) {
         if (IBAN == null) return false;
-        return (IBAN.matches("^[a-zA-Z0-9]*$")) && IBAN.length() == 16;  // IBAN.length() == 16 already checks IBAN != ""
-        // TODO : Retirer commentaires
-//        for (int i = 0; i < IBAN.length(); i++) {
-//            switch (i) {
-//                case 0:
-//                case 1:
-//                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
-//                    break;
-//                default:
-//                    if (!Character.isDigit(IBAN.charAt(i))) return false;
-//            }
-//        }
+        if (!IBAN.matches("^[a-zA-Z0-9]*$") || IBAN.length() != 16) return false;  // IBAN.length() == 16 already checks IBAN != ""
+        for (int i = 0; i < IBAN.length(); i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
+                    break;
+                default:
+                    if (!Character.isDigit(IBAN.charAt(i))) return false;
+            }
+        }
+        return true;
     }
 
     public void initialize() {

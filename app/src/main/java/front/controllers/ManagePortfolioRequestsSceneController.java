@@ -34,14 +34,13 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     public TableView<Request> requestsTableView;
     @FXML
     public Label lastUpdateTimeLabel, loadingRequestsLabel, noRequestSelectedLabel;
-    TableColumn<Request, String> senderIDColumn = new TableColumn<>("Sender ID"),
-            recipientIDColumn = new TableColumn<>("Recipient ID"), dateColumn = new TableColumn<>("Date");
+    @FXML
+    TableColumn<Request, String> IDColumn, senderIDColumn, dateColumn;
 
     public void initialize() {
-        senderIDColumn.setCellValueFactory(new PropertyValueFactory<>("senderId"));
-        recipientIDColumn.setCellValueFactory(new PropertyValueFactory<>("recipientId"));
+        IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        senderIDColumn.setCellValueFactory(new PropertyValueFactory<>("senderID"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        requestsTableView.getColumns().setAll(senderIDColumn, recipientIDColumn, dateColumn);
         fetchRequests();
     }
 

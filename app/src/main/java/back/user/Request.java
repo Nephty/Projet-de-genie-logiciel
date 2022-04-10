@@ -101,4 +101,16 @@ public class Request extends Communication {
     public CommunicationType getReason() {
         return this.communicationType;
     }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getSenderID() {
+        return senderID;
+    }
+
+    public long getID() {
+        return ID;
+    }
 }

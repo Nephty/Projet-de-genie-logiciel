@@ -17,7 +17,6 @@ public class Account {
     private final boolean canPay;
     private final ArrayList<SubAccount> subAccountList;
     private boolean activated;
-    private String statusAsString;
 
 
     /**
@@ -41,7 +40,6 @@ public class Account {
         this.IBAN = IBAN;
         this.accountType = accountType;
         this.activated = activated;
-        this.statusAsString = activated ? "activated" : "deactivated";
         this.archived = archived;
         this.canPay = canPay;
         this.subAccountList = new ArrayList<SubAccount>();
@@ -54,10 +52,6 @@ public class Account {
     @Override
     public String toString() {
         return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated") + "          amount : " + getSubAccountList().get(0).getAmount() + " €";
-    }
-
-    public String getStatusAsString() {
-        return statusAsString;
     }
 
 
@@ -83,7 +77,6 @@ public class Account {
                 .asString();
         Main.errorCheck(response.getStatus());
         this.activated = true;
-        this.statusAsString = "activated";
     }
 
     /**
@@ -98,9 +91,11 @@ public class Account {
                 .asString();
         Main.errorCheck(response.getStatus());
         this.activated = false;
-        this.statusAsString = "deactivated";
     }
 
+    public boolean canPay() {
+        return canPay;
+    }
 
     public void delete() {
         // TODO : Fonctionne pas

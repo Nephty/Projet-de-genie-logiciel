@@ -9,6 +9,7 @@ import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,12 +33,9 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     @FXML
     public Label loadingClientDetailsLabel, lastUpdateTimeLabel;
     @FXML
-    public ComboBox<String> sortByComboBox;
-    @FXML
     public TextField searchTextField;
-    TableColumn<Account, String> accountOwnerColumn = new TableColumn<>("Account owner"),
-            bankColumn = new TableColumn<>("Bank"), IBANColumn = new TableColumn<>("IBAN"),
-            accountTypeColumn = new TableColumn<>("Account type"), statusColumn = new TableColumn<>("Status");
+    @FXML
+    public TableColumn<Account, String> IBANColumn, accountTypeColumn, transferPermissionColumn, statusColumn;
     private boolean searched = false;
 
     private ObservableList<Account> allData = FXCollections.observableArrayList();
@@ -48,12 +46,10 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     }
 
     public void initialize() {
-        accountOwnerColumn.setCellValueFactory(new PropertyValueFactory<>("accountOwner"));
-        bankColumn.setCellValueFactory(new PropertyValueFactory<>("bank"));
         IBANColumn.setCellValueFactory(new PropertyValueFactory<>("IBAN"));
         accountTypeColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<>("statusAsString"));
-        clientDetailsTableView.getColumns().setAll(IBANColumn, bankColumn, accountOwnerColumn, accountTypeColumn, statusColumn);
+        transferPermissionColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
+        statusColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
         fetchClientDetails();
     }
 
@@ -79,7 +75,6 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     public void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (searched) searchTextField.setText("");
-        sortByComboBox.valueProperty().set(null);
     }
 
     @FXML
@@ -137,8 +132,8 @@ public class ClientDetailsSceneController extends Controller implements BackButt
 
         for (Account account : allData) {
             ArrayList<String> accountParameters = new ArrayList<>(Arrays.asList(account.getIBAN().toLowerCase(),
-                    account.getAccountOwner().toString().toLowerCase(), account.getAccountType().toString().toLowerCase(),
-                    account.getAccountCoOwner().toString().toLowerCase(), account.getBank().toString().toLowerCase()));
+                    account.getAccountType().toString().toLowerCase(), String.valueOf(account.canPay()).toLowerCase(),
+                    String.valueOf(account.isActivated()).toLowerCase()));
             for (String param : accountParameters) {
                 if (param.contains(entry)) {
                     currentData.add(account);

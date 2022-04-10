@@ -73,7 +73,7 @@ public class Wallet {
 
         // Fetch all client's account access
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/" + this.accountUser.getNationalRegistrationNumber())
+        HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + this.accountUser.getNationalRegistrationNumber())
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         Main.errorCheck(response.getStatus());

@@ -1,6 +1,7 @@
 package front.controllers;
 
 import app.Main;
+import back.user.Profile;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
@@ -9,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+
+import java.util.ArrayList;
 
 public class ManageDataSceneController extends Controller implements BackButtonNavigator {
     @FXML
@@ -44,8 +47,7 @@ public class ManageDataSceneController extends Controller implements BackButtonN
 
     @FXML
     void handleExportAllClientDataButtonClicked(MouseEvent event) {
-        // TODO : back-end : set export data to all clients data
-        // ExportDataSceneController.setExportData(ALL CLIENTS);
+        ExportDataSceneController.setExportData(new ArrayList<>(Profile.fetchAllCustomers(Main.getBank().getSwiftCode())));
         Main.setScene(Flow.forward(Scenes.ExportDataScene));
     }
 }

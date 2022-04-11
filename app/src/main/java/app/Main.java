@@ -1,9 +1,6 @@
 package app;
 
-import back.user.Account;
-import back.user.Bank;
-import back.user.Request;
-import back.user.Wallet;
+import back.user.*;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
@@ -15,7 +12,14 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Main runnable class that launches the application.

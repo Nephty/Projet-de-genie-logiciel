@@ -32,7 +32,7 @@ public class Account {
      * @param canPay         A boolean for canPay/cannotPay option
      * @throws UnirestException For managing HTTP errors
      */
-    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) throws UnirestException {
+    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) {
         this.accountOwner = accountOwner;
         this.accountCoOwner = new ArrayList<Profile>();
         this.accountCoOwner.add(accountCoOwner);
@@ -69,6 +69,7 @@ public class Account {
      * Toggles the account on.
      */
     public void toggleOn() throws UnirestException {
+        // TODO : Delete ?
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
                 .header("Authorization", "Bearer " + Main.getToken())
@@ -83,6 +84,7 @@ public class Account {
      * Toggles the account off.
      */
     public void toggleOff() throws UnirestException {
+        // TODO : Delete ?
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
                 .header("Authorization", "Bearer " + Main.getToken())
@@ -109,10 +111,6 @@ public class Account {
             e.printStackTrace();
         }
 
-    }
-
-    public void exportHistory() {
-        // TODO : Export history
     }
 
     public Profile getAccountOwner() {

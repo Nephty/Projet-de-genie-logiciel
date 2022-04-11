@@ -41,6 +41,7 @@ public class Bank {
      * @throws UnirestException For managing HTTP errors
      */
     public static ArrayList<String> fetchAllSWIFT() throws UnirestException {
+        // TODO : On peut delete ?
         ArrayList<String> rep = new ArrayList<String>();
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank")

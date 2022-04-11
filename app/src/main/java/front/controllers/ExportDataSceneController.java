@@ -1,6 +1,7 @@
 package front.controllers;
 
 import app.Main;
+import back.user.Profile;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
@@ -13,14 +14,14 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 
 public class ExportDataSceneController extends Controller implements BackButtonNavigator {
-    private static ArrayList<Object> exportData;
+    private static ArrayList<Profile> exportData;
     private final boolean exportDone = false;
     @FXML
     Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
     @FXML
     Label choosePathLabel, noPathSelectedLabel, requestNotSentLabel, exportSuccessfulLabel, exportLocationLabel;
 
-    public static void setExportData(ArrayList<Object> arrayList) {
+    public static void setExportData(ArrayList<Profile> arrayList) {
         exportData = arrayList;
     }
 
@@ -60,6 +61,7 @@ public class ExportDataSceneController extends Controller implements BackButtonN
         //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
         //                   3. If the user selected a path and the noPathSelectedLabel is not visible, export to JSON at the selected path
         //                   4. After the export is done, set exportDone to true and fade in and out exportSuccessfulLabel
+//        Profile.exportClientData(exportData, path,false);
     }
 
     @FXML
@@ -68,6 +70,7 @@ public class ExportDataSceneController extends Controller implements BackButtonN
         //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
         //                   3. If the user selected a path and the noPathSelectedLabel is not visible, export to CSV at the selected path
         //                   4. After the export is done, set exportDone to true and set exportSuccessfulLabel visibility to true
+//        Profile.exportClientData(exportData, path,true);
     }
 
     @FXML

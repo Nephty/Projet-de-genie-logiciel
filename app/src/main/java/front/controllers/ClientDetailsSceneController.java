@@ -88,10 +88,18 @@ public class ClientDetailsSceneController extends Controller implements BackButt
         Main.setScene(Flow.forward(Scenes.ExportDataScene));
         if (clientDetailsTableView.getSelectionModel().getSelectedItems().size() != 0) {
             // If items selected, only send selected items for export
-            ExportDataSceneController.setExportData(new ArrayList<>(clientDetailsTableView.getSelectionModel().getSelectedItems()));
+            ArrayList<Profile> clientList = new ArrayList<Profile>();
+            clientList.add(clientDetailsTableView.getSelectionModel().getSelectedItems().get(0).getAccountOwner());
         } else {
             // Send all items for export
-            ExportDataSceneController.setExportData(new ArrayList<>(clientDetailsTableView.getItems()));
+            ArrayList<Profile> clientList = new ArrayList<Profile>();
+            for(int i = 0; i<clientDetailsTableView.getItems().size(); i++){
+                Profile client = clientDetailsTableView.getItems().get(i).getAccountOwner();
+                if(!clientList.contains(client)){
+                    clientList.add(client);
+                }
+            }
+            ExportDataSceneController.setExportData(clientList);
         }
     }
 

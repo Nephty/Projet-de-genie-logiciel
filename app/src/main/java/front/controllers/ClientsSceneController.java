@@ -87,18 +87,13 @@ public class ClientsSceneController extends Controller implements BackButtonNavi
 
     @FXML
     void handleAddClientButtonClicked(MouseEvent event) {
-        // TODO : Ajouter un client en donnat son numéro puis en switchant sur la scene créer compte pour lui créer un compte
         Main.setScene(Flow.forward(Scenes.AddClientScene));
     }
 
     @FXML
     void handleDetailsButtonClicked(MouseEvent event) {
         if (clientsTableView.getSelectionModel().getSelectedItems().size() == 1) {
-            try {
-                Main.setCurrentWallet(new Wallet(clientsTableView.getSelectionModel().getSelectedItem()));
-            } catch (UnirestException e) {
-                Main.ErrorManager(408);
-            }
+            Main.setCurrentWallet(new Wallet(clientsTableView.getSelectionModel().getSelectedItem()));
             Scenes.ClientDetailsScene = SceneLoader.load("ClientDetailsScene.fxml", Main.appLocale);
             Main.setScene(Flow.forward(Scenes.ClientDetailsScene));
         }

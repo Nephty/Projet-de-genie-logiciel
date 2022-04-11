@@ -73,6 +73,22 @@ public class Request extends Communication {
             // Delete this request
             Unirest.setTimeouts(0, 0);
             try {
+                HttpResponse<String> response = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(this.communicationType.equals(CommunicationType.CREATE_ACCOUNT)){
+            // Send a notification to the client
+            Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank " + Main.getBank().getName() + " hasn't created you a new account");
+            notif.send();
+
+            // Delete this request
+            Unirest.setTimeouts(0, 0);
+            try {
                 HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
                         .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
@@ -80,10 +96,6 @@ public class Request extends Communication {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void delete() {
-
     }
 
     @Override

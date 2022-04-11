@@ -6,7 +6,13 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Profile {
     private final String firstName;
@@ -87,6 +93,85 @@ public class Profile {
             }
         }
         return rep;
+    }
+
+    public static void exportClientData(ArrayList<Profile> clientList, String path, boolean isCsv){
+        try {
+            File file;
+            if(isCsv){
+                file = new File(path + "/transactionHistory.csv");
+            } else{
+                file = new File(path + "/transactionHistory.json");
+            }
+
+            file.createNewFile();
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            String res = "";
+
+            ArrayList<Wallet> walletList = new ArrayList<Wallet>();
+            for(int i = 0; i<clientList.size(); i++){
+                walletList.add(new Wallet(clientList.get(i)));
+            }
+
+            if(isCsv){
+                for (int i = 0; i < walletList.size(); i++) {
+                    Wallet wallet = walletList.get(i);
+                    ArrayList<Account> accountList = wallet.getAccountList();
+                    String resAccount = "[";
+                    for(int j = 0; j<accountList.size(); j++){
+                        Account account = accountList.get(j);
+                        SubAccount subAccount = account.getSubAccountList().get(0);
+                        if(j == 0 || j == accountList.size() -1){
+                            resAccount = resAccount + account.getIBAN()+" "+account.getAccountType()+" "+ account.canPay()+" "+account.isActivated();
+                        }else{
+                            resAccount = resAccount + ","+account.getIBAN()+" "+account.getAccountType()+" "+ account.canPay()+" "+account.isActivated();
+                        }
+                    }
+                    resAccount = resAccount + "]";
+                    Profile client = wallet.getAccountUser();
+                    res = convertToCSV(new String[]{client.getFirstName(), client.getLastName(), client.getNationalRegistrationNumber(), resAccount});
+                    bw.write(res + "\n");
+                }
+            } else{
+//                JSONObject obj = new JSONObject();
+//                ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
+//                for (int i = 0; i < this.transactionHistory.size(); i++) {
+//                    Transaction t = transactionHistory.get(i);
+//                    JSONObject obj2 = new JSONObject();
+//                    obj2.put("sendingDate", t.getSendingDate());
+//                    obj2.put("senderName", t.getSenderName());
+//                    obj2.put("senderIBAN", t.getSenderIBAN());
+//                    obj2.put("receiverName", t.getReceiverName());
+//                    obj2.put("receiverIBAN", t.getReceiverIBAN());
+//                    obj2.put("amount", t.getAmount());
+//                    jsonList.add(obj2);
+//                }
+//                obj.put("transactionList", jsonList);
+//                res = obj.toString();
+//                bw.write(res);
+            }
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String convertToCSV(String[] data) {
+        return Stream.of(data)
+                .map(Profile::escapeSpecialCharacters)
+                .collect(Collectors.joining(","));
+    }
+
+    public static String escapeSpecialCharacters(String data) {
+        String escapedData = data.replaceAll("\\R", " ");
+        if (data.contains(",") || data.contains("\"") || data.contains("'")) {
+            data = data.replace("\"", "\"\"");
+            escapedData = "\"" + data + "\"";
+        }
+        return escapedData;
     }
 
     /**

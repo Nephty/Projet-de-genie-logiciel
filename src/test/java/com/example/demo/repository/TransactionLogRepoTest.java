@@ -74,7 +74,8 @@ class TransactionLogRepoTest {
                 "firstName",
                 "test@email.com",
                 "passwordTested",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         userRepo.save(user);
 
@@ -97,7 +98,8 @@ class TransactionLogRepoTest {
                 "FirstName",
                 "test5@gmail.com",
                 "passwordTested",
-                "En"
+                "En",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         userRepo.save(user1);
 

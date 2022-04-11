@@ -20,6 +20,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,7 +57,8 @@ class UserServiceTest {
                 "firstName",
                 "email@gmail.com",
                 "pass",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         ));
         when(userRepo.findById(id)).thenReturn(user);
 
@@ -89,7 +92,8 @@ class UserServiceTest {
                 "firstName",
                 "email",
                 "password",
-                "language"
+                "language",
+                Date.valueOf(LocalDate.of(2002,10,31))
         ));
         when(userRepo.findUserByUsername(username)).thenReturn(user);
 
@@ -131,7 +135,8 @@ class UserServiceTest {
                 "firstName",
                 "email",
                 "pass",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         when(passwordEncoder.encode(userReq.getPassword()))
                 .thenReturn("EncodedPassword");
@@ -165,7 +170,8 @@ class UserServiceTest {
                 "firstName",
                 "email",
                 "pass",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         when(userRepo.existsById(userReq.getUserId()))
                 .thenReturn(true);
@@ -187,7 +193,8 @@ class UserServiceTest {
                 "firstName",
                 "email",
                 "pass",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         when(userRepo.existsByUsername(userReq.getUsername()))
                 .thenReturn(true);
@@ -209,7 +216,8 @@ class UserServiceTest {
                 "firstName",
                 "email",
                 "pass",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         when(userRepo.existsByEmail(userReq.getEmail())).thenReturn(true);
 
@@ -231,7 +239,8 @@ class UserServiceTest {
                 "firstName",
                 "email",
                 "pass",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         Sender sender = new Sender("userId",Role.USER);
 
@@ -273,7 +282,8 @@ class UserServiceTest {
                 "firstName",
                 "email",
                 "pass",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         Sender sender = new Sender("userId",Role.USER);
 
@@ -298,7 +308,8 @@ class UserServiceTest {
                 "firstName",
                 "email",
                 "password",
-                "language"
+                "language",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         when(userRepo.findUserByUsername("username")).thenReturn(Optional.of(user));
         //When

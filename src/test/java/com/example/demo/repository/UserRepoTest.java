@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -29,7 +32,8 @@ class UserRepoTest {
                 "firstname",
                 "email",
                 "password",
-                "language"
+                "language",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         underTest.save(user);
 
@@ -49,7 +53,8 @@ class UserRepoTest {
                 "firstName",
                 "test@email.com",
                 "passwordTested",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         underTest.save(user);
 
@@ -72,7 +77,8 @@ class UserRepoTest {
                 "firstName",
                 "test@email.com",
                 "passwordTested",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         underTest.save(user);
 

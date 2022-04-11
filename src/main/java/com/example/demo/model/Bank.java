@@ -6,6 +6,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
+
+/**
+ * The model for the table banks.
+ * Check the entity relationShip diagram in the documentation if you need more info about this table <br>
+ * Setters, Getters, NoArgsConstructor, AllArgsConstructor and ToString method are implemented by {@link lombok}
+ */
 @Getter
 @Setter
 @ToString
@@ -40,9 +46,12 @@ public class Bank {
             nullable = false
     )
     private CurrencyType defaultCurrencyType;
-  
 
 
+    /**
+     * Custom constructor for Bank with the request structure. <br>
+     * @param bankReq Custom request for creating a Bank.
+     */
     public Bank(BankReq bankReq) {
         swift = bankReq.getSwift();
         name = bankReq.getName();
@@ -51,6 +60,10 @@ public class Bank {
         country = bankReq.getCountry();
     }
 
+    /**
+     * Modify the password of the account
+     * @param bankReq Custom request for the account (only the password is used in this case)
+     */
     public void change(BankReq bankReq) {
         if(bankReq.getPassword() != null) {
             password = bankReq.getPassword();

@@ -9,7 +9,14 @@ import java.sql.Date;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 
-
+/**
+ * The model for the table accounts.
+ * A notification is a message between a Bank and a User, to know the sender and the receiver of the message,
+ * there is a parameter {@link #toBank}. <br>
+ * Check the entity relationShip diagram in the documentation if you need more info about this table <br>
+ * Setters, Getters, NoArgsConstructor, AllArgsConstructor and ToString method are implemented by {@link lombok}
+ * @see NotificationType
+ */
 @Getter
 @Setter
 @ToString
@@ -69,15 +76,27 @@ public class Notification {
     )
     private Bank bankId;
 
-    @Column(name = "to_bank", nullable = false)
+    @Column(
+            name = "to_bank",
+            nullable = false
+    )
     private Boolean toBank = false;
 
+    /**
+     * Custom constructor for the Notification with the custom request body. <br>
+     * Set the date to the current time of the application, the comments and if it's flagged or not.
+     * @param notificationReq Custom request body for creating an account.
+     */
     public Notification(NotificationReq notificationReq) {
         comments = notificationReq.getComments();
         date = new Date(System.currentTimeMillis());
         isFlagged = notificationReq.getIsFlagged() != null && notificationReq.getIsFlagged();
     }
 
+    /**
+     * Modify the Notification (only used for {@link #isFlagged}
+     * @param notificationReq Custom request body.
+     */
     public void change(NotificationReq notificationReq) {
         isFlagged = notificationReq.getIsFlagged();
     }

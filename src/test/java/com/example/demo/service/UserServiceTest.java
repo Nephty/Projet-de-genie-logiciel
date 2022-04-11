@@ -287,16 +287,6 @@ class UserServiceTest {
     }
 
     @Test
-    void canDeleteUser() {
-        //Given
-        String id = "testId";
-        //When
-        underTest.deleteUser(id);
-        //Then
-        verify(userRepo).deleteById(id);
-    }
-
-    @Test
     void canLoadUserByUsernameForUser() {
         //Given
         String username = "username";

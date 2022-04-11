@@ -52,6 +52,7 @@ class AccountAccessServiceTest {
 
         Account tmpAccount = new Account();
         tmpAccount.setIban(accessReq.getAccountId());
+        tmpAccount.setDeleted(false);
         Optional<Account> account = Optional.of(tmpAccount);
         when(accountRepo.findById(accessReq.getAccountId()))
                 .thenReturn(account);
@@ -107,6 +108,7 @@ class AccountAccessServiceTest {
 
         Account tmpAccount = new Account();
         tmpAccount.setIban(accessReq.getAccountId());
+        tmpAccount.setDeleted(false);
         Optional<Account> account = Optional.of(tmpAccount);
         when(accountRepo.findById(accessReq.getAccountId()))
                 .thenReturn(account);
@@ -135,6 +137,31 @@ class AccountAccessServiceTest {
         assertThatThrownBy(() -> underTest.createAccountAccess(accessReq))
                 .isInstanceOf(ConflictException.class)
                 .hasMessageContaining("account already exist "+accessReq);
+    }
+
+    @Test
+    void createShouldThrowWhenAccountIsDeleted(){
+        // Given
+        AccountAccessReq accessReq = new AccountAccessReq(
+                "accountId",
+                "userId",
+                true,
+                false
+        );
+
+        Account tmpAccount = new Account();
+        tmpAccount.setIban(accessReq.getAccountId());
+        tmpAccount.setDeleted(true);
+        Optional<Account> account = Optional.of(tmpAccount);
+        when(accountRepo.findById(accessReq.getAccountId()))
+                .thenReturn(account);
+
+        //then
+        assertThatThrownBy(()->underTest.createAccountAccess(accessReq))
+                .isInstanceOf(ConflictException.class)
+                .hasMessageContaining("Can't add access to a deleted account: "+accessReq);
+
+        verify(accessRepo,never()).save(any());
     }
 
 
@@ -290,9 +317,7 @@ class AccountAccessServiceTest {
     
     @Test
     void canGetAllOwners(){
-        // TODO: 4/9/22 Ask frix if he needs the owners or only the coOwners
-
-        //Given
+        // Given
         String accountId = "accountId";
 
         Account acc = new Account();

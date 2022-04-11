@@ -7,6 +7,15 @@ import lombok.*;
 
 import javax.persistence.*;
 
+
+/**
+ * The model for the table sub_account.
+ * Each account has at least a subAccount .
+ * (in this application, only one because the application handles only one currency) <br>
+ * Check the entity relationShip diagram in the documentation if you need more info about this table <br>
+ * Setters, Getters, NoArgsConstructor, AllArgsConstructor and ToString method are implemented by {@link lombok}
+ * @see Account
+ */
 @Getter
 @Setter
 @ToString

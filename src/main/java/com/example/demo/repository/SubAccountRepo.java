@@ -4,6 +4,7 @@ import com.example.demo.model.Account;
 import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.model.SubAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.ArrayList;
 
@@ -17,5 +18,6 @@ public interface SubAccountRepo extends JpaRepository<SubAccount, SubAccountPK> 
      * @param iban The account which we want to get its SubAccounts
      * @return The SubAccounts of the Account.
      */
+    @Query("select s from SubAccount s where s.iban = ?1")
     ArrayList<SubAccount> findAllByIban(Account iban);
 }

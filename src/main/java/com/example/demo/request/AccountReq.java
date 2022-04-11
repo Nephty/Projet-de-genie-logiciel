@@ -32,6 +32,8 @@ public class AccountReq {
 
     private Date nextProcess;
 
+    private Boolean deleted;
+
     @JsonIgnore
     public boolean isPostValid() {
         return iban != null
@@ -53,6 +55,7 @@ public class AccountReq {
         ownerLastname = account.getUserId().getLastname();
         accountTypeId = account.getAccountTypeId().getAccountTypeId();
         payment = account.getPayment();
+        deleted = account.getDeleted();
         linkedBank = new BankReq(account.getSwift(), true);
         nextProcess = account.getNextProcess();
     }

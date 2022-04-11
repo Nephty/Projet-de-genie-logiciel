@@ -32,7 +32,6 @@ public class AccountAccessReq {
     //Response
     private AccountReq account;
 
-    //TODO assert payer has access and account is active
     @JsonIgnore
     public boolean isPostValid() {
         return accountId != null

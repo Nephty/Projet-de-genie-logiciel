@@ -8,6 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * The model for the table currency_type.<br>
+ * Check the entity relationShip diagram in the documentation if you need more info about this table <br>
+ * Setters, Getters, NoArgsConstructor, AllArgsConstructor and ToString method are implemented by {@link lombok}
+ */
 @Getter
 @Setter
 @ToString

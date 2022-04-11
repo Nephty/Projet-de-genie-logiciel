@@ -105,6 +105,11 @@ public class TransactionLogService {
                 )
         );
 
+        if (subAccountSender.getIban().getDeleted()){
+            throw new AuthorizationException("Can't make a transaction from a deleted Account: "
+                    +subAccountSender.getIban());
+        }
+
         // -- SubAccount RECEIVER --
         SubAccount subAccountReceiver = subAccountRepo.findById(
                 new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
@@ -113,6 +118,10 @@ public class TransactionLogService {
                         "subAccount: " + transactionReq.getRecipientIban() + " : " + transactionReq.getCurrencyId()
                 )
         );
+
+        if (subAccountReceiver.getIban().getDeleted()){
+            throw new AuthorizationException("Can't make a transaction to a deleted Account");
+        }
 
         // -- TransactionType --
         TransactionType transactionType = transactionTypeRepo.findById(transactionReq.getTransactionTypeId())
@@ -231,6 +240,15 @@ public class TransactionLogService {
                     "You had "+transactionSent.getSubAccount().getCurrentBalance()+" left on your account " +
                     "and the amount of the transaction was "+transactionSent.getTransactionAmount();
             sendDeletedNotification(transactionSent, formatReason(transactionSent,transactionReceive,reason));
+            return false;
+        } else if (transactionSent.getSubAccount().getIban().getDeleted()
+                || transactionReceive.getSubAccount().getIban().getDeleted()){
+            transactionLogRepo.deleteAllByTransactionId(transactionSent.getTransactionId());
+            sendDeletedNotification(
+                    transactionSent,
+                    formatReason(transactionSent,transactionReceive,
+                            "Can't make a transaction to/from a deleted account")
+            );
             return false;
         }
         return true;

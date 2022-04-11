@@ -14,6 +14,7 @@ import java.time.ZoneId;
  * Each account has one {@link SubAccount} <br>
  * Check the entity relationShip diagram in the documentation if you need more info about this table <br>
  * Setters, Getters, NoArgsConstructor, AllArgsConstructor and ToString method are implemented by {@link lombok}
+ * @see AccountType
  */
 @ToString
 @Getter
@@ -58,6 +59,12 @@ public class Account {
     )
     private Date nextProcess;
 
+    @Column(
+            nullable = false,
+            name = "deleted"
+    )
+    private Boolean deleted;
+
     /**
      * Custom constructor for Account with the custom Request.<br>
      * Set the next process date automatically for next year, the payment to false.
@@ -66,6 +73,7 @@ public class Account {
     public Account(AccountReq accountReq) {
         this.iban = accountReq.getIban();
         this.payment = false; // It's the default mode for accounts according to the instructions
+        this.deleted = false;
         Instant nextProcessInstant = new Date(System.currentTimeMillis())
                     .toLocalDate()
                 // 4 = fixed rate -> next process in 5 years else is next year

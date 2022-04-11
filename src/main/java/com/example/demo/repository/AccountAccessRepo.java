@@ -30,9 +30,24 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
      */
     @Query("select a " +
             "from AccountAccess a " +
-            "where a.userId = ?1 and a.hidden = false and a.access = true " +
+            "where a.userId = ?1 and a.hidden = false " +
+            "AND a.accountId.deleted = false " +
             "order by a.accountId.swift.swift")
     ArrayList<AccountAccess> findAllByUserId(User user);
+
+    @Query("select a " +
+            "from AccountAccess a " +
+            "where a.userId = ?1 " +
+            "AND a.accountId.deleted = true " +
+            "order by a.accountId.swift.swift")
+    ArrayList<AccountAccess> findAllDeletedAccountByUserId(User user);
+
+    @Query("select a " +
+            "from AccountAccess a " +
+            "where a.userId = ?1 and a.hidden = true " +
+            "and a.access = true and a.accountId.deleted = false " +
+            "order by a.accountId.swift.swift")
+    ArrayList<AccountAccess> findAllHiddenByUserId(User user);
 
     /**
      * Check if the user has access to this account <br>
@@ -49,8 +64,10 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
             "FROM AccountAccess s " +
             "WHERE s.accountId = ?2 " +
             "AND s.userId = ?1 " +
-            "AND s.access = true")
+            "AND s.access = true " +
+            "AND s.accountId.deleted = false")
     boolean existsByUserIdAndAccountId(User user,Account account);
+
 
     /**
      * Find all customer of a Bank.
@@ -60,7 +77,8 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
      */
     @Query("SELECT s.userId " +
             "FROM AccountAccess s " +
-            "WHERE s.accountId.swift.swift = ?1 and s.access = true")
+            "WHERE s.accountId.swift.swift = ?1 and s.access = true " +
+            "AND s.accountId.deleted = false")
     List<User> getAllCustomersInBank(String swift);
 
     /**

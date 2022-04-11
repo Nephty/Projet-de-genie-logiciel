@@ -19,7 +19,10 @@ public interface AccountRepo extends JpaRepository<Account, String> {
      * @param date The date to use in the request.
      * @return {@link ArrayList} of the {@link Account} that must pay a fee or receive an annual return
      */
-    @Query("select a from Account a where a.nextProcess < ?1")
+    @Query("select a " +
+            "from Account a " +
+            "where a.nextProcess < ?1 " +
+            "and a.deleted = false")
     ArrayList<Account> findAllByNextProcessBefore(Date date);
 
     /**

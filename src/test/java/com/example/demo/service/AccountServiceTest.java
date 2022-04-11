@@ -54,7 +54,9 @@ class AccountServiceTest {
                 "name",
                 "lastname",
                 null,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
+
         );
 
         Bank tmpBank = new Bank();
@@ -99,10 +101,32 @@ class AccountServiceTest {
     void canDeleteAccount() {
         //Given
         String iban = "testIban";
+        Account acc = new Account();
+        acc.setIban(iban);
+
+        when(accountRepo.findById(iban)).thenReturn(Optional.of(acc));
         //When
         underTest.deleteAccount(iban);
         //Then
-        verify(accountRepo).deleteById(iban);
+        ArgumentCaptor<Account> userArgumentCaptor = ArgumentCaptor.forClass(Account.class);
+        verify(accountRepo).save(userArgumentCaptor.capture());
+        Account captorValue = userArgumentCaptor.getValue();
+
+        assertEquals(iban,captorValue.getIban());
+        assertEquals(true,captorValue.getDeleted());
+    }
+
+    @Test
+    void deleteAccountShouldThrowWhenAccountNotFound(){
+        // Given
+        String iban = "testIBan";
+
+        // Then
+        assertThatThrownBy(()->underTest.deleteAccount(iban))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining("iban: "+iban);
+
+        verify(accountRepo,never()).save(any());
     }
 
     @Test
@@ -117,7 +141,8 @@ class AccountServiceTest {
                 "name",
                 "lastname",
                 null,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
         );
 
         Bank tmpBank = new Bank();
@@ -166,7 +191,8 @@ class AccountServiceTest {
                 "name",
                 "lastname",
                 null,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
         );
 
         //then
@@ -189,7 +215,8 @@ class AccountServiceTest {
                 "name",
                 "lastname",
                 null,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
         );
 
         Bank tmpBank = new Bank();
@@ -218,7 +245,8 @@ class AccountServiceTest {
                 "name",
                 "lastname",
                 null,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
         );
 
         Bank tmpBank = new Bank();
@@ -253,7 +281,8 @@ class AccountServiceTest {
                 "name",
                 "lastname",
                 null,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
         );
 
         Bank tmpBank = new Bank();
@@ -300,7 +329,8 @@ class AccountServiceTest {
                 "name",
                 "lastname",
                 null,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
         );
 
         //then

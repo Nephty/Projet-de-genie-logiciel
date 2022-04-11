@@ -35,7 +35,12 @@ public class AccountService {
     }
 
     public void deleteAccount(String iban) {
-        accountRepo.deleteById(iban);
+        // To delete an account, we set the delete parameter to true
+        Account account = accountRepo.findById(iban).orElseThrow(
+                ()-> new ResourceNotFound("iban: " + iban)
+        );
+        account.setDeleted(true);
+        accountRepo.save(account);
     }
 
     public Account addAccount(AccountReq accountReq) {

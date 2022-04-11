@@ -21,6 +21,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -631,7 +633,8 @@ class TransactionLogServiceTest {
                 "lastName",
                 "firstname",
                 "email",
-                "FR"
+                "FR",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
 
         // -- User 2 --
@@ -641,7 +644,8 @@ class TransactionLogServiceTest {
                 "lastName",
                 "firstname",
                 "email",
-                "FR"
+                "FR",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
 
         // -- Bank --
@@ -789,7 +793,8 @@ class TransactionLogServiceTest {
                 "lastName",
                 "firstname",
                 "email",
-                "FR"
+                "FR",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
 
         Bank bank = new Bank(
@@ -876,7 +881,8 @@ class TransactionLogServiceTest {
                 "lastName",
                 "firstname",
                 "email",
-                "FR"
+                "FR",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
 
         Bank bank = new Bank(
@@ -961,7 +967,8 @@ class TransactionLogServiceTest {
                 "lastName",
                 "firstname",
                 "email",
-                "FR"
+                "FR",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
 
         Bank bank = new Bank(
@@ -1048,7 +1055,8 @@ class TransactionLogServiceTest {
                 "lastName",
                 "firstname",
                 "email",
-                "FR"
+                "FR",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
 
         Bank bank = new Bank(

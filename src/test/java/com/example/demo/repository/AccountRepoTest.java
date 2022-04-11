@@ -81,7 +81,8 @@ class AccountRepoTest {
                 userRepo.getById("testId"),
                 accountTypeRepo.getById(0),
                 false,
-                Date.valueOf(LocalDate.of(2002,10,31))
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                false
         );
         accountRepo.save(account);
 
@@ -91,9 +92,21 @@ class AccountRepoTest {
                 userRepo.getById("testId"),
                 accountTypeRepo.getById(0),
                 false,
-                Date.valueOf(LocalDate.of(4000,10,12))
+                Date.valueOf(LocalDate.of(4000,10,12)),
+                false
         );
         accountRepo.save(account2);
+
+        Account account3 = new Account(
+                "testIban3",
+                bankRepo.getById("testSwift1"),
+                userRepo.getById("testId"),
+                accountTypeRepo.getById(0),
+                false,
+                Date.valueOf(LocalDate.of(2003,10,31)),
+                true
+        );
+        accountRepo.save(account3);
 
 
         // When

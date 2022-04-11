@@ -84,7 +84,8 @@ class TransactionLogRepoTest {
                 user,
                 accountType,
                 false,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
         );
         accountRepo.save(account);
 
@@ -106,7 +107,8 @@ class TransactionLogRepoTest {
                 user1,
                 accountType,
                 false,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
         );
         accountRepo.save(account1);
     }
@@ -449,10 +451,12 @@ class TransactionLogRepoTest {
     void findAllLinkedToSubAccountShouldNotThrowNullPointerException(){
         // issue: when we delete an account, it set the iban of the account to NULL in the DB.
         // It wasn't handled before, so we're making this test to make sure this won't happen again.
-        // TODO: 4/9/22 resolve that issue
+
         // Given
+        Account acc = accountRepo.getById("testIban");
+
         SubAccount subAccount = new SubAccount(
-                accountRepo.getById("testIban"),
+                acc,
                 currencyTypeRepo.getById(0),
                 400.0
         );
@@ -502,7 +506,7 @@ class TransactionLogRepoTest {
         underTest.save(transactionLog3);
 
         // When
-        //subAccountRepo.delete(subAccount1);
+        accountRepo.delete(acc);
 
         // Then
         assertDoesNotThrow(()->underTest.findAllLinkedToSubAccount(subAccount));

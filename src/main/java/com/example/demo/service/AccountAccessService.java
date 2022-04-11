@@ -38,7 +38,6 @@ public class AccountAccessService {
     }
 
     public void deleteAccountAccess(String accountId, String userId) {
-        // DO NOT use the deleteById method because it generates an SQL error
         accountAccessRepo.deleteAccountAccessByAccountIdAndUserId(accountId,userId);
     }
 
@@ -56,7 +55,7 @@ public class AccountAccessService {
                 });
         return accountAccessRepo.findAllByUserId(user)
                 .stream()
-                .map(accountAccess -> new AccountAccessReq(accountAccess))
+                .map(AccountAccessReq::new)
                 .collect(Collectors.toList());
     }
 
@@ -91,6 +90,9 @@ public class AccountAccessService {
                 accountAccess = new AccountAccess(accountAccessReq);
                 Account account = accountRepo.findById(accountAccessReq.getAccountId())
                         .orElseThrow(()-> new ConflictException(accountAccessReq.getAccountId()));
+                if (account.getDeleted()){
+                    throw new ConflictException("Can't add access to a deleted account: " + accountAccessReq);
+                }
                 User user = userRepo.findById(accountAccessReq.getUserId())
                         .orElseThrow(()-> new ConflictException(accountAccessReq.getUserId()));
                 accountAccess.setAccountId(account);

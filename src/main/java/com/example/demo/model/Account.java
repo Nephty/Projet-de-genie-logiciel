@@ -59,6 +59,12 @@ public class Account {
     )
     private Date nextProcess;
 
+    @Column(
+            nullable = false,
+            name = "deleted"
+    )
+    private Boolean deleted;
+
     /**
      * Custom constructor for Account with the custom Request.<br>
      * Set the next process date automatically for next year, the payment to false.
@@ -67,6 +73,7 @@ public class Account {
     public Account(AccountReq accountReq) {
         this.iban = accountReq.getIban();
         this.payment = false; // It's the default mode for accounts according to the instructions
+        this.deleted = false;
         Instant nextProcessInstant = new Date(System.currentTimeMillis())
                     .toLocalDate()
                 // 4 = fixed rate -> next process in 5 years else is next year

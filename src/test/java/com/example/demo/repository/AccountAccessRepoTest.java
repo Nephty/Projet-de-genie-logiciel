@@ -98,7 +98,8 @@ class AccountAccessRepoTest {
                 user,
                 accountType,
                 false,
-                new Date(System.currentTimeMillis())
+                new Date(System.currentTimeMillis()),
+                false
         );
         accountRepo.save(account);
 
@@ -108,7 +109,8 @@ class AccountAccessRepoTest {
                 user,
                 accountType,
                 false,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
         );
         accountRepo.save(account2);
 
@@ -118,9 +120,21 @@ class AccountAccessRepoTest {
                 user,
                 accountType,
                 false,
-                Date.valueOf(LocalDate.now())
+                Date.valueOf(LocalDate.now()),
+                false
         );
         accountRepo.save(account3);
+
+        Account account4 = new Account(
+                "deletedAccount",
+                bank,
+                user,
+                accountType,
+                false,
+                Date.valueOf(LocalDate.now()),
+                true
+        );
+        accountRepo.save(account4);
 
 
     }
@@ -128,7 +142,6 @@ class AccountAccessRepoTest {
     @Test
     void canFindAllByUserId() {
         //given
-
         AccountAccess testedWithTestId = new AccountAccess(
                 accountRepo.getById("testIban"),
                 userRepo.getById("testId"),
@@ -145,11 +158,113 @@ class AccountAccessRepoTest {
         );
         underTest.save(testedWithoutTestId);
 
+        AccountAccess testedWithHiddenAccess = new AccountAccess(
+                accountRepo.getById("testIban2"),
+                userRepo.getById("testId"),
+                true,
+                true
+        );
+        underTest.save(testedWithHiddenAccess);
+
+        AccountAccess testedWithDeletedAccount = new AccountAccess(
+                accountRepo.getById("deletedAccount"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testedWithDeletedAccount);
+
         // when
         ArrayList<AccountAccess> result = underTest.findAllByUserId(testedWithTestId.getUserId());
         //then
         assertEquals(1,result.size());
         assertEquals("testId", result.get(0).getUserId().getUserId());
+    }
+
+    @Test
+    void canFindAllDeletedByUserId(){
+        //given
+        AccountAccess testedWithTestId = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testedWithTestId);
+
+        AccountAccess testedWithoutTestId = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("test2Id"),
+                true,
+                false
+        );
+        underTest.save(testedWithoutTestId);
+
+        AccountAccess testedWithHiddenAccess = new AccountAccess(
+                accountRepo.getById("testIban2"),
+                userRepo.getById("testId"),
+                true,
+                true
+        );
+        underTest.save(testedWithHiddenAccess);
+
+        AccountAccess testedWithDeletedAccount = new AccountAccess(
+                accountRepo.getById("deletedAccount"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testedWithDeletedAccount);
+
+        // when
+        ArrayList<AccountAccess> result = underTest.findAllDeletedAccountByUserId(testedWithTestId.getUserId());
+        //then
+        assertEquals(1,result.size());
+        assertEquals("testId", result.get(0).getUserId().getUserId());
+        assertEquals("deletedAccount",result.get(0).getAccountId().getIban());
+    }
+
+    @Test
+    void canFindAllHiddenByUserId(){
+        //given
+        AccountAccess testedWithTestId = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testedWithTestId);
+
+        AccountAccess testedWithoutTestId = new AccountAccess(
+                accountRepo.getById("testIban"),
+                userRepo.getById("test2Id"),
+                true,
+                false
+        );
+        underTest.save(testedWithoutTestId);
+
+        AccountAccess testedWithHiddenAccess = new AccountAccess(
+                accountRepo.getById("testIban2"),
+                userRepo.getById("testId"),
+                true,
+                true
+        );
+        underTest.save(testedWithHiddenAccess);
+
+        AccountAccess testedWithDeletedAccount = new AccountAccess(
+                accountRepo.getById("deletedAccount"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testedWithDeletedAccount);
+
+        // when
+        ArrayList<AccountAccess> result = underTest.findAllHiddenByUserId(testedWithTestId.getUserId());
+        //then
+        assertEquals(1,result.size());
+        assertEquals("testId", result.get(0).getUserId().getUserId());
+        assertEquals("testIban2",result.get(0).getAccountId().getIban());
     }
 
     @Test
@@ -210,6 +325,14 @@ class AccountAccessRepoTest {
         );
         underTest.save(accessInDb);
 
+        AccountAccess accessToDeletedAccount = new AccountAccess(
+                accountRepo.getById("deletedAccount"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(accessToDeletedAccount);
+
         //When
         boolean shouldBeTrue = underTest.existsByUserIdAndAccountId(
                 accessInDb.getUserId(),
@@ -221,9 +344,15 @@ class AccountAccessRepoTest {
                 accessInDb.getAccountId()
         );
 
+        boolean shouldBeFalseCauseDeleted = underTest.existsByUserIdAndAccountId(
+                accessToDeletedAccount.getUserId(),
+                accessToDeletedAccount.getAccountId()
+        );
+
         //Then
         assertTrue(shouldBeTrue);
         assertFalse(shouldBeFalse);
+        assertFalse(shouldBeFalseCauseDeleted);
 
     }
 
@@ -239,6 +368,14 @@ class AccountAccessRepoTest {
                 false
         );
         underTest.save(testedWithTestId);
+
+        AccountAccess testWithDeletedAccount = new AccountAccess(
+                accountRepo.getById("deletedAccount"),
+                userRepo.getById("testId"),
+                true,
+                false
+        );
+        underTest.save(testWithDeletedAccount);
 
         //When
         List<User> result = underTest.getAllCustomersInBank(swift);

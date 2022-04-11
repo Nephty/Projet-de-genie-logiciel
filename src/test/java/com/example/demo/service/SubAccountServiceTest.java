@@ -115,6 +115,7 @@ class SubAccountServiceTest {
 
             // -- Account --
         Account tmpAccount = new Account();
+        tmpAccount.setDeleted(false);
         tmpAccount.setIban(subAccountReq.getIban());
         Optional<Account> account = Optional.of(tmpAccount);
         when(accountRepo.findById(subAccountReq.getIban()))
@@ -159,6 +160,32 @@ class SubAccountServiceTest {
     }
 
     @Test
+    void addShouldThrowWhenAccountDeleted(){
+        //Given
+        SubAccountReq subAccountReq = new SubAccountReq(
+                "iban",
+                0,
+                200.0,
+                "EUR"
+        );
+
+        // -- Account --
+        Account tmpAccount = new Account();
+        tmpAccount.setDeleted(true);
+        tmpAccount.setIban(subAccountReq.getIban());
+        Optional<Account> account = Optional.of(tmpAccount);
+        when(accountRepo.findById(subAccountReq.getIban()))
+                .thenReturn(account);
+
+        //then
+        assertThatThrownBy(() -> underTest.addSubAccount(subAccountReq))
+                .isInstanceOf(ConflictException.class)
+                .hasMessageContaining("Can't create a subAccount to a deleted Account" + subAccountReq.getIban());
+        verify(subAccountRepo,never()).save(any());
+
+    }
+
+    @Test
     void addShouldThrowWhenCurrencyTypeNotFound(){
         //Given
         SubAccountReq subAccountReq = new SubAccountReq(
@@ -170,6 +197,7 @@ class SubAccountServiceTest {
 
             // -- Account --
         Account tmpAccount = new Account();
+        tmpAccount.setDeleted(false);
         tmpAccount.setIban(subAccountReq.getIban());
         Optional<Account> account = Optional.of(tmpAccount);
         when(accountRepo.findById(subAccountReq.getIban()))
@@ -194,6 +222,7 @@ class SubAccountServiceTest {
 
         // -- Account --
         Account tmpAccount = new Account();
+        tmpAccount.setDeleted(false);
         tmpAccount.setIban(subAccountReq.getIban());
         Optional<Account> account = Optional.of(tmpAccount);
         when(accountRepo.findById(subAccountReq.getIban()))
@@ -249,6 +278,7 @@ class SubAccountServiceTest {
 
         // -- Account --
         Account tmpAccount = new Account();
+        tmpAccount.setDeleted(false);
         tmpAccount.setIban(subAccountReq.getIban());
         Optional<Account> account = Optional.of(tmpAccount);
         when(accountRepo.findById(subAccountReq.getIban()))

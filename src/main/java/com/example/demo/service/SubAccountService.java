@@ -51,6 +51,9 @@ public class SubAccountService {
         SubAccount subAccount = new SubAccount(subAccountReq);
         Account account = accountRepo.findById(subAccountReq.getIban())
                 .orElseThrow(()-> new ConflictException(subAccountReq.getIban()));
+        if (account.getDeleted()){
+            throw new ConflictException("Can't create a subAccount to a deleted Account" + subAccountReq.getIban());
+        }
         CurrencyType currencyType = currencyTypeRepo.findById(subAccountReq.getCurrencyType())
                 .orElseThrow(()-> new ConflictException(subAccountReq.getCurrencyType().toString()));
         subAccount.setIban(account);

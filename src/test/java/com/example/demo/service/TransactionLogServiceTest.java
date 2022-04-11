@@ -74,12 +74,14 @@ class TransactionLogServiceTest {
         // -- Account SENDER --
         Account accountSender = new Account();
         accountSender.setPayment(true);
+        accountSender.setDeleted(false);
         User user = new User();
         user.setUserId(id);
         accountSender.setUserId(user);
 
         // -- Account RECEIVER --
         Account accountReceiver = new Account();
+        accountReceiver.setDeleted(false);
 
         // -- SubAccount SENDER --
         SubAccount subAccountSender = new SubAccount(
@@ -186,6 +188,46 @@ class TransactionLogServiceTest {
     }
 
     @Test
+    void addTransactionShouldThrowWhenSenderAccountDeleted(){
+        // Given
+        String id = "userId";
+        Sender sender = new Sender(id,Role.USER);
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(10.0);
+
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        // -- Account SENDER --
+        Account accountSender = new Account();
+        accountSender.setPayment(true);
+        accountSender.setDeleted(true);
+        User user = new User();
+        user.setUserId(id);
+        accountSender.setUserId(user);
+
+        // -- SubAccount SENDER --
+        SubAccount subAccountSender = new SubAccount(
+                accountSender,
+                currencyType,
+                150.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountSender));
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining(
+                        "Can't make a transaction from a deleted Account: " + subAccountSender.getIban()
+                );
+    }
+
+    @Test
     void addTransactionShouldThrowWhenReceiverNotFound(){
         // Given
         String id = "userId";
@@ -197,9 +239,21 @@ class TransactionLogServiceTest {
         transactionReq.setCurrencyId(0);
         transactionReq.setTransactionAmount(10.0);
 
-        // -- SubAccount SENDER
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        // -- Account SENDER --
+        Account accountSender = new Account();
+        accountSender.setPayment(true);
+        accountSender.setDeleted(false);
+        User user = new User();
+        user.setUserId(id);
+        accountSender.setUserId(user);
+
+        // -- SubAccount SENDER --
         SubAccount subAccountSender = new SubAccount(
-                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+                accountSender,
+                currencyType,
+                150.0
         );
         when(subAccountRepo.findById(
                 new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
@@ -210,6 +264,61 @@ class TransactionLogServiceTest {
                 .isInstanceOf(ConflictException.class)
                 .hasMessageContaining(
                         "subAccount: " + transactionReq.getRecipientIban() + " : " + transactionReq.getCurrencyId()
+                );
+    }
+
+    @Test
+    void addTransactionShouldThrowWhenReceiverAccountDeleted(){
+        // Given
+        String id = "userId";
+        Sender sender = new Sender(id,Role.USER);
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(10.0);
+
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        // -- Account SENDER --
+        Account accountSender = new Account();
+        accountSender.setPayment(true);
+        accountSender.setDeleted(false);
+        User user = new User();
+        user.setUserId(id);
+        accountSender.setUserId(user);
+
+        // -- Account RECEIVER --
+        Account accountReceiver = new Account();
+        accountReceiver.setDeleted(true);
+
+        // -- SubAccount SENDER --
+        SubAccount subAccountSender = new SubAccount(
+                accountSender,
+                currencyType,
+                150.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountSender));
+
+        // -- SubAccount RECEIVER --
+        SubAccount subAccountReceiver = new SubAccount(
+                accountReceiver,
+                currencyType,
+                100.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountReceiver));
+
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining(
+                        "Can't make a transaction to a deleted Account"
                 );
     }
 
@@ -225,9 +334,25 @@ class TransactionLogServiceTest {
         transactionReq.setCurrencyId(0);
         transactionReq.setTransactionAmount(10.0);
 
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        // -- Account SENDER --
+        Account accountSender = new Account();
+        accountSender.setPayment(true);
+        accountSender.setDeleted(false);
+        User user = new User();
+        user.setUserId(id);
+        accountSender.setUserId(user);
+
+        // -- Account RECEIVER --
+        Account accountReceiver = new Account();
+        accountReceiver.setDeleted(false);
+
         // -- SubAccount SENDER --
         SubAccount subAccountSender = new SubAccount(
-                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+                accountSender,
+                currencyType,
+                150.0
         );
         when(subAccountRepo.findById(
                 new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
@@ -235,7 +360,9 @@ class TransactionLogServiceTest {
 
         // -- SubAccount RECEIVER --
         SubAccount subAccountReceiver = new SubAccount(
-                new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
+                accountReceiver,
+                currencyType,
+                100.0
         );
         when(subAccountRepo.findById(
                 new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
@@ -267,9 +394,11 @@ class TransactionLogServiceTest {
         // -- Account SENDER --
         Account accountSender = new Account();
         accountSender.setPayment(false);
+        accountSender.setDeleted(false);
 
         // -- Account RECEIVER --
         Account accountReceiver = new Account();
+        accountReceiver.setDeleted(false);
 
         // -- SubAccount SENDER --
         SubAccount subAccountSender = new SubAccount(
@@ -319,9 +448,11 @@ class TransactionLogServiceTest {
         // -- Account SENDER --
         Account accountSender = new Account();
         accountSender.setPayment(true);
+        accountSender.setDeleted(false);
 
         // -- Account RECEIVER --
         Account accountReceiver = new Account();
+        accountReceiver.setDeleted(false);
 
         // -- SubAccount SENDER --
         SubAccount subAccountSender = new SubAccount(
@@ -371,12 +502,14 @@ class TransactionLogServiceTest {
         // -- Account SENDER --
         Account accountSender = new Account();
         accountSender.setPayment(true);
+        accountSender.setDeleted(false);
         User user = new User();
         user.setUserId(id);
         accountSender.setUserId(user);
 
         // -- Account RECEIVER --
         Account accountReceiver = new Account();
+        accountReceiver.setDeleted(false);
 
         // -- SubAccount SENDER --
         SubAccount subAccountSender = new SubAccount(
@@ -425,12 +558,14 @@ class TransactionLogServiceTest {
         // -- Account SENDER --
         Account accountSender = new Account();
         accountSender.setPayment(true);
+        accountSender.setDeleted(false);
         User user = new User();
         user.setUserId(id);
         accountSender.setUserId(user);
 
         // -- Account RECEIVER --
         Account accountReceiver = new Account();
+        accountReceiver.setDeleted(false);
 
         // -- SubAccount SENDER --
         SubAccount subAccountSender = new SubAccount(
@@ -476,7 +611,6 @@ class TransactionLogServiceTest {
 
     @Test
     void canGetAllTransactionBySubAccount() {
-        // TODO: 4/3/22 test
 
         // Given
         String iban = "iban";
@@ -594,9 +728,11 @@ class TransactionLogServiceTest {
 
         Account acc = new Account();
         acc.setPayment(true);
+        acc.setDeleted(false);
 
         Account acc2 = new Account();
         acc2.setPayment(true);
+        acc2.setDeleted(false);
 
 
         TransactionLog transactionLogSender = new TransactionLog(
@@ -780,6 +916,180 @@ class TransactionLogServiceTest {
                 new TransactionType(0,"test",0.0),
                 null,
                 new SubAccount(acc2,currencyType,100.0),
+                50.0,
+                false,
+                "comments"
+        );
+
+        // When
+        underTest.executeTransaction(transactionLogSender,transactionLogReceiver);
+
+        // Then
+        verify(transactionLogRepo).deleteAllByTransactionId(transactionLogSender.getTransactionId());
+        verify(transactionLogRepo,never()).save(any());
+        verify(subAccountRepo,never()).save(any());
+
+        // -- Notification SEND --
+        ArgumentCaptor<Sender> senderCaptor = ArgumentCaptor.forClass(Sender.class);
+        ArgumentCaptor<NotificationReq> notificationCaptor = ArgumentCaptor.forClass(NotificationReq.class);
+
+        verify(notificationService).addNotification(senderCaptor.capture(),notificationCaptor.capture());
+
+        // -- From --
+        Sender bankSender = senderCaptor.getValue();
+        assertEquals(
+                transactionLogSender.getSubAccount().getIban().getSwift().getSwift(),
+                bankSender.getId()
+        );
+
+        // -- TO --
+        NotificationReq notification = notificationCaptor.getValue();
+        assertEquals(
+                transactionLogSender.getSubAccount().getIban().getUserId().getUserId(),
+                notification.getRecipientId()
+        );
+    }
+
+    @Test
+    void executeShouldStropWhenAccountSenderDeleted(){
+        // Given
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        User user = new User(
+                "userId",
+                "username",
+                "lastName",
+                "firstname",
+                "email",
+                "FR"
+        );
+
+        Bank bank = new Bank(
+                "swift",
+                "name",
+                "pwd",
+                "address",
+                "country",
+                new CurrencyType(0,"EUR")
+        );
+
+        Account accSender = new Account();
+        accSender.setPayment(true);
+        accSender.setSwift(bank);
+        accSender.setUserId(user);
+        accSender.setDeleted(true);
+
+        Account accReceiver = new Account();
+        accReceiver.setPayment(true);
+        accReceiver.setSwift(bank);
+        accReceiver.setUserId(user);
+        accReceiver.setDeleted(false);
+
+
+        TransactionLog transactionLogSender = new TransactionLog(
+                1,
+                true,
+                new TransactionType(0,"test",0.0),
+                null,
+                new SubAccount(accSender,currencyType,200.0),
+                40.0,
+                false,
+                "comments"
+        );
+
+        TransactionLog transactionLogReceiver = new TransactionLog(
+                1,
+                false,
+                new TransactionType(0,"test",0.0),
+                null,
+                new SubAccount(accReceiver,currencyType,100.0),
+                50.0,
+                false,
+                "comments"
+        );
+
+        // When
+        underTest.executeTransaction(transactionLogSender,transactionLogReceiver);
+
+        // Then
+        verify(transactionLogRepo).deleteAllByTransactionId(transactionLogSender.getTransactionId());
+        verify(transactionLogRepo,never()).save(any());
+        verify(subAccountRepo,never()).save(any());
+
+        // -- Notification SEND --
+        ArgumentCaptor<Sender> senderCaptor = ArgumentCaptor.forClass(Sender.class);
+        ArgumentCaptor<NotificationReq> notificationCaptor = ArgumentCaptor.forClass(NotificationReq.class);
+
+        verify(notificationService).addNotification(senderCaptor.capture(),notificationCaptor.capture());
+
+        // -- From --
+        Sender bankSender = senderCaptor.getValue();
+        assertEquals(
+                transactionLogSender.getSubAccount().getIban().getSwift().getSwift(),
+                bankSender.getId()
+        );
+
+        // -- TO --
+        NotificationReq notification = notificationCaptor.getValue();
+        assertEquals(
+                transactionLogSender.getSubAccount().getIban().getUserId().getUserId(),
+                notification.getRecipientId()
+        );
+    }
+
+    @Test
+    void executeShouldStropWhenAccountReceiverDeleted(){
+        // Given
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        User user = new User(
+                "userId",
+                "username",
+                "lastName",
+                "firstname",
+                "email",
+                "FR"
+        );
+
+        Bank bank = new Bank(
+                "swift",
+                "name",
+                "pwd",
+                "address",
+                "country",
+                new CurrencyType(0,"EUR")
+        );
+
+        Account accSender = new Account();
+        accSender.setPayment(true);
+        accSender.setSwift(bank);
+        accSender.setUserId(user);
+        accSender.setDeleted(false);
+
+        Account accReceiver = new Account();
+        accReceiver.setPayment(true);
+        accReceiver.setSwift(bank);
+        accReceiver.setUserId(user);
+        accReceiver.setDeleted(true);
+
+
+        TransactionLog transactionLogSender = new TransactionLog(
+                1,
+                true,
+                new TransactionType(0,"test",0.0),
+                null,
+                new SubAccount(accSender,currencyType,200.0),
+                40.0,
+                false,
+                "comments"
+        );
+
+        TransactionLog transactionLogReceiver = new TransactionLog(
+                1,
+                false,
+                new TransactionType(0,"test",0.0),
+                null,
+                new SubAccount(accReceiver,currencyType,100.0),
                 50.0,
                 false,
                 "comments"

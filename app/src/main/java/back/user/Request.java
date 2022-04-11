@@ -4,6 +4,8 @@ import app.Main;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import front.navigation.Flow;
+import front.scenes.Scenes;
 
 public class Request extends Communication {
     private CommunicationType communicationType;
@@ -53,6 +55,12 @@ public class Request extends Communication {
             }
         }
 
+        if(this.communicationType.equals(CommunicationType.CREATE_ACCOUNT)){
+            // Creates an account
+            Main.setNewClient(this.senderID);
+            Main.setRequest(this);
+            Main.setScene(Flow.forward(Scenes.CreateClientAccountScene));
+        }
 
     }
 

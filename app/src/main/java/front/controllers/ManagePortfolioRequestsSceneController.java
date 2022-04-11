@@ -79,6 +79,7 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
         if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
             // TODO : back-end : implement "approved" attribute of request, change it accordingly for all selected requests and commit changes to database
+            requestsTableView.getSelectionModel().getSelectedItems().get(0).approve();
         } else if (!noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(true);
     }
 
@@ -97,7 +98,6 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
             sleepAndFadeOutLoadingRequestsLabelFadeThread = new FadeOutThread();
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // TODO : back-end : fetch portfolio requests from the database and put them in the listview
 
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;

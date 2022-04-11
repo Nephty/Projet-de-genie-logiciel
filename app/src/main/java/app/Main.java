@@ -2,6 +2,7 @@ package app;
 
 import back.user.Account;
 import back.user.Bank;
+import back.user.Request;
 import back.user.Wallet;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
@@ -28,6 +29,7 @@ public class Main extends Application {
     private static Wallet currentWallet;
     private static Account currentAccount;
     private static String newClient;
+    private static Request request;
 
     public static void main(String[] args) {
         launch(args);
@@ -43,6 +45,14 @@ public class Main extends Application {
 
     public static void setNewClient(String NRN) {
         newClient = NRN;
+    }
+
+    public static void setRequest(Request req){
+        request = req;
+    }
+
+    public static Request getRequest(){
+        return request;
     }
 
     public static Bank getBank() {

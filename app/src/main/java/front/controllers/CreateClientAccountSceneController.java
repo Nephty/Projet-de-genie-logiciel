@@ -2,6 +2,8 @@ package front.controllers;
 
 import app.Main;
 import back.user.AccountType;
+import back.user.Notification;
+import back.user.Request;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -161,6 +163,26 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                 Main.ErrorManager(408);
             }
 
+            Main.setNewClient(null);
+
+            if(!Main.getRequest().equals(null)){
+                Request request = Main.getRequest();
+                // Send a notification to the client
+                Notification notif = new Notification(Main.getBank().getName(), request.getSenderID(), "The bank "+Main.getBank().getName()+" has created you an new account");
+                notif.send();
+
+                // Delete this request
+                Unirest.setTimeouts(0, 0);
+                try {
+                    HttpResponse<String> response3 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+ request.getID())
+                            .header("Authorization", "Bearer "+ Main.getToken())
+                            .asString();
+                } catch (UnirestException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Main.setRequest(null);
 
             fadeInAndOutNode(1000, accountCreatedLabel);
             accountCreated = true;

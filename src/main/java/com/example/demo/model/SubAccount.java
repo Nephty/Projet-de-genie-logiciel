@@ -72,6 +72,10 @@ public class SubAccount {
         }
     }
 
+    public void change(SubAccountReq subAccountReq) {
+        //TODO this
+    }
+
     public static SubAccount createDefault(Account account) {
         SubAccount defaultSubAccount = new SubAccount();
         defaultSubAccount.setSubAccountPK(

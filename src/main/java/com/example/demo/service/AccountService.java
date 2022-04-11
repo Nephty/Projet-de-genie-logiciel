@@ -13,6 +13,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service @Transactional @Slf4j
 public class AccountService {
@@ -27,6 +29,8 @@ public class AccountService {
 
     private final SubAccountRepo subAccountRepo;
 
+    private final AccountAccessRepo accountAccessRepo;
+
     public AccountReq getAccount(String iban) {
         Account account = accountRepo.findById(iban).orElseThrow(
                         ()-> new ResourceNotFound("iban: " + iban)
@@ -36,7 +40,7 @@ public class AccountService {
 
     public void deleteAccount(String iban) {
         // To delete an account, we set the delete parameter to true
-        Account account = accountRepo.findById(iban).orElseThrow(
+        Account account = accountRepo.safeFindById(iban).orElseThrow(
                 ()-> new ResourceNotFound("iban: " + iban)
         );
         account.setDeleted(true);
@@ -44,13 +48,29 @@ public class AccountService {
     }
 
     public Account addAccount(AccountReq accountReq) {
-        if(accountReq.getAccountTypeId() == 4 && accountReq.getPayment()) {
-            throw new AuthorizationException("This is a fixed account you can't allow payment to it");
-        }
         Account account = instantiateAccount(accountReq, HttpMethod.POST);
+
+        switch (account.getAccountTypeId().getAccountTypeId()) {
+            case 1:
+            case 3:
+            case 4:
+                if(!account.getUserId().isAbove18()) throw new AuthorizationException(
+                        "You must be above 18 to register for that account"
+                );
+                break;
+            case 2:
+                if(account.getUserId().getAge() > 24) throw new AuthorizationException(
+                        "You must be younger than 25 to register for a young account"
+                );
+                break;
+            default:
+                throw new LittleBoyException("This account type is not yet supported");
+        }
         SubAccount defaultSubAccount = SubAccount.createDefault(account);
+        AccountAccess defaultAccountAccess = AccountAccess.createDefault(account);
         accountRepo.save(account);
         subAccountRepo.save(defaultSubAccount);
+        accountAccessRepo.save(defaultAccountAccess);
         return account;
     }
 
@@ -59,6 +79,14 @@ public class AccountService {
         //Fixed account
         if(account.getAccountTypeId().getAccountTypeId() == 4 && accountReq.getPayment()) {
             throw new AuthorizationException("This is a fixed account you can't allow payment to it");
+        }
+        //young account
+        if(account.getAccountTypeId().getAccountTypeId() == 2 && accountReq.getPayment()) {
+            if(accountAccessRepo.getAllOwners(account).stream().noneMatch(User::isAbove18)){
+                throw new AuthorizationException(
+                        "An adult needs to have access to this account in order for you to make payment with it"
+                );
+            }
         }
         return accountRepo.save(account);
     }
@@ -89,7 +117,7 @@ public class AccountService {
                 account.setAccountTypeId(accountType);
                 break;
             case PUT:
-                account = accountRepo.findById(accountReq.getIban())
+                account = accountRepo.safeFindById(accountReq.getIban())
                         .orElseThrow(()-> {
                             log.error("no such account " + accountReq);
                             throw new ResourceNotFound(accountReq.toString());

@@ -92,6 +92,7 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
             "WHERE s.accountId = ?1 and s.access = true")
     List<User> getAllOwners(Account account);
 
+
     /**
      * Delete the Access of the requested User on the Account.
      * @param accountId The iban of the account.

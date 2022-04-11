@@ -11,6 +11,10 @@ public class LittleBoyException extends ApiRequestException {
         super("Server error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    public LittleBoyException(String message) {
+        super(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     public LittleBoyException(Throwable cause) {
         super("Server error", cause, HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -38,22 +38,23 @@ public class SubAccountService {
     }
 
     public SubAccount changeSubAccount(SubAccountReq subAccountReq) {
-        SubAccount subAccount = instantiateSubAccount(subAccountReq);
+        SubAccount subAccount = subAccountRepo.findById(
+                new SubAccountPK(subAccountReq.getIban(), subAccountReq.getCurrencyType())
+        ).orElseThrow(()-> new ResourceNotFound(subAccountReq.toString()));
+        subAccount.change(subAccountReq);
         return subAccountRepo.save(subAccount);
     }
 
     /**
      * @param subAccountReq request made by the client
-     * @return subaccount entity based on the request
+     * @return sub account entity based on the request
      * @throws ConflictException if the FK provided by the client are incorrect
      */
     private SubAccount instantiateSubAccount(SubAccountReq subAccountReq) throws ConflictException {
         SubAccount subAccount = new SubAccount(subAccountReq);
-        Account account = accountRepo.findById(subAccountReq.getIban())
+        Account account = accountRepo.safeFindById(subAccountReq.getIban())
                 .orElseThrow(()-> new ConflictException(subAccountReq.getIban()));
-        if (account.getDeleted()){
-            throw new ConflictException("Can't create a subAccount to a deleted Account" + subAccountReq.getIban());
-        }
+
         CurrencyType currencyType = currencyTypeRepo.findById(subAccountReq.getCurrencyType())
                 .orElseThrow(()-> new ConflictException(subAccountReq.getCurrencyType().toString()));
         subAccount.setIban(account);

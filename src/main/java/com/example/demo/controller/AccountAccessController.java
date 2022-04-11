@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/account-access")
@@ -30,11 +31,23 @@ public class AccountAccessController {
      * Who ? the user
      */
     @GetMapping(value = "/all")
-    public ResponseEntity<List<AccountAccessReq>> sendAccountAccess(@RequestParam String userId){
+    public ResponseEntity<List<AccountAccessReq>> sendAccountAccess(
+            @RequestParam String userId, @RequestParam Boolean hidden
+    ){
+        List<AccountAccessReq> accountAccessReqs = accountAccessService.getAccountAccessByUserId(userId);
+        if(hidden == null) {
+            return new ResponseEntity<>(
+                    accountAccessReqs,
+                    HttpStatus.OK
+            );
+        }
         return new ResponseEntity<>(
-                accountAccessService.getAccountAccessByUserId(userId),
+                accountAccessReqs.stream()
+                        .filter(accountAccessReq -> accountAccessReq.getHidden() == hidden)
+                        .collect(Collectors.toList()),
                 HttpStatus.OK
         );
+
     }
 
     @GetMapping(value = "/all/co-owner")

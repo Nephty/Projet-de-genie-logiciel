@@ -602,7 +602,7 @@ class TransactionLogServiceTest {
         TransactionLog transactionLogSender = new TransactionLog(
                 1,
                 true,
-                null,
+                new TransactionType(0,"test",0.0),
                 null,
                 new SubAccount(acc,currencyType,200.0),
                 50.0,
@@ -613,7 +613,7 @@ class TransactionLogServiceTest {
         TransactionLog transactionLogReceiver = new TransactionLog(
                 1,
                 false,
-                null,
+                new TransactionType(0,"test",0.0),
                 null,
                 new SubAccount(acc2,currencyType,100.0),
                 50.0,
@@ -766,7 +766,7 @@ class TransactionLogServiceTest {
         TransactionLog transactionLogSender = new TransactionLog(
                 1,
                 true,
-                null,
+                new TransactionType(0,"test",0.0),
                 null,
                 new SubAccount(acc,currencyType,200.0),
                 400.0,
@@ -777,7 +777,7 @@ class TransactionLogServiceTest {
         TransactionLog transactionLogReceiver = new TransactionLog(
                 1,
                 false,
-                null,
+                new TransactionType(0,"test",0.0),
                 null,
                 new SubAccount(acc2,currencyType,100.0),
                 50.0,

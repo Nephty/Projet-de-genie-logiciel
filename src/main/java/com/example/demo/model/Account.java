@@ -14,6 +14,7 @@ import java.time.ZoneId;
  * Each account has one {@link SubAccount} <br>
  * Check the entity relationShip diagram in the documentation if you need more info about this table <br>
  * Setters, Getters, NoArgsConstructor, AllArgsConstructor and ToString method are implemented by {@link lombok}
+ * @see AccountType
  */
 @ToString
 @Getter

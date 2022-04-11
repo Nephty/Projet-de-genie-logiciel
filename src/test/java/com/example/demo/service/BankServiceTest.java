@@ -157,18 +157,6 @@ class BankServiceTest {
     }
 
     @Test
-    void canDeleteBank() {
-        //Given
-        String swift = "swift";
-
-        //when
-        underTest.deleteBank(swift);
-
-        //then
-        verify(bankRepo).deleteById(swift);
-    }
-
-    @Test
     void canChangeBank() {
         //Given
         BankReq bankReq = new BankReq(

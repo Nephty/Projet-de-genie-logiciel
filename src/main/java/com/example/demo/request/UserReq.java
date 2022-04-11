@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @Data
 public class UserReq {
@@ -23,6 +25,8 @@ public class UserReq {
 
     private String language;
 
+    private Date birthdate;
+
     @JsonIgnore
     public boolean isPostValid() {
         return userId != null
@@ -31,7 +35,8 @@ public class UserReq {
                 && firstname != null
                 && email != null
                 && password != null
-                && language != null;
+                && language != null
+                && birthdate != null;
     }
 
     @JsonIgnore
@@ -47,5 +52,6 @@ public class UserReq {
         email = user.getEmail();
         password = user.getPassword();
         language = user.getLanguage();
+        birthdate = user.getBirthdate();
     }
 }

@@ -62,7 +62,8 @@ class SubAccountRepoTest {
                 "firstName",
                 "test@email.com",
                 "passwordTested",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         userRepo.save(user);
 
@@ -85,7 +86,8 @@ class SubAccountRepoTest {
                 "FirstName",
                 "test5@gmail.com",
                 "passwordTested",
-                "En"
+                "En",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         userRepo.save(user1);
 

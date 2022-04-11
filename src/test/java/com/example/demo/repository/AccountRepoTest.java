@@ -44,7 +44,8 @@ class AccountRepoTest {
                 "firstName",
                 "test@email.com",
                 "passwordTested",
-                "EN"
+                "EN",
+                Date.valueOf(LocalDate.of(2002,10,31))
         );
         userRepo.save(user);
 

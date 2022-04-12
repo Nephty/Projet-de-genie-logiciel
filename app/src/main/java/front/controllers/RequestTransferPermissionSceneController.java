@@ -42,16 +42,12 @@ public class RequestTransferPermissionSceneController extends Controller impleme
 
     public void initialize() {
         Main.updatePortfolio();
-        ArrayList<Account> accountList = new ArrayList<Account>();
-
-        ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
-        for(int i = 0; i<walletList.size(); i++){
-            Wallet wallet = walletList.get(i);
-            for(int j = 0; j<wallet.getAccountList().size(); j++){
-                accountList.add(wallet.getAccountList().get(j));
-            }
+        ArrayList<Account> accountList = new ArrayList<>();
+        for (Wallet wallet : Main.getPortfolio().getWalletList()) {
+            for (Account account : wallet.getAccountList()) if (!account.canPay()) accountList.add(account);
         }
         values = FXCollections.observableArrayList(accountList);
+        portfolioComboBox.setDisable(values.size() == 0);
         portfolioComboBox.setItems(values);
     }
 
@@ -62,13 +58,14 @@ public class RequestTransferPermissionSceneController extends Controller impleme
 
     @Override
     public void emulateBackButtonClicked() {
-        handleBackButtonNavigation(null);
+        handleBackButtonClicked(null);
     }
 
 
     @FXML
     void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
+        portfolioComboBox.setDisable(false);
         if (requestSent) {
             portfolioComboBox.setValue(null);
             requestSent = false;

@@ -90,6 +90,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
 
     @FXML
     void handleFetchAccountsButtonClicked(MouseEvent event) {
+        fetchAccounts();
         updateAccounts();
     }
 

@@ -2,6 +2,7 @@ package front.controllers;
 
 import app.Main;
 import back.user.Account;
+import back.user.SubAccount;
 import back.user.Wallet;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
@@ -33,7 +34,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     @FXML
     TableView<Account> accountsTableView;
     @FXML
-    TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, activatedColumn;
+    TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, activatedColumn, amountColumn;
     @FXML
     Label lastUpdateTimeLabel;
     @FXML
@@ -56,6 +57,13 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         transferPermissionsColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
         subAccountsColumn.setCellValueFactory(a -> new SimpleStringProperty(String.valueOf(a.getValue().getSubAccountList().size())));
         activatedColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
+        amountColumn.setCellValueFactory(a -> {
+            double value = 0;
+            for (SubAccount subAccount : a.getValue().getSubAccountList()) {
+                value += subAccount.getAmount();
+            }
+            return new SimpleStringProperty(String.valueOf(value));
+        });
         accountsTableView.setPlaceholder(new Label("No account available."));
         accountsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchAccounts();
@@ -109,7 +117,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
 
     @FXML
     void handleToggleButtonClicked(MouseEvent event) {
-        // If the user selected one wallet
         if (accountsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             for (Account account : accountsTableView.getSelectionModel().getSelectedItems()) {
                 toggleProduct(account);

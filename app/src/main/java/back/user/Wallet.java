@@ -72,6 +72,11 @@ public class Wallet {
         }
     }
 
+    public Wallet(Profile accountUser, ArrayList<Account> accountList){
+        this.accountUser = accountUser;
+        this.bank = Main.getBank();
+        this.accountList = accountList;
+    }
 
     public void update() throws UnirestException {
         this.accountList = new ArrayList<Account>();

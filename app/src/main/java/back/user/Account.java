@@ -49,10 +49,10 @@ public class Account {
     /**
      * @return A String to display account informations
      */
-    @Override
-    public String toString() {
-        return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated") + "          amount : " + getSubAccountList().get(0).getAmount() + " €";
-    }
+//    @Override
+//    public String toString() {
+//        return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated") + "          amount : " + getSubAccountList().get(0).getAmount() + " €";
+//    }
 
 
     /**

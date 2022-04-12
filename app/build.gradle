@@ -32,6 +32,9 @@ dependencies {
 
     // For password change
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // JSON simple for import data
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 application {

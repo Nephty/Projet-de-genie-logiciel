@@ -1,6 +1,7 @@
 package front.controllers;
 
 import app.Main;
+import back.user.Profile;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
@@ -93,7 +94,7 @@ public class ImportDataSceneController extends Controller implements BackButtonN
             // If the user selected a file
 
             // TODO : back-end : import data from the selected file
-
+            Profile.importData(selectedFile.getAbsolutePath());
             fadeInAndOutNode(1000, importSuccessfulLabel);
             importDone = true;
 

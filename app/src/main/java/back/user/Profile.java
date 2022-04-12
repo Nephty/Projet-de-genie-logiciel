@@ -4,12 +4,12 @@ import app.Main;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.parser.*;
+import java.io.InputStream;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -96,6 +96,101 @@ public class Profile {
         return rep;
     }
 
+    public static void importData(String path) {
+        Object parser = null;
+        try {
+            parser = new JSONParser().parse(new FileReader(path));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Create all the objects in the file
+        String str = parser.toString();
+        JSONObject obj = new JSONObject(str);
+        JSONArray clientList = obj.getJSONArray("clientList");
+        ArrayList<Wallet> walletList = new ArrayList<Wallet>();
+        Bank bank = Main.getBank();
+        for(int i = 0; i<clientList.length(); i++){
+            JSONObject clientInfos = clientList.getJSONObject(i);
+            Profile client = new Profile(clientInfos.getString("clientFirstname"),clientInfos.getString("clientLastname"), clientInfos.getString("clientID"));
+            JSONArray accountListJSON = clientInfos.getJSONArray("accountList");
+            ArrayList<Account> accountList = new ArrayList<Account>();
+            for(int j = 0; j<accountListJSON.length(); j++){
+                JSONObject objAccount = (JSONObject) accountListJSON.get(j);
+                AccountType accType = AccountType.valueOf(objAccount.getString("accountType"));
+                // TODO : coOwner
+                // TODO : Rename et subaccount
+                Account account = new Account(client, client, bank, objAccount.getString("IBAN"), accType, objAccount.getBoolean("activated"), false, objAccount.getBoolean("canPay"));
+                accountList.add(account);
+            }
+            walletList.add(new Wallet(client, accountList));
+        }
+
+        // Puts the data in the database
+
+        String swift = Main.getBank().getSwiftCode();
+
+        for(int i = 0; i< walletList.size(); i++){
+            // Creates account with all the values
+
+            String userId = walletList.get(i).getAccountUser().getNationalRegistrationNumber();
+            ArrayList<Account> accountList = walletList.get(i).getAccountList();
+
+            for(int j = 0; j<accountList.size(); j++){
+                Unirest.setTimeouts(0, 0);
+                HttpResponse<String> response = null;
+                String IBAN = accountList.get(j).getIBAN();
+                AccountType accountType = accountList.get(j).getAccountType();
+                int accType = 0;
+                switch (accountType) {
+                    case COURANT:
+                        accType = 1;
+                        break;
+                    case JEUNE:
+                        accType = 2;
+                        break;
+                    case EPARGNE:
+                        accType = 3;
+                        break;
+                    case TERME:
+                        accType = 4;
+                        break;
+                }
+
+                try {
+                    response = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .header("Content-Type", "application/json")
+                            .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + accType + "\r\n}")
+                            .asString();
+                    Main.errorCheck(response.getStatus());
+                } catch (UnirestException e) {
+                    Main.ErrorManager(408);
+                }
+
+                // Create account access
+                Unirest.setTimeouts(0, 0);
+                HttpResponse<String> response2 = null;
+                try {
+                    response2 = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .header("Content-Type", "application/json")
+                            .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
+                            .asString();
+                    Main.errorCheck(response2.getStatus());
+                } catch (UnirestException e) {
+                    Main.ErrorManager(408);
+                }
+            }
+
+        }
+    }
+
+
     public static void exportClientData(ArrayList<Profile> clientList, String path, boolean isCsv){
 
         // TODO : Gérer fichier déjà existant
@@ -144,14 +239,14 @@ public class Profile {
                     Wallet wallet = walletList.get(i);
                     ArrayList<Account> accountList = wallet.getAccountList();
                     Profile client = wallet.getAccountUser();
-                    ArrayList<ArrayList<String>> infos = new ArrayList<ArrayList<String>>();
+                    ArrayList<JSONObject> infos = new ArrayList<JSONObject>();
                     for(int j = 0; j<accountList.size(); j++) {
                         Account account = accountList.get(j);
-                        ArrayList<String> accountInfo = new ArrayList<String>();
-                        accountInfo.add(account.getIBAN());
-                        accountInfo.add(account.getAccountType().toString());
-                        accountInfo.add(String.valueOf(account.canPay()));
-                        accountInfo.add(String.valueOf(account.isActivated()));
+                        JSONObject accountInfo = new JSONObject();
+                        accountInfo.put("IBAN", account.getIBAN());
+                        accountInfo.put("accountType", account.getAccountType().toString());
+                        accountInfo.put("canPay", String.valueOf(account.canPay()));
+                        accountInfo.put("activated", String.valueOf(account.isActivated()));
                         infos.add(accountInfo);
                     }
                     JSONObject obj2 = new JSONObject();

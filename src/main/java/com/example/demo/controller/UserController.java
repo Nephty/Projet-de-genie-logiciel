@@ -33,9 +33,6 @@ public class UserController {
      */
     @GetMapping(value = "{id}")
     public ResponseEntity<UserReq> sendUser(@PathVariable String id, @RequestParam Boolean isUsername) {
-        if(isUsername == null) {
-            throw new MissingParamException("isUsername param must be present");
-        }
         if(isUsername) {
             return new ResponseEntity<>(userService.getUserByUsername(id), HttpStatus.OK);
         }

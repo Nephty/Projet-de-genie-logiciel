@@ -68,7 +68,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
         if (!noPathSelectedLabel.isVisible() && selectedDirectory == null) noPathSelectedLabel.setVisible(true);
         else if (noPathSelectedLabel.isVisible() && selectedDirectory != null) noPathSelectedLabel.setVisible(false);
 
-        if (!noPathSelectedLabel.isVisible()) {
+        if (!noPathSelectedLabel.isVisible() && directoryChosen) {
             // TODO : export les données de l'arraylist et non pas du compte actuel de Main
             Main.getCurrentAccount().getSubAccountList().get(0).exportHistory(selectedDirectory.getAbsolutePath(), false);
             exportDone = true;
@@ -87,7 +87,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
         if (!noPathSelectedLabel.isVisible() && selectedDirectory == null) noPathSelectedLabel.setVisible(true);
         else if (noPathSelectedLabel.isVisible() && selectedDirectory != null) noPathSelectedLabel.setVisible(false);
 
-        if (!noPathSelectedLabel.isVisible()) {
+        if (!noPathSelectedLabel.isVisible() && directoryChosen) {
             // TODO : export les données de l'arraylist et non pas du compte actuel de Main
             Main.getCurrentAccount().getSubAccountList().get(0).exportHistory(selectedDirectory.getAbsolutePath(), true);
             exportDone = true;

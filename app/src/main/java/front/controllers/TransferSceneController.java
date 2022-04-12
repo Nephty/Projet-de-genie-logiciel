@@ -70,7 +70,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
         else if (isValidDate(date) && invalidDateLabel.isVisible()) invalidDateLabel.setVisible(false);
 
         String recipientActual = Main.getCurrentAccount().getIBAN();
-
+        String comment = message;
         if (recipientActual != IBAN) {
             if (noLabelVisible()) {
                 // TODO : Manage errors (insufficient balance)
@@ -81,7 +81,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
                     response = Unirest.post("https://flns-spring-test.herokuapp.com/api/transaction")
                             .header("Authorization", "Bearer " + Main.getToken())
                             .header("Content-Type", "application/json")
-                            .body("{\r\n    \"transactionTypeId\": 1,\r\n    \"senderIban\": \"" + recipientActual + "\",\r\n    \"recipientIban\": \"" + IBAN + "\",\r\n    \"currencyId\": 0,\r\n    \"transactionAmount\": " + amount + "\r\n}")
+                            .body("{\r\n    \"transactionTypeId\": 1,\r\n    \"senderIban\": \"" + recipientActual + "\",\r\n    \"recipientIban\": \"" + IBAN + "\",\r\n    \"currencyId\": 0,\r\n    \"transactionAmount\": " + amount + ",\r\n    \"comments\": \"" + comment + "\"\r\n}")
                             .asString();
                     Main.errorCheck(response.getStatus());
                 } catch (UnirestException e) {
@@ -219,18 +219,18 @@ public class TransferSceneController extends Controller implements BackButtonNav
      */
     public static boolean isValidIBAN(String IBAN) {
         if (IBAN == null) return false;
-        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 20))
-            return false;  // IBAN.length() == 20 already checks IBAN != ""
-        for (int i = 0; i < IBAN.length(); i++) {
-            switch (i) {
-                case 0:
-                case 1:
-                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
-                    break;
-                default:
-                    if (!Character.isDigit(IBAN.charAt(i))) return false;
-            }
-        }
+//        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 20))
+//            return false;  // IBAN.length() == 20 already checks IBAN != ""
+//        for (int i = 0; i < IBAN.length(); i++) {
+//            switch (i) {
+//                case 0:
+//                case 1:
+//                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
+//                    break;
+//                default:
+//                    if (!Character.isDigit(IBAN.charAt(i))) return false;
+//            }
+//        }
         return true;
     }
 

@@ -65,31 +65,18 @@ public class ExportHistorySceneController extends Controller implements BackButt
 
     @FXML
     void handleJSONExportButtonClicked(MouseEvent event) {
-        if (!noPathSelectedLabel.isVisible() && selectedDirectory == null) noPathSelectedLabel.setVisible(true);
-        else if (noPathSelectedLabel.isVisible() && selectedDirectory != null) noPathSelectedLabel.setVisible(false);
-
-        if (!noPathSelectedLabel.isVisible() && directoryChosen) {
-            // TODO : export les données de l'arraylist et non pas du compte actuel de Main
-            Main.getCurrentAccount().getSubAccountList().get(0).exportHistory(selectedDirectory.getAbsolutePath(), false);
-            exportDone = true;
-
-            fadeInAndOutNode(1000, exportSuccessfulLabel);
-
-            // Reset form
-            directoryChosen = false;
-            exportLocationLabel.setText("Export location not set.");
-            selectedDirectory = null;
-        }
+        exportProcess(false);
     }
 
     @FXML
     void handleCSVExportButtonClicked(MouseEvent event) {
-        if (!noPathSelectedLabel.isVisible() && selectedDirectory == null) noPathSelectedLabel.setVisible(true);
-        else if (noPathSelectedLabel.isVisible() && selectedDirectory != null) noPathSelectedLabel.setVisible(false);
+        exportProcess(true);
+    }
 
+    private void exportProcess(boolean isCSV) {
         if (!noPathSelectedLabel.isVisible() && directoryChosen) {
             // TODO : export les données de l'arraylist et non pas du compte actuel de Main
-            Main.getCurrentAccount().getSubAccountList().get(0).exportHistory(selectedDirectory.getAbsolutePath(), true);
+            Main.getCurrentAccount().getSubAccountList().get(0).exportHistory(selectedDirectory.getAbsolutePath(), isCSV);
             exportDone = true;
 
             fadeInAndOutNode(1000, exportSuccessfulLabel);
@@ -99,7 +86,6 @@ public class ExportHistorySceneController extends Controller implements BackButt
             exportLocationLabel.setText("Export location not set.");
             selectedDirectory = null;
         }
-
     }
 
     @FXML

@@ -23,14 +23,30 @@ public class AccountAccessController {
 
     /**
      * Returns a list with all the account access for a certain user
-     * @param userId [path] id of the user
+     * @param userId id of the user
      * @return Array of account access
      * 200 - OK
      * 204 - Not found
      * Who ? the user
      */
     @GetMapping(value = "/all")
-    public ResponseEntity<List<AccountAccessReq>> sendAccountAccess(@RequestParam String userId){
+    public ResponseEntity<List<AccountAccessReq>> sendAccountAccess(
+            @RequestParam String userId,
+            @RequestParam Boolean deleted, @RequestParam Boolean hidden){
+        if (deleted){
+            // If we want hidden and deleted, it only returns the deleted.
+            return new ResponseEntity<>(
+                    accountAccessService.getAccessToDeletedAccount(userId),
+                    HttpStatus.OK
+            );
+        }
+        if (hidden){
+            return new ResponseEntity<>(
+                    accountAccessService.getAccessToHiddenAccount(userId),
+                    HttpStatus.OK
+            );
+        }
+        // If hidden and deleted is false, return all access (used for portfolio)
         return new ResponseEntity<>(
                 accountAccessService.getAccountAccessByUserId(userId),
                 HttpStatus.OK

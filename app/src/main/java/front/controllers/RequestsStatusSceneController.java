@@ -11,6 +11,7 @@ import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -38,7 +39,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("communicationType"));
         contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
-        // TODO : statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        statusColumn.setCellValueFactory(a -> new SimpleStringProperty("Waiting..."));
         requestsTableView.setPlaceholder(new Label("No request."));
         requestsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchRequests();

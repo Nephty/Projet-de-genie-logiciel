@@ -10,16 +10,22 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.DirectoryChooser;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ExportDataSceneController extends Controller implements BackButtonNavigator {
     private static ArrayList<Profile> exportData;
-    private final boolean exportDone = false;
+    private boolean exportDone = false;
     @FXML
     Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
     @FXML
     Label choosePathLabel, noPathSelectedLabel, requestNotSentLabel, exportSuccessfulLabel, exportLocationLabel;
+
+    private boolean directoryChosen = false;
+    private File selectedDirectory;
+    private DirectoryChooser directoryChooser = new DirectoryChooser();
 
     public static void setExportData(ArrayList<Profile> arrayList) {
         exportData = arrayList;
@@ -49,32 +55,38 @@ public class ExportDataSceneController extends Controller implements BackButtonN
 
     @FXML
     void handleChoosePathButtonClicked(MouseEvent event) {
-        // TODO : back-end : 1. Open the file explorer so the user can choose a path
-        //                   2. If the user chooses a path, set the text of the exportLocationLabel to the selected path
-        //                   (eg : Selected path : /home/username/Documents), set the file object to whatever it is
-        //                   and export the data to the file
+        selectedDirectory = directoryChooser.showDialog(Main.getStage());
+        if (selectedDirectory != null) {
+            exportLocationLabel.setText("Selected path : " + selectedDirectory.getPath());
+            directoryChosen = true;
+            exportDone = false;
+        }
     }
 
     @FXML
     void handleJSONExportButtonClicked(MouseEvent event) {
-        // TODO : back-end : 1. If the user selected a path and the noPathSelectedLabel is visible, hide it
-        //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
-        //                   3. If the user selected a path and the noPathSelectedLabel is not visible, export to JSON at the selected path
-        //                   4. After the export is done, set exportDone to true and fade in and out exportSuccessfulLabel
-
-        // TODO : Changer le hardcodé en path custom
-        Profile.exportClientData(exportData, "/home/frix/Documents",false);
+        exportProcess(false);
     }
 
     @FXML
     void handleCSVExportButtonClicked(MouseEvent event) {
-        // TODO : back-end : 1. If the user selected a path and the noPathSelectedLabel is visible, hide it
-        //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
-        //                   3. If the user selected a path and the noPathSelectedLabel is not visible, export to CSV at the selected path
-        //                   4. After the export is done, set exportDone to true and set exportSuccessfulLabel visibility to true
+        exportProcess(true);
+    }
 
-        // TODO : Changer le hardcodé en path custom
-        Profile.exportClientData(exportData, "/home/frix/Documents",true);
+    private void exportProcess(boolean isCSV) {
+        if (!noPathSelectedLabel.isVisible() && selectedDirectory == null) noPathSelectedLabel.setVisible(true);
+        else if (noPathSelectedLabel.isVisible() && selectedDirectory != null) noPathSelectedLabel.setVisible(false);
+
+        if (!noPathSelectedLabel.isVisible() && directoryChosen) {
+            Profile.exportClientData(exportData, selectedDirectory.getAbsolutePath(),isCSV);
+
+            exportDone = true;
+            fadeInAndOutNode(1000, exportSuccessfulLabel);
+            // Reset form
+            directoryChosen = false;
+            exportLocationLabel.setText("Export location not set.");
+            selectedDirectory = null;
+        }
     }
 
     @FXML

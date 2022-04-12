@@ -61,7 +61,9 @@ public class ExportDataSceneController extends Controller implements BackButtonN
         //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
         //                   3. If the user selected a path and the noPathSelectedLabel is not visible, export to JSON at the selected path
         //                   4. After the export is done, set exportDone to true and fade in and out exportSuccessfulLabel
-//        Profile.exportClientData(exportData, path,false);
+
+        // TODO : Changer le hardcodé en path custom
+        Profile.exportClientData(exportData, "/home/frix/Documents",false);
     }
 
     @FXML
@@ -70,7 +72,9 @@ public class ExportDataSceneController extends Controller implements BackButtonN
         //                   2. If the user did not select a path and the noPathSelectedLabel is not visible, show it
         //                   3. If the user selected a path and the noPathSelectedLabel is not visible, export to CSV at the selected path
         //                   4. After the export is done, set exportDone to true and set exportSuccessfulLabel visibility to true
-//        Profile.exportClientData(exportData, path,true);
+
+        // TODO : Changer le hardcodé en path custom
+        Profile.exportClientData(exportData, "/home/frix/Documents",true);
     }
 
     @FXML

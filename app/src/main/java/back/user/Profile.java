@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -96,12 +97,15 @@ public class Profile {
     }
 
     public static void exportClientData(ArrayList<Profile> clientList, String path, boolean isCsv){
+
+        // TODO : Gérer fichier déjà existant
+
         try {
             File file;
             if(isCsv){
-                file = new File(path + "/transactionHistory.csv");
+                file = new File(path + "/clientData.csv");
             } else{
-                file = new File(path + "/transactionHistory.json");
+                file = new File(path + "/clientData.json");
             }
 
             file.createNewFile();
@@ -122,9 +126,8 @@ public class Profile {
                     String resAccount = "[";
                     for(int j = 0; j<accountList.size(); j++){
                         Account account = accountList.get(j);
-                        SubAccount subAccount = account.getSubAccountList().get(0);
                         if(j == 0 || j == accountList.size() -1){
-                            resAccount = resAccount + account.getIBAN()+" "+account.getAccountType()+" "+ account.canPay()+" "+account.isActivated();
+                            resAccount = resAccount + account.getIBAN()+" "+account.getAccountType().toString()+" "+ account.canPay()+" "+account.isActivated();
                         }else{
                             resAccount = resAccount + ","+account.getIBAN()+" "+account.getAccountType()+" "+ account.canPay()+" "+account.isActivated();
                         }
@@ -135,22 +138,32 @@ public class Profile {
                     bw.write(res + "\n");
                 }
             } else{
-//                JSONObject obj = new JSONObject();
-//                ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
-//                for (int i = 0; i < this.transactionHistory.size(); i++) {
-//                    Transaction t = transactionHistory.get(i);
-//                    JSONObject obj2 = new JSONObject();
-//                    obj2.put("sendingDate", t.getSendingDate());
-//                    obj2.put("senderName", t.getSenderName());
-//                    obj2.put("senderIBAN", t.getSenderIBAN());
-//                    obj2.put("receiverName", t.getReceiverName());
-//                    obj2.put("receiverIBAN", t.getReceiverIBAN());
-//                    obj2.put("amount", t.getAmount());
-//                    jsonList.add(obj2);
-//                }
-//                obj.put("transactionList", jsonList);
-//                res = obj.toString();
-//                bw.write(res);
+                JSONObject obj = new JSONObject();
+                ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
+                for (int i = 0; i < walletList.size(); i++) {
+                    Wallet wallet = walletList.get(i);
+                    ArrayList<Account> accountList = wallet.getAccountList();
+                    Profile client = wallet.getAccountUser();
+                    ArrayList<ArrayList<String>> infos = new ArrayList<ArrayList<String>>();
+                    for(int j = 0; j<accountList.size(); j++) {
+                        Account account = accountList.get(j);
+                        ArrayList<String> accountInfo = new ArrayList<String>();
+                        accountInfo.add(account.getIBAN());
+                        accountInfo.add(account.getAccountType().toString());
+                        accountInfo.add(String.valueOf(account.canPay()));
+                        accountInfo.add(String.valueOf(account.isActivated()));
+                        infos.add(accountInfo);
+                    }
+                    JSONObject obj2 = new JSONObject();
+                    obj2.put("clientFirstname", client.getFirstName());
+                    obj2.put("clientLastname", client.getLastName());
+                    obj2.put("clientID", client.getNationalRegistrationNumber());
+                    obj2.put("accountList", infos);
+                    jsonList.add(obj2);
+                }
+                obj.put("clientList", jsonList);
+                res = obj.toString();
+                bw.write(res);
             }
             bw.close();
 

@@ -22,7 +22,7 @@ import java.util.Calendar;
 
 public class FinancialProductsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    Button backButton, fetchProductsButton, detailsButton, archivedAccountsButton;
+    Button backButton, fetchProductsButton, detailsButton;
     @FXML
     Label lastUpdateTimeLabel, loadingProductsLabel;
     @FXML
@@ -135,10 +135,5 @@ public class FinancialProductsSceneController extends Controller implements Back
             emulateBackButtonClicked();
             event.consume();
         }
-    }
-
-    @FXML
-    void handleArchivedAccountsButtonClicked(MouseEvent mouseEvent) {
-        Main.setScene(Flow.forward(Scenes.ArchivedAccountsScene));
     }
 }

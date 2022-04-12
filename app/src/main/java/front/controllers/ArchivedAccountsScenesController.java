@@ -7,10 +7,14 @@ import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import front.scenes.SceneLoader;
+import front.scenes.Scenes;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -18,6 +22,7 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.NoSuchElementException;
 
 public class ArchivedAccountsScenesController extends Controller implements BackButtonNavigator {
     @FXML
@@ -29,8 +34,17 @@ public class ArchivedAccountsScenesController extends Controller implements Back
     @FXML
     TableView<Account> archivedAccountsTableView;
 
+    ObservableList<Account> data = FXCollections.observableArrayList();
+
     public void initialize() {
         archivedAccountsTableView.setPlaceholder(new Label("No archived account."));
+        bankNameColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().getBank().getName()));
+        IBANColumn.setCellValueFactory(new PropertyValueFactory<>("IBAN"));
+        accountTypeColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
+        transferPermissionsColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
+        subAccountsColumn.setCellValueFactory(a -> new SimpleStringProperty(String.valueOf(a.getValue().getSubAccountList().size())));
+        activatedColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
+        archivedAccountsTableView.setPlaceholder(new Label("No account available."));
         archivedAccountsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         updateArchivedAccounts();
     }
@@ -47,6 +61,8 @@ public class ArchivedAccountsScenesController extends Controller implements Back
 
     @FXML
     void handleBackButtonClicked(MouseEvent event) {
+        Scenes.ProductDetailsScene = SceneLoader.load("ProductDetailsScene.fxml", Main.appLocale);
+        Flow.replaceBeforeLastElement(Scenes.ProductDetailsScene);
         handleBackButtonNavigation(event);
     }
 
@@ -59,13 +75,19 @@ public class ArchivedAccountsScenesController extends Controller implements Back
     }
 
     public void handleRestoreButtonClicked(MouseEvent mouseEvent) {
-        if (archivedAccountsTableView.getSelectionModel().getSelectedItems().size() == 1) {
+        if (archivedAccountsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             ObservableList<Account> selection = archivedAccountsTableView.getSelectionModel().getSelectedItems();
-            selection.get(0).restore();
-            // remove the account from the table view
-            ObservableList<Account> newItems = archivedAccountsTableView.getItems();
-            newItems.remove(selection.get(0));
-            archivedAccountsTableView.setItems(newItems);
+            try {
+                for (Account account : selection) {
+                    restoreAccount(account);
+                    data.remove(account);
+                }
+            } catch (NoSuchElementException e) {
+                // This exception occurs when the user archives the last visible account remaining
+                // The reason is that JavaFX instantly updates the selection when an item is removed,
+                // so the selection becomes empty, throwing a NoSuchElementException
+            }
+            archivedAccountsTableView.setItems(data);
         }
     }
 
@@ -94,7 +116,7 @@ public class ArchivedAccountsScenesController extends Controller implements Back
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Update the portfolio and then fetch the accounts
-            Main.updatePortfolio();
+            // Main.updatePortfolio();
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
             ArrayList<Account> accountsList = new ArrayList<>();
             for (Wallet wallet : walletList) {
@@ -103,9 +125,15 @@ public class ArchivedAccountsScenesController extends Controller implements Back
                 }
             }
             // Put the accounts in the listview
-            archivedAccountsTableView.setItems(FXCollections.observableArrayList(accountsList));
+            data = FXCollections.observableArrayList(accountsList);
+            archivedAccountsTableView.setItems(data);
             // Fade the label "updating accounts..." out to 0.0 opacity
             sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
         }
+    }
+
+    private void restoreAccount(Account account) {
+        account.setArchived(false);
+        // TODO : set archived to false in database
     }
 }

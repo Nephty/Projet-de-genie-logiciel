@@ -116,4 +116,16 @@ public class Flow {
         FLOW.add(lastScene);
         return replacedScene;
     }
+
+    /**
+     * Replaces the last element of the flow.
+     *
+     * @param replaceWith The scene that will replace the last scene in the flow
+     * @return The replaced scene
+     */
+    public static Scene replaceLastElement(Scene replaceWith) {
+        Scene replacedScene = pop();
+        Flow.forward(replaceWith);
+        return replacedScene;
+    }
 }

@@ -14,7 +14,7 @@ public class Account {
     private final Bank bank;
     private final String IBAN;
     private final AccountType accountType;
-    private final boolean archived;
+    private boolean archived;
     private final boolean canPay;
     private final ArrayList<SubAccount> subAccountList;
     private boolean activated;
@@ -149,5 +149,9 @@ public class Account {
 
     public void restore() {
         // TODO : restore the account ("un-archive" it)
+    }
+
+    public void setArchived(boolean value) {
+        archived = value;
     }
 }

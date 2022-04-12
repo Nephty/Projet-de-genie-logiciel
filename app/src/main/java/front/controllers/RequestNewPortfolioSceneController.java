@@ -4,6 +4,7 @@ import app.Main;
 import back.user.Bank;
 import back.user.CommunicationType;
 import back.user.Request;
+import back.user.Wallet;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
@@ -16,6 +17,10 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+
+import java.sql.Date;
+import java.time.Instant;
+import java.util.ArrayList;
 
 public class RequestNewPortfolioSceneController extends Controller implements BackButtonNavigator {
     @FXML
@@ -31,10 +36,13 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
 
 
     public void initialize() {
-
         ObservableList<String> values = null;
         try {
             values = FXCollections.observableArrayList(Bank.fetchAllSWIFT());
+            ArrayList<String> alreadyOwnsAWalletSWIFTs = new ArrayList<>();
+            for (Wallet w : Main.getPortfolio().getWalletList()) alreadyOwnsAWalletSWIFTs.add(w.getBank().getSwiftCode());
+            values.removeIf(alreadyOwnsAWalletSWIFTs::contains);
+            SWIFTComboBox.setDisable(values.size() == 0);
         } catch (UnirestException e) {
             Main.ErrorManager(408);
         }
@@ -44,6 +52,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
         Main.setScene(Flow.back());
+        SWIFTComboBox.setDisable(false);
     }
 
     @Override
@@ -66,7 +75,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
             if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false);
 
             // Create the request and send it
-            Request request = new Request(SWIFTComboBox.getValue(), CommunicationType.CREATE_ACCOUNT, "", "");
+            Request request = new Request(SWIFTComboBox.getValue(), CommunicationType.CREATE_ACCOUNT, Date.from(Instant.now()).toString(), "");
             request.send();
 
             fadeInAndOutNode(1000, requestSentLabel);

@@ -30,7 +30,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
     @FXML
     TableView<Request> requestsTableView;
     @FXML
-    TableColumn<Request, String> dateColumn, typeColumn, contentColumn;
+    TableColumn<Request, String> dateColumn, typeColumn, contentColumn, statusColumn;
     @FXML
     Label lastUpdateTimeLabel, loadingRequestsLabel;
 
@@ -38,6 +38,7 @@ public class RequestsStatusSceneController extends Controller implements BackBut
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("communicationType"));
         contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
+        // TODO : statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         requestsTableView.setPlaceholder(new Label("No request."));
         requestsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchRequests();

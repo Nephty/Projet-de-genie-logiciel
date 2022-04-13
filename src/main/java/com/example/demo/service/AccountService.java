@@ -34,13 +34,13 @@ public class AccountService {
         return new AccountReq(account);
     }
 
-    public void deleteAccount(String iban) {
+    public Account deleteAccount(String iban) {
         // To delete an account, we set the delete parameter to true
         Account account = accountRepo.findById(iban).orElseThrow(
                 ()-> new ResourceNotFound("iban: " + iban)
         );
         account.setDeleted(true);
-        accountRepo.save(account);
+        return accountRepo.save(account);
     }
 
     public Account addAccount(AccountReq accountReq) {

@@ -101,7 +101,7 @@ public class AccountAccessController {
      * @return account access to String
      * 201 - Created
      * 400 - Bad Format
-     * 409 - Conflict
+     * 404 - Not found
      * Who ? the owner of the account and/or the bank
      */
     @PutMapping

@@ -51,6 +51,7 @@ public class AccountController {
      * @return account to String
      * 201 - Created
      * 400 - Bad Request
+     * 404 - Not Found
      * 409 - Bad FK
      * Who ? the bank
      * What ? /
@@ -67,13 +68,14 @@ public class AccountController {
      * @param iban [path] iban of the account to be deleted
      * @return iban sent
      * 200 - OK
+     * 404 - Not Found
      * Who ? the bank
      * What ? delete the sub account
      */
     @DeleteMapping(value = "{iban}")
     public ResponseEntity<String> deleteAccount(@PathVariable String iban) {
-        accountService.deleteAccount(iban);
-        return new ResponseEntity<>(iban, HttpStatus.OK);
+        Account returnedAccount = accountService.deleteAccount(iban);
+        return new ResponseEntity<>(returnedAccount.toString(), HttpStatus.OK);
     }
 }
 

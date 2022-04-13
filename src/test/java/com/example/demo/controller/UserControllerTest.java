@@ -203,8 +203,6 @@ class UserControllerTest {
                 Date.valueOf(LocalDate.now())
         );
 
-        when(userService.addUser(user)).thenThrow(new UserAlreadyExist(UserAlreadyExist.Reason.ID));
-
         // Then
         mockMvc.perform(post("/api/user")
                         .header("Authorization", "Bearer " + token)

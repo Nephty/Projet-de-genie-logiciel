@@ -111,7 +111,7 @@ public class Wallet {
                         accountType = AccountType.TERME;
                         break;
                 }
-                boolean activated = true;
+                boolean activated = false;
                 boolean archived = false;
                 boolean canPay = obj.getJSONObject("account").getBoolean("payment");
                 this.archivedAccountList.add(new Account(this.accountUser, this.accountUser, this.bank, iban, accountType, activated, archived, canPay));

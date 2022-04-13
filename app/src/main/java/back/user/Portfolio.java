@@ -27,8 +27,38 @@ public class Portfolio {
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         Main.errorCheck(response.getStatus());
+
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);
+
+        // Fetch deleted account
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response2;
+        try {
+            response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+ nationalRegistrationNumber +"&hidden=false&deleted=true")
+                    .header("Authorization", "Bearer " + Main.getToken())
+                    .asString();
+        } catch (UnirestException e) {
+            throw new RuntimeException(e);
+        }
+
+        String body2 = response2.getBody();
+        body2 = body2.substring(1, body2.length() - 1);
+
+        // Fetch hidden account
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response3;
+        try {
+            response3 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+nationalRegistrationNumber+"&hidden=true&deleted=false")
+                    .header("Authorization", "Bearer " + Main.getToken())
+                    .asString();
+        } catch (UnirestException e) {
+            throw new RuntimeException(e);
+        }
+
+        String body3 = response3.getBody();
+        body3 = body3.substring(1, body3.length() - 1);
+
         this.walletList = new ArrayList<Wallet>();
         // If the user got at least one account, it will parse the list of account access into list of account in the same bank (Wallet)
         if (!body.equals("")) {
@@ -67,11 +97,15 @@ public class Portfolio {
                             accountType = AccountType.TERME;
                             break;
                     }
-                    boolean activated = true;
-                    boolean archived = false;
+                    boolean activated = obj.getBoolean("hidden");
+                    boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                     boolean canPay = obj.getJSONObject("account").getBoolean("payment");
                     // TODO : Remettre coOwner
-                    accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
+                    if(activated || archived){
+//                        archivedAccountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
+                    } else{
+                        accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
+                    }
                 } else {
                     this.walletList.add(new Wallet(this.user, bank, accountList));
                     accountList = new ArrayList<Account>();
@@ -97,14 +131,49 @@ public class Portfolio {
                             accountType = AccountType.TERME;
                             break;
                     }
-                    boolean activated = true;
-                    boolean archived = false;
+                    boolean activated = obj.getBoolean("hidden");
+                    boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                     boolean canPay = obj.getJSONObject("account").getBoolean("payment");
                     // TODO : Remettre coOwner
-                    accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
+                    if(activated || archived){
+//                        archivedAccountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
+                    } else{
+                        accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
+                    }
                 }
             }
             this.walletList.add(new Wallet(this.user, bank, accountList));
+        }
+
+        // Manage case where the client only get deleted accounts in a bank
+        // Fetch all banks created
+        ArrayList<String> usedSwift = new ArrayList<String>();
+        for(int i = 0; i<this.walletList.size(); i++){
+            usedSwift.add(this.walletList.get(i).getBank().getSwiftCode());
+        }
+
+        if(!body2.equals("")){
+            ArrayList<String> bodyList2 = JSONArrayParser(body2);
+            for(int i = 0; i< bodyList2.size(); i++){
+                JSONObject obj = new JSONObject(bodyList2.get(i));
+                String swift = obj.getJSONObject("account").getString("swift");
+                if(!usedSwift.contains(swift)){
+                    this.walletList.add(new Wallet(this.user, new Bank(swift)));
+                    usedSwift.add(swift);
+                }
+            }
+        }
+
+        if(!body3.equals("")){
+            ArrayList<String> bodyList3 = JSONArrayParser(body2);
+            for(int i = 0; i< bodyList3.size(); i++){
+                JSONObject obj = new JSONObject(bodyList3.get(i));
+                String swift = obj.getJSONObject("account").getString("swift");
+                if(!usedSwift.contains(swift)){
+                    this.walletList.add(new Wallet(this.user, new Bank(swift)));
+                    usedSwift.add(swift);
+                }
+            }
         }
     }
 

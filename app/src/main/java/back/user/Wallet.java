@@ -33,67 +33,54 @@ public class Wallet {
         this.numberOfAccounts = accountList.size();
     }
 
+    public Wallet(Profile accountUser, Bank bank){
+        this.accountUser = accountUser;
+        this.bank = bank;
+        this.accountList = new ArrayList<Account>();
+    }
+
     public void fetchArchivedAccount() {
-        this.archivedAccountList = new ArrayList<Account>();
+
         // Fetch deleted account
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response;
+        HttpResponse<String> response2;
         try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=false&deleted=true")
+            response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=false&deleted=true")
                     .header("Authorization", "Bearer " + Main.getToken())
                     .asString();
         } catch (UnirestException e) {
             throw new RuntimeException(e);
         }
-        // Parse the accounts and filter by bank
-        String body = response.getBody();
-        body = body.substring(1, body.length() - 1);
-        if (!body.equals("")) {
-            ArrayList<String> bodyList = JSONArrayParser(body);
-            for (int i = 0; i < bodyList.size(); i++) {
-                JSONObject obj = new JSONObject(bodyList.get(i));
-                String iban = obj.getString("accountId");
-                int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
-                AccountType accountType = null;
-                switch (accountTypeId) {
-                    case 1:
-                        accountType = AccountType.COURANT;
-                        break;
-                    case 2:
-                        accountType = AccountType.JEUNE;
-                        break;
-                    case 3:
-                        accountType = AccountType.EPARGNE;
-                        break;
-                    case 4:
-                        accountType = AccountType.TERME;
-                        break;
-                }
-                boolean activated = false;
-                boolean archived = true;
-                boolean canPay = obj.getJSONObject("account").getBoolean("payment");
-                this.archivedAccountList.add(new Account(this.accountUser, this.accountUser, this.bank, iban, accountType, activated, archived, canPay));
-            }
-        }
+        this.archivedAccountList = (createsAccountList(response2.getBody()));
 
 
         // Fetch hidden account
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response2;
+        HttpResponse<String> response3;
         try {
-            response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=true&deleted=false")
+            response3 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=true&deleted=false")
                     .header("Authorization", "Bearer " + Main.getToken())
                     .asString();
         } catch (UnirestException e) {
             throw new RuntimeException(e);
         }
-        // Parse the accounts and filter by bank
-        String body2 = response2.getBody();
-        body2 = body2.substring(1, body2.length() - 1);
-        if (!body2.equals("")) {
-            ArrayList<String> bodyList = JSONArrayParser(body2);
+        this.archivedAccountList.addAll(createsAccountList(response3.getBody()));
+    }
+
+
+    public ArrayList<Account> createsAccountList(String body){
+        ArrayList<Account> accountListRep = new ArrayList<Account>();
+
+        body = body.substring(1, body.length() - 1);
+        ArrayList<String> bodyList = Portfolio.JSONArrayParser(body);
+        if(!body.equals("")) {
+            // Creates the accounts
             for (int i = 0; i < bodyList.size(); i++) {
                 JSONObject obj = new JSONObject(bodyList.get(i));
+                String swift = obj.getString("accountId");
+                Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), obj.getString("userId"));
+                // TODO : Réparer
+                // Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
                 String iban = obj.getString("accountId");
                 int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
                 AccountType accountType = null;
@@ -111,13 +98,17 @@ public class Wallet {
                         accountType = AccountType.TERME;
                         break;
                 }
-                boolean activated = false;
-                boolean archived = false;
+                boolean activated = obj.getBoolean("hidden");
+                boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                 boolean canPay = obj.getJSONObject("account").getBoolean("payment");
-                this.archivedAccountList.add(new Account(this.accountUser, this.accountUser, this.bank, iban, accountType, activated, archived, canPay));
+                // TODO : Remettre coOwner
+
+                accountListRep.add(new Account(owner, owner, this.bank, iban, accountType, activated, archived, canPay));
             }
         }
+        return accountListRep;
     }
+
 
     /**
      * @return A String to display Wallet information

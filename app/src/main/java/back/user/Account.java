@@ -70,28 +70,28 @@ public class Account {
      * Toggles the account on.
      */
     public void toggleOn() throws UnirestException {
+        this.activated = true;
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
                 .header("Authorization", "Bearer " + Main.getToken())
                 .header("Content-Type", "application/json")
-                .body("{\r\n    \"accountId\": \"" + this.IBAN + "\",\r\n    \"userId\": \"" + this.accountCoOwner + "\",\r\n    \"access\": true,\r\n    \"hidden\": " + this.archived + "\r\n}")
+                .body("{\r\n    \"accountId\": \"" + this.IBAN + "\",\r\n    \"userId\": \"" + this.accountOwner.getNationalRegistrationNumber() + "\",\r\n    \"access\": true,\r\n    \"hidden\": " + (!this.activated) + "\r\n}")
                 .asString();
         Main.errorCheck(response.getStatus());
-        this.activated = true;
     }
 
     /**
      * Toggles the account off.
      */
     public void toggleOff() throws UnirestException {
+        this.activated = false;
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
                 .header("Authorization", "Bearer " + Main.getToken())
                 .header("Content-Type", "application/json")
-                .body("{\r\n    \"accountId\": \"" + this.IBAN + "\",\r\n    \"userId\": \"" + this.accountCoOwner + "\",\r\n    \"access\": false,\r\n    \"hidden\": " + this.archived + "\r\n}")
+                .body("{\r\n    \"accountId\": \"" + this.IBAN + "\",\r\n    \"userId\": \"" + this.accountOwner.getNationalRegistrationNumber() + "\",\r\n    \"access\": true,\r\n    \"hidden\": " + (!this.activated) + "\r\n}")
                 .asString();
         Main.errorCheck(response.getStatus());
-        this.activated = false;
     }
 
 

@@ -39,7 +39,7 @@ public class Wallet {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response;
         try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=70611&hidden=false&deleted=true")
+            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=false&deleted=true")
                     .header("Authorization", "Bearer " + Main.getToken())
                     .asString();
         } catch (UnirestException e) {
@@ -81,7 +81,7 @@ public class Wallet {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response2;
         try {
-            response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=70611&hidden=true&deleted=false")
+            response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=true&deleted=false")
                     .header("Authorization", "Bearer " + Main.getToken())
                     .asString();
         } catch (UnirestException e) {

@@ -36,17 +36,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     @FXML
     TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, activatedColumn, amountColumn;
     @FXML
-    Label lastUpdateTimeLabel;
-    @FXML
-    Label loadingAccountsLabel;
-    @FXML
-    Label togglingProductLabel;
-    @FXML
-    Label toggledOnProductLabel;
-    @FXML
-    Label toggledOffProductLabel;
-    @FXML
-    Label accountInactiveLabel;
+    Label lastUpdateTimeLabel, loadingAccountsLabel, togglingProductLabel, toggledOffProductLabel, accountInactiveLabel;
 
     ObservableList<Account> data = FXCollections.observableArrayList();
 
@@ -71,9 +61,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
-        System.out.println("before Back PDS - Flow.getContentAsString() = " + Flow.getContentAsString());
         Main.setScene(Flow.back());
-        System.out.println("after Back PDS - Flow.getContentAsString() = " + Flow.getContentAsString());
     }
 
     @Override
@@ -194,25 +182,12 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         // Execute this only if the label is not visible (that is, only if we are not already toggling it)
         if (togglingProductLabel.getOpacity() == 0.0) {
             int sleepDuration = 1000;
-
-            // Toggle on or off the product
-            if (account.isActivated()) {
-                fadeInAndOutNode(sleepDuration, toggledOffProductLabel);
-
-                try {
-                    account.toggleOff();
-                } catch (UnirestException e) {
-                    Main.ErrorManager(408);
-                }
-
-            } else {
-                fadeInAndOutNode(sleepDuration, toggledOnProductLabel);
-
-                try {
-                    account.toggleOn();
-                } catch (UnirestException e) {
-                    Main.ErrorManager(408);
-                }
+            // Toggle off the product
+            fadeInAndOutNode(sleepDuration, toggledOffProductLabel);
+            try {
+                account.toggleOff();
+            } catch (UnirestException e) {
+                Main.ErrorManager(408);
             }
         }
     }

@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 
 public class ArchivedAccountsScenesController extends Controller implements BackButtonNavigator {
     @FXML
-    TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, activatedColumn;
+    TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn;
     @FXML
     Label lastUpdateTimeLabel, loadingAccountsLabel;
     @FXML
@@ -42,7 +42,6 @@ public class ArchivedAccountsScenesController extends Controller implements Back
         accountTypeColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
         transferPermissionsColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
         subAccountsColumn.setCellValueFactory(a -> new SimpleStringProperty(String.valueOf(a.getValue().getSubAccountList().size())));
-        activatedColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
         archivedAccountsTableView.setPlaceholder(new Label("No account available."));
         archivedAccountsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         updateArchivedAccounts();
@@ -50,9 +49,7 @@ public class ArchivedAccountsScenesController extends Controller implements Back
 
     @Override
     public void handleBackButtonNavigation(MouseEvent mouseEvent) {
-        System.out.println("before Back AAS - Flow.getContentAsString() = " + Flow.getContentAsString());
         Main.setScene(Flow.back());
-        System.out.println("after Back AAS - Flow.getContentAsString() = " + Flow.getContentAsString());
     }
 
     @Override
@@ -116,15 +113,7 @@ public class ArchivedAccountsScenesController extends Controller implements Back
             Calendar c = Calendar.getInstance();
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // Update the portfolio and then fetch the accounts
-            // Main.updatePortfolio();
-//            ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
-//            ArrayList<Account> accountsList = new ArrayList<>();
-//            for (Wallet wallet : walletList) {
-//                for (Account account : wallet.getAccountList()) {
-//                    if (account.isArchived()) accountsList.add(account);
-//                }
-//            }
+            // Fetch the archived accounts
             Main.getCurrentWallet().fetchArchivedAccount();
             ArrayList<Account> accountsList = Main.getCurrentWallet().getArchivedAccountList();
             // Put the accounts in the listview

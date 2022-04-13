@@ -27,7 +27,6 @@
                     <TableColumn fx:id="IBANColumn" style="-fx-alignment: CENTER;" text="%common.IBANColumn" />
                     <TableColumn fx:id="accountTypeColumn" style="-fx-alignment: CENTER;" text="%common.AccountTypeColumn" />
                     <TableColumn fx:id="transferPermissionsColumn" style="-fx-alignment: CENTER;" text="%common.TransferPermissionColumn" />
-                    <TableColumn fx:id="activatedColumn" style="-fx-alignment: CENTER;" text="%common.ActivatedColumn" />
                     <TableColumn fx:id="subAccountsColumn" style="-fx-alignment: CENTER;" text="%common.SubAccountsColumn" />
                     <TableColumn fx:id="amountColumn" style="-fx-alignment: CENTER;" prefWidth="75.0" text="%common.AmountColumn" />
                 </columns>
@@ -54,18 +53,12 @@
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
                 </effect>
             </Button>
-            <Button fx:id="archiveAccountButton" layoutX="1075.0" layoutY="400.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleArchiveAccountButtonClicked" onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%ProductsDetailsScene.ArchiveAccountButton" textFill="#0a0a14">
-                <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
-                </effect>
-            </Button>
-            <Button fx:id="archivedAccountsButton" layoutX="1075.0" layoutY="500.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleArchivedAccountsButtonClicked" onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%ProductsDetailsScene.ArchivedAccountsButton" textFill="#0a0a14">
+            <Button fx:id="archivedAccountsButton" layoutX="1075.0" layoutY="450.0" onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleArchivedAccountsButtonClicked" onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%ProductsDetailsScene.ArchivedAccountsButton" textFill="#0a0a14">
                 <effect>
                     <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0" />
                 </effect>
             </Button>
             <Label fx:id="togglingProductLabel" layoutX="1094.0" layoutY="330.0" opacity="0.0" prefHeight="16.0" prefWidth="132.0" text="%ProductDetailsScene.togglingProductLabel" />
-            <Label fx:id="toggledOnProductLabel" layoutX="1089.0" layoutY="385.0" opacity="0.0" prefHeight="16.0" prefWidth="143.0" text="%ProductDetailsScene.toggledOnProductLabel" textFill="#00c800" />
             <Label fx:id="toggledOffProductLabel" layoutX="1089.0" layoutY="385.0" opacity="0.0" prefHeight="16.0" prefWidth="143.0" text="%ProductDetailsScene.toggledOffProductLabel" textFill="#c80000" />
             <Label fx:id="accountInactiveLabel" layoutX="1090.0" layoutY="231.0" prefHeight="17.0" prefWidth="143.0" text="%ProductDetailsScene.accountInactiveLabel" textFill="#c80000" visible="false" />
         </AnchorPane>

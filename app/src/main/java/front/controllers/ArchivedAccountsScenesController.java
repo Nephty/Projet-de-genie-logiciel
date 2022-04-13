@@ -117,13 +117,15 @@ public class ArchivedAccountsScenesController extends Controller implements Back
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Update the portfolio and then fetch the accounts
             // Main.updatePortfolio();
-            ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
-            ArrayList<Account> accountsList = new ArrayList<>();
-            for (Wallet wallet : walletList) {
-                for (Account account : wallet.getAccountList()) {
-                    if (account.isArchived()) accountsList.add(account);
-                }
-            }
+//            ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
+//            ArrayList<Account> accountsList = new ArrayList<>();
+//            for (Wallet wallet : walletList) {
+//                for (Account account : wallet.getAccountList()) {
+//                    if (account.isArchived()) accountsList.add(account);
+//                }
+//            }
+            Main.getCurrentWallet().fetchArchivedAccount();
+            ArrayList<Account> accountsList = Main.getCurrentWallet().getArchivedAccountList();
             // Put the accounts in the listview
             data = FXCollections.observableArrayList(accountsList);
             archivedAccountsTableView.setItems(data);

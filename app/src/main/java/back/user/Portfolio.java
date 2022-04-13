@@ -97,8 +97,8 @@ public class Portfolio {
                             accountType = AccountType.TERME;
                             break;
                     }
-                    boolean activated = obj.getBoolean("access");
-                    boolean archived = obj.getBoolean("hidden");
+                    boolean activated = false;
+                    boolean archived = false;
                     boolean canPay = obj.getJSONObject("account").getBoolean("payment");
                     // TODO : Remettre coOwner
                     accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));

@@ -34,7 +34,7 @@ public class Account {
      * @param canPay         A boolean for canPay/cannotPay option
      * @throws UnirestException For managing HTTP errors
      */
-    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) throws UnirestException {
+    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay){
         this.accountOwner = accountOwner;
         this.accountCoOwner = new ArrayList<Profile>();
         this.accountCoOwner.add(accountCoOwner);

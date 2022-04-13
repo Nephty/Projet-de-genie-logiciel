@@ -2,6 +2,7 @@ package front.controllers;
 
 import app.Main;
 import back.user.Account;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -77,8 +78,9 @@ public class ArchivedAccountsScenesController extends Controller implements Back
             ObservableList<Account> selection = archivedAccountsTableView.getSelectionModel().getSelectedItems();
             try {
                 for (Account account : selection) {
-                    restoreAccount(account);
-                    data.remove(account);
+                    if(restoreAccount(account)){
+                        data.remove(account);
+                    }
                 }
             } catch (NoSuchElementException e) {
                 // This exception occurs when the user archives the last visible account remaining
@@ -124,8 +126,15 @@ public class ArchivedAccountsScenesController extends Controller implements Back
         }
     }
 
-    private void restoreAccount(Account account) {
-        account.setArchived(false);
-        // TODO : set archived to false in database
+    private boolean restoreAccount(Account account) {
+        if(!account.isArchived()){
+            try {
+                account.toggleOn();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return true;
+        }
+        return false;
     }
 }

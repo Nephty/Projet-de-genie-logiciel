@@ -46,7 +46,8 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         accountTypeColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
         transferPermissionsColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
         subAccountsColumn.setCellValueFactory(a -> new SimpleStringProperty(String.valueOf(a.getValue().getSubAccountList().size())));
-        activatedColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
+        // TODO : Erreur ici
+//        activatedColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
         amountColumn.setCellValueFactory(a -> {
             double value = 0;
             for (SubAccount subAccount : a.getValue().getSubAccountList()) {

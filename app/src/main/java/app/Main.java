@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -27,8 +28,8 @@ public class Main extends Application {
     private static Stage stage;
     private static String token;
     private static String refreshToken;
-    private static Wallet currentWallet;
-    private static Account currentAccount;
+    private static Wallet currentWallet = null;
+    private static Account currentAccount = null;
 
     public static void main(String[] args) {
         launch(args);
@@ -114,10 +115,38 @@ public class Main extends Application {
      * Updates the portfolio by creating new one
      */
     public static void updatePortfolio() {
+        String swift = null;
+        String IBAN = null;
+        if(!(getCurrentWallet() == null)){
+            swift = currentWallet.getBank().getSwiftCode();
+        }
+        if(!(getCurrentAccount() == null)){
+            IBAN = currentAccount.getIBAN();
+        }
         try {
             portfolio = new Portfolio(user.getNationalRegistrationNumber());
         } catch (UnirestException e) {
             Main.ErrorManager(408);
+        }
+
+        if(!(getCurrentWallet() == null)){
+            ArrayList<Wallet> walletList = getPortfolio().getWalletList();
+
+            for(int i = 0; i<walletList.size() ; i++){
+                if(walletList.get(i).getBank().getSwiftCode().equals(swift)){
+                    currentWallet = walletList.get(i);
+                }
+            }
+
+            if(!(getCurrentAccount() == null)){
+                ArrayList<Account> accountList = currentWallet.getAccountList();
+
+                for(int j = 0; j< accountList.size(); j++){
+                    if(accountList.get(j).getIBAN().equals(IBAN)){
+                        currentAccount = accountList.get(j);
+                    }
+                }
+            }
         }
     }
 

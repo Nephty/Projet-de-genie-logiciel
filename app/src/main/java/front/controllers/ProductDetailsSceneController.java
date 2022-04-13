@@ -67,7 +67,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         accountsTableView.setPlaceholder(new Label("No account available."));
         accountsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchAccounts();
-        updateAccounts();
     }
 
     @Override
@@ -98,7 +97,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
 
     @FXML
     void handleFetchAccountsButtonClicked(MouseEvent event) {
-        fetchAccounts();
         updateAccounts();
     }
 
@@ -123,6 +121,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             }
             accountInactiveLabel.setVisible(false);
         }
+        updateAccounts();
     }
 
     /**
@@ -176,12 +175,13 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Update the portfolio and then fetch the accounts
-            Wallet currentWallet = Main.getCurrentWallet();
-            ArrayList<Account> accountsList = new ArrayList<>();
-            for (Account account : currentWallet.getAccountList()) {
-                if (!account.isArchived()) accountsList.add(account);
-            }
-            data = FXCollections.observableArrayList(accountsList);
+//            Wallet currentWallet = Main.getCurrentWallet();
+//            ArrayList<Account> accountsList = new ArrayList<>();
+//            for (Account account : currentWallet.getAccountList()) {
+//                if (!account.isArchived()) accountsList.add(account);
+//            }
+            Main.updatePortfolio();
+            data = FXCollections.observableArrayList(Main.getCurrentWallet().getAccountList());
             accountsTableView.setItems(data);
             // Fade the label "updating accounts..." out to 0.0 opacity
             sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);

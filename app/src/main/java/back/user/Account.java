@@ -32,7 +32,6 @@ public class Account {
      * @param activated      A boolean for the activated/desactivated option
      * @param archived       A boolean for archived/unarchived option
      * @param canPay         A boolean for canPay/cannotPay option
-     * @throws UnirestException For managing HTTP errors
      */
     public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay){
         this.accountOwner = accountOwner;

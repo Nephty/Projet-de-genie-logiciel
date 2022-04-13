@@ -105,11 +105,11 @@ public class Flow {
     public static Scene replaceBeforeLastElement(Scene replaceWith) {
         // Save last scene
         Scene lastScene = Flow.tail();
+        // Removed the last element
+        Flow.pop();
         // Get the replaced scene (returned value) : the new last element after the pop (which is the before last if we
         // consider the original linked list)
-        Scene replacedScene = FLOW.pop();
-        // Removed the before last element
-        FLOW.pop();
+        Scene replacedScene = Flow.pop();
         // Add the replacement scene
         FLOW.add(replaceWith);
         // Restore the last element

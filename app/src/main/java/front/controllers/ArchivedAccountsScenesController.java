@@ -2,7 +2,6 @@ package front.controllers;
 
 import app.Main;
 import back.user.Account;
-import back.user.Wallet;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -51,7 +50,9 @@ public class ArchivedAccountsScenesController extends Controller implements Back
 
     @Override
     public void handleBackButtonNavigation(MouseEvent mouseEvent) {
+        System.out.println("before Back AAS - Flow.getContentAsString() = " + Flow.getContentAsString());
         Main.setScene(Flow.back());
+        System.out.println("after Back AAS - Flow.getContentAsString() = " + Flow.getContentAsString());
     }
 
     @Override

@@ -32,8 +32,6 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     @FXML
     Label incorrectUsernameOrPasswordLabel;
 
-    String username = "", password = "";
-
     public void initialize() {
         passwordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
         passwordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());

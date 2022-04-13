@@ -72,12 +72,14 @@ public class ProductDetailsSceneController extends Controller implements BackBut
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
+        System.out.println("before Back PDS - Flow.getContentAsString() = " + Flow.getContentAsString());
         Main.setScene(Flow.back());
+        System.out.println("after Back PDS - Flow.getContentAsString() = " + Flow.getContentAsString());
     }
 
     @Override
     public void emulateBackButtonClicked() {
-        handleBackButtonNavigation(null);
+        handleBackButtonClicked(null);
     }
 
     @FXML

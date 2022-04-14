@@ -5,9 +5,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.*?>
-<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0"
-      prefHeight="720.0"
-      prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2"
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="front.controllers.SignUpSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
@@ -54,6 +53,10 @@
                     <Font size="20.0"/>
                 </font>
             </TextField>
+            <Label fx:id="usernameLabel" layoutX="178.0" layoutY="382.0" nodeOrientation="LEFT_TO_RIGHT"
+                   prefHeight="36.0" prefWidth="435.0"
+                   style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                   text="   Username : "/>
             <Label fx:id="NRNTakenLabel" layoutX="674.0" layoutY="80.0" prefHeight="16.0" prefWidth="420.0"
                    text="%SignUpScene.NRNTakenLabel" textFill="#c80000" visible="false"/>
             <TextField fx:id="NRNField" layoutX="668.0" layoutY="100.0" onKeyPressed="#handleComponentKeyPressed"

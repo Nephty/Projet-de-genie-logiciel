@@ -23,7 +23,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     CheckBox showHidePasswordCheckBox;
     @FXML
     Label NRNTakenLabel, emailTakenLabel, passwordDoesNotMatchLabel, languageNotChosenLabel,
-            invalidLastNameLabel, invalidFirstNameLabel, invalidEmailLabel, invalidNRNLabel;
+            invalidLastNameLabel, invalidFirstNameLabel, invalidEmailLabel, invalidNRNLabel, usernameLabel;
     @FXML
     Button backButton, signUpButton;
     @FXML
@@ -55,6 +55,9 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         // Set selection property : if you type something in the password field, you also type it in the password text field
         passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
         confirmPasswordTextField.textProperty().bindBidirectional(confirmPasswordField.textProperty());
+
+        lastNameField.textProperty().addListener((observable, oldValue, newValue) -> usernameLabel.setText("   " + getUsernameFromLastNameAndNRNTextFields()));
+        NRNField.textProperty().addListener((observable, oldValue, newValue) -> usernameLabel.setText("   " + getUsernameFromLastNameAndNRNTextFields()));
     }
 
     @FXML
@@ -138,7 +141,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             // Then we can create a new user
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
-            String username = lastName.replaceAll("^[- ]*$", "") + NRN.replaceAll("^[-. ]*$", "");
+            String username = getUsernameFromLastNameAndNRNTextFields();
             String birthDate = "";
             if(Integer.parseInt(NRN.substring(0,2)) >=40){
                 birthDate = "19" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
@@ -346,5 +349,9 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             emulateSignUpButtonClicked();
             event.consume();
         }
+    }
+
+    String getUsernameFromLastNameAndNRNTextFields() {
+        return "Username : " + lastNameField.getText().replace("-", "").replace(" ", "") + NRNField.getText().replace("-", "").replace(".", "");
     }
 }

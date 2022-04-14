@@ -64,6 +64,7 @@ public class BankController {
      * @return saved bank to String
      * 201 - Created
      * 400 - Bad Format
+     * 404 - Not Found
      * 409 - Bad FK
      */
     @PutMapping

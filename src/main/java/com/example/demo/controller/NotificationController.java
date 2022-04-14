@@ -77,12 +77,13 @@ public class NotificationController {
      * @return Notification to String
      * 201 - Created
      * 400 - Bad Request
+     * 404 - Not Found
      */
     @PutMapping
     public ResponseEntity<String> changeNotification(
             @RequestBody NotificationReq notificationReq) {
         if(!notificationReq.isPutValid()) throw new MissingParamException();
         Notification savedNotification = notificationService.changeNotification(notificationReq);
-        return new ResponseEntity<>(savedNotification.toString(),HttpStatus.OK);
+        return new ResponseEntity<>(savedNotification.toString(),HttpStatus.CREATED);
     }
 }

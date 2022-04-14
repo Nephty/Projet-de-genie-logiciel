@@ -4,9 +4,11 @@ import com.example.demo.model.SubAccount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class SubAccountReq {
 
@@ -29,7 +31,7 @@ public class SubAccountReq {
 
     @JsonIgnore
     public boolean isPutValid() {
-        return currentBalance != null || currencyType != null;
+        return iban != null && (currentBalance != null || currencyType != null);
     }
 
     public SubAccountReq(SubAccount subAccount) {

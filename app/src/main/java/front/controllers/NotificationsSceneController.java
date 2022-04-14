@@ -85,6 +85,7 @@ public class NotificationsSceneController extends Controller implements BackButt
         if (notificationsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             for (Notification n : notificationsTableView.getSelectionModel().getSelectedItems())
                 n.dismiss();
+            // TODO : Remove from list ?
         }
     }
 

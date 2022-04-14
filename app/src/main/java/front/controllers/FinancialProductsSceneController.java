@@ -66,7 +66,7 @@ public class FinancialProductsSceneController extends Controller implements Back
 
     @FXML
     void handleFetchProductButtonClicked(MouseEvent event) {
-        fetchProducts();
+        updateProducts();
     }
 
     /**

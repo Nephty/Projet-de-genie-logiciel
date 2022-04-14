@@ -97,7 +97,7 @@ public class Portfolio {
                             accountType = AccountType.TERME;
                             break;
                     }
-                    boolean activated = obj.getBoolean("hidden");
+                    boolean activated = (!obj.getBoolean("hidden"));
                     boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                     boolean canPay = obj.getJSONObject("account").getBoolean("payment");
                     // TODO : Remettre coOwner
@@ -131,7 +131,7 @@ public class Portfolio {
                             accountType = AccountType.TERME;
                             break;
                     }
-                    boolean activated = obj.getBoolean("hidden");
+                    boolean activated = (!obj.getBoolean("hidden"));
                     boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                     boolean canPay = obj.getJSONObject("account").getBoolean("payment");
                     // TODO : Remettre coOwner

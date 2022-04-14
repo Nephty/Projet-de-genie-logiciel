@@ -41,7 +41,7 @@
                     <TableColumn fx:id="transferPermissionsColumn" style="-fx-alignment: CENTER;"
                                  text="%common.TransferPermissionColumn"/>
                     <TableColumn fx:id="subAccountsColumn" style="-fx-alignment: CENTER;" text="%common.SubAccountsColumn"/>
-                    <TableColumn fx:id="activatedColumn" style="-fx-alignment: CENTER;" text="%common.ActivatedColumn"/>
+                    <TableColumn fx:id="amountColumn" style="-fx-alignment: CENTER;" prefWidth="75.0" text="%common.AmountColumn" />
                 </columns>
             </TableView>
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"

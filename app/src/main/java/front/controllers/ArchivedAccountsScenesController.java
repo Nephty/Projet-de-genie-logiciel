@@ -2,6 +2,7 @@ package front.controllers;
 
 import app.Main;
 import back.user.Account;
+import back.user.SubAccount;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
@@ -26,7 +27,7 @@ import java.util.NoSuchElementException;
 
 public class ArchivedAccountsScenesController extends Controller implements BackButtonNavigator {
     @FXML
-    TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn;
+    TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, amountColumn;
     @FXML
     Label lastUpdateTimeLabel, loadingAccountsLabel;
     @FXML
@@ -43,6 +44,13 @@ public class ArchivedAccountsScenesController extends Controller implements Back
         accountTypeColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
         transferPermissionsColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
         subAccountsColumn.setCellValueFactory(a -> new SimpleStringProperty(String.valueOf(a.getValue().getSubAccountList().size())));
+        amountColumn.setCellValueFactory(a -> {
+            double value = 0;
+            for (SubAccount subAccount : a.getValue().getSubAccountList()) {
+                value += subAccount.getAmount();
+            }
+            return new SimpleStringProperty(String.valueOf(value));
+        });
         archivedAccountsTableView.setPlaceholder(new Label("No account available."));
         archivedAccountsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         updateArchivedAccounts();
@@ -129,10 +137,10 @@ public class ArchivedAccountsScenesController extends Controller implements Back
         if(!account.isArchived()){
             try {
                 account.toggleOn();
+                return true;
             } catch (UnirestException e) {
                 throw new RuntimeException(e);
             }
-            return true;
         }
         return false;
     }

@@ -30,11 +30,11 @@ import static app.Main.appLocale;
 
 public class ProductDetailsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    Button backButton, historyButton, fetchAccountsButton, transferButton, toggleButton, archiveAccountButton, archivedAccountsButton;
+    Button backButton, historyButton, fetchAccountsButton, transferButton, toggleButton, archivedAccountsButton;
     @FXML
     TableView<Account> accountsTableView;
     @FXML
-    TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, activatedColumn, amountColumn;
+    TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, amountColumn;
     @FXML
     Label lastUpdateTimeLabel, loadingAccountsLabel, togglingProductLabel, toggledOffProductLabel, accountInactiveLabel;
 
@@ -46,8 +46,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         accountTypeColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
         transferPermissionsColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
         subAccountsColumn.setCellValueFactory(a -> new SimpleStringProperty(String.valueOf(a.getValue().getSubAccountList().size())));
-        // TODO : Erreur ici
-//        activatedColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
         amountColumn.setCellValueFactory(a -> {
             double value = 0;
             for (SubAccount subAccount : a.getValue().getSubAccountList()) {
@@ -134,6 +132,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch accounts
+            Main.updatePortfolio();
             Wallet currentWallet = Main.getCurrentWallet();
             ArrayList<Account> accountsList = new ArrayList<>();
             for (Account account : currentWallet.getAccountList()) {

@@ -120,11 +120,11 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
 
         // Manage the "xxxx already taken" labels visibility
         // Is the email already taken ?
-        if (isEmailTaken(email) && !emailTakenLabel.isVisible()) emailTakenLabel.setVisible(true);
-        else if (!isEmailTaken(email) && emailTakenLabel.isVisible()) emailTakenLabel.setVisible(false);
-        // Is the NRN already taken ?
-        if (isNRNTaken(NRN) && !NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(true);
-        else if (!isNRNTaken(NRN) && NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(false);
+//        if (isEmailTaken(email) && !emailTakenLabel.isVisible()) emailTakenLabel.setVisible(true);
+//        else if (!isEmailTaken(email) && emailTakenLabel.isVisible()) emailTakenLabel.setVisible(false);
+//        // Is the NRN already taken ?
+//        if (isNRNTaken(NRN) && !NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(true);
+//        else if (!isNRNTaken(NRN) && NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(false);
 
         // Manage the "password does not match" label visibility
         if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
@@ -143,7 +143,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             HttpResponse<String> response = null;
             String username = getUsernameFromLastNameAndNRNTextFields();
             String birthDate = "";
-            if(Integer.parseInt(NRN.substring(0,2)) >=40){
+            if(Integer.parseInt(NRN.substring(0,2)) >=30){
                 birthDate = "19" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
             } else{
                 birthDate = "20" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
@@ -157,18 +157,24 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
             }
-            fadeInAndOutNode(3000, signedUpLabel);
-            userSignedUp = true;
-            // Empty all data that we don't need, it's a security detail
-            lastName = "";
-            firstName = "";
-            email = "";
-            NRN = "";
-            username = "";
-            password = "";
-            passwordConfirmation = "";
-            chosenLanguage = "";
-
+            if(response.getStatus() == 403){
+                switch (response.getBody()){
+                    case "ID": NRNTakenLabel.setVisible(true); break;
+                    case "EMAIL": emailTakenLabel.setVisible(true); break;
+                }
+            } else{
+                fadeInAndOutNode(3000, signedUpLabel);
+                userSignedUp = true;
+                // Empty all data that we don't need, it's a security detail
+                lastName = "";
+                firstName = "";
+                email = "";
+                NRN = "";
+                username = "";
+                password = "";
+                passwordConfirmation = "";
+                chosenLanguage = "";
+            }
         }
     }
 

@@ -227,5 +227,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     private void archiveAccount(Account account) {
         account.setArchived(true);
         // TODO : set account as archived in database
+        // TODO : Delete ?
     }
 }

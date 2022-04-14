@@ -1,6 +1,7 @@
 package front.controllers;
 
 import app.Main;
+import back.user.Profile;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
@@ -11,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+
+import java.util.ArrayList;
 
 public class AddClientSceneController extends Controller implements BackButtonNavigator {
     @FXML
@@ -96,15 +99,27 @@ public class AddClientSceneController extends Controller implements BackButtonNa
         if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(true);
         else if (isValidNRN(NRN) && invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(false);
 
-        if (!invalidNRNLabel.isVisible()) { // TODO : check if the client is not already in the database
-            // TODO : back-end : add client
-            Main.setNewClient(NRN);
-            Main.setScene(Flow.forward(Scenes.CreateClientAccountScene));
-            fadeInAndOutNode(3000, clientAddedLabel);
-            clientAdded = true;
+        if (!invalidNRNLabel.isVisible()) {
+            // Check if the client already exist
+            ArrayList<Profile> customersList = Profile.fetchAllCustomers(Main.getBank().getSwiftCode());
+            boolean alreadyExist = false;
+            for(int i = 0; i< customersList.size(); i++){
+                if(customersList.get(i).getNationalRegistrationNumber().equals(NRN)){
+                    alreadyExist = true;
+                }
+            }
+            if(!alreadyExist){
+                Main.setNewClient(NRN);
+                Main.setScene(Flow.forward(Scenes.CreateClientAccountScene));
+                fadeInAndOutNode(3000, clientAddedLabel);
+                clientAdded = true;
 
-            // Reset the form
-            NRNTextField.setText("");
+                // Reset the form
+                NRNTextField.setText("");
+            } else{
+                // TODO : Afficher une erreur
+            }
+
         }
     }
 

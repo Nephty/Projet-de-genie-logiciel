@@ -70,7 +70,9 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     void handleDenyButtonClicked(MouseEvent event) {
         if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
-            // TODO : back-end : implement "denied" attribute of request, change it accordingly for all selected requests and commit changes to database
+            for(int i = 0; i<requestsTableView.getSelectionModel().getSelectedItems().size(); i++){
+                requestsTableView.getSelectionModel().getSelectedItems().get(i).deny();
+            }
         } else if (!noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(true);
     }
 
@@ -78,8 +80,9 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     void handleApproveButtonClicked(MouseEvent event) {
         if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
-            // TODO : back-end : implement "approved" attribute of request, change it accordingly for all selected requests and commit changes to database
-            requestsTableView.getSelectionModel().getSelectedItems().get(0).approve();
+            for(int i = 0; i<requestsTableView.getSelectionModel().getSelectedItems().size(); i++){
+                requestsTableView.getSelectionModel().getSelectedItems().get(i).approve();
+            }
         } else if (!noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(true);
     }
 

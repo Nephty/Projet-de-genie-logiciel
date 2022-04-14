@@ -92,8 +92,6 @@ public class ImportDataSceneController extends Controller implements BackButtonN
 
         if (!noPathSelectedLabel.isVisible()) {
             // If the user selected a file
-
-            // TODO : back-end : import data from the selected file
             Profile.importData(selectedFile.getAbsolutePath());
             fadeInAndOutNode(1000, importSuccessfulLabel);
             importDone = true;

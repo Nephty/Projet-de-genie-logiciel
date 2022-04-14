@@ -95,6 +95,16 @@ public class Main extends Application {
         Main.currentAccount = currentAccount;
     }
 
+    public static void clearData() {
+        bank = null;
+        newClient = null;
+        request = null;
+        token = null;
+        refreshToken = null;
+        currentWallet = null;
+        currentAccount = null;
+    }
+
     public static Stage getStage() {
         return stage;
     }

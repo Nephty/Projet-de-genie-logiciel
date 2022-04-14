@@ -15,7 +15,7 @@ public class MainScreenSceneController extends Controller implements LanguageBut
     @FXML
     void handleSignOutButtonClicked(MouseEvent event) {
         Main.setScene(Flow.back());
-        // TODO : back-end : log out (clear any user data)
+        Main.clearData();
     }
 
     @Override

@@ -169,7 +169,6 @@ public class ClientDetailsSceneController extends Controller implements BackButt
         confirmRemovalButton.setVisible(false);
         cancelRemovalButton.setVisible(false);
         Main.getCurrentWallet().deleteAll();
-        // TODO : back-end : remove client from bank
     }
 
     /**

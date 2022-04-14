@@ -111,7 +111,6 @@ public class ClientDetailsSceneController extends Controller implements BackButt
 
     @FXML
     void handleCloseAccountButtonClicked(MouseEvent event) {
-        // TODO : Not implemented in API yet
         clientDetailsTableView.getSelectionModel().getSelectedItems().get(0).delete();
         updateClientDetails();
     }
@@ -169,6 +168,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
     void handleConfirmRemovalButtonClicked(MouseEvent event) {
         confirmRemovalButton.setVisible(false);
         cancelRemovalButton.setVisible(false);
+        Main.getCurrentWallet().deleteAll();
         // TODO : back-end : remove client from bank
     }
 
@@ -208,11 +208,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Update the wallet
-            try {
-                Main.getCurrentWallet().update();
-            } catch (UnirestException e) {
-                Main.ErrorManager(408);
-            }
+            Main.getCurrentWallet().update();
             // Fetches the account list
             ArrayList<Account> accountList = Main.getCurrentWallet().getAccountList();
             clientDetailsTableView.setItems(FXCollections.observableArrayList(accountList));

@@ -22,7 +22,16 @@ public class Wallet {
     public Wallet(Profile accountUser){
         this.accountUser = accountUser;
         this.bank = Main.getBank();
+        update();
+    }
 
+    public Wallet(Profile accountUser, ArrayList<Account> accountList){
+        this.accountUser = accountUser;
+        this.bank = Main.getBank();
+        this.accountList = accountList;
+    }
+
+    public void update(){
         // Fetch all active client's account
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
@@ -69,26 +78,6 @@ public class Wallet {
 
     }
 
-    public Wallet(Profile accountUser, ArrayList<Account> accountList){
-        this.accountUser = accountUser;
-        this.bank = Main.getBank();
-        this.accountList = accountList;
-    }
-
-    public void update() throws UnirestException {
-//        this.accountList = new ArrayList<Account>();
-//
-//        // Fetch all client's account access
-//        Unirest.setTimeouts(0, 0);
-//        HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + this.accountUser.getNationalRegistrationNumber())
-//                .header("Authorization", "Bearer " + Main.getToken())
-//                .asString();
-//        Main.errorCheck(response.getStatus());
-//
-//        String body = response.getBody();
-
-    }
-
     public ArrayList<Account> createsAccountList(String body){
         ArrayList<Account> accountListRep = new ArrayList<Account>();
 
@@ -119,8 +108,8 @@ public class Wallet {
                         accountType = AccountType.TERME;
                         break;
                 }
-                boolean activated = obj.getBoolean("access");
-                boolean archived = obj.getBoolean("hidden");
+                boolean activated = obj.getBoolean("hidden");
+                boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                 boolean canPay = obj.getJSONObject("account").getBoolean("payment");
                 // TODO : Remettre coOwner
 
@@ -128,6 +117,12 @@ public class Wallet {
             }
         }
         return accountListRep;
+    }
+
+    public void deleteAll(){
+        for(int i = 0; i<this.accountList.size(); i++){
+            this.accountList.get(i).delete();
+        }
     }
 
     public ArrayList<Account> getAccountList() {

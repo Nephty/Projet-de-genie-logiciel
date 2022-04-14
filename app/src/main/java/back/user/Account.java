@@ -65,42 +65,11 @@ public class Account {
     }
 
 
-    /**
-     * Toggles the account on.
-     */
-    public void toggleOn() throws UnirestException {
-        // TODO : Delete ?
-        Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
-                .header("Authorization", "Bearer " + Main.getToken())
-                .header("Content-Type", "application/json")
-                .body("{\r\n    \"accountId\": \"" + this.IBAN + "\",\r\n    \"userId\": \"" + this.accountCoOwner + "\",\r\n    \"access\": true,\r\n    \"hidden\": " + this.archived + "\r\n}")
-                .asString();
-        Main.errorCheck(response.getStatus());
-        this.activated = true;
-    }
-
-    /**
-     * Toggles the account off.
-     */
-    public void toggleOff() throws UnirestException {
-        // TODO : Delete ?
-        Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
-                .header("Authorization", "Bearer " + Main.getToken())
-                .header("Content-Type", "application/json")
-                .body("{\r\n    \"accountId\": \"" + this.IBAN + "\",\r\n    \"userId\": \"" + this.accountCoOwner + "\",\r\n    \"access\": false,\r\n    \"hidden\": " + this.archived + "\r\n}")
-                .asString();
-        Main.errorCheck(response.getStatus());
-        this.activated = false;
-    }
-
     public boolean canPay() {
         return canPay;
     }
 
     public void delete() {
-        // TODO : Fonctionne pas
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {
@@ -110,7 +79,6 @@ public class Account {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
-
     }
 
     public Profile getAccountOwner() {

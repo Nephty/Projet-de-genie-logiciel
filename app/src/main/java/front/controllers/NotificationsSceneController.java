@@ -161,6 +161,7 @@ public class NotificationsSceneController extends Controller implements BackButt
                 e.printStackTrace();
             }
 
+            content = new ArrayList<>();  // This was missing and lead to a bug where notifications got duplicated when refreshing
             String body = response.getBody();
             String toParse = body.substring(1, body.length() - 1);
             ArrayList<String> notificationList = Portfolio.JSONArrayParser(toParse);

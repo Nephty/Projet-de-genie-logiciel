@@ -38,9 +38,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     private boolean userSignedUp = false;
 
     public void initialize() {
-        // TODO : set the user preferred language in the db
         ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList(Main.FR_BE_Locale.getDisplayName(), Main.EN_US_Locale.getDisplayName(), Main.NL_NL_Locale.getDisplayName(), Main.PT_PT_Locale.getDisplayName(), Main.LT_LT_Locale.getDisplayName(), Main.RU_RU_Locale.getDisplayName(), Main.DE_DE_Locale.getDisplayName(), Main.PL_PL_Locale.getDisplayName()));
-        // TODO : back-end : fetch all available languages and put them in the list
         languageComboBox.setItems(values);
 
         passwordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
@@ -56,8 +54,8 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
         confirmPasswordTextField.textProperty().bindBidirectional(confirmPasswordField.textProperty());
 
-        lastNameField.textProperty().addListener((observable, oldValue, newValue) -> usernameLabel.setText("   " + getUsernameFromLastNameAndNRNTextFields()));
-        NRNField.textProperty().addListener((observable, oldValue, newValue) -> usernameLabel.setText("   " + getUsernameFromLastNameAndNRNTextFields()));
+        lastNameField.textProperty().addListener((observable, oldValue, newValue) -> usernameLabel.setText("   Username : " + getUsernameFromLastNameAndNRNTextFields()));
+        NRNField.textProperty().addListener((observable, oldValue, newValue) -> usernameLabel.setText("   Username : " + getUsernameFromLastNameAndNRNTextFields()));
     }
 
     @FXML
@@ -358,6 +356,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     }
 
     String getUsernameFromLastNameAndNRNTextFields() {
-        return "Username : " + lastNameField.getText().replace("-", "").replace(" ", "") + NRNField.getText().replace("-", "").replace(".", "");
+        return lastNameField.getText().replace("-", "").replace(" ", "") + NRNField.getText().replace("-", "").replace(".", "");
     }
 }

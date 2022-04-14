@@ -9,6 +9,7 @@ import org.json.JSONObject;
 public class Profile {
     private final String firstName;
     private final String lastName;
+    private final String favoriteLanguage;
     private final String nationalRegistrationNumber;
 
     /**
@@ -19,13 +20,14 @@ public class Profile {
      */
     public Profile(String nationalRegistrationNumber) throws UnirestException {
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
                 .header("Authorization", "Bearer " + Main.getToken())
                 .asString();
         Main.errorCheck(response.getStatus());
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
+        this.favoriteLanguage = obj.getString("language");
         this.firstName = obj.getString("firstname");
         this.lastName = obj.getString("lastname");
         this.nationalRegistrationNumber = nationalRegistrationNumber;
@@ -37,11 +39,13 @@ public class Profile {
      *
      * @param firstName                  A string of the firstname
      * @param lastName                   A string of the lastname
+     * @param favoriteLanguage           A string of the favorite language (Locale.getDisplayName() format)
      * @param nationalRegistrationNumber A string of the national registration number
      */
-    public Profile(String firstName, String lastName, String nationalRegistrationNumber) {
+    public Profile(String firstName, String lastName, String favoriteLanguage, String nationalRegistrationNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.favoriteLanguage = favoriteLanguage;
         this.nationalRegistrationNumber = nationalRegistrationNumber;
     }
 
@@ -55,5 +59,9 @@ public class Profile {
 
     public String getNationalRegistrationNumber() {
         return this.nationalRegistrationNumber;
+    }
+
+    public String getFavoriteLanguage() {
+        return favoriteLanguage;
     }
 }

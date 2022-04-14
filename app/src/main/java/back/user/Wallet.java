@@ -8,8 +8,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static back.user.Portfolio.JSONArrayParser;
-
 public class Wallet {
     private final ArrayList<Account> accountList;
     private final Profile accountUser;
@@ -78,7 +76,7 @@ public class Wallet {
             for (int i = 0; i < bodyList.size(); i++) {
                 JSONObject obj = new JSONObject(bodyList.get(i));
                 String swift = obj.getString("accountId");
-                Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), obj.getString("userId"));
+                Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), obj.getString("language"), obj.getString("userId"));
                 // TODO : Réparer
                 // Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
                 String iban = obj.getString("accountId");

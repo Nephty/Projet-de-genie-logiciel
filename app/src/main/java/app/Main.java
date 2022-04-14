@@ -197,7 +197,6 @@ public class Main extends Application {
                 message = message + "An error has occured";
                 break;
         }
-        // TODO : Generate a pop-up with the message
     }
 
     public static Stage getStage() {
@@ -217,15 +216,12 @@ public class Main extends Application {
         DE_DE_Locale = new Locale("de", "DE");
         PL_PL_Locale = new Locale("pl", "PL");
 
-        // TODO : back-end : get the user's fav language and set it as the appLocale
-
         appLocale = EN_US_Locale;
 
         Scenes.AuthScene = SceneLoader.load("AuthScene.fxml", appLocale);
         Scenes.SignInScene = SceneLoader.load("SignInScene.fxml", appLocale);
         Scenes.LanguageScene = SceneLoader.load("LanguageScene.fxml", appLocale);
         Scenes.SignUpScene = SceneLoader.load("SignUpScene.fxml", appLocale);
-        Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", appLocale);
 
         Flow.add(Scenes.AuthScene);
 

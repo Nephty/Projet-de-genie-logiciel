@@ -16,6 +16,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+import java.util.Locale;
+
 import static app.Main.appLocale;
 
 public class SignInSceneController extends Controller implements BackButtonNavigator {
@@ -82,13 +85,22 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                 Main.errorCheck(response2.getStatus());
                 String body2 = response2.getBody();
                 JSONObject obj2 = new JSONObject(body2);
-                Main.setUser(new Profile(obj2.getString("firstname"), obj2.getString("lastname"), obj2.getString("userId")));
+                Main.setUser(new Profile(obj2.getString("firstname"), obj2.getString("lastname"), obj2.getString("language"), obj2.getString("userId")));
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
+            }
+            String favoriteLanguage = Main.getUser().getFavoriteLanguage();
+            for (Locale locale : Arrays.asList(Main.EN_US_Locale, Main.FR_BE_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale)) {
+                String dn = locale.getDisplayName();
+                if (locale.getDisplayName().equals(favoriteLanguage)) {
+                    appLocale = locale;
+                    break;
+                }
             }
             // Creates user's portfolio
             Main.updatePortfolio();
             // Load most of the scenes
+            Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", appLocale);
             Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", appLocale);
             Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml", appLocale);
             Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml", appLocale);

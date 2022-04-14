@@ -91,6 +91,7 @@ public class AccountAccessController {
         log.info("inserting account-access: {}", accountAccessReq);
         if(!accountAccessReq.isPostValid()) throw new MissingParamException();
 
+        // TODO: 4/14/22 Empêcher une bank extérieure de créer un accès vers un compte. 
         AccountAccess savedAccountAccess = accountAccessService.createAccountAccess(accountAccessReq);
         return new ResponseEntity<>(savedAccountAccess.toString(), HttpStatus.CREATED);
     }

@@ -99,7 +99,6 @@ public class ArchivedAccountsScenesController extends Controller implements Back
      * Updates the archived accounts
      */
     public void updateArchivedAccounts() {
-        // TODO : this should be a "fetch" method and use a request on the API to synchronize to the DB
         // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc)
         if (loadingAccountsLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;

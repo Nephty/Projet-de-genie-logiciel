@@ -101,11 +101,7 @@ public class Portfolio {
                     boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                     boolean canPay = obj.getJSONObject("account").getBoolean("payment");
                     // TODO : Remettre coOwner
-                    if(activated || archived){
-//                        archivedAccountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
-                    } else{
-                        accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
-                    }
+                    accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
                 } else {
                     this.walletList.add(new Wallet(this.user, bank, accountList));
                     accountList = new ArrayList<Account>();
@@ -135,11 +131,7 @@ public class Portfolio {
                     boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                     boolean canPay = obj.getJSONObject("account").getBoolean("payment");
                     // TODO : Remettre coOwner
-                    if(activated || archived){
-//                        archivedAccountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
-                    } else{
-                        accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
-                    }
+                    accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
                 }
             }
             this.walletList.add(new Wallet(this.user, bank, accountList));
@@ -165,7 +157,7 @@ public class Portfolio {
         }
 
         if(!body3.equals("")){
-            ArrayList<String> bodyList3 = JSONArrayParser(body2);
+            ArrayList<String> bodyList3 = JSONArrayParser(body3);
             for(int i = 0; i< bodyList3.size(); i++){
                 JSONObject obj = new JSONObject(bodyList3.get(i));
                 String swift = obj.getJSONObject("account").getString("swift");

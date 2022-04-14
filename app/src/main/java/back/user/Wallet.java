@@ -48,7 +48,7 @@ public class Wallet {
 
         this.accountList = createsAccountList(response.getBody());
 
-
+        // TODO : Besoin des deleted account ?
         // Fetch deleted account
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response2;

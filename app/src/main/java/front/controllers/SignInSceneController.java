@@ -75,11 +75,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             JSONObject obj = new JSONObject(body);
             Main.setToken(obj.getString("access_token"));
             Main.setRefreshToken(obj.getString("refresh_token"));
-            try {
-                Main.setBank(new Bank(usernameField.getText()));
-            } catch (UnirestException e) {
-                Main.ErrorManager(408);
-            }
+            Main.setBank(new Bank(usernameField.getText()));
             if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
             passwordField.setText("");
             usernameField.setText("");

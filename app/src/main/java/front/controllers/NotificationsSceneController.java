@@ -37,6 +37,8 @@ public class NotificationsSceneController extends Controller implements BackButt
     @FXML
     TableColumn<Notification, Long> IDColumn;
 
+    ObservableList<Notification> data = FXCollections.observableArrayList();
+
     private ArrayList<Notification> content = new ArrayList<>();
     private ArrayList<String> flaggedNotificationsContent = new ArrayList<>();
 
@@ -83,15 +85,16 @@ public class NotificationsSceneController extends Controller implements BackButt
     @FXML
     void handleDismissButtonClicked(MouseEvent event) {
         if (notificationsTableView.getSelectionModel().getSelectedItems().size() > 0) {
-            for (Notification n : notificationsTableView.getSelectionModel().getSelectedItems())
+            for (Notification n : notificationsTableView.getSelectionModel().getSelectedItems()) {
                 n.dismiss();
-            // TODO : Remove from list ?
+                data.remove(n);
+            }
+            notificationsTableView.setItems(data);
         }
     }
 
     @FXML
     void handleFlagButtonClicked(MouseEvent event) {
-        System.out.println("event = " + event.getPickResult());
         if (notificationsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             ObservableList<Notification> selection = notificationsTableView.getSelectionModel().getSelectedItems();
             for (Notification n : selection) {
@@ -169,7 +172,8 @@ public class NotificationsSceneController extends Controller implements BackButt
                     }
                 }
             }
-            notificationsTableView.setItems(FXCollections.observableArrayList(content));
+            data = FXCollections.observableArrayList(content);
+            notificationsTableView.setItems(data);
 
             // Fade the label "updating notifications..." out to 0.0 opacity
             sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingNotificationsLabel);

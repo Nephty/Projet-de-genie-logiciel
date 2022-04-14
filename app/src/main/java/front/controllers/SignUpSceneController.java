@@ -138,7 +138,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             // Then we can create a new user
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
-            String username = lastName + NRN;
+            String username = lastName.replaceAll("^[- ]*$", "") + NRN.replaceAll("^[-. ]*$", "");
             String birthDate = "";
             if(Integer.parseInt(NRN.substring(0,2)) >=40){
                 birthDate = "19" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
@@ -181,7 +181,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      */
     public static boolean isValidLastName(String lastName) {
         if (lastName == null) return false;
-        return (!lastName.equals("") && (lastName.matches("^[a-zA-Z-]*$")));
+        return (!lastName.equals("") && (lastName.matches("^[a-zA-Z- ]*$")));
     }
 
     /**

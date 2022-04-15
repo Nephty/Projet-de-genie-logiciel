@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Portfolio {
-    private final Profile user;
+    private Profile user;
     private ArrayList<Wallet> walletList;
 
 
@@ -68,11 +68,16 @@ public class Portfolio {
         String body3 = response3.getBody();
         body3 = body3.substring(1, body3.length() - 1);
 
-        createWallets(body,body2,body3);
+        System.out.println("------------------------------------");
+        System.out.println(body);
+        System.out.println(body2);
+        System.out.println(body3);
+        System.out.println("------------------------------------");
+        this.walletList = createWallets(body,body2,body3);
     }
 
-    private void createWallets(String body, String body2, String body3){
-        this.walletList = new ArrayList<Wallet>();
+    public ArrayList<Wallet> createWallets(String body, String body2, String body3) {
+        ArrayList<Wallet> repWalletList = new ArrayList<Wallet>();
         // If the user got at least one account, it will parse the list of account access into list of account in the same bank (Wallet)
         if (!body.equals("")) {
             ArrayList<String> bodyList = JSONArrayParser(body);
@@ -116,7 +121,7 @@ public class Portfolio {
                     // TODO : Remettre coOwner
                     accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
                 } else {
-                    this.walletList.add(new Wallet(this.user, bank, accountList));
+                    repWalletList.add(new Wallet(this.user, bank, accountList));
                     accountList = new ArrayList<Account>();
                     String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
                     bank = new Bank(swift, bankName);
@@ -147,40 +152,44 @@ public class Portfolio {
                     accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
                 }
             }
-            this.walletList.add(new Wallet(this.user, bank, accountList));
+            repWalletList.add(new Wallet(this.user, bank, accountList));
         }
 
         // Manage case where the client only get deleted accounts in a bank
         // Fetch all banks created
         ArrayList<String> usedSwift = new ArrayList<String>();
-        for(int i = 0; i<this.walletList.size(); i++){
-            usedSwift.add(this.walletList.get(i).getBank().getSwiftCode());
+        for (int i = 0; i < repWalletList.size(); i++) {
+            usedSwift.add(repWalletList.get(i).getBank().getSwiftCode());
         }
 
-        if(!body2.equals("")){
+        if (!body2.equals("")) {
             ArrayList<String> bodyList2 = JSONArrayParser(body2);
-            for(int i = 0; i< bodyList2.size(); i++){
+            for (int i = 0; i < bodyList2.size(); i++) {
                 JSONObject obj = new JSONObject(bodyList2.get(i));
                 String swift = obj.getJSONObject("account").getString("swift");
-                if(!usedSwift.contains(swift)){
-                    this.walletList.add(new Wallet(this.user, new Bank(swift)));
+                String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
+                if (!usedSwift.contains(swift)) {
+                    repWalletList.add(new Wallet(this.user, new Bank(swift, bankName)));
                     usedSwift.add(swift);
                 }
             }
         }
 
-        if(!body3.equals("")){
+        if (!body3.equals("")) {
             ArrayList<String> bodyList3 = JSONArrayParser(body3);
-            for(int i = 0; i< bodyList3.size(); i++){
+            for (int i = 0; i < bodyList3.size(); i++) {
                 JSONObject obj = new JSONObject(bodyList3.get(i));
                 String swift = obj.getJSONObject("account").getString("swift");
-                if(!usedSwift.contains(swift)){
-                    this.walletList.add(new Wallet(this.user, new Bank(swift)));
+                String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
+                if (!usedSwift.contains(swift)) {
+                    repWalletList.add(new Wallet(this.user, new Bank(swift, bankName)));
                     usedSwift.add(swift);
                 }
             }
         }
+        return repWalletList;
     }
+
 
 
     /**
@@ -215,5 +224,10 @@ public class Portfolio {
 
     public ArrayList<Wallet> getWalletList() {
         return this.walletList;
+    }
+
+    // Used for tests
+    public Portfolio(Profile user){
+        this.user = user;
     }
 }

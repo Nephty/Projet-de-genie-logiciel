@@ -10,6 +10,7 @@ public class Profile {
     private final String firstName;
     private final String lastName;
     private final String nationalRegistrationNumber;
+    private final String favoriteLanguage;
 
     /**
      * Creates a Profile object with an HTTP request by using the user's national registration number

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HTTPTest {
+public class HTTPIntegrationTest {
 
     private static final String testToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXRhbiIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjQ5NjE1MTEyLCJ1c2VySWQiOiIxMjM0NTY3ODkifQ.5LP2W6CDGPCgjnbTlQZNv18u7JZtgcU4pjpu6xMooJA";
 
@@ -21,7 +21,7 @@ public class HTTPTest {
     public void getUser() {
         Main.setToken(testToken);
         assertDoesNotThrow(() -> {
-            Profile userTest = new Profile("123456789");
+            Profile userTest = new Profile("Carlos","Matos", "English", "01.02.03-123.00");
 
             assertEquals("Elon", userTest.getFirstName());
             assertEquals("Musk", userTest.getLastName());

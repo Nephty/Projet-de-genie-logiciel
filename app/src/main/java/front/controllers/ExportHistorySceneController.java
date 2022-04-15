@@ -1,6 +1,7 @@
 package front.controllers;
 
 import app.Main;
+import back.user.Transaction;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
@@ -10,12 +11,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
+import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.FileSystemException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ExportHistorySceneController extends Controller implements BackButtonNavigator {
-    public static ArrayList<Object> exportData;
+    public static ArrayList<Transaction> exportData;
     private boolean exportDone = false, directoryChosen = false;
     @FXML
     Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
@@ -25,7 +33,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
     private File selectedDirectory;
     DirectoryChooser directoryChooser = new DirectoryChooser();
 
-    public static void setExportData(ArrayList<Object> arrayList) {
+    public static void setExportData(ArrayList<Transaction> arrayList) {
         exportData = arrayList;
     }
 
@@ -75,8 +83,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
 
     private void exportProcess(boolean isCSV) {
         if (!noPathSelectedLabel.isVisible() && directoryChosen) {
-            // TODO : export les données de l'arraylist et non pas du compte actuel de Main
-            Main.getCurrentAccount().getSubAccountList().get(0).exportHistory(selectedDirectory.getAbsolutePath(), isCSV);
+            exportHistory(selectedDirectory.getAbsolutePath(), isCSV);
             exportDone = true;
 
             fadeInAndOutNode(1000, exportSuccessfulLabel);
@@ -94,5 +101,67 @@ public class ExportHistorySceneController extends Controller implements BackButt
             emulateBackButtonClicked();
             event.consume();
         }
+    }
+
+    public void exportHistory(String path, boolean isCsv) {
+        // TODO : Gérer les cas où le fichier existe, etc
+        // TODO : Afficher un truc quand c'est fait
+        // TODO : Historique de transaction vide ?
+        try {
+            File file = new File(path + "/transactionHistory" + (isCsv ? ".csv" : ".json"));
+
+            boolean fileCreated = file.createNewFile();
+
+            if (fileCreated) {
+                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fw);
+                if (isCsv) {
+                    for (Transaction t : exportData) {
+                        // TODO : how to know if the user is the sender for every transaction in the data to export ?
+                        boolean isSender = t.getSenderIBAN().equals(Main.getCurrentAccount().getIBAN());
+                        bw.write(convertToCSV(new String[]{t.getSendingDate(), t.getReceiverName(), t.getReceiverIBAN(), ( isSender ? "-" : "+" + t.getAmount() + "€")}) + "\n");
+                    }
+                } else {
+                    String res = "";
+                    JSONObject obj = new JSONObject();
+                    ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
+                    for (Transaction t : exportData) {
+                        JSONObject obj2 = new JSONObject();
+                        obj2.put("sendingDate", t.getSendingDate());
+                        obj2.put("senderName", t.getSenderName());
+                        obj2.put("senderIBAN", t.getSenderIBAN());
+                        obj2.put("receiverName", t.getReceiverName());
+                        obj2.put("receiverIBAN", t.getReceiverIBAN());
+                        obj2.put("amount", t.getAmount());
+                        jsonList.add(obj2);
+                    }
+                    obj.put("transactionList", jsonList);
+                    res = obj.toString();
+                    bw.write(res);
+                }
+                bw.flush();
+                bw.close();
+                fw.flush();
+                fw.close();
+            } else throw new FileSystemException("File could not be created.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String convertToCSV(String[] data) {
+        return Stream.of(data)
+                .map(this::escapeSpecialCharacters)
+                .collect(Collectors.joining(","));
+    }
+
+    public String escapeSpecialCharacters(String data) {
+        String escapedData = data.replaceAll("\\R", " ");
+        if (data.contains(",") || data.contains("\"") || data.contains("'")) {
+            data = data.replace("\"", "\"\"");
+            escapedData = "\"" + data + "\"";
+        }
+        return escapedData;
     }
 }

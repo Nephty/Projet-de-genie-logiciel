@@ -8,6 +8,7 @@ import back.user.Transaction;
 import back.user.Wallet;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import front.scenes.Scenes;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +29,7 @@ import java.util.*;
 
 public class VisualizeToolSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    Button backButton, setGraphMode, setPieChartMode, addAccountButton, removeAccountButton;
+    Button backButton, setGraphMode, setPieChartMode, addAccountButton, removeAccountButton, exportHistoryButton;
     @FXML
     ComboBox<Timespan> timeSpanComboBox;
     @FXML
@@ -583,6 +584,45 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         HashMap<String, ArrayList<Transaction>> comprehensiveData = prepareComprehensiveTransactionsHashMap(transactionsSeparated, timeSpan);
         valuesHistory = computeValuesHistory(initialValue, comprehensiveData, account);
         return valuesHistory;
+    }
+
+    public void handleExportHistoryButtonClicked(MouseEvent event) {
+        ExportHistorySceneController.exportData = new ArrayList<>();
+        // today's date as milliseconds since epoch
+        long today = Instant.now().toEpochMilli();
+        // 1 day in milliseconds : 86.400.000ms
+        long _1_DAY_IN_MILLISECONDS = 86400000L;
+        long _30_DAYS_IN_MILLISECONDS = 30 * _1_DAY_IN_MILLISECONDS;
+        // 8 weeks = 56 days
+        long _8_WEEKS_IN_MILLISECONDS = 56 * _1_DAY_IN_MILLISECONDS;
+        // 6 months = 182 days
+        long _6_MONTHS_IN_MILLISECONDS = 182 * _1_DAY_IN_MILLISECONDS;
+        // 4 years = 1461 days
+        long _4_YEARS_IN_MILLISECONDS = 1461 * _1_DAY_IN_MILLISECONDS;
+        for (SubAccount subAccount : addedAccountsTableView.getItems()) {
+            for (Transaction t : subAccount.getTransactionHistory()) {
+                long sendingDate = t.getSendingDateAsDateObject();
+                switch (timeSpanComboBox.getValue()) {
+                    case DAILY:
+                        // last 30 days
+                        if (today - sendingDate < _30_DAYS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                        break;
+                    case WEEKLY:
+                        // last 8 weeks
+                        if (today - sendingDate < _8_WEEKS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                        break;
+                    case MONTHLY:
+                        // last 6 months
+                        if (today - sendingDate < _6_MONTHS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                        break;
+                    case YEARLY:
+                        // last 4 years
+                        if (today - sendingDate < _4_YEARS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                        break;
+                }
+            }
+        }
+        Main.setScene(Flow.forward(Scenes.ExportHistoryScene));
     }
 
     public static class StringDateParser {

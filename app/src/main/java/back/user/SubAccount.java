@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -76,73 +77,6 @@ public class SubAccount {
                 this.transactionHistory.add(new Transaction(ID, senderName, senderIBAN, receiverName, receiverIBAN, amount, sendingDate, Currencies.EUR));
             }
         }
-    }
-
-    public void exportHistory(String path, boolean isCsv){
-        // TODO : Gérer les cas où le fichier existe, etc
-        // TODO : Afficher un truc quand c'est fait
-        // TODO : Historique de transaction vide ?
-        try {
-            File file;
-            if(isCsv){
-                file = new File(path + "/transactionHistory.csv");
-            } else{
-                file = new File(path + "/transactionHistory.json");
-            }
-
-            file.createNewFile();
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            String res = "";
-            if(isCsv){
-                for (int i = 0; i < this.transactionHistory.size(); i++) {
-                    Transaction t = transactionHistory.get(i);
-                    if (t.getSenderIBAN().equals(Main.getCurrentAccount().getIBAN())) {
-                        res = convertToCSV(new String[]{t.getSendingDate(), t.getReceiverName(), t.getReceiverIBAN(), ("-"+t.getAmount() + "€")});
-                    } else {
-                        res = convertToCSV(new String[]{t.getSendingDate(), t.getSenderName(), t.getSenderIBAN(), ("+"+t.getAmount() + "€")});
-                    }
-                    bw.write(res + "\n");
-                }
-            } else{
-                JSONObject obj = new JSONObject();
-                ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
-                for (int i = 0; i < this.transactionHistory.size(); i++) {
-                    Transaction t = transactionHistory.get(i);
-                    JSONObject obj2 = new JSONObject();
-                    obj2.put("sendingDate", t.getSendingDate());
-                    obj2.put("senderName", t.getSenderName());
-                    obj2.put("senderIBAN", t.getSenderIBAN());
-                    obj2.put("receiverName", t.getReceiverName());
-                    obj2.put("receiverIBAN", t.getReceiverIBAN());
-                    obj2.put("amount", t.getAmount());
-                    jsonList.add(obj2);
-                }
-                obj.put("transactionList", jsonList);
-                 res = obj.toString();
-                 bw.write(res);
-            }
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String convertToCSV(String[] data) {
-        return Stream.of(data)
-                .map(this::escapeSpecialCharacters)
-                .collect(Collectors.joining(","));
-    }
-
-    public String escapeSpecialCharacters(String data) {
-        String escapedData = data.replaceAll("\\R", " ");
-        if (data.contains(",") || data.contains("\"") || data.contains("'")) {
-            data = data.replace("\"", "\"\"");
-            escapedData = "\"" + data + "\"";
-        }
-        return escapedData;
     }
 
     public Currencies getCurrency() {

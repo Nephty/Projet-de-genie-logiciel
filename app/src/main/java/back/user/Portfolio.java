@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Portfolio {
     private final Profile user;
-    private final ArrayList<Wallet> walletList;
+    private ArrayList<Wallet> walletList;
 
 
     /**
@@ -19,13 +19,22 @@ public class Portfolio {
      * @param nationalRegistrationNumber The user's national registration code
      * @throws UnirestException For managing HTTP errors
      */
-    public Portfolio(String nationalRegistrationNumber) throws UnirestException {
+    public Portfolio(String nationalRegistrationNumber) {
         this.user = new Profile(nationalRegistrationNumber);
         // It fetchs all the access that got the user
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + nationalRegistrationNumber + "&deleted=false&hidden=false")
-                .header("Authorization", "Bearer " + Main.getToken())
-                .asString();
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(()-> {
+            HttpResponse<String> rep = null;
+            try {
+                 rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + nationalRegistrationNumber + "&deleted=false&hidden=false")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
+
         Main.errorCheck(response.getStatus());
 
         String body = response.getBody();
@@ -59,6 +68,10 @@ public class Portfolio {
         String body3 = response3.getBody();
         body3 = body3.substring(1, body3.length() - 1);
 
+        createWallets(body,body2,body3);
+    }
+
+    private void createWallets(String body, String body2, String body3){
         this.walletList = new ArrayList<Wallet>();
         // If the user got at least one account, it will parse the list of account access into list of account in the same bank (Wallet)
         if (!body.equals("")) {
@@ -168,6 +181,7 @@ public class Portfolio {
             }
         }
     }
+
 
     /**
      * A method for parsing arrays in JSON

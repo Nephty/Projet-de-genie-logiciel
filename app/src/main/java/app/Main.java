@@ -1,9 +1,6 @@
 package app;
 
-import back.user.Account;
-import back.user.Portfolio;
-import back.user.Profile;
-import back.user.Wallet;
+import back.user.*;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -17,6 +14,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import static back.user.ErrorHandler.refreshToken;
 
 /**
  * Main runnable class that launches the application.
@@ -83,22 +82,6 @@ public class Main extends Application {
         Main.currentAccount = currentAccount;
     }
 
-    public static void refreshToken() {
-        Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
-        try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/token/refresh")
-                    .header("Authorization", "Bearer " + Main.getRefreshToken())
-                    .asString();
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
-        String body = response.getBody();
-        JSONObject obj = new JSONObject(body);
-        setToken(obj.getString("access_token"));
-        setRefreshToken(obj.getString("refresh_token"));
-    }
-
     /**
      * Clear all the data in Main
      */
@@ -123,11 +106,7 @@ public class Main extends Application {
         if(!(getCurrentAccount() == null)){
             IBAN = currentAccount.getIBAN();
         }
-        try {
-            portfolio = new Portfolio(user.getNationalRegistrationNumber());
-        } catch (UnirestException e) {
-            Main.ErrorManager(408);
-        }
+        portfolio = new Portfolio(user.getNationalRegistrationNumber());
 
         if(!(getCurrentWallet() == null)){
             ArrayList<Wallet> walletList = getPortfolio().getWalletList();
@@ -157,7 +136,7 @@ public class Main extends Application {
      */
     public static void errorCheck(int statut) {
         if(statut == 412){
-            refreshToken();
+            ErrorHandler.refreshToken();
         }
         if (statut >= 400 || statut != 412) {
             ErrorManager(statut);

@@ -116,14 +116,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         // impossible for the "username taken" label to show up and vice versa.
 
 
-        // Manage the "xxxx already taken" labels visibility
-        // Is the email already taken ?
-//        if (isEmailTaken(email) && !emailTakenLabel.isVisible()) emailTakenLabel.setVisible(true);
-//        else if (!isEmailTaken(email) && emailTakenLabel.isVisible()) emailTakenLabel.setVisible(false);
-//        // Is the NRN already taken ?
-//        if (isNRNTaken(NRN) && !NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(true);
-//        else if (!isNRNTaken(NRN) && NRNTakenLabel.isVisible()) NRNTakenLabel.setVisible(false);
-
         // Manage the "password does not match" label visibility
         if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
             passwordDoesNotMatchLabel.setVisible(true);

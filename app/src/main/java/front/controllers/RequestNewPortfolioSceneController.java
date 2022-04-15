@@ -38,11 +38,7 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     public void initialize() {
         Main.updatePortfolio();
         ObservableList<String> values = FXCollections.observableArrayList();
-        try {
-            values = FXCollections.observableArrayList(Bank.fetchAllSWIFT());
-        } catch (UnirestException e) {
-            Main.ErrorManager(408);
-        }
+        values = FXCollections.observableArrayList(Bank.fetchAllSWIFT());
         ArrayList<String> alreadyOwnsAWalletSWIFTs = new ArrayList<>();
         for (Wallet w : Main.getPortfolio().getWalletList()) alreadyOwnsAWalletSWIFTs.add(w.getBank().getSwiftCode());
         values.removeIf(alreadyOwnsAWalletSWIFTs::contains);

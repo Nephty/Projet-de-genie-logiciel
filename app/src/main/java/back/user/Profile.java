@@ -9,7 +9,6 @@ import org.json.JSONObject;
 public class Profile {
     private final String firstName;
     private final String lastName;
-    private final String favoriteLanguage;
     private final String nationalRegistrationNumber;
 
     /**
@@ -18,12 +17,16 @@ public class Profile {
      * @param nationalRegistrationNumber The String of the user's national registration number
      * @throws UnirestException For managing HTTP errors
      */
-    public Profile(String nationalRegistrationNumber) throws UnirestException {
+    public Profile(String nationalRegistrationNumber){
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response;
-        response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
-                .header("Authorization", "Bearer " + Main.getToken())
-                .asString();
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
+                    .header("Authorization", "Bearer " + Main.getToken())
+                    .asString();
+        } catch (UnirestException e) {
+            throw new RuntimeException(e);
+        }
         Main.errorCheck(response.getStatus());
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);

@@ -24,7 +24,7 @@ public class Wallet {
      * @param accountList The list of account
      * @throws UnirestException
      */
-    public Wallet(Profile accountUser, Bank bank, ArrayList<Account> accountList) throws UnirestException {
+    public Wallet(Profile accountUser, Bank bank, ArrayList<Account> accountList) {
         this.accountUser = accountUser;
         this.bank = bank;
         this.accountList = accountList;

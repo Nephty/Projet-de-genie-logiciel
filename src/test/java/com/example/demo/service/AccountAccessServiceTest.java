@@ -164,7 +164,6 @@ class AccountAccessServiceTest {
         verify(accessRepo,never()).save(any());
     }
 
-
     @Test
     void canChangeAccountAccess() {
         //given
@@ -314,6 +313,64 @@ class AccountAccessServiceTest {
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining("No user with such id: " + userId);
     }
+
+    @Test
+    void canGetAccessToDeletedAccount(){
+        //Given
+        String userId = "userId";
+        User tmpUser = new User();
+        tmpUser.setUserId(userId);
+        Optional<User> user = Optional.of(tmpUser);
+        //when
+        when(userRepo.findById(userId))
+                .thenReturn(user);
+
+        underTest.getAccessToDeletedAccount(userId);
+
+        //then
+        verify(accessRepo).findAllDeletedAccountByUserId(tmpUser);
+    }
+
+    @Test
+    void getAccessToDeletedAccountShouldThrowWhenUserNotFound(){
+        //Given
+        String userId = "notAnUserId";
+
+        //Then
+        assertThatThrownBy(() -> underTest.getAccessToDeletedAccount(userId))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining("No user with such id: " + userId);
+    }
+
+    @Test
+    void canGetAccessToHiddenAccount(){
+        //Given
+        String userId = "userId";
+        User tmpUser = new User();
+        tmpUser.setUserId(userId);
+        Optional<User> user = Optional.of(tmpUser);
+        //when
+        when(userRepo.findById(userId))
+                .thenReturn(user);
+
+        underTest.getAccessToHiddenAccount(userId);
+
+        //then
+        verify(accessRepo).findAllHiddenByUserId(tmpUser);
+    }
+
+    @Test
+    void getAccessToHiddenAccountShouldThrowWhenUserNotFound(){
+        //Given
+        String userId = "notAnUserId";
+
+        //Then
+        assertThatThrownBy(() -> underTest.getAccessToHiddenAccount(userId))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining("No user with such id: " + userId);
+    }
+
+
     
     @Test
     void canGetAllOwners(){

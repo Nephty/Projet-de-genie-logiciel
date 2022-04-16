@@ -29,6 +29,8 @@ public class TransactionController {
      * @return Transaction to string in the response body
      * 201 - Transaction successfully created
      * 400 - Bad Format
+     * 403 - Bad Authorisation
+     * 409 - Conflict
      * Who ? anyone who owns the account
      * What ? debit the money or return an error if there is not enough
      */
@@ -50,16 +52,14 @@ public class TransactionController {
      * @param iban [path] id of the account
      * @return Array of transaction linked to an account
      * 200 - OK
+     * 400 - Bad Format
+     * 404 - Not found
      * Who ? bank or user who owns the account
      */
     @GetMapping
     public ResponseEntity<List<TransactionReq>> sendTransfer(
             @RequestParam String iban,
             @RequestParam Integer currencyId) {
-
-        if(iban == null || currencyId == null) {
-            throw new MissingParamException("parameter iban and currencyId are mandatory");
-        }
         return new ResponseEntity<>(transactionLogService.getAllTransactionBySubAccount(iban, currencyId), HttpStatus.OK);
     }
 }

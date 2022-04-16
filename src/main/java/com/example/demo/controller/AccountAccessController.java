@@ -91,6 +91,7 @@ public class AccountAccessController {
         log.info("inserting account-access: {}", accountAccessReq);
         if(!accountAccessReq.isPostValid()) throw new MissingParamException();
 
+        // TODO: 4/14/22 Empêcher une bank extérieure de créer un accès vers un compte. 
         AccountAccess savedAccountAccess = accountAccessService.createAccountAccess(accountAccessReq);
         return new ResponseEntity<>(savedAccountAccess.toString(), HttpStatus.CREATED);
     }
@@ -101,7 +102,7 @@ public class AccountAccessController {
      * @return account access to String
      * 201 - Created
      * 400 - Bad Format
-     * 409 - Conflict
+     * 404 - Not found
      * Who ? the owner of the account and/or the bank
      */
     @PutMapping

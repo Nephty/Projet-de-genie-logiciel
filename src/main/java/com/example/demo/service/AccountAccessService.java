@@ -83,7 +83,7 @@ public class AccountAccessService {
                 .collect(Collectors.toList());
     }
 
-    public List<User> findAllOwners(String accountId){
+    public List<User> findAllOwners(String accountId){ //TODO allow deleted ??
         Account account = accountRepo.findById(accountId)
                 .orElseThrow(() -> new ResourceNotFound("No account with such id: "+accountId));
         return accountAccessRepo.getAllOwners(account);
@@ -112,11 +112,9 @@ public class AccountAccessService {
                    throw new ConflictException("account already exist " + accountAccessReq);
                 }
                 accountAccess = new AccountAccess(accountAccessReq);
-                Account account = accountRepo.findById(accountAccessReq.getAccountId())
+                Account account = accountRepo.safeFindById(accountAccessReq.getAccountId())
                         .orElseThrow(()-> new ConflictException(accountAccessReq.getAccountId()));
-                if (account.getDeleted()){
-                    throw new ConflictException("Can't add access to a deleted account: " + accountAccessReq);
-                }
+
                 User user = userRepo.findById(accountAccessReq.getUserId())
                         .orElseThrow(()-> new ConflictException(accountAccessReq.getUserId()));
                 accountAccess.setAccountId(account);

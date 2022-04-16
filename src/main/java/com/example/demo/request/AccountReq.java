@@ -44,7 +44,7 @@ public class AccountReq {
 
     @JsonIgnore
     public boolean isPutValid() {
-        return accountTypeId != null || payment != null;
+        return iban != null && (accountTypeId != null || payment != null);
     }
 
     public AccountReq(Account account) {

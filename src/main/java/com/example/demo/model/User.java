@@ -98,5 +98,13 @@ public class User {
     public String getFullName() {
         return lastname + " " + firstname;
     }
+    //TODO age
+    @JsonIgnore
+    public boolean isAbove18() {
+        return true;
+    }
+
+    @JsonIgnore
+    public int getAge() {return 24;}
 
 }

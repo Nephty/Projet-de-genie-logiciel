@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * All the db request on the {@link Account} table.
@@ -32,5 +33,9 @@ public interface AccountRepo extends JpaRepository<Account, String> {
      */
     default ArrayList<Account> findAccountsToProcess() {
         return findAllByNextProcessBefore(new Date(System.currentTimeMillis()));
+    }
+
+    default Optional<Account> safeFindById(String iban) {
+        return findById(iban).map(account -> account.getDeleted() ? null : account);
     }
 }

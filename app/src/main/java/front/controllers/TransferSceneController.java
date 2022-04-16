@@ -9,23 +9,29 @@ import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class TransferSceneController extends Controller implements BackButtonNavigator {
     private final int charactersLeft = 256;
     private final int previousMessageLength = 0;
+    @FXML
+    PasswordField passwordField;
     @FXML
     Button backButton, transferButton;
     @FXML
     TextField amountField, recipientField, IBANField, messageField, dateField;
     @FXML
     Label invalidAmountLabel, invalidRecipientLabel, invalidIBAN, invalidMessageLabel, invalidDateLabel,
-            transferExecutedLabel, charactersLeftLabel;
+            transferExecutedLabel, charactersLeftLabel, invalidPasswordLabel;
+
+    private boolean transferExecuted = false;
 
     public static void executeTransfer() {
         System.out.println("transfer executed.");
@@ -46,7 +52,18 @@ public class TransferSceneController extends Controller implements BackButtonNav
     void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         transferExecutedLabel.setVisible(false);
-        clearAllTextFields();
+        if (transferExecuted) clearAllTextFields();
+        if (transferExecuted) hideAllLabels();
+        transferExecuted = false;
+    }
+
+    private void hideAllLabels() {
+        invalidPasswordLabel.setVisible(false);
+        charactersLeftLabel.setVisible(false);
+        invalidAmountLabel.setVisible(false);
+        invalidDateLabel.setVisible(false);
+        invalidMessageLabel.setVisible(false);
+        invalidRecipientLabel.setVisible(false);
     }
 
     /**
@@ -54,7 +71,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
      */
     public void transfer() {
         String amount = amountField.getText(), recipient = recipientField.getText(), IBAN = IBANField.getText(),
-                message = messageField.getText(), date = dateField.getText();
+                message = messageField.getText(), date = dateField.getText(), password = passwordField.getText();
 
         // Manage the invalid "xxxx" labels visibility
         if (!isValidAmount(amount) && !invalidAmountLabel.isVisible()) invalidAmountLabel.setVisible(true);
@@ -68,10 +85,11 @@ public class TransferSceneController extends Controller implements BackButtonNav
         else if (isValidMessage(message) && invalidMessageLabel.isVisible()) invalidMessageLabel.setVisible(false);
         if (!isValidDate(date) && !invalidDateLabel.isVisible()) invalidDateLabel.setVisible(true);
         else if (isValidDate(date) && invalidDateLabel.isVisible()) invalidDateLabel.setVisible(false);
+        if (!isValidPassword(password) && !invalidPasswordLabel.isVisible()) invalidPasswordLabel.setVisible(true);
+        else if (isValidPassword(password) && invalidPasswordLabel.isVisible()) invalidPasswordLabel.setVisible(false);
 
         String recipientActual = Main.getCurrentAccount().getIBAN();
-        String comment = message;
-        if (recipientActual != IBAN) {
+        if (!Objects.equals(recipientActual, IBAN)) {
             if (noLabelVisible()) {
                 // TODO : Manage errors (insufficient balance)
                 // Creates the transfer if everything is correct
@@ -81,13 +99,14 @@ public class TransferSceneController extends Controller implements BackButtonNav
                     response = Unirest.post("https://flns-spring-test.herokuapp.com/api/transaction")
                             .header("Authorization", "Bearer " + Main.getToken())
                             .header("Content-Type", "application/json")
-                            .body("{\r\n    \"transactionTypeId\": 1,\r\n    \"senderIban\": \"" + recipientActual + "\",\r\n    \"recipientIban\": \"" + IBAN + "\",\r\n    \"currencyId\": 0,\r\n    \"transactionAmount\": " + amount + ",\r\n    \"comments\": \"" + comment + "\"\r\n}")
+                            .body("{\r\n    \"transactionTypeId\": 1,\r\n    \"senderIban\": \"" + recipientActual + "\",\r\n    \"recipientIban\": \"" + IBAN + "\",\r\n    \"currencyId\": 0,\r\n    \"transactionAmount\": " + amount + ",\r\n    \"comments\": \"" + message + "\"\r\n}")
                             .asString();
                     Main.errorCheck(response.getStatus());
                 } catch (UnirestException e) {
                     Main.ErrorManager(408);
                 }
 
+                transferExecuted = true;
                 Main.setScene(Flow.back());
                 Main.setScene(Flow.back());
                 Main.setScene(Flow.back());
@@ -96,54 +115,29 @@ public class TransferSceneController extends Controller implements BackButtonNav
         }
     }
 
+    private boolean isValidPassword(String password) {
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.post("https://flns-spring-test.herokuapp.com/api/login")
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .field("username", Main.getUser().getUsername())
+                    .field("password", password)
+                    .field("role", "ROLE_USER")
+                    .asString();
+            Main.errorCheck(response.getStatus());
+        } catch (UnirestException e) {
+            Main.ErrorManager(408);
+        }
+
+        if (response != null) {
+            return response.getStatus() == 200;
+        }
+        return false;
+    }
+
     public boolean noLabelVisible() {
         return !invalidDateLabel.isVisible() && !invalidRecipientLabel.isVisible() && !invalidIBAN.isVisible()
-                && !invalidMessageLabel.isVisible() && !invalidDateLabel.isVisible();
-    }
-
-    public void emulateTransferButtonClicked() {
-        transfer();
-    }
-
-    @FXML
-    void handleAmountFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            emulateTransferButtonClicked();
-            keyEvent.consume();
-        }
-    }
-
-    @FXML
-    void handleRecipientFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            emulateTransferButtonClicked();
-            keyEvent.consume();
-        }
-    }
-
-    @FXML
-    void handleIBANFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            emulateTransferButtonClicked();
-            keyEvent.consume();
-        }
-    }
-
-    @FXML
-    void handleMessageFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            emulateTransferButtonClicked();
-            keyEvent.consume();
-        }
-
-    }
-
-    @FXML
-    void handleDateFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            emulateTransferButtonClicked();
-            keyEvent.consume();
-        }
+                && !invalidMessageLabel.isVisible() && !invalidDateLabel.isVisible() && !invalidPasswordLabel.isVisible();
     }
 
     @FXML
@@ -157,14 +151,17 @@ public class TransferSceneController extends Controller implements BackButtonNav
         IBANField.setText("");
         messageField.setText("");
         dateField.setText("");
+        passwordField.setText("");
     }
 
     @FXML
     void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
-            event.consume();
+        } else if (event.getCode() == KeyCode.ENTER) {
+            transfer();
         }
+        event.consume();
     }
 
     /**
@@ -219,18 +216,18 @@ public class TransferSceneController extends Controller implements BackButtonNav
      */
     public static boolean isValidIBAN(String IBAN) {
         if (IBAN == null) return false;
-//        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 20))
-//            return false;  // IBAN.length() == 20 already checks IBAN != ""
-//        for (int i = 0; i < IBAN.length(); i++) {
-//            switch (i) {
-//                case 0:
-//                case 1:
-//                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
-//                    break;
-//                default:
-//                    if (!Character.isDigit(IBAN.charAt(i))) return false;
-//            }
-//        }
+        if ((!IBAN.matches("^[a-zA-Z0-9]*$")) || !(IBAN.length() == 16))
+            return false;  // IBAN.length() == 16 already checks IBAN != ""
+        for (int i = 0; i < IBAN.length(); i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
+                    break;
+                default:
+                    if (!Character.isDigit(IBAN.charAt(i))) return false;
+            }
+        }
         return true;
     }
 

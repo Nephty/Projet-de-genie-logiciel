@@ -85,7 +85,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                 Main.errorCheck(response2.getStatus());
                 String body2 = response2.getBody();
                 JSONObject obj2 = new JSONObject(body2);
-                Main.setUser(new Profile(obj2.getString("firstname"), obj2.getString("lastname"), obj2.getString("language"), obj2.getString("userId")));
+                Main.setUser(new Profile(obj2.getString("firstname"), obj2.getString("lastname"), obj2.getString("username"), obj2.getString("language"), obj2.getString("userId")));
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
             }

@@ -81,7 +81,8 @@ public class ArchivedAccountsScenesController extends Controller implements Back
         }
     }
 
-    public void handleRestoreButtonClicked(MouseEvent mouseEvent) {
+    @FXML
+    void handleRestoreButtonClicked(MouseEvent mouseEvent) {
         if (archivedAccountsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             ObservableList<Account> selection = archivedAccountsTableView.getSelectionModel().getSelectedItems();
             try {
@@ -99,7 +100,8 @@ public class ArchivedAccountsScenesController extends Controller implements Back
         }
     }
 
-    public void handleFetchAccountsButtonClicked(MouseEvent mouseEvent) {
+    @FXML
+    void handleFetchAccountsButtonClicked(MouseEvent mouseEvent) {
         updateArchivedAccounts();
     }
 

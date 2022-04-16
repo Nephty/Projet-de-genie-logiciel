@@ -124,7 +124,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
                 } else {
                     String res = "";
                     JSONObject obj = new JSONObject();
-                    ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
+                    ArrayList<JSONObject> jsonList = new ArrayList<>();
                     for (Transaction t : exportData) {
                         JSONObject obj2 = new JSONObject();
                         obj2.put("sendingDate", t.getSendingDate());

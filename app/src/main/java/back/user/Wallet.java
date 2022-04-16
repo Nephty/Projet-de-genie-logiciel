@@ -76,7 +76,8 @@ public class Wallet {
             for (int i = 0; i < bodyList.size(); i++) {
                 JSONObject obj = new JSONObject(bodyList.get(i));
                 String swift = obj.getString("accountId");
-                Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), obj.getString("language"), obj.getString("userId"));
+                // TODO : does obj.getString("username") work ?
+                Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), Main.getUser().getUsername(), Main.getUser().getFavoriteLanguage(), obj.getString("userId"));
                 // TODO : Réparer
                 // Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
                 String iban = obj.getString("accountId");

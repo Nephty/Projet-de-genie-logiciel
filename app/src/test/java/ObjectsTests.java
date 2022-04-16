@@ -14,7 +14,7 @@ public class ObjectsTests {
     @Test
     @DisplayName("Wallet creation with desactivated account")
     public void createWallets(){
-        Portfolio testPortfolio = new Portfolio(new Profile("Carlos","Matos", "English", "01.02.03-123.00"));
+        Portfolio testPortfolio = new Portfolio(new Profile("Carlos","Matos", "Matos01020312300", "English", "01.02.03-123.00"));
         String body = "";
         String body2 = "{\"accountId\":\"BE00000000000071\",\"userId\":\"01.02.03-123.00\",\"access\":true,\"hidden\":false,\"account\":{\"iban\":\"BE00000000000071\",\"swift\":\"ABCD\",\"userId\":\"01.02.03-123.00\",\"accountTypeId\":1,\"payment\":false,\"ownerFirstname\":\"Carlos\",\"ownerLastname\":\"Matos\",\"linkedBank\":{\"swift\":\"ABCD\",\"name\":\"Belfius\",\"password\":null,\"address\":\"uwuwuwuwu\",\"country\":\"BE\",\"defaultCurrencyId\":0,\"defaultCurrencyName\":\"EUR\"},\"nextProcess\":\"2023-04-10\",\"deleted\":true}}\n";
         String body3 = "";

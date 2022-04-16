@@ -10,6 +10,7 @@ public class Profile {
     private final String firstName;
     private final String lastName;
     private final String nationalRegistrationNumber;
+    private final String username;
     private final String favoriteLanguage;
 
     /**
@@ -33,6 +34,7 @@ public class Profile {
         JSONObject obj = new JSONObject(body);
         this.favoriteLanguage = obj.getString("language");
         this.firstName = obj.getString("firstname");
+        this.username = obj.getString("username");
         this.lastName = obj.getString("lastname");
         this.nationalRegistrationNumber = nationalRegistrationNumber;
     }
@@ -46,9 +48,10 @@ public class Profile {
      * @param favoriteLanguage           A string of the favorite language (Locale.getDisplayName() format)
      * @param nationalRegistrationNumber A string of the national registration number
      */
-    public Profile(String firstName, String lastName, String favoriteLanguage, String nationalRegistrationNumber) {
+    public Profile(String firstName, String lastName, String username, String favoriteLanguage, String nationalRegistrationNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         this.favoriteLanguage = favoriteLanguage;
         this.nationalRegistrationNumber = nationalRegistrationNumber;
     }
@@ -67,5 +70,9 @@ public class Profile {
 
     public String getFavoriteLanguage() {
         return favoriteLanguage;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

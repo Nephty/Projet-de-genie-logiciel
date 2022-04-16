@@ -107,9 +107,11 @@ public class ProductDetailsSceneController extends Controller implements BackBut
         if (accountsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             for (Account account : accountsTableView.getSelectionModel().getSelectedItems()) {
                 toggleProduct(account);
+                data.remove(account);
             }
             accountInactiveLabel.setVisible(false);
         }
+        accountsTableView.setItems(data);
         updateAccounts();
     }
 

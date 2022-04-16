@@ -21,7 +21,7 @@ public class HTTPIntegrationTest {
     public void getUser() {
         Main.setToken(testToken);
         assertDoesNotThrow(() -> {
-            Profile userTest = new Profile("Carlos","Matos", "English", "01.02.03-123.00");
+            Profile userTest = new Profile("Carlos","Matos", "Matos0102031230", "English", "01.02.03-123.00");
 
             assertEquals("Elon", userTest.getFirstName());
             assertEquals("Musk", userTest.getLastName());

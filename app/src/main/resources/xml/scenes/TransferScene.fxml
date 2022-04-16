@@ -5,9 +5,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.*?>
-<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0"
-      prefHeight="720.0"
-      prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2"
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="front.controllers.TransferSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
@@ -27,7 +26,7 @@
         </AnchorPane>
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                     onKeyReleased="#handleComponentKeyReleased" prefHeight="650.0" prefWidth="1280.0">
-            <TextField fx:id="amountField" layoutX="423.0" layoutY="74.0" onKeyPressed="#handleAmountFieldKeyPressed"
+            <TextField fx:id="amountField" layoutX="178.0" layoutY="140.0" onKeyPressed="#handleComponentKeyReleased"
                        onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
                        promptText="%TransferScene.amountField"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -35,19 +34,9 @@
                     <Font size="20.0"/>
                 </font>
             </TextField>
-            <Label fx:id="invalidAmountLabel" layoutX="431.0" layoutY="54.0" prefHeight="16.0" prefWidth="108.0"
+            <Label fx:id="invalidAmountLabel" layoutX="181.0" layoutY="120.0" prefHeight="16.0" prefWidth="435.0"
                    text="%TransferScene.invalidAmountLabel" textFill="#c80000" visible="false"/>
-            <TextField fx:id="recipientField" layoutX="423.0" layoutY="164.0"
-                       onKeyPressed="#handleRecipientFieldKeyPressed" onKeyReleased="#handleComponentKeyReleased"
-                       prefHeight="60.0" prefWidth="435.0" promptText="%TransferScene.recipientField"
-                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
-                <font>
-                    <Font size="20.0"/>
-                </font>
-            </TextField>
-            <Label fx:id="invalidRecipientLabel" layoutX="431.0" layoutY="144.0" prefHeight="16.0" prefWidth="114.0"
-                   text="%TransferScene.invalidRecipientLabel" textFill="#c80000" visible="false"/>
-            <TextField fx:id="IBANField" layoutX="423.0" layoutY="254.0" onKeyPressed="#handleIBANFieldKeyPressed"
+            <TextField fx:id="IBANField" layoutX="181.0" layoutY="230.0" onKeyPressed="#handleComponentKeyReleased"
                        onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
                        promptText="%TransferScene.IBANField"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -55,9 +44,19 @@
                     <Font size="20.0"/>
                 </font>
             </TextField>
-            <Label fx:id="invalidIBAN" layoutX="431.0" layoutY="234.0" prefHeight="16.0" prefWidth="89.0"
+            <Label fx:id="invalidIBAN" layoutX="181.0" layoutY="211.0" prefHeight="16.0" prefWidth="435.0"
                    text="%TransferScene.invalidIBAN" textFill="#c80000" visible="false"/>
-            <TextField fx:id="messageField" layoutX="423.0" layoutY="344.0" onKeyPressed="#handleMessageFieldKeyPressed"
+            <PasswordField fx:id="passwordField" layoutX="181.0" layoutY="320.0"
+                           onKeyPressed="#handleComponentKeyReleased" onKeyReleased="#handleComponentKeyReleased"
+                           prefHeight="60.0" prefWidth="435.0" promptText="%SignInScene.passwordField"
+                           style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </PasswordField>
+            <Label fx:id="invalidPasswordLabel" layoutX="181.0" layoutY="301.0" prefHeight="17.0" prefWidth="435.0"
+                   text="%TransferScene.incorrectPassword" textFill="#c80000" visible="false"/>
+            <TextField fx:id="messageField" layoutX="668.0" layoutY="140.0" onKeyPressed="#handleComponentKeyReleased"
                        onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
                        promptText="%TransferScene.messageField"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -65,9 +64,19 @@
                     <Font size="20.0"/>
                 </font>
             </TextField>
-            <Label fx:id="invalidMessageLabel" layoutX="433.0" layoutY="324.0" prefHeight="16.0" prefWidth="313.0"
+            <Label fx:id="invalidMessageLabel" layoutX="672.0" layoutY="120.0" prefHeight="16.0" prefWidth="435.0"
                    text="%TransferScene.invalidMessageLabel" textFill="#c80000" visible="false"/>
-            <TextField fx:id="dateField" layoutX="423.0" layoutY="434.0" onKeyPressed="#handleDateFieldKeyPressed"
+            <TextField fx:id="recipientField" layoutX="668.0" layoutY="230.0" onKeyPressed="#handleComponentKeyReleased"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
+                       promptText="%TransferScene.recipientField"
+                       style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </TextField>
+            <Label fx:id="invalidRecipientLabel" layoutX="672.0" layoutY="211.0" prefHeight="16.0" prefWidth="435.0"
+                   text="%TransferScene.invalidRecipientLabel" textFill="#c80000" visible="false"/>
+            <TextField fx:id="dateField" layoutX="668.0" layoutY="320.0" onKeyPressed="#handleComponentKeyReleased"
                        onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
                        promptText="%TransferScene.dateField"
                        style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;">
@@ -75,7 +84,7 @@
                     <Font size="20.0"/>
                 </font>
             </TextField>
-            <Label fx:id="invalidDateLabel" layoutX="433.0" layoutY="414.0" prefHeight="16.0" prefWidth="89.0"
+            <Label fx:id="invalidDateLabel" layoutX="672.0" layoutY="301.0" prefHeight="16.0" prefWidth="435.0"
                    text="%TransferScene.invalidDateLabel" textFill="#c80000" visible="false"/>
             <Button fx:id="transferButton" layoutX="492.0" layoutY="535.0" onKeyReleased="#handleComponentKeyReleased"
                     onMouseClicked="#handleTransferButtonClicked" onMouseEntered="#handleButtonMouseEntered"
@@ -89,9 +98,9 @@
                     <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0"/>
                 </effect>
             </Button>
-            <Label fx:id="transferExecutedLabel" layoutX="570.0" layoutY="591.0" prefHeight="17.0" prefWidth="140.0"
+            <Label fx:id="transferExecutedLabel" layoutX="493.0" layoutY="590.0" prefHeight="17.0" prefWidth="296.0"
                    text="%TransferScene.transferExecutedLabel" textFill="#00c800" visible="false"/>
-            <Label fx:id="charactersLeftLabel" layoutX="714.0" layoutY="324.0"
+            <Label fx:id="charactersLeftLabel" layoutX="863.0" layoutY="201.0"
                    text="%TransferScene.charactersLeftLabel"/>
         </AnchorPane>
     </Pane>

@@ -34,12 +34,14 @@ class AccountServiceTest {
     private AccountTypeRepo accountTypeRepo;
     @Mock
     private SubAccountRepo subAccountRepo;
+    @Mock
+    private AccountAccessRepo accountAccessRepo;
 
     private AccountService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new AccountService(accountRepo,bankRepo,userRepo,accountTypeRepo,subAccountRepo);
+        underTest = new AccountService(accountRepo,bankRepo,userRepo,accountTypeRepo,subAccountRepo, accountAccessRepo);
     }
 
     @Test

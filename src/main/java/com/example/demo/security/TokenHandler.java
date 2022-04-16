@@ -17,6 +17,9 @@ public class TokenHandler {
     private final String secret = "secret";
     private final Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
 
+    final long accessTokenMinBeforeExp = 30;
+    final long refreshTokenMinBeforeExp = 60 * 24 * 14;
+
     /**
      * Creates an access and refresh token with the data provided
      * @param issuer path at which the token was created
@@ -25,20 +28,21 @@ public class TokenHandler {
      * @return A map with the access and refresh token
      */
     public Map<String, String> createTokens(String id, String issuer, Role role) {
+        return createTokens(id, issuer, role, accessTokenMinBeforeExp);
+    }
+
+    public Map<String, String> createTokens(String id, String issuer, Role role, long minBeforeExp) {
         if(id == null) {
             log.error("id is null");
         }
-        final long maxAccessTokenMinBeforeExp = 60 * 24 * 24 * (60 * 1000);
-        final long accessTokenMinBeforeExp = 60 * 1000 * 30;
-        final long testAccessTokenMinBeforeExp = (60 * 1000);
         String accessToken = JWT.create()
                 .withSubject(id)
-                .withExpiresAt(new Date(System.currentTimeMillis() + testAccessTokenMinBeforeExp))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 1000 * minBeforeExp))
                 .withIssuer(issuer)
                 .withClaim(Role.getClaimName(), role.getRole())
                 .sign(algorithm);
 
-        final int refreshTokenMinBeforeExp = 60 * 24 * 14;
+
         String refreshToken = JWT.create()
                 .withSubject(id)
                 .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenMinBeforeExp * 60 * 1000))

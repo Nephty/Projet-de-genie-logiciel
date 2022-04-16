@@ -4,10 +4,13 @@ import com.example.demo.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class UserReq {
 

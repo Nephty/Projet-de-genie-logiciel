@@ -90,11 +90,4 @@ public class TransactionLog {
 
         transactionAmount = transactionReq.getTransactionAmount();
     }
-
-    public String toSimpleString() {
-        return "Transaction(" +
-                transactionId + ",\n" +
-                isSender + ",\n" +
-                subAccount.getIban().getIban() + ")";
-    }
 }

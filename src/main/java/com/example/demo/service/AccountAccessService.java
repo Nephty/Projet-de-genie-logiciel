@@ -47,6 +47,30 @@ public class AccountAccessService {
         return new AccountAccessReq(accountAccess);
     }
 
+    public List<AccountAccessReq> getAccessToDeletedAccount(String userID){
+        User user = userRepo.findById(userID)
+                .orElseThrow(()-> {
+                    log.warn("No user with such id: " + userID);
+                    return new ResourceNotFound("No user with such id: " + userID);
+                });
+        return accountAccessRepo.findAllDeletedAccountByUserId(user)
+                .stream()
+                .map(AccountAccessReq::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<AccountAccessReq> getAccessToHiddenAccount(String userID){
+        User user = userRepo.findById(userID)
+                .orElseThrow(()-> {
+                    log.warn("No user with such id: " + userID);
+                    return new ResourceNotFound("No user with such id: " + userID);
+                });
+        return accountAccessRepo.findAllHiddenByUserId(user)
+                .stream()
+                .map(AccountAccessReq::new)
+                .collect(Collectors.toList());
+    }
+
     public List<AccountAccessReq> getAccountAccessByUserId(String userID){
         User user = userRepo.findById(userID)
                 .orElseThrow(()-> {

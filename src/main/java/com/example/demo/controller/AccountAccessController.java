@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/account-access")
@@ -24,7 +23,7 @@ public class AccountAccessController {
 
     /**
      * Returns a list with all the account access for a certain user
-     * @param userId [path] id of the user
+     * @param userId id of the user
      * @return Array of account access
      * 200 - OK
      * 204 - Not found
@@ -32,22 +31,26 @@ public class AccountAccessController {
      */
     @GetMapping(value = "/all")
     public ResponseEntity<List<AccountAccessReq>> sendAccountAccess(
-            @RequestParam String userId, @RequestParam Boolean hidden
-    ){
-        List<AccountAccessReq> accountAccessReqs = accountAccessService.getAccountAccessByUserId(userId);
-        if(hidden == null) {
+            @RequestParam String userId,
+            @RequestParam Boolean deleted, @RequestParam Boolean hidden){
+        if (deleted){
+            // If we want hidden and deleted, it only returns the deleted.
             return new ResponseEntity<>(
-                    accountAccessReqs,
+                    accountAccessService.getAccessToDeletedAccount(userId),
                     HttpStatus.OK
             );
         }
+        if (hidden){
+            return new ResponseEntity<>(
+                    accountAccessService.getAccessToHiddenAccount(userId),
+                    HttpStatus.OK
+            );
+        }
+        // If hidden and deleted is false, return all access (used for portfolio)
         return new ResponseEntity<>(
-                accountAccessReqs.stream()
-                        .filter(accountAccessReq -> accountAccessReq.getHidden() == hidden)
-                        .collect(Collectors.toList()),
+                accountAccessService.getAccountAccessByUserId(userId),
                 HttpStatus.OK
         );
-
     }
 
     @GetMapping(value = "/all/co-owner")
@@ -88,6 +91,7 @@ public class AccountAccessController {
         log.info("inserting account-access: {}", accountAccessReq);
         if(!accountAccessReq.isPostValid()) throw new MissingParamException();
 
+        // TODO: 4/14/22 Empêcher une bank extérieure de créer un accès vers un compte. 
         AccountAccess savedAccountAccess = accountAccessService.createAccountAccess(accountAccessReq);
         return new ResponseEntity<>(savedAccountAccess.toString(), HttpStatus.CREATED);
     }
@@ -98,7 +102,7 @@ public class AccountAccessController {
      * @return account access to String
      * 201 - Created
      * 400 - Bad Format
-     * 409 - Conflict
+     * 404 - Not found
      * Who ? the owner of the account and/or the bank
      */
     @PutMapping

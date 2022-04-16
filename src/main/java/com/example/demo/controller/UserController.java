@@ -17,14 +17,15 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/user")
-@RestController @Slf4j
+@RestController
+@Slf4j
 public class UserController {
 
     private final UserService userService;
     private final HttpServletRequest httpRequest;
 
     /**
-     * @param id [param]id of the user to retrieve
+     * @param id         [param]id of the user to retrieve
      * @param isUsername [param]declare if the id provided is the nrn or the username of the user
      * @return User with matching id
      * 200 - OK
@@ -33,10 +34,7 @@ public class UserController {
      */
     @GetMapping(value = "{id}")
     public ResponseEntity<UserReq> sendUser(@PathVariable String id, @RequestParam Boolean isUsername) {
-        if(isUsername == null) {
-            throw new MissingParamException("isUsername param must be present");
-        }
-        if(isUsername) {
+        if (isUsername) {
             return new ResponseEntity<>(userService.getUserByUsername(id), HttpStatus.OK);
         }
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
@@ -62,10 +60,10 @@ public class UserController {
      */
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody UserReq userReq) {
-        if(!userReq.isPostValid()) throw new MissingParamException();
+        if (!userReq.isPostValid()) throw new MissingParamException();
 
         User savedUser = userService.addUser(userReq);
-        return new ResponseEntity<>(savedUser.toString(),HttpStatus.CREATED);
+        return new ResponseEntity<>(savedUser.toString(), HttpStatus.CREATED);
     }
 
     /**
@@ -78,9 +76,9 @@ public class UserController {
      */
     @PutMapping
     public ResponseEntity<String> changeUser(@RequestBody UserReq userReq) {
-        if(!userReq.isPutValid()) throw new MissingParamException();
+        if (!userReq.isPutValid()) throw new MissingParamException();
 
-        User savedUser = userService.changeUser(userReq, (Sender)httpRequest.getAttribute(Sender.getAttributeName()));
-        return new ResponseEntity<>(savedUser.toString(),HttpStatus.CREATED);
+        User savedUser = userService.changeUser(userReq, (Sender) httpRequest.getAttribute(Sender.getAttributeName()));
+        return new ResponseEntity<>(savedUser.toString(), HttpStatus.CREATED);
     }
 }

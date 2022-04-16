@@ -117,4 +117,49 @@ class AccountRepoTest {
         assertEquals(1,result.size());
         assertEquals(account.getIban(),result.get(0).getIban());
     }
+
+    @Test
+    void canFindAccountsToProcess(){
+        // Given
+        Account account = new Account(
+                "testIban",
+                bankRepo.getById("testSwift1"),
+                userRepo.getById("testId"),
+                accountTypeRepo.getById(0),
+                false,
+                Date.valueOf(LocalDate.of(2002,10,31)),
+                false
+        );
+        accountRepo.save(account);
+
+        Account account2 = new Account(
+                "testIban2",
+                bankRepo.getById("testSwift1"),
+                userRepo.getById("testId"),
+                accountTypeRepo.getById(0),
+                false,
+                Date.valueOf(LocalDate.of(4000,10,12)),
+                false
+        );
+        accountRepo.save(account2);
+
+        Account account3 = new Account(
+                "testIban3",
+                bankRepo.getById("testSwift1"),
+                userRepo.getById("testId"),
+                accountTypeRepo.getById(0),
+                false,
+                Date.valueOf(LocalDate.of(2003,10,31)),
+                true
+        );
+        accountRepo.save(account3);
+
+
+        // When
+        List<Account> result = underTest.findAccountsToProcess();
+
+        // Then
+        assertEquals(1,result.size());
+        assertEquals(account.getIban(),result.get(0).getIban());
+    }
 }

@@ -56,7 +56,7 @@ public class TransactionScheduler extends AbstractScheduler {
         reason += transaction.getIsSender() ? "Receiver.\n" : "Sender.\n";
         reason += "To resolve that problem, we've deleted this Transaction.\n We apologise for the troubles\n";
         reason += "Transaction description : \n";
-        reason += "Account : " + transaction.getSubAccount().getIban() + "\n";
+        reason += "Account : " + transaction.getSubAccount().getIban().getIban() + "\n";
         reason += "Date : " + transaction.getTransactionDate() + "\n";
         reason += "Amount :" + transaction.getTransactionAmount();
 

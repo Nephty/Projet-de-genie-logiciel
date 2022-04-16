@@ -1,7 +1,9 @@
 package front.controllers;
 
 import app.Main;
+import back.user.Account;
 import back.user.Transaction;
+import back.user.Wallet;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.fxml.FXML;
@@ -17,7 +19,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,7 +32,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
     Label choosePathLabel, noPathSelectedLabel, requestNotSentLabel, exportSuccessfulLabel, exportLocationLabel;
 
     private File selectedDirectory;
-    DirectoryChooser directoryChooser = new DirectoryChooser();
+    final DirectoryChooser directoryChooser = new DirectoryChooser();
 
     public static void setExportData(ArrayList<Transaction> arrayList) {
         exportData = arrayList;
@@ -58,8 +59,6 @@ public class ExportHistorySceneController extends Controller implements BackButt
             directoryChosen = false;
         }
     }
-
-    // TODO : don't forget form reset
 
     @FXML
     void handleChoosePathButtonClicked(MouseEvent event) {
@@ -104,46 +103,60 @@ public class ExportHistorySceneController extends Controller implements BackButt
     }
 
     public void exportHistory(String path, boolean isCsv) {
-        // TODO : Gérer les cas où le fichier existe, etc
-        // TODO : Afficher un truc quand c'est fait
-        // TODO : Historique de transaction vide ?
+        // exportData will never be empty if we look at when the user is able to export :
+        // 1> the user is export his transaction history (in this case, we ensure that
+        // we export at least one transaction)
+        // 2> the user is visualizing his accounts (in this case, we don't export if no account is visualized,
+        // ensuring that exportData contains at least one transaction)
         try {
             File file = new File(path + "/transactionHistory" + (isCsv ? ".csv" : ".json"));
 
             boolean fileCreated = file.createNewFile();
 
-            if (fileCreated) {
-                FileWriter fw = new FileWriter(file.getAbsoluteFile());
-                BufferedWriter bw = new BufferedWriter(fw);
-                if (isCsv) {
-                    for (Transaction t : exportData) {
-                        // TODO : how to know if the user is the sender for every transaction in the data to export ?
-                        boolean isSender = t.getSenderIBAN().equals(Main.getCurrentAccount().getIBAN());
-                        bw.write(convertToCSV(new String[]{t.getSendingDate(), t.getReceiverName(), t.getReceiverIBAN(), ( isSender ? "-" : "+" + t.getAmount() + "€")}) + "\n");
-                    }
-                } else {
-                    String res = "";
-                    JSONObject obj = new JSONObject();
-                    ArrayList<JSONObject> jsonList = new ArrayList<>();
-                    for (Transaction t : exportData) {
-                        JSONObject obj2 = new JSONObject();
-                        obj2.put("sendingDate", t.getSendingDate());
-                        obj2.put("senderName", t.getSenderName());
-                        obj2.put("senderIBAN", t.getSenderIBAN());
-                        obj2.put("receiverName", t.getReceiverName());
-                        obj2.put("receiverIBAN", t.getReceiverIBAN());
-                        obj2.put("amount", t.getAmount());
-                        jsonList.add(obj2);
-                    }
-                    obj.put("transactionList", jsonList);
-                    res = obj.toString();
-                    bw.write(res);
+            int counter = 0;
+            while (!fileCreated) {
+                file = new File(path + "/transactionHistory" + counter + (isCsv ? ".csv" : ".json"));
+                counter++;
+                fileCreated = file.createNewFile();
+            }
+
+            ArrayList<String> allAccountsIBANS = new ArrayList<>();
+
+            for (Wallet wallet : Main.getPortfolio().getWalletList()) {
+                for (Account account : wallet.getAccountList()) {
+                    allAccountsIBANS.add(account.getIBAN());
                 }
-                bw.flush();
-                bw.close();
-                fw.flush();
-                fw.close();
-            } else throw new FileSystemException("File could not be created.");
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            if (isCsv) {
+                for (Transaction t : exportData) {
+                    boolean isSender = allAccountsIBANS.contains(t.getSenderIBAN());
+                    bw.write(convertToCSV(new String[]{t.getSendingDate(), t.getReceiverName(), t.getReceiverIBAN(), (isSender ? "-" : "+" + t.getAmount() + "€")}) + "\n");
+                }
+            } else {
+                String res;
+                JSONObject obj = new JSONObject();
+                ArrayList<JSONObject> jsonList = new ArrayList<>();
+                for (Transaction t : exportData) {
+                    JSONObject obj2 = new JSONObject();
+                    obj2.put("sendingDate", t.getSendingDate());
+                    obj2.put("senderName", t.getSenderName());
+                    obj2.put("senderIBAN", t.getSenderIBAN());
+                    obj2.put("receiverName", t.getReceiverName());
+                    obj2.put("receiverIBAN", t.getReceiverIBAN());
+                    obj2.put("amount", t.getAmount());
+                    jsonList.add(obj2);
+                }
+                obj.put("transactionList", jsonList);
+                res = obj.toString();
+                bw.write(res);
+            }
+            bw.flush();
+            bw.close();
+            fw.flush();
+            fw.close();
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -24,7 +24,6 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.NoSuchElementException;
 
 import static app.Main.appLocale;
 
@@ -121,7 +120,6 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     public void fetchAccounts() {
         if (loadingAccountsLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;
             FadeOutThread sleepAndFadeOutLoadingAccountsLabelFadeThread;
             // Fade the label "updating accounts..." in to 1.0 opacity
@@ -143,7 +141,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             data = FXCollections.observableArrayList(accountsList);
             accountsTableView.setItems(data);
             // Fade the label "updating accounts..." out to 0.0 opacity
-            sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
+            sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeInDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
         }
     }
 
@@ -151,10 +149,9 @@ public class ProductDetailsSceneController extends Controller implements BackBut
      * Updates the accounts
      */
     public void updateAccounts() {
-        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc)
+        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc.)
         if (loadingAccountsLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;
             FadeOutThread sleepAndFadeOutLoadingAccountsLabelFadeThread;
             // Fade the label "updating accounts..." in to 1.0 opacity
@@ -167,16 +164,11 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Update the portfolio and then fetch the accounts
-//            Wallet currentWallet = Main.getCurrentWallet();
-//            ArrayList<Account> accountsList = new ArrayList<>();
-//            for (Account account : currentWallet.getAccountList()) {
-//                if (!account.isArchived()) accountsList.add(account);
-//            }
             Main.updatePortfolio();
             data = FXCollections.observableArrayList(Main.getCurrentWallet().getAccountList());
             accountsTableView.setItems(data);
             // Fade the label "updating accounts..." out to 0.0 opacity
-            sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
+            sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeInDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
         }
     }
 
@@ -187,7 +179,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             // Toggle off the product
             fadeInAndOutNode(sleepDuration, toggledOffProductLabel);
             try {
-                account.toggleOff();
+                account.toggle();
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
             }
@@ -206,29 +198,5 @@ public class ProductDetailsSceneController extends Controller implements BackBut
     void handleArchivedAccountsButtonClicked(MouseEvent mouseEvent) {
         Scenes.ArchivedAccountsScene = SceneLoader.load("ArchivedAccountsScenes.fxml", appLocale);
         Main.setScene(Flow.forward(Scenes.ArchivedAccountsScene));
-    }
-
-    @FXML
-    void handleArchiveAccountButtonClicked(MouseEvent mouseEvent) {
-        if (accountsTableView.getSelectionModel().getSelectedItems().size() > 0) {
-            ObservableList<Account> selection = accountsTableView.getSelectionModel().getSelectedItems();
-            try {
-                for (Account account : selection) {
-                    archiveAccount(account);
-                    data.remove(account);
-                }
-            } catch (NoSuchElementException e) {
-                // This exception occurs when the user archives the last visible account remaining
-                // The reason is that JavaFX instantly updates the selection when an item is removed,
-                // so the selection becomes empty, throwing a NoSuchElementException
-            }
-            accountsTableView.setItems(data);
-        }
-    }
-
-    private void archiveAccount(Account account) {
-        account.setArchived(true);
-        // TODO : set account as archived in database
-        // TODO : Delete ?
     }
 }

@@ -12,7 +12,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class EnterPINSceneController extends Controller implements BackButtonNavigator {
-    private final String correctPIN = "1235";
     @FXML
     Button backButton, confirmButton;
     @FXML
@@ -58,7 +57,6 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
                     emulateBackButtonMouseClicked();
                     tooManyAttemptsLabel.setVisible(false);
                     PINField.setText("");
-                    TransferSceneController.executeTransfer();
                 }
             } else {
                 tooManyAttemptsLabel.setVisible(true);
@@ -68,7 +66,7 @@ public class EnterPINSceneController extends Controller implements BackButtonNav
     }
 
     private boolean checkPINIsCorrect(String PIN) {
-        return PIN.equals(correctPIN);
+        return PIN.equals("0000");
     }
 
     @FXML

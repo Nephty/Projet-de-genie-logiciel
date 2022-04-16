@@ -45,8 +45,7 @@ public class HTTPIntegrationTest {
     @Test
     @DisplayName("Getting a portfolio from api")
     public void getPortfolio() {
-        // Pay attention of changements in the database
-        // This test verify the requests : Portfolio, Wallet, Profile, Bank, Account, SubAccount, Transaction
+        // This test verifies the requests : Portfolio, Wallet, Profile, Bank, Account, SubAccount, Transaction
         Main.setToken(testToken);
         assertDoesNotThrow(() -> {
             Portfolio portfolioTest = new Portfolio("123456789");
@@ -65,7 +64,7 @@ public class HTTPIntegrationTest {
     public void login() {
         assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
+            HttpResponse<String> response;
             response = Unirest.post("https://flns-spring-test.herokuapp.com/api/login")
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .field("username", "elonm")
@@ -82,7 +81,7 @@ public class HTTPIntegrationTest {
     public void register() {
         assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
+            HttpResponse<String> response;
             response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
                     .header("Content-Type", "application/json")
                     .body("{\r\n    \"username\": \"billG\",\r\n    \"userId\": \"01.01.01-001.01\",\r\n    \"email\": \"billGates@microsoft.com\",\r\n    \"password\": \"igotalotofmoney\",\r\n    \"firstname\": \"Bill\",\r\n    \"lastname\": \"Gates\",\r\n    \"language\": \"EN\"\r\n}")
@@ -105,16 +104,18 @@ public class HTTPIntegrationTest {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
-        JSONObject obj = new JSONObject(response.getBody());
+        if (response != null) {
+            JSONObject obj = new JSONObject(response.getBody());
 
-        // Delete the user to finish the test
-        assertDoesNotThrow(() -> {
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/user/01.01.01-001.01")
-                    .header("Authorization", "Bearer " + obj.getString("access_token"))
-                    .asString();
-            assertEquals(200, response2.getStatus());
-        });
+            // Delete the user to finish the test
+            assertDoesNotThrow(() -> {
+                Unirest.setTimeouts(0, 0);
+                HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/user/01.01.01-001.01")
+                        .header("Authorization", "Bearer " + obj.getString("access_token"))
+                        .asString();
+                assertEquals(200, response2.getStatus());
+            });
+        }
 
     }
 
@@ -125,18 +126,17 @@ public class HTTPIntegrationTest {
         // Current password is igotalotofmoney
         assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
-            response = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
+            Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + Main.getToken())
                     .body("{\r\n    \"username\": \"" + "elonm" + "\",\r\n    \"userID\": \"" + "123456789" + "\",\r\n    \"email\": \"" + "elon.musk@tesla.com" + "\",\r\n    \"password\": \"" + "igotnomoney" + "\",\r\n    \"firstname\": \"" + "Elon" + "\",\r\n    \"lastname\": \"" + "Musk" + "\",\r\n    \"language\": \"" + "EN US" + "\"\r\n}")
                     .asString();
         });
 
-        // Try to login to check if the password is well changed
+        // Try to log in to check if the password is well changed
         assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
+            HttpResponse<String> response;
             response = Unirest.post("https://flns-spring-test.herokuapp.com/api/login")
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .field("username", "elonm")
@@ -149,9 +149,8 @@ public class HTTPIntegrationTest {
 
         // Set the password as before for future tests
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
         try {
-            response = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
+            Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + Main.getToken())
                     .body("{\r\n    \"username\": \"" + "elonm" + "\",\r\n    \"userID\": \"" + "123456789" + "\",\r\n    \"email\": \"" + "elon.musk@tesla.com" + "\",\r\n    \"password\": \"" + "igotalotofmoney" + "\",\r\n    \"firstname\": \"" + "Elon" + "\",\r\n    \"lastname\": \"" + "Musk" + "\",\r\n    \"language\": \"" + "EN US" + "\"\r\n}")

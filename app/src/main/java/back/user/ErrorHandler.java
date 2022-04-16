@@ -33,6 +33,7 @@ public class ErrorHandler {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
+        assert response != null : "No response";
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
         Main.setToken(obj.getString("access_token"));

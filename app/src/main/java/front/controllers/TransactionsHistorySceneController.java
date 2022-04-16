@@ -74,10 +74,9 @@ public class TransactionsHistorySceneController extends Controller implements Ba
     }
 
     public void fetchTransactions() {
-        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc)
+        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc.)
         if (loadingTransactionsHistoryLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;
             FadeOutThread sleepAndFadeOutLoadingTransactionsLabelFadeThread;
             // Fade the label "updating history..." in to 1.0 opacity
@@ -93,10 +92,8 @@ public class TransactionsHistorySceneController extends Controller implements Ba
             // Fade the label "updating history..." out to 0.0 opacity
             ArrayList<Transaction> transactionList = Main.getCurrentAccount().getSubAccountList().get(0).getTransactionHistory();
 
-            ArrayList<String> strList = new ArrayList<String>();
-
             transactionsHistoryTableView.setItems(FXCollections.observableArrayList(transactionList));
-            sleepAndFadeOutLoadingTransactionsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingTransactionsHistoryLabel);
+            sleepAndFadeOutLoadingTransactionsLabelFadeThread.start(fadeInDuration, sleepDuration + fadeInDuration, loadingTransactionsHistoryLabel);
         }
     }
 

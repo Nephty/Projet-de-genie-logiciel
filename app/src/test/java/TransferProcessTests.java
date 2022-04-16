@@ -6,11 +6,49 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TransferProcessTests {
-    String a0 = "", a1 = null, a2 = "0", a3 = "0.000", a4 = "0000.00", a5 = "10.10.10", a6 = "10", a7 = "10.10", a8 = "01", a9 = "1111111111111", a10 = "123123123.12";
-    String r0 = "", r1 = null, r2 = "1", r3 = "a0", r4 = "y", r5 = "=", r6 = "@", r7 = "hello", r8 = "ABC";
-    String i0 = "", i1 = null, i2 = "0", i3 = "abc0123412341234", i4 = "aB121234123412341", i5 = "1234123412341234", i6 = "nA12123412341234";
-    String m0 = "", m1 = null, m2 = "0", m3 = "h", m4 = "\t", m5 = "12345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456789";
-    String d0 = "", d1 = null, d2 = "a", d3 = "ab.ab.abcd", d4 = "00-00-0000", d5 = "12.12.2019", d6 = "32.10.2021", d7 = "00.02.2023", d8 = "1.1.2023", d9 = "01.01.2022";
+    final String a0 = "";
+    final String a1 = null;
+    final String a2 = "0";
+    final String a3 = "0.000";
+    final String a4 = "0000.00";
+    final String a5 = "10.10.10";
+    final String a6 = "10";
+    final String a7 = "10.10";
+    final String a8 = "01";
+    final String a9 = "1111111111111";
+    final String a10 = "123123123.12";
+    final String r0 = "";
+    final String r1 = null;
+    final String r2 = "1";
+    final String r3 = "a0";
+    final String r4 = "y";
+    final String r5 = "=";
+    final String r6 = "@";
+    final String r7 = "hello";
+    final String r8 = "ABC";
+    final String i0 = "";
+    final String i1 = null;
+    final String i2 = "0";
+    final String i3 = "abc0123412341234";
+    final String i4 = "aB121234123412341";
+    final String i5 = "1234123412341234";
+    final String i6 = "nA12123412341234";
+    final String m0 = "";
+    final String m1 = null;
+    final String m2 = "0";
+    final String m3 = "h";
+    final String m4 = "\t";
+    final String m5 = "12345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456781234567812345678123456789";
+    final String d0 = "";
+    final String d1 = null;
+    final String d2 = "a";
+    final String d3 = "ab.ab.abcd";
+    final String d4 = "00-00-0000";
+    final String d5 = "12.12.2019";
+    final String d6 = "32.10.2021";
+    final String d7 = "00.02.2023";
+    final String d8 = "1.1.2023";
+    final String d9 = "01.01.2022";
 
     @Test
     @DisplayName("isValidAmount Test")

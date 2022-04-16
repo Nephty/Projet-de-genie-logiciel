@@ -51,7 +51,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
     }
 
     /**
-     * Checks if every field is properly filled in. Initializes the sign in process.
+     * Checks if every field is properly filled in. Initializes the sign-in process.
      */
     public void signIn() {
         // Login with username and password
@@ -70,49 +70,50 @@ public class SignInSceneController extends Controller implements BackButtonNavig
         }
 
         // If the response is correct, initialise the tokens
-        if (response.getStatus() == 200) {
-            if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
-            String body = response.getBody();
-            JSONObject obj = new JSONObject(body);
-            Main.setToken(obj.getString("access_token"));
-            Main.setRefreshToken(obj.getString("refresh_token"));
-            // Creates the user
-            try {
-                Unirest.setTimeouts(0, 0);
-                HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + usernameField.getText() + "?isUsername=true")
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .asString();
-                Main.errorCheck(response2.getStatus());
-                String body2 = response2.getBody();
-                JSONObject obj2 = new JSONObject(body2);
-                Main.setUser(new Profile(obj2.getString("firstname"), obj2.getString("lastname"), obj2.getString("username"), obj2.getString("language"), obj2.getString("userId")));
-            } catch (UnirestException e) {
-                Main.ErrorManager(408);
-            }
-            String favoriteLanguage = Main.getUser().getFavoriteLanguage();
-            for (Locale locale : Arrays.asList(Main.EN_US_Locale, Main.FR_BE_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale)) {
-                String dn = locale.getDisplayName();
-                if (locale.getDisplayName().equals(favoriteLanguage)) {
-                    appLocale = locale;
-                    break;
+        if (response != null) {
+            if (response.getStatus() == 200) {
+                if (incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(false);
+                String body = response.getBody();
+                JSONObject obj = new JSONObject(body);
+                Main.setToken(obj.getString("access_token"));
+                Main.setRefreshToken(obj.getString("refresh_token"));
+                // Creates the user
+                try {
+                    Unirest.setTimeouts(0, 0);
+                    HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + usernameField.getText() + "?isUsername=true")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .asString();
+                    Main.errorCheck(response2.getStatus());
+                    String body2 = response2.getBody();
+                    JSONObject obj2 = new JSONObject(body2);
+                    Main.setUser(new Profile(obj2.getString("firstname"), obj2.getString("lastname"), obj2.getString("username"), obj2.getString("language"), obj2.getString("userId")));
+                } catch (UnirestException e) {
+                    Main.ErrorManager(408);
                 }
+                String favoriteLanguage = Main.getUser().getFavoriteLanguage();
+                for (Locale locale : Arrays.asList(Main.EN_US_Locale, Main.FR_BE_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale)) {
+                    if (locale.getDisplayName().equals(favoriteLanguage)) {
+                        appLocale = locale;
+                        break;
+                    }
+                }
+                // Creates user's portfolio
+                Main.updatePortfolio();
+                // Load most of the scenes
+                Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", appLocale);
+                Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", appLocale);
+                Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml", appLocale);
+                Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml", appLocale);
+                Scenes.TransferScene = SceneLoader.load("TransferScene.fxml", appLocale);
+                Scenes.EnterPINScene = SceneLoader.load("EnterPINScene.fxml", appLocale);
+                Scenes.VisualizeToolScene = SceneLoader.load("VisualizeToolScene.fxml", appLocale);
+                Main.setScene(Flow.forward(Scenes.MainScreenScene));
+                // Empty username text field and password field
+                usernameField.setText("");
+                passwordField.setText("");
+            } else {
+                if (!incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(true);
             }
-            // Creates user's portfolio
-            Main.updatePortfolio();
-            // Load most of the scenes
-            Scenes.MainScreenScene = SceneLoader.load("MainScreenScene.fxml", appLocale);
-            Scenes.ChangePasswordScene = SceneLoader.load("ChangePasswordScene.fxml", appLocale);
-            Scenes.FinancialProductsScene = SceneLoader.load("FinancialProductsScene.fxml", appLocale);
-            Scenes.ExportHistoryScene = SceneLoader.load("ExportHistoryScene.fxml", appLocale);
-            Scenes.TransferScene = SceneLoader.load("TransferScene.fxml", appLocale);
-            Scenes.EnterPINScene = SceneLoader.load("EnterPINScene.fxml", appLocale);
-            Scenes.VisualizeToolScene = SceneLoader.load("VisualizeToolScene.fxml", appLocale);
-            Main.setScene(Flow.forward(Scenes.MainScreenScene));
-            // Empty username text field and password field
-            usernameField.setText("");
-            passwordField.setText("");
-        } else {
-            if (!incorrectUsernameOrPasswordLabel.isVisible()) incorrectUsernameOrPasswordLabel.setVisible(true);
         }
     }
 

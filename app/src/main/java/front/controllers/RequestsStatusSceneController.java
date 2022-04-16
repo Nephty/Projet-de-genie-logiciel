@@ -69,10 +69,9 @@ public class RequestsStatusSceneController extends Controller implements BackBut
      * Fetches requests from the database to display them
      */
     public void fetchRequests() {
-        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc)
+        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc.)
         if (loadingRequestsLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;
             FadeOutThread sleepAndFadeOutLoadingRequestsLabelFadeThread;
             // Fade the label "updating requests..." in to 1.0 opacity
@@ -95,30 +94,40 @@ public class RequestsStatusSceneController extends Controller implements BackBut
                 e.printStackTrace();
             }
 
-            String body = response.getBody();
-            String toParse = body.substring(1,body.length() - 1);
-            ArrayList<String> requestList = Portfolio.JSONArrayParser(toParse);
-            ArrayList<Request> reqList = new ArrayList<Request>();
-            if(!requestList.get(0).equals("")){
-                for(int i = 0; i<requestList.size(); i++){
-                    JSONObject obj = new JSONObject(requestList.get(i));
-                    if(obj.getInt("notificationType") != 4){
-                        CommunicationType comType = CommunicationType.CUSTOM;
-                        int notifType = obj.getInt("notificationType");
-                        switch(notifType){
-                            case(0): comType = CommunicationType.CREATE_ACCOUNT; break;
-                            case(1): comType = CommunicationType.CREATE_SUB_ACCOUNT; break;
-                            case(2): comType = CommunicationType.TRANSFER_PERMISSION; break;
-                            case(3): comType = CommunicationType.NEW_WALLET; break;
+            if (response != null) {
+                String body = response.getBody();
+                String toParse = body.substring(1,body.length() - 1);
+                ArrayList<String> requestList = Portfolio.JSONArrayParser(toParse);
+                ArrayList<Request> reqList = new ArrayList<>();
+                if(!requestList.get(0).equals("")){
+                    for (String s : requestList) {
+                        JSONObject obj = new JSONObject(s);
+                        if (obj.getInt("notificationType") != 4) {
+                            CommunicationType comType = CommunicationType.CUSTOM;
+                            int notifType = obj.getInt("notificationType");
+                            switch (notifType) {
+                                case (0):
+                                    comType = CommunicationType.CREATE_ACCOUNT;
+                                    break;
+                                case (1):
+                                    comType = CommunicationType.CREATE_SUB_ACCOUNT;
+                                    break;
+                                case (2):
+                                    comType = CommunicationType.TRANSFER_PERMISSION;
+                                    break;
+                                case (3):
+                                    comType = CommunicationType.NEW_WALLET;
+                                    break;
+                            }
+                            reqList.add(new Request(obj.getString("recipientId"), comType, obj.getString("date"), obj.getString("comments")));
                         }
-                        reqList.add(new Request(obj.getString("recipientId"), comType, obj.getString("date"), obj.getString("comments")));
                     }
                 }
-            }
-            requestsTableView.setItems(FXCollections.observableArrayList(reqList));
+                requestsTableView.setItems(FXCollections.observableArrayList(reqList));
 
-            // Fade the label "updating requests..." out to 0.0 opacity
-            sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);
+                // Fade the label "updating requests..." out to 0.0 opacity
+                sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeInDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);
+            }
         }
     }
 

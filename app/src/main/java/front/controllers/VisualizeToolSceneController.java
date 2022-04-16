@@ -21,6 +21,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
+import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
@@ -198,7 +199,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
 
     /**
      * Using a timespan, adds the given subAccount to the stacked area chart data for visualization purposes. Prepares
-     * a dates arraylist of strings that will be used as a new x-axis and creates a new series of data for the chart.
+     * a date's arraylist of strings that will be used as a new x-axis and creates a new series of data for the chart.
      * Adds the newly created series to the data. The chart is not actively being updated : we must do
      * [chart].setData([data])
      *
@@ -272,30 +273,34 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         // 4 years = 1461 days
         long _4_YEARS_IN_MILLISECONDS = 1461 * _1_DAY_IN_MILLISECONDS;
 
-        // TODO : if the history list is sorted, we can break out of the loop once we reach a transactions that is too
-        //  far back in time
+        boolean canBreak = false;
         for (Transaction t : history) {
             // for each transaction, if they are in the date range, keep it in a list to use them to compute the amount
             // of money the account had at a particular time stamp
-            long sendingDate = t.getSendingDateAsDateObject();
+            long sendingDateToMillis = t.getSendingDateAsDateObject().toInstant().toEpochMilli();
             switch (timeSpan) {
                 case DAILY:
                     // last 30 days
-                    if (today - sendingDate < _30_DAYS_IN_MILLISECONDS) toApply.add(t);
+                    if (today - sendingDateToMillis < _30_DAYS_IN_MILLISECONDS) toApply.add(t);
+                    else canBreak = true;  // We are too far back in time, no need to check for the next transactions
                     break;
                 case WEEKLY:
                     // last 8 weeks
-                    if (today - sendingDate < _8_WEEKS_IN_MILLISECONDS) toApply.add(t);
+                    if (today - sendingDateToMillis < _8_WEEKS_IN_MILLISECONDS) toApply.add(t);
+                    else canBreak = true;  // We are too far back in time, no need to check for the next transactions
                     break;
                 case MONTHLY:
                     // last 6 months
-                    if (today - sendingDate < _6_MONTHS_IN_MILLISECONDS) toApply.add(t);
+                    if (today - sendingDateToMillis < _6_MONTHS_IN_MILLISECONDS) toApply.add(t);
+                    else canBreak = true;  // We are too far back in time, no need to check for the next transactions
                     break;
                 case YEARLY:
                     // last 4 years
-                    if (today - sendingDate < _4_YEARS_IN_MILLISECONDS) toApply.add(t);
+                    if (today - sendingDateToMillis < _4_YEARS_IN_MILLISECONDS) toApply.add(t);
+                    else canBreak = true;  // We are too far back in time, no need to check for the next transactions
                     break;
             }
+            if (canBreak) break;
         }
 
         return toApply;
@@ -452,7 +457,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     /**
      * Computes all values of accounts holdings at regular intervals using the given transactions and puts all the values
      * in an array list that corresponds to how much money was on an account at regular intervals. These intervals are given
-     * by the HashMap that matches strings to lists of transactions. These lists of transactions must reflect the intervals
+     * by the HashMap that matches strings to list of transactions. These lists of transactions must reflect the intervals
      * of time. For example, the lists of transactions are the transactions that happened every day for 30 days. If so,
      * the returned arraylist will contain the holding history of an account recorded every day for 30 days.
      *
@@ -460,7 +465,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
      * @param transactions A hashmap that maps dates to a list of transactions (every entry in the hashmap is regularly
      *                     spaced one from another
      * @param account      The account from which we track the history
-     * @return An arraylist containing the holdings history at every regular timestamp
+     * @return An arraylist containing the holding's history at every regular timestamp
      */
     public ArrayList<Double> computeValuesHistory(double initialValue, HashMap<String, ArrayList<Transaction>> transactions, SubAccount account) {
         double value = initialValue;
@@ -515,9 +520,9 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         int numberOfEntriesToMove;
         if (!gapLowBound.equals("")) {
             numberOfEntriesToMove = newKeySet.size() - Integer.parseInt(gapLowBound);
-            // For the moving operation, we convert the arraylist to a linkedlist since moving the last element of an
+            // For the moving operation, we convert the arraylist to a linked list since moving the last element of an
             // arraylist to the beginning of this arraylist is a very expensive operation.
-            // Using linkedlists, this operation is much cheaper
+            // Using linked lists, this operation is much cheaper
             LinkedList<String> newKeySetAsLinkedList = new LinkedList<>(newKeySet);
             for (int i = 0; i < numberOfEntriesToMove; i++) {
                 String elementToMove = newKeySetAsLinkedList.get(newKeySetAsLinkedList.size() - 1);
@@ -580,6 +585,7 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     public ArrayList<Double> computeValuesHistoryProcess(SubAccount account, Timespan timeSpan) {
         double initialValue = account.getAmount();
         ArrayList<Transaction> history = account.getTransactionHistory();
+        history.sort(Comparator.comparing(t -> Date.valueOf(t.getSendingDate())));
         HashMap<String, ArrayList<Transaction>> transactionsSeparated = separateTransactionsIntoHashMap(history, timeSpan);
         HashMap<String, ArrayList<Transaction>> comprehensiveData = prepareComprehensiveTransactionsHashMap(transactionsSeparated, timeSpan);
         valuesHistory = computeValuesHistory(initialValue, comprehensiveData, account);
@@ -587,42 +593,44 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     }
 
     public void handleExportHistoryButtonClicked(MouseEvent event) {
-        ExportHistorySceneController.exportData = new ArrayList<>();
-        // today's date as milliseconds since epoch
-        long today = Instant.now().toEpochMilli();
-        // 1 day in milliseconds : 86.400.000ms
-        long _1_DAY_IN_MILLISECONDS = 86400000L;
-        long _30_DAYS_IN_MILLISECONDS = 30 * _1_DAY_IN_MILLISECONDS;
-        // 8 weeks = 56 days
-        long _8_WEEKS_IN_MILLISECONDS = 56 * _1_DAY_IN_MILLISECONDS;
-        // 6 months = 182 days
-        long _6_MONTHS_IN_MILLISECONDS = 182 * _1_DAY_IN_MILLISECONDS;
-        // 4 years = 1461 days
-        long _4_YEARS_IN_MILLISECONDS = 1461 * _1_DAY_IN_MILLISECONDS;
-        for (SubAccount subAccount : addedAccountsTableView.getItems()) {
-            for (Transaction t : subAccount.getTransactionHistory()) {
-                long sendingDate = t.getSendingDateAsDateObject();
-                switch (timeSpanComboBox.getValue()) {
-                    case DAILY:
-                        // last 30 days
-                        if (today - sendingDate < _30_DAYS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
-                        break;
-                    case WEEKLY:
-                        // last 8 weeks
-                        if (today - sendingDate < _8_WEEKS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
-                        break;
-                    case MONTHLY:
-                        // last 6 months
-                        if (today - sendingDate < _6_MONTHS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
-                        break;
-                    case YEARLY:
-                        // last 4 years
-                        if (today - sendingDate < _4_YEARS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
-                        break;
+        if (addedAccountsTableView.getItems().size() > 0) {
+            ExportHistorySceneController.exportData = new ArrayList<>();
+            // today's date as milliseconds since epoch
+            long today = Instant.now().toEpochMilli();
+            // 1 day in milliseconds : 86.400.000ms
+            long _1_DAY_IN_MILLISECONDS = 86400000L;
+            long _30_DAYS_IN_MILLISECONDS = 30 * _1_DAY_IN_MILLISECONDS;
+            // 8 weeks = 56 days
+            long _8_WEEKS_IN_MILLISECONDS = 56 * _1_DAY_IN_MILLISECONDS;
+            // 6 months = 182 days
+            long _6_MONTHS_IN_MILLISECONDS = 182 * _1_DAY_IN_MILLISECONDS;
+            // 4 years = 1461 days
+            long _4_YEARS_IN_MILLISECONDS = 1461 * _1_DAY_IN_MILLISECONDS;
+            for (SubAccount subAccount : addedAccountsTableView.getItems()) {
+                for (Transaction t : subAccount.getTransactionHistory()) {
+                    long sendingDateToMillis = t.getSendingDateAsDateObject().toInstant().toEpochMilli();
+                    switch (timeSpanComboBox.getValue()) {
+                        case DAILY:
+                            // last 30 days
+                            if (today - sendingDateToMillis < _30_DAYS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                            break;
+                        case WEEKLY:
+                            // last 8 weeks
+                            if (today - sendingDateToMillis < _8_WEEKS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                            break;
+                        case MONTHLY:
+                            // last 6 months
+                            if (today - sendingDateToMillis < _6_MONTHS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                            break;
+                        case YEARLY:
+                            // last 4 years
+                            if (today - sendingDateToMillis < _4_YEARS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                            break;
+                    }
                 }
             }
+            Main.setScene(Flow.forward(Scenes.ExportHistoryScene));
         }
-        Main.setScene(Flow.forward(Scenes.ExportHistoryScene));
     }
 
     public static class StringDateParser {

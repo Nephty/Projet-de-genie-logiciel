@@ -109,10 +109,9 @@ public class ArchivedAccountsScenesController extends Controller implements Back
      * Updates the archived accounts
      */
     public void updateArchivedAccounts() {
-        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc)
+        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc.)
         if (loadingAccountsLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;
             FadeOutThread sleepAndFadeOutLoadingAccountsLabelFadeThread;
             // Fade the label "updating accounts..." in to 1.0 opacity
@@ -131,14 +130,14 @@ public class ArchivedAccountsScenesController extends Controller implements Back
             data = FXCollections.observableArrayList(accountsList);
             archivedAccountsTableView.setItems(data);
             // Fade the label "updating accounts..." out to 0.0 opacity
-            sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
+            sleepAndFadeOutLoadingAccountsLabelFadeThread.start(fadeInDuration, sleepDuration + fadeInDuration, loadingAccountsLabel);
         }
     }
 
     private boolean restoreAccount(Account account) {
         if(!account.isArchived()){
             try {
-                account.toggleOn();
+                account.toggle();
                 return true;
             } catch (UnirestException e) {
                 throw new RuntimeException(e);

@@ -20,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class ChangePasswordSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
-    Button backButton, languageButton;
+    Button backButton;
     @FXML
     PasswordField currentPasswordField, newPasswordField, confirmNewPasswordField;
     @FXML
@@ -59,11 +59,6 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     @FXML
-    void handleLanguageButtonClicked(MouseEvent event) {
-        handleLanguageButtonNavigation(event);
-    }
-
-    @FXML
     void handleComponentKeyPressed(KeyEvent keyEvent) {
         passwordChanged = false;
     }
@@ -81,6 +76,8 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         } catch (UnirestException e) {
             Main.ErrorManager(408);
         }
+        assert response != null : "No response";
+
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
 
@@ -97,7 +94,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         // If the current password stored in the database doesn't match the input "current password"
         if (!matches || currentPasswordFromUser.equals("") && !incorrectCurrentPasswordLabel.isVisible())
             incorrectCurrentPasswordLabel.setVisible(true);
-        else if (matches && !currentPasswordFromUser.equals("") && incorrectCurrentPasswordLabel.isVisible())
+        else if (!currentPasswordFromUser.equals("") && incorrectCurrentPasswordLabel.isVisible())
             incorrectCurrentPasswordLabel.setVisible(false);
         // If the new password doesn't match the confirmation of the new password
         if (!passwordMatchesAndIsNotEmpty(newPassword, newPasswordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
@@ -109,7 +106,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         if (!incorrectCurrentPasswordLabel.isVisible() && !passwordDoesNotMatchLabel.isVisible()) {
             // Change the password in the database
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response2 = null;
+            HttpResponse<String> response2;
             try {
                 response2 = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
                         .header("Content-Type", "application/json")
@@ -132,15 +129,17 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         }
     }
 
-    public void emulateChangePasswordButtonClicked() {
-        handleChangePasswordButtonClicked(null);
-    }
-
     @FXML
     void handleComponentKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             emulateBackButtonClicked();
-            event.consume();
+        } else if (event.getCode() == KeyCode.ENTER) {
+            emulateChangePasswordButtonClicked();
         }
+        event.consume();
+    }
+
+    private void emulateChangePasswordButtonClicked() {
+        handleChangePasswordButtonClicked(null);
     }
 }

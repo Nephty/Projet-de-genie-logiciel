@@ -36,6 +36,8 @@
             </TextField>
             <Label fx:id="invalidAmountLabel" layoutX="181.0" layoutY="120.0" prefHeight="16.0" prefWidth="435.0"
                    text="%TransferScene.invalidAmountLabel" textFill="#c80000" visible="false"/>
+            <Label fx:id="insufficientBalanceLabel" layoutX="181.0" layoutY="120.0" prefHeight="16.0" prefWidth="435.0"
+                   text="%TransferScene.insufficientBalance" textFill="#c80000" visible="false"/>
             <TextField fx:id="IBANField" layoutX="181.0" layoutY="230.0" onKeyPressed="#handleComponentKeyReleased"
                        onKeyReleased="#handleComponentKeyReleased" prefHeight="60.0" prefWidth="435.0"
                        promptText="%TransferScene.IBANField"

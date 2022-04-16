@@ -5,7 +5,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DateParsingTest {
-    String d0 = "", d1 = "a", d2 = "--", d3 = "0000-00-00", d4 = "0000.00.00", d5 = "2022-03-17", d6 = "2020-01-02", d7 = "23-07-2002";
+    final String d0 = "";
+    final String d1 = "a";
+    final String d2 = "--";
+    final String d3 = "0000-00-00";
+    final String d4 = "0000.00.00";
+    final String d5 = "2022-03-17";
+    final String d6 = "2020-01-02";
+    final String d7 = "23-07-2002";
 
     @Test
     @DisplayName("Day Parsing Test")

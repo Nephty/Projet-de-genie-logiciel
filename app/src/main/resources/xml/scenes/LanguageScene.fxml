@@ -47,17 +47,7 @@
                     <TableColumn fx:id="countryColumn" style="-fx-alignment: CENTER;" text="%LanguageScene.CountryColumn"/>
                 </columns>
             </TableView>
-            <Button fx:id="addButton" layoutX="1075.0" layoutY="75.0"
-                    onMouseClicked="#handleAddButtonMouseClicked" prefHeight="30.0" prefWidth="170.0"
-                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
-                    onKeyReleased="#handleComponentKeyReleased"
-                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
-                    text="%LanguageScene.addButton" textFill="#0a0a14">
-                <effect>
-                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
-                </effect>
-            </Button>
-            <Button fx:id="setButton" layoutX="1075.0" layoutY="125.0"
+            <Button fx:id="setButton" layoutX="1075.0" layoutY="75.0"
                     onMouseClicked="#handleSetButtonMouseClicked" prefHeight="30.0" prefWidth="170.0"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     onKeyReleased="#handleComponentKeyReleased"

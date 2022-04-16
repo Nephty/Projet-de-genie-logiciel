@@ -88,7 +88,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     }
 
     /**
-     * Checks if every field is properly filled in. Initializes the sign up process.
+     * Checks if every field is properly filled in. Initializes the sign-up process.
      */
     public void signUp() {
         String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
@@ -132,7 +132,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
             String username = getUsernameFromLastNameAndNRNTextFields();
-            String birthDate = "";
+            String birthDate;
             if(Integer.parseInt(NRN.substring(0,2)) >=30){
                 birthDate = "19" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
             } else{
@@ -147,23 +147,20 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
             }
-            if(response.getStatus() == 403){
-                switch (response.getBody()){
-                    case "ID": NRNTakenLabel.setVisible(true); break;
-                    case "EMAIL": emailTakenLabel.setVisible(true); break;
+            if (response != null) {
+                if (response.getStatus() == 403) {
+                    switch (response.getBody()) {
+                        case "ID":
+                            NRNTakenLabel.setVisible(true);
+                            break;
+                        case "EMAIL":
+                            emailTakenLabel.setVisible(true);
+                            break;
+                    }
+                } else {
+                    fadeInAndOutNode(3000, signedUpLabel);
+                    userSignedUp = true;
                 }
-            } else{
-                fadeInAndOutNode(3000, signedUpLabel);
-                userSignedUp = true;
-                // Empty all data that we don't need, it's a security detail
-                lastName = "";
-                firstName = "";
-                email = "";
-                NRN = "";
-                username = "";
-                password = "";
-                passwordConfirmation = "";
-                chosenLanguage = "";
             }
         }
     }
@@ -269,7 +266,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
     /**
      * Checks if any label that show if any field is not properly filled in is visible. If any is visible,
      * the user didn't properly fill in every field. If none are visible, every field is properly filled in.
-     * This is directly used to check if every field is properly filled in to begin the sign up process.
+     * This is directly used to check if every field is properly filled in to begin the sign-up process.
      *
      * @return <code>boolean</code> - whether any label is visible or not
      */

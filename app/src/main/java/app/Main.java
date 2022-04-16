@@ -1,21 +1,15 @@
 package app;
 
 import back.user.*;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
-
-import static back.user.ErrorHandler.refreshToken;
 
 /**
  * Main runnable class that launches the application.
@@ -111,18 +105,18 @@ public class Main extends Application {
         if(!(getCurrentWallet() == null)){
             ArrayList<Wallet> walletList = getPortfolio().getWalletList();
 
-            for(int i = 0; i<walletList.size() ; i++){
-                if(walletList.get(i).getBank().getSwiftCode().equals(swift)){
-                    currentWallet = walletList.get(i);
+            for (Wallet wallet : walletList) {
+                if (wallet.getBank().getSwiftCode().equals(swift)) {
+                    currentWallet = wallet;
                 }
             }
 
             if(!(getCurrentAccount() == null)){
                 ArrayList<Account> accountList = currentWallet.getAccountList();
 
-                for(int j = 0; j< accountList.size(); j++){
-                    if(accountList.get(j).getIBAN().equals(IBAN)){
-                        currentAccount = accountList.get(j);
+                for (Account account : accountList) {
+                    if (account.getIBAN().equals(IBAN)) {
+                        currentAccount = account;
                     }
                 }
             }
@@ -132,25 +126,25 @@ public class Main extends Application {
     /**
      * Check if the response is an error
      *
-     * @param statut The error statut
+     * @param status The error status
      */
-    public static void errorCheck(int statut) {
-        if(statut == 412){
+    public static void errorCheck(int status) {
+        if(status == 412){
             ErrorHandler.refreshToken();
         }
-        if (statut >= 400 || statut != 412) {
-            ErrorManager(statut);
+        if (status >= 400 || status != 412) {
+            ErrorManager(status);
         }
     }
 
     /**
      * Manages HTTP errors
      *
-     * @param statut The error code
+     * @param status The error code
      */
-    public static void ErrorManager(int statut) {
-        String message = "Error + " + statut + ": ";
-        switch (statut) {
+    public static void ErrorManager(int status) {
+        String message = "Error + " + status + ": ";
+        switch (status) {
             case (401):
                 message = message + "access unauthorized, try to login again";
                 break;
@@ -170,10 +164,10 @@ public class Main extends Application {
                 message = message + "bad gateway, try again later";
                 break;
             case (503):
-                message = message + "service unavalaible, try again later";
+                message = message + "service unavailable, try again later";
                 break;
             default:
-                message = message + "An error has occured";
+                message = message + "An error has occurred";
                 break;
         }
     }

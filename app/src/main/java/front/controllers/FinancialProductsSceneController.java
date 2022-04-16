@@ -73,10 +73,9 @@ public class FinancialProductsSceneController extends Controller implements Back
      * Updates the products
      */
     public void updateProducts() {
-        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc)
+        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc.)
         if (loadingProductsLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;
             FadeOutThread sleepAndFadeOutLoadingNotificationsLabelFadeThread;
             // Fade the label "updating product..." in to 1.0 opacity
@@ -93,7 +92,7 @@ public class FinancialProductsSceneController extends Controller implements Back
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
 
             // Fade the label "updating products..." out to 0.0 opacity
-            sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingProductsLabel);
+            sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeInDuration, sleepDuration + fadeInDuration, loadingProductsLabel);
             // Put the wallets in listView
             productsTableView.setItems(FXCollections.observableArrayList(walletList));
         }
@@ -104,10 +103,9 @@ public class FinancialProductsSceneController extends Controller implements Back
      * Fetches wallets from the database to display them
      */
     public void fetchProducts() {
-        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc)
+        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc.)
         if (loadingProductsLabel.getOpacity() == 0.0) {
             int fadeInDuration = 1000;
-            int fadeOutDuration = fadeInDuration;
             int sleepDuration = 1000;
             FadeOutThread sleepAndFadeOutLoadingNotificationsLabelFadeThread;
             // Fade the label "updating products..." in to 1.0 opacity
@@ -123,7 +121,7 @@ public class FinancialProductsSceneController extends Controller implements Back
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
 
             // Fade the label "updating products..." out to 0.0 opacity
-            sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingProductsLabel);
+            sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeInDuration, sleepDuration + fadeInDuration, loadingProductsLabel);
             // Put the wallets in the listView
             productsTableView.setItems(FXCollections.observableArrayList(walletList));
         }

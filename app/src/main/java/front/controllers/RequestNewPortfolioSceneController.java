@@ -5,7 +5,6 @@ import back.user.Bank;
 import back.user.CommunicationType;
 import back.user.Request;
 import back.user.Wallet;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
@@ -32,12 +31,10 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
 
     private boolean requestSent = false;
 
-    // TODO : Attention, il faut remplacer "Portfolio" par "Wallet". C'est une confusion de termes
-
 
     public void initialize() {
         Main.updatePortfolio();
-        ObservableList<String> values = FXCollections.observableArrayList();
+        ObservableList<String> values;
         values = FXCollections.observableArrayList(Bank.fetchAllSWIFT());
         ArrayList<String> alreadyOwnsAWalletSWIFTs = new ArrayList<>();
         for (Wallet w : Main.getPortfolio().getWalletList()) alreadyOwnsAWalletSWIFTs.add(w.getBank().getSwiftCode());
@@ -61,13 +58,13 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
     void handleBackButtonClicked(MouseEvent event) {
         handleBackButtonNavigation(event);
         if (requestSent) {
-            SWIFTComboBox.setValue(SWIFTComboBox.getPromptText()); // TODO : this is not showing the prompt text
+            SWIFTComboBox.setValue(null);
             requestSent = false;
         }
     }
 
     @FXML
-    void handleSendRequestButton(MouseEvent event) throws UnirestException {
+    void handleSendRequestButton(MouseEvent event) {
         if (SWIFTComboBox.getValue() != null && !SWIFTComboBox.getValue().equals("")) {
             if (noSWIFTSelectedLabel.isVisible()) noSWIFTSelectedLabel.setVisible(false);
 

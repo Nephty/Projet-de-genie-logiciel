@@ -17,11 +17,10 @@ public class Profile {
      * Creates a Profile object with an HTTP request by using the user's national registration number
      *
      * @param nationalRegistrationNumber The String of the user's national registration number
-     * @throws UnirestException For managing HTTP errors
      */
     public Profile(String nationalRegistrationNumber){
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
                     .header("Authorization", "Bearer " + Main.getToken())
@@ -41,7 +40,7 @@ public class Profile {
 
 
     /**
-     * Creates a Profile object by giving all the needed informations
+     * Creates a Profile object by giving all the needed information
      *
      * @param firstName                  A string of the firstname
      * @param lastName                   A string of the lastname

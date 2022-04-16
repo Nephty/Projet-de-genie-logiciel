@@ -50,10 +50,6 @@ public class LanguageSceneController extends Controller implements BackButtonNav
     }
 
     @FXML
-    void handleAddButtonMouseClicked(MouseEvent event) {
-    }
-
-    @FXML
     void handleSetButtonMouseClicked(MouseEvent event) {
         if (languagesTableView.getSelectionModel().getSelectedItems().size() == 1) {
             Main.appLocale = languagesTableView.getSelectionModel().getSelectedItems().get(0);

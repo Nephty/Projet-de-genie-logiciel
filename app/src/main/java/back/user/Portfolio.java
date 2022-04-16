@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Portfolio {
-    private Profile user;
+    private final Profile user;
     private ArrayList<Wallet> walletList;
 
 
@@ -17,14 +17,13 @@ public class Portfolio {
      * Creates a portfolio with an HTTP request by using the user's national registration code
      *
      * @param nationalRegistrationNumber The user's national registration code
-     * @throws UnirestException For managing HTTP errors
      */
     public Portfolio(String nationalRegistrationNumber) {
         this.user = new Profile(nationalRegistrationNumber);
-        // It fetchs all the access that got the user
+        // It fetches all the access that got the user
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(()-> {
-            HttpResponse<String> rep = null;
+            HttpResponse<String> rep;
             try {
                  rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + nationalRegistrationNumber + "&deleted=false&hidden=false")
                         .header("Authorization", "Bearer " + Main.getToken())
@@ -77,18 +76,19 @@ public class Portfolio {
     }
 
     public ArrayList<Wallet> createWallets(String body, String body2, String body3) {
-        ArrayList<Wallet> repWalletList = new ArrayList<Wallet>();
+        ArrayList<Wallet> repWalletList = new ArrayList<>();
         // If the user got at least one account, it will parse the list of account access into list of account in the same bank (Wallet)
         if (!body.equals("")) {
             ArrayList<String> bodyList = JSONArrayParser(body);
 
-            ArrayList<Account> accountList = new ArrayList<Account>();
+            ArrayList<Account> accountList = new ArrayList<>();
 
             String oldSwift = "";
             Bank bank = null;
             for (int i = 0; i < bodyList.size(); i++) {
                 JSONObject obj = new JSONObject(bodyList.get(i));
                 String swift = obj.getJSONObject("account").getString("swift");
+                Profile owner;
                 if (oldSwift.equals(swift) || i == 0) {
                     if (i == 0) {
                         oldSwift = swift;
@@ -96,97 +96,71 @@ public class Portfolio {
                         bank = new Bank(swift, bankName);
                     }
                     // TODO : coOwner quand ce sera implémentée dans l'API
-                    Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), Main.getUser().getUsername(), Main.getUser().getFavoriteLanguage(), obj.getJSONObject("account").getString("ownerLastname"), obj.getJSONObject("account").getString("userId"));
+                    owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), Main.getUser().getUsername(), Main.getUser().getFavoriteLanguage(), obj.getJSONObject("account").getString("ownerLastname"), obj.getJSONObject("account").getString("userId"));
                     //Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
-                    String iban = obj.getString("accountId");
-                    int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
-                    AccountType accountType = null;
-                    switch (accountTypeId) {
-                        case 1:
-                            accountType = AccountType.COURANT;
-                            break;
-                        case 2:
-                            accountType = AccountType.JEUNE;
-                            break;
-                        case 3:
-                            accountType = AccountType.EPARGNE;
-                            break;
-                        case 4:
-                            accountType = AccountType.TERME;
-                            break;
-                    }
-                    boolean activated = (!obj.getBoolean("hidden"));
-                    boolean archived = obj.getJSONObject("account").getBoolean("deleted");
-                    boolean canPay = obj.getJSONObject("account").getBoolean("payment");
-                    // TODO : Remettre coOwner
-                    accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
                 } else {
                     repWalletList.add(new Wallet(this.user, bank, accountList));
-                    accountList = new ArrayList<Account>();
+                    accountList = new ArrayList<>();
                     String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
                     bank = new Bank(swift, bankName);
                     oldSwift = swift;
-                    Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), Main.getUser().getUsername(), Main.getUser().getFavoriteLanguage(), obj.getJSONObject("account").getString("userId"));
+                    owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), Main.getUser().getUsername(), Main.getUser().getFavoriteLanguage(), obj.getJSONObject("account").getString("userId"));
                     //Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
-                    String iban = obj.getString("accountId");
-                    int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
-                    AccountType accountType = null;
-                    switch (accountTypeId) {
-                        case 1:
-                            accountType = AccountType.COURANT;
-                            break;
-                        case 2:
-                            accountType = AccountType.JEUNE;
-                            break;
-                        case 3:
-                            accountType = AccountType.EPARGNE;
-                            break;
-                        case 4:
-                            accountType = AccountType.TERME;
-                            break;
-                    }
-                    boolean activated = (!obj.getBoolean("hidden"));
-                    boolean archived = obj.getJSONObject("account").getBoolean("deleted");
-                    boolean canPay = obj.getJSONObject("account").getBoolean("payment");
-                    // TODO : Remettre coOwner
-                    accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
                 }
+                String iban = obj.getString("accountId");
+                int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
+                AccountType accountType = null;
+                switch (accountTypeId) {
+                    case 1:
+                        accountType = AccountType.COURANT;
+                        break;
+                    case 2:
+                        accountType = AccountType.JEUNE;
+                        break;
+                    case 3:
+                        accountType = AccountType.EPARGNE;
+                        break;
+                    case 4:
+                        accountType = AccountType.TERME;
+                        break;
+                }
+                boolean activated = (!obj.getBoolean("hidden"));
+                boolean archived = obj.getJSONObject("account").getBoolean("deleted");
+                boolean canPay = obj.getJSONObject("account").getBoolean("payment");
+                // TODO : Remettre coOwner
+                accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
             }
             repWalletList.add(new Wallet(this.user, bank, accountList));
         }
 
         // Manage case where the client only get deleted accounts in a bank
         // Fetch all banks created
-        ArrayList<String> usedSwift = new ArrayList<String>();
-        for (int i = 0; i < repWalletList.size(); i++) {
-            usedSwift.add(repWalletList.get(i).getBank().getSwiftCode());
+        ArrayList<String> usedSwift = new ArrayList<>();
+        for (Wallet wallet : repWalletList) {
+            usedSwift.add(wallet.getBank().getSwiftCode());
         }
 
-        if (!body2.equals("")) {
-            ArrayList<String> bodyList2 = JSONArrayParser(body2);
-            for (int i = 0; i < bodyList2.size(); i++) {
-                JSONObject obj = new JSONObject(bodyList2.get(i));
-                String swift = obj.getJSONObject("account").getString("swift");
-                String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
-                if (!usedSwift.contains(swift)) {
-                    repWalletList.add(new Wallet(this.user, new Bank(swift, bankName)));
-                    usedSwift.add(swift);
+        class LocalParser {
+            protected void localParse(String body, ArrayList<String> usedSwift, ArrayList<Wallet> repWalletList, Profile user) {
+                if (!body.equals("")) {
+                    ArrayList<String> bodyList = JSONArrayParser(body);
+                    for (String s : bodyList) {
+                        JSONObject obj = new JSONObject(s);
+                        String swift = obj.getJSONObject("account").getString("swift");
+                        String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
+                        if (!usedSwift.contains(swift)) {
+                            repWalletList.add(new Wallet(user, new Bank(swift, bankName)));
+                            usedSwift.add(swift);
+                        }
+                    }
                 }
             }
         }
 
-        if (!body3.equals("")) {
-            ArrayList<String> bodyList3 = JSONArrayParser(body3);
-            for (int i = 0; i < bodyList3.size(); i++) {
-                JSONObject obj = new JSONObject(bodyList3.get(i));
-                String swift = obj.getJSONObject("account").getString("swift");
-                String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
-                if (!usedSwift.contains(swift)) {
-                    repWalletList.add(new Wallet(this.user, new Bank(swift, bankName)));
-                    usedSwift.add(swift);
-                }
-            }
-        }
+        LocalParser localParser = new LocalParser();
+        localParser.localParse(body2, usedSwift, repWalletList, user);
+        localParser.localParse(body3, usedSwift, repWalletList, user);
+
         return repWalletList;
     }
 

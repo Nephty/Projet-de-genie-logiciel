@@ -1,19 +1,21 @@
 package back.user;
 
-import java.time.Instant;
+import app.Main;
+
+import java.sql.Date;
 
 public class Transaction {
-    private long ID;
-    private String senderName;
-    private String senderIBAN;
-    private String receiverName;
-    private String receiverIBAN;
-    private double amount;
-    private String sendingDate;
-    private Currencies currency;
+    private final long ID;
+    private final String senderName;
+    private final String senderIBAN;
+    private final String receiverName;
+    private final String receiverIBAN;
+    private final double amount;
+    private final String sendingDate;
+    private final Currencies currency;
 
     /**
-     * Creates the Transaction object byt giving all the needed informations
+     * Creates the Transaction object byt giving all the needed information
      *
      * @param ID           The ID of the transaction
      * @param senderName   The String of the senderName
@@ -37,12 +39,12 @@ public class Transaction {
 
 
     /**
-     * @return A String to display the transaction informations
+     * @return A String to display the transaction information
      */
     @Override
     public String toString() {
         // If the transaction is sent by the account owner
-        if (this.senderIBAN.equals("BE327777888877778888")) { // TODO : reset this to Main.getCurrentAccount().getIBAN()
+        if (this.senderIBAN.equals(Main.getCurrentAccount().getIBAN())) {
             return this.sendingDate + "      " + this.receiverName + "      " + this.receiverIBAN + "       -" + this.amount + "€";
         } else {
             return this.sendingDate + "      " + this.senderName + "      " + this.senderIBAN + "       +" + this.amount + "€";
@@ -77,12 +79,7 @@ public class Transaction {
         return this.ID;
     }
 
-    public Currencies getCurrency() {
-        return this.currency;
-    }
-
-    public long getSendingDateAsDateObject() {
-        // TODO : make this method return the date of the transaction as ms since epoch
-        return Instant.now().toEpochMilli();
+    public Date getSendingDateAsDateObject() {
+        return Date.valueOf(sendingDate);
     }
 }

@@ -16,13 +16,12 @@ public class Bank {
      * Creates a Bank object with an HTTP request by using the swift code
      *
      * @param swiftCode A String of the swift code of the bank
-     * @throws UnirestException For managing HTTP errors
      */
     public Bank(String swiftCode) {
         String token = Main.getToken();
         this.swiftCode = swiftCode;
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/" + swiftCode)
                     .header("Authorization", "Bearer " + token)
@@ -52,12 +51,11 @@ public class Bank {
      * Fetch all bank's swift code
      *
      * @return An arraylist of all swift codes
-     * @throws UnirestException For managing HTTP errors
      */
     public static ArrayList<String> fetchAllSWIFT() {
-        ArrayList<String> rep = new ArrayList<String>();
+        ArrayList<String> rep = new ArrayList<>();
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank")
                     .header("Authorization", "Bearer " + Main.getToken())
@@ -69,8 +67,8 @@ public class Bank {
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);
         ArrayList<String> bankList = Portfolio.JSONArrayParser(body);
-        for (int i = 0; i < bankList.size(); i++) {
-            JSONObject obj = new JSONObject(bankList.get(i));
+        for (String s : bankList) {
+            JSONObject obj = new JSONObject(s);
             rep.add(obj.getString("swift"));
         }
         return rep;

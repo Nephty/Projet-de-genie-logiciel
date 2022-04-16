@@ -5,7 +5,6 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import javax.naming.SizeLimitExceededException;
 import java.util.ArrayList;
 
 public class Account {
@@ -18,24 +17,24 @@ public class Account {
     private final boolean canPay;
     private final ArrayList<SubAccount> subAccountList;
     private boolean activated;
-    private int numberOfSubAccounts = 0;
+    private int numberOfSubAccounts;
 
 
     /**
-     * Creates an Account object with all the informations needed
+     * Creates an Account object with all the information needed
      *
      * @param accountOwner   The owner of the account in a Profile object
      * @param accountCoOwner A co owner of the account in a Profile object
      * @param bank           The bank where the account is. In a Bank object
      * @param IBAN           A String of the IBAN
      * @param accountType    The type of the account in accountType enumeration
-     * @param activated      A boolean for the activated/desactivated option
+     * @param activated      A boolean for the activated/deactivated option
      * @param archived       A boolean for archived/unarchived option
      * @param canPay         A boolean for canPay/cannotPay option
      */
     public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay){
         this.accountOwner = accountOwner;
-        this.accountCoOwner = new ArrayList<Profile>();
+        this.accountCoOwner = new ArrayList<>();
         this.accountCoOwner.add(accountCoOwner);
         this.bank = bank;
         this.IBAN = IBAN;
@@ -43,13 +42,13 @@ public class Account {
         this.activated = activated;
         this.archived = archived;
         this.canPay = canPay;
-        this.subAccountList = new ArrayList<SubAccount>();
+        this.subAccountList = new ArrayList<>();
         this.subAccountList.add(new SubAccount(this.IBAN, Currencies.EUR));
         this.numberOfSubAccounts = this.subAccountList.size();
     }
 
     /**
-     * @return A String to display the account informations
+     * @return A String to display the account information
      */
     @Override
     public String toString() {
@@ -66,10 +65,10 @@ public class Account {
     }
 
     /**
-     * Toggles the account on.
+     * Toggles the account.
      */
-    public void toggleOn() throws UnirestException {
-        this.activated = true;
+    public void toggle() throws UnirestException {
+        activated = !activated;
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
                 .header("Authorization", "Bearer " + Main.getToken())
@@ -77,33 +76,6 @@ public class Account {
                 .body("{\r\n    \"accountId\": \"" + this.IBAN + "\",\r\n    \"userId\": \"" + this.accountOwner.getNationalRegistrationNumber() + "\",\r\n    \"access\": true,\r\n    \"hidden\": " + (!this.activated) + "\r\n}")
                 .asString();
         Main.errorCheck(response.getStatus());
-    }
-
-    /**
-     * Toggles the account off.
-     */
-    public void toggleOff() throws UnirestException {
-        this.activated = false;
-        Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
-                .header("Authorization", "Bearer " + Main.getToken())
-                .header("Content-Type", "application/json")
-                .body("{\r\n    \"accountId\": \"" + this.IBAN + "\",\r\n    \"userId\": \"" + this.accountOwner.getNationalRegistrationNumber() + "\",\r\n    \"access\": true,\r\n    \"hidden\": " + (!this.activated) + "\r\n}")
-                .asString();
-        Main.errorCheck(response.getStatus());
-    }
-
-
-    public Profile getAccountOwner() {
-        return this.accountOwner;
-    }
-
-    public AccountType getAccountType() {
-        return this.accountType;
-    }
-
-    public ArrayList<Profile> getAccountCoOwner() {
-        return this.accountCoOwner;
     }
 
     public String getIBAN() {
@@ -124,26 +96,6 @@ public class Account {
 
     public boolean canPay() {
         return canPay;
-    }
-
-    // TODO : remove
-    public double getAmount() throws SizeLimitExceededException {
-        if (subAccountList.size() != 1)
-            throw new SizeLimitExceededException("There should only be one sub account in account " + IBAN);
-        return subAccountList.get(0).getAmount();
-    }
-
-    // TODO : remove
-    public double getAmountDaysAgo(int days) throws SizeLimitExceededException {
-        if (subAccountList.size() != 1)
-            throw new SizeLimitExceededException("There should only be one sub account in account " + IBAN);
-        double amount = 0;
-        SubAccount account = subAccountList.get(0);
-        ArrayList<Transaction> history = account.getTransactionHistory();
-        for (Transaction t : history) {
-            System.out.println(t.getSendingDate());
-        }
-        return 0;
     }
 
     public void setArchived(boolean value) {

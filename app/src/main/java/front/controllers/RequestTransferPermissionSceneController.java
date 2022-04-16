@@ -36,9 +36,6 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     private boolean requestSent = false;
 
     private ObservableList<Account> values;
-    private ArrayList<Wallet> wallets;
-
-    // TODO : Attention, il faut remplacer "Portfolio" par "Wallet". C'est une confusion de termes
 
     public void initialize() {
         Main.updatePortfolio();
@@ -78,7 +75,6 @@ public class RequestTransferPermissionSceneController extends Controller impleme
         if (portfolioComboBox.getValue() != null) {
             if (noPortfolioSelectedLabel.isVisible()) noPortfolioSelectedLabel.setVisible(false);
 
-            // TODO : Vérifier si le compte a déjà les transfer permission
             // Create the request and send it
             Request request = new Request(portfolioComboBox.getValue().getBank().getSwiftCode(), CommunicationType.TRANSFER_PERMISSION, "", portfolioComboBox.getValue().getIBAN());
             request.send();

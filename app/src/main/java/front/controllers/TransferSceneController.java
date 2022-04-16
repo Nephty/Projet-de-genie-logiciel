@@ -19,8 +19,6 @@ import java.util.Calendar;
 import java.util.Objects;
 
 public class TransferSceneController extends Controller implements BackButtonNavigator {
-    private final int charactersLeft = 256;
-    private final int previousMessageLength = 0;
     @FXML
     PasswordField passwordField;
     @FXML
@@ -29,14 +27,9 @@ public class TransferSceneController extends Controller implements BackButtonNav
     TextField amountField, recipientField, IBANField, messageField, dateField;
     @FXML
     Label invalidAmountLabel, invalidRecipientLabel, invalidIBAN, invalidMessageLabel, invalidDateLabel,
-            transferExecutedLabel, charactersLeftLabel, invalidPasswordLabel;
+            transferExecutedLabel, charactersLeftLabel, invalidPasswordLabel, insufficientBalanceLabel;
 
     private boolean transferExecuted = false;
-
-    public static void executeTransfer() {
-        System.out.println("transfer executed.");
-        // TODO : execute the given transfer (that method is ran by the PIN scene only if the PIN is correct)
-    }
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -64,6 +57,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
         invalidDateLabel.setVisible(false);
         invalidMessageLabel.setVisible(false);
         invalidRecipientLabel.setVisible(false);
+        insufficientBalanceLabel.setVisible(false);
     }
 
     /**
@@ -87,14 +81,16 @@ public class TransferSceneController extends Controller implements BackButtonNav
         else if (isValidDate(date) && invalidDateLabel.isVisible()) invalidDateLabel.setVisible(false);
         if (!isValidPassword(password) && !invalidPasswordLabel.isVisible()) invalidPasswordLabel.setVisible(true);
         else if (isValidPassword(password) && invalidPasswordLabel.isVisible()) invalidPasswordLabel.setVisible(false);
+        if (!sufficientBalance(amount) && !insufficientBalanceLabel.isVisible()) insufficientBalanceLabel.setVisible(true);
+        else if (sufficientBalance(amount) && insufficientBalanceLabel.isVisible()) insufficientBalanceLabel.setVisible(false);
 
         String recipientActual = Main.getCurrentAccount().getIBAN();
         if (!Objects.equals(recipientActual, IBAN)) {
             if (noLabelVisible()) {
-                // TODO : Manage errors (insufficient balance)
                 // Creates the transfer if everything is correct
+                if (insufficientBalanceLabel.isVisible()) insufficientBalanceLabel.setVisible(false);
                 Unirest.setTimeouts(0, 0);
-                HttpResponse<String> response = null;
+                HttpResponse<String> response;
                 try {
                     response = Unirest.post("https://flns-spring-test.herokuapp.com/api/transaction")
                             .header("Authorization", "Bearer " + Main.getToken())
@@ -113,6 +109,10 @@ public class TransferSceneController extends Controller implements BackButtonNav
                 clearAllTextFields();
             }
         }
+    }
+
+    private boolean sufficientBalance(String amount) {
+        return Main.getCurrentAccount().getSubAccountList().get(0).getAmount() >= Double.parseDouble(amount);
     }
 
     private boolean isValidPassword(String password) {
@@ -137,7 +137,8 @@ public class TransferSceneController extends Controller implements BackButtonNav
 
     public boolean noLabelVisible() {
         return !invalidDateLabel.isVisible() && !invalidRecipientLabel.isVisible() && !invalidIBAN.isVisible()
-                && !invalidMessageLabel.isVisible() && !invalidDateLabel.isVisible() && !invalidPasswordLabel.isVisible();
+                && !invalidMessageLabel.isVisible() && !invalidDateLabel.isVisible() && !invalidPasswordLabel.isVisible()
+                && !insufficientBalanceLabel.isVisible();
     }
 
     @FXML

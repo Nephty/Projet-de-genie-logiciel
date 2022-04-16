@@ -6,13 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ObjectsTests {
 
     @Test
-    @DisplayName("Wallet creation with desactivated account")
+    @DisplayName("Wallet creation with deactivated account")
     public void createWallets(){
         Portfolio testPortfolio = new Portfolio(new Profile("Carlos","Matos", "Matos01020312300", "English", "01.02.03-123.00"));
         String body = "";

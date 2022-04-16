@@ -22,7 +22,6 @@ public class Wallet {
      * @param accountUser The Profile object of the user
      * @param bank        The Bank object of the bank
      * @param accountList The list of account
-     * @throws UnirestException
      */
     public Wallet(Profile accountUser, Bank bank, ArrayList<Account> accountList) {
         this.accountUser = accountUser;
@@ -34,7 +33,7 @@ public class Wallet {
     public Wallet(Profile accountUser, Bank bank){
         this.accountUser = accountUser;
         this.bank = bank;
-        this.accountList = new ArrayList<Account>();
+        this.accountList = new ArrayList<>();
     }
 
     public void fetchArchivedAccount() {
@@ -67,16 +66,14 @@ public class Wallet {
 
 
     public ArrayList<Account> createsAccountList(String body){
-        ArrayList<Account> accountListRep = new ArrayList<Account>();
+        ArrayList<Account> accountListRep = new ArrayList<>();
 
         body = body.substring(1, body.length() - 1);
         ArrayList<String> bodyList = Portfolio.JSONArrayParser(body);
         if(!body.equals("")) {
             // Creates the accounts
-            for (int i = 0; i < bodyList.size(); i++) {
-                JSONObject obj = new JSONObject(bodyList.get(i));
-                String swift = obj.getString("accountId");
-                // TODO : does obj.getString("username") work ?
+            for (String s : bodyList) {
+                JSONObject obj = new JSONObject(s);
                 Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), Main.getUser().getUsername(), Main.getUser().getFavoriteLanguage(), obj.getString("userId"));
                 // TODO : Réparer
                 // Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
@@ -114,10 +111,10 @@ public class Wallet {
      */
     @Override
     public String toString() {
-        String espace = "                    ";
-        espace.substring(0, espace.length() - this.bank.getName().length());
+        String space = "                    ";
+        space = space.substring(0, space.length() - this.bank.getName().length());
 
-        return "Bank : " + this.bank.getName() + espace + "SWIFT : " + this.bank.getSwiftCode();
+        return "Bank : " + this.bank.getName() + space + "SWIFT : " + this.bank.getSwiftCode();
     }
 
     public ArrayList<Account> getAccountList() {

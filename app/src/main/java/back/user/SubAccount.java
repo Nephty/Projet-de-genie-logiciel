@@ -6,14 +6,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.FileSystemException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SubAccount {
     private final String IBAN;
@@ -26,7 +19,6 @@ public class SubAccount {
      *
      * @param IBAN     The String og the IBAN
      * @param currency The currency
-     * @throws UnirestException For managing HTTP errors
      */
     public SubAccount(String IBAN, Currencies currency) {
         this.IBAN = IBAN;
@@ -34,7 +26,7 @@ public class SubAccount {
         String token = Main.getToken();
         // Fetch the amount for the subAccount
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = Unirest.get("https://flns-spring-test.herokuapp.com/api/account/sub-account?iban=" + IBAN + "&currencyId=" + "0") // Extension 2 : Change the value of currencyId
                     .header("Authorization", "Bearer " + token)
@@ -49,7 +41,7 @@ public class SubAccount {
 
         // Fetch all the transactions
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response2 = null;
+        HttpResponse<String> response2;
         try {
             response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/transaction?iban=" + IBAN + "&currencyId=" + "0")
                     .header("Authorization", "Bearer " + Main.getToken())
@@ -65,8 +57,8 @@ public class SubAccount {
         // If there is at least one transaction, it creates the transactions objects
         if (!body2.equals("")) {
             ArrayList<String> parsed = Portfolio.JSONArrayParser(body2);
-            for (int i = 0; i < parsed.size(); i++) {
-                JSONObject obj2 = new JSONObject(parsed.get(i));
+            for (String s : parsed) {
+                JSONObject obj2 = new JSONObject(s);
                 long ID = obj2.getLong("transactionTypeId");
                 String senderName = obj2.getString("senderName");
                 String senderIBAN = obj2.getString("senderIban");
@@ -77,10 +69,6 @@ public class SubAccount {
                 this.transactionHistory.add(new Transaction(ID, senderName, senderIBAN, receiverName, receiverIBAN, amount, sendingDate, Currencies.EUR));
             }
         }
-    }
-
-    public Currencies getCurrency() {
-        return this.currency;
     }
 
     public double getAmount() {

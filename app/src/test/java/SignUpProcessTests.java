@@ -6,9 +6,41 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SignUpProcessTests {
-    String s0 = "", s1 = "b", s2 = "B", s3 = "b0", s4 = "b@", s5 = "b.", s6 = "b!", s7 = "b<", s8 = ">b", s9 = " b";
-    String e0 = "", e1 = "b", e2 = "B", e3 = "e0", e4 = "b@", e5 = "b.", e6 = "b!", e7 = "a.b@c.d", e8 = "a@c.d", e9 = "@c.d", e10 = "a.b", e11 = "a.b.c@c.d", e12 = "a.b.c.d@c", e13 = "a@c", e14 = "a@c@d", e15 = "a@c.d.e";
-    String n0 = "", n1 = "b", n2 = "1.2", n3 = "1.2.3", n4 = "1.2.3-4.5", n5 = "00.00.00-000.00", n6 = "00.00.0-000.00", n7 = "00.00-000.00", n8 = "00.0.00-000.00";
+    final String s0 = "";
+    final String s1 = "b";
+    final String s2 = "B";
+    final String s3 = "b0";
+    final String s4 = "b@";
+    final String s5 = "b.";
+    final String s6 = "b!";
+    final String s7 = "b<";
+    final String s8 = ">b";
+    final String s9 = " b";
+    final String e0 = "";
+    final String e1 = "b";
+    final String e2 = "B";
+    final String e3 = "e0";
+    final String e4 = "b@";
+    final String e5 = "b.";
+    final String e6 = "b!";
+    final String e7 = "a.b@c.d";
+    final String e8 = "a@c.d";
+    final String e9 = "@c.d";
+    final String e10 = "a.b";
+    final String e11 = "a.b.c@c.d";
+    final String e12 = "a.b.c.d@c";
+    final String e13 = "a@c";
+    final String e14 = "a@c@d";
+    final String e15 = "a@c.d.e";
+    final String n0 = "";
+    final String n1 = "b";
+    final String n2 = "1.2";
+    final String n3 = "1.2.3";
+    final String n4 = "1.2.3-4.5";
+    final String n5 = "00.00.00-000.00";
+    final String n6 = "00.00.0-000.00";
+    final String n7 = "00.00-000.00";
+    final String n8 = "00.0.00-000.00";
 
     @Test
     @DisplayName("isValidLastName method Test")

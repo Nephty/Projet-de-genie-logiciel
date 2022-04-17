@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.AuthorizationException;
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.exception.throwables.ResourceNotFound;
@@ -7,10 +8,12 @@ import com.example.demo.model.Account;
 import com.example.demo.model.AccountAccess;
 import com.example.demo.model.CompositePK.AccountAccessPK;
 import com.example.demo.model.User;
+import com.example.demo.other.Sender;
 import com.example.demo.repository.AccountAccessRepo;
 import com.example.demo.repository.AccountRepo;
 import com.example.demo.repository.UserRepo;
 import com.example.demo.request.AccountAccessReq;
+import com.example.demo.security.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
@@ -31,6 +34,7 @@ public class AccountAccessService {
         AccountAccess accountAccess = instantiateAccountAccess(accountAccessReq, HttpMethod.POST);
         return accountAccessRepo.save(accountAccess);
     }
+
 
     public AccountAccess changeAccountAccess(AccountAccessReq accountAccessReq) {
         AccountAccess accountAccess = instantiateAccountAccess(accountAccessReq, HttpMethod.PUT);
@@ -135,4 +139,14 @@ public class AccountAccessService {
 
         }
     }
+    public boolean bankOwnsAccount(Sender sender, String iban) {
+        if(sender.getRole() != Role.BANK) {
+            throw new AuthorizationException("Only bank can perform this request");
+        }
+        Account account = accountRepo.findById(iban)
+                .orElseThrow(()-> new ResourceNotFound("Account doesn't exist"));
+
+        return account.getSwift().getSwift().equals(sender.getId());
+    }
+
 }

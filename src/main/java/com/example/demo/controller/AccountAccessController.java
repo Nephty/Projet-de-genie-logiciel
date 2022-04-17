@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.exception.throwables.AuthorizationException;
 import com.example.demo.exception.throwables.MissingParamException;
 import com.example.demo.model.AccountAccess;
 import com.example.demo.model.User;
+import com.example.demo.other.Sender;
 import com.example.demo.request.AccountAccessReq;
 import com.example.demo.service.AccountAccessService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,6 +23,8 @@ import java.util.List;
 public class AccountAccessController {
 
     private final AccountAccessService accountAccessService;
+
+    private final HttpServletRequest httpRequest;
 
     /**
      * Returns a list with all the account access for a certain user
@@ -71,7 +76,11 @@ public class AccountAccessController {
      * Who ? the owner of the account and the bank
      */
     @GetMapping(value = "{userId}/{accountId}")
-    public ResponseEntity<AccountAccessReq> sendAccountAccess(@PathVariable String userId, @PathVariable String accountId){
+    public ResponseEntity<AccountAccessReq> sendAccountAccess(
+            @PathVariable String userId, @PathVariable String accountId
+
+    ){
+
         return new ResponseEntity<>(
                 accountAccessService.findAccountAccess(accountId, userId),
                 HttpStatus.OK
@@ -88,10 +97,12 @@ public class AccountAccessController {
      */
     @PostMapping
     public ResponseEntity<String> addAccess(@RequestBody AccountAccessReq accountAccessReq){
-        log.info("inserting account-access: {}", accountAccessReq);
+        Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
+        if(!accountAccessService.bankOwnsAccount(sender, accountAccessReq.getAccountId()))
+            throw new AuthorizationException("You don't manage this account");
         if(!accountAccessReq.isPostValid()) throw new MissingParamException();
+        log.info("inserting account-access: {}", accountAccessReq);
 
-        // TODO: 4/14/22 Empêcher une bank extérieure de créer un accès vers un compte. 
         AccountAccess savedAccountAccess = accountAccessService.createAccountAccess(accountAccessReq);
         return new ResponseEntity<>(savedAccountAccess.toString(), HttpStatus.CREATED);
     }
@@ -107,6 +118,9 @@ public class AccountAccessController {
      */
     @PutMapping
     public ResponseEntity<String> changeAccess(@RequestBody AccountAccessReq accountAccessReq) {
+        Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
+        if(!accountAccessService.bankOwnsAccount(sender, accountAccessReq.getAccountId()))
+            throw new AuthorizationException("You don't manage this account");
         if(!accountAccessReq.isPutValid()) throw new MissingParamException();
 
         AccountAccess savedAccountAccess = accountAccessService.changeAccountAccess(accountAccessReq);
@@ -122,7 +136,12 @@ public class AccountAccessController {
      */
     @DeleteMapping
     public ResponseEntity<String> deleteAccess(@RequestParam String accountId, @RequestParam String userId) {
+        Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
+        if(!accountAccessService.bankOwnsAccount(sender, accountId))
+            throw new AuthorizationException("You don't manage this account");
         accountAccessService.deleteAccountAccess(accountId, userId);
         return new ResponseEntity<>(accountId + " : " + userId, HttpStatus.OK);
     }
+
+
 }

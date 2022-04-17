@@ -13,8 +13,7 @@ public class ErrorHandler {
     public static HttpResponse<String> handlePossibleError(Supplier<HttpResponse<String>> toRetry) {
         HttpResponse<String> response = toRetry.get();
 
-        if(response == null) {
-            System.out.println("Fetching again");
+        if(response.getStatus() == 412) {
             refreshToken();
             return handlePossibleError(toRetry);
         }
@@ -33,7 +32,7 @@ public class ErrorHandler {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
-        assert response != null : "No response";
+
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
         Main.setToken(obj.getString("access_token"));

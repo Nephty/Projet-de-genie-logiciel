@@ -20,14 +20,18 @@ public class Profile {
      */
     public Profile(String nationalRegistrationNumber){
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response;
-        try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
+
         Main.errorCheck(response.getStatus());
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);

@@ -2,6 +2,7 @@ package front.controllers;
 
 import app.Main;
 import back.user.CommunicationType;
+import back.user.ErrorHandler;
 import back.user.Portfolio;
 import back.user.Request;
 import com.mashape.unirest.http.HttpResponse;
@@ -84,15 +85,19 @@ public class RequestsStatusSceneController extends Controller implements BackBut
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch requests and put them in the listview
+
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
-            try {
-                response = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .asString();
-            } catch (UnirestException e) {
-                e.printStackTrace();
-            }
+            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
 
             if (response != null) {
                 String body = response.getBody();

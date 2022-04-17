@@ -1,6 +1,7 @@
 package front.controllers;
 
 import app.Main;
+import back.user.ErrorHandler;
 import back.user.Notification;
 import back.user.Portfolio;
 import com.mashape.unirest.http.HttpResponse;
@@ -140,15 +141,17 @@ public class NotificationsSceneController extends Controller implements BackButt
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch notifications and put them in the listview
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
-            try {
-                response = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .asString();
-            } catch (UnirestException e) {
-                e.printStackTrace();
-            }
-
+            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
             content = new ArrayList<>();  // This was missing and lead to a bug where notifications got duplicated when refreshing
             if (response != null) {
                 String body = response.getBody();

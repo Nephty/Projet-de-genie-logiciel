@@ -54,15 +54,20 @@ public class Bank {
      */
     public static ArrayList<String> fetchAllSWIFT() {
         ArrayList<String> rep = new ArrayList<>();
+
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response;
-        try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep2 = null;
+            try {
+                rep2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep2;
+        });
+
         Main.errorCheck(response.getStatus());
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);

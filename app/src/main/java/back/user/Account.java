@@ -67,14 +67,22 @@ public class Account {
     /**
      * Toggles the account.
      */
-    public void toggle() throws UnirestException {
-        activated = !activated;
+    public void toggle(){
+        this.activated = !this.activated;
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
-                .header("Authorization", "Bearer " + Main.getToken())
-                .header("Content-Type", "application/json")
-                .body("{\r\n    \"accountId\": \"" + this.IBAN + "\",\r\n    \"userId\": \"" + this.accountOwner.getNationalRegistrationNumber() + "\",\r\n    \"access\": true,\r\n    \"hidden\": " + (!this.activated) + "\r\n}")
-                .asString();
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.put("https://flns-spring-test.herokuapp.com/api/account-access")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .header("Content-Type", "application/json")
+                        .body("{\r\n    \"accountId\": \"" + this.IBAN + "\",\r\n    \"userId\": \"" + this.accountOwner.getNationalRegistrationNumber() + "\",\r\n    \"access\": true,\r\n    \"hidden\": " + (!this.activated) + "\r\n}")
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
         Main.errorCheck(response.getStatus());
     }
 

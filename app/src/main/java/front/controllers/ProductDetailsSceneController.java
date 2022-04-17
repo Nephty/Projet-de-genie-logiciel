@@ -178,11 +178,7 @@ public class ProductDetailsSceneController extends Controller implements BackBut
             int sleepDuration = 1000;
             // Toggle off the product
             fadeInAndOutNode(sleepDuration, toggledOffProductLabel);
-            try {
-                account.toggle();
-            } catch (UnirestException e) {
-                Main.ErrorManager(408);
-            }
+            account.toggle();
         }
     }
 

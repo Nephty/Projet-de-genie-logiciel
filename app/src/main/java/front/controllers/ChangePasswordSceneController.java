@@ -1,6 +1,7 @@
 package front.controllers;
 
 import app.Main;
+import back.user.ErrorHandler;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -67,16 +68,17 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     void handleChangePasswordButtonClicked(MouseEvent event) {
         // Fetch the current password in the API
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
-        try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + Main.getUser().getNationalRegistrationNumber() + "?isUsername=false")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-            Main.errorCheck(response.getStatus());
-        } catch (UnirestException e) {
-            Main.ErrorManager(408);
-        }
-        assert response != null : "No response";
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + Main.getUser().getNationalRegistrationNumber() + "?isUsername=false")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
 
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
@@ -106,17 +108,19 @@ public class ChangePasswordSceneController extends Controller implements BackBut
         if (!incorrectCurrentPasswordLabel.isVisible() && !passwordDoesNotMatchLabel.isVisible()) {
             // Change the password in the database
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response2;
-            try {
-                response2 = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
-                        .header("Content-Type", "application/json")
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .body("{\r\n    \"username\": \"" + obj.getString("username") + "\",\r\n    \"userId\": \"" + obj.getString("userId") + "\",\r\n    \"email\": \"" + obj.getString("email") + "\",\r\n    \"password\": \"" + newPassword + "\",\r\n    \"firstname\": \"" + obj.getString("firstname") + "\",\r\n    \"lastname\": \"" + obj.getString("lastname") + "\",\r\n    \"language\": \"" + obj.getString("language") + "\"\r\n}")
-                        .asString();
-                Main.errorCheck(response2.getStatus());
-            } catch (UnirestException e) {
-                Main.ErrorManager(408);
-            }
+            HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
+                            .header("Content-Type", "application/json")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .body("{\r\n    \"username\": \"" + obj.getString("username") + "\",\r\n    \"userId\": \"" + obj.getString("userId") + "\",\r\n    \"email\": \"" + obj.getString("email") + "\",\r\n    \"password\": \"" + newPassword + "\",\r\n    \"firstname\": \"" + obj.getString("firstname") + "\",\r\n    \"lastname\": \"" + obj.getString("lastname") + "\",\r\n    \"language\": \"" + obj.getString("language") + "\"\r\n}")
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
 
             fadeInAndOutNode(3000, passwordChangedLabel);
 

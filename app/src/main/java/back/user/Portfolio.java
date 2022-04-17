@@ -19,8 +19,13 @@ public class Portfolio {
      * @param nationalRegistrationNumber The user's national registration code
      */
     public Portfolio(String nationalRegistrationNumber) {
+        System.out.println(Main.getToken());
+        System.out.println(Main.getRefreshToken());
+        // TODO : Optimiser en reprenant l'ancien user si il existe ?
         this.user = new Profile(nationalRegistrationNumber);
         // It fetches all the access that got the user
+        Main.setToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiaHR0cHM6Ly9mbG5zLXNwcmluZy10ZXN0Lmhlcm9rdWFwcC5jb20vYXBpL2xvZ2luIiwiZXhwIjoxNjUwMTM3MzMwfQ.esCILyiUAShb7AXW5FGiwxk6MOdHbApZFL-PTZxwuz0");
+        Main.setRefreshToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiaHR0cHM6Ly9mbG5zLXNwcmluZy10ZXN0Lmhlcm9rdWFwcC5jb20vYXBpL2xvZ2luIiwiZXhwIjoxNjUxMzQ2ODcwfQ.Jb7HQx1eXCTZU8GM4H1i5bOMGLMVRn-iyDbH319ty_c");
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(()-> {
             HttpResponse<String> rep;
@@ -41,28 +46,35 @@ public class Portfolio {
 
         // Fetch deleted account
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response2;
-        try {
-            response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+ nationalRegistrationNumber +"&hidden=false&deleted=true")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
+        HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+ nationalRegistrationNumber +"&hidden=false&deleted=true")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
 
         String body2 = response2.getBody();
         body2 = body2.substring(1, body2.length() - 1);
 
         // Fetch hidden account
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response3;
-        try {
-            response3 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+nationalRegistrationNumber+"&hidden=true&deleted=false")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
+        HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+nationalRegistrationNumber+"&hidden=true&deleted=false")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
+
 
         String body3 = response3.getBody();
         body3 = body3.substring(1, body3.length() - 1);

@@ -40,27 +40,34 @@ public class Wallet {
 
         // Fetch deleted account
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response2;
-        try {
-            response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=false&deleted=true")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
+        HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=false&deleted=true")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
         this.archivedAccountList = (createsAccountList(response2.getBody()));
 
 
         // Fetch hidden account
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response3;
-        try {
-            response3 = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=true&deleted=false")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
+        HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=true&deleted=false")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
+
         this.archivedAccountList.addAll(createsAccountList(response3.getBody()));
     }
 
@@ -94,7 +101,7 @@ public class Wallet {
                         accountType = AccountType.TERME;
                         break;
                 }
-                boolean activated = obj.getBoolean("hidden");
+                boolean activated = (!obj.getBoolean("hidden"));
                 boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                 boolean canPay = obj.getJSONObject("account").getBoolean("payment");
                 // TODO : Remettre coOwner

@@ -1,6 +1,7 @@
 package back.user;
 
 import app.Main;
+import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -30,28 +31,36 @@ public class Notification extends Communication {
 
     public void dismiss() {
         Unirest.setTimeouts(0, 0);
-        try {
-            Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
     }
 
     public void changeFlag() {
         this.flag = !flag;
 
         Unirest.setTimeouts(0, 0);
-        try {
-            Unirest.put("https://flns-spring-test.herokuapp.com/api/notification")
-                    .header("Authorization", "Bearer "+ Main.getToken())
-                    .header("Content-Type", "application/json")
-                    .body("{\r\n    \"notificationId\": "+this.ID+",\r\n    \"isFlagged\": "+this.flag+"\r\n}")
-                    .asString();
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.put("https://flns-spring-test.herokuapp.com/api/notification")
+                        .header("Authorization", "Bearer "+ Main.getToken())
+                        .header("Content-Type", "application/json")
+                        .body("{\r\n    \"notificationId\": "+this.ID+",\r\n    \"isFlagged\": "+this.flag+"\r\n}")
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
     }
 
     public Long getID() {

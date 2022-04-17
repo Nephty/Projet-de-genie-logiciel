@@ -26,14 +26,17 @@ public class Request extends Communication {
         boolean alreadySent = false;
 
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
-        try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
 
         if (response != null) {
             String body = response.getBody();
@@ -75,16 +78,22 @@ public class Request extends Communication {
                 case("TRANSFER_PERMISSION"): comType = 2; break;
                 case("NEW_WALLET"): comType = 3; break;
             }
+
             Unirest.setTimeouts(0, 0);
-            try {
-                Unirest.post("https://flns-spring-test.herokuapp.com/api/notification")
-                    .header("Authorization", "Bearer "+ Main.getToken())
-                    .header("Content-Type", "application/json")
-                    .body("{\r\n    \"notificationType\": "+ comType +",\r\n    \"comments\": \""+this.content+"\",\r\n    \"status\": \"Unchecked\",\r\n    \"recipientId\": \""+this.recipientId+"\"\r\n}")
-                    .asString();
-            } catch (UnirestException e) {
-                e.printStackTrace();
-            }
+            int finalComType = comType;
+            HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/notification")
+                            .header("Authorization", "Bearer "+ Main.getToken())
+                            .header("Content-Type", "application/json")
+                            .body("{\r\n    \"notificationType\": "+ finalComType +",\r\n    \"comments\": \""+this.content+"\",\r\n    \"status\": \"Unchecked\",\r\n    \"recipientId\": \""+this.recipientId+"\"\r\n}")
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
         }
 
     }

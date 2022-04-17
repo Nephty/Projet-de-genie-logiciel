@@ -1,6 +1,7 @@
 package front.controllers;
 
 import app.Main;
+import back.user.ErrorHandler;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -89,18 +90,19 @@ public class TransferSceneController extends Controller implements BackButtonNav
             if (noLabelVisible()) {
                 // Creates the transfer if everything is correct
                 if (insufficientBalanceLabel.isVisible()) insufficientBalanceLabel.setVisible(false);
-                Unirest.setTimeouts(0, 0);
-                HttpResponse<String> response;
-                try {
-                    response = Unirest.post("https://flns-spring-test.herokuapp.com/api/transaction")
-                            .header("Authorization", "Bearer " + Main.getToken())
-                            .header("Content-Type", "application/json")
-                            .body("{\r\n    \"transactionTypeId\": 1,\r\n    \"senderIban\": \"" + recipientActual + "\",\r\n    \"recipientIban\": \"" + IBAN + "\",\r\n    \"currencyId\": 0,\r\n    \"transactionAmount\": " + amount + ",\r\n    \"comments\": \"" + message + "\"\r\n}")
-                            .asString();
-                    Main.errorCheck(response.getStatus());
-                } catch (UnirestException e) {
-                    Main.ErrorManager(408);
-                }
+                HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+                    HttpResponse<String> rep = null;
+                    try {
+                        rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/transaction")
+                                .header("Authorization", "Bearer " + Main.getToken())
+                                .header("Content-Type", "application/json")
+                                .body("{\r\n    \"transactionTypeId\": 1,\r\n    \"senderIban\": \"" + recipientActual + "\",\r\n    \"recipientIban\": \"" + IBAN + "\",\r\n    \"currencyId\": 0,\r\n    \"transactionAmount\": " + amount + ",\r\n    \"comments\": \"" + message + "\"\r\n}")
+                                .asString();
+                    } catch (UnirestException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return rep;
+                });
 
                 transferExecuted = true;
                 Main.setScene(Flow.back());

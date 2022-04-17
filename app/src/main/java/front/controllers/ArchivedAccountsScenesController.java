@@ -136,12 +136,8 @@ public class ArchivedAccountsScenesController extends Controller implements Back
 
     private boolean restoreAccount(Account account) {
         if(!account.isArchived()){
-            try {
-                account.toggle();
-                return true;
-            } catch (UnirestException e) {
-                throw new RuntimeException(e);
-            }
+            account.toggle();
+            return true;
         }
         return false;
     }

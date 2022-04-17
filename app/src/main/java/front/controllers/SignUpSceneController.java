@@ -132,16 +132,10 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
             String username = getUsernameFromLastNameAndNRNTextFields();
-            String birthDate;
-            if(Integer.parseInt(NRN.substring(0,2)) >=30){
-                birthDate = "19" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
-            } else{
-                birthDate = "20" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
-            }
             try {
                 response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
                         .header("Content-Type", "application/json")
-                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userId\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\",\r\n    \"birthdate\": \""+birthDate+"\"\r\n}")
+                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userId\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\"\r\n}")
                         .asString();
                 Main.errorCheck(response.getStatus());
             } catch (UnirestException e) {

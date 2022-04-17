@@ -1,9 +1,7 @@
 package com.example.demo.scheduler;
 
 import com.example.demo.model.*;
-import com.example.demo.other.Sender;
 import com.example.demo.repository.TransactionLogRepo;
-import com.example.demo.request.NotificationReq;
 import com.example.demo.service.NotificationService;
 import com.example.demo.service.TransactionLogService;
 import org.junit.jupiter.api.BeforeEach;
@@ -92,16 +90,7 @@ class TransactionSchedulerTest {
         // Then
         verify(transactionLogRepo).deleteAllByTransactionId(transactionLogSender.getTransactionId());
 
-        ArgumentCaptor<NotificationReq> notificationCaptor = ArgumentCaptor.forClass(NotificationReq.class);
-        ArgumentCaptor<Sender> senderArgumentCaptor = ArgumentCaptor.forClass(Sender.class);
-        verify(notificationService).addNotification(senderArgumentCaptor.capture(),notificationCaptor.capture());
-
-        NotificationReq notificationReq = notificationCaptor.getValue();
-        Sender sender = senderArgumentCaptor.getValue();
-
-        assertEquals(bank.getSwift(),sender.getId());
-        assertEquals(user.getUserId(),notificationReq.getRecipientId());
-        assertEquals(5,notificationReq.getNotificationType());
+        verify(transactionLogService).sendBadFormatTransaction(transactionLogSender);
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.controller.AccountController;
 import com.example.demo.exception.throwables.AuthorizationException;
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.LittleBoyException;
@@ -14,8 +15,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+/**
+ * Links the {@link AccountController} with the {@link AccountRepo}.
+ * In this class, all the modifications and the calls to the {@link AccountRepo} are made.
+ *
+ * @see Account
+ */
 @RequiredArgsConstructor
-@Service @Transactional @Slf4j
+@Service
+@Transactional
+@Slf4j
 public class AccountService {
 
     private final AccountRepo accountRepo;
@@ -30,14 +39,30 @@ public class AccountService {
 
     private final AccountAccessRepo accountAccessRepo;
 
-    public AccountReq getAccount(String iban) {
+    /**
+     * Find the account with his iban
+     *
+     * @param iban The iban of the account
+     * @return The req body of the Account with the good iban.
+     * @throws ResourceNotFound if the account doesn't exist.
+     */
+    public AccountReq getAccount(String iban) throws ResourceNotFound {
         Account account = accountRepo.findById(iban).orElseThrow(
-                        ()-> new ResourceNotFound("iban: " + iban)
+                () -> new ResourceNotFound("iban: " + iban)
         );
         return new AccountReq(account);
     }
 
-    public Account deleteAccount(String iban) {
+    /**
+     * Delete the account in the DB. <br>
+     * An account is deleted by setting his parameter "deleted" to true because we don't want it to be deleted
+     * to still have access to his history.
+     *
+     * @param iban the iban of the account
+     * @return The account deleted
+     * @throws ResourceNotFound if the account doesn't exist)
+     */
+    public Account deleteAccount(String iban) throws ResourceNotFound {
         // To delete an account, we set the delete parameter to true
         Account account = accountRepo.safeFindById(iban).orElseThrow(
                 ()-> new ResourceNotFound("iban: " + iban)
@@ -46,16 +71,27 @@ public class AccountService {
         return accountRepo.save(account);
     }
 
-    public Account addAccount(AccountReq accountReq) {
+    /**
+     * Creates an account and saves it in the DB.
+     * Also create a default access and a default subAccount.
+     *
+     * @param accountReq The req body to create an account. ({@link AccountReq#isPostValid()})
+     * @return The created account.
+     * @throws AuthorizationException We can't create a fixed account with the payment authorisation.
+     * @throws ConflictException      if the FK provided do not exist
+     * @throws LittleBoyException     if the method isn't PUT or POST
+     */
+    public Account addAccount(AccountReq accountReq) throws AuthorizationException {
+        if (accountReq.getAccountTypeId() == 4 && accountReq.getPayment()) {
+            throw new AuthorizationException("This is a fixed account you can't allow payment to it");
+        }
         Account account = instantiateAccount(accountReq, HttpMethod.POST);
 
         switch (account.getAccountTypeId().getAccountTypeId()) {
             case 1:
             case 3:
             case 4:
-                boolean isAdult = account.getUserId().isAbove18().orElseThrow(
-                        ()-> new ConflictException("Bad user nrn format")
-                );
+                boolean isAdult = account.getUserId().isAbove18();
                 if(!isAdult) throw new AuthorizationException(
                         "You must be above 18 to register for that account"
                 );
@@ -76,17 +112,26 @@ public class AccountService {
         return account;
     }
 
-    public Account changeAccount(AccountReq accountReq) {
+    /**
+     * Changes the account and saves it in the db.
+     *
+     * @param accountReq The req body to change the account ({@link AccountReq#isPutValid()})
+     * @return The changed account
+     * @throws AuthorizationException Can't accept payment to fixed account.
+     * @throws ResourceNotFound       if the account that the client tries to change doesn't exist
+     * @throws LittleBoyException     if the method isn't PUT or POST
+     */
+    public Account changeAccount(AccountReq accountReq) throws AuthorizationException {
         Account account = instantiateAccount(accountReq, HttpMethod.PUT);
         //Fixed account
-        if(account.getAccountTypeId().getAccountTypeId() == 4 && accountReq.getPayment()) {
+        if (account.getAccountTypeId().getAccountTypeId() == 4 && accountReq.getPayment()) {
             throw new AuthorizationException("This is a fixed account you can't allow payment to it");
         }
         //young account
         if(account.getAccountTypeId().getAccountTypeId() == 2 && accountReq.getPayment()) {
             if(accountAccessRepo.getAllOwners(account).stream()
                     .noneMatch(
-                            user -> user.isAbove18().orElseThrow(()-> new ConflictException("Bad user nrn format"))
+                            user -> user.isAbove18()
                     )
             ){
                 throw new AuthorizationException(
@@ -100,24 +145,25 @@ public class AccountService {
     /**
      * Creates an entity based on the request that was made
      * The method vary depending on the http method
+     *
      * @param accountReq incoming req
-     * @param method method used either PUT or POST
+     * @param method     method used either PUT or POST
      * @return An entity ready to be saved in the DB
-     * @throws ConflictException if the FK provided do not exist
-     * @throws ResourceNotFound if the account that the client tries to change doesn't exist
+     * @throws ConflictException  if the FK provided do not exist
+     * @throws ResourceNotFound   if the account that the client tries to change doesn't exist
      * @throws LittleBoyException if the method isn't PUT or POST
      */
-    private Account instantiateAccount(AccountReq accountReq, HttpMethod method) throws ConflictException, ResourceNotFound, LittleBoyException{
+    private Account instantiateAccount(AccountReq accountReq, HttpMethod method) throws ConflictException, ResourceNotFound, LittleBoyException {
         Account account;
         switch (method) {
             case POST:
                 account = new Account(accountReq);
                 Bank bank = bankRepo.findById(accountReq.getSwift())
-                        .orElseThrow(()-> new ConflictException(accountReq.getSwift()));
+                        .orElseThrow(() -> new ConflictException(accountReq.getSwift()));
                 User user = userRepo.findById(accountReq.getUserId())
-                        .orElseThrow(()-> new ConflictException(accountReq.getUserId()));
+                        .orElseThrow(() -> new ConflictException(accountReq.getUserId()));
                 AccountType accountType = accountTypeRepo.findById(accountReq.getAccountTypeId())
-                        .orElseThrow(()-> new ConflictException(accountReq.getAccountTypeId().toString()));
+                        .orElseThrow(() -> new ConflictException(accountReq.getAccountTypeId().toString()));
                 account.setSwift(bank);
                 account.setUserId(user);
                 account.setAccountTypeId(accountType);

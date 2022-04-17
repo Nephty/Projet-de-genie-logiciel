@@ -54,15 +54,6 @@ public class AccountAccess {
         hidden = accountAccessReq.getHidden();
     }
 
-    public static AccountAccess createDefault(Account account) {
-        AccountAccess defaultAccountAccess = new AccountAccess();
-        defaultAccountAccess.setUserId(account.getUserId());
-        defaultAccountAccess.setAccess(true);
-        defaultAccountAccess.setHidden(false);
-
-        return defaultAccountAccess;
-    }
-
     /**
      * Modify the Access and/or the hidden attributes if they are present in the Request.
      * @param accountAccessReq Custom request for creating/modifying an AccountAccess
@@ -74,5 +65,14 @@ public class AccountAccess {
         if(accountAccessReq.getHidden() != null) {
             hidden = accountAccessReq.getHidden();
         }
+    }
+
+    public static AccountAccess createDefault(Account account) {
+        AccountAccess defaultAccountAccess = new AccountAccess();
+        defaultAccountAccess.setUserId(account.getUserId());
+        defaultAccountAccess.setAccess(true);
+        defaultAccountAccess.setHidden(false);
+
+        return defaultAccountAccess;
     }
 }

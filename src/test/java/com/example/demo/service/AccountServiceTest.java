@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.AuthorizationException;
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.*;
@@ -106,7 +107,7 @@ class AccountServiceTest {
         Account acc = new Account();
         acc.setIban(iban);
 
-        when(accountRepo.findById(iban)).thenReturn(Optional.of(acc));
+        when(accountRepo.safeFindById(iban)).thenReturn(Optional.of(acc));
         //When
         underTest.deleteAccount(iban);
         //Then
@@ -156,6 +157,7 @@ class AccountServiceTest {
 
         User tmpUser = new User();
         tmpUser.setUserId(accountReq.getUserId());
+        tmpUser.setBirthdate(Date.valueOf(LocalDate.of(2002,10,31)));
         Optional<User> user = Optional.of(tmpUser);
         when(userRepo.findById(accountReq.getUserId()))
                 .thenReturn(user);
@@ -272,6 +274,32 @@ class AccountServiceTest {
     }
 
     @Test
+    void addShouldThrowWhenFixedAccountAndPayment() {
+        // Throws if it's a fixed account and payment = true
+        // Given
+        AccountReq accountReq = new AccountReq(
+                "iban",
+                "swift",
+                "userId",
+                4,
+                true,
+                "name",
+                "lastname",
+                null,
+                Date.valueOf(LocalDate.now()),
+                false
+        );
+
+        //then
+        assertThatThrownBy(()->underTest.addAccount(accountReq))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("This is a fixed account you can't allow payment to it");
+
+        verify(accountRepo,never()).save(any());
+
+    }
+
+    @Test
     void canChangeAccount(){
         //Given
         AccountReq accountReq = new AccountReq(
@@ -300,7 +328,7 @@ class AccountServiceTest {
         account.setSwift(tmpBank);
         account.setUserId(tmpUser);
         account.setAccountTypeId(tmpType);
-        when(accountRepo.findById(accountReq.getIban()))
+        when(accountRepo.safeFindById(accountReq.getIban()))
                 .thenReturn(Optional.of(account));
 
 
@@ -339,6 +367,48 @@ class AccountServiceTest {
         assertThatThrownBy(()->underTest.changeAccount(accountReq))
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining(accountReq.toString());
+
+        verify(accountRepo,never()).save(any());
+    }
+
+    @Test
+    void changeShouldThrowWhenFixedAccountAndPayment() {
+        // Throws if it's a fixed account and payment = true
+        //Given
+        AccountReq accountReq = new AccountReq(
+                "iban",
+                "swift",
+                "userId",
+                4,
+                true,
+                "name",
+                "lastname",
+                null,
+                Date.valueOf(LocalDate.now()),
+                false
+        );
+
+        Bank tmpBank = new Bank();
+        tmpBank.setSwift(accountReq.getSwift());
+
+        User tmpUser = new User();
+        tmpUser.setUserId(accountReq.getUserId());
+
+        AccountType tmpType = new AccountType();
+        tmpType.setAccountTypeId(accountReq.getAccountTypeId());
+
+        Account account = new Account(accountReq);
+        account.setSwift(tmpBank);
+        account.setUserId(tmpUser);
+        account.setAccountTypeId(tmpType);
+        when(accountRepo.safeFindById(accountReq.getIban()))
+                .thenReturn(Optional.of(account));
+
+
+        //then
+        assertThatThrownBy(()->underTest.changeAccount(accountReq))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("This is a fixed account you can't allow payment to it");
 
         verify(accountRepo,never()).save(any());
     }

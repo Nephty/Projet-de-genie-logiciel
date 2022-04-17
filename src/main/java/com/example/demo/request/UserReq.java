@@ -28,6 +28,8 @@ public class UserReq {
 
     private String language;
 
+    private Date birthdate;
+
 
     @JsonIgnore
     public boolean isPostValid() {

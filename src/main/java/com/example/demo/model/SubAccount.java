@@ -52,10 +52,12 @@ public class SubAccount {
     )
     private Double currentBalance;
 
-    public SubAccount(SubAccountPK subAccountPK) {
-        this.subAccountPK = subAccountPK;
-    }
-
+    /**
+     * Constructor for the SubAccount without the SubAccount primaryKey taken in the {@link lombok} constructor.
+     * @param iban The iban of the account
+     * @param currencyType The currency of the account
+     * @param currentBalance The balance of the account
+     */
     public SubAccount(Account iban, CurrencyType currencyType, Double currentBalance) {
         this.iban = iban;
         this.currencyType = currencyType;
@@ -64,6 +66,11 @@ public class SubAccount {
         this.subAccountPK = new SubAccountPK(iban.getIban(),currencyType.getCurrencyId());
     }
 
+    /**
+     * Custom constructor for SubAccount with the custom body.
+     * If the currentBalance of the body is null, with set it to 0.
+     * @param subAccountReq Custom req body for creating/modifying a SubAccount
+     */
     public SubAccount(SubAccountReq subAccountReq) {
         subAccountPK = new SubAccountPK(subAccountReq.getIban(), subAccountReq.getCurrencyType());
         currentBalance = subAccountReq.getCurrentBalance();
@@ -72,10 +79,19 @@ public class SubAccount {
         }
     }
 
+    /**
+     * Modify the balance of the SubAccount.
+     * @param subAccountReq Custom req body for creating/modifying a SubAccount (only currentBalance used)
+     */
     public void change(SubAccountReq subAccountReq) {
         currentBalance = subAccountReq.getCurrentBalance();
     }
 
+    /**
+     * Creates a default subAccount for the account. (each account has at least one subAccount)
+     * @param account The account that needs a default subAccount.
+     * @return the SubAccount created.
+     */
     public static SubAccount createDefault(Account account) {
         SubAccount defaultSubAccount = new SubAccount();
         defaultSubAccount.setSubAccountPK(

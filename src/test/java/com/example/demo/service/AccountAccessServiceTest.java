@@ -54,7 +54,7 @@ class AccountAccessServiceTest {
         tmpAccount.setIban(accessReq.getAccountId());
         tmpAccount.setDeleted(false);
         Optional<Account> account = Optional.of(tmpAccount);
-        when(accountRepo.findById(accessReq.getAccountId()))
+        when(accountRepo.safeFindById(accessReq.getAccountId()))
                 .thenReturn(account);
 
         User tmpUser = new User();
@@ -110,7 +110,7 @@ class AccountAccessServiceTest {
         tmpAccount.setIban(accessReq.getAccountId());
         tmpAccount.setDeleted(false);
         Optional<Account> account = Optional.of(tmpAccount);
-        when(accountRepo.findById(accessReq.getAccountId()))
+        when(accountRepo.safeFindById(accessReq.getAccountId()))
                 .thenReturn(account);
 
         //then
@@ -137,31 +137,6 @@ class AccountAccessServiceTest {
         assertThatThrownBy(() -> underTest.createAccountAccess(accessReq))
                 .isInstanceOf(ConflictException.class)
                 .hasMessageContaining("account already exist "+accessReq);
-    }
-
-    @Test
-    void createShouldThrowWhenAccountIsDeleted(){
-        // Given
-        AccountAccessReq accessReq = new AccountAccessReq(
-                "accountId",
-                "userId",
-                true,
-                false
-        );
-
-        Account tmpAccount = new Account();
-        tmpAccount.setIban(accessReq.getAccountId());
-        tmpAccount.setDeleted(true);
-        Optional<Account> account = Optional.of(tmpAccount);
-        when(accountRepo.findById(accessReq.getAccountId()))
-                .thenReturn(account);
-
-        //then
-        assertThatThrownBy(()->underTest.createAccountAccess(accessReq))
-                .isInstanceOf(ConflictException.class)
-                .hasMessageContaining("Can't add access to a deleted account: "+accessReq);
-
-        verify(accessRepo,never()).save(any());
     }
 
     @Test

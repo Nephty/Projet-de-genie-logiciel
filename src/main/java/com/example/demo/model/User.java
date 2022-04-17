@@ -11,13 +11,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Date;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Optional;
+import java.time.LocalDateTime;
 
-@Data @Slf4j
+
+@Getter
+@Setter
+@ToString
+@Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -58,6 +58,11 @@ public class User {
     )
     private String language;
 
+    @Column(
+            nullable = false
+    )
+    private Date birthdate;
+
     public User(String userID){
         this.userId = userID;
     }
@@ -70,6 +75,7 @@ public class User {
         this.firstname = firstname;
         this.email = email;
         this.language = language;
+        this.birthdate = birthdate;
     }
 
     public User(UserReq userReq) {
@@ -96,52 +102,13 @@ public class User {
     }
 
     @JsonIgnore
-    public Optional<Boolean> isAbove18() {
-        int age = getAge();
-        if(age == -1) {
-            return Optional.empty();
-        }
-        return Optional.of(getAge() >= 18);
+    public Boolean isAbove18() {
+        return getAge() >= 18;
     }
 
     @JsonIgnore
     public int getAge() {
-        int birthYear;
-        int birthMonth = 0;
-        int birthDay = 0;
-        try {
-            birthYear = Integer.parseInt(userId.substring(0, 2));
-            birthMonth = Integer.parseInt(userId.substring(3, 5));
-            birthDay = Integer.parseInt(userId.substring(6, 8));
-        } catch(NumberFormatException e) {
-            birthYear = -1;
-            log.warn("User[{}] nrn doesn't contain birth year at expected place", userId);
-        }
-        ZonedDateTime now = ZonedDateTime.now();
-
-        if(birthYear > now.getYear() - 2000) {
-            birthYear += 1900;
-        }else if(birthYear < now.getYear() - 2000 && birthYear >= 0) {
-            birthYear += 2000;
-        } else {
-            return -1;
-        }
-
-
-        ZonedDateTime birth = ZonedDateTime.of(
-                birthYear,
-                birthMonth,
-                birthDay,
-                0,
-                0,
-                0,
-                0,
-                ZoneId.systemDefault()
-        );
-
-        ZonedDateTime age = now.minus(Duration.ofMillis(birth.toInstant().toEpochMilli()));
-
-        return age.getYear();
+        return LocalDateTime.now().getYear() - birthdate.toLocalDate().getYear();
     }
 
 }

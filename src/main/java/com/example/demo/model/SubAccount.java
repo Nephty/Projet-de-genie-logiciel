@@ -73,7 +73,7 @@ public class SubAccount {
     }
 
     public void change(SubAccountReq subAccountReq) {
-        //TODO this
+        currentBalance = subAccountReq.getCurrentBalance();
     }
 
     public static SubAccount createDefault(Account account) {

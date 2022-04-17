@@ -4,16 +4,20 @@ package com.example.demo.model;
 import com.example.demo.request.UserReq;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Optional;
 
-@Getter
-@Setter
-@ToString
+@Data @Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -54,12 +58,6 @@ public class User {
     )
     private String language;
 
-    @Column(
-            nullable = false,
-            name = "birthdate"
-    )
-    private Date birthdate;
-
     public User(String userID){
         this.userId = userID;
     }
@@ -72,7 +70,6 @@ public class User {
         this.firstname = firstname;
         this.email = email;
         this.language = language;
-        this.birthdate = birthdate;
     }
 
     public User(UserReq userReq) {
@@ -83,7 +80,6 @@ public class User {
         email = userReq.getEmail();
         password = userReq.getPassword();
         language = userReq.getLanguage();
-        birthdate = userReq.getBirthdate();
     }
 
     public void change(UserReq userReq) {
@@ -98,13 +94,54 @@ public class User {
     public String getFullName() {
         return lastname + " " + firstname;
     }
-    //TODO age
+
     @JsonIgnore
-    public boolean isAbove18() {
-        return true;
+    public Optional<Boolean> isAbove18() {
+        int age = getAge();
+        if(age == -1) {
+            return Optional.empty();
+        }
+        return Optional.of(getAge() >= 18);
     }
 
     @JsonIgnore
-    public int getAge() {return 24;}
+    public int getAge() {
+        int birthYear;
+        int birthMonth = 0;
+        int birthDay = 0;
+        try {
+            birthYear = Integer.parseInt(userId.substring(0, 2));
+            birthMonth = Integer.parseInt(userId.substring(3, 5));
+            birthDay = Integer.parseInt(userId.substring(6, 8));
+        } catch(NumberFormatException e) {
+            birthYear = -1;
+            log.warn("User[{}] nrn doesn't contain birth year at expected place", userId);
+        }
+        ZonedDateTime now = ZonedDateTime.now();
+
+        if(birthYear > now.getYear() - 2000) {
+            birthYear += 1900;
+        }else if(birthYear < now.getYear() - 2000 && birthYear >= 0) {
+            birthYear += 2000;
+        } else {
+            return -1;
+        }
+
+
+        ZonedDateTime birth = ZonedDateTime.of(
+                birthYear,
+                birthMonth,
+                birthDay,
+                0,
+                0,
+                0,
+                0,
+                ZoneId.systemDefault()
+        );
+
+        ZonedDateTime age = now.minus(Duration.ofMillis(birth.toInstant().toEpochMilli()));
+
+        return age.getYear();
+    }
 
 }

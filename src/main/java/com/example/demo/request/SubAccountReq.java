@@ -31,7 +31,7 @@ public class SubAccountReq {
 
     @JsonIgnore
     public boolean isPutValid() {
-        return iban != null && (currentBalance != null || currencyType != null);
+        return iban != null && currentBalance != null;
     }
 
     public SubAccountReq(SubAccount subAccount) {

@@ -3,7 +3,6 @@ package front.controllers;
 import app.Main;
 import back.user.Profile;
 import back.user.Wallet;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;

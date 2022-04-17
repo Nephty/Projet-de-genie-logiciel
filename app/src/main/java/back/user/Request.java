@@ -27,18 +27,20 @@ public class Request extends Communication {
     public void approve() {
         if (this.communicationType.equals(CommunicationType.TRANSFER_PERMISSION)) {
             // Changes the account
-            HttpResponse<String> response = null;
             Unirest.setTimeouts(0, 0);
-            response = null;
-            try {
-                response = Unirest.put("https://flns-spring-test.herokuapp.com/api/account")
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .header("Content-Type", "application/json")
-                        .body("{\r\n    \"iban\": \"" + this.content + "\",\r\n    \"payment\": " + "true" + "\r\n}")
-                        .asString();
-            } catch (UnirestException e) {
-                e.printStackTrace();
-            }
+            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.put("https://flns-spring-test.herokuapp.com/api/account")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .header("Content-Type", "application/json")
+                            .body("{\r\n    \"iban\": \"" + this.content + "\",\r\n    \"payment\": " + "true" + "\r\n}")
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
 
             // Send a notification to the client
             Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank " + Main.getBank().getName() + " has given you the transfer permissions for the account " + this.content);
@@ -46,13 +48,17 @@ public class Request extends Communication {
 
             // Delete this request
             Unirest.setTimeouts(0, 0);
-            try {
-                HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .asString();
-            } catch (UnirestException e) {
-                e.printStackTrace();
-            }
+            HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
         }
 
         if(this.communicationType.equals(CommunicationType.CREATE_ACCOUNT)){
@@ -72,13 +78,17 @@ public class Request extends Communication {
 
             // Delete this request
             Unirest.setTimeouts(0, 0);
-            try {
-                HttpResponse<String> response = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .asString();
-            } catch (UnirestException e) {
-                e.printStackTrace();
-            }
+            HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
         }
 
         if(this.communicationType.equals(CommunicationType.CREATE_ACCOUNT)){

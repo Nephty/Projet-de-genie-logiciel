@@ -71,14 +71,17 @@ public class Account {
 
     public void delete() {
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
-        try {
-            response = Unirest.delete("https://flns-spring-test.herokuapp.com/api/account/" + this.IBAN)
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/account/" + this.IBAN)
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
     }
 
     public Profile getAccountOwner() {

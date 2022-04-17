@@ -29,14 +29,17 @@ public class Profile {
      */
     public Profile(String nationalRegistrationNumber) {
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
-        try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + nationalRegistrationNumber + "?isUsername=false")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
         Main.errorCheck(response.getStatus());
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
@@ -68,16 +71,19 @@ public class Profile {
      */
     public static ArrayList<Profile> fetchAllCustomers(String swift) {
         ArrayList<Profile> rep = new ArrayList<Profile>();
+
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
-        try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/customer")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .asString();
-            Main.errorCheck(response.getStatus());
-        } catch (UnirestException e) {
-            Main.ErrorManager(408);
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep2 = null;
+            try {
+                rep2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/customer")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep2;
+        });
 
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);
@@ -141,8 +147,6 @@ public class Profile {
             ArrayList<Account> accountList = walletList.get(i).getAccountList();
 
             for(int j = 0; j<accountList.size(); j++){
-                Unirest.setTimeouts(0, 0);
-                HttpResponse<String> response = null;
                 String IBAN = accountList.get(j).getIBAN();
                 AccountType accountType = accountList.get(j).getAccountType();
                 int accType = 0;
@@ -161,30 +165,38 @@ public class Profile {
                         break;
                 }
 
-                try {
-                    response = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
-                            .header("Authorization", "Bearer " + Main.getToken())
-                            .header("Content-Type", "application/json")
-                            .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + accType + "\r\n}")
-                            .asString();
-                    Main.errorCheck(response.getStatus());
-                } catch (UnirestException e) {
-                    Main.ErrorManager(408);
-                }
+                Unirest.setTimeouts(0, 0);
+                int finalAccType = accType;
+                HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+                    HttpResponse<String> rep = null;
+                    try {
+                        rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
+                                .header("Authorization", "Bearer " + Main.getToken())
+                                .header("Content-Type", "application/json")
+                                .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + finalAccType + "\r\n}")
+                                .asString();
+                    } catch (UnirestException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return rep;
+                });
+                Main.errorCheck(response.getStatus());
 
                 // Create account access
                 Unirest.setTimeouts(0, 0);
-                HttpResponse<String> response2 = null;
-                try {
-                    response2 = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
-                            .header("Authorization", "Bearer " + Main.getToken())
-                            .header("Content-Type", "application/json")
-                            .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
-                            .asString();
-                    Main.errorCheck(response2.getStatus());
-                } catch (UnirestException e) {
-                    Main.ErrorManager(408);
-                }
+                HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
+                    HttpResponse<String> rep = null;
+                    try {
+                        rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
+                                .header("Authorization", "Bearer " + Main.getToken())
+                                .header("Content-Type", "application/json")
+                                .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
+                                .asString();
+                    } catch (UnirestException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return rep;
+                });
             }
 
         }

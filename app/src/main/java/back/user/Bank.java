@@ -22,15 +22,18 @@ public class Bank {
         String token = Main.getToken();
         this.swiftCode = swiftCode;
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
-        try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/" + swiftCode)
-                    .header("Authorization", "Bearer " + token)
-                    .header("Content-Type", "application/json")
-                    .asString();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/" + swiftCode)
+                        .header("Authorization", "Bearer " + token)
+                        .header("Content-Type", "application/json")
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
         Main.errorCheck(response.getStatus());
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);

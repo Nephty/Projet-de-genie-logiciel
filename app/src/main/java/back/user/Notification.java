@@ -18,15 +18,19 @@ public class Notification extends Communication {
 
     public void send() {
         Unirest.setTimeouts(0, 0);
-        try {
-            HttpResponse<String> response = Unirest.post("https://flns-spring-test.herokuapp.com/api/notification")
-                    .header("Authorization", "Bearer " + Main.getToken())
-                    .header("Content-Type", "application/json")
-                    .body("{\r\n    \"notificationType\": 4,\r\n    \"comments\": \"" + this.content + "\",\r\n    \"recipientId\": \"" + this.recipientId + "\"\r\n}")
-                    .asString();
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/notification")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .header("Content-Type", "application/json")
+                        .body("{\r\n    \"notificationType\": 4,\r\n    \"comments\": \"" + this.content + "\",\r\n    \"recipientId\": \"" + this.recipientId + "\"\r\n}")
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
     }
 
 

@@ -3,6 +3,7 @@ package front.controllers;
 import app.Main;
 import back.user.Bank;
 import back.user.CommunicationType;
+import back.user.ErrorHandler;
 import back.user.Request;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -97,16 +98,18 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
             sleepAndFadeOutLoadingRequestsLabelFadeThread = new FadeOutThread();
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
-            try {
-                response = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .asString();
-            } catch (UnirestException e) {
-                e.printStackTrace();
-            }
+            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
 
             String body = response.getBody();
             String toParse = body.substring(1, body.length() - 1);

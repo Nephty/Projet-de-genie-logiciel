@@ -2,6 +2,7 @@ package front.controllers;
 
 import app.Main;
 import back.user.AccountType;
+import back.user.ErrorHandler;
 import back.user.Notification;
 import back.user.Request;
 import com.mashape.unirest.http.HttpResponse;
@@ -130,38 +131,46 @@ public class CreateClientAccountSceneController extends Controller implements Ba
         if (!invalidIBANLabel.isVisible() && !isIBANTaken(IBAN) && !noValueSelectedLabel.isVisible()) {
             // Creates account with all the values
             String swift = Main.getBank().getSwiftCode();
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
+
             String userId;
             if (!Main.getNewClient().equals(null)) {
                 userId = Main.getNewClient();
             } else {
                 userId = Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber();
             }
-            try {
-                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .header("Content-Type", "application/json")
-                        .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + repType + "\r\n}")
-                        .asString();
-                Main.errorCheck(response.getStatus());
-            } catch (UnirestException e) {
-                Main.ErrorManager(408);
-            }
+            Unirest.setTimeouts(0, 0);
+            int finalRepType = repType;
+            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .header("Content-Type", "application/json")
+                            .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + finalRepType + "\r\n}")
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
+            Main.errorCheck(response.getStatus());
 
             // Create account access
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response2 = null;
-            try {
-                response2 = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
-                        .header("Authorization", "Bearer " + Main.getToken())
-                        .header("Content-Type", "application/json")
-                        .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
-                        .asString();
-                Main.errorCheck(response2.getStatus());
-            } catch (UnirestException e) {
-                Main.ErrorManager(408);
-            }
+            HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
+                            .header("Authorization", "Bearer " + Main.getToken())
+                            .header("Content-Type", "application/json")
+                            .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
+            Main.errorCheck(response2.getStatus());
 
             Main.setNewClient(null);
 
@@ -173,13 +182,17 @@ public class CreateClientAccountSceneController extends Controller implements Ba
 
                 // Delete this request
                 Unirest.setTimeouts(0, 0);
-                try {
-                    HttpResponse<String> response3 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+ request.getID())
-                            .header("Authorization", "Bearer "+ Main.getToken())
-                            .asString();
-                } catch (UnirestException e) {
-                    e.printStackTrace();
-                }
+                HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
+                    HttpResponse<String> rep = null;
+                    try {
+                        rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+ request.getID())
+                                .header("Authorization", "Bearer "+ Main.getToken())
+                                .asString();
+                    } catch (UnirestException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return rep;
+                });
             }
 
             Main.setRequest(null);

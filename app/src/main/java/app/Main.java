@@ -75,6 +75,10 @@ public class Main extends Application {
         token = newToken;
     }
 
+    public static String getRefreshToken(){
+        return refreshToken;
+    }
+
     public static void setRefreshToken(String newToken) {
         refreshToken = newToken;
     }

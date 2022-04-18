@@ -30,6 +30,7 @@ public class UserReq {
 
     private Date birthdate;
 
+    private Date birthdate;
 
     @JsonIgnore
     public boolean isPostValid() {
@@ -39,7 +40,8 @@ public class UserReq {
                 && firstname != null
                 && email != null
                 && password != null
-                && language != null;
+                && language != null
+                && birthdate != null;
     }
 
     @JsonIgnore
@@ -55,5 +57,6 @@ public class UserReq {
         email = user.getEmail();
         password = user.getPassword();
         language = user.getLanguage();
+        birthdate = user.getBirthdate();
     }
 }

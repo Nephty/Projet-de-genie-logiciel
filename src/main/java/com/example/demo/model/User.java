@@ -11,13 +11,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Date;
-import java.time.LocalDateTime;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Optional;
 
-
-@Getter
-@Setter
-@ToString
-@Slf4j
+@Data @Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -86,6 +86,7 @@ public class User {
         email = userReq.getEmail();
         password = userReq.getPassword();
         language = userReq.getLanguage();
+        birthdate = userReq.getBirthdate();
     }
 
     public void change(UserReq userReq) {
@@ -102,13 +103,16 @@ public class User {
     }
 
     @JsonIgnore
-    public Boolean isAbove18() {
+    public boolean isAbove18() {
         return getAge() >= 18;
     }
 
     @JsonIgnore
     public int getAge() {
-        return LocalDateTime.now().getYear() - birthdate.toLocalDate().getYear();
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime age = now.minus(Duration.ofMillis(birthdate.toInstant().toEpochMilli()));
+
+        return age.getYear();
     }
 
 }

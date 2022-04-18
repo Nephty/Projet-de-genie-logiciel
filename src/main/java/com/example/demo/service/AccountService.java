@@ -82,17 +82,13 @@ public class AccountService {
      * @throws LittleBoyException     if the method isn't PUT or POST
      */
     public Account addAccount(AccountReq accountReq) throws AuthorizationException {
-        if (accountReq.getAccountTypeId() == 4 && accountReq.getPayment()) {
-            throw new AuthorizationException("This is a fixed account you can't allow payment to it");
-        }
         Account account = instantiateAccount(accountReq, HttpMethod.POST);
 
         switch (account.getAccountTypeId().getAccountTypeId()) {
             case 1:
             case 3:
             case 4:
-                boolean isAdult = account.getUserId().isAbove18();
-                if(!isAdult) throw new AuthorizationException(
+                if(!account.getUserId().isAbove18()) throw new AuthorizationException(
                         "You must be above 18 to register for that account"
                 );
                 break;
@@ -129,11 +125,7 @@ public class AccountService {
         }
         //young account
         if(account.getAccountTypeId().getAccountTypeId() == 2 && accountReq.getPayment()) {
-            if(accountAccessRepo.getAllOwners(account).stream()
-                    .noneMatch(
-                            user -> user.isAbove18()
-                    )
-            ){
+            if(accountAccessRepo.getAllOwners(account).stream().noneMatch(User::isAbove18)){
                 throw new AuthorizationException(
                         "An adult needs to have access to this account in order for you to make payment with it"
                 );

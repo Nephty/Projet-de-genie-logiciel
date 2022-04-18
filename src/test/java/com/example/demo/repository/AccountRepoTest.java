@@ -3,6 +3,7 @@ package com.example.demo.repository;
 import com.example.demo.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -161,5 +162,11 @@ class AccountRepoTest {
         // Then
         assertEquals(1,result.size());
         assertEquals(account.getIban(),result.get(0).getIban());
+    }
+    
+    @Test
+    @Disabled
+    void canSafeFindById() {
+        // TODO: 4/18/22 test 
     }
 }

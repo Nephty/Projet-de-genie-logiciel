@@ -7,6 +7,7 @@ import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.request.AccountReq;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -274,6 +275,18 @@ class AccountServiceTest {
     }
 
     @Test
+    @Disabled
+    void addShouldThrowWhenOwnerUnderAge() {
+        // TODO: 4/18/22 test
+    }
+
+    @Test
+    @Disabled
+    void addShouldThrowWhenOverageForYoungAccount() {
+        // TODO: 4/18/22 test
+    }
+
+    @Test
     void canChangeAccount(){
         //Given
         AccountReq accountReq = new AccountReq(
@@ -385,5 +398,11 @@ class AccountServiceTest {
                 .hasMessageContaining("This is a fixed account you can't allow payment to it");
 
         verify(accountRepo,never()).save(any());
+    }
+    
+    @Test
+    @Disabled
+    void changeShouldThrowWhenYoungAccountAndPaymentButNoAdultCoOwner() {
+        // TODO: 4/18/22 test 
     }
 }

@@ -9,6 +9,7 @@ import com.example.demo.repository.AccountRepo;
 import com.example.demo.repository.UserRepo;
 import com.example.demo.request.AccountAccessReq;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -345,8 +346,6 @@ class AccountAccessServiceTest {
                 .hasMessageContaining("No user with such id: " + userId);
     }
 
-
-    
     @Test
     void canGetAllOwners(){
         // Given
@@ -388,5 +387,23 @@ class AccountAccessServiceTest {
         assertThatThrownBy(()->underTest.findAllOwners(accountId))
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining("No account with such id: "+accountId);
+    }
+
+    @Test
+    @Disabled
+    void bankOwnsAccount() {
+        // TODO: 4/18/22 test
+    }
+
+    @Test
+    @Disabled
+    void bankOwnsAccountShouldThrowWhenWrongRole() {
+        // TODO: 4/18/22 test
+    }
+
+    @Test
+    @Disabled
+    void bankShouldThrowWhenAccountNotFound(){
+        // TODO: 4/18/22 test
     }
 }

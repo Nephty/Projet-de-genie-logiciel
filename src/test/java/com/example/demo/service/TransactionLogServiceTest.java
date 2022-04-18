@@ -15,6 +15,7 @@ import com.example.demo.request.SubAccountReq;
 import com.example.demo.request.TransactionReq;
 import com.example.demo.security.Role;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -485,6 +486,12 @@ class TransactionLogServiceTest {
         assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
                 .isInstanceOf(AuthorizationException.class)
                 .hasMessageContaining("Can't make transaction lower or equal to 0");
+    }
+
+    @Test
+    @Disabled
+    void instantiateTransactionShouldThrowWhenAccountDontHaveEnoughMoney() {
+        // TODO: 4/18/22
     }
 
     @Test

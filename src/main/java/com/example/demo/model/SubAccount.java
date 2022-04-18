@@ -4,6 +4,7 @@ import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.request.SubAccountReq;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 
@@ -16,6 +17,7 @@ import javax.persistence.*;
  * Setters, Getters, NoArgsConstructor, AllArgsConstructor and ToString method are implemented by {@link lombok}
  * @see Account
  */
+@Slf4j
 @Getter
 @Setter
 @ToString

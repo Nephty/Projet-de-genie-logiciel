@@ -30,8 +30,6 @@ public class UserReq {
 
     private Date birthdate;
 
-    private Date birthdate;
-
     @JsonIgnore
     public boolean isPostValid() {
         return userId != null

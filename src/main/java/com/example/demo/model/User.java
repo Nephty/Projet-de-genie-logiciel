@@ -11,10 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Date;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Optional;
 
 @Data @Slf4j
@@ -109,10 +106,7 @@ public class User {
 
     @JsonIgnore
     public int getAge() {
-        ZonedDateTime now = ZonedDateTime.now();
-        ZonedDateTime age = now.minus(Duration.ofMillis(birthdate.toInstant().toEpochMilli()));
-
-        return age.getYear();
+        return LocalDateTime.now().getYear() - birthdate.toLocalDate().getYear();
     }
 
 }

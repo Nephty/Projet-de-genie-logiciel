@@ -19,6 +19,9 @@ import javafx.scene.input.MouseEvent;
 import java.util.Calendar;
 import java.util.Objects;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class TransferSceneController extends Controller implements BackButtonNavigator {
     @FXML
     PasswordField passwordField;

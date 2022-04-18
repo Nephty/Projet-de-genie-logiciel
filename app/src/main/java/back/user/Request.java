@@ -8,6 +8,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * @author François VION
+ */
 public class Request extends Communication {
     private final CommunicationType communicationType;
     private final String recipientId;

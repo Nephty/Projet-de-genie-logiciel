@@ -4,6 +4,9 @@ import app.Main;
 
 import java.sql.Date;
 
+/**
+ * @author François VION
+ */
 public class Transaction {
     private final long ID;
     private final String senderName;

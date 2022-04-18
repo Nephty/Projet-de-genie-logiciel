@@ -16,6 +16,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.Arrays;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class SignUpSceneController extends Controller implements BackButtonNavigator {
     @FXML
     TextField confirmPasswordTextField, passwordTextField;

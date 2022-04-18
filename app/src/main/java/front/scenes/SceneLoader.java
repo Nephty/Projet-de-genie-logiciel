@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 
 /**
  * Handles the loading of FXML files to create the Scenes.
+ * @author Arnaud MOREAU
  */
 public class SceneLoader {
 

@@ -8,6 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class AuthSceneController extends Controller implements LanguageButtonNavigator {
     @FXML
     Button languageButton, signInButton, signUpButton;

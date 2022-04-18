@@ -11,6 +11,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class EnterPINSceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, confirmButton;

@@ -8,6 +8,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * @author François VION
+ */
 public class Bank {
     private final String name;
     private final String swiftCode;

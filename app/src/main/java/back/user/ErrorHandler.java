@@ -8,6 +8,9 @@ import org.json.JSONObject;
 
 import java.util.function.Supplier;
 
+/**
+ * @author François VION
+ */
 public class ErrorHandler {
 
     public static HttpResponse<String> handlePossibleError(Supplier<HttpResponse<String>> toRetry) {

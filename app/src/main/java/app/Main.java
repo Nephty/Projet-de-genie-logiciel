@@ -13,6 +13,7 @@ import java.util.Locale;
 
 /**
  * Main runnable class that launches the application.
+ * @author Arnaud MOREAU, François VION
  */
 public class Main extends Application {
     public static Locale appLocale, FR_BE_Locale, EN_US_Locale, NL_NL_Locale, PT_PT_Locale, LT_LT_Locale, RU_RU_Locale, DE_DE_Locale, PL_PL_Locale;

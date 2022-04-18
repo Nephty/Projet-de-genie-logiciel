@@ -7,6 +7,9 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.util.ArrayList;
 
+/**
+ * @author François VION
+ */
 public class Account {
     private final Profile accountOwner;
     private final ArrayList<Profile> accountCoOwner;

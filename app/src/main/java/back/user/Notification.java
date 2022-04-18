@@ -5,6 +5,9 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+/**
+ * @author François VION
+ */
 public class Notification extends Communication {
     private final String content;
     private final String senderName;

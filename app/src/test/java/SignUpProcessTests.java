@@ -5,6 +5,9 @@ import static front.controllers.SignUpSceneController.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class SignUpProcessTests {
     final String s0 = "";
     final String s1 = "b";

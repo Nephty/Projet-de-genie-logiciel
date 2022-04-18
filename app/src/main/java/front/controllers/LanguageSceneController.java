@@ -15,6 +15,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.Locale;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class LanguageSceneController extends Controller implements BackButtonNavigator {
     @FXML
     TableView<Locale> languagesTableView;

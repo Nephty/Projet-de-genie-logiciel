@@ -8,6 +8,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * @author François VION
+ */
 public class Wallet {
     private final ArrayList<Account> accountList;
     private final Profile accountUser;

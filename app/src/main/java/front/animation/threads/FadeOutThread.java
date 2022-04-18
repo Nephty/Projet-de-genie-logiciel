@@ -8,6 +8,7 @@ import javafx.util.Duration;
  * This class is used to make use of a fade out transition. It creates a new <code>Thread</code> and uses it
  * to properly fade out the given <code>Node</code>, while the main thread can keep going on its own, independently of
  * the fade out transition.
+ * @author Arnaud MOREAU
  */
 public class FadeOutThread extends Thread {
     int shiftTransition, fadeInDuration, fadeOutDuration;

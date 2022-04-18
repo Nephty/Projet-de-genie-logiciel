@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class ExportHistorySceneController extends Controller implements BackButtonNavigator {
     public static ArrayList<Transaction> exportData;
     private boolean exportDone = false, directoryChosen = false;

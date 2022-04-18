@@ -13,6 +13,9 @@ import javafx.scene.input.MouseEvent;
 
 import static app.Main.appLocale;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class RequestsSceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, transferPermissionButton, newPortfolioButton, requestsStatusButton;

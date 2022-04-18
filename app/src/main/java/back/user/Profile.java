@@ -6,6 +6,9 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
+/**
+ * @author François VION
+ */
 public class Profile {
     private final String firstName;
     private final String lastName;

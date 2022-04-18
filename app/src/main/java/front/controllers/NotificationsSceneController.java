@@ -23,6 +23,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class NotificationsSceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, dismissButton, flagButton, fetchNotificationsButton;

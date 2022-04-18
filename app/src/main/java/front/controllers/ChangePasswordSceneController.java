@@ -19,6 +19,9 @@ import javafx.scene.input.MouseEvent;
 import org.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class ChangePasswordSceneController extends Controller implements BackButtonNavigator, LanguageButtonNavigator {
     @FXML
     Button backButton;

@@ -21,6 +21,9 @@ import java.util.Locale;
 
 import static app.Main.appLocale;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class SignInSceneController extends Controller implements BackButtonNavigator {
     @FXML
     TextField passwordTextField;

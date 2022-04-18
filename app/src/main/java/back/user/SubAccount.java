@@ -8,6 +8,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * @author François VION
+ */
 public class SubAccount {
     private final String IBAN;
     private final Currencies currency;

@@ -5,6 +5,9 @@ import static front.controllers.TransferSceneController.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class TransferProcessTests {
     final String a0 = "";
     final String a1 = null;

@@ -26,6 +26,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class RequestsStatusSceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, fetchRequestsButton;

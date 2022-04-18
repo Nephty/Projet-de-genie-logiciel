@@ -19,6 +19,9 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class TransactionsHistorySceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, exportButton, fetchTransactionsHistoryButton;

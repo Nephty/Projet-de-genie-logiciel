@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author François VION
+ */
 public class ObjectsTests {
 
     @Test

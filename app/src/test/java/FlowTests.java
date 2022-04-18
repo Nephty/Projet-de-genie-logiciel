@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class FlowTests {
     @Test
     @DisplayName("Flow add & pop Test")

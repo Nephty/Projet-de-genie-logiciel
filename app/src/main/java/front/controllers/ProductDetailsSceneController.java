@@ -27,6 +27,9 @@ import java.util.Calendar;
 
 import static app.Main.appLocale;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class ProductDetailsSceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, historyButton, fetchAccountsButton, transferButton, toggleButton, archivedAccountsButton;

@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class DateParsingTest {
     final String d0 = "";
     final String d1 = "a";

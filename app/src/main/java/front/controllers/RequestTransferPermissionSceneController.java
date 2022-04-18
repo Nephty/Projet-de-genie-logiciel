@@ -19,6 +19,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class RequestTransferPermissionSceneController extends Controller implements BackButtonNavigator {
 
     @FXML

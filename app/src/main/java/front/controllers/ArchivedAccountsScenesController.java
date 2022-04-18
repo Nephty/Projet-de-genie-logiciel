@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.NoSuchElementException;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class ArchivedAccountsScenesController extends Controller implements BackButtonNavigator {
     @FXML
     TableColumn<Account, String> bankNameColumn, IBANColumn, accountTypeColumn, transferPermissionsColumn, subAccountsColumn, amountColumn;

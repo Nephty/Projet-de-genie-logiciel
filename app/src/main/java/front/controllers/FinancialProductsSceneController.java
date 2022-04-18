@@ -20,6 +20,9 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class FinancialProductsSceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, fetchProductsButton, detailsButton;

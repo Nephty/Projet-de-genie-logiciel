@@ -1,3 +1,5 @@
+// @author Arnaud MOREAU
+
 plugins {
     id 'java'
     id 'idea'

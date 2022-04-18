@@ -11,6 +11,7 @@ import java.util.LinkedList;
  * How to use :
  * - To go forward to another scene : yourScene.setScene(Flow.forward(yourNewScene));
  * - To go back to the previous scene : yourScene.setScene(Flow.back());
+ * @author Arnaud MOREAU
  */
 public class Flow {
     private static LinkedList<Scene> FLOW = new LinkedList<>();

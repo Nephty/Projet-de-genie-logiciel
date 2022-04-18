@@ -28,6 +28,9 @@ import java.time.Period;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class VisualizeToolSceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, setGraphMode, setPieChartMode, addAccountButton, removeAccountButton, exportHistoryButton;

@@ -21,6 +21,9 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
 
+/**
+ * @author Arnaud MOREAU
+ */
 public class RequestNewPortfolioSceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, sendRequestButton;

@@ -77,7 +77,7 @@ public class AccountService {
      *
      * @param accountReq The req body to create an account. ({@link AccountReq#isPostValid()})
      * @return The created account.
-     * @throws AuthorizationException We can't create a fixed account with the payment authorisation.
+     * @throws AuthorizationException Problem with accountType
      * @throws ConflictException      if the FK provided do not exist
      * @throws LittleBoyException     if the method isn't PUT or POST
      */
@@ -113,7 +113,7 @@ public class AccountService {
      *
      * @param accountReq The req body to change the account ({@link AccountReq#isPutValid()})
      * @return The changed account
-     * @throws AuthorizationException Can't accept payment to fixed account.
+     * @throws AuthorizationException Problem with accountType
      * @throws ResourceNotFound       if the account that the client tries to change doesn't exist
      * @throws LittleBoyException     if the method isn't PUT or POST
      */

@@ -274,32 +274,6 @@ class AccountServiceTest {
     }
 
     @Test
-    void addShouldThrowWhenFixedAccountAndPayment() {
-        // Throws if it's a fixed account and payment = true
-        // Given
-        AccountReq accountReq = new AccountReq(
-                "iban",
-                "swift",
-                "userId",
-                4,
-                true,
-                "name",
-                "lastname",
-                null,
-                Date.valueOf(LocalDate.now()),
-                false
-        );
-
-        //then
-        assertThatThrownBy(()->underTest.addAccount(accountReq))
-                .isInstanceOf(AuthorizationException.class)
-                .hasMessageContaining("This is a fixed account you can't allow payment to it");
-
-        verify(accountRepo,never()).save(any());
-
-    }
-
-    @Test
     void canChangeAccount(){
         //Given
         AccountReq accountReq = new AccountReq(

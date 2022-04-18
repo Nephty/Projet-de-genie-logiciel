@@ -112,7 +112,6 @@ public class UserService implements UserDetailsService {
      */
     public User changeUser(UserReq userReq, Sender sender)
             throws ResourceNotFound, LittleBoyException {
-        //alreadyExists(userReq).orElseThrow(()-> new ResourceNotFound(userReq.toString()));
         User user = instantiateUser(sender, userReq, HttpMethod.PUT);
         log.info("Changing user to {}", user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

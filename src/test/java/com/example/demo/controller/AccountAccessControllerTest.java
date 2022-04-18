@@ -23,6 +23,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -329,6 +331,8 @@ class AccountAccessControllerTest {
 
         when(accountAccessService.createAccountAccess(res))
                 .thenReturn(new AccountAccess(res));
+        when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+                .thenReturn(true);
 
         // Then
         mockMvc.perform(post("/api/account-access/")
@@ -348,6 +352,9 @@ class AccountAccessControllerTest {
                 false
         );
 
+        when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+                .thenReturn(true);
+
         // Then
         mockMvc.perform(post("/api/account-access/")
                         .header("Authorization", "Bearer " + token)
@@ -365,6 +372,9 @@ class AccountAccessControllerTest {
                  true,
                  false
          );
+
+         when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+                 .thenReturn(true);
 
          when(accountAccessService.createAccountAccess(res))
                  .thenThrow(new ConflictException(""));
@@ -387,6 +397,9 @@ class AccountAccessControllerTest {
                 false
         );
 
+        when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+                .thenReturn(true);
+
         when(accountAccessService.changeAccountAccess(res))
                 .thenReturn(new AccountAccess(res));
 
@@ -407,6 +420,8 @@ class AccountAccessControllerTest {
                 null,
                 null
         );
+        when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+                .thenReturn(true);
 
         when(accountAccessService.changeAccountAccess(res))
                 .thenReturn(new AccountAccess(res));
@@ -429,6 +444,9 @@ class AccountAccessControllerTest {
                 false
         );
 
+        when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+                .thenReturn(true);
+
         when(accountAccessService.changeAccountAccess(res))
                 .thenThrow(new ResourceNotFound(""));
 
@@ -445,6 +463,9 @@ class AccountAccessControllerTest {
         // Given
         String userId = "userId";
         String iban = "iban";
+
+        when(accountAccessService.bankOwnsAccount(any(),eq(iban)))
+                .thenReturn(true);
 
         // Then
         mockMvc.perform(delete("/api/account-access/")

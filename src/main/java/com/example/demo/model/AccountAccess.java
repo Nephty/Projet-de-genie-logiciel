@@ -72,6 +72,7 @@ public class AccountAccess {
         defaultAccountAccess.setUserId(account.getUserId());
         defaultAccountAccess.setAccess(true);
         defaultAccountAccess.setHidden(false);
+        defaultAccountAccess.setAccountId(account);
 
         return defaultAccountAccess;
     }

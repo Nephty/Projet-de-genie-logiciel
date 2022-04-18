@@ -19,7 +19,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/account-access")
-@RestController @Slf4j
+@RestController
+@Slf4j
 public class AccountAccessController {
 
     private final AccountAccessService accountAccessService;
@@ -28,24 +29,25 @@ public class AccountAccessController {
 
     /**
      * Returns a list with all the account access for a certain user
+     *
      * @param userId id of the user
      * @return Array of account access
      * 200 - OK
-     * 204 - Not found
+     * 404 - Not found
      * Who ? the user
      */
     @GetMapping(value = "/all")
     public ResponseEntity<List<AccountAccessReq>> sendAccountAccess(
             @RequestParam String userId,
-            @RequestParam Boolean deleted, @RequestParam Boolean hidden){
-        if (deleted){
+            @RequestParam Boolean deleted, @RequestParam Boolean hidden) {
+        if (deleted) {
             // If we want hidden and deleted, it only returns the deleted.
             return new ResponseEntity<>(
                     accountAccessService.getAccessToDeletedAccount(userId),
                     HttpStatus.OK
             );
         }
-        if (hidden){
+        if (hidden) {
             return new ResponseEntity<>(
                     accountAccessService.getAccessToHiddenAccount(userId),
                     HttpStatus.OK
@@ -59,7 +61,7 @@ public class AccountAccessController {
     }
 
     @GetMapping(value = "/all/co-owner")
-    public ResponseEntity<List<User>> getAllOwners(@RequestParam String iban){
+    public ResponseEntity<List<User>> getAllOwners(@RequestParam String iban) {
         return new ResponseEntity<>(
                 accountAccessService.findAllOwners(iban),
                 HttpStatus.OK
@@ -68,7 +70,7 @@ public class AccountAccessController {
 
 
     /**
-     * @param userId id of the user with the access
+     * @param userId    id of the user with the access
      * @param accountId id of the user account
      * @return account access matching params
      * 200 - OK
@@ -78,9 +80,7 @@ public class AccountAccessController {
     @GetMapping(value = "{userId}/{accountId}")
     public ResponseEntity<AccountAccessReq> sendAccountAccess(
             @PathVariable String userId, @PathVariable String accountId
-
-    ){
-
+    ) {
         return new ResponseEntity<>(
                 accountAccessService.findAccountAccess(accountId, userId),
                 HttpStatus.OK
@@ -96,11 +96,11 @@ public class AccountAccessController {
      * Who ? the owner of the account and/or the bank
      */
     @PostMapping
-    public ResponseEntity<String> addAccess(@RequestBody AccountAccessReq accountAccessReq){
-        Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
-        if(!accountAccessService.bankOwnsAccount(sender, accountAccessReq.getAccountId()))
+    public ResponseEntity<String> addAccess(@RequestBody AccountAccessReq accountAccessReq) {
+        Sender sender = (Sender) httpRequest.getAttribute(Sender.getAttributeName());
+        if (!accountAccessService.bankOwnsAccount(sender, accountAccessReq.getAccountId()))
             throw new AuthorizationException("You don't manage this account");
-        if(!accountAccessReq.isPostValid()) throw new MissingParamException();
+        if (!accountAccessReq.isPostValid()) throw new MissingParamException();
         log.info("inserting account-access: {}", accountAccessReq);
 
         AccountAccess savedAccountAccess = accountAccessService.createAccountAccess(accountAccessReq);
@@ -118,17 +118,17 @@ public class AccountAccessController {
      */
     @PutMapping
     public ResponseEntity<String> changeAccess(@RequestBody AccountAccessReq accountAccessReq) {
-        Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
-        if(!accountAccessService.bankOwnsAccount(sender, accountAccessReq.getAccountId()))
+        Sender sender = (Sender) httpRequest.getAttribute(Sender.getAttributeName());
+        if (!accountAccessService.bankOwnsAccount(sender, accountAccessReq.getAccountId()))
             throw new AuthorizationException("You don't manage this account");
-        if(!accountAccessReq.isPutValid()) throw new MissingParamException();
+        if (!accountAccessReq.isPutValid()) throw new MissingParamException();
 
         AccountAccess savedAccountAccess = accountAccessService.changeAccountAccess(accountAccessReq);
         return new ResponseEntity<>(savedAccountAccess.toString(), HttpStatus.CREATED);
     }
 
     /**
-     * @param userId id of the user with the access
+     * @param userId    id of the user with the access
      * @param accountId id of the user account
      * @return params sent
      * 200 - OK
@@ -136,8 +136,8 @@ public class AccountAccessController {
      */
     @DeleteMapping
     public ResponseEntity<String> deleteAccess(@RequestParam String accountId, @RequestParam String userId) {
-        Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());
-        if(!accountAccessService.bankOwnsAccount(sender, accountId))
+        Sender sender = (Sender) httpRequest.getAttribute(Sender.getAttributeName());
+        if (!accountAccessService.bankOwnsAccount(sender, accountId))
             throw new AuthorizationException("You don't manage this account");
         accountAccessService.deleteAccountAccess(accountId, userId);
         return new ResponseEntity<>(accountId + " : " + userId, HttpStatus.OK);

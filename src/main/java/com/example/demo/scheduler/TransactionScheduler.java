@@ -1,10 +1,7 @@
 package com.example.demo.scheduler;
 
 import com.example.demo.model.TransactionLog;
-import com.example.demo.other.Sender;
 import com.example.demo.repository.TransactionLogRepo;
-import com.example.demo.request.NotificationReq;
-import com.example.demo.security.Role;
 import com.example.demo.service.NotificationService;
 import com.example.demo.service.TransactionLogService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +28,7 @@ public class TransactionScheduler extends AbstractScheduler {
             ArrayList<TransactionLog> badFormatTransaction = transactionLogRepo.findBadFormatTransaction();
             for (TransactionLog t : badFormatTransaction){
                 transactionLogRepo.deleteAllByTransactionId(t.getTransactionId());
-                sendBadFormatTransaction(t);
+                transactionLogService.sendBadFormatTransaction(t);
             }
         }
         else {
@@ -49,30 +46,4 @@ public class TransactionScheduler extends AbstractScheduler {
             log.info("[SCHEDULED TASK] Completed scheduled task");
         }
     }
-
-    private void sendBadFormatTransaction(TransactionLog transaction){
-        String reason = "An error occur with your transaction : ";
-        reason += "We've lost the ";
-        reason += transaction.getIsSender() ? "Receiver.\n" : "Sender.\n";
-        reason += "To resolve that problem, we've deleted this Transaction.\n We apologise for the troubles\n";
-        reason += "Transaction description : \n";
-        reason += "Account : " + transaction.getSubAccount().getIban().getIban() + "\n";
-        reason += "Date : " + transaction.getTransactionDate() + "\n";
-        reason += "Amount :" + transaction.getTransactionAmount();
-
-
-        Sender bankSender = new Sender(
-                transaction.getSubAccount().getIban().getSwift().getSwift(),
-                Role.BANK
-        );
-
-        NotificationReq notification = new NotificationReq();
-        notification.setNotificationType(5);
-        notification.setComments(reason);
-        notification.setIsFlagged(true);
-        notification.setRecipientId(transaction.getSubAccount().getIban().getUserId().getUserId());
-
-        notificationService.addNotification(bankSender,notification);
-    }
-
 }

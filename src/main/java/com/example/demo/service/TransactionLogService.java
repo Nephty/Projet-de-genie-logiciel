@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.exception.throwables.AuthorizationException;
 import com.example.demo.exception.throwables.ConflictException;
-import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.AccountAccess;
 import com.example.demo.model.CompositePK.AccountAccessPK;
@@ -56,23 +55,25 @@ public class TransactionLogService {
                 .orElseThrow(()-> new ResourceNotFound(iban + " : " + currencyId.toString()));
         ArrayList<TransactionLog> transactionLogs = transactionLogRepo.findAllLinkedToSubAccount(subAccount);
         if(transactionLogs.size() % 2 != 0) {
-            log.error("inconsistent state for transaction table, subAccount: " + iban + " / " + currencyId);
-            throw new LittleBoyException();
+            //Shouldn't be happening but if it happens we have to manage it correctly.
+            ArrayList<TransactionLog> badFormatTransaction = transactionLogRepo.findBadFormatTransaction();
+            for (TransactionLog t : badFormatTransaction){
+                transactionLogRepo.deleteAllByTransactionId(t.getTransactionId());
+                sendBadFormatTransaction(t);
+            }
         }
         ArrayList<TransactionReq> response = new ArrayList<>();
         // mapping the ugliness from the DB to a nicer response
         transactionLogs.stream()
                 .filter(transactionLog -> !transactionLog.getIsSender())
-                .forEach(transactionReceived -> {
-                    transactionLogs.stream()
-                            .filter(transactionLog -> transactionLog.getIsSender())
-                            .forEach(transactionSent -> {
-                                if(transactionSent.getTransactionId().intValue()
-                                        == transactionReceived.getTransactionId().intValue()) {
-                                    response.add(new TransactionReq(transactionSent, transactionReceived));
-                                }
-                            });
-                });
+                .forEach(transactionReceived -> transactionLogs.stream()
+                        .filter(transactionLog -> transactionLog.getIsSender())
+                        .forEach(transactionSent -> {
+                            if(transactionSent.getTransactionId().intValue()
+                                    == transactionReceived.getTransactionId().intValue()) {
+                                response.add(new TransactionReq(transactionSent, transactionReceived));
+                            }
+                        }));
         return response;
     }
 
@@ -277,13 +278,13 @@ public class TransactionLogService {
 
 
     private String formatReason(TransactionLog send, TransactionLog receive, String reason){
-        String res = "Transaction couldn't be executed \n";
-        res += "From : "+send.getSubAccount().getIban().getIban() + "\n";
-        res += "To : "+receive.getSubAccount().getIban().getUserId().getFullName()
+        String res = "Transaction couldn't be executed ";
+        res += "From : "+send.getSubAccount().getIban().getIban();
+        res += " To : "+receive.getSubAccount().getIban().getUserId().getFullName()
                 +" ("+receive.getSubAccount().getIban().getIban() + ")\n";
-        res += "Date : "+send.getTransactionDate() + "\n";
-        res += "Amount : "+send.getTransactionAmount() + "\n";
-        res += reason;
+        res += "Date : "+send.getTransactionDate();
+        res += "Amount : "+send.getTransactionAmount();
+        res += " reason : " + reason;
         return res;
     }
 
@@ -296,5 +297,28 @@ public class TransactionLogService {
     private int nextId(){
         Integer tmp = transactionLogRepo.findMaximumId();
         return tmp == null ? 1 : tmp+1;
+    }
+
+    public void sendBadFormatTransaction(TransactionLog transaction){
+        String reason = "An error occur with your transaction : ";
+        reason += "We've lost the ";
+        reason += transaction.getIsSender() ? "Receiver.\n" : "Sender.\n";
+        reason += "Account : " + transaction.getSubAccount().getIban().getIban();
+        reason += " Date : " + transaction.getTransactionDate();
+        reason += " Amount :" + transaction.getTransactionAmount();
+
+
+        Sender bankSender = new Sender(
+                transaction.getSubAccount().getIban().getSwift().getSwift(),
+                Role.BANK
+        );
+
+        NotificationReq notification = new NotificationReq();
+        notification.setNotificationType(5);
+        notification.setComments(reason);
+        notification.setIsFlagged(true);
+        notification.setRecipientId(transaction.getSubAccount().getIban().getUserId().getUserId());
+
+        notificationService.addNotification(bankSender,notification);
     }
 }

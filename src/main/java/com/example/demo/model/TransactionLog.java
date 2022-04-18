@@ -9,6 +9,14 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Date;
 
+
+/**
+ * The model for the table transaction_log.
+ * This class as a composite primary key designed with an idClass {@link TransactionLogPK} <br>
+ * Each transaction have 2 lines in the DB (in/out ways).
+ * Check the entity relationShip diagram in the documentation if you need more info about this table <br>
+ * Setters, Getters, NoArgsConstructor, AllArgsConstructor and ToString method are implemented by {@link lombok}
+ */
 @Getter
 @Setter
 @ToString
@@ -56,14 +64,6 @@ public class TransactionLog {
     )
     private Double transactionAmount;
 
-    @JsonIgnore
-    public double getFee() {
-        if(!isSender) {
-            return 0;
-        }
-        return transactionAmount * transactionTypeId.getTransactionFee();
-    }
-
     @Column(
             nullable = false
     )
@@ -74,6 +74,11 @@ public class TransactionLog {
     )
     private String comments;
 
+    /**
+     * Custom constructor for TransactionLog with the custom Request. <br>
+     * IF the date is null, set the transaction to the current date.
+     * @param transactionReq The custom request for creating/modifying a TransactionLog
+     */
     public TransactionLog(TransactionReq transactionReq) {
         Date now = new Date(System.currentTimeMillis());
         // setting to current time if the date is not provided or if it's from before to not allow forgery
@@ -89,5 +94,17 @@ public class TransactionLog {
         comments = transactionReq.getComments();
 
         transactionAmount = transactionReq.getTransactionAmount();
+    }
+
+    /**
+     * Get the Transaction fee.
+     * @return the fee of the transaction
+     */
+    @JsonIgnore
+    public double getFee() {
+        if(!isSender) {
+            return 0;
+        }
+        return transactionAmount * transactionTypeId.getTransactionFee();
     }
 }

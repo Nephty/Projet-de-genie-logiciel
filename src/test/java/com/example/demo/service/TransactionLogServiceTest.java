@@ -726,6 +726,99 @@ class TransactionLogServiceTest {
     }
 
     @Test
+    void canGetWithTransactionsBadlyFormatted() {
+        // Given
+        String iban = "iban";
+        Integer currency = 0;
+
+        // -- SubAccount --
+        SubAccountReq subAccountReq = new SubAccountReq(
+                iban,
+                currency,
+                200.0,
+                "EUR"
+        );
+
+        // -- User 1 --
+        User user = new User(
+                "userId",
+                "username",
+                "lastName",
+                "firstname",
+                "email",
+                "FR",
+                Date.valueOf(LocalDate.of(2002,10,31))
+        );
+
+        // -- Bank --
+        Bank bank = new Bank(
+                "swift",
+                "name",
+                "pwd",
+                "address",
+                "country",
+                new CurrencyType(0,"EUR")
+        );
+
+        // -- User1's account --
+        Account acc = new Account();
+        acc.setIban(iban);
+        acc.setPayment(false);
+        acc.setSwift(bank);
+        acc.setUserId(user);
+
+        // -- CurrencyType --
+        CurrencyType tmpType = new CurrencyType();
+        tmpType.setCurrencyId(subAccountReq.getCurrencyType());
+
+        Optional<SubAccount> expectedValue = Optional.of(
+                new SubAccount(acc,tmpType,subAccountReq.getCurrentBalance()));
+        when(subAccountRepo.findById(any()))
+                .thenReturn(expectedValue);
+
+        // -- TransactionType --
+        TransactionType transactionType = new TransactionType(1,"type",0.0);
+
+
+        // -- From user1's account --
+        TransactionLog goodTransactionLogSender = new TransactionLog(
+                1,
+                true,
+                transactionType,
+                null,
+                new SubAccount(acc,tmpType,200.0),
+                50.0,
+                false,
+                "comments"
+        );
+
+        ArrayList<TransactionLog> res = new ArrayList<>();
+        res.add(goodTransactionLogSender);
+
+        when(transactionLogRepo.findAllLinkedToSubAccount(expectedValue.get()))
+                .thenReturn(res);
+
+        when(transactionLogRepo.findBadFormatTransaction()).thenReturn(res);
+
+        // When
+        underTest.getAllTransactionBySubAccount(iban,currency);
+
+        // Then
+        verify(transactionLogRepo).deleteAllByTransactionId(goodTransactionLogSender.getTransactionId());
+
+        ArgumentCaptor<NotificationReq> notificationCaptor = ArgumentCaptor.forClass(NotificationReq.class);
+        ArgumentCaptor<Sender> senderArgumentCaptor = ArgumentCaptor.forClass(Sender.class);
+        verify(notificationService).addNotification(senderArgumentCaptor.capture(),notificationCaptor.capture());
+
+        NotificationReq notificationReq = notificationCaptor.getValue();
+        Sender sender = senderArgumentCaptor.getValue();
+
+        assertEquals(bank.getSwift(),sender.getId());
+        assertEquals(user.getUserId(),notificationReq.getRecipientId());
+        assertEquals(5,notificationReq.getNotificationType());
+    }
+
+    @Test
     void canExecuteTransaction() {
         // Given
         CurrencyType currencyType = new CurrencyType(0,"EUR");

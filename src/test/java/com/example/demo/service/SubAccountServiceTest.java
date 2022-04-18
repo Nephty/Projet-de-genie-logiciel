@@ -118,7 +118,7 @@ class SubAccountServiceTest {
         tmpAccount.setDeleted(false);
         tmpAccount.setIban(subAccountReq.getIban());
         Optional<Account> account = Optional.of(tmpAccount);
-        when(accountRepo.findById(subAccountReq.getIban()))
+        when(accountRepo.safeFindById(subAccountReq.getIban()))
                 .thenReturn(account);
 
             // -- CurrencyType --
@@ -160,32 +160,6 @@ class SubAccountServiceTest {
     }
 
     @Test
-    void addShouldThrowWhenAccountDeleted(){
-        //Given
-        SubAccountReq subAccountReq = new SubAccountReq(
-                "iban",
-                0,
-                200.0,
-                "EUR"
-        );
-
-        // -- Account --
-        Account tmpAccount = new Account();
-        tmpAccount.setDeleted(true);
-        tmpAccount.setIban(subAccountReq.getIban());
-        Optional<Account> account = Optional.of(tmpAccount);
-        when(accountRepo.findById(subAccountReq.getIban()))
-                .thenReturn(account);
-
-        //then
-        assertThatThrownBy(() -> underTest.addSubAccount(subAccountReq))
-                .isInstanceOf(ConflictException.class)
-                .hasMessageContaining("Can't create a subAccount to a deleted Account" + subAccountReq.getIban());
-        verify(subAccountRepo,never()).save(any());
-
-    }
-
-    @Test
     void addShouldThrowWhenCurrencyTypeNotFound(){
         //Given
         SubAccountReq subAccountReq = new SubAccountReq(
@@ -200,7 +174,7 @@ class SubAccountServiceTest {
         tmpAccount.setDeleted(false);
         tmpAccount.setIban(subAccountReq.getIban());
         Optional<Account> account = Optional.of(tmpAccount);
-        when(accountRepo.findById(subAccountReq.getIban()))
+        when(accountRepo.safeFindById(subAccountReq.getIban()))
                 .thenReturn(account);
 
         //then
@@ -224,16 +198,16 @@ class SubAccountServiceTest {
         Account tmpAccount = new Account();
         tmpAccount.setDeleted(false);
         tmpAccount.setIban(subAccountReq.getIban());
-        Optional<Account> account = Optional.of(tmpAccount);
-        when(accountRepo.findById(subAccountReq.getIban()))
-                .thenReturn(account);
 
         // -- CurrencyType --
         CurrencyType tmpType = new CurrencyType();
         tmpType.setCurrencyId(subAccountReq.getCurrencyType());
-        Optional<CurrencyType> currencyType = Optional.of(tmpType);
-        when(currencyTypeRepo.findById(subAccountReq.getCurrencyType()))
-                .thenReturn(currencyType);
+
+        SubAccount subAccount = new SubAccount(subAccountReq);
+        subAccount.setIban(tmpAccount);
+        subAccount.setCurrencyType(tmpType);
+        when(subAccountRepo.findById(new SubAccountPK(subAccountReq.getIban(), subAccountReq.getCurrencyType())))
+                .thenReturn(Optional.of(subAccount));
 
         //When
         underTest.changeSubAccount(subAccountReq);
@@ -250,7 +224,7 @@ class SubAccountServiceTest {
     }
 
     @Test
-    void changeShouldThrowWhenAccountIdNotFound(){
+    void changeShouldThrowWhenSubAccountNotFound(){
         //Given
         SubAccountReq subAccountReq = new SubAccountReq(
                 "iban",
@@ -261,33 +235,8 @@ class SubAccountServiceTest {
 
         //then
         assertThatThrownBy(() -> underTest.changeSubAccount(subAccountReq))
-                .isInstanceOf(ConflictException.class)
+                .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining(subAccountReq.getIban());
-        verify(subAccountRepo,never()).save(any());
-    }
-
-    @Test
-    void changeShouldThrowWhenCurrencyTypeNotFound(){
-        //Given
-        SubAccountReq subAccountReq = new SubAccountReq(
-                "iban",
-                0,
-                200.0,
-                "EUR"
-        );
-
-        // -- Account --
-        Account tmpAccount = new Account();
-        tmpAccount.setDeleted(false);
-        tmpAccount.setIban(subAccountReq.getIban());
-        Optional<Account> account = Optional.of(tmpAccount);
-        when(accountRepo.findById(subAccountReq.getIban()))
-                .thenReturn(account);
-
-        //then
-        assertThatThrownBy(() -> underTest.changeSubAccount(subAccountReq))
-                .isInstanceOf(ConflictException.class)
-                .hasMessageContaining(subAccountReq.getCurrencyType().toString());
         verify(subAccountRepo,never()).save(any());
     }
 }

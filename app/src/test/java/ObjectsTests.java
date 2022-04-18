@@ -46,6 +46,18 @@ public class ObjectsTests {
     }
 
     @Test
+    @DisplayName("JSON array parser")
+    public void JSONArrayParser(){
+        String toParse = "{\"jsonNumber\": 1},{\"jsonNumber\": 2},{\"jsonNumber\": 3}";
+        ArrayList<String> parsedList = Portfolio.JSONArrayParser(toParse);
+        assertEquals(parsedList.size(), 3);
+        assertEquals(parsedList.get(0), "{\"jsonNumber\": 1}");
+        assertEquals(parsedList.get(1), "{\"jsonNumber\": 2}");
+        assertEquals(parsedList.get(2), "{\"jsonNumber\": 3}");
+    }
+
+
+    @Test
     @DisplayName("Wallet creation with normal accounts")
     public void createWallets3(){
         Profile user = new Profile("Carlos","Matos", "Matos01020312300", "English", "01.02.03-123.00");

@@ -132,14 +132,21 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         // No label is visible implies that every field is properly filled in
         if (noLabelVisible()) {
             // Then we can create a new user
+
+            String birthDate;
+            if(Integer.parseInt(NRN.substring(0,2)) >=30){
+                birthDate = "19" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
+            } else{
+                birthDate = "20" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
+            }
+
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = null;
             String username = getUsernameFromLastNameAndNRNTextFields();
             try {
                 response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
                         .header("Content-Type", "application/json")
-                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userId\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\"\r\n}")
-                        .asString();
+                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userId\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\",\r\n    \"birthdate\": \""+birthDate+"\"\r\n}")                        .asString();
                 Main.errorCheck(response.getStatus());
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
@@ -273,27 +280,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
                 && !passwordDoesNotMatchLabel.isVisible() && !languageNotChosenLabel.isVisible();
     }
 
-    /**
-     * Checks if the email is already taken.
-     *
-     * @param email - <code>String</code> - the email to check
-     * @return <code>boolean</code> - whether the given email is already take or not
-     */
-    private boolean isEmailTaken(String email) {
-        // TODO : back-end : implement this method
-        return false;
-    }
-
-    /**
-     * Checks if the NRN is already taken.
-     *
-     * @param NRN - <code>String</code> - the NRN to check
-     * @return <code>boolean</code> - whether the given NRN is already take or not
-     */
-    private boolean isNRNTaken(String NRN) {
-        // TODO : back-end : implement this method
-        return false;
-    }
 
     @FXML
     void handleComponentKeyPressed(KeyEvent keyEvent) {

@@ -27,8 +27,6 @@ public class Portfolio {
         // TODO : Optimiser en reprenant l'ancien user si il existe ?
         this.user = new Profile(nationalRegistrationNumber);
         // It fetches all the access that got the user
-        Main.setToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiaHR0cHM6Ly9mbG5zLXNwcmluZy10ZXN0Lmhlcm9rdWFwcC5jb20vYXBpL2xvZ2luIiwiZXhwIjoxNjUwMTM3MzMwfQ.esCILyiUAShb7AXW5FGiwxk6MOdHbApZFL-PTZxwuz0");
-        Main.setRefreshToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiaHR0cHM6Ly9mbG5zLXNwcmluZy10ZXN0Lmhlcm9rdWFwcC5jb20vYXBpL2xvZ2luIiwiZXhwIjoxNjUxMzQ2ODcwfQ.Jb7HQx1eXCTZU8GM4H1i5bOMGLMVRn-iyDbH319ty_c");
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(()-> {
             HttpResponse<String> rep;
@@ -82,11 +80,6 @@ public class Portfolio {
         String body3 = response3.getBody();
         body3 = body3.substring(1, body3.length() - 1);
 
-        System.out.println("------------------------------------");
-        System.out.println(body);
-        System.out.println(body2);
-        System.out.println(body3);
-        System.out.println("------------------------------------");
         this.walletList = createWallets(body,body2,body3);
     }
 

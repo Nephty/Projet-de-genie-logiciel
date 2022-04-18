@@ -74,6 +74,7 @@ public class Bank {
         Main.errorCheck(response.getStatus());
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);
+        // Parse all the banks and creates the objetcs
         ArrayList<String> bankList = Portfolio.JSONArrayParser(body);
         for (String s : bankList) {
             JSONObject obj = new JSONObject(s);

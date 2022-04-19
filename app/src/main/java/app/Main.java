@@ -5,7 +5,11 @@ import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -130,10 +134,7 @@ public class Main extends Application {
      * @param status The error status
      */
     public static void errorCheck(int status) {
-        if(status == 412){
-            ErrorHandler.refreshToken();
-        }
-        if (status >= 400 || status != 412) {
+        if (status >= 400) {
             ErrorManager(status);
         }
     }
@@ -144,7 +145,7 @@ public class Main extends Application {
      * @param status The error code
      */
     public static void ErrorManager(int status) {
-        String message = "Error + " + status + ": ";
+        String message = "Error " + status + ": ";
         switch (status) {
             case (401):
                 message = message + "access unauthorized, try to login again";
@@ -171,6 +172,19 @@ public class Main extends Application {
                 message = message + "An error has occurred";
                 break;
         }
+        Stage errorWindow = new Stage();
+        errorWindow.setWidth(544);
+        errorWindow.setHeight(306);
+        Label errorLabel = new Label(message);
+        errorLabel.setAlignment(Pos.CENTER);
+        Button closeButton = new Button("X");
+        closeButton.setOnAction(e -> errorWindow.close());
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(errorLabel, closeButton);
+        vbox.setAlignment(Pos.CENTER);
+        Scene errorScene = new Scene(vbox);
+        errorWindow.setScene(errorScene);
+        errorWindow.showAndWait();
     }
 
     public static Stage getStage() {

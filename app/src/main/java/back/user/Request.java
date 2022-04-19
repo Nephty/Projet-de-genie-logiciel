@@ -28,6 +28,7 @@ public class Request extends Communication {
     public void send() {
         boolean alreadySent = false;
 
+        // Fetch all the requests to check if the user already sent the same request
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
@@ -64,6 +65,9 @@ public class Request extends Communication {
                             case (3):
                                 comType = CommunicationType.NEW_WALLET;
                                 break;
+                            case (4):
+                                comType = CommunicationType.DELETE_ACCOUNT;
+                                break;
                         }
                         if (this.recipientId.equals(obj.getString("recipientId")) && this.communicationType == comType && this.content.equals(obj.getString("comments"))) {
                             alreadySent = true;
@@ -80,8 +84,10 @@ public class Request extends Communication {
                 case("CREATE_SUB_ACCOUNT"): comType = 1; break;
                 case("TRANSFER_PERMISSION"): comType = 2; break;
                 case("NEW_WALLET"): comType = 3; break;
+                case("DELETE_ACCOUNT"): comType = 4; break;
             }
 
+            // Send the request
             Unirest.setTimeouts(0, 0);
             int finalComType = comType;
             HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
@@ -105,11 +111,11 @@ public class Request extends Communication {
     public String toString(){
         String comType = "";
         switch(this.communicationType.toString()){
-            case("CREATE_ACCOUNT"):
-            case("CREATE_SUB_ACCOUNT"):
-                comType = "Create account"; break;
+            case("CREATE_ACCOUNT"): comType = "Create account"; break;
+            case("CREATE_SUB_ACCOUNT"): comType = "Create sub account"; break;
             case("TRANSFER_PERMISSION"): comType = "Transfer permission"; break;
             case("NEW_WALLET"): comType = "New wallet"; break;
+            case("DELETE_ACCOUNT"): comType = "Delete account"; break;
         }
         return this.date + "      "+ this.recipientId + "      " + comType + "         waiting for the bank's approbation";
     }

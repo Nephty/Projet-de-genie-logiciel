@@ -32,7 +32,7 @@ public class Main extends Application {
     private static String refreshToken;
     private static Wallet currentWallet;
     private static Account currentAccount;
-    private static String newClient;
+    private static String newClient = null;
     private static Request request;
 
     public static void main(String[] args) {

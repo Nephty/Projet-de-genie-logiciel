@@ -42,23 +42,7 @@ public class Request extends Communication {
                 return rep;
             });
 
-            // Send a notification to the client
-            Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank " + Main.getBank().getName() + " has given you the transfer permissions for the account " + this.content);
-            notif.send();
-
-            // Delete this request
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
-                HttpResponse<String> rep = null;
-                try {
-                    rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
-                            .header("Authorization", "Bearer " + Main.getToken())
-                            .asString();
-                } catch (UnirestException e) {
-                    throw new RuntimeException(e);
-                }
-                return rep;
-            });
+            sendNotif("has given you the transfer permissions for the account " + this.content);
         }
 
         if(this.communicationType.equals(CommunicationType.CREATE_ACCOUNT)){
@@ -68,20 +52,13 @@ public class Request extends Communication {
             Main.setScene(Flow.forward(Scenes.CreateClientAccountScene));
         }
 
-    }
-
-    public void deny() {
-        if (this.communicationType.equals(CommunicationType.TRANSFER_PERMISSION)) {
-            // Send a notification to the client
-            Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank " + Main.getBank().getName() + " hasn't given you the transfer permissions for the account " + this.content);
-            notif.send();
-
-            // Delete this request
+        if(this.communicationType.equals(CommunicationType.DELETE_ACCOUNT)){
+            // Delete the account
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
                 HttpResponse<String> rep = null;
                 try {
-                    rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
+                    rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/account/" + this.content)
                             .header("Authorization", "Bearer " + Main.getToken())
                             .asString();
                 } catch (UnirestException e) {
@@ -89,23 +66,44 @@ public class Request extends Communication {
                 }
                 return rep;
             });
+
+            sendNotif("has deleted the account "+this.content);
+        }
+
+    }
+
+    public void deny() {
+        if (this.communicationType.equals(CommunicationType.TRANSFER_PERMISSION)) {
+            // Send a notification to the client
+            sendNotif("hasn't given you the transfer permission for your account +" + this.content);
         }
 
         if(this.communicationType.equals(CommunicationType.CREATE_ACCOUNT)){
             // Send a notification to the client
-            Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank " + Main.getBank().getName() + " hasn't created you a new account");
-            notif.send();
+            sendNotif("hasn't created you a new account");
+        }
+        if(this.communicationType.equals(CommunicationType.DELETE_ACCOUNT)){
+            // Send a notification to the client
+            sendNotif("hasn't deleted your account " + this.content);
+        }
+    }
 
-            // Delete this request
-            Unirest.setTimeouts(0, 0);
+    private void sendNotif(String message){
+        Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank " + Main.getBank().getName() + " " + message);
+        notif.send();
+
+        // Delete this request
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
             try {
-                HttpResponse<String> response2 = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
+                rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + this.ID)
                         .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
             } catch (UnirestException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
-        }
+            return rep;
+        });
     }
 
     @Override
@@ -123,6 +121,9 @@ public class Request extends Communication {
                 break;
             case ("NEW_WALLET"):
                 comType = "New wallet";
+                break;
+            case ("DELETE_ACCOUNT"):
+                comType = "Delete account";
                 break;
         }
         return this.date + "      " + this.recipientId + "      " + comType;

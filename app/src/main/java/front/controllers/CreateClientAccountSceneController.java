@@ -146,7 +146,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                     rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
                             .header("Authorization", "Bearer " + Main.getToken())
                             .header("Content-Type", "application/json")
-                            .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + finalRepType + "\r\n}")
+                            .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"accountTypeId\": "+finalRepType+"\r\n}")
                             .asString();
                 } catch (UnirestException e) {
                     throw new RuntimeException(e);
@@ -176,23 +176,26 @@ public class CreateClientAccountSceneController extends Controller implements Ba
 
             if(!Main.getRequest().equals(null)){
                 Request request = Main.getRequest();
-                // Send a notification to the client
-                Notification notif = new Notification(Main.getBank().getName(), request.getSenderID(), "The bank "+Main.getBank().getName()+" has created you an new account");
-                notif.send();
 
-                // Delete this request
-                Unirest.setTimeouts(0, 0);
-                HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
-                    HttpResponse<String> rep = null;
-                    try {
-                        rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+ request.getID())
-                                .header("Authorization", "Bearer "+ Main.getToken())
-                                .asString();
-                    } catch (UnirestException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return rep;
-                });
+                if(response.getStatus() == 201 && response2.getStatus() == 201){
+                    // Send a notification to the client
+                    Notification notif = new Notification(Main.getBank().getName(), request.getSenderID(), "The bank "+Main.getBank().getName()+" has created you an new account");
+                    notif.send();
+
+                    // Delete this request
+                    Unirest.setTimeouts(0, 0);
+                    HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
+                        HttpResponse<String> rep = null;
+                        try {
+                            rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+ request.getID())
+                                    .header("Authorization", "Bearer "+ Main.getToken())
+                                    .asString();
+                        } catch (UnirestException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return rep;
+                    });
+                }
             }
 
             Main.setRequest(null);

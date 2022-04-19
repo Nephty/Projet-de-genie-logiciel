@@ -134,6 +134,9 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
                             case (3):
                                 comType = CommunicationType.NEW_WALLET;
                                 break;
+                            case (4):
+                                comType = CommunicationType.DELETE_ACCOUNT;
+                                break;
                         }
                         reqList.add(new Request(obj.getString("senderName"), comType, obj.getString("date"), obj.getString("comments"), obj.getString("senderId"), obj.getLong("notificationId")));
                     }

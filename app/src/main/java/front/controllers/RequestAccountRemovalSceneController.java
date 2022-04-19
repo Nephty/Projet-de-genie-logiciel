@@ -72,7 +72,11 @@ public class RequestAccountRemovalSceneController extends Controller implements 
             if (noAccountSelectedLabel.isVisible()) noAccountSelectedLabel.setVisible(false);
 
             // Create the request and send it
-            Request request = new Request(accountsComboBox.getValue(), CommunicationType.DELETE_ACCOUNT, Date.from(Instant.now()).toString(), accountsComboBox.getValue());
+            String IBAN = accountsComboBox.getValue().substring(15,31);
+            String swift = accountsComboBox.getValue().substring(7,15);
+
+            // TODO : Ne fonctionne pas car il faut un swift à 8 caractères
+            Request request = new Request(swift, CommunicationType.DELETE_ACCOUNT, Date.from(Instant.now()).toString(), IBAN);
             request.send();
 
             fadeInAndOutNode(1000, requestSentLabel);

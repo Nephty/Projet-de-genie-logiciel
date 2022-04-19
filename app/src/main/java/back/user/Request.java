@@ -65,7 +65,7 @@ public class Request extends Communication {
                             case (3):
                                 comType = CommunicationType.NEW_WALLET;
                                 break;
-                            case (5):
+                            case (6):
                                 comType = CommunicationType.DELETE_ACCOUNT;
                                 break;
                         }
@@ -78,18 +78,16 @@ public class Request extends Communication {
         }
         // TODO: Ecrire un truc pour l'utilisateur si ça a pas été fait
         if(!alreadySent){
-            int comType = 6;
+            int comType = 7;
             switch(this.communicationType.toString()){
                 case("CREATE_ACCOUNT"): comType = 0; break;
                 case("CREATE_SUB_ACCOUNT"): comType = 1; break;
                 case("TRANSFER_PERMISSION"): comType = 2; break;
                 case("NEW_WALLET"): comType = 3; break;
-                case("DELETE_ACCOUNT"): comType = 5; break;
+                case("DELETE_ACCOUNT"): comType = 6; break;
             }
 
             // Send the request
-
-            // TODO : Parse le content
             Unirest.setTimeouts(0, 0);
             int finalComType = comType;
             HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
@@ -105,8 +103,8 @@ public class Request extends Communication {
                 }
                 return rep;
             });
+            System.out.println(response2.getBody());
         }
-
     }
 
     @Override

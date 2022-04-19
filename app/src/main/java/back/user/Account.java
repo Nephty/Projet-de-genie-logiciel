@@ -55,7 +55,7 @@ public class Account {
      */
     @Override
     public String toString() {
-        return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated") + "          amount : " + getSubAccountList().get(0).getAmount() + " €";
+        return "Bank : " + this.getBank().getSwiftCode()+ " " + this.IBAN + "  amount : " + getSubAccountList().get(0).getAmount() + " €";
     }
 
     /**

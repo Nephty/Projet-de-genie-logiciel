@@ -41,7 +41,6 @@ public class Transaction {
         this.sendingDate = sendingDate;
         this.currency = currency;
         this.message = message;
-        System.out.println(message);
     }
 
 

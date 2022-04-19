@@ -97,15 +97,15 @@ public class Portfolio {
                 JSONObject obj = new JSONObject(bodyList.get(i));
                 String swift = obj.getJSONObject("account").getString("swift");
                 Profile owner;
+                Profile coOwner;
                 if (oldSwift.equals(swift) || i == 0) {
                     if (i == 0) {
                         oldSwift = swift;
                         String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
                         bank = new Bank(swift, bankName);
                     }
-                    // TODO : coOwner quand ce sera implémentée dans l'API
                     owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), Main.getUser().getUsername(), Main.getUser().getFavoriteLanguage(), obj.getJSONObject("account").getString("ownerLastname"), obj.getJSONObject("account").getString("userId"));
-                    //Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
+                    coOwner = Main.getUser();
                 } else {
                     repWalletList.add(new Wallet(this.user, bank, accountList));
                     accountList = new ArrayList<>();
@@ -113,7 +113,7 @@ public class Portfolio {
                     bank = new Bank(swift, bankName);
                     oldSwift = swift;
                     owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), Main.getUser().getUsername(), Main.getUser().getFavoriteLanguage(), obj.getJSONObject("account").getString("userId"));
-                    //Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
+                    coOwner = Main.getUser();
                 }
                 String iban = obj.getString("accountId");
                 int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
@@ -135,8 +135,7 @@ public class Portfolio {
                 boolean activated = (!obj.getBoolean("hidden"));
                 boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                 boolean canPay = obj.getJSONObject("account").getBoolean("payment");
-                // TODO : Remettre coOwner
-                accountList.add(new Account(owner, owner, bank, iban, accountType, activated, archived, canPay));
+                accountList.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
             }
             repWalletList.add(new Wallet(this.user, bank, accountList));
         }

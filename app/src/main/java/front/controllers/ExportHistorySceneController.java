@@ -136,7 +136,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
             if (isCsv) {
                 for (Transaction t : exportData) {
                     boolean isSender = allAccountsIBANS.contains(t.getSenderIBAN());
-                    bw.write(convertToCSV(new String[]{t.getSendingDate(), t.getReceiverName(), t.getReceiverIBAN(), (isSender ? "-" : "+" + t.getAmount() + "€")}) + "\n");
+                    bw.write(convertToCSV(new String[]{t.getSendingDate(), t.getReceiverName(), t.getReceiverIBAN(), (isSender ? "-" + t.getAmount() + "€" : "+" + t.getAmount() + "€")}) + "\n");
                 }
             } else {
                 String res;

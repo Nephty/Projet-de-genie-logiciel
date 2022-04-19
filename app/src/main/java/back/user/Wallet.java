@@ -85,8 +85,7 @@ public class Wallet {
             for (String s : bodyList) {
                 JSONObject obj = new JSONObject(s);
                 Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), Main.getUser().getUsername(), Main.getUser().getFavoriteLanguage(), obj.getString("userId"));
-                // TODO : Réparer
-                // Profile coOwner = new Profile(obj.getJSONObject("userId").getString("firstname"), obj.getJSONObject("userId").getString("lastname"), obj.getJSONObject("userId").getString("userID"));
+                Profile coOwner = Main.getUser();
                 String iban = obj.getString("accountId");
                 int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
                 AccountType accountType = null;
@@ -107,9 +106,7 @@ public class Wallet {
                 boolean activated = (!obj.getBoolean("hidden"));
                 boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                 boolean canPay = obj.getJSONObject("account").getBoolean("payment");
-                // TODO : Remettre coOwner
-
-                accountListRep.add(new Account(owner, owner, this.bank, iban, accountType, activated, archived, canPay));
+                accountListRep.add(new Account(owner, coOwner, this.bank, iban, accountType, activated, archived, canPay));
             }
         }
         return accountListRep;

@@ -84,22 +84,10 @@ public class ClientDetailsSceneController extends Controller implements BackButt
 
     @FXML
     void handleExportDataButtonClicked(MouseEvent event) {
+        ArrayList<Profile> clientList = new ArrayList<Profile>();
+        clientList.add(Main.getCurrentWallet().getAccountUser());
+        ExportDataSceneController.setExportData(clientList);
         Main.setScene(Flow.forward(Scenes.ExportDataScene));
-        if (clientDetailsTableView.getSelectionModel().getSelectedItems().size() != 0) {
-            // If items selected, only send selected items for export
-            ArrayList<Profile> clientList = new ArrayList<Profile>();
-            clientList.add(clientDetailsTableView.getSelectionModel().getSelectedItems().get(0).getAccountOwner());
-        } else {
-            // Send all items for export
-            ArrayList<Profile> clientList = new ArrayList<Profile>();
-            for(int i = 0; i<clientDetailsTableView.getItems().size(); i++){
-                Profile client = clientDetailsTableView.getItems().get(i).getAccountOwner();
-                if(!clientList.contains(client)){
-                    clientList.add(client);
-                }
-            }
-            ExportDataSceneController.setExportData(clientList);
-        }
     }
 
     @FXML
@@ -110,8 +98,10 @@ public class ClientDetailsSceneController extends Controller implements BackButt
 
     @FXML
     void handleCloseAccountButtonClicked(MouseEvent event) {
-        clientDetailsTableView.getSelectionModel().getSelectedItems().get(0).delete();
-        updateClientDetails();
+        if (!clientDetailsTableView.getSelectionModel().getSelectedItems().get(0).isArchived()){
+            clientDetailsTableView.getSelectionModel().getSelectedItems().get(0).delete();
+            updateClientDetails();
+        }
     }
 
     @FXML

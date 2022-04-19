@@ -129,7 +129,7 @@ public class Profile {
                 JSONObject objAccount = (JSONObject) accountListJSON.get(j);
                 AccountType accType = AccountType.valueOf(objAccount.getString("accountType"));
                 // TODO : coOwner
-                // TODO : Rename et subaccount
+                // TODO : Rename et subaccount ?
                 Account account = new Account(client, client, bank, objAccount.getString("IBAN"), accType, objAccount.getBoolean("activated"), false, objAccount.getBoolean("canPay"));
                 accountList.add(account);
             }
@@ -204,18 +204,18 @@ public class Profile {
 
 
     public static void exportClientData(ArrayList<Profile> clientList, String path, boolean isCsv){
-
-        // TODO : Gérer fichier déjà existant
-
         try {
-            File file;
-            if(isCsv){
-                file = new File(path + "/clientData.csv");
-            } else{
-                file = new File(path + "/clientData.json");
+            File file = new File(path + "/clientData" + (isCsv ? ".csv" : ".json"));
+
+            boolean fileCreated = file.createNewFile();
+
+            int counter = 0;
+            while (!fileCreated) {
+                file = new File(path + "/clientData" + counter + (isCsv ? ".csv" : ".json"));
+                counter++;
+                fileCreated = file.createNewFile();
             }
 
-            file.createNewFile();
 
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);

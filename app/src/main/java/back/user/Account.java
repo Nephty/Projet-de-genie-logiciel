@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Account {
     private final Profile accountOwner;
-    private final ArrayList<Profile> accountCoOwner;
+    private final Profile accountCoOwner;
     private final Bank bank;
     private final String IBAN;
     private final AccountType accountType;
@@ -34,8 +34,7 @@ public class Account {
      */
     public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) {
         this.accountOwner = accountOwner;
-        this.accountCoOwner = new ArrayList<Profile>();
-        this.accountCoOwner.add(accountCoOwner);
+        this.accountCoOwner = accountCoOwner;
         this.bank = bank;
         this.IBAN = IBAN;
         this.accountType = accountType;
@@ -92,7 +91,7 @@ public class Account {
         return this.accountType;
     }
 
-    public ArrayList<Profile> getAccountCoOwner() {
+    public Profile getAccountCoOwner() {
         return this.accountCoOwner;
     }
 

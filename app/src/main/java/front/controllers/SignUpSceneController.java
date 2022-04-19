@@ -202,15 +202,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         // the labels "invalid name" and "name taken". If the label "invalid name" shows up, it is
         // impossible for the "name taken" label to show up and vice versa.
 
-
-        // Manage the "xxxx already taken" labels visibility
-        // Is the name already taken ?
-        if (isNameTaken(name) && !nameTakenLabel.isVisible()) nameTakenLabel.setVisible(true);
-        else if (!isNameTaken(name) && nameTakenLabel.isVisible()) nameTakenLabel.setVisible(false);
-        // Is the SWIFT already taken ?
-        if (isSWIFTTaken(SWIFT) && !SWIFTTakenLabel.isVisible()) SWIFTTakenLabel.setVisible(true);
-        else if (!isSWIFTTaken(SWIFT) && SWIFTTakenLabel.isVisible()) SWIFTTakenLabel.setVisible(false);
-
         // Manage the "password does not match" label visibility
         if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
             passwordDoesNotMatchLabel.setVisible(true);
@@ -231,20 +222,36 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
                         .header("Content-Type", "application/json")
                         .body("{\r\n    \"swift\": \"" + SWIFT + "\",\r\n    \"name\": \"" + name + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"address\": \"" + city + "\",\r\n    \"country\": \"" + country + "\",\r\n    \"defaultCurrencyId\": 0\r\n}")
                         .asString();
-                Main.errorCheck(response.getStatus());
+                if(response.getStatus() != 403) {
+                    Main.errorCheck(response.getStatus());
+                }
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
             }
-            userSignedUp = true;
-            fadeInAndOutNode(3000, signedUpLabel);
-            // Empty all data that we don't need, it's a security detail
-            city = "";
-            SWIFT = "";
-            country = "";
-            name = "";
-            password = "";
-            passwordConfirmation = "";
-            chosenLanguage = "";
+
+            if (response != null) {
+                if (response.getStatus() == 403) {
+                    switch (response.getBody()) {
+                        case "SWIFT":
+                            SWIFTTakenLabel.setVisible(true);
+                            break;
+                        case "NAME":
+                            nameTakenLabel.setVisible(true);
+                            break;
+                    }
+                } else {
+                    fadeInAndOutNode(3000, signedUpLabel);
+                    userSignedUp = true;
+                    // Empty all data that we don't need, it's a security detail
+                    city = "";
+                    SWIFT = "";
+                    country = "";
+                    name = "";
+                    password = "";
+                    passwordConfirmation = "";
+                    chosenLanguage = "";
+                }
+            }
         }
     }
 
@@ -259,28 +266,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         return !invalidCityLabel.isVisible() && !invalidSWIFTLabel.isVisible()
                 && !invalidCountryLabel.isVisible() && !invalidNameLabel.isVisible()
                 && !passwordDoesNotMatchLabel.isVisible() && !languageNotChosenLabel.isVisible();
-    }
-
-    /**
-     * Checks if the name is already taken.
-     *
-     * @param name - <code>String</code> - the name to check
-     * @return <code>boolean</code> - whether the given name is already taken or not
-     */
-    private boolean isNameTaken(String name) {
-        // TODO : back-end : implement this method
-        return false;
-    }
-
-    /**
-     * Checks if the SWIFT is already taken.
-     *
-     * @param SWIFT - <code>String</code> - the SWIFT to check
-     * @return <code>boolean</code> - whether the given SWIFT is already taken or not
-     */
-    private boolean isSWIFTTaken(String SWIFT) {
-        // TODO : back-end : implement this method
-        return false;
     }
 
     @FXML

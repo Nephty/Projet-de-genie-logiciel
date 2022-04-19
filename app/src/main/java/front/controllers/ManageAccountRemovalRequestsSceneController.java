@@ -89,7 +89,6 @@ public class ManageAccountRemovalRequestsSceneController extends Controller impl
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
             ObservableList<Request> selection = requestsTableView.getSelectionModel().getSelectedItems();
             for (Request request : selection) {
-                // TODO : remove account
                 request.approve();
                 data.remove(request);
             }

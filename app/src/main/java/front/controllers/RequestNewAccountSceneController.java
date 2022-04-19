@@ -4,7 +4,6 @@ import app.Main;
 import back.user.Bank;
 import back.user.CommunicationType;
 import back.user.Request;
-import back.user.Wallet;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import javafx.collections.FXCollections;
@@ -19,12 +18,11 @@ import javafx.scene.input.MouseEvent;
 
 import java.sql.Date;
 import java.time.Instant;
-import java.util.ArrayList;
 
 /**
  * @author Arnaud MOREAU
  */
-public class RequestNewPortfolioSceneController extends Controller implements BackButtonNavigator {
+public class RequestNewAccountSceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, sendRequestButton;
     @FXML
@@ -34,14 +32,10 @@ public class RequestNewPortfolioSceneController extends Controller implements Ba
 
     private boolean requestSent = false;
 
-
     public void initialize() {
         Main.updatePortfolio();
         ObservableList<String> values;
         values = FXCollections.observableArrayList(Bank.fetchAllSWIFT());
-        ArrayList<String> alreadyOwnsAWalletSWIFTs = new ArrayList<>();
-        for (Wallet w : Main.getPortfolio().getWalletList()) alreadyOwnsAWalletSWIFTs.add(w.getBank().getSwiftCode());
-        values.removeIf(alreadyOwnsAWalletSWIFTs::contains);
         SWIFTComboBox.setDisable(values.size() == 0);
         SWIFTComboBox.setItems(values);
     }

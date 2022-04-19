@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<!-- @author Arnaud MOREAU -->
+<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0"
+      prefHeight="720.0"
+      prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2"
+      fx:controller="front.controllers.RequestNewAccountSceneController">
+    <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
+        <AnchorPane onKeyReleased="#handleComponentKeyReleased"
+                    maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    prefHeight="70.0" prefWidth="1280.0">
+            <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onMouseClicked="#handleBackButtonClicked"
+                    prefHeight="36.0" prefWidth="120.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="%common.backButton" textFill="#0a0a14">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+        </AnchorPane>
+        <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    onKeyReleased="#handleComponentKeyReleased"
+                    prefHeight="650.0" prefWidth="1280.0">
+            <Label fx:id="selectSWIFTLabel" alignment="CENTER" layoutX="432.0" layoutY="254.0" prefHeight="36.0"
+                   prefWidth="200.0"
+                   onKeyReleased="#handleComponentKeyReleased"
+                   style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                   text="%RequestNewPortfolioScene.selectSWIFTLabel"/>
+            <ComboBox fx:id="SWIFTComboBox" layoutX="649.0" layoutY="254.0" prefHeight="36.0" prefWidth="200.0"
+                      promptText="%RequestNewPortfolioScene.SWIFTComboBox"
+                      onKeyReleased="#handleComponentKeyReleased" onMouseClicked="#handleSWIFTComboBoxMouseClicked"
+                      style="-fx-background-color: rgb(255, 239, 223); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </ComboBox>
+            <Button fx:id="sendRequestButton" layoutX="513.0" layoutY="361.0" onMouseClicked="#handleSendRequestButton"
+                    prefHeight="40.0" prefWidth="250.0"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    onKeyReleased="#handleComponentKeyReleased"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="%common.sendRequestButton" textFill="#0a0a14">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+            <Label fx:id="noSWIFTSelectedLabel" layoutX="654.0" layoutY="233.0" prefHeight="17.0" prefWidth="132.0"
+                   text="%RequestNewPortfolioScene.noSWIFTSelectedLabel" textFill="#c80000" visible="false"/>
+            <Label fx:id="requestNotSentLabel" layoutX="515.0" layoutY="403.0" prefHeight="17.0" prefWidth="250.0"
+                   text="%common.requestNotSentLabel" textFill="#c80000" visible="false"/>
+            <Label fx:id="requestSentLabel" layoutX="550.0" layoutY="403.0" opacity="0.0" prefHeight="17.0"
+                   prefWidth="181.0" text="%common.requestSentLabel" textFill="#00c800"/>
+        </AnchorPane>
+    </Pane>
+</Pane>

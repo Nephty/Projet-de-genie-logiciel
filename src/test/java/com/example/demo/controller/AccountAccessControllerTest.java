@@ -10,7 +10,6 @@ import com.example.demo.security.TokenHandler;
 import com.example.demo.service.AccountAccessService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -365,11 +364,24 @@ class AccountAccessControllerTest {
     }
 
     @Test
-    @Disabled        
     void addAccessShouldThrow403WhenAccessForbidden() throws Exception {
-        // TODO: 4/18/22 test
+        // Given
+        AccountAccessReq res = new AccountAccessReq(
+                "iban",
+                "userId",
+                null,
+                false
+        );
+
+        // Then
+        mockMvc.perform(post("/api/account-access/")
+                        .header("Authorization", "Bearer " + token)
+                        .content(asJsonString(res))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$").value("You don't manage this account"));
     }
-    
+
     @Test
     void addAccessShouldThrow409WhenConflict() throws Exception {
         // Given
@@ -430,9 +442,6 @@ class AccountAccessControllerTest {
         when(accountAccessService.bankOwnsAccount(any(), eq(res.getAccountId())))
                 .thenReturn(true);
 
-        when(accountAccessService.changeAccountAccess(res))
-                .thenReturn(new AccountAccess(res));
-
         // Then
         mockMvc.perform(put("/api/account-access/")
                         .header("Authorization", "Bearer " + token)
@@ -442,9 +451,22 @@ class AccountAccessControllerTest {
     }
 
     @Test
-    @Disabled
     void changeAccessShouldThrow403WhenAccessForbidden() throws Exception {
-        // TODO: 4/18/22 test
+        // Given
+        AccountAccessReq res = new AccountAccessReq(
+                "iban",
+                "userId",
+                null,
+                null
+        );
+
+        // Then
+        mockMvc.perform(put("/api/account-access/")
+                        .header("Authorization", "Bearer " + token)
+                        .content(asJsonString(res))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$").value("You don't manage this account"));
     }
 
     @Test
@@ -491,8 +513,18 @@ class AccountAccessControllerTest {
     }
 
     @Test
-    @Disabled
     void deleteAccessShouldThrow403WhenAccessForbidden() throws Exception {
-        // TODO: 4/18/22 test
+        // Given
+        String userId = "userId";
+        String iban = "iban";
+
+        // Then
+        mockMvc.perform(delete("/api/account-access/")
+                        .header("Authorization", "Bearer " + token)
+                        .param("accountId", iban)
+                        .param("userId", userId)
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$").value("You don't manage this account"));
     }
 }

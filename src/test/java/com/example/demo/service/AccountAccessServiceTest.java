@@ -1,15 +1,17 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.throwables.AuthorizationException;
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.*;
 import com.example.demo.model.CompositePK.AccountAccessPK;
+import com.example.demo.other.Sender;
 import com.example.demo.repository.AccountAccessRepo;
 import com.example.demo.repository.AccountRepo;
 import com.example.demo.repository.UserRepo;
 import com.example.demo.request.AccountAccessReq;
+import com.example.demo.security.Role;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -21,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +40,7 @@ class AccountAccessServiceTest {
 
     @BeforeEach
     void setUp() {
-        underTest = new AccountAccessService(accessRepo,userRepo,accountRepo);
+        underTest = new AccountAccessService(accessRepo, userRepo, accountRepo);
     }
 
     @Test
@@ -73,14 +75,14 @@ class AccountAccessServiceTest {
         AccountAccess captorValue = userArgumentCaptor.getValue();
 
         // If it saves the good accountAccess
-        assertEquals(tmpAccount,captorValue.getAccountId());
-        assertEquals(tmpUser,captorValue.getUserId());
-        assertEquals(accessReq.getAccess(),captorValue.getAccess());
-        assertEquals(accessReq.getHidden(),captorValue.getHidden());
+        assertEquals(tmpAccount, captorValue.getAccountId());
+        assertEquals(tmpUser, captorValue.getUserId());
+        assertEquals(accessReq.getAccess(), captorValue.getAccess());
+        assertEquals(accessReq.getHidden(), captorValue.getHidden());
     }
 
     @Test
-    void createShouldThrowWhenAccountIdNotFound(){
+    void createShouldThrowWhenAccountIdNotFound() {
         //given
         AccountAccessReq accessReq = new AccountAccessReq(
                 "accountId",
@@ -90,15 +92,15 @@ class AccountAccessServiceTest {
         );
 
         //then
-        assertThatThrownBy(()->underTest.createAccountAccess(accessReq))
+        assertThatThrownBy(() -> underTest.createAccountAccess(accessReq))
                 .isInstanceOf(ConflictException.class)
                 .hasMessageContaining(accessReq.getAccountId());
 
-        verify(accessRepo,never()).save(any());
+        verify(accessRepo, never()).save(any());
     }
 
     @Test
-    void createShouldThrowWhenUserIdNotFound(){
+    void createShouldThrowWhenUserIdNotFound() {
         //given
         AccountAccessReq accessReq = new AccountAccessReq(
                 "accountId",
@@ -115,15 +117,15 @@ class AccountAccessServiceTest {
                 .thenReturn(account);
 
         //then
-        assertThatThrownBy(()->underTest.createAccountAccess(accessReq))
+        assertThatThrownBy(() -> underTest.createAccountAccess(accessReq))
                 .isInstanceOf(ConflictException.class)
                 .hasMessageContaining(accessReq.getUserId());
 
-        verify(accessRepo,never()).save(any());
+        verify(accessRepo, never()).save(any());
     }
 
     @Test
-    void createShouldThrowWhenAccountAccessAlreadyExists(){
+    void createShouldThrowWhenAccountAccessAlreadyExists() {
         //given
         AccountAccessReq accessReq = new AccountAccessReq(
                 "accountId",
@@ -137,7 +139,7 @@ class AccountAccessServiceTest {
         //Then
         assertThatThrownBy(() -> underTest.createAccountAccess(accessReq))
                 .isInstanceOf(ConflictException.class)
-                .hasMessageContaining("account already exist "+accessReq);
+                .hasMessageContaining("account already exist " + accessReq);
     }
 
     @Test
@@ -163,7 +165,7 @@ class AccountAccessServiceTest {
                 true
         );
 
-        when(accessRepo.findById(new AccountAccessPK(accessReq.getAccountId(),accessReq.getUserId())))
+        when(accessRepo.findById(new AccountAccessPK(accessReq.getAccountId(), accessReq.getUserId())))
                 .thenReturn(Optional.of(access));
 
         //When
@@ -175,14 +177,14 @@ class AccountAccessServiceTest {
         AccountAccess captorValue = argumentCaptor.getValue();
 
         // If it saves the good accountAccess
-        assertEquals(tmpAccount,captorValue.getAccountId());
-        assertEquals(tmpUser,captorValue.getUserId());
-        assertEquals(accessReq.getAccess(),captorValue.getAccess());
-        assertEquals(accessReq.getHidden(),captorValue.getHidden());
+        assertEquals(tmpAccount, captorValue.getAccountId());
+        assertEquals(tmpUser, captorValue.getUserId());
+        assertEquals(accessReq.getAccess(), captorValue.getAccess());
+        assertEquals(accessReq.getHidden(), captorValue.getHidden());
     }
 
     @Test
-    void changeShouldThrowWhenAccountAccessNotFound(){
+    void changeShouldThrowWhenAccountAccessNotFound() {
         //given
         AccountAccessReq accessReq = new AccountAccessReq(
                 "accountId",
@@ -192,11 +194,11 @@ class AccountAccessServiceTest {
         );
 
         //then
-        assertThatThrownBy(()->underTest.changeAccountAccess(accessReq))
+        assertThatThrownBy(() -> underTest.changeAccountAccess(accessReq))
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining(accessReq.toString());
 
-        verify(accessRepo,never()).save(any());
+        verify(accessRepo, never()).save(any());
     }
 
     @Test
@@ -206,10 +208,10 @@ class AccountAccessServiceTest {
         String userId = "userId";
 
         //When
-        underTest.deleteAccountAccess(accountId,userId);
+        underTest.deleteAccountAccess(accountId, userId);
 
         //Then
-        verify(accessRepo).deleteAccountAccessByAccountIdAndUserId(accountId,userId);
+        verify(accessRepo).deleteAccountAccessByAccountIdAndUserId(accountId, userId);
     }
 
     @Test
@@ -235,7 +237,7 @@ class AccountAccessServiceTest {
         acc.setAccountTypeId(new AccountType());
         acc.setUserId(user);
 
-        AccountAccessPK accessPK = new AccountAccessPK(accountId,userId);
+        AccountAccessPK accessPK = new AccountAccessPK(accountId, userId);
 
         AccountAccess returnedAccess = new AccountAccess();
         returnedAccess.setAccountId(acc);
@@ -244,7 +246,7 @@ class AccountAccessServiceTest {
         when(accessRepo.findById(accessPK)).thenReturn(Optional.of(returnedAccess));
 
         //when
-        underTest.findAccountAccess(accountId,userId);
+        underTest.findAccountAccess(accountId, userId);
 
         //then
         verify(accessRepo).findById(accessPK);
@@ -256,7 +258,7 @@ class AccountAccessServiceTest {
         String accountId = "accountId";
         String userId = "userId";
 
-        assertThatThrownBy(() -> underTest.findAccountAccess(accountId,userId))
+        assertThatThrownBy(() -> underTest.findAccountAccess(accountId, userId))
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining(accountId + " : " + userId);
     }
@@ -280,7 +282,7 @@ class AccountAccessServiceTest {
     }
 
     @Test
-    void getByUserIdShouldThrowWhenUserIdNotFound(){
+    void getByUserIdShouldThrowWhenUserIdNotFound() {
         //Given
         String userId = "notAnUserId";
 
@@ -291,7 +293,7 @@ class AccountAccessServiceTest {
     }
 
     @Test
-    void canGetAccessToDeletedAccount(){
+    void canGetAccessToDeletedAccount() {
         //Given
         String userId = "userId";
         User tmpUser = new User();
@@ -308,7 +310,7 @@ class AccountAccessServiceTest {
     }
 
     @Test
-    void getAccessToDeletedAccountShouldThrowWhenUserNotFound(){
+    void getAccessToDeletedAccountShouldThrowWhenUserNotFound() {
         //Given
         String userId = "notAnUserId";
 
@@ -319,7 +321,7 @@ class AccountAccessServiceTest {
     }
 
     @Test
-    void canGetAccessToHiddenAccount(){
+    void canGetAccessToHiddenAccount() {
         //Given
         String userId = "userId";
         User tmpUser = new User();
@@ -336,7 +338,7 @@ class AccountAccessServiceTest {
     }
 
     @Test
-    void getAccessToHiddenAccountShouldThrowWhenUserNotFound(){
+    void getAccessToHiddenAccountShouldThrowWhenUserNotFound() {
         //Given
         String userId = "notAnUserId";
 
@@ -347,7 +349,7 @@ class AccountAccessServiceTest {
     }
 
     @Test
-    void canGetAllOwners(){
+    void canGetAllOwners() {
         // Given
         String accountId = "accountId";
 
@@ -374,36 +376,83 @@ class AccountAccessServiceTest {
         List<User> result = underTest.findAllOwners(accountId);
 
         // Then
-        assertEquals(2,result.size());
+        assertEquals(2, result.size());
 
     }
 
     @Test
-    void canGetAllOwnersShouldThrowWhenAccountNotFound(){
+    void canGetAllOwnersShouldThrowWhenAccountNotFound() {
         //Given
         String accountId = "accountId";
 
         // Then
-        assertThatThrownBy(()->underTest.findAllOwners(accountId))
+        assertThatThrownBy(() -> underTest.findAllOwners(accountId))
                 .isInstanceOf(ResourceNotFound.class)
-                .hasMessageContaining("No account with such id: "+accountId);
+                .hasMessageContaining("No account with such id: " + accountId);
     }
 
     @Test
-    @Disabled
     void bankOwnsAccount() {
-        // TODO: 4/18/22 test
+        // Given
+        String iban = "iban";
+        Sender sender = new Sender(
+                "swift",
+                Role.BANK
+        );
+
+        Sender sender2 = new Sender(
+                "swift2",
+                Role.BANK
+        );
+
+        Bank tmpBank = new Bank();
+        tmpBank.setSwift("swift");
+
+        Account tmpAccount = new Account();
+        tmpAccount.setIban(iban);
+        tmpAccount.setDeleted(false);
+        tmpAccount.setSwift(tmpBank);
+        Optional<Account> account = Optional.of(tmpAccount);
+        when(accountRepo.findById(iban))
+                .thenReturn(account);
+
+        // When
+        boolean shouldBeTrue = underTest.bankOwnsAccount(sender, iban);
+        boolean shouldBeFalse = underTest.bankOwnsAccount(sender2, iban);
+
+        // Then
+        assertTrue(shouldBeTrue);
+        assertFalse(shouldBeFalse);
     }
 
     @Test
-    @Disabled
     void bankOwnsAccountShouldThrowWhenWrongRole() {
-        // TODO: 4/18/22 test
+        // Given
+        String iban = "iban";
+        Sender sender = new Sender(
+                iban,
+                Role.USER
+        );
+
+        // Then
+        assertThatThrownBy(() -> underTest.bankOwnsAccount(sender, iban))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("Only bank can perform this request");
     }
 
     @Test
-    @Disabled
-    void bankShouldThrowWhenAccountNotFound(){
-        // TODO: 4/18/22 test
+    void bankShouldThrowWhenAccountNotFound() {
+        // Given
+        String iban = "iban";
+        Sender sender = new Sender(
+                "swift",
+                Role.BANK
+        );
+
+        // Then
+        assertThatThrownBy(() -> underTest.bankOwnsAccount(sender, iban))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining(("Account doesn't exist"));
+
     }
 }

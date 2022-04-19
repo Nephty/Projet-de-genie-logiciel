@@ -66,11 +66,11 @@ public class Transaction {
     }
 
     public String getReceiverName() {
-        return this.senderName;
+        return this.receiverName;
     }
 
     public String getReceiverIBAN() {
-        return this.senderIBAN;
+        return this.receiverIBAN;
     }
 
     public double getAmount() {

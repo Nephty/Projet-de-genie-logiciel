@@ -8,7 +8,7 @@ import javafx.scene.Scene;
  */
 public class Scenes {
     public static Scene AuthScene, SignInScene, LanguageScene, SignUpScene, MainScreenScene, ChangePasswordScene,
-            NotificationsScene, RequestsScene, RequestsStatusScene, RequestNewPortfolioScene,
+            NotificationsScene, RequestsScene, RequestsStatusScene, RequestNewAccountScene,
             RequestTransferPermissionScene, FinancialProductsScene, ProductDetailsScene, TransactionsHistoryScene,
-            VisualizeToolScene, ExportHistoryScene, TransferScene, EnterPINScene, ArchivedAccountsScene;
+            VisualizeToolScene, ExportHistoryScene, TransferScene, EnterPINScene, ArchivedAccountsScene, RequestAccountRemovalScene;
 }

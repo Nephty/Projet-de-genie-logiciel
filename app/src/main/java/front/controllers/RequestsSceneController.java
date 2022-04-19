@@ -18,7 +18,7 @@ import static app.Main.appLocale;
  */
 public class RequestsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    Button backButton, transferPermissionButton, newPortfolioButton, requestsStatusButton;
+    Button backButton, transferPermissionButton, newPortfolioButton, requestsStatusButton, accountRemovalButton;
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -43,14 +43,20 @@ public class RequestsSceneController extends Controller implements BackButtonNav
 
     @FXML
     void handleNewPortfolioButtonClicked(MouseEvent event) {
-        Scenes.RequestNewPortfolioScene = SceneLoader.load("RequestNewPortfolioScene.fxml", appLocale);
-        Main.setScene(Flow.forward(Scenes.RequestNewPortfolioScene));
+        Scenes.RequestNewAccountScene = SceneLoader.load("RequestNewAccountScene.fxml", appLocale);
+        Main.setScene(Flow.forward(Scenes.RequestNewAccountScene));
     }
 
     @FXML
     void handleRequestsStatusButtonClicked(MouseEvent event) {
         Scenes.RequestsStatusScene = SceneLoader.load("RequestsStatusScene.fxml", appLocale);
         Main.setScene(Flow.forward(Scenes.RequestsStatusScene));
+    }
+
+    @FXML
+    void handleAccountRemovalButtonClicked(MouseEvent mouseEvent) {
+        Scenes.RequestAccountRemovalScene = SceneLoader.load("RequestAccountRemovalScene.fxml", appLocale);
+        Main.setScene(Flow.forward(Scenes.RequestAccountRemovalScene));
     }
 
     @FXML

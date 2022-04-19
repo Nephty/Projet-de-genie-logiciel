@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.controller.NotificationController;
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.exception.throwables.ResourceNotFound;
@@ -22,8 +23,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Links the {@link  NotificationController} with the {@link NotificationRepo}.
+ * In this class, all the modifications and the calls to the {@link NotificationRepo} are made.
+ *
+ * @see Notification
+ */
 @RequiredArgsConstructor
-@Service @Transactional @Slf4j
+@Service
+@Transactional
+@Slf4j
 public class NotificationService {
 
     private final NotificationRepo notificationRepo;
@@ -34,36 +43,66 @@ public class NotificationService {
 
     private final BankRepo bankRepo;
 
+    /**
+     * Creates a notification and stores it in the DB
+     *
+     * @param sender          The sender of the request
+     * @param notificationReq The request body to create a notification {@link NotificationReq#isPutValid()}
+     * @return The created notification
+     * @throws ConflictException  if the FK provided by the client are incorrect
+     * @throws LittleBoyException if the client role is not USER or BANK
+     */
     public Notification addNotification(Sender sender, NotificationReq notificationReq) {
         Notification notification = instantiateNotification(sender, notificationReq);
         return notificationRepo.save(notification);
     }
 
-
+    /**
+     * Changes a notification and stores it in the DB.
+     *
+     * @param notificationReq The request body to create a notification {@link NotificationReq#isPutValid()}
+     * @return The changed notification
+     * @throws ConflictException  if the FK provided by the client are incorrect
+     * @throws LittleBoyException if the client role is not USER or BANK
+     */
     public Notification changeNotification(NotificationReq notificationReq) {
         Notification notification = notificationRepo.findById(notificationReq.getNotificationId())
-                .orElseThrow(() -> new ResourceNotFound("No notification with such id: "+ notificationReq.getNotificationId()));
+                .orElseThrow(() -> new ResourceNotFound("No notification with such id: " + notificationReq.getNotificationId()));
         notification.change(notificationReq);
         return notificationRepo.save(notification);
     }
 
+    /**
+     * Deletes a notification in the DB.
+     *
+     * @param notificationId the id of the notification
+     */
     public void deleteNotification(Integer notificationId) {
         notificationRepo.deleteById(notificationId);
     }
 
-    public List<NotificationReq> getNotifications(Sender sender) {
+    /**
+     * Get all the notifications of the sender (bank or user)
+     *
+     * @param sender The sender of the Notification
+     * @return A list of notification req body for all notifications of the sender.
+     * @throws ResourceNotFound   If the sender isn't found.
+     * @throws LittleBoyException if the Role isn't BANK or USER.
+     */
+    public List<NotificationReq> getNotifications(Sender sender)
+            throws ResourceNotFound, LittleBoyException {
         ArrayList<Notification> notifications;
         switch (sender.getRole()) {
             case BANK:
-                Bank bank = bankRepo.findById(sender.getId()).orElseThrow(()-> {
+                Bank bank = bankRepo.findById(sender.getId()).orElseThrow(() -> {
                     log.warn("no bank with such id: " + sender.getId());
                     return new ResourceNotFound("no bank with such id: " + sender.getId());
                 });
-                 notifications = notificationRepo.findAllByBankId(bank);
+                notifications = notificationRepo.findAllByBankId(bank);
 
                 return formatResponse(notifications, sender.getRole());
             case USER:
-                User user = userRepo.findById(sender.getId()).orElseThrow(()-> {
+                User user = userRepo.findById(sender.getId()).orElseThrow(() -> {
                     log.error("no user with such id:" + sender.getId());
                     return new ResourceNotFound("no user with such id: " + sender.getId());
                 });
@@ -84,10 +123,10 @@ public class NotificationService {
         ArrayList<NotificationReq> response = new ArrayList<>();
 
         notifications.forEach(notification -> {
-            if(role == Role.USER) {
+            if (role == Role.USER) {
                 response.add(new NotificationReq(notification));
             }
-            if(role == Role.BANK && notification.getToBank()) {
+            if (role == Role.BANK && notification.getToBank()) {
                 response.add(new NotificationReq(notification));
             }
         });
@@ -95,10 +134,10 @@ public class NotificationService {
     }
 
     /**
-     * @param sender id and role of the client
+     * @param sender          id and role of the client
      * @param notificationReq request made by the client
      * @return Notification entity to be added to the DB
-     * @throws ConflictException if the FK provided by the client are incorrect
+     * @throws ConflictException  if the FK provided by the client are incorrect
      * @throws LittleBoyException if the client role is not USER or BANK
      */
     private Notification instantiateNotification(
@@ -108,7 +147,7 @@ public class NotificationService {
 
         Notification notification = new Notification(notificationReq);
         NotificationType notificationType = notificationTypeRepo.findById(notificationReq.getNotificationType())
-                .orElseThrow(()-> new ConflictException(notificationReq.getNotificationType().toString()));
+                .orElseThrow(() -> new ConflictException(notificationReq.getNotificationType().toString()));
         notification.setNotificationType(notificationType);
 
         boolean toBank;
@@ -130,11 +169,11 @@ public class NotificationService {
                 throw new LittleBoyException();
 
         }
-        Bank bank = bankRepo.findById(swift).orElseThrow(()-> {
+        Bank bank = bankRepo.findById(swift).orElseThrow(() -> {
             log.error("no bank with such id: " + swift);
             return new ConflictException("no bank with such id: " + swift);
         });
-        User user = userRepo.findById(userId).orElseThrow(()-> {
+        User user = userRepo.findById(userId).orElseThrow(() -> {
             log.error("no user with such id:" + userId);
             return new ConflictException("no user with such id: " + userId);
         });

@@ -48,7 +48,7 @@ public class ClientDetailsSceneController extends Controller implements BackButt
         IBANColumn.setCellValueFactory(new PropertyValueFactory<>("IBAN"));
         accountTypeColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
         transferPermissionColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().canPay() ? "Yes" : "No"));
-        statusColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isActivated() ? "Yes" : "No"));
+        statusColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isArchived() ? "Yes" : "No"));
         clientDetailsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchClientDetails();
     }

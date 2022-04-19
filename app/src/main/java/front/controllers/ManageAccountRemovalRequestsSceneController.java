@@ -131,24 +131,10 @@ public class ManageAccountRemovalRequestsSceneController extends Controller impl
             if (!requestList.get(0).equals("")) {
                 for (String s : requestList) {
                     JSONObject obj = new JSONObject(s);
-                    if (obj.getInt("notificationType") == 0) {
+                    if (obj.getInt("notificationType") == 6) {
                         CommunicationType comType = CommunicationType.DELETE_ACCOUNT;
-                        int notifType = obj.getInt("notificationType");
-                        switch (notifType) {
-                            case (0):
-                                comType = CommunicationType.CREATE_ACCOUNT;
-                                break;
-                            case (1):
-                                comType = CommunicationType.CREATE_SUB_ACCOUNT;
-                                break;
-                            case (2):
-                                comType = CommunicationType.TRANSFER_PERMISSION;
-                                break;
-                            case (3):
-                                comType = CommunicationType.NEW_WALLET;
-                                break;
-                        }
-                        data.add(new Request(obj.getString("senderName"), comType, obj.getString("date"), "", obj.getString("senderId"), obj.getLong("notificationId")));
+
+                        data.add(new Request(obj.getString("senderName"), comType, obj.getString("date"), obj.getString("comments"), obj.getString("senderId"), obj.getLong("notificationId")));
                     }
                 }
             }

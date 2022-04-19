@@ -69,7 +69,6 @@ public class Request extends Communication {
 
             sendNotif("has deleted the account "+this.content);
         }
-
     }
 
     public void deny() {

@@ -3,6 +3,7 @@ package front.controllers;
 import app.Main;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import front.scenes.SceneLoader;
 import front.scenes.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 
 public class ManageRequestsSceneController extends Controller implements BackButtonNavigator {
     @FXML
-    Button backButton, transferPermissionRequestsButton, portfolioRequestsButton;
+    Button backButton, transferPermissionRequestsButton, portfolioRequestsButton, accountRemovalRequestsButton;
 
     @Override
     public void handleBackButtonNavigation(MouseEvent event) {
@@ -31,12 +32,20 @@ public class ManageRequestsSceneController extends Controller implements BackBut
 
     @FXML
     void handleTransferPermissionRequestsButtonClicked(MouseEvent event) {
+        Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml", Main.appLocale);
         Main.setScene(Flow.forward(Scenes.ManageTransferPermissionRequestsScene));
     }
 
     @FXML
     void handlePortfolioRequestsButtonClicked(MouseEvent event) {
+        Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml", Main.appLocale);
         Main.setScene(Flow.forward(Scenes.ManagePortfolioRequestsScene));
+    }
+
+    @FXML
+    void handleAccountRemovalRequestsButtonClicked(MouseEvent mouseEvent) {
+        Scenes.ManageAccountRemovalRequestsScene = SceneLoader.load("ManageAccountRemovalScene.fxml", Main.appLocale);
+        Main.setScene(Flow.forward(Scenes.ManageAccountRemovalRequestsScene));
     }
 
     @FXML

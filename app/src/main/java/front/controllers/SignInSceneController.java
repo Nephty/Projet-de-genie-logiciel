@@ -86,8 +86,6 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             Main.setScene(Flow.forward(Scenes.MainScreenScene));
             // Load somes scenes
             Scenes.ManageRequestsScene = SceneLoader.load("ManageRequestsScene.fxml", Main.appLocale);
-            Scenes.ManageTransferPermissionRequestsScene = SceneLoader.load("ManageTransferPermissionRequestsScene.fxml", Main.appLocale);
-            Scenes.ManagePortfolioRequestsScene = SceneLoader.load("ManagePortfolioRequestsScene.fxml", Main.appLocale);
             Scenes.ClientsScene = SceneLoader.load("ClientsScene.fxml", Main.appLocale);
             Scenes.ExportDataScene = SceneLoader.load("ExportDataScene.fxml", Main.appLocale);
             Scenes.AddClientScene = SceneLoader.load("AddClientScene.fxml", Main.appLocale);

@@ -5,9 +5,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0"
-      prefHeight="720.0"
-      prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2"
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="front.controllers.ManageRequestsSceneController">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
@@ -27,7 +26,7 @@
         </AnchorPane>
         <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                     onKeyReleased="#handleButtonKeyReleased" prefHeight="650.0" prefWidth="1280.0">
-            <Button fx:id="transferPermissionRequestsButton" layoutX="465.0" layoutY="244.0"
+            <Button fx:id="transferPermissionRequestsButton" layoutX="465.0" layoutY="197.0"
                     onKeyReleased="#handleButtonKeyReleased"
                     onMouseClicked="#handleTransferPermissionRequestsButtonClicked"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
@@ -41,12 +40,25 @@
                     <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0"/>
                 </effect>
             </Button>
-            <Button fx:id="portfolioRequestsButton" layoutX="465.0" layoutY="337.0"
+            <Button fx:id="portfolioRequestsButton" layoutX="465.0" layoutY="290.0"
                     onKeyReleased="#handleButtonKeyReleased" onMouseClicked="#handlePortfolioRequestsButtonClicked"
                     onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
                     prefHeight="70.0" prefWidth="350.0"
                     style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
                     text="%ManageRequestsScene.portfolioRequestsButton" textFill="#0a0a14">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+                <effect>
+                    <InnerShadow height="10.0" offsetX="-3.5" offsetY="-3.5" radius="4.5" width="10.0"/>
+                </effect>
+            </Button>
+            <Button fx:id="accountRemovalRequestsButton" layoutX="465.0" layoutY="383.0"
+                    onKeyReleased="#handleButtonKeyReleased" onMouseClicked="#handleAccountRemovalRequestsButtonClicked"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    prefHeight="70.0" prefWidth="350.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 2.5; -fx-border-insets: -2.5; -fx-border-radius: 10;"
+                    text="%ManageRequestsScene.accountRemovalRequestsButton" textFill="#0a0a14">
                 <font>
                     <Font size="20.0"/>
                 </font>

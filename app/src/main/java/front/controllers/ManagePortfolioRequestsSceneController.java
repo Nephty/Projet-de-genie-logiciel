@@ -12,7 +12,9 @@ import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
+import front.scenes.Scenes;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -34,6 +36,8 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     Label lastUpdateTimeLabel, loadingRequestsLabel, noRequestSelectedLabel;
     @FXML
     TableColumn<Request, String> IDColumn, senderIDColumn, dateColumn;
+
+    ObservableList<Request> data = FXCollections.observableArrayList();
 
     public void initialize() {
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
@@ -71,9 +75,12 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     void handleDenyButtonClicked(MouseEvent event) {
         if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
-            for(int i = 0; i<requestsTableView.getSelectionModel().getSelectedItems().size(); i++){
-                requestsTableView.getSelectionModel().getSelectedItems().get(i).deny();
+            ObservableList<Request> selection = requestsTableView.getSelectionModel().getSelectedItems();
+            for (Request request : selection) {
+                request.deny();
+                data.remove(request);
             }
+            requestsTableView.setItems(data);
         } else if (!noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(true);
     }
 
@@ -81,9 +88,13 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
     void handleApproveButtonClicked(MouseEvent event) {
         if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
-            for(int i = 0; i<requestsTableView.getSelectionModel().getSelectedItems().size(); i++){
-                requestsTableView.getSelectionModel().getSelectedItems().get(i).approve();
+            ObservableList<Request> selection = requestsTableView.getSelectionModel().getSelectedItems();
+            for (Request request : selection) {
+                Main.setScene(Flow.forward(Scenes.CreateClientAccountScene));
+                request.approve();
+                data.remove(request);
             }
+            requestsTableView.setItems(data);
         } else if (!noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(true);
     }
 
@@ -123,12 +134,9 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
                 for (int i = 0; i < requestList.size(); i++) {
                     JSONObject obj = new JSONObject(requestList.get(i));
                     if (obj.getInt("notificationType") == 0) {
-                        CommunicationType comType = CommunicationType.CUSTOM;
+                        CommunicationType comType = CommunicationType.CREATE_ACCOUNT;
                         int notifType = obj.getInt("notificationType");
                         switch (notifType) {
-                            case (0):
-                                comType = CommunicationType.CREATE_ACCOUNT;
-                                break;
                             case (1):
                                 comType = CommunicationType.CREATE_SUB_ACCOUNT;
                                 break;

@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ManageTransferPermissionRequestsSceneController extends Controller implements BackButtonNavigator {
+public class ManageAccountRemovalRequestsSceneController extends Controller implements BackButtonNavigator {
     @FXML
     Button backButton, denyButton, approveButton, fetchRequestsButton;
     @FXML
@@ -35,6 +35,7 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
     Label lastUpdateTimeLabel, loadingRequestsLabel, noRequestSelectedLabel;
     @FXML
     TableColumn<Request, String> IDColumn, senderIDColumn, dateColumn;
+
     private ObservableList<Request> data = FXCollections.observableArrayList();
 
     public void initialize() {
@@ -84,11 +85,11 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
 
     @FXML
     void handleApproveButtonClicked(MouseEvent event) {
-        if (requestsTableView.getSelectionModel().getSelectedItems().size() > 0) {
+        if (requestsTableView.getSelectionModel().getSelectedItems().size() == 1) {
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
             ObservableList<Request> selection = requestsTableView.getSelectionModel().getSelectedItems();
             for (Request request : selection) {
-                // TODO : allow transfer on given account
+                // TODO : remove account
                 request.approve();
                 data.remove(request);
             }
@@ -113,7 +114,7 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
-                HttpResponse<String> rep = null;
+                HttpResponse<String> rep;
                 try {
                     rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
                             .header("Authorization", "Bearer " + Main.getToken())
@@ -128,10 +129,10 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
             String toParse = body.substring(1, body.length() - 1);
             ArrayList<String> requestList = Bank.JSONArrayParser(toParse);
             if (!requestList.get(0).equals("")) {
-                for (int i = 0; i < requestList.size(); i++) {
-                    JSONObject obj = new JSONObject(requestList.get(i));
-                    if (obj.getInt("notificationType") == 2) {
-                        CommunicationType comType = CommunicationType.CUSTOM;
+                for (String s : requestList) {
+                    JSONObject obj = new JSONObject(s);
+                    if (obj.getInt("notificationType") == 0) {
+                        CommunicationType comType = CommunicationType.DELETE_ACCOUNT;
                         int notifType = obj.getInt("notificationType");
                         switch (notifType) {
                             case (0):
@@ -146,15 +147,13 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
                             case (3):
                                 comType = CommunicationType.NEW_WALLET;
                                 break;
-                            case (4):
-                                comType = CommunicationType.DELETE_ACCOUNT;
-                                break;
                         }
-                        data.add(new Request(obj.getString("senderName"), comType, obj.getString("date"), obj.getString("comments"), obj.getString("senderId"), obj.getLong("notificationId")));
+                        data.add(new Request(obj.getString("senderName"), comType, obj.getString("date"), "", obj.getString("senderId"), obj.getLong("notificationId")));
                     }
                 }
             }
             requestsTableView.setItems(FXCollections.observableArrayList(data));
+
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);
         }
     }

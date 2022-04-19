@@ -9,5 +9,5 @@ public class Scenes {
     public static Scene AuthScene, SignInScene, LanguageScene, SignUpScene, MainScreenScene, ChangePasswordScene,
             ManageRequestsScene, ManageTransferPermissionRequestsScene, ManagePortfolioRequestsScene, RequestsStatusScene,
             ClientsScene, ExportDataScene, AddClientScene, ClientDetailsScene, CreateClientAccountScene,
-            ManageDataScene, ImportDataScene;
+            ManageDataScene, ImportDataScene, ManageAccountRemovalRequestsScene;
 }

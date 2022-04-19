@@ -67,7 +67,9 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                     .field("password", passwordField.getText())
                     .field("role", "ROLE_USER")
                     .asString();
-            Main.errorCheck(response.getStatus());
+            if(response.getStatus() != 403){
+                Main.errorCheck(response.getStatus());
+            }
         } catch (UnirestException e) {
             Main.ErrorManager(408);
         }

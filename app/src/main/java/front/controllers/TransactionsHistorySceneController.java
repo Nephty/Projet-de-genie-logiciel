@@ -73,7 +73,7 @@ public class TransactionsHistorySceneController extends Controller implements Ba
 
     @FXML
     void handleFetchTransactionsHistoryButtonClicked(MouseEvent event) {
-        fetchTransactions();
+        updateTransactions();
     }
 
     public void fetchTransactions() {
@@ -93,6 +93,31 @@ public class TransactionsHistorySceneController extends Controller implements Ba
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Fetch transactions and put them in the listview
             // Fade the label "updating history..." out to 0.0 opacity
+            ArrayList<Transaction> transactionList = Main.getCurrentAccount().getSubAccountList().get(0).getTransactionHistory();
+
+            transactionsHistoryTableView.setItems(FXCollections.observableArrayList(transactionList));
+            sleepAndFadeOutLoadingTransactionsLabelFadeThread.start(fadeInDuration, sleepDuration + fadeInDuration, loadingTransactionsHistoryLabel);
+        }
+    }
+
+    public void updateTransactions() {
+        // Execute this only if the label is not visible (that is, only if we are not already retrieving data etc.)
+        if (loadingTransactionsHistoryLabel.getOpacity() == 0.0) {
+            int fadeInDuration = 1000;
+            int sleepDuration = 1000;
+            FadeOutThread sleepAndFadeOutLoadingTransactionsLabelFadeThread;
+            // Fade the label "updating history..." in to 1.0 opacity
+            FadeInTransition.playFromStartOn(loadingTransactionsHistoryLabel, Duration.millis(fadeInDuration));
+            // We use a new Thread, so we can sleep the method for a few hundreds of milliseconds so that the label
+            // doesn't instantly go away when the notifications are retrieved.
+            sleepAndFadeOutLoadingTransactionsLabelFadeThread = new FadeOutThread();
+            // Save actual time and date
+            Calendar c = Calendar.getInstance();
+            // Update lastUpdateLabel with the new time and date
+            lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
+            // Fetch transactions and put them in the listview
+            // Fade the label "updating history..." out to 0.0 opacity
+            Main.updatePortfolio();
             ArrayList<Transaction> transactionList = Main.getCurrentAccount().getSubAccountList().get(0).getTransactionHistory();
 
             transactionsHistoryTableView.setItems(FXCollections.observableArrayList(transactionList));

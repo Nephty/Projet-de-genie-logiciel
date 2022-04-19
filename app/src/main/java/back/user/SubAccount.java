@@ -76,7 +76,8 @@ public class SubAccount {
                 String receiverIBAN = obj2.getString("recipientIban");
                 double amount = obj2.getDouble("transactionAmount");
                 String sendingDate = obj2.getString("transactionDate");
-                this.transactionHistory.add(new Transaction(ID, senderName, senderIBAN, receiverName, receiverIBAN, amount, sendingDate, Currencies.EUR));
+                String message = obj2.getString("comments");
+                this.transactionHistory.add(new Transaction(ID, senderName, senderIBAN, receiverName, receiverIBAN, amount, sendingDate, Currencies.EUR, message));
             }
         }
     }

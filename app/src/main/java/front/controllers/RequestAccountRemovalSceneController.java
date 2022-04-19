@@ -72,7 +72,7 @@ public class RequestAccountRemovalSceneController extends Controller implements 
             if (noAccountSelectedLabel.isVisible()) noAccountSelectedLabel.setVisible(false);
 
             // Create the request and send it
-            Request request = new Request(accountsComboBox.getValue(), CommunicationType.REMOVE_ACCOUNT, Date.from(Instant.now()).toString(), accountsComboBox.getValue());
+            Request request = new Request(accountsComboBox.getValue(), CommunicationType.DELETE_ACCOUNT, Date.from(Instant.now()).toString(), accountsComboBox.getValue());
             request.send();
 
             fadeInAndOutNode(1000, requestSentLabel);

@@ -16,6 +16,7 @@ public class Transaction {
     private final double amount;
     private final String sendingDate;
     private final Currencies currency;
+    private final String message;
 
     /**
      * Creates the Transaction object byt giving all the needed information
@@ -28,8 +29,9 @@ public class Transaction {
      * @param amount       The amount of the transaction
      * @param sendingDate  The String of the sending date
      * @param currency     The int corresponding to the type of currency
+     * @param message      The String of the message
      */
-    public Transaction(long ID, String senderName, String senderIBAN, String receiverName, String receiverIBAN, double amount, String sendingDate, Currencies currency) {
+    public Transaction(long ID, String senderName, String senderIBAN, String receiverName, String receiverIBAN, double amount, String sendingDate, Currencies currency, String message) {
         this.ID = ID;
         this.senderName = senderName;
         this.senderIBAN = senderIBAN;
@@ -38,6 +40,8 @@ public class Transaction {
         this.amount = amount;
         this.sendingDate = sendingDate;
         this.currency = currency;
+        this.message = message;
+        System.out.println(message);
     }
 
 
@@ -84,5 +88,9 @@ public class Transaction {
 
     public Date getSendingDateAsDateObject() {
         return Date.valueOf(sendingDate);
+    }
+
+    public String getMessage(){
+        return this.message;
     }
 }

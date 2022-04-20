@@ -88,6 +88,14 @@ public class Portfolio {
         this.walletList = createWallets(body,body2,body3);
     }
 
+
+    /**
+     * Creates the wallets with all the access
+     * @param body  The String of the JSON of the not deleted and not hidden access
+     * @param body2 The String of the JSON of the deleted access
+     * @param body3 The String of the JSON of the hidden access
+     * @return      The Wallet list of all the access
+     */
     public ArrayList<Wallet> createWallets(String body, String body2, String body3) {
         ArrayList<Wallet> repWalletList = new ArrayList<>();
         // If the user got at least one account, it will parse the list of account access into list of account in the same bank (Wallet)

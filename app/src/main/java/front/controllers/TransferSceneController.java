@@ -129,6 +129,7 @@ public class TransferSceneController extends Controller implements BackButtonNav
                     .field("password", password)
                     .field("role", "ROLE_USER")
                     .asString();
+            // Check the HTTP code status to inform the user if there is an error
             Main.errorCheck(response.getStatus());
         } catch (UnirestException e) {
             Main.ErrorManager(408);

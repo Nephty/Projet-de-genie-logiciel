@@ -68,6 +68,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                     .field("role", "ROLE_USER")
                     .asString();
             if(response.getStatus() != 403){
+                // Check the HTTP code status to inform the user if there is an error
                 Main.errorCheck(response.getStatus());
             }
         } catch (UnirestException e) {
@@ -88,6 +89,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                     HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + usernameField.getText() + "?isUsername=true")
                             .header("Authorization", "Bearer " + Main.getToken())
                             .asString();
+                    // Check the HTTP code status to inform the user if there is an error
                     Main.errorCheck(response2.getStatus());
                     String body2 = response2.getBody();
                     JSONObject obj2 = new JSONObject(body2);

@@ -35,6 +35,7 @@ public class Profile {
             return rep;
         });
 
+        // Check the HTTP code status to inform the user if there is an error
         Main.errorCheck(response.getStatus());
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);

@@ -147,7 +147,10 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
                 response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
                         .header("Content-Type", "application/json")
                         .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userId\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\",\r\n    \"birthdate\": \""+birthDate+"\"\r\n}")                        .asString();
-                Main.errorCheck(response.getStatus());
+                if(response.getStatus() != 403){
+                    // Check the HTTP code status to inform the user if there is an error
+                    Main.errorCheck(response.getStatus());
+                }
             } catch (UnirestException e) {
                 Main.ErrorManager(408);
             }

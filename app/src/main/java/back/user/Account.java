@@ -59,18 +59,18 @@ public class Account {
     }
 
     /**
-     * Return whether the account is toggled on or not.
-     *
      * @return Whether the account is toggled on or not
      */
     public boolean isActivated() {
         return activated;
     }
 
+
     /**
      * Toggles the account.
      */
     public void toggle(){
+        // Changes the boolean and update it in the database
         this.activated = !this.activated;
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
@@ -86,6 +86,7 @@ public class Account {
             }
             return rep;
         });
+        // Check the HTTP code status to inform the user if there is an error
         Main.errorCheck(response.getStatus());
     }
 
@@ -107,9 +108,5 @@ public class Account {
 
     public boolean canPay() {
         return canPay;
-    }
-
-    public void setArchived(boolean value) {
-        archived = value;
     }
 }

@@ -39,7 +39,7 @@ public class Portfolio {
             }
             return rep;
         });
-
+        // Check the HTTP code status to inform the user if there is an error
         Main.errorCheck(response.getStatus());
 
         String body = response.getBody();
@@ -58,6 +58,8 @@ public class Portfolio {
             }
             return rep;
         });
+        // Check the HTTP code status to inform the user if there is an error
+        Main.errorCheck(response2.getStatus());
 
         String body2 = response2.getBody();
         body2 = body2.substring(1, body2.length() - 1);
@@ -75,6 +77,10 @@ public class Portfolio {
             }
             return rep;
         });
+
+        // Check the HTTP code status to inform the user if there is an error
+        Main.errorCheck(response3.getStatus());
+
 
 
         String body3 = response3.getBody();

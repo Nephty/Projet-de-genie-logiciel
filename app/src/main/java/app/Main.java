@@ -99,14 +99,18 @@ public class Main extends Application {
     public static void updatePortfolio() {
         String swift = null;
         String IBAN = null;
+        // Keep the currentWallet and currentAccount while updating
         if(!(getCurrentWallet() == null)){
             swift = currentWallet.getBank().getSwiftCode();
         }
         if(!(getCurrentAccount() == null)){
             IBAN = currentAccount.getIBAN();
         }
+
+        // Create a new portfolio (With the actual informations)
         portfolio = new Portfolio(user.getNationalRegistrationNumber());
 
+        // Put the currentWallet and currentAcount after updating
         if(!(getCurrentWallet() == null)){
             ArrayList<Wallet> walletList = getPortfolio().getWalletList();
 
@@ -145,6 +149,7 @@ public class Main extends Application {
      * @param status The error code
      */
     public static void ErrorManager(int status) {
+        // Create a message with a specific content according to the error
         String message = "Error " + status + ": ";
         switch (status) {
             case (401):
@@ -172,6 +177,7 @@ public class Main extends Application {
                 message = message + "An error has occurred";
                 break;
         }
+        // Create a pop up with the error message
         Stage errorWindow = new Stage();
         errorWindow.setWidth(544);
         errorWindow.setHeight(306);

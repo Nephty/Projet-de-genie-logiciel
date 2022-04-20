@@ -21,19 +21,25 @@ public class Bank {
      * @param swiftCode A String of the swift code of the bank
      */
     public Bank(String swiftCode) {
-        String token = Main.getToken();
         this.swiftCode = swiftCode;
+
+        // Fetch the bank's details in the database
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response;
-        try {
-            response = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/" + swiftCode)
-                    .header("Authorization", "Bearer " + token)
-                    .header("Content-Type", "application/json")
-                    .asString();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/" + swiftCode)
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .header("Content-Type", "application/json")
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
+        // Check the HTTP code status to inform the user if there is an error
         Main.errorCheck(response.getStatus());
+        // Get the Bank name
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
         this.name = obj.getString("name");
@@ -58,6 +64,7 @@ public class Bank {
     public static ArrayList<String> fetchAllSWIFT() {
         ArrayList<String> rep = new ArrayList<>();
 
+        // Fetch a list of all bank's swift in the database
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep2 = null;
@@ -70,11 +77,13 @@ public class Bank {
             }
             return rep2;
         });
-
+        // Check the HTTP code status to inform the user if there is an error
         Main.errorCheck(response.getStatus());
+
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);
-        // Parse all the banks and creates the objetcs
+
+        // Parse all the banks and creates the objects
         ArrayList<String> bankList = Portfolio.JSONArrayParser(body);
         for (String s : bankList) {
             JSONObject obj = new JSONObject(s);

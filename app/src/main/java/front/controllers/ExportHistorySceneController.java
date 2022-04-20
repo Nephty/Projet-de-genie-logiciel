@@ -105,6 +105,11 @@ public class ExportHistorySceneController extends Controller implements BackButt
         }
     }
 
+    /**
+     * Export the transaction history in a file
+     * @param path  The path of the export file
+     * @param isCsv If the user wants a CSV or a JSON file
+     */
     public void exportHistory(String path, boolean isCsv) {
         // exportData will never be empty if we look at when the user is able to export :
         // 1> the user is export his transaction history (in this case, we ensure that
@@ -116,6 +121,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
 
             boolean fileCreated = file.createNewFile();
 
+            // Manage the case if a file with the same name already exist
             int counter = 0;
             while (!fileCreated) {
                 file = new File(path + "/transactionHistory" + counter + (isCsv ? ".csv" : ".json"));
@@ -123,6 +129,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
                 fileCreated = file.createNewFile();
             }
 
+            // Put all the accounts IBAN in a list
             ArrayList<String> allAccountsIBANS = new ArrayList<>();
 
             for (Wallet wallet : Main.getPortfolio().getWalletList()) {
@@ -135,6 +142,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
             BufferedWriter bw = new BufferedWriter(fw);
             if (isCsv) {
                 for (Transaction t : exportData) {
+                    // Verify if the user if the sender (Verify if it owns the senderIBAN)
                     boolean isSender = allAccountsIBANS.contains(t.getSenderIBAN());
                     bw.write(convertToCSV(new String[]{t.getSendingDate(), t.getReceiverName(), t.getReceiverIBAN(), (isSender ? "-" + t.getAmount() + "€" : "+" + t.getAmount() + "€")}) + "\n");
                 }
@@ -166,12 +174,22 @@ public class ExportHistorySceneController extends Controller implements BackButt
         }
     }
 
+    /**
+     * Convert a String list into a CSV line
+     * @param data  A list of String to formate into a CSV line
+     * @return      The String of the CSV line
+     */
     public String convertToCSV(String[] data) {
         return Stream.of(data)
                 .map(this::escapeSpecialCharacters)
                 .collect(Collectors.joining(","));
     }
 
+    /**
+     * Escape the special characters to avoid problems in CSV files
+     * @param data  The String to manage
+     * @return      The String with the special characters escaped
+     */
     public String escapeSpecialCharacters(String data) {
         String escapedData = data.replaceAll("\\R", " ");
         if (data.contains(",") || data.contains("\"") || data.contains("'")) {

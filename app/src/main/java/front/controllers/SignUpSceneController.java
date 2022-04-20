@@ -133,6 +133,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
         if (noLabelVisible()) {
             // Then we can create a new user
 
+            // Calculate the birthdate with NRN
             String birthDate;
             if(Integer.parseInt(NRN.substring(0,2)) >=30){
                 birthDate = "19" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
@@ -147,6 +148,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
                 response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
                         .header("Content-Type", "application/json")
                         .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userId\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\",\r\n    \"birthdate\": \""+birthDate+"\"\r\n}")                        .asString();
+                // Ignore wrong data error (403)
                 if(response.getStatus() != 403){
                     // Check the HTTP code status to inform the user if there is an error
                     Main.errorCheck(response.getStatus());

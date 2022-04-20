@@ -91,6 +91,7 @@ public class ArchivedAccountsScenesController extends Controller implements Back
             try {
                 for (Account account : selection) {
                     if(restoreAccount(account)){
+                        // Remove the Account from the table
                         data.remove(account);
                     }
                 }

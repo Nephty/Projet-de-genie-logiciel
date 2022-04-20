@@ -71,10 +71,11 @@ public class RequestAccountRemovalSceneController extends Controller implements 
         if (accountsComboBox.getValue() != null && !accountsComboBox.getValue().equals("")) {
             if (noAccountSelectedLabel.isVisible()) noAccountSelectedLabel.setVisible(false);
 
-            // Create the request and send it
+            // Parse information from the String
             String IBAN = accountsComboBox.getValue().substring(16,32);
             String swift = accountsComboBox.getValue().substring(7,15);
 
+            // Create the request and send it
             Request request = new Request(swift, CommunicationType.DELETE_ACCOUNT, Date.from(Instant.now()).toString(), IBAN);
             request.send();
 

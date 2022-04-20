@@ -33,6 +33,7 @@ public class RequestNewAccountSceneController extends Controller implements Back
     private boolean requestSent = false;
 
     public void initialize() {
+        // Update the Portfolio
         Main.updatePortfolio();
         ObservableList<String> values;
         values = FXCollections.observableArrayList(Bank.fetchAllSWIFT());

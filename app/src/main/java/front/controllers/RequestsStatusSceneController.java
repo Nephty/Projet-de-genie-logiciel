@@ -87,8 +87,8 @@ public class RequestsStatusSceneController extends Controller implements BackBut
             Calendar c = Calendar.getInstance();
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // Fetch requests and put them in the listview
 
+            // Fetch requests and put them in the listview
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
                 HttpResponse<String> rep = null;
@@ -125,6 +125,9 @@ public class RequestsStatusSceneController extends Controller implements BackBut
                                     break;
                                 case (3):
                                     comType = CommunicationType.NEW_WALLET;
+                                    break;
+                                case (6):
+                                    comType = CommunicationType.DELETE_ACCOUNT;
                                     break;
                             }
                             reqList.add(new Request(obj.getString("recipientId"), comType, obj.getString("date"), obj.getString("comments")));

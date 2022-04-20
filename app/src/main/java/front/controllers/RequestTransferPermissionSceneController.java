@@ -41,8 +41,10 @@ public class RequestTransferPermissionSceneController extends Controller impleme
     private ObservableList<Account> values;
 
     public void initialize() {
+        // Update the Portfolio
         Main.updatePortfolio();
         ArrayList<Account> accountList = new ArrayList<>();
+        // Creates a list with all the account without transfer permission
         for (Wallet wallet : Main.getPortfolio().getWalletList()) {
             for (Account account : wallet.getAccountList()) if (!account.canPay()) accountList.add(account);
         }

@@ -92,6 +92,7 @@ public class FinancialProductsSceneController extends Controller implements Back
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             // Update the portfolio
             Main.updatePortfolio();
+            // Fetch wallets from the updated portfolio
             ArrayList<Wallet> walletList = Main.getPortfolio().getWalletList();
 
             // Fade the label "updating products..." out to 0.0 opacity

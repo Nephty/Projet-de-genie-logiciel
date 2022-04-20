@@ -45,9 +45,22 @@ public class Account {
         this.subAccountList.add(new SubAccount(this.IBAN, Currencies.EUR));
     }
 
-    /**
-     * @return A String to display account informations
-     */
+    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay, double amount) {
+        this.accountOwner = accountOwner;
+        this.accountCoOwner = accountCoOwner;
+        this.bank = bank;
+        this.IBAN = IBAN;
+        this.accountType = accountType;
+        this.activated = activated;
+        this.archived = archived;
+        this.canPay = canPay;
+        this.subAccountList = new ArrayList<SubAccount>();
+        this.subAccountList.add(new SubAccount(this.IBAN, Currencies.EUR, amount));
+    }
+
+        /**
+         * @return A String to display account informations
+         */
 //    @Override
 //    public String toString() {
 //        return "Name : " + IBAN + "           Status : " + (activated ? "activated" : "deactivated") + "          amount : " + getSubAccountList().get(0).getAmount() + " €";

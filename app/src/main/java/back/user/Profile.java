@@ -128,9 +128,8 @@ public class Profile {
             for(int j = 0; j<accountListJSON.length(); j++){
                 JSONObject objAccount = (JSONObject) accountListJSON.get(j);
                 AccountType accType = AccountType.valueOf(objAccount.getString("accountType"));
-                // TODO : coOwner
-                // TODO : Rename et subaccount ?
-                Account account = new Account(client, client, bank, objAccount.getString("IBAN"), accType, objAccount.getBoolean("activated"), false, objAccount.getBoolean("canPay"));
+                Profile owner = new Profile(objAccount.getString("owner"));
+                Account account = new Account(owner, client, bank, objAccount.getString("IBAN"), accType, objAccount.getBoolean("activated"), false, objAccount.getBoolean("canPay"), objAccount.getDouble("amount"));
                 accountList.add(account);
             }
             walletList.add(new Wallet(client, accountList));
@@ -164,16 +163,17 @@ public class Profile {
                         accType = 4;
                         break;
                 }
-
+                // TODO : Ignorer les erreurs conflict
                 Unirest.setTimeouts(0, 0);
                 int finalAccType = accType;
+                String ownerId = accountList.get(j).getAccountOwner().getNationalRegistrationNumber();
                 HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
                     HttpResponse<String> rep = null;
                     try {
                         rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
                                 .header("Authorization", "Bearer " + Main.getToken())
                                 .header("Content-Type", "application/json")
-                                .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + finalAccType + "\r\n}")
+                                .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + ownerId + "\",\r\n    \"payment\": false,\r\n    \"accountTypeId\": " + finalAccType + "\r\n}")
                                 .asString();
                     } catch (UnirestException e) {
                         throw new RuntimeException(e);
@@ -198,7 +198,6 @@ public class Profile {
                     return rep;
                 });
             }
-
         }
     }
 
@@ -234,9 +233,9 @@ public class Profile {
                     for(int j = 0; j<accountList.size(); j++){
                         Account account = accountList.get(j);
                         if(j == 0 || j == accountList.size() -1){
-                            resAccount = resAccount + account.getIBAN()+" "+account.getAccountType().toString()+" "+ account.canPay()+" "+account.isActivated();
+                            resAccount = resAccount + account.getIBAN()+" "+account.getAccountType().toString()+" "+account.getSubAccountList().get(0).getAmount() +"€ "+ account.canPay()+" "+account.isActivated()+" "+account.getAccountOwner().getNationalRegistrationNumber();
                         }else{
-                            resAccount = resAccount + ","+account.getIBAN()+" "+account.getAccountType()+" "+ account.canPay()+" "+account.isActivated();
+                            resAccount = resAccount + ","+account.getIBAN()+" "+account.getAccountType().toString()+" "+account.getSubAccountList().get(0).getAmount() +"€ "+ account.canPay()+" "+account.isActivated()+" "+account.getAccountOwner().getNationalRegistrationNumber();
                         }
                     }
                     resAccount = resAccount + "]";
@@ -257,8 +256,10 @@ public class Profile {
                         JSONObject accountInfo = new JSONObject();
                         accountInfo.put("IBAN", account.getIBAN());
                         accountInfo.put("accountType", account.getAccountType().toString());
+                        accountInfo.put("amount", account.getSubAccountList().get(0).getAmount());
                         accountInfo.put("canPay", String.valueOf(account.canPay()));
                         accountInfo.put("activated", String.valueOf(account.isActivated()));
+                        accountInfo.put("owner", account.getAccountOwner().getNationalRegistrationNumber());
                         infos.add(accountInfo);
                     }
                     JSONObject obj2 = new JSONObject();

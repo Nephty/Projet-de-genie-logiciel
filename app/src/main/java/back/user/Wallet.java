@@ -33,14 +33,11 @@ public class Wallet {
         this.numberOfAccounts = accountList.size();
     }
 
-    public Wallet(Profile accountUser, Bank bank){
-        this.accountUser = accountUser;
-        this.bank = bank;
-        this.accountList = new ArrayList<>();
-    }
 
+    /**
+     * Fetches the deleted and hidden account
+     */
     public void fetchArchivedAccount() {
-
         // Fetch deleted account
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
@@ -75,11 +72,19 @@ public class Wallet {
     }
 
 
+    /**
+     * Creates a list of account with a JSON list
+     * @param body  The String of the JSON list
+     * @return      The account's list
+     */
     public ArrayList<Account> createsAccountList(String body){
         ArrayList<Account> accountListRep = new ArrayList<>();
 
+        // Parse the JSON into a list of account in JSON
         body = body.substring(1, body.length() - 1);
         ArrayList<String> bodyList = Portfolio.JSONArrayParser(body);
+
+        // If there is at least oe account
         if(!body.equals("")) {
             // Creates the accounts
             for (String s : bodyList) {

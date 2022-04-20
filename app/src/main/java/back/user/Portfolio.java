@@ -22,11 +22,11 @@ public class Portfolio {
      * @param nationalRegistrationNumber The user's national registration code
      */
     public Portfolio(String nationalRegistrationNumber) {
-        System.out.println(Main.getToken());
-        System.out.println(Main.getRefreshToken());
-        // TODO : Optimiser en reprenant l'ancien user si il existe ?
+        // Creates a user with his NRN
         this.user = new Profile(nationalRegistrationNumber);
-        // It fetches all the access that got the user
+        // It fetches all the access that got the user in the database
+
+        // Fetch activated account
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(()-> {
             HttpResponse<String> rep;
@@ -81,11 +81,10 @@ public class Portfolio {
         // Check the HTTP code status to inform the user if there is an error
         Main.errorCheck(response3.getStatus());
 
-
-
         String body3 = response3.getBody();
         body3 = body3.substring(1, body3.length() - 1);
 
+        // Creates the wallets with all the access
         this.walletList = createWallets(body,body2,body3);
     }
 
@@ -93,10 +92,12 @@ public class Portfolio {
         ArrayList<Wallet> repWalletList = new ArrayList<>();
         // If the user got at least one account, it will parse the list of account access into list of account in the same bank (Wallet)
         if (!body.equals("")) {
+            // Parse the JSONArray
             ArrayList<String> bodyList = JSONArrayParser(body);
 
             ArrayList<Account> accountList = new ArrayList<>();
 
+            // The access are sort by bank so when the bank of an access change, we create a wallet with the previous bank's access
             String oldSwift = "";
             Bank bank = null;
             for (int i = 0; i < bodyList.size(); i++) {
@@ -153,6 +154,7 @@ public class Portfolio {
             usedSwift.add(wallet.getBank().getSwiftCode());
         }
 
+        // Creates the wallets for the deleted accounts
         class LocalParser {
             protected void localParse(String body, ArrayList<String> usedSwift, ArrayList<Wallet> repWalletList, Profile user) {
                 if (!body.equals("")) {
@@ -162,7 +164,7 @@ public class Portfolio {
                         String swift = obj.getJSONObject("account").getString("swift");
                         String bankName = obj.getJSONObject("account").getJSONObject("linkedBank").getString("name");
                         if (!usedSwift.contains(swift)) {
-                            repWalletList.add(new Wallet(user, new Bank(swift, bankName)));
+                            repWalletList.add(new Wallet(user, new Bank(swift, bankName), new ArrayList<Account>()));
                             usedSwift.add(swift);
                         }
                     }

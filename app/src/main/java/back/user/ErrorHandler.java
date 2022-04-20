@@ -27,6 +27,7 @@ public class ErrorHandler {
             return handlePossibleError(toRetry);
         }
 
+        Main.errorCheck(response.getStatus());
         return response;
     }
 

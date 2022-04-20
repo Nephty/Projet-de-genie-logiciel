@@ -15,6 +15,14 @@ public class Notification extends Communication {
     private boolean flag;
     private final long ID;
 
+    /**
+     * Creates a notification with all the needed informations
+     * @param senderName The String of the sender name
+     * @param content The String of the content
+     * @param date The String of the date
+     * @param ID The ID (number)
+     * @param flag If the notification is flagged or not
+     */
     public Notification(String senderName, String content, String date, long ID, boolean flag) {
         this.content = content;
         this.senderName = senderName;
@@ -23,6 +31,9 @@ public class Notification extends Communication {
         this.flag = flag;
     }
 
+    /**
+     * @return A String to display the notification information
+     */
     @Override
     public String toString(){
         return this.date + "      " + this.senderName + "     " + this.content;
@@ -32,7 +43,11 @@ public class Notification extends Communication {
         return this.content;
     }
 
+    /**
+     * Delete the notification in the database
+     */
     public void dismiss() {
+        // Make the HTTP request to delete the notification
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
@@ -45,11 +60,18 @@ public class Notification extends Communication {
             }
             return rep;
         });
+
+        // Check the HTTP code status to inform the user if there is an error
+        Main.errorCheck(response.getStatus());
     }
 
+    /**
+     * Flag or unflag the notification
+     */
     public void changeFlag() {
+        // Change the flag boolean
         this.flag = !flag;
-
+        // Update it in the database
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
@@ -64,6 +86,8 @@ public class Notification extends Communication {
             }
             return rep;
         });
+        // Check the HTTP code status to inform the user if there is an error
+        Main.errorCheck(response.getStatus());
     }
 
     public Long getID() {

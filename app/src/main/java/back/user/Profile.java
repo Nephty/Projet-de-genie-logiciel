@@ -22,6 +22,7 @@ public class Profile {
      * @param nationalRegistrationNumber The String of the user's national registration number
      */
     public Profile(String nationalRegistrationNumber){
+        // Fetch the user's information in the database
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
@@ -37,6 +38,8 @@ public class Profile {
 
         // Check the HTTP code status to inform the user if there is an error
         Main.errorCheck(response.getStatus());
+
+        // Parse the information and put them in the variables
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
         this.favoriteLanguage = obj.getString("language");

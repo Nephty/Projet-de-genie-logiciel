@@ -26,14 +26,14 @@ public class SubAccount {
     public SubAccount(String IBAN, Currencies currency) {
         this.IBAN = IBAN;
         this.currency = currency;
-        String token = Main.getToken();
-        // Fetch the amount for the subAccount
+
+        // Fetch the information of the SubAccount
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
             try {
-                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account/sub-account?iban=" + IBAN + "&currencyId=" + "0") // Extension 2 : Change the value of currencyId
-                        .header("Authorization", "Bearer " + token)
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account/sub-account?iban=" + IBAN + "&currencyId=" + "0")
+                        .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
             } catch (UnirestException e) {
                 throw new RuntimeException(e);
@@ -42,6 +42,7 @@ public class SubAccount {
         });
         Main.errorCheck(response.getStatus());
         String body = response.getBody();
+        // Get the amount of the SubAccount
         JSONObject obj = new JSONObject(body);
         this.amount = obj.getDouble("currentBalance");
 
@@ -61,6 +62,7 @@ public class SubAccount {
 
         // Check the HTTP code status to inform the user if there is an error
         Main.errorCheck(response2.getStatus());
+
         String body2 = response2.getBody();
         body2 = body2.substring(1, body2.length() - 1);
         this.transactionHistory = new ArrayList<>();

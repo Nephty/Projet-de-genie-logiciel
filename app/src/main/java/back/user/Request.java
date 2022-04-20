@@ -18,6 +18,13 @@ public class Request extends Communication {
     private final String content;
 
 
+    /**
+     * Creates a request with all the needed information
+     * @param swift             The String of the bank's swift
+     * @param communicationType The communication type (enumeration)
+     * @param date              The String of the date
+     * @param content           The String of the content
+     */
     public Request(String swift, CommunicationType communicationType, String date, String content) {
         this.recipientId = swift;
         this.communicationType = communicationType;
@@ -25,6 +32,9 @@ public class Request extends Communication {
         this.content = content;
     }
 
+    /**
+     * Send the request
+     */
     public void send() {
         boolean alreadySent = false;
 
@@ -49,7 +59,8 @@ public class Request extends Communication {
             if(!requestList.get(0).equals("")) {
                 for (String s : requestList) {
                     JSONObject obj = new JSONObject(s);
-                    if (obj.getInt("notificationType") != 4) {
+                    // We exclude custom notification and alert
+                    if (obj.getInt("notificationType") != 4 && obj.getInt("notificationType") != 5) {
                         CommunicationType comType = CommunicationType.CUSTOM;
                         int notifType = obj.getInt("notificationType");
                         switch (notifType) {
@@ -69,6 +80,7 @@ public class Request extends Communication {
                                 comType = CommunicationType.DELETE_ACCOUNT;
                                 break;
                         }
+                        // If a request has the same recipient, communication type and content, the request has already been send
                         if (this.recipientId.equals(obj.getString("recipientId")) && this.communicationType == comType && this.content.equals(obj.getString("comments"))) {
                             alreadySent = true;
                         }
@@ -76,7 +88,7 @@ public class Request extends Communication {
                 }
             }
         }
-        // TODO: Ecrire un truc pour l'utilisateur si ça a pas été fait
+        // TODO: Ecrire un truc pour l'utilisateur
         if(!alreadySent){
             int comType = 7;
             switch(this.communicationType.toString()){
@@ -87,7 +99,7 @@ public class Request extends Communication {
                 case("DELETE_ACCOUNT"): comType = 6; break;
             }
 
-            // Send the request
+            // Send the request (creating a notification in the database)
             Unirest.setTimeouts(0, 0);
             int finalComType = comType;
             HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
@@ -103,10 +115,12 @@ public class Request extends Communication {
                 }
                 return rep;
             });
-            System.out.println(response2.getBody());
         }
     }
 
+    /**
+     * @return The String to display the request information
+     */
     @Override
     public String toString(){
         String comType = "";

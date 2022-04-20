@@ -10,12 +10,21 @@ public class Notification extends Communication {
     private String senderName;
     private String recipientId;
 
+    /**
+     * Creates a notification with all the needed informations
+     * @param senderName    The String of the sender name
+     * @param recipientId   The String of the recipient id
+     * @param content       The String of the content
+     */
     public Notification(String senderName, String recipientId, String content) {
         this.content = content;
         this.senderName = senderName;
         this.recipientId = recipientId;
     }
 
+    /**
+     * Send the notification in the database
+     */
     public void send() {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {

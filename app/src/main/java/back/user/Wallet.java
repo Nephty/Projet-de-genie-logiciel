@@ -17,7 +17,6 @@ public class Wallet {
      * Creates a Wallet object with the account user
      *
      * @param accountUser The Profile object of the user
-     * @throws UnirestException
      */
     public Wallet(Profile accountUser){
         this.accountUser = accountUser;
@@ -25,12 +24,21 @@ public class Wallet {
         update();
     }
 
+    /**
+     * Creates a Wallet with all the needed information
+     *
+     * @param accountUser
+     * @param accountList
+     */
     public Wallet(Profile accountUser, ArrayList<Account> accountList){
         this.accountUser = accountUser;
         this.bank = Main.getBank();
         this.accountList = accountList;
     }
 
+    /**
+     * Update the wallet
+     */
     public void update(){
         // Fetch all active client's account
         Unirest.setTimeouts(0, 0);
@@ -81,13 +89,20 @@ public class Wallet {
 
     }
 
+    /**
+     * Creates the list of account with a JSON
+     * @param body  The String of the JSON
+     * @return      The account list of the JSON
+     */
     public ArrayList<Account> createsAccountList(String body){
         ArrayList<Account> accountListRep = new ArrayList<Account>();
 
         body = body.substring(1, body.length() - 1);
+        // Parse the Strings
         ArrayList<String> bodyList = Bank.JSONArrayParser(body);
+        // If there is at least one account
         if(!body.equals("")) {
-            // Creates the accounts
+            // Creates the accounts and add them to the list
             for (int i = 0; i < bodyList.size(); i++) {
                 JSONObject obj = new JSONObject(bodyList.get(i));
                 String swift = obj.getString("accountId");
@@ -120,6 +135,9 @@ public class Wallet {
         return accountListRep;
     }
 
+    /**
+     * Deletes all the accounts in a wallet (which delete the client)
+     */
     public void deleteAll(){
         for(int i = 0; i<this.accountList.size(); i++){
             this.accountList.get(i).delete();

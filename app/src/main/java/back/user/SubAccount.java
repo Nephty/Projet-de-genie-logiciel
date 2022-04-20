@@ -21,6 +21,8 @@ public class SubAccount {
     public SubAccount(String IBAN, Currencies currency) {
         this.IBAN = IBAN;
         this.currency = currency;
+
+        // Fetch the information of the SubAccount
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
@@ -34,10 +36,18 @@ public class SubAccount {
             return rep;
         });
         Main.errorCheck(response.getStatus());
+
+        // Get the amount of the SubAccount
         JSONObject obj = new JSONObject(response.getBody());
         this.amount = obj.getDouble("currentBalance");
     }
 
+    /**
+     * Creates a SubAccount with all the needed information
+     * @param IBAN     The String og the IBAN
+     * @param currency The currency
+     * @param amount   The amount of the subAccount
+     */
     public SubAccount(String IBAN, Currencies currency, double amount) {
         this.IBAN = IBAN;
         this.currency = currency;

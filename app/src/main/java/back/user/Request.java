@@ -15,6 +15,15 @@ public class Request extends Communication {
     private String senderID;
     private long ID;
 
+    /**
+     * Creates a request with all the needed informations
+     * @param swift             The String of the bank's swift
+     * @param communicationType The communication type (enumeration)
+     * @param date              The String of the date
+     * @param content           The String of the content
+     * @param senderID          The String of the sender id
+     * @param ID                The id of the request (long)
+     */
     public Request(String swift, CommunicationType communicationType, String date, String content, String senderID, long ID) {
         this.recipientId = swift;
         this.communicationType = communicationType;
@@ -24,6 +33,9 @@ public class Request extends Communication {
         this.ID = ID;
     }
 
+    /**
+     * Approves the request
+     */
     public void approve() {
         if (this.communicationType.equals(CommunicationType.TRANSFER_PERMISSION)) {
             // Changes the account
@@ -71,6 +83,9 @@ public class Request extends Communication {
         }
     }
 
+    /**
+     * Deny the request
+     */
     public void deny() {
         if (this.communicationType.equals(CommunicationType.TRANSFER_PERMISSION)) {
             // Send a notification to the client
@@ -87,7 +102,11 @@ public class Request extends Communication {
         }
     }
 
-    private void sendNotif(String message){
+    /**
+     * Send a notification to the client
+     * @param message   The message to put in the notification's content
+     */
+    public void sendNotif(String message){
         Notification notif = new Notification(Main.getBank().getName(), this.senderID, "The bank " + Main.getBank().getName() + " " + message);
         notif.send();
 
@@ -105,6 +124,9 @@ public class Request extends Communication {
         });
     }
 
+    /**
+     * @return A String to display the request
+     */
     @Override
     public String toString() {
         String comType = "";

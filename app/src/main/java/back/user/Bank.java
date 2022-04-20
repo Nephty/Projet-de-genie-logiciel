@@ -16,17 +16,15 @@ public class Bank {
      * Creates a Bank object with an HTTP request by using the swift code
      *
      * @param swiftCode A String of the swift code of the bank
-     * @throws UnirestException For managing HTTP errors
      */
     public Bank(String swiftCode){
-        String token = Main.getToken();
         this.swiftCode = swiftCode;
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
             try {
                 rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/" + swiftCode)
-                        .header("Authorization", "Bearer " + token)
+                        .header("Authorization", "Bearer " + Main.getToken())
                         .header("Content-Type", "application/json")
                         .asString();
             } catch (UnirestException e) {
@@ -34,7 +32,8 @@ public class Bank {
             }
             return rep;
         });
-        Main.errorCheck(response.getStatus());
+
+        // Get the Bank name
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
         this.name = obj.getString("name");

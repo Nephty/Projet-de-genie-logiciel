@@ -128,7 +128,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                 break;
         }
 
-        if (!invalidIBANLabel.isVisible() && !isIBANTaken(IBAN) && !noValueSelectedLabel.isVisible()) {
+        if (!invalidIBANLabel.isVisible() && !noValueSelectedLabel.isVisible()) {
             // Creates account with all the values
             String swift = Main.getBank().getSwiftCode();
 
@@ -153,65 +153,66 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                 }
                 return rep;
             });
-            Main.errorCheck(response.getStatus());
-
-            // Create account access
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
-                HttpResponse<String> rep = null;
-                try {
-                    rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
-                            .header("Authorization", "Bearer " + Main.getToken())
-                            .header("Content-Type", "application/json")
-                            .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
-                            .asString();
-                } catch (UnirestException e) {
-                    throw new RuntimeException(e);
+            // TODO : A vérifier
+            if(response.getStatus() == 409){
+                if(response.getBody().equals("IBAN")){
+                    invalidIBANLabel.setVisible(true);
                 }
-                return rep;
-            });
-            Main.errorCheck(response2.getStatus());
+            } else{
+                Main.errorCheck(response.getStatus());
 
-            Main.setNewClient(null);
+                // Create account access
+                Unirest.setTimeouts(0, 0);
+                HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
+                    HttpResponse<String> rep = null;
+                    try {
+                        rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
+                                .header("Authorization", "Bearer " + Main.getToken())
+                                .header("Content-Type", "application/json")
+                                .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
+                                .asString();
+                    } catch (UnirestException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return rep;
+                });
+                Main.errorCheck(response2.getStatus());
 
-            if(!Main.getRequest().equals(null)){
-                Request request = Main.getRequest();
+                Main.setNewClient(null);
 
-                if(response.getStatus() == 201 && response2.getStatus() == 201){
-                    // Send a notification to the client
-                    Notification notif = new Notification(Main.getBank().getName(), request.getSenderID(), "The bank "+Main.getBank().getName()+" has created you an new account");
-                    notif.send();
+                if(!Main.getRequest().equals(null)){
+                    Request request = Main.getRequest();
 
-                    // Delete this request
-                    Unirest.setTimeouts(0, 0);
-                    HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
-                        HttpResponse<String> rep = null;
-                        try {
-                            rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+ request.getID())
-                                    .header("Authorization", "Bearer "+ Main.getToken())
-                                    .asString();
-                        } catch (UnirestException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return rep;
-                    });
+                    if(response.getStatus() == 201 && response2.getStatus() == 201){
+                        // Send a notification to the client
+                        request.sendNotif("has created you an new account");
+
+                        // Delete this request
+                        Unirest.setTimeouts(0, 0);
+                        HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
+                            HttpResponse<String> rep = null;
+                            try {
+                                rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+ request.getID())
+                                        .header("Authorization", "Bearer "+ Main.getToken())
+                                        .asString();
+                            } catch (UnirestException e) {
+                                throw new RuntimeException(e);
+                            }
+                            return rep;
+                        });
+                    }
                 }
+
+                Main.setRequest(null);
+
+                fadeInAndOutNode(1000, accountCreatedLabel);
+                accountCreated = true;
+
+                // Reset the form
+                IBANTextField.setText("");
+                accountTypeComboBox.valueProperty().set(null);
             }
-
-            Main.setRequest(null);
-
-            fadeInAndOutNode(1000, accountCreatedLabel);
-            accountCreated = true;
-
-            // Reset the form
-            IBANTextField.setText("");
-            accountTypeComboBox.valueProperty().set(null);
         }
-    }
-
-    public boolean isIBANTaken(String IBAN) {
-        // TODO : back-end : implement method that checks if IBAN is already taken
-        return false;
     }
 
     @FXML

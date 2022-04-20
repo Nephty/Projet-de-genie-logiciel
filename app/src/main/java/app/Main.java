@@ -130,6 +130,7 @@ public class Main extends Application {
      * @param statut The error code
      */
     public static void ErrorManager(int statut) {
+        // Create a message with a specific content according to the error
         String message = "Error " + statut + ": ";
         switch (statut) {
             case (401):
@@ -157,6 +158,7 @@ public class Main extends Application {
                 message += "An error has occurred";
                 break;
         }
+        // Create a pop up with the error message
         Stage errorWindow = new Stage();
         errorWindow.setWidth(544);
         errorWindow.setHeight(306);

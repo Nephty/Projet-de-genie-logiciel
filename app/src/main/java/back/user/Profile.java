@@ -7,10 +7,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.simple.parser.*;
-import java.io.InputStream;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,9 +23,9 @@ public class Profile {
      * Creates a Profile object with an HTTP request by using the user's national registration number
      *
      * @param nationalRegistrationNumber The String of the user's national registration number
-     * @throws UnirestException For managing HTTP errors
      */
     public Profile(String nationalRegistrationNumber) {
+        // Fetch the user's information in the database
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
@@ -40,7 +38,10 @@ public class Profile {
             }
             return rep;
         });
+
         Main.errorCheck(response.getStatus());
+
+        // Parse the information and put them in the variables
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
         this.firstName = obj.getString("firstname");
@@ -72,6 +73,7 @@ public class Profile {
     public static ArrayList<Profile> fetchAllCustomers(String swift) {
         ArrayList<Profile> rep = new ArrayList<Profile>();
 
+        // Fetch the list of customers
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep2 = null;
@@ -88,6 +90,7 @@ public class Profile {
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);
 
+        // If there is at least one customer, it parse the list and create the objects to put them in the final list
         if (!body.equals("")) {
             ArrayList<String> customerList = Bank.JSONArrayParser(body);
             ArrayList<String> userIdList = new ArrayList<String>();
@@ -102,7 +105,12 @@ public class Profile {
         return rep;
     }
 
+    /**
+     * Import a file's data and put them in the database
+     * @param path  The String of the file's path to import
+     */
     public static void importData(String path) {
+        // Read the file and convert it into JSONObject
         Object parser = null;
         try {
             parser = new JSONParser().parse(new FileReader(path));
@@ -136,12 +144,11 @@ public class Profile {
         }
 
         // Puts the data in the database
-
         String swift = Main.getBank().getSwiftCode();
 
         for(int i = 0; i< walletList.size(); i++){
-            // Creates account with all the values
 
+            // Creates account with all the values
             String userId = walletList.get(i).getAccountUser().getNationalRegistrationNumber();
             ArrayList<Account> accountList = walletList.get(i).getAccountList();
 
@@ -202,8 +209,15 @@ public class Profile {
     }
 
 
+    /**
+     * Export all the client's data
+     * @param clientList    The list of the client to export
+     * @param path          The path of the exported file
+     * @param isCsv         If the file is a CSV or a JSON
+     */
     public static void exportClientData(ArrayList<Profile> clientList, String path, boolean isCsv){
         try {
+            // Creates the file
             File file = new File(path + "/clientData" + (isCsv ? ".csv" : ".json"));
 
             boolean fileCreated = file.createNewFile();
@@ -220,12 +234,14 @@ public class Profile {
             BufferedWriter bw = new BufferedWriter(fw);
             String res = "";
 
+            // Fetchs the wallet list of the clients
             ArrayList<Wallet> walletList = new ArrayList<Wallet>();
             for(int i = 0; i<clientList.size(); i++){
                 walletList.add(new Wallet(clientList.get(i)));
             }
 
             if(isCsv){
+                // Write a line for each client in the csv file
                 for (int i = 0; i < walletList.size(); i++) {
                     Wallet wallet = walletList.get(i);
                     ArrayList<Account> accountList = wallet.getAccountList();
@@ -244,6 +260,7 @@ public class Profile {
                     bw.write(res + "\n");
                 }
             } else{
+                // Create a JSON with all the clients data and write it in the file
                 JSONObject obj = new JSONObject();
                 ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
                 for (int i = 0; i < walletList.size(); i++) {
@@ -280,12 +297,22 @@ public class Profile {
         }
     }
 
+    /**
+     * Convert a String list into a CSV line
+     * @param data  A list of String to formate into a CSV line
+     * @return      The String of the CSV line
+     */
     public static String convertToCSV(String[] data) {
         return Stream.of(data)
                 .map(Profile::escapeSpecialCharacters)
                 .collect(Collectors.joining(","));
     }
 
+    /**
+     * Escape the special characters to avoid problems in CSV files
+     * @param data  The String to manage
+     * @return      The String with the special characters escaped
+     */
     public static String escapeSpecialCharacters(String data) {
         String escapedData = data.replaceAll("\\R", " ");
         if (data.contains(",") || data.contains("\"") || data.contains("'")) {

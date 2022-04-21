@@ -69,6 +69,7 @@ public class AddClientSceneController extends Controller implements BackButtonNa
                 }
             }
             if (!alreadyExist) {
+                // Create a account to create a client
                 Main.setNewClient(NRN);
                 Main.setScene(Flow.forward(Scenes.CreateClientAccountScene));
                 fadeInAndOutNode(3000, clientAddedLabel);

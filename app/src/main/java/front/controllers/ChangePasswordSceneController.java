@@ -71,6 +71,7 @@ public class ChangePasswordSceneController extends Controller implements BackBut
     }
 
     public void handleChangePasswordButtonClicked(MouseEvent event) {
+        // Fetch the old password
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;

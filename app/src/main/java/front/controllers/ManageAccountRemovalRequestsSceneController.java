@@ -111,6 +111,7 @@ public class ManageAccountRemovalRequestsSceneController extends Controller impl
             sleepAndFadeOutLoadingRequestsLabelFadeThread = new FadeOutThread();
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
+            // Fetch all the notifications
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
                 HttpResponse<String> rep;
@@ -127,6 +128,7 @@ public class ManageAccountRemovalRequestsSceneController extends Controller impl
             String body = response.getBody();
             String toParse = body.substring(1, body.length() - 1);
             ArrayList<String> requestList = Bank.JSONArrayParser(toParse);
+            // If there is at least one notification
             if (!requestList.get(0).equals("")) {
                 for (String s : requestList) {
                     JSONObject obj = new JSONObject(s);

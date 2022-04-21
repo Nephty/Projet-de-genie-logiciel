@@ -88,7 +88,6 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
             if (noRequestSelectedLabel.isVisible()) noRequestSelectedLabel.setVisible(false);
             ObservableList<Request> selection = requestsTableView.getSelectionModel().getSelectedItems();
             for (Request request : selection) {
-                // TODO : allow transfer on given account
                 request.approve();
                 data.remove(request);
             }

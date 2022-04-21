@@ -103,15 +103,11 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                 break;
         }
 
-        boolean test1 = (!invalidIBANLabel.isVisible());
-        boolean test2 = (!noValueSelectedLabel.isVisible());
-        boolean test3 = (!invalidCoOwner1NRN.isVisible());
-        boolean test4 = (!invalidCoOwner2NRN.isVisible());
-        if ( test1 && test2  && test3 && test4) {
+        if ( !invalidIBANLabel.isVisible() && !noValueSelectedLabel.isVisible()  && !invalidCoOwner1NRN.isVisible() && !invalidCoOwner2NRN.isVisible()) {
             // Creates account with all the values
             String swift = Main.getBank().getSwiftCode();
-
             String userId;
+            // The userId depends on the context where this class is called
             if (Main.getNewClient() != null) {
                 userId = Main.getNewClient();
             } else {

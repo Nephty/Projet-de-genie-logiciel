@@ -114,6 +114,8 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             Unirest.setTimeouts(0, 0);
+
+            // Fetchs all the notifications
             HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
                 HttpResponse<String> rep = null;
                 try {
@@ -130,26 +132,14 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
             String toParse = body.substring(1, body.length() - 1);
             ArrayList<String> requestList = Bank.JSONArrayParser(toParse);
             ArrayList<Request> reqList = new ArrayList<Request>();
+
+            // If there is at least one notification
             if (!requestList.get(0).equals("")) {
                 for (int i = 0; i < requestList.size(); i++) {
                     JSONObject obj = new JSONObject(requestList.get(i));
                     if (obj.getInt("notificationType") == 0) {
                         CommunicationType comType = CommunicationType.CREATE_ACCOUNT;
-                        int notifType = obj.getInt("notificationType");
-                        switch (notifType) {
-                            case (1):
-                                comType = CommunicationType.CREATE_SUB_ACCOUNT;
-                                break;
-                            case (2):
-                                comType = CommunicationType.TRANSFER_PERMISSION;
-                                break;
-                            case (3):
-                                comType = CommunicationType.NEW_WALLET;
-                                break;
-                            case (4):
-                                comType = CommunicationType.DELETE_ACCOUNT;
-                                break;
-                        }
+
                         reqList.add(new Request(obj.getString("senderName"), comType, obj.getString("date"), "", obj.getString("senderId"), obj.getLong("notificationId")));
                     }
                 }

@@ -65,7 +65,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
             // don't show the pop-up if the error is invalid username/password or random error ?
             if (response.getStatus() != 403 && response.getStatus() != 405) Main.errorCheck(response.getStatus());
         } catch (UnirestException e) {
-            Main.ErrorManager(408);
+            Main.errorCheck(408);
         }
 
         // If the login is correct, it set the tokens and creates the Bank

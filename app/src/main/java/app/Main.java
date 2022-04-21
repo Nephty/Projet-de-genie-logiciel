@@ -120,7 +120,7 @@ public class Main extends Application {
      */
     public static void errorCheck(int statut) {
         if (statut >= 400) {
-            ErrorManager(statut);
+            errorManager(statut);
         }
     }
 
@@ -129,7 +129,7 @@ public class Main extends Application {
      *
      * @param statut The error code
      */
-    public static void ErrorManager(int statut) {
+    public static void errorManager(int statut) {
         // Create a message with a specific content according to the error
         String message = "Error " + statut + ": ";
         switch (statut) {

@@ -124,7 +124,6 @@ public class ChangePasswordSceneController extends Controller implements BackBut
                 }
                 return rep;
             });
-            Main.errorCheck(response2.getStatus());
 
             fadeInAndOutNode(3000, passwordChangedLabel);
             passwordChanged = true;

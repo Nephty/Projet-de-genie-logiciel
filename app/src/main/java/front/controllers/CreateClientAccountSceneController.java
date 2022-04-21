@@ -103,7 +103,11 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                 break;
         }
 
-        if (!invalidIBANLabel.isVisible() && !noValueSelectedLabel.isVisible() && !invalidCoOwner1NRN.isVisible() && !invalidCoOwner2NRN.isVisible()) {
+        boolean test1 = (!invalidIBANLabel.isVisible());
+        boolean test2 = (!noValueSelectedLabel.isVisible());
+        boolean test3 = (!invalidCoOwner1NRN.isVisible());
+        boolean test4 = (!invalidCoOwner2NRN.isVisible());
+        if ( test1 && test2  && test3 && test4) {
             // Creates account with all the values
             String swift = Main.getBank().getSwiftCode();
 
@@ -118,7 +122,6 @@ public class CreateClientAccountSceneController extends Controller implements Ba
             HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
                 HttpResponse<String> rep = null;
                 try {
-                    // TODO : add co owners to the account
                     rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
                             .header("Authorization", "Bearer " + Main.getToken())
                             .header("Content-Type", "application/json")
@@ -135,9 +138,8 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                     invalidIBANLabel.setVisible(true);
                 }
             } else {
-                Main.errorCheck(response.getStatus());
 
-                // Create account access
+                // Create account access for the owner
                 Unirest.setTimeouts(0, 0);
                 HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
                     HttpResponse<String> rep = null;
@@ -152,7 +154,42 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                     }
                     return rep;
                 });
-                Main.errorCheck(response2.getStatus());
+
+                if(!coOwner1.equals("")){
+                    // Create account access for the co-owner
+                    Unirest.setTimeouts(0, 0);
+                    HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
+                        HttpResponse<String> rep = null;
+                        try {
+                            rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
+                                    .header("Authorization", "Bearer " + Main.getToken())
+                                    .header("Content-Type", "application/json")
+                                    .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + coOwner1 + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
+                                    .asString();
+                        } catch (UnirestException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return rep;
+                    });
+                }
+
+                if(!coOwner2.equals("")){
+                    // Create account access for the co-owner
+                    Unirest.setTimeouts(0, 0);
+                    HttpResponse<String> response4 = ErrorHandler.handlePossibleError(() -> {
+                        HttpResponse<String> rep = null;
+                        try {
+                            rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
+                                    .header("Authorization", "Bearer " + Main.getToken())
+                                    .header("Content-Type", "application/json")
+                                    .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + coOwner2 + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
+                                    .asString();
+                        } catch (UnirestException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return rep;
+                    });
+                }
 
                 Main.setNewClient(null);
 

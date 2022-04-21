@@ -39,8 +39,6 @@ public class Profile {
             return rep;
         });
 
-        Main.errorCheck(response.getStatus());
-
         // Parse the information and put them in the variables
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
@@ -187,7 +185,6 @@ public class Profile {
                     }
                     return rep;
                 });
-                Main.errorCheck(response.getStatus());
 
                 // Create account access
                 Unirest.setTimeouts(0, 0);

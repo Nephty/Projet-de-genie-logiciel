@@ -35,7 +35,6 @@ public class SubAccount {
             }
             return rep;
         });
-        Main.errorCheck(response.getStatus());
 
         // Get the amount of the SubAccount
         JSONObject obj = new JSONObject(response.getBody());

@@ -151,7 +151,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
                     Main.errorCheck(response.getStatus());
                 }
             } catch (UnirestException e) {
-                Main.ErrorManager(408);
+                Main.errorCheck(408);
             }
 
             if (response != null) {

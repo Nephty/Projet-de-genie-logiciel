@@ -271,7 +271,7 @@ public class Controller {
      * @return <code>boolean</code> whether the given NRN is a valid NRN or not
      */
     public static boolean isValidNRN(String NRN) {
-        if (NRN == null) return false;
+        if (NRN.equals("")) return true;
         if (NRN.length() != 15) return false;  // NRN.length() == 15 already checks NRN != ""
         for (int i = 0; i < 15; i++) {
             switch (i) {

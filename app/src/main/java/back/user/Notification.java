@@ -60,9 +60,6 @@ public class Notification extends Communication {
             }
             return rep;
         });
-
-        // Check the HTTP code status to inform the user if there is an error
-        Main.errorCheck(response.getStatus());
     }
 
     /**
@@ -86,8 +83,6 @@ public class Notification extends Communication {
             }
             return rep;
         });
-        // Check the HTTP code status to inform the user if there is an error
-        Main.errorCheck(response.getStatus());
     }
 
     public Long getID() {

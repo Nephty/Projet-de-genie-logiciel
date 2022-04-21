@@ -40,7 +40,6 @@ public class SubAccount {
             }
             return rep;
         });
-        Main.errorCheck(response.getStatus());
         String body = response.getBody();
         // Get the amount of the SubAccount
         JSONObject obj = new JSONObject(body);
@@ -59,9 +58,6 @@ public class SubAccount {
             }
             return rep;
         });
-
-        // Check the HTTP code status to inform the user if there is an error
-        Main.errorCheck(response2.getStatus());
 
         String body2 = response2.getBody();
         body2 = body2.substring(1, body2.length() - 1);

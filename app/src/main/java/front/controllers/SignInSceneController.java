@@ -1,6 +1,7 @@
 package front.controllers;
 
 import app.Main;
+import back.user.ErrorHandler;
 import back.user.Profile;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -68,7 +69,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                     .field("role", "ROLE_USER")
                     .asString();
         } catch (UnirestException e) {
-            Main.ErrorManager(408);
+            Main.errorCheck(408);
         }
 
         // If the data are incorrect (error 403)
@@ -87,19 +88,23 @@ public class SignInSceneController extends Controller implements BackButtonNavig
                 Main.setRefreshToken(obj.getString("refresh_token"));
 
                 // Creates the user
-                try {
-                    Unirest.setTimeouts(0, 0);
-                    HttpResponse<String> response2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + usernameField.getText() + "?isUsername=true")
-                            .header("Authorization", "Bearer " + Main.getToken())
-                            .asString();
-                    // Check the HTTP code status to inform the user if there is an error
-                    Main.errorCheck(response2.getStatus());
-                    String body2 = response2.getBody();
-                    JSONObject obj2 = new JSONObject(body2);
-                    Main.setUser(new Profile(obj2.getString("firstname"), obj2.getString("lastname"), obj2.getString("username"), obj2.getString("language"), obj2.getString("userId")));
-                } catch (UnirestException e) {
-                    Main.ErrorManager(408);
-                }
+                Unirest.setTimeouts(0, 0);
+                HttpResponse<String> response2 = ErrorHandler.handlePossibleError(()-> {
+                    HttpResponse<String> rep;
+                    try {
+                        rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + usernameField.getText() + "?isUsername=true")
+                                .header("Authorization", "Bearer " + Main.getToken())
+                                .asString();
+                    } catch (UnirestException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return rep;
+                });
+
+                String body2 = response2.getBody();
+                JSONObject obj2 = new JSONObject(body2);
+                Main.setUser(new Profile(obj2.getString("firstname"), obj2.getString("lastname"), obj2.getString("username"), obj2.getString("language"), obj2.getString("userId")));
+
                 String favoriteLanguage = Main.getUser().getFavoriteLanguage();
                 for (Locale locale : Arrays.asList(Main.EN_US_Locale, Main.FR_BE_Locale, Main.NL_NL_Locale, Main.PT_PT_Locale, Main.LT_LT_Locale, Main.RU_RU_Locale, Main.DE_DE_Locale, Main.PL_PL_Locale)) {
                     if (locale.getDisplayName().equals(favoriteLanguage)) {

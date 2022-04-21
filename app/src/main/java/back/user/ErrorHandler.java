@@ -25,9 +25,10 @@ public class ErrorHandler {
         if(response.getStatus() == 412) {
             refreshToken();
             return handlePossibleError(toRetry);
+        } else{
+            Main.errorCheck(response.getStatus());
         }
 
-        Main.errorCheck(response.getStatus());
         return response;
     }
 

@@ -56,6 +56,12 @@ public class ObjectsTests {
         assertEquals(parsedList.get(2), "{\"jsonNumber\": 3}");
     }
 
+    @Test
+    @DisplayName("Export transaction history")
+    public void exportHistory(){
+
+    }
+
 
 //    @Test
 //    @DisplayName("Wallet creation with normal accounts")

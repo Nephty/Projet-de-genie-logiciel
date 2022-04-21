@@ -37,8 +37,6 @@ public class Bank {
             }
             return rep;
         });
-        // Check the HTTP code status to inform the user if there is an error
-        Main.errorCheck(response.getStatus());
         // Get the Bank name
         String body = response.getBody();
         JSONObject obj = new JSONObject(body);
@@ -77,8 +75,6 @@ public class Bank {
             }
             return rep2;
         });
-        // Check the HTTP code status to inform the user if there is an error
-        Main.errorCheck(response.getStatus());
 
         String body = response.getBody();
         body = body.substring(1, body.length() - 1);

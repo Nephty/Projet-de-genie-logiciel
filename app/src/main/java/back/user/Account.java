@@ -86,8 +86,6 @@ public class Account {
             }
             return rep;
         });
-        // Check the HTTP code status to inform the user if there is an error
-        Main.errorCheck(response.getStatus());
     }
 
     public String getIBAN() {

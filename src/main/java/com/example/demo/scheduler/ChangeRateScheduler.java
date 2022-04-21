@@ -35,7 +35,7 @@ public class ChangeRateScheduler extends AbstractScheduler {
 
     @Scheduled(initialDelay = 2, fixedRate = day, timeUnit = TimeUnit.SECONDS)
     public void fetchAllChangeRates() {
-        if (changeRateRepo.findLastFetch().before(Date.valueOf(LocalDate.now()))){
+        if (changeRateRepo.findLastFetch().before(Date.valueOf(LocalDate.now()))) {
             List<CurrencyType> currencies = currencyTypeRepo.findAll();
             for (CurrencyType currencyTypeFrom : currencies) {
                 JSONObject obj = fetchChangeRateForCurrency(currencyTypeFrom.getCurrencyTypeName());
@@ -43,17 +43,15 @@ public class ChangeRateScheduler extends AbstractScheduler {
                     log.info(obj.getString("result"));
                     JSONObject rates = obj.getJSONObject("conversion_rates");
                     for (CurrencyType currencyTypeTo : currencies) {
-                        if (currencyTypeTo != currencyTypeFrom) {
-                            log.info("Fetching From " + currencyTypeFrom.getCurrencyTypeName() + " To " + currencyTypeTo.getCurrencyTypeName());
-                            ChangeRate tmp = new ChangeRate(
-                                    currencyTypeTo,
-                                    currencyTypeFrom,
-                                    rates.getDouble(currencyTypeTo.getCurrencyTypeName()),
-                                    Date.valueOf(LocalDate.now())
-                            );
-                            changeRateRepo.save(tmp);
-                            log.info("ChangeRate = " + tmp);
-                        }
+                        log.info("Fetching From " + currencyTypeFrom.getCurrencyTypeName() + " To " + currencyTypeTo.getCurrencyTypeName());
+                        ChangeRate tmp = new ChangeRate(
+                                currencyTypeTo,
+                                currencyTypeFrom,
+                                rates.getDouble(currencyTypeTo.getCurrencyTypeName()),
+                                Date.valueOf(LocalDate.now())
+                        );
+                        changeRateRepo.save(tmp);
+                        log.info("ChangeRate = " + tmp);
                     }
                 }
             }
@@ -75,7 +73,7 @@ public class ChangeRateScheduler extends AbstractScheduler {
             // Convert to JSON
             return new JSONObject(res.getBody());
         } catch (UnirestException e) {
-            log.error("Can't fetch change rate for "+currencyName +"\n"+e.getMessage());
+            log.error("Can't fetch change rate for " + currencyName + "\n" + e.getMessage());
             return null;
         }
     }

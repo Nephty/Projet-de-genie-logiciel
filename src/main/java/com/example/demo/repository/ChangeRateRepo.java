@@ -33,6 +33,9 @@ public interface ChangeRateRepo extends JpaRepository<ChangeRate, ChangeRatePK> 
      *
      * @return The date of the last fetch.
      */
-    @Query("SELECT max(c.changeRatePK.date) FROM ChangeRate c")
+    @Query("SELECT case " +
+            "when max(c.changeRatePK.date) is null then '1970-1-1' " +
+            "else max(c.changeRatePK.date) end " +
+            "FROM ChangeRate c")
     Date findLastFetch();
 }

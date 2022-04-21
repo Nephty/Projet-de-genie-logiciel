@@ -6,15 +6,13 @@ import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.AccountAccess;
 import com.example.demo.model.CompositePK.AccountAccessPK;
+import com.example.demo.model.CompositePK.ChangeRatePK;
 import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.model.SubAccount;
 import com.example.demo.model.TransactionLog;
 import com.example.demo.model.TransactionType;
 import com.example.demo.other.Sender;
-import com.example.demo.repository.AccountAccessRepo;
-import com.example.demo.repository.SubAccountRepo;
-import com.example.demo.repository.TransactionLogRepo;
-import com.example.demo.repository.TransactionTypeRepo;
+import com.example.demo.repository.*;
 import com.example.demo.request.NotificationReq;
 import com.example.demo.request.TransactionReq;
 import com.example.demo.security.Role;
@@ -23,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +43,7 @@ public class TransactionLogService {
     private final TransactionTypeRepo transactionTypeRepo;
     private final AccountAccessRepo accountAccessRepo;
     private final NotificationService notificationService;
+    private final ChangeRateService changeRateService;
 
     /**
      * This method instantiate the transactions from the req body.
@@ -86,7 +87,7 @@ public class TransactionLogService {
         transactionLogs.stream()
                 .filter(transactionLog -> !transactionLog.getIsSender())
                 .forEach(transactionReceived -> transactionLogs.stream()
-                        .filter(transactionLog -> transactionLog.getIsSender())
+                        .filter(TransactionLog::getIsSender)
                         .forEach(transactionSent -> {
                             if (transactionSent.getTransactionId().intValue()
                                     == transactionReceived.getTransactionId().intValue()) {
@@ -179,7 +180,6 @@ public class TransactionLogService {
         return transactionLogs;
     }
 
-
     private void canInstantiateTransaction(Sender sender, TransactionLog transactionSent)
             throws AuthorizationException {
         if (!transactionSent.getSubAccount().getIban().getPayment()) {
@@ -215,6 +215,15 @@ public class TransactionLogService {
      */
     public void executeTransaction(TransactionLog transactionSent, TransactionLog transactionReceive) {
         if (assertCanMakeTransaction(transactionSent, transactionReceive)) {
+            // -- Change rate --
+            double tmpChangeRate = changeRateService.getChangeRate(
+                    Date.valueOf(LocalDate.now()),
+                    transactionSent.getSubAccount().getCurrencyType().getCurrencyId(),
+                    transactionReceive.getSubAccount().getCurrencyType().getCurrencyId()
+            ).getChangeRate();
+            transactionSent.setChangeRate(tmpChangeRate);
+            transactionReceive.setChangeRate(tmpChangeRate);
+
             // -- SEND --
             transactionSent.getSubAccount().setCurrentBalance(
                     transactionSent.getSubAccount().getCurrentBalance() -
@@ -224,7 +233,8 @@ public class TransactionLogService {
 
             // -- RECEIVE --
             transactionReceive.getSubAccount().setCurrentBalance(
-                    transactionReceive.getSubAccount().getCurrentBalance() + transactionSent.getTransactionAmount()
+                    transactionReceive.getSubAccount().getCurrentBalance() +
+                            (transactionSent.getTransactionAmount() * transactionReceive.getChangeRate())
             );
             transactionReceive.setProcessed(true);
 
@@ -297,7 +307,6 @@ public class TransactionLogService {
         notificationService.addNotification(bankSender, notification);
     }
 
-
     private String formatReason(TransactionLog send, TransactionLog receive, String reason) {
         String res = "Transaction couldn't be executed ";
         res += "From : " + send.getSubAccount().getIban().getIban();
@@ -308,7 +317,6 @@ public class TransactionLogService {
         res += " reason : " + reason;
         return res;
     }
-
 
     /**
      * Find the maximum transactionId in the database and return the next value.

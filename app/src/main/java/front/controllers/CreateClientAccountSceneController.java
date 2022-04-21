@@ -3,7 +3,6 @@ package front.controllers;
 import app.Main;
 import back.user.AccountType;
 import back.user.ErrorHandler;
-import back.user.Notification;
 import back.user.Request;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -24,41 +23,13 @@ public class CreateClientAccountSceneController extends Controller implements Ba
     @FXML
     Button backButton, createAccountButton;
     @FXML
-    Label enterIBANLabel, accountCreatedLabel, chooseAccountTypeLabel, invalidIBANLabel, noValueSelectedLabel;
+    Label enterIBANLabel, accountCreatedLabel, chooseAccountTypeLabel, invalidIBANLabel, noValueSelectedLabel, invalidCoOwner1NRN, invalidCoOwner2NRN;
     @FXML
-    TextField IBANTextField;
+    TextField IBANTextField, coOwner1TextField, coOwner2TextField;
     @FXML
     ComboBox<AccountType> accountTypeComboBox;
 
     private boolean accountCreated = false;
-
-    /**
-     * Checks if the given <code>String</code> is a valid IBAN.
-     * Requirements :
-     * - string must not be empty
-     * - string must not be null
-     * - string must only contain characters from a-z, from A-Z and from 0-9
-     * - string must follow this format : AAXXXXXXXXXXXXXX where A is a letter and X is a digit
-     *
-     * @param IBAN - <code>String</code> - the IBAN to check
-     * @return <code>boolean</code> - whether the given IBAN is a valid IBAN or not
-     */
-    public static boolean isValidIBAN(String IBAN) {
-        if (IBAN == null) return false;
-        if (!IBAN.matches("^[a-zA-Z0-9]*$") || IBAN.length() != 16)
-            return false;  // IBAN.length() == 16 already checks IBAN != ""
-        for (int i = 0; i < IBAN.length(); i++) {
-            switch (i) {
-                case 0:
-                case 1:
-                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
-                    break;
-                default:
-                    if (!Character.isDigit(IBAN.charAt(i))) return false;
-            }
-        }
-        return true;
-    }
 
     public void initialize() {
         accountTypeComboBox.setItems(FXCollections.observableArrayList(AccountType.COURANT, AccountType.EPARGNE, AccountType.TERME, AccountType.JEUNE));
@@ -101,13 +72,17 @@ public class CreateClientAccountSceneController extends Controller implements Ba
 
     @FXML
     void handleCreateAccountButtonClicked(MouseEvent event) {
-        String IBAN = IBANTextField.getText();
+        String IBAN = IBANTextField.getText(), coOwner1 = coOwner1TextField.getText(), coOwner2 = coOwner2TextField.getText();
 
         if (!invalidIBANLabel.isVisible() && !isValidIBAN(IBAN)) invalidIBANLabel.setVisible(true);
         else if (invalidIBANLabel.isVisible() && isValidIBAN(IBAN)) invalidIBANLabel.setVisible(false);
+        if (!invalidCoOwner1NRN.isVisible() && !isValidNRN(coOwner1)) invalidCoOwner1NRN.setVisible(true);
+        else if (invalidCoOwner1NRN.isVisible() && isValidNRN(coOwner1)) invalidCoOwner1NRN.setVisible(false);
+        if (!invalidCoOwner2NRN.isVisible() && !isValidNRN(coOwner2)) invalidCoOwner2NRN.setVisible(true);
+        else if (invalidCoOwner2NRN.isVisible() && isValidNRN(coOwner2)) invalidCoOwner2NRN.setVisible(false);
 
         if (!noValueSelectedLabel.isVisible() && accountTypeComboBox.getValue() == null)
-            noValueSelectedLabel.setVisible(true);
+                noValueSelectedLabel.setVisible(true);
         if (noValueSelectedLabel.isVisible() && accountTypeComboBox.getValue() != null)
             noValueSelectedLabel.setVisible(false);
 
@@ -128,12 +103,12 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                 break;
         }
 
-        if (!invalidIBANLabel.isVisible() && !noValueSelectedLabel.isVisible()) {
+        if (!invalidIBANLabel.isVisible() && !noValueSelectedLabel.isVisible() && !invalidCoOwner1NRN.isVisible() && !invalidCoOwner2NRN.isVisible()) {
             // Creates account with all the values
             String swift = Main.getBank().getSwiftCode();
 
             String userId;
-            if (!Main.getNewClient().equals(null)) {
+            if (Main.getNewClient() != null) {
                 userId = Main.getNewClient();
             } else {
                 userId = Main.getCurrentWallet().getAccountUser().getNationalRegistrationNumber();
@@ -143,10 +118,11 @@ public class CreateClientAccountSceneController extends Controller implements Ba
             HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
                 HttpResponse<String> rep = null;
                 try {
+                    // TODO : add co owners to the account
                     rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account")
                             .header("Authorization", "Bearer " + Main.getToken())
                             .header("Content-Type", "application/json")
-                            .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"accountTypeId\": "+finalRepType+"\r\n}")
+                            .body("{\r\n    \"iban\": \"" + IBAN + "\",\r\n    \"swift\": \"" + swift + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"accountTypeId\": " + finalRepType + "\r\n}")
                             .asString();
                 } catch (UnirestException e) {
                     throw new RuntimeException(e);
@@ -154,11 +130,11 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                 return rep;
             });
             // TODO : A vérifier
-            if(response.getStatus() == 409){
-                if(response.getBody().equals("IBAN")){
+            if (response.getStatus() == 409) {
+                if (response.getBody().equals("IBAN")) {
                     invalidIBANLabel.setVisible(true);
                 }
-            } else{
+            } else {
                 Main.errorCheck(response.getStatus());
 
                 // Create account access
@@ -180,10 +156,10 @@ public class CreateClientAccountSceneController extends Controller implements Ba
 
                 Main.setNewClient(null);
 
-                if(!Main.getRequest().equals(null)){
+                if (Main.getRequest() != null) {
                     Request request = Main.getRequest();
 
-                    if(response.getStatus() == 201 && response2.getStatus() == 201){
+                    if (response.getStatus() == 201 && response2.getStatus() == 201) {
                         // Send a notification to the client
                         request.sendNotif("has created you an new account");
 
@@ -192,8 +168,8 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                         HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
                             HttpResponse<String> rep = null;
                             try {
-                                rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/"+ request.getID())
-                                        .header("Authorization", "Bearer "+ Main.getToken())
+                                rep = Unirest.delete("https://flns-spring-test.herokuapp.com/api/notification/" + request.getID())
+                                        .header("Authorization", "Bearer " + Main.getToken())
                                         .asString();
                             } catch (UnirestException e) {
                                 throw new RuntimeException(e);
@@ -223,5 +199,13 @@ public class CreateClientAccountSceneController extends Controller implements Ba
     @FXML
     void handleAccountTypeComboBoxKeyPressed() {
         accountCreated = false;
+    }
+
+    @FXML
+    void handleCoOwnerTextFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            emulateCreateAccountButtonClicked();
+        }
+        keyEvent.consume();
     }
 }

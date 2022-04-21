@@ -158,6 +158,150 @@ public class Controller {
     }
 
     /**
+     * Checks if the given <code>String</code> is a valid city.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z and from A-Z or a dash (-) or a space
+     *
+     * @param city - <code>String</code> - the city to check
+     * @return <code>boolean</code> - whether the given city is a valid city or not
+     */
+    public static boolean isValidCity(String city) {
+        if (city == null) return false;
+        return (!city.equals("") && (city.matches("^[a-zA-Z- ]*$")));
+    }
+
+    /**
+     * Checks if the given <code>String</code> is a valid SWIFT.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z, from A-Z or a dash (-).
+     *
+     * @param SWIFT - <code>String</code> - the SWIFT to check
+     * @return <code>boolean</code> - whether the given SWIFT is a valid SWIFT or not
+     */
+    public static boolean isValidSWIFT(String SWIFT) {
+        if (SWIFT.length() != 8) return false;
+        for (int i = 0; i < SWIFT.length(); i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    if (!Character.isAlphabetic(SWIFT.charAt(i))) return false;
+                    break;
+                case 6:
+                case 7:
+                    if (!(Character.isAlphabetic(SWIFT.charAt(i)) || Character.isDigit(SWIFT.charAt(i)))) return false;
+                    break;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the given string is a valid country.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z and from A-Z or a dash (-) or a space
+     *
+     * @param country - <code>String</code> - the country to check
+     * @return <code>boolean</code> whether the given country is a valid country or not
+     */
+    public static boolean isValidCountry(String country) {
+        return isValidCity(country);
+    }
+
+    /**
+     * Checks if the given string is valid name.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z and from A-Z or a dash (-)
+     *
+     * @param name - <code>String</code> - the name to check
+     * @return whether the given name is a valid name or not
+     */
+    public static boolean isValidName(String name) {
+        if (name == null) return false;
+        return (!name.equals("") && (name.matches("^[a-zA-Z-]*$")));
+    }
+
+    /**
+     * Checks if the given <code>String</code> is a valid IBAN.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must only contain characters from a-z, from A-Z and from 0-9
+     * - string must follow this format : AAXXXXXXXXXXXXXX where A is a letter and X is a digit
+     *
+     * @param IBAN - <code>String</code> - the IBAN to check
+     * @return <code>boolean</code> - whether the given IBAN is a valid IBAN or not
+     */
+    public static boolean isValidIBAN(String IBAN) {
+        if (IBAN == null) return false;
+        if (!IBAN.matches("^[a-zA-Z0-9]*$") || IBAN.length() != 16)
+            return false;  // IBAN.length() == 16 already checks IBAN != ""
+        for (int i = 0; i < IBAN.length(); i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                    if (!Character.isAlphabetic(IBAN.charAt(i))) return false;
+                    break;
+                default:
+                    if (!Character.isDigit(IBAN.charAt(i))) return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the given string is a valid NRN.
+     * Requirements :
+     * - string must not be empty
+     * - string must not be null
+     * - string must match the format XX.XX.XX-XXX.XX where X in an integer in range 0-9
+     *
+     * @param NRN - <code>String</code> - the NRN to check
+     * @return <code>boolean</code> whether the given NRN is a valid NRN or not
+     */
+    public static boolean isValidNRN(String NRN) {
+        if (NRN == null) return false;
+        if (NRN.length() != 15) return false;  // NRN.length() == 15 already checks NRN != ""
+        for (int i = 0; i < 15; i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                case 3:
+                case 4:
+                case 6:
+                case 7:
+                case 9:
+                case 10:
+                case 11:
+                case 13:
+                case 14:
+                    if (!Character.isDigit(NRN.charAt(i))) return false;
+                    break;
+                case 2:
+                case 5:
+                case 12:
+                    if (NRN.charAt(i) != '.') return false;
+                    break;
+                case 8:
+                    if (NRN.charAt(i) != '-') return false;
+                    break;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Checks if the given passwords match and are not empty.
      *
      * @param password             - <code>String</code> - the password

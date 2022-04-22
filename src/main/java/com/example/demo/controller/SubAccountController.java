@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/account/sub-account")
 @RestController
@@ -27,6 +29,24 @@ public class SubAccountController {
     @GetMapping
     public ResponseEntity<SubAccountReq> getSubAccount(@RequestParam String iban, @RequestParam Integer currencyId){
         SubAccountReq subAccountReq = subAccountService.getSubAccount(iban,currencyId);
+        return new ResponseEntity<>(subAccountReq,HttpStatus.OK);
+    }
+
+    /**
+     * Gets all subAccount of an account.
+     *
+     * <br>Http codes :
+     *  <ul>
+     *      <li>200 - OK</li>
+     *      <li>404 - Not found</li>
+     *  </ul>
+     *
+     * @param iban The id of the account
+     * @return A list of req body for the SubAccounts
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<SubAccountReq>> getAllSubAccount(@RequestParam String iban){
+        List<SubAccountReq> subAccountReq = subAccountService.getAllSubAccount(iban);
         return new ResponseEntity<>(subAccountReq,HttpStatus.OK);
     }
 

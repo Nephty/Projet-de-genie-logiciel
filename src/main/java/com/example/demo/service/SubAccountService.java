@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Links the {@link SubAccountController} with the {@link SubAccountRepo}.
  * In this class, all the modifications and the calls to the {@link SubAccountRepo} are made.
@@ -41,6 +44,19 @@ public class SubAccountService {
         SubAccount subAccount = subAccountRepo.findById(new SubAccountPK(iban, currency))
                 .orElseThrow(() -> new ResourceNotFound(iban + " : " + currency));
         return new SubAccountReq(subAccount);
+    }
+
+    /**
+     * @param iban The id of the account
+     * @return A list of req body for the subAccounts
+     * @throws ResourceNotFound If the account doesn't exist.
+     */
+    public List<SubAccountReq> getAllSubAccount(String iban) throws ResourceNotFound {
+        Account account = accountRepo.findById(iban).orElseThrow(()->new ResourceNotFound("No account with such id :"+iban));
+        return subAccountRepo.findAllByIban(account)
+                .stream()
+                .map(SubAccountReq::new)
+                .collect(Collectors.toList());
     }
 
     /**

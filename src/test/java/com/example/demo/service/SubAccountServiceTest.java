@@ -17,6 +17,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -88,6 +90,55 @@ class SubAccountServiceTest {
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessageContaining(iban + " : " + currency);
 
+    }
+
+    @Test
+    void getAllSubAccount() {
+        //given
+        String iban = "iban";
+
+        SubAccountReq subAccountReq = new SubAccountReq(
+                iban,
+                1,
+                200.0,
+                "EUR"
+        );
+
+
+        // -- Account --
+        Account tmpAccount = new Account();
+        tmpAccount.setIban(subAccountReq.getIban());
+        when(accountRepo.findById(iban)).thenReturn(Optional.of(tmpAccount));
+
+
+        // -- CurrencyType --
+        CurrencyType tmpType = new CurrencyType();
+        tmpType.setCurrencyId(subAccountReq.getCurrencyType());
+
+
+        SubAccount expectedValue =
+                new SubAccount(tmpAccount,tmpType,subAccountReq.getCurrentBalance());
+        ArrayList<SubAccount> res = new ArrayList<>();
+        res.add(expectedValue);
+        when(subAccountRepo.findAllByIban(tmpAccount)).thenReturn(res);
+
+        //When
+        List<SubAccountReq> returnedValue = underTest.getAllSubAccount(iban);
+
+        //Then
+        assertEquals(1,returnedValue.size());
+        assertEquals(returnedValue.get(0).getIban(),iban);
+    }
+
+    @Test
+    void getAllSubAccountShouldThrowWhenAccountNotFound() {
+        //given
+        String iban = "iban";
+
+        //then
+        assertThatThrownBy(() -> underTest.getAllSubAccount(iban))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining("No account with such id :"+iban);
     }
 
     @Test

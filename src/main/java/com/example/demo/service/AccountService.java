@@ -83,6 +83,9 @@ public class AccountService {
      */
     public Account addAccount(AccountReq accountReq) throws AuthorizationException {
         Account account = instantiateAccount(accountReq, HttpMethod.POST);
+        if (accountRepo.existsById(account.getIban())) {
+            throw new ConflictException("Account already exists "+account.getIban());
+        }
 
         switch (account.getAccountTypeId().getAccountTypeId()) {
             case 1:

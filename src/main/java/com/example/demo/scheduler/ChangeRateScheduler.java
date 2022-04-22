@@ -33,7 +33,7 @@ public class ChangeRateScheduler extends AbstractScheduler {
     private final ChangeRateRepo changeRateRepo;
     private final CurrencyTypeRepo currencyTypeRepo;
 
-    @Scheduled(initialDelay = 2, fixedRate = day, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(initialDelay = 10, fixedRate = day, timeUnit = TimeUnit.SECONDS)
     public void fetchAllChangeRates() {
         if (changeRateRepo.findLastFetch().before(Date.valueOf(LocalDate.now()))) {
             List<CurrencyType> currencies = currencyTypeRepo.findAll();
@@ -69,6 +69,10 @@ public class ChangeRateScheduler extends AbstractScheduler {
             // Making Request
             HttpResponse<String> res = Unirest.get(url_str)
                     .asString();
+            log.info(Integer.toString(res.getStatus()));
+            if (res.getStatus() != 200) {
+                return null;
+            }
 
             // Convert to JSON
             return new JSONObject(res.getBody());

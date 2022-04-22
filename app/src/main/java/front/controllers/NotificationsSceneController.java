@@ -142,38 +142,14 @@ public class NotificationsSceneController extends Controller implements BackButt
             Calendar c = Calendar.getInstance();
             // Update lastUpdateLabel with the new time and date
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // Fetch notifications and put them in the listview
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
-                HttpResponse<String> rep = null;
-                try {
-                    rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
-                            .header("Authorization", "Bearer " + Main.getToken())
-                            .asString();
-                } catch (UnirestException e) {
-                    throw new RuntimeException(e);
-                }
-                return rep;
-            });
-            content = new ArrayList<>();  // This was missing and lead to a bug where notifications got duplicated when refreshing
-            if (response != null) {
-                String body = response.getBody();
-                String toParse = body.substring(1, body.length() - 1);
-                ArrayList<String> notificationList = Portfolio.JSONArrayParser(toParse);
-                if (!notificationList.get(0).equals("")) {
-                    for (String s : notificationList) {
-                        JSONObject obj = new JSONObject(s);
-                        if (obj.getInt("notificationType") == 4) {
-                            content.add(new Notification(obj.getString("senderName"), obj.getString("comments"), obj.getString("date"), obj.getLong("notificationId"), obj.getBoolean("isFlagged")));
-                        }
-                    }
-                }
-                data = FXCollections.observableArrayList(content);
-                notificationsTableView.setItems(data);
 
-                // Fade the label "updating notifications..." out to 0.0 opacity
-                sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeInDuration, sleepDuration + fadeInDuration, loadingNotificationsLabel);
-            }
+            // Fetch notifications and put them in the listview
+            ArrayList<Notification> content = Notification.fetchCustomNotification();
+            data = FXCollections.observableArrayList(content);
+            notificationsTableView.setItems(data);
+
+            // Fade the label "updating notifications..." out to 0.0 opacity
+            sleepAndFadeOutLoadingNotificationsLabelFadeThread.start(fadeInDuration, sleepDuration + fadeInDuration, loadingNotificationsLabel);
         }
     }
 

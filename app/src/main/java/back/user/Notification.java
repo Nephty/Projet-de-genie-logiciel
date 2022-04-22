@@ -4,6 +4,9 @@ import app.Main;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * @author François VION
@@ -83,6 +86,38 @@ public class Notification extends Communication {
             }
             return rep;
         });
+    }
+
+    public static ArrayList<Notification> fetchCustomNotification(){
+        // Fetch all notifications
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
+        ArrayList<Notification> notifList = new ArrayList<Notification>();
+        if (response != null) {
+            String body = response.getBody();
+            String toParse = body.substring(1, body.length() - 1);
+            ArrayList<String> notificationList = Portfolio.JSONArrayParser(toParse);
+            if (!notificationList.get(0).equals("")) {
+                for (String s : notificationList) {
+                    JSONObject obj = new JSONObject(s);
+                    // Keep only custom notifications
+                    if (obj.getInt("notificationType") == 4) {
+                        notifList.add(new Notification(obj.getString("senderName"), obj.getString("comments"), obj.getString("date"), obj.getLong("notificationId"), obj.getBoolean("isFlagged")));
+                    }
+                }
+            }
+        }
+        return notifList;
     }
 
     public Long getID() {

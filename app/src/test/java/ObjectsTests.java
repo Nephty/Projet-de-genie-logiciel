@@ -1,4 +1,5 @@
 import app.Main;
+import back.user.Bank;
 import back.user.Portfolio;
 import back.user.Profile;
 import back.user.Wallet;
@@ -54,6 +55,18 @@ public class ObjectsTests {
         assertEquals(parsedList.get(0), "{\"jsonNumber\": 1}");
         assertEquals(parsedList.get(1), "{\"jsonNumber\": 2}");
         assertEquals(parsedList.get(2), "{\"jsonNumber\": 3}");
+    }
+
+    @Test
+    @DisplayName("JSON Swift parser")
+    public void parseSwift(){
+        String json = "[{\"swift\":\"testSwift\",\"name\":\"testName\",\"password\":\"$2a$10$LhuiLXrd0hC/MxKp34B88em4zfeikubLGQ7EyJE0ah3FhociNvL5K\",\"address\":\"testAddress\",\"country\":\"UK\",\"defaultCurrencyType\":{\"currencyId\":0,\"currencyTypeName\":\"EUR\"}},{\"swift\":\"GEBABEBB\",\"name\":\"BNP\",\"password\":\"$2a$10$caWNFLjz7XeamSnP81RP..MsBaAaYl3eqR2Xtlai23p.40gPuHNHC\",\"address\":\"Bruxelles\",\"country\":\"Belgique\",\"defaultCurrencyType\":{\"currencyId\":0,\"currencyTypeName\":\"EUR\"}},{\"swift\":\"BEGLGLGL\",\"name\":\"UwU\",\"password\":\"$2a$10$HSD11g0a3v9WQpLduAkSIuiGTLqpNHUd6FNwm4IsSLgMRELbfXPIq\",\"address\":\"Tournai\",\"country\":\"Mons\",\"defaultCurrencyType\":{\"currencyId\":0,\"currencyTypeName\":\"EUR\"}},{\"swift\":\"ABCDABCD\",\"name\":\"Belfius\",\"password\":\"$2a$10$SCDwUwZf4EGOoT.eIMxdGOGoIGQSHVjrm7xeHLJGwqlSW4i2cUzV6\",\"address\":\"uwuwuwuwu\",\"country\":\"BE\",\"defaultCurrencyType\":{\"currencyId\":0,\"currencyTypeName\":\"EUR\"}}]";
+        ArrayList<String> swiftList = Bank.parseSwift(json);
+        assertEquals(swiftList.size(), 4);
+        assertEquals(swiftList.get(0), "testSwift");
+        assertEquals(swiftList.get(1), "GEBABEBB");
+        assertEquals(swiftList.get(2), "BEGLGLGL");
+        assertEquals(swiftList.get(3), "ABCDABCD");
     }
 
     @Test

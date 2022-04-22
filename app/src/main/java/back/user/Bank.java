@@ -60,7 +60,6 @@ public class Bank {
      * @return An arraylist of all swift codes
      */
     public static ArrayList<String> fetchAllSWIFT() {
-        ArrayList<String> rep = new ArrayList<>();
 
         // Fetch a list of all bank's swift in the database
         Unirest.setTimeouts(0, 0);
@@ -75,8 +74,13 @@ public class Bank {
             }
             return rep2;
         });
+        return parseSwift(response.getBody());
+    }
 
-        String body = response.getBody();
+    public static ArrayList<String> parseSwift(String json){
+        ArrayList<String> rep = new ArrayList<>();
+
+        String body = json;
         body = body.substring(1, body.length() - 1);
 
         // Parse all the banks and creates the objects

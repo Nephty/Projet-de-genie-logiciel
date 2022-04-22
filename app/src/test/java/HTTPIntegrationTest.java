@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author François VION
@@ -73,9 +72,10 @@ public class HTTPIntegrationTest {
             assertEquals("Carlos", portfolioTest.getUser().getFirstName());
             assertEquals("Matos", portfolioTest.getUser().getLastName());
             assertEquals("01.02.03-123.00", portfolioTest.getUser().getNationalRegistrationNumber());
-            assertEquals("Belfius", portfolioTest.getWalletList().get(0).getBank().getName());
-//            assertEquals("0123456789ABCDEF", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
-//            assertEquals(1, portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
+            assertEquals("BEGLGLGL", portfolioTest.getWalletList().get(0).getBank().getSwiftCode());
+            assertEquals("BE01020300000000", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
+            assertEquals(1, portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
+            assertEquals("2022-04-22", portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getSendingDate());
         });
     }
 
@@ -122,13 +122,98 @@ public class HTTPIntegrationTest {
 
     @Test
     @DisplayName("Getting all notifications")
-    public void getNotifications(){
-        assertDoesNotThrow(() ->{
+    public void getNotifications() {
+        assertDoesNotThrow(() -> {
+            ArrayList<Notification> notifList = Notification.fetchCustomNotification();
+            assertEquals(notifList.size(), 1);
+            assertEquals(notifList.get(0).getID(), 84);
+            assertEquals(notifList.get(0).getDate(), "2022-04-20");
+            assertEquals(notifList.get(0).getContent(), "The bank BNP hasn't created you a new account");
+        });
+    }
+
+    @Test
+    @DisplayName("Change the flag")
+    public void changeFlag(){
+        // Fetch a notification
+        Notification notifTest = Notification.fetchCustomNotification().get(0);
+
+        boolean flagged = notifTest.isFlagged();
+        assertEquals(notifTest.isFlagged(), flagged);
+
+        // Change the flag
+        assertDoesNotThrow(()->{
+            notifTest.changeFlag();
+        });
+
+        // Test if the flag in changed in local
+        assertEquals(notifTest.isFlagged(), (!flagged));
+
+        // Fetch the notification again to check if the flag changed in the database
+        Notification notifTest2 = Notification.fetchCustomNotification().get(0);
+        assertEquals(notifTest2.isFlagged(), (!flagged));
+
+        // Flag it again to make it as the start of the test
+        assertDoesNotThrow(()->{
+            notifTest.changeFlag();
+        });
+        assertEquals(notifTest.isFlagged(), flagged);
+    }
+
+    @Test
+    @DisplayName("Toggle an account")
+    public void toggleAccount() {
+        // Creates a portfolio
+        // TODO : Rajouter un compte et changer le user
+        Main.setUser(new Profile("123456789"));
+        assertDoesNotThrow(() -> {
+            Main.updatePortfolio();
+        });
+        Account accountTest = Main.getPortfolio().getWalletList().get(0).getAccountList().get(0);
+        boolean activated = accountTest.isActivated();
+        assertEquals(accountTest.isActivated(), activated);
+
+        // Toggles the account
+        assertDoesNotThrow(() -> {
+            accountTest.toggle();
+        });
+
+        assertEquals(accountTest.isActivated(), (!activated));
+
+
+        // Toggle the account to make it as the start of the test
+        assertDoesNotThrow(() -> {
+            accountTest.toggle();
+        });
+
+        assertEquals(accountTest.isActivated(), activated);
+    }
+
+    @Test
+    @DisplayName("Manage expired token")
+    public void errorHandler(){
+        // Sets an expired token
+        String expiredToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMS4wMi4wMy0xMjMuMDAiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiaHR0cHM6Ly9mbG5zLXNwcmluZy10ZXN0Lmhlcm9rdWFwcC5jb20vYXBpL2xvZ2luIiwiZXhwIjoxNjUwNjI4NjY5fQ.nwtdvJUpnXyhKDZxFdsiD6-nSQxsZmHN5HgpwIEk6b0";
+        Main.setToken(expiredToken);
+
+        // Test a simple request
+        assertDoesNotThrow(()->{
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/01.02.03-123.00?isUsername=false")
+                    .header("Authorization", "Bearer " + Main.getToken())
+                    .asString();
+
+            // Testing that the token is expired (error 412)
+            assertEquals(response.getStatus(), 412);
+        });
+
+        // Test the same request with the same token but with the ErrorHandler class
+        assertDoesNotThrow(()->{
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
                 HttpResponse<String> rep = null;
                 try {
-                    rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
+                    rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/01.02.03-123.00?isUsername=false")
                             .header("Authorization", "Bearer " + Main.getToken())
                             .asString();
                 } catch (UnirestException e) {
@@ -136,24 +221,17 @@ public class HTTPIntegrationTest {
                 }
                 return rep;
             });
-            ArrayList<Notification> notifList = new ArrayList<Notification>();
-            if (response != null) {
-                String body = response.getBody();
-                String toParse = body.substring(1, body.length() - 1);
-                ArrayList<String> notificationList = Portfolio.JSONArrayParser(toParse);
-                if (!notificationList.get(0).equals("")) {
-                    for (String s : notificationList) {
-                        JSONObject obj = new JSONObject(s);
-                        if (obj.getInt("notificationType") == 4) {
-                            notifList.add(new Notification(obj.getString("senderName"), obj.getString("comments"), obj.getString("date"), obj.getLong("notificationId"), obj.getBoolean("isFlagged")));
-                        }
-                    }
-                }
-            }
-            assertEquals(notifList.size(), 1);
-            assertEquals(notifList.get(0).getID(), 84);
-            assertEquals(notifList.get(0).getDate(), "2022-04-20");
-            assertEquals(notifList.get(0).getContent(), "The Bank BNP hasn't created you a new account");
+
+            // Testing that the request worked
+            assertEquals(response2.getStatus(), 200);
+            // Testing that the access token changed
+            assertNotEquals(expiredToken, Main.getToken());
         });
+
+
     }
+//
+//    @Test
+//    @DisplayName("Fetch all swifts")
+//    public void
 }

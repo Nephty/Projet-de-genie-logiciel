@@ -85,9 +85,19 @@ public class Profile {
             return rep2;
         });
 
-        String body = response.getBody();
-        body = body.substring(1, body.length() - 1);
+        return parseCustomer(response.getBody());
+    }
 
+
+    /**
+     * Parse all the customers in a JSON into a list of customers
+     * @param json  The JSON to parse
+     * @return      The list of the customers
+     */
+    public static ArrayList<Profile> parseCustomer(String json){
+        ArrayList<Profile> rep = new ArrayList<Profile>();
+        String body = json;
+        body = body.substring(1, body.length() - 1);
         // If there is at least one customer, it parse the list and create the objects to put them in the final list
         if (!body.equals("")) {
             ArrayList<String> customerList = Bank.JSONArrayParser(body);

@@ -168,10 +168,11 @@ public class Profile {
                         accType = 4;
                         break;
                 }
-                // TODO : Ignorer les erreurs conflict
-                Unirest.setTimeouts(0, 0);
+
                 int finalAccType = accType;
                 String ownerId = accountList.get(j).getAccountOwner().getNationalRegistrationNumber();
+                // Creates the account
+                Unirest.setTimeouts(0, 0);
                 HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
                     HttpResponse<String> rep = null;
                     try {
@@ -183,7 +184,12 @@ public class Profile {
                     } catch (UnirestException e) {
                         throw new RuntimeException(e);
                     }
-                    return rep;
+                    // Ignore the conflict error
+                    if(rep.getStatus() == 409){
+                        return null;
+                    } else{
+                        return rep;
+                    }
                 });
 
                 // Create account access
@@ -199,7 +205,12 @@ public class Profile {
                     } catch (UnirestException e) {
                         throw new RuntimeException(e);
                     }
-                    return rep;
+                    // Ignore the conflict error
+                    if(rep.getStatus() == 409){
+                        return null;
+                    } else{
+                        return rep;
+                    }
                 });
             }
         }

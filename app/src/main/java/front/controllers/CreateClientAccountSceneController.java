@@ -134,23 +134,6 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                     invalidIBANLabel.setVisible(true);
                 }
             } else {
-
-                // Create account access for the owner
-                Unirest.setTimeouts(0, 0);
-                HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
-                    HttpResponse<String> rep = null;
-                    try {
-                        rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/account-access")
-                                .header("Authorization", "Bearer " + Main.getToken())
-                                .header("Content-Type", "application/json")
-                                .body("{\r\n    \"accountId\": \"" + IBAN + "\",\r\n    \"userId\": \"" + userId + "\",\r\n    \"access\": true,\r\n    \"hidden\": false\r\n}")
-                                .asString();
-                    } catch (UnirestException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return rep;
-                });
-
                 if(!coOwner1.equals("")){
                     // Create account access for the co-owner
                     Unirest.setTimeouts(0, 0);
@@ -192,7 +175,7 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                 if (Main.getRequest() != null) {
                     Request request = Main.getRequest();
 
-                    if (response.getStatus() == 201 && response2.getStatus() == 201) {
+                    if (response.getStatus() == 201) {
                         // Send a notification to the client
                         request.sendNotif("has created you an new account");
 

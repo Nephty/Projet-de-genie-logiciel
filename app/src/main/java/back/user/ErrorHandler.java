@@ -18,15 +18,19 @@ public class ErrorHandler {
     public static HttpResponse<String> handlePossibleError(Supplier<HttpResponse<String>> toRetry) {
         HttpResponse<String> response = toRetry.get();
 
-        // If the token is expired (error 412), it refresh the token and make again the HTTP request
-        if(response.getStatus() == 412) {
-            refreshToken();
-            return handlePossibleError(toRetry);
+        if(response == null){
+            return null;
         } else{
-            Main.errorCheck(response.getStatus());
-        }
+            // If the token is expired (error 412), it refresh the token and make again the HTTP request
+            if(response.getStatus() == 412) {
+                refreshToken();
+                return handlePossibleError(toRetry);
+            } else{
+                Main.errorCheck(response.getStatus());
+            }
 
-        return response;
+            return response;
+        }
     }
 
     /**

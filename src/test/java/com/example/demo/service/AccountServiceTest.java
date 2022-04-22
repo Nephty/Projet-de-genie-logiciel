@@ -276,6 +276,54 @@ class AccountServiceTest {
     }
 
     @Test
+    void addShouldThrowWhenAccountAlreadyExist() {
+        //Given
+        AccountReq accountReq = new AccountReq(
+                "iban",
+                "swift",
+                "userId",
+                1,
+                false,
+                "name",
+                "lastname",
+                null,
+                Date.valueOf(LocalDate.now()),
+                false
+        );
+
+        Bank tmpBank = new Bank();
+        tmpBank.setSwift(accountReq.getSwift());
+        tmpBank.setDefaultCurrencyType(new CurrencyType(0, "EUR"));
+        Optional<Bank> bank = Optional.of(tmpBank);
+        when(bankRepo.findById(accountReq.getSwift()))
+                .thenReturn(bank);
+
+        User tmpUser = new User();
+        tmpUser.setUserId(accountReq.getUserId());
+        // Under 18 yo
+        tmpUser.setBirthdate(Date.valueOf(LocalDate.now()));
+        Optional<User> user = Optional.of(tmpUser);
+        when(userRepo.findById(accountReq.getUserId()))
+                .thenReturn(user);
+
+        AccountType tmpType = new AccountType();
+        tmpType.setAccountTypeId(accountReq.getAccountTypeId());
+        Optional<AccountType> accountType = Optional.of(tmpType);
+        when(accountTypeRepo.findById(accountReq.getAccountTypeId()))
+                .thenReturn(accountType);
+
+        when(accountRepo.existsById(accountReq.getIban()))
+                .thenThrow(new ConflictException("Already exists !"));
+
+        //then
+        assertThatThrownBy(() -> underTest.addAccount(accountReq))
+                .isInstanceOf(ConflictException.class)
+                .hasMessageContaining("Already exists !");
+
+        verify(accountRepo, never()).save(any());
+    }
+
+    @Test
     void addShouldThrowWhenOwnerUnderAge() {
         //Given
         AccountReq accountReq = new AccountReq(

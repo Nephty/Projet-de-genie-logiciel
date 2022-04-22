@@ -120,9 +120,6 @@ public class AccountAccessController {
      */
     @PutMapping
     public ResponseEntity<String> changeAccess(@RequestBody AccountAccessReq accountAccessReq) {
-        Sender sender = (Sender) httpRequest.getAttribute(Sender.getAttributeName());
-        if (!accountAccessService.bankOwnsAccount(sender, accountAccessReq.getAccountId()))
-            throw new AuthorizationException("You don't manage this account");
         if (!accountAccessReq.isPutValid()) throw new MissingParamException();
 
         AccountAccess savedAccountAccess = accountAccessService.changeAccountAccess(accountAccessReq);

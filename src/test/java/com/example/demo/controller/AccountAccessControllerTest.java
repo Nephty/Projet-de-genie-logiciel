@@ -127,7 +127,7 @@ class AccountAccessControllerTest {
                         .header("Authorization", "Bearer " + token)
                         .param("userId", userId)
                         .param("deleted", "false")
-                        .param("hidden","false"))
+                        .param("hidden", "false"))
                 .andExpect(status().isNotFound());
     }
 
@@ -181,7 +181,7 @@ class AccountAccessControllerTest {
                         .header("Authorization", "Bearer " + token)
                         .param("userId", userId)
                         .param("deleted", "true")
-                        .param("hidden","false"))
+                        .param("hidden", "false"))
                 .andExpect(status().isNotFound());
     }
 
@@ -235,7 +235,7 @@ class AccountAccessControllerTest {
                         .header("Authorization", "Bearer " + token)
                         .param("userId", userId)
                         .param("deleted", "false")
-                        .param("hidden","true"))
+                        .param("hidden", "true"))
                 .andExpect(status().isNotFound());
     }
 
@@ -256,7 +256,7 @@ class AccountAccessControllerTest {
         // Then
         mockMvc.perform(get("/api/account-access/all/co-owner")
                         .header("Authorization", "Bearer " + token)
-                        .param("iban",iban))
+                        .param("iban", iban))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$[0].userId").value("testId"))
@@ -264,7 +264,7 @@ class AccountAccessControllerTest {
     }
 
     @Test
-    void getAllOwnersShouldThrow404WhenAccountNotFound() throws Exception{
+    void getAllOwnersShouldThrow404WhenAccountNotFound() throws Exception {
         // Given
         String iban = "testIban";
 
@@ -274,7 +274,7 @@ class AccountAccessControllerTest {
         // Then
         mockMvc.perform(get("/api/account-access/all/co-owner")
                         .header("Authorization", "Bearer " + token)
-                        .param("iban",iban))
+                        .param("iban", iban))
                 .andExpect(status().isNotFound());
     }
 
@@ -291,11 +291,11 @@ class AccountAccessControllerTest {
                 false
         );
 
-        when(accountAccessService.findAccountAccess(iban,userId))
+        when(accountAccessService.findAccountAccess(iban, userId))
                 .thenReturn(res);
 
         // Then
-        mockMvc.perform(get("/api/account-access/"+userId+"/"+iban)
+        mockMvc.perform(get("/api/account-access/" + userId + "/" + iban)
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -304,18 +304,18 @@ class AccountAccessControllerTest {
     }
 
     @Test
-    void sendAccountAccessByIdShouldThrow404WhenAccessNotFound() throws Exception  {
+    void sendAccountAccessByIdShouldThrow404WhenAccessNotFound() throws Exception {
         // Given
         String userId = "userId";
         String iban = "iban";
 
-        when(accountAccessService.findAccountAccess(iban,userId))
+        when(accountAccessService.findAccountAccess(iban, userId))
                 .thenThrow(new ResourceNotFound(""));
 
         // Then
-        mockMvc.perform(get("/api/account-access/"+userId+"/"+iban)
+        mockMvc.perform(get("/api/account-access/" + userId + "/" + iban)
                         .header("Authorization", "Bearer " + token)
-                        .param("iban",iban))
+                        .param("iban", iban))
                 .andExpect(status().isNotFound());
     }
 
@@ -331,7 +331,7 @@ class AccountAccessControllerTest {
 
         when(accountAccessService.createAccountAccess(res))
                 .thenReturn(new AccountAccess(res));
-        when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+        when(accountAccessService.bankOwnsAccount(any(), eq(res.getAccountId())))
                 .thenReturn(true);
 
         // Then
@@ -352,7 +352,7 @@ class AccountAccessControllerTest {
                 false
         );
 
-        when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+        when(accountAccessService.bankOwnsAccount(any(), eq(res.getAccountId())))
                 .thenReturn(true);
 
         // Then
@@ -363,29 +363,48 @@ class AccountAccessControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-     @Test
-     void addAccessShouldThrow409WhenConflict() throws Exception {
-         // Given
-         AccountAccessReq res = new AccountAccessReq(
-                 "iban",
-                 "userId",
-                 true,
-                 false
-         );
+    @Test
+    void addAccessShouldThrow403WhenAccessForbidden() throws Exception {
+        // Given
+        AccountAccessReq res = new AccountAccessReq(
+                "iban",
+                "userId",
+                null,
+                false
+        );
 
-         when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
-                 .thenReturn(true);
+        // Then
+        mockMvc.perform(post("/api/account-access/")
+                        .header("Authorization", "Bearer " + token)
+                        .content(asJsonString(res))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$").value("You don't manage this account"));
+    }
 
-         when(accountAccessService.createAccountAccess(res))
-                 .thenThrow(new ConflictException(""));
+    @Test
+    void addAccessShouldThrow409WhenConflict() throws Exception {
+        // Given
+        AccountAccessReq res = new AccountAccessReq(
+                "iban",
+                "userId",
+                true,
+                false
+        );
 
-         // Then
-         mockMvc.perform(post("/api/account-access/")
-                         .header("Authorization", "Bearer " + token)
-                         .content(asJsonString(res))
-                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                 .andExpect(status().isConflict());
-     }
+        when(accountAccessService.bankOwnsAccount(any(), eq(res.getAccountId())))
+                .thenReturn(true);
+
+        when(accountAccessService.createAccountAccess(res))
+                .thenThrow(new ConflictException(""));
+
+        // Then
+        mockMvc.perform(post("/api/account-access/")
+                        .header("Authorization", "Bearer " + token)
+                        .content(asJsonString(res))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict());
+    }
 
     @Test
     void changeAccess() throws Exception {
@@ -397,7 +416,7 @@ class AccountAccessControllerTest {
                 false
         );
 
-        when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+        when(accountAccessService.bankOwnsAccount(any(), eq(res.getAccountId())))
                 .thenReturn(true);
 
         when(accountAccessService.changeAccountAccess(res))
@@ -420,11 +439,8 @@ class AccountAccessControllerTest {
                 null,
                 null
         );
-        when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+        when(accountAccessService.bankOwnsAccount(any(), eq(res.getAccountId())))
                 .thenReturn(true);
-
-        when(accountAccessService.changeAccountAccess(res))
-                .thenReturn(new AccountAccess(res));
 
         // Then
         mockMvc.perform(put("/api/account-access/")
@@ -432,6 +448,25 @@ class AccountAccessControllerTest {
                         .content(asJsonString(res))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void changeAccessShouldThrow403WhenAccessForbidden() throws Exception {
+        // Given
+        AccountAccessReq res = new AccountAccessReq(
+                "iban",
+                "userId",
+                null,
+                null
+        );
+
+        // Then
+        mockMvc.perform(put("/api/account-access/")
+                        .header("Authorization", "Bearer " + token)
+                        .content(asJsonString(res))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$").value("You don't manage this account"));
     }
 
     @Test
@@ -444,7 +479,7 @@ class AccountAccessControllerTest {
                 false
         );
 
-        when(accountAccessService.bankOwnsAccount(any(),eq(res.getAccountId())))
+        when(accountAccessService.bankOwnsAccount(any(), eq(res.getAccountId())))
                 .thenReturn(true);
 
         when(accountAccessService.changeAccountAccess(res))
@@ -464,16 +499,32 @@ class AccountAccessControllerTest {
         String userId = "userId";
         String iban = "iban";
 
-        when(accountAccessService.bankOwnsAccount(any(),eq(iban)))
+        when(accountAccessService.bankOwnsAccount(any(), eq(iban)))
                 .thenReturn(true);
 
         // Then
         mockMvc.perform(delete("/api/account-access/")
                         .header("Authorization", "Bearer " + token)
-                        .param("accountId",iban)
-                        .param("userId",userId)
+                        .param("accountId", iban)
+                        .param("userId", userId)
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    void deleteAccessShouldThrow403WhenAccessForbidden() throws Exception {
+        // Given
+        String userId = "userId";
+        String iban = "iban";
+
+        // Then
+        mockMvc.perform(delete("/api/account-access/")
+                        .header("Authorization", "Bearer " + token)
+                        .param("accountId", iban)
+                        .param("userId", userId)
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$").value("You don't manage this account"));
     }
 }

@@ -35,6 +35,12 @@ public interface AccountRepo extends JpaRepository<Account, String> {
         return findAllByNextProcessBefore(new Date(System.currentTimeMillis()));
     }
 
+    /**
+     * Find by id but return an empty optional if the account is deleted.
+     * @param iban The iban of the account
+     * @return An Optional of account. Empty if the account doesn't exist or is deleted.
+     * @see #findById(Object) 
+     */
     default Optional<Account> safeFindById(String iban) {
         return findById(iban).map(account -> account.getDeleted() ? null : account);
     }

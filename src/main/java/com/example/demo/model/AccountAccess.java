@@ -67,6 +67,11 @@ public class AccountAccess {
         }
     }
 
+    /**
+     * Creates a default access for the owner of the account.
+     * @param account The account that we just created.
+     * @return The created access
+     */
     public static AccountAccess createDefault(Account account) {
         AccountAccess defaultAccountAccess = new AccountAccess();
         defaultAccountAccess.setUserId(account.getUserId());

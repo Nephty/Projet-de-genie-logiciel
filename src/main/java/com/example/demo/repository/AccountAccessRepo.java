@@ -35,6 +35,12 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
             "order by a.accountId.swift.swift")
     ArrayList<AccountAccess> findAllByUserId(User user);
 
+    /**
+     * Find all {@link AccountAccess} of the {@link User} ordered by Bank.
+     * (Only ones where the account is deleted).
+     * @param user The user whose access we want to find.
+     * @return All user's access to deleted accounts.
+     */
     @Query("select a " +
             "from AccountAccess a " +
             "where a.userId = ?1 " +
@@ -42,6 +48,12 @@ public interface AccountAccessRepo extends JpaRepository<AccountAccess, AccountA
             "order by a.accountId.swift.swift")
     ArrayList<AccountAccess> findAllDeletedAccountByUserId(User user);
 
+    /**
+     * Find all {@link AccountAccess} of the {@link User} ordered by Bank.
+     * (only if  <code>hidden</code> is true and <code>access</code> is also true).
+     * @param user The user whose access we want to find.
+     * @return All user's access to hidden accounts.
+     */
     @Query("select a " +
             "from AccountAccess a " +
             "where a.userId = ?1 and a.hidden = true " +

@@ -92,6 +92,7 @@ public class AccountAccessController {
      * @return account access to String
      * 201 - Created
      * 400 - Bad Format
+     * 403 - Access forbidden
      * 409 - Conflict
      * Who ? the owner of the account and/or the bank
      */
@@ -113,6 +114,7 @@ public class AccountAccessController {
      * @return account access to String
      * 201 - Created
      * 400 - Bad Format
+     * 403 - Access forbidden
      * 404 - Not found
      * Who ? the owner of the account and/or the bank
      */
@@ -132,6 +134,7 @@ public class AccountAccessController {
      * @param accountId id of the user account
      * @return params sent
      * 200 - OK
+     * 403 - Access forbidden
      * Who ? the owner of the account and/or the bank
      */
     @DeleteMapping

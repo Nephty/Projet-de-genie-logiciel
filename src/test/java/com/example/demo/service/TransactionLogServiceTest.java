@@ -488,6 +488,60 @@ class TransactionLogServiceTest {
     }
 
     @Test
+    void instantiateTransactionShouldThrowWhenAccountDontHaveEnoughMoney() {
+        // Given
+        String id = "userId";
+        Sender sender = new Sender(id,Role.USER);
+        TransactionReq transactionReq = new TransactionReq();
+        transactionReq.setTransactionTypeId(1);
+        transactionReq.setSenderIban("senderIban");
+        transactionReq.setRecipientIban("receiverIban");
+        transactionReq.setCurrencyId(0);
+        transactionReq.setTransactionAmount(1000.0);
+
+        CurrencyType currencyType = new CurrencyType(0,"EUR");
+
+        // -- Account SENDER --
+        Account accountSender = new Account();
+        accountSender.setPayment(true);
+        accountSender.setDeleted(false);
+
+        // -- Account RECEIVER --
+        Account accountReceiver = new Account();
+        accountReceiver.setDeleted(false);
+
+        // -- SubAccount SENDER --
+        SubAccount subAccountSender = new SubAccount(
+                accountSender,
+                currencyType,
+                150.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getSenderIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountSender));
+
+        // -- SubAccount RECEIVER --
+        SubAccount subAccountReceiver = new SubAccount(
+                accountReceiver,
+                currencyType,
+                100.0
+        );
+        when(subAccountRepo.findById(
+                new SubAccountPK(transactionReq.getRecipientIban(), transactionReq.getCurrencyId())
+        )).thenReturn(Optional.of(subAccountReceiver));
+
+        // -- TransactionType --
+        TransactionType transactionType = new TransactionType(0,"name",0.0);
+        when(transactionTypeRepo.findById(1)).thenReturn(Optional.of(transactionType));
+
+
+        // Then
+        assertThatThrownBy(()-> underTest.addTransaction(sender,transactionReq))
+                .isInstanceOf(AuthorizationException.class)
+                .hasMessageContaining("You don't have enough money");
+    }
+
+    @Test
     void instantiateTransactionShouldThrowWhenUserDontHaveAccessToAccount(){
         // Given
         String id = "userId";

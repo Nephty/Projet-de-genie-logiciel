@@ -37,7 +37,6 @@ public class UserController {
         if (isUsername) {
             return new ResponseEntity<>(userService.getUserByUsername(id), HttpStatus.OK);
         }
-        //Dont mind this
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 

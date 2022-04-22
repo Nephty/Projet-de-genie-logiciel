@@ -61,14 +61,25 @@ public class SubAccount {
 
         String body2 = response2.getBody();
         body2 = body2.substring(1, body2.length() - 1);
-        this.transactionHistory = new ArrayList<>();
+
+        this.transactionHistory = createHistory(body2);
+    }
+
+
+    /**
+     * Creates a list of transaction with a JSON
+     * @param json  The String of the JSON
+     * @return      The list of transactions in the JSON
+     */
+    public static ArrayList<Transaction> createHistory(String json){
+        ArrayList<Transaction> rep = new ArrayList<Transaction>();
 
         // If there is at least one transaction, it creates the transactions objects
-        if (!body2.equals("")) {
-            ArrayList<String> parsed = Portfolio.JSONArrayParser(body2);
+        if (!json.equals("")) {
+            ArrayList<String> parsed = Portfolio.JSONArrayParser(json);
             for (String s : parsed) {
                 JSONObject obj2 = new JSONObject(s);
-                long ID = obj2.getLong("transactionTypeId");
+                long ID = obj2.getLong("transactionId");
                 String senderName = obj2.getString("senderName");
                 String senderIBAN = obj2.getString("senderIban");
                 String receiverName = obj2.getString("recipientName");
@@ -76,9 +87,10 @@ public class SubAccount {
                 double amount = obj2.getDouble("transactionAmount");
                 String sendingDate = obj2.getString("transactionDate");
                 String message = obj2.getString("comments");
-                this.transactionHistory.add(new Transaction(ID, senderName, senderIBAN, receiverName, receiverIBAN, amount, sendingDate, Currencies.EUR, message));
+                rep.add(new Transaction(ID, senderName, senderIBAN, receiverName, receiverIBAN, amount, sendingDate, Currencies.EUR, message));
             }
         }
+        return rep;
     }
 
     public double getAmount() {

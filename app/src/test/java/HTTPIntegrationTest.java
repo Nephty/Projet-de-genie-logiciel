@@ -7,9 +7,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -74,7 +72,7 @@ public class HTTPIntegrationTest {
             assertEquals("01.02.03-123.00", portfolioTest.getUser().getNationalRegistrationNumber());
             assertEquals("BEGLGLGL", portfolioTest.getWalletList().get(0).getBank().getSwiftCode());
             assertEquals("BE01020300000000", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
-            assertEquals(1, portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
+            assertEquals(39, portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
             assertEquals("2022-04-22", portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getSendingDate());
         });
     }
@@ -164,8 +162,7 @@ public class HTTPIntegrationTest {
     @DisplayName("Toggle an account")
     public void toggleAccount() {
         // Creates a portfolio
-        // TODO : Rajouter un compte et changer le user
-        Main.setUser(new Profile("123456789"));
+        Main.setUser(new Profile("01.02.03-123.00"));
         assertDoesNotThrow(() -> {
             Main.updatePortfolio();
         });
@@ -227,8 +224,33 @@ public class HTTPIntegrationTest {
             // Testing that the access token changed
             assertNotEquals(expiredToken, Main.getToken());
         });
+    }
 
+    @Test
+    @DisplayName("Get archived accounts")
+    public void fetchArchivedAccounts(){
+        Main.setUser(new Profile("01.02.03-123.00"));
+        Wallet testWallet = new Wallet(new Profile("01.02.03-123.00"), new Bank("ABCDABCD"), new ArrayList<Account>());
+        assertDoesNotThrow(()->{
+            testWallet.fetchArchivedAccount();
+        });
+        ArrayList<Account> archivedAccountList = testWallet.getArchivedAccountList();
+        assertEquals(archivedAccountList.size(), 1);
+        assertEquals(archivedAccountList.get(0).getIBAN(), "BE00000000000071");
+        assertEquals(archivedAccountList.get(0).isArchived(), true);
+    }
 
+    @Test
+    @DisplayName("Fetch requests")
+    public void fetchRequests(){
+        assertDoesNotThrow(() -> {
+            ArrayList<Request> reqList = Request.fetchRequests();
+            assertEquals(reqList.size(), 1);
+            assertEquals(reqList.get(0).getCommunicationType(), CommunicationType.CREATE_ACCOUNT);
+            assertEquals(reqList.get(0).getDate(), "2022-04-22");
+            assertEquals(reqList.get(0).getContent(), "");
+            assertEquals(reqList.get(0).getRecipientId(), "GEBABEBB");
+        });
     }
 //
 //    @Test

@@ -88,6 +88,11 @@ public class Notification extends Communication {
         });
     }
 
+    /**
+     * Fetch all the custom notifications and put them in a list
+     * @return  The list of custom notifications
+     */
+
     public static ArrayList<Notification> fetchCustomNotification(){
         // Fetch all notifications
         Unirest.setTimeouts(0, 0);

@@ -4,6 +4,7 @@ import app.Main;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import javafx.collections.FXCollections;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -31,6 +32,61 @@ public class Request extends Communication {
         this.date = date;
         this.content = content;
     }
+
+
+    public static ArrayList<Request> fetchRequests(){
+        // Fetch requests and put them in the listview
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
+
+        ArrayList<Request> reqList = new ArrayList<>();
+
+        if (response != null) {
+            String body = response.getBody();
+            String toParse = body.substring(1,body.length() - 1);
+            ArrayList<String> requestList = Portfolio.JSONArrayParser(toParse);
+            if(!requestList.get(0).equals("")) {
+                for (String s : requestList) {
+                    JSONObject obj = new JSONObject(s);
+                    // Ignore custom notifications
+                    if (obj.getInt("notificationType") != 4) {
+                        CommunicationType comType = CommunicationType.CUSTOM;
+                        int notifType = obj.getInt("notificationType");
+                        switch (notifType) {
+                            case (0):
+                                comType = CommunicationType.CREATE_ACCOUNT;
+                                break;
+                            case (1):
+                                comType = CommunicationType.CREATE_SUB_ACCOUNT;
+                                break;
+                            case (2):
+                                comType = CommunicationType.TRANSFER_PERMISSION;
+                                break;
+                            case (3):
+                                comType = CommunicationType.NEW_WALLET;
+                                break;
+                            case (6):
+                                comType = CommunicationType.DELETE_ACCOUNT;
+                                break;
+                        }
+                        reqList.add(new Request(obj.getString("recipientId"), comType, obj.getString("date"), obj.getString("comments")));
+                    }
+                }
+            }
+        }
+        return reqList;
+    }
+
 
     /**
      * Send the request
@@ -136,6 +192,18 @@ public class Request extends Communication {
 
     public String getDate() {
         return date;
+    }
+
+    public String getRecipientId(){
+        return this.recipientId;
+    }
+
+    public String getContent(){
+        return this.content;
+    }
+
+    public CommunicationType getCommunicationType(){
+        return this.communicationType;
     }
 
 }

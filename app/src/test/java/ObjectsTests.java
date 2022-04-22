@@ -1,8 +1,5 @@
 import app.Main;
-import back.user.Bank;
-import back.user.Portfolio;
-import back.user.Profile;
-import back.user.Wallet;
+import back.user.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -70,9 +67,17 @@ public class ObjectsTests {
     }
 
     @Test
-    @DisplayName("Export transaction history")
-    public void exportHistory(){
-
+    @DisplayName("Transaction history creation")
+    public void createHistory(){
+        String json = "{\"transactionTypeId\":1,\"senderIban\":\"0123456789ABCDEF\",\"recipientIban\":\"BE01010101010101\",\"currencyId\":0,\"transactionAmount\":1.0,\"transactionDate\":\"2022-04-12\",\"comments\":\"Communication\",\"senderName\":\"Musk Elon\",\"recipientName\":\"Musk Elon\",\"currencyName\":\"EUR\",\"transactionId\":19,\"processed\":true},{\"transactionTypeId\":1,\"senderIban\":\"BE12345678910118\",\"recipientIban\":\"BE01010101010101\",\"currencyId\":0,\"transactionAmount\":20.0,\"transactionDate\":\"2022-04-15\",\"comments\":\"Bonjour\",\"senderName\":\"Moreau Benoit\",\"recipientName\":\"Musk Elon\",\"currencyName\":\"EUR\",\"transactionId\":20,\"processed\":true},{\"transactionTypeId\":1,\"senderIban\":\"BE01010101010101\",\"recipientIban\":\"BE01020300000000\",\"currencyId\":0,\"transactionAmount\":10.0,\"transactionDate\":\"2022-04-22\",\"comments\":\"TestTransaction\",\"senderName\":\"Musk Elon\",\"recipientName\":\"Matos Carlos\",\"currencyName\":\"EUR\",\"transactionId\":39,\"processed\":true}";
+        ArrayList<Transaction> transactionList = SubAccount.createHistory(json);
+        assertEquals(3, transactionList.size());
+        assertEquals(19, transactionList.get(0).getID());
+        assertEquals(20.0, transactionList.get(1).getAmount());
+        assertEquals("2022-04-22", transactionList.get(2).getSendingDate());
+        assertEquals("BE01020300000000", transactionList.get(2).getReceiverIBAN());
+        assertEquals("Matos Carlos", transactionList.get(2).getReceiverName());
+        assertEquals("Communication", transactionList.get(0).getMessage());
     }
 
 

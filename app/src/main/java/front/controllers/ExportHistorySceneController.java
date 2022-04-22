@@ -179,9 +179,9 @@ public class ExportHistorySceneController extends Controller implements BackButt
      * @param data  A list of String to formate into a CSV line
      * @return      The String of the CSV line
      */
-    public String convertToCSV(String[] data) {
+    public static String convertToCSV(String[] data) {
         return Stream.of(data)
-                .map(this::escapeSpecialCharacters)
+                .map(ExportHistorySceneController::escapeSpecialCharacters)
                 .collect(Collectors.joining(","));
     }
 
@@ -190,7 +190,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
      * @param data  The String to manage
      * @return      The String with the special characters escaped
      */
-    public String escapeSpecialCharacters(String data) {
+    public static String escapeSpecialCharacters(String data) {
         String escapedData = data.replaceAll("\\R", " ");
         if (data.contains(",") || data.contains("\"") || data.contains("'")) {
             data = data.replace("\"", "\"\"");

@@ -105,31 +105,34 @@ public class Wallet {
             // Creates the accounts and add them to the list
             for (int i = 0; i < bodyList.size(); i++) {
                 JSONObject obj = new JSONObject(bodyList.get(i));
-                String swift = obj.getString("accountId");
-                Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), obj.getJSONObject("account").getString("userId"));
-                Profile coOwner = new Profile(obj.getString("userId"));
-                String iban = obj.getString("accountId");
-                int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
-                AccountType accountType = null;
-                switch (accountTypeId) {
-                    case 1:
-                        accountType = AccountType.COURANT;
-                        break;
-                    case 2:
-                        accountType = AccountType.JEUNE;
-                        break;
-                    case 3:
-                        accountType = AccountType.EPARGNE;
-                        break;
-                    case 4:
-                        accountType = AccountType.TERME;
-                        break;
-                }
-                boolean activated = (!obj.getBoolean("hidden"));
-                boolean archived = obj.getJSONObject("account").getBoolean("deleted");
-                boolean canPay = obj.getJSONObject("account").getBoolean("payment");
+                String swift = obj.getJSONObject("account").getString("swift");
+                // If the account is in this bank
+                if(swift.equals(Main.getBank().getSwiftCode())){
+                    Profile owner = new Profile(obj.getJSONObject("account").getString("ownerFirstname"), obj.getJSONObject("account").getString("ownerLastname"), obj.getJSONObject("account").getString("userId"));
+                    Profile coOwner = new Profile(obj.getString("userId"));
+                    String iban = obj.getString("accountId");
+                    int accountTypeId = obj.getJSONObject("account").getInt("accountTypeId");
+                    AccountType accountType = null;
+                    switch (accountTypeId) {
+                        case 1:
+                            accountType = AccountType.COURANT;
+                            break;
+                        case 2:
+                            accountType = AccountType.JEUNE;
+                            break;
+                        case 3:
+                            accountType = AccountType.EPARGNE;
+                            break;
+                        case 4:
+                            accountType = AccountType.TERME;
+                            break;
+                    }
+                    boolean activated = (!obj.getBoolean("hidden"));
+                    boolean archived = obj.getJSONObject("account").getBoolean("deleted");
+                    boolean canPay = obj.getJSONObject("account").getBoolean("payment");
 
-                accountListRep.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
+                    accountListRep.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
+                }
             }
         }
         return accountListRep;

@@ -71,10 +71,10 @@ public class HTTPIntegrationTest {
             assertEquals("Carlos", portfolioTest.getUser().getFirstName());
             assertEquals("Matos", portfolioTest.getUser().getLastName());
             assertEquals("01.02.03-123.00", portfolioTest.getUser().getNationalRegistrationNumber());
-            assertEquals("BEGLGLGL", portfolioTest.getWalletList().get(0).getBank().getSwiftCode());
-            assertEquals("BE01020300000000", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
-            assertEquals(39, portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
-            assertEquals("2022-04-22", portfolioTest.getWalletList().get(0).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getSendingDate());
+            assertEquals("ABCDABCD", portfolioTest.getWalletList().get(0).getBank().getSwiftCode());
+            assertEquals("BE00002305000000", portfolioTest.getWalletList().get(0).getAccountList().get(0).getIBAN());
+            assertEquals(39, portfolioTest.getWalletList().get(1).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getID());
+            assertEquals("2022-04-22", portfolioTest.getWalletList().get(1).getAccountList().get(0).getSubAccountList().get(0).getTransactionHistory().get(0).getSendingDate());
         });
     }
 
@@ -246,7 +246,7 @@ public class HTTPIntegrationTest {
     public void fetchRequests() {
         assertDoesNotThrow(() -> {
             ArrayList<Request> reqList = Request.fetchRequests();
-            assertEquals(reqList.size(), 2);
+            assertEquals(reqList.size(), 3);
             assertEquals(reqList.get(0).getCommunicationType(), CommunicationType.CREATE_ACCOUNT);
             assertEquals(reqList.get(0).getDate(), "2022-04-22");
             assertEquals(reqList.get(0).getContent(), "");

@@ -35,10 +35,6 @@ dependencies {
 
     // For password change
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
-    // For file testing
-    implementation 'commons-io:commons-io:2.6'
-
 }
 
 application {

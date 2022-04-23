@@ -145,7 +145,7 @@ class TransactionLogRepoTest {
                 subAccount,
                 100.0,
                 false,
-                "comments"
+                "comments",1.0
         );
         underTest.save(transactionLog);
 
@@ -157,7 +157,8 @@ class TransactionLogRepoTest {
                 subAccount1,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog2);
 
@@ -169,7 +170,8 @@ class TransactionLogRepoTest {
                 subAccount1,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog3);
 
@@ -208,7 +210,8 @@ class TransactionLogRepoTest {
                 subAccount,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog);
 
@@ -220,7 +223,8 @@ class TransactionLogRepoTest {
                 subAccount1,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog2);
 
@@ -232,7 +236,8 @@ class TransactionLogRepoTest {
                 subAccount1,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog3);
 
@@ -253,7 +258,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog);
 
@@ -265,7 +271,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog2);
 
@@ -277,7 +284,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog3);
 
@@ -289,7 +297,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog4);
 
@@ -317,7 +326,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog);
 
@@ -329,7 +339,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog2);
 
@@ -341,7 +352,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog3);
 
@@ -353,7 +365,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog4);
 
@@ -378,7 +391,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog);
 
@@ -390,7 +404,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog2);
 
@@ -413,7 +428,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog);
 
@@ -425,7 +441,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog2);
 
@@ -437,7 +454,8 @@ class TransactionLogRepoTest {
                 null,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog3);
 
@@ -479,7 +497,8 @@ class TransactionLogRepoTest {
                 subAccount,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog);
 
@@ -491,7 +510,8 @@ class TransactionLogRepoTest {
                 subAccount1,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog2);
 
@@ -503,7 +523,8 @@ class TransactionLogRepoTest {
                 subAccount1,
                 100.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
         underTest.save(transactionLog3);
 

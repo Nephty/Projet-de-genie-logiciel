@@ -111,34 +111,10 @@ public class ManageAccountRemovalRequestsSceneController extends Controller impl
             sleepAndFadeOutLoadingRequestsLabelFadeThread = new FadeOutThread();
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            // Fetch all the notifications
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
-                HttpResponse<String> rep;
-                try {
-                    rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
-                            .header("Authorization", "Bearer " + Main.getToken())
-                            .asString();
-                } catch (UnirestException e) {
-                    throw new RuntimeException(e);
-                }
-                return rep;
-            });
 
-            String body = response.getBody();
-            String toParse = body.substring(1, body.length() - 1);
-            ArrayList<String> requestList = Bank.JSONArrayParser(toParse);
-            // If there is at least one notification
-            if (!requestList.get(0).equals("")) {
-                for (String s : requestList) {
-                    JSONObject obj = new JSONObject(s);
-                    if (obj.getInt("notificationType") == 6) {
-                        CommunicationType comType = CommunicationType.DELETE_ACCOUNT;
+            // Fetch the list of delete account requests
+            ArrayList<Request> data = Request.fetchRequests(6);
 
-                        data.add(new Request(obj.getString("senderName"), comType, obj.getString("date"), obj.getString("comments"), obj.getString("senderId"), obj.getLong("notificationId")));
-                    }
-                }
-            }
             requestsTableView.setItems(FXCollections.observableArrayList(data));
 
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);

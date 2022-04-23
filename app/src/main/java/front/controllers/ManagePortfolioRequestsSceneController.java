@@ -115,35 +115,9 @@ public class ManagePortfolioRequestsSceneController extends Controller implement
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
             Unirest.setTimeouts(0, 0);
 
-            // Fetchs all the notifications
-            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
-                HttpResponse<String> rep = null;
-                try {
-                    rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
-                            .header("Authorization", "Bearer " + Main.getToken())
-                            .asString();
-                } catch (UnirestException e) {
-                    throw new RuntimeException(e);
-                }
-                return rep;
-            });
+            // Fetchs the list of new account request
+            ArrayList<Request> reqList = Request.fetchRequests(0);
 
-            String body = response.getBody();
-            String toParse = body.substring(1, body.length() - 1);
-            ArrayList<String> requestList = Bank.JSONArrayParser(toParse);
-            ArrayList<Request> reqList = new ArrayList<Request>();
-
-            // If there is at least one notification
-            if (!requestList.get(0).equals("")) {
-                for (int i = 0; i < requestList.size(); i++) {
-                    JSONObject obj = new JSONObject(requestList.get(i));
-                    if (obj.getInt("notificationType") == 0) {
-                        CommunicationType comType = CommunicationType.CREATE_ACCOUNT;
-
-                        reqList.add(new Request(obj.getString("senderName"), comType, obj.getString("date"), "", obj.getString("senderId"), obj.getLong("notificationId")));
-                    }
-                }
-            }
             requestsTableView.setItems(FXCollections.observableArrayList(reqList));
 
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);

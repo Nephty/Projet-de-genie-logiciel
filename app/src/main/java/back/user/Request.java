@@ -6,6 +6,9 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.scenes.Scenes;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class Request extends Communication {
     private CommunicationType communicationType;
@@ -32,6 +35,75 @@ public class Request extends Communication {
         this.senderID = senderID;
         this.ID = ID;
     }
+
+
+    /**
+     * Fetch specific requests in the database
+     * @param notificationType  The notification type that will be fetch
+     * @return                  The list of specific request
+     */
+    public static ArrayList<Request> fetchRequests(int notificationType){
+        // Fetch requests and put them in the list
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
+
+        ArrayList<Request> reqList = parseRequest(response.getBody(), notificationType);
+
+        return reqList;
+    }
+
+    /**
+     * Parse a list of JSON into a specific request list
+     * @param json              The JSON to parse
+     * @param notificationType  The specific notification type (enumeration)
+     * @return                  The lis of specific request from JSON
+     */
+    public static ArrayList<Request> parseRequest(String json, int notificationType){
+        ArrayList<Request> rep = new ArrayList<Request>();
+        String body = json;
+        String toParse = body.substring(1,body.length() - 1);
+        ArrayList<String> requestList = Bank.JSONArrayParser(toParse);
+        if(!requestList.get(0).equals("")) {
+            for (String s : requestList) {
+                JSONObject obj = new JSONObject(s);
+                // Ignore custom notifications
+                if (obj.getInt("notificationType") == notificationType) {
+                    CommunicationType comType = CommunicationType.CUSTOM;
+                    int notifType = obj.getInt("notificationType");
+                    switch (notifType) {
+                        case (0):
+                            comType = CommunicationType.CREATE_ACCOUNT;
+                            break;
+                        case (1):
+                            comType = CommunicationType.CREATE_SUB_ACCOUNT;
+                            break;
+                        case (2):
+                            comType = CommunicationType.TRANSFER_PERMISSION;
+                            break;
+                        case (3):
+                            comType = CommunicationType.NEW_WALLET;
+                            break;
+                        case (6):
+                            comType = CommunicationType.DELETE_ACCOUNT;
+                            break;
+                    }
+                    rep.add(new Request(obj.getString("recipientId"), comType, obj.getString("date"), obj.getString("comments"), obj.getString("senderId"), obj.getLong("notificationId")));
+                }
+            }
+        }
+        return rep;
+    }
+
 
     /**
      * Approves the request
@@ -164,5 +236,9 @@ public class Request extends Communication {
 
     public long getID() {
         return ID;
+    }
+
+    public String getContent(){
+        return this.content;
     }
 }

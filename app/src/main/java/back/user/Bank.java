@@ -39,12 +39,23 @@ public class Bank {
         this.name = obj.getString("name");
     }
 
+
     /**
-     * A method for parsing arrays in JSON
-     *
-     * @param json The String to parse
-     * @return A list of parsed Strings
+     * Creates a bank with all the needed information
+     * @param swiftCode The String of the bank's swift
+     * @param name      The String of the bank's name
      */
+    public Bank(String swiftCode, String name) {
+        this.swiftCode = swiftCode;
+        this.name = name;
+    }
+
+        /**
+         * A method for parsing arrays in JSON
+         *
+         * @param json The String to parse
+         * @return A list of parsed Strings
+         */
     public static ArrayList<String> JSONArrayParser(String json) {
         ArrayList<String> rep = new ArrayList<String>();
         int crochet = 0;

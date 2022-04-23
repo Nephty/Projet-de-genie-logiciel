@@ -1,8 +1,5 @@
 import app.Main;
-import back.user.Bank;
-import back.user.ErrorHandler;
-import back.user.Profile;
-import back.user.Wallet;
+import back.user.*;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -11,6 +8,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,7 +30,7 @@ public class HTTPIntegrationTest {
                     .asString();
             JSONObject obj = new JSONObject(response.getBody());
             Main.setToken(obj.getString("access_token"));
-            Main.setToken(obj.getString("refresh_token"));
+            Main.setRefreshToken(obj.getString("refresh_token"));
             assertEquals(response.getStatus(), 200);
         });
     }
@@ -79,12 +78,14 @@ public class HTTPIntegrationTest {
     @Test
     @DisplayName("Getting a wallet for a user")
     public void getWallet() {
-        // This test verify the requests : Wallet, Profile, Bank, Account, SubAccount, Transaction
+        // This test verify the requests : Wallet, Profile, Bank, Account, SubAccount
         assertDoesNotThrow(() -> {
             Main.setBank(new Bank("ABCDABCD"));
             Wallet testWallet = new Wallet(new Profile("01.02.03-123.00"));
-            assertEquals("Carlos", testWallet.getAccountUser().getFirstName());
-            assertEquals("BE00000000000071", testWallet.getAccountList().get(0).getIBAN());
+            assertEquals(testWallet.getAccountUser().getFirstName(), "Carlos");
+            assertEquals(testWallet.getAccountList().size(), 2);
+            assertEquals(testWallet.getAccountList().get(0).getIBAN(), "BE00002305000000");
+            assertEquals(testWallet.getAccountList().get(0).getSubAccountList().get(0).getAmount(), 0.0);
         });
     }
 
@@ -151,6 +152,47 @@ public class HTTPIntegrationTest {
             assertEquals("Matos", userTest.getLastName());
             assertEquals("01.02.03-123.00", userTest.getNationalRegistrationNumber());
         });
+    }
+
+    @Test
+    @DisplayName("Getting request from api")
+    public void fetchRequest(){
+        assertDoesNotThrow(()->{
+            ArrayList<Request> reqList = Request.fetchRequests(0);
+            ArrayList<Request> reqList2 = Request.fetchRequests(3);
+            ArrayList<Request> reqList3 = Request.fetchRequests(6);
+
+            assertEquals(reqList.size(), 1);
+            assertEquals(reqList2.size(), 1);
+            assertEquals(reqList3.size(), 0);
+            assertEquals(reqList.get(0).getReason(), CommunicationType.CREATE_ACCOUNT);
+            assertEquals(reqList2.get(0).getReason(), CommunicationType.NEW_WALLET);
+            assertEquals(reqList.get(0).getSenderID(), "01.02.03-123.00");
+            assertEquals(reqList.get(0).getDate(), "2022-04-23");
+        });
+    }
+
+    @Test
+    @DisplayName("Create account list")
+    public void createAccountList(){
+        Main.setBank(new Bank("ABCDABCD", "Belfius"));
+        // Testing active accounts
+        String json = "[{\"accountId\":\"BE00002305000000\",\"userId\":\"01.02.03-123.00\",\"access\":true,\"hidden\":false,\"account\":{\"iban\":\"BE00002305000000\",\"swift\":\"ABCDABCD\",\"userId\":\"01.02.03-123.00\",\"accountTypeId\":1,\"payment\":false,\"ownerFirstname\":\"Carlos\",\"ownerLastname\":\"Matos\",\"linkedBank\":{\"swift\":\"ABCDABCD\",\"name\":\"Belfius\",\"password\":null,\"address\":\"uwuwuwuwu\",\"country\":\"BE\",\"defaultCurrencyId\":0,\"defaultCurrencyName\":\"EUR\"},\"nextProcess\":\"2023-04-23\",\"deleted\":false}},{\"accountId\":\"BE01020300000000\",\"userId\":\"01.02.03-123.00\",\"access\":true,\"hidden\":false,\"account\":{\"iban\":\"BE01020300000000\",\"swift\":\"BEGLGLGL\",\"userId\":\"01.02.03-123.00\",\"accountTypeId\":1,\"payment\":false,\"ownerFirstname\":\"Carlos\",\"ownerLastname\":\"Matos\",\"linkedBank\":{\"swift\":\"BEGLGLGL\",\"name\":\"UwU\",\"password\":null,\"address\":\"Tournai\",\"country\":\"Mons\",\"defaultCurrencyId\":0,\"defaultCurrencyName\":\"EUR\"},\"nextProcess\":\"2023-04-22\",\"deleted\":false}}]";
+        ArrayList<Account> accountList = Wallet.createsAccountList(json);
+        assertEquals(accountList.size(), 1);
+        assertEquals(accountList.get(0).getIBAN(), "BE00002305000000");
+        assertEquals(accountList.get(0).isArchived(), false);
+        assertEquals(accountList.get(0).isActivated(), true);
+        assertEquals(accountList.get(0).getAccountOwner().getNationalRegistrationNumber(), "01.02.03-123.00");
+
+        // Testing deleted accounts
+        String json2 = "[{\"accountId\":\"BE00000000000071\",\"userId\":\"01.02.03-123.00\",\"access\":true,\"hidden\":false,\"account\":{\"iban\":\"BE00000000000071\",\"swift\":\"ABCDABCD\",\"userId\":\"01.02.03-123.00\",\"accountTypeId\":1,\"payment\":false,\"ownerFirstname\":\"Carlos\",\"ownerLastname\":\"Matos\",\"linkedBank\":{\"swift\":\"ABCDABCD\",\"name\":\"Belfius\",\"password\":null,\"address\":\"uwuwuwuwu\",\"country\":\"BE\",\"defaultCurrencyId\":0,\"defaultCurrencyName\":\"EUR\"},\"nextProcess\":\"2023-04-10\",\"deleted\":true}}]";
+        ArrayList<Account> accountList2 = Wallet.createsAccountList(json2);
+        assertEquals(accountList2.size(), 1);
+        assertEquals(accountList2.get(0).getIBAN(), "BE00000000000071");
+        assertEquals(accountList2.get(0).isArchived(), true);
+        assertEquals(accountList2.get(0).isActivated(), true);
+        assertEquals(accountList2.get(0).getAccountOwner().getNationalRegistrationNumber(), "01.02.03-123.00");
     }
 }
 

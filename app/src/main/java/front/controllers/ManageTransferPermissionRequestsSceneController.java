@@ -110,49 +110,10 @@ public class ManageTransferPermissionRequestsSceneController extends Controller 
             sleepAndFadeOutLoadingRequestsLabelFadeThread = new FadeOutThread();
             Calendar c = Calendar.getInstance();
             lastUpdateTimeLabel.setText("Last update : " + formatCurrentTime(c));
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
-                HttpResponse<String> rep = null;
-                try {
-                    rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/notification")
-                            .header("Authorization", "Bearer " + Main.getToken())
-                            .asString();
-                } catch (UnirestException e) {
-                    throw new RuntimeException(e);
-                }
-                return rep;
-            });
 
-            String body = response.getBody();
-            String toParse = body.substring(1, body.length() - 1);
-            ArrayList<String> requestList = Bank.JSONArrayParser(toParse);
-            if (!requestList.get(0).equals("")) {
-                for (int i = 0; i < requestList.size(); i++) {
-                    JSONObject obj = new JSONObject(requestList.get(i));
-                    if (obj.getInt("notificationType") == 2) {
-                        CommunicationType comType = CommunicationType.CUSTOM;
-                        int notifType = obj.getInt("notificationType");
-                        switch (notifType) {
-                            case (0):
-                                comType = CommunicationType.CREATE_ACCOUNT;
-                                break;
-                            case (1):
-                                comType = CommunicationType.CREATE_SUB_ACCOUNT;
-                                break;
-                            case (2):
-                                comType = CommunicationType.TRANSFER_PERMISSION;
-                                break;
-                            case (3):
-                                comType = CommunicationType.NEW_WALLET;
-                                break;
-                            case (4):
-                                comType = CommunicationType.DELETE_ACCOUNT;
-                                break;
-                        }
-                        data.add(new Request(obj.getString("senderName"), comType, obj.getString("date"), obj.getString("comments"), obj.getString("senderId"), obj.getLong("notificationId")));
-                    }
-                }
-            }
+            // Fetch the list of transfer permission requests
+            ArrayList<Request> data = Request.fetchRequests(2);
+
             requestsTableView.setItems(FXCollections.observableArrayList(data));
             sleepAndFadeOutLoadingRequestsLabelFadeThread.start(fadeOutDuration, sleepDuration + fadeInDuration, loadingRequestsLabel);
         }

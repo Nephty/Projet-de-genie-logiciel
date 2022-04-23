@@ -94,7 +94,7 @@ public class Wallet {
      * @param body  The String of the JSON
      * @return      The account list of the JSON
      */
-    public ArrayList<Account> createsAccountList(String body){
+    public static ArrayList<Account> createsAccountList(String body){
         ArrayList<Account> accountListRep = new ArrayList<Account>();
 
         body = body.substring(1, body.length() - 1);
@@ -131,7 +131,7 @@ public class Wallet {
                     boolean archived = obj.getJSONObject("account").getBoolean("deleted");
                     boolean canPay = obj.getJSONObject("account").getBoolean("payment");
 
-                    accountListRep.add(new Account(owner, coOwner, bank, iban, accountType, activated, archived, canPay));
+                    accountListRep.add(new Account(owner, coOwner, Main.getBank(), iban, accountType, activated, archived, canPay));
                 }
             }
         }

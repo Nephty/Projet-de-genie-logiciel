@@ -31,4 +31,21 @@ public class ObjectsTests {
         assertEquals(customersList.get(2).getNationalRegistrationNumber(), "02.10.31-077.07");
     }
 
+    @Test
+    @DisplayName("JSON request parser")
+    public void parseRequest(){
+        String json = "[{\"notificationType\":5,\"comments\":\" BE0000000000006\",\"isFlagged\":false,\"recipientId\":\"ABCDABCD\",\"notificationId\":76,\"date\":\"2022-04-19\",\"senderName\":\"Musk Elon\",\"senderId\":\"123456789\",\"notificationTypeName\":\"TRANSACTION_CANCELED\"},{\"notificationType\":3,\"comments\":\"\",\"isFlagged\":false,\"recipientId\":\"ABCDABCD\",\"notificationId\":50,\"date\":\"2022-04-09\",\"senderName\":\"Musk Elon\",\"senderId\":\"123456789\",\"notificationTypeName\":\"NEW_WALLET\"},{\"notificationType\":0,\"comments\":\"\",\"isFlagged\":false,\"recipientId\":\"ABCDABCD\",\"notificationId\":87,\"date\":\"2022-04-23\",\"senderName\":\"Matos Carlos\",\"senderId\":\"01.02.03-123.00\",\"notificationTypeName\":\"CREATE_ACCOUNT\"}]";
+        ArrayList<Request> reqList = Request.parseRequest(json, 0);
+        ArrayList<Request> reqList2 = Request.parseRequest(json, 3);
+        ArrayList<Request> reqList3 = Request.parseRequest(json, 6);
+        assertEquals(reqList.size(), 1);
+        assertEquals(reqList2.size(), 1);
+        assertEquals(reqList3.size(), 0);
+        assertEquals(reqList.get(0).getReason(), CommunicationType.CREATE_ACCOUNT);
+        assertEquals(reqList2.get(0).getReason(), CommunicationType.NEW_WALLET);
+        assertEquals(reqList.get(0).getSenderID(), "01.02.03-123.00");
+        assertEquals(reqList.get(0).getDate(), "2022-04-23");
+    }
+
+
 }

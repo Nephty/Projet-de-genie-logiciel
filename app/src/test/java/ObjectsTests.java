@@ -2,6 +2,8 @@ import app.Main;
 import back.user.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.net.URL;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -46,6 +48,4 @@ public class ObjectsTests {
         assertEquals(reqList.get(0).getSenderID(), "01.02.03-123.00");
         assertEquals(reqList.get(0).getDate(), "2022-04-23");
     }
-
-
 }

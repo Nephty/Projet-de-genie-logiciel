@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- @author Arnaud MOREAU -->
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-
-<!-- @author Arnaud MOREAU -->
-<Pane xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
+<Pane xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx"
       fx:controller="front.controllers.ArchivedAccountsScenesController"
       prefHeight="400.0" prefWidth="600.0">
     <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
@@ -39,11 +38,14 @@
                 <columns>
                     <TableColumn fx:id="bankNameColumn" style="-fx-alignment: CENTER;" text="%common.BankNameColumn"/>
                     <TableColumn fx:id="IBANColumn" style="-fx-alignment: CENTER;" text="%ArchivedAccounts.IBANColumn"/>
-                    <TableColumn fx:id="accountTypeColumn" style="-fx-alignment: CENTER;" text="%common.AccountTypeColumn"/>
+                    <TableColumn fx:id="accountTypeColumn" style="-fx-alignment: CENTER;"
+                                 text="%common.AccountTypeColumn"/>
                     <TableColumn fx:id="transferPermissionsColumn" style="-fx-alignment: CENTER;"
                                  text="%common.TransferPermissionColumn"/>
-                    <TableColumn fx:id="subAccountsColumn" style="-fx-alignment: CENTER;" text="%common.SubAccountsColumn"/>
-                    <TableColumn fx:id="amountColumn" style="-fx-alignment: CENTER;" prefWidth="75.0" text="%common.AmountColumn" />
+                    <TableColumn fx:id="subAccountsColumn" style="-fx-alignment: CENTER;"
+                                 text="%common.SubAccountsColumn"/>
+                    <TableColumn fx:id="amountColumn" style="-fx-alignment: CENTER;" prefWidth="75.0"
+                                 text="%common.AmountColumn"/>
                 </columns>
             </TableView>
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0"

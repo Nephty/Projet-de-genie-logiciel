@@ -43,7 +43,7 @@ public class Wallet {
         HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
             try {
-                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=false&deleted=true")
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + this.accountUser.getNationalRegistrationNumber() + "&hidden=false&deleted=true")
                         .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
             } catch (UnirestException e) {
@@ -59,7 +59,7 @@ public class Wallet {
         HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
             try {
-                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+this.accountUser.getNationalRegistrationNumber()+"&hidden=true&deleted=false")
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + this.accountUser.getNationalRegistrationNumber() + "&hidden=true&deleted=false")
                         .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
             } catch (UnirestException e) {
@@ -74,10 +74,11 @@ public class Wallet {
 
     /**
      * Creates a list of account with a JSON list
-     * @param body  The String of the JSON list
-     * @return      The account's list
+     *
+     * @param body The String of the JSON list
+     * @return The account's list
      */
-    public ArrayList<Account> createsAccountList(String body){
+    public ArrayList<Account> createsAccountList(String body) {
         ArrayList<Account> accountListRep = new ArrayList<>();
 
         // Parse the JSON into a list of account in JSON
@@ -85,7 +86,7 @@ public class Wallet {
         ArrayList<String> bodyList = Portfolio.JSONArrayParser(body);
 
         // If there is at least oe account
-        if(!body.equals("")) {
+        if (!body.equals("")) {
             // Creates the accounts
             for (String s : bodyList) {
                 JSONObject obj = new JSONObject(s);
@@ -146,7 +147,7 @@ public class Wallet {
         return numberOfAccounts;
     }
 
-    public ArrayList<Account> getArchivedAccountList(){
+    public ArrayList<Account> getArchivedAccountList() {
         return this.archivedAccountList;
     }
 }

@@ -16,9 +16,9 @@ public class Account {
     private final Bank bank;
     private final String IBAN;
     private final AccountType accountType;
-    private boolean archived;
     private final boolean canPay;
     private final ArrayList<SubAccount> subAccountList;
+    private boolean archived;
     private boolean activated;
     private int numberOfSubAccounts;
 
@@ -35,7 +35,7 @@ public class Account {
      * @param archived       A boolean for archived/unarchived option
      * @param canPay         A boolean for canPay/cannotPay option
      */
-    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay){
+    public Account(Profile accountOwner, Profile accountCoOwner, Bank bank, String IBAN, AccountType accountType, boolean activated, boolean archived, boolean canPay) {
         this.accountOwner = accountOwner;
         this.accountCoOwner = new ArrayList<>();
         this.accountCoOwner.add(accountCoOwner);
@@ -55,7 +55,7 @@ public class Account {
      */
     @Override
     public String toString() {
-        return "Bank : " + this.getBank().getSwiftCode()+ " " + this.IBAN + "  amount : " + getSubAccountList().get(0).getAmount() + " €";
+        return "Bank : " + this.getBank().getSwiftCode() + " " + this.IBAN + "  amount : " + getSubAccountList().get(0).getAmount() + " €";
     }
 
     /**
@@ -69,7 +69,7 @@ public class Account {
     /**
      * Toggles the account.
      */
-    public void toggle(){
+    public void toggle() {
         // Changes the boolean and update it in the database
         this.activated = !this.activated;
         Unirest.setTimeouts(0, 0);

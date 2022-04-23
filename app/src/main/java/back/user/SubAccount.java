@@ -68,10 +68,11 @@ public class SubAccount {
 
     /**
      * Creates a list of transaction with a JSON
-     * @param json  The String of the JSON
-     * @return      The list of transactions in the JSON
+     *
+     * @param json The String of the JSON
+     * @return The list of transactions in the JSON
      */
-    public static ArrayList<Transaction> createHistory(String json){
+    public static ArrayList<Transaction> createHistory(String json) {
         ArrayList<Transaction> rep = new ArrayList<Transaction>();
 
         // If there is at least one transaction, it creates the transactions objects

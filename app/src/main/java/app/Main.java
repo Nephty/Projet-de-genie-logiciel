@@ -1,6 +1,9 @@
 package app;
 
-import back.user.*;
+import back.user.Account;
+import back.user.Portfolio;
+import back.user.Profile;
+import back.user.Wallet;
 import front.navigation.Flow;
 import front.scenes.SceneLoader;
 import front.scenes.Scenes;
@@ -17,6 +20,7 @@ import java.util.Locale;
 
 /**
  * Main runnable class that launches the application.
+ *
  * @author Arnaud MOREAU, François VION
  */
 public class Main extends Application {
@@ -49,12 +53,12 @@ public class Main extends Application {
         return token;
     }
 
-    public static String getRefreshToken() {
-        return refreshToken;
-    }
-
     public static void setToken(String newToken) {
         token = newToken;
+    }
+
+    public static String getRefreshToken() {
+        return refreshToken;
     }
 
     public static void setRefreshToken(String newToken) {
@@ -100,10 +104,10 @@ public class Main extends Application {
         String swift = null;
         String IBAN = null;
         // Keep the currentWallet and currentAccount while updating
-        if(!(getCurrentWallet() == null)){
+        if (!(getCurrentWallet() == null)) {
             swift = currentWallet.getBank().getSwiftCode();
         }
-        if(!(getCurrentAccount() == null)){
+        if (!(getCurrentAccount() == null)) {
             IBAN = currentAccount.getIBAN();
         }
 
@@ -111,7 +115,7 @@ public class Main extends Application {
         portfolio = new Portfolio(user.getNationalRegistrationNumber());
 
         // Put the currentWallet and currentAcount after updating
-        if(!(getCurrentWallet() == null)){
+        if (!(getCurrentWallet() == null)) {
             ArrayList<Wallet> walletList = getPortfolio().getWalletList();
 
             for (Wallet wallet : walletList) {
@@ -120,7 +124,7 @@ public class Main extends Application {
                 }
             }
 
-            if(!(getCurrentAccount() == null)){
+            if (!(getCurrentAccount() == null)) {
                 ArrayList<Account> accountList = currentWallet.getAccountList();
 
                 for (Account account : accountList) {

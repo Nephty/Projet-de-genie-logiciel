@@ -15,6 +15,7 @@ public class ErrorHandler {
 
     /**
      * Manage the expired token error
+     *
      * @param toRetry The HTTP request to manage
      * @return The response of the HTTP request
      */
@@ -22,10 +23,10 @@ public class ErrorHandler {
         HttpResponse<String> response = toRetry.get();
 
         // If the token is expired (error 412), it refresh the token and make again the HTTP request
-        if(response.getStatus() == 412) {
+        if (response.getStatus() == 412) {
             refreshToken();
             return handlePossibleError(toRetry);
-        } else{
+        } else {
             Main.errorCheck(response.getStatus());
         }
 

@@ -28,10 +28,10 @@ public class Portfolio {
 
         // Fetch activated account
         Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = ErrorHandler.handlePossibleError(()-> {
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep;
             try {
-                 rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + nationalRegistrationNumber + "&deleted=false&hidden=false")
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + nationalRegistrationNumber + "&deleted=false&hidden=false")
                         .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
             } catch (UnirestException e) {
@@ -48,7 +48,7 @@ public class Portfolio {
         HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
             try {
-                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+ nationalRegistrationNumber +"&hidden=false&deleted=true")
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + nationalRegistrationNumber + "&hidden=false&deleted=true")
                         .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
             } catch (UnirestException e) {
@@ -65,7 +65,7 @@ public class Portfolio {
         HttpResponse<String> response3 = ErrorHandler.handlePossibleError(() -> {
             HttpResponse<String> rep = null;
             try {
-                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId="+nationalRegistrationNumber+"&hidden=true&deleted=false")
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/account-access/all?userId=" + nationalRegistrationNumber + "&hidden=true&deleted=false")
                         .header("Authorization", "Bearer " + Main.getToken())
                         .asString();
             } catch (UnirestException e) {
@@ -78,16 +78,48 @@ public class Portfolio {
         body3 = body3.substring(1, body3.length() - 1);
 
         // Creates the wallets with all the access
-        this.walletList = createWallets(body,body2,body3);
+        this.walletList = createWallets(body, body2, body3);
     }
 
 
+    // Used for tests
+    public Portfolio(Profile user) {
+        this.user = user;
+    }
+
+    /**
+     * A method for parsing arrays in JSON
+     *
+     * @param json The String to parse
+     * @return A list of parsed Strings
+     */
+    public static ArrayList<String> JSONArrayParser(String json) {
+        ArrayList<String> rep = new ArrayList<>();
+        int crochet = 0;
+        int save = 0;
+        for (int i = 0; i < json.length(); i++) {
+            if (json.charAt(i) == '{') {
+                crochet++;
+            }
+            if (json.charAt(i) == '}') {
+                crochet--;
+            }
+            if (json.charAt(i) == ',' && crochet == 0) {
+                rep.add(json.substring(save, i));
+                save = i + 1;
+            }
+        }
+        rep.add(json.substring(save));
+        return rep;
+    }
+
     /**
      * Creates the wallets with all the access
+     *
      * @param body  The String of the JSON of the not deleted and not hidden access
      * @param body2 The String of the JSON of the deleted access
      * @param body3 The String of the JSON of the hidden access
-     * @return      The Wallet list of all the access
+     * @return The Wallet list of all the access
      */
     public ArrayList<Wallet> createWallets(String body, String body2, String body3) {
         ArrayList<Wallet> repWalletList = new ArrayList<>();
@@ -180,44 +212,11 @@ public class Portfolio {
         return repWalletList;
     }
 
-
-
-    /**
-     * A method for parsing arrays in JSON
-     *
-     * @param json The String to parse
-     * @return A list of parsed Strings
-     */
-    public static ArrayList<String> JSONArrayParser(String json) {
-        ArrayList<String> rep = new ArrayList<>();
-        int crochet = 0;
-        int save = 0;
-        for (int i = 0; i < json.length(); i++) {
-            if (json.charAt(i) == '{') {
-                crochet++;
-            }
-            if (json.charAt(i) == '}') {
-                crochet--;
-            }
-            if (json.charAt(i) == ',' && crochet == 0) {
-                rep.add(json.substring(save, i));
-                save = i + 1;
-            }
-        }
-        rep.add(json.substring(save));
-        return rep;
-    }
-
     public Profile getUser() {
         return this.user;
     }
 
     public ArrayList<Wallet> getWalletList() {
         return this.walletList;
-    }
-
-    // Used for tests
-    public Portfolio(Profile user){
-        this.user = user;
     }
 }

@@ -1,13 +1,7 @@
 package front.controllers;
 
 import app.Main;
-import back.user.CommunicationType;
-import back.user.ErrorHandler;
-import back.user.Portfolio;
 import back.user.Request;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -21,7 +15,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;

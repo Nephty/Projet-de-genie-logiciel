@@ -3,7 +3,6 @@ package front.controllers;
 import app.Main;
 import back.user.Account;
 import back.user.SubAccount;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import front.animation.FadeInTransition;
 import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
@@ -90,7 +89,7 @@ public class ArchivedAccountsScenesController extends Controller implements Back
             ObservableList<Account> selection = archivedAccountsTableView.getSelectionModel().getSelectedItems();
             try {
                 for (Account account : selection) {
-                    if(restoreAccount(account)){
+                    if (restoreAccount(account)) {
                         // Remove the Account from the table
                         data.remove(account);
                     }
@@ -139,7 +138,7 @@ public class ArchivedAccountsScenesController extends Controller implements Back
     }
 
     private boolean restoreAccount(Account account) {
-        if(!account.isArchived()){
+        if (!account.isArchived()) {
             account.toggle();
             return true;
         }

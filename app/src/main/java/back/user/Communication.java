@@ -2,6 +2,7 @@ package back.user;
 
 /**
  * This class represent a communication
+ *
  * @author François VION
  */
 public abstract class Communication {

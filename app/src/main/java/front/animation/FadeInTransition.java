@@ -6,6 +6,7 @@ import javafx.util.Duration;
 
 /**
  * This class is used to create a fade in transition. This class can be used without multi-threading.
+ *
  * @author Arnaud MOREAU
  */
 public class FadeInTransition {

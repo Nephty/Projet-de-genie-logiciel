@@ -16,6 +16,7 @@ import java.util.Calendar;
  * The method formatCurrentTime() uses a <code>Calendar</code> object to return the current time in a defined format.
  * This allows every controller to have access to a method to format time, rather than defining it in all FXML controllers.
  * It also makes the code more readable.
+ *
  * @author Arnaud MOREAU
  */
 public class Controller {

@@ -7,7 +7,9 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -131,7 +133,7 @@ public class HTTPIntegrationTest {
 
     @Test
     @DisplayName("Change the flag")
-    public void changeFlag(){
+    public void changeFlag() {
         // Fetch a notification
         Notification notifTest = Notification.fetchCustomNotification().get(0);
 
@@ -139,7 +141,7 @@ public class HTTPIntegrationTest {
         assertEquals(notifTest.isFlagged(), flagged);
 
         // Change the flag
-        assertDoesNotThrow(()->{
+        assertDoesNotThrow(() -> {
             notifTest.changeFlag();
         });
 
@@ -151,7 +153,7 @@ public class HTTPIntegrationTest {
         assertEquals(notifTest2.isFlagged(), (!flagged));
 
         // Flag it again to make it as the start of the test
-        assertDoesNotThrow(()->{
+        assertDoesNotThrow(() -> {
             notifTest.changeFlag();
         });
         assertEquals(notifTest.isFlagged(), flagged);
@@ -187,13 +189,13 @@ public class HTTPIntegrationTest {
 
     @Test
     @DisplayName("Manage expired token")
-    public void errorHandler(){
+    public void errorHandler() {
         // Sets an expired token
         String expiredToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMS4wMi4wMy0xMjMuMDAiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiaHR0cHM6Ly9mbG5zLXNwcmluZy10ZXN0Lmhlcm9rdWFwcC5jb20vYXBpL2xvZ2luIiwiZXhwIjoxNjUwNjI4NjY5fQ.nwtdvJUpnXyhKDZxFdsiD6-nSQxsZmHN5HgpwIEk6b0";
         Main.setToken(expiredToken);
 
         // Test a simple request
-        assertDoesNotThrow(()->{
+        assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/01.02.03-123.00?isUsername=false")
                     .header("Authorization", "Bearer " + Main.getToken())
@@ -204,7 +206,7 @@ public class HTTPIntegrationTest {
         });
 
         // Test the same request with the same token but with the ErrorHandler class
-        assertDoesNotThrow(()->{
+        assertDoesNotThrow(() -> {
             Unirest.setTimeouts(0, 0);
             HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
                 HttpResponse<String> rep = null;
@@ -227,10 +229,10 @@ public class HTTPIntegrationTest {
 
     @Test
     @DisplayName("Get archived accounts")
-    public void fetchArchivedAccounts(){
+    public void fetchArchivedAccounts() {
         Main.setUser(new Profile("01.02.03-123.00"));
         Wallet testWallet = new Wallet(new Profile("01.02.03-123.00"), new Bank("ABCDABCD"), new ArrayList<Account>());
-        assertDoesNotThrow(()->{
+        assertDoesNotThrow(() -> {
             testWallet.fetchArchivedAccount();
         });
         ArrayList<Account> archivedAccountList = testWallet.getArchivedAccountList();
@@ -241,7 +243,7 @@ public class HTTPIntegrationTest {
 
     @Test
     @DisplayName("Fetch requests")
-    public void fetchRequests(){
+    public void fetchRequests() {
         assertDoesNotThrow(() -> {
             ArrayList<Request> reqList = Request.fetchRequests();
             assertEquals(reqList.size(), 2);

@@ -92,7 +92,7 @@ public class Transaction {
         return Date.valueOf(sendingDate);
     }
 
-    public String getMessage(){
+    public String getMessage() {
         return this.message;
     }
 

@@ -7,18 +7,21 @@ import front.controllers.ExportHistorySceneController;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.junit.*;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
-import java.io.*;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 
 public class FileTest {
-// https://patouche.github.io/2015/01/17/temporary-folder-rule/
+    // https://patouche.github.io/2015/01/17/temporary-folder-rule/
     @Rule
     public TemporaryFolder tmpFolder = new TemporaryFolder();
 
@@ -27,17 +30,25 @@ public class FileTest {
         System.out.printf("Fichiers trouvés durant la phase %s : %s \n", phase, Arrays.asList(files));
     }
 
-    @Before
-    public void setUp() { listFiles("Before"); }
-
-    @After
-    public void tearDown() { listFiles("After"); }
-
     @BeforeClass
-    public static void beforeClass() { listFiles("BeforeClass"); }
+    public static void beforeClass() {
+        listFiles("BeforeClass");
+    }
 
     @AfterClass
-    public static void afterClass() { listFiles("AfterClass"); }
+    public static void afterClass() {
+        listFiles("AfterClass");
+    }
+
+    @Before
+    public void setUp() {
+        listFiles("Before");
+    }
+
+    @After
+    public void tearDown() {
+        listFiles("After");
+    }
 
     @Test
     public void testSomething() throws IOException {
@@ -47,7 +58,7 @@ public class FileTest {
         String json = "{\"transactionTypeId\":1,\"senderIban\":\"0123456789ABCDEF\",\"recipientIban\":\"BE01010101010101\",\"currencyId\":0,\"transactionAmount\":1.0,\"transactionDate\":\"2022-04-12\",\"comments\":\"Communication\",\"senderName\":\"Musk Elon\",\"recipientName\":\"Musk Elon\",\"currencyName\":\"EUR\",\"transactionId\":19,\"processed\":true},{\"transactionTypeId\":1,\"senderIban\":\"BE12345678910118\",\"recipientIban\":\"BE01010101010101\",\"currencyId\":0,\"transactionAmount\":20.0,\"transactionDate\":\"2022-04-15\",\"comments\":\"Bonjour\",\"senderName\":\"Moreau Benoit\",\"recipientName\":\"Musk Elon\",\"currencyName\":\"EUR\",\"transactionId\":20,\"processed\":true},{\"transactionTypeId\":1,\"senderIban\":\"BE01010101010101\",\"recipientIban\":\"BE01020300000000\",\"currencyId\":0,\"transactionAmount\":10.0,\"transactionDate\":\"2022-04-22\",\"comments\":\"TestTransaction\",\"senderName\":\"Musk Elon\",\"recipientName\":\"Matos Carlos\",\"currencyName\":\"EUR\",\"transactionId\":39,\"processed\":true}";
         ArrayList<Transaction> exportData = SubAccount.createHistory(json);
 
-        assertDoesNotThrow(()->{
+        assertDoesNotThrow(() -> {
             File file = new File(path + "/transactionHistory" + (isCsv ? ".csv" : ".json"));
 
             boolean fileCreated = file.createNewFile();

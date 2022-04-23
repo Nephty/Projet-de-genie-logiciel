@@ -73,9 +73,9 @@ public class SignInSceneController extends Controller implements BackButtonNavig
         }
 
         // If the data are incorrect (error 403)
-        if(response.getStatus() == 403){
+        if (response.getStatus() == 403) {
             incorrectUsernameOrPasswordLabel.setVisible(true);
-        } else{
+        } else {
             Main.errorCheck(response.getStatus());
         }
         // If the response is correct, initialise the tokens
@@ -89,7 +89,7 @@ public class SignInSceneController extends Controller implements BackButtonNavig
 
                 // Creates the user
                 Unirest.setTimeouts(0, 0);
-                HttpResponse<String> response2 = ErrorHandler.handlePossibleError(()-> {
+                HttpResponse<String> response2 = ErrorHandler.handlePossibleError(() -> {
                     HttpResponse<String> rep;
                     try {
                         rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/user/" + usernameField.getText() + "?isUsername=true")

@@ -10,6 +10,7 @@ import javafx.util.Duration;
  * - Create a new FadeOutThread
  * - Use the start method of the thread
  * Note : never use this class on its own. Follow the previous how-to-use steps.
+ *
  * @author Arnaud MOREAU
  */
 public class FadeOutTransition {

@@ -28,17 +28,43 @@ import java.util.stream.Stream;
  */
 public class ExportHistorySceneController extends Controller implements BackButtonNavigator {
     public static ArrayList<Transaction> exportData;
-    private boolean exportDone = false, directoryChosen = false;
+    final DirectoryChooser directoryChooser = new DirectoryChooser();
     @FXML
     Button backButton, choosePathButton, JSONExportButton, CSVExportButton;
     @FXML
     Label choosePathLabel, noPathSelectedLabel, requestNotSentLabel, exportSuccessfulLabel, exportLocationLabel;
-
+    private boolean exportDone = false, directoryChosen = false;
     private File selectedDirectory;
-    final DirectoryChooser directoryChooser = new DirectoryChooser();
 
     public static void setExportData(ArrayList<Transaction> arrayList) {
         exportData = arrayList;
+    }
+
+    /**
+     * Convert a String list into a CSV line
+     *
+     * @param data A list of String to formate into a CSV line
+     * @return The String of the CSV line
+     */
+    public static String convertToCSV(String[] data) {
+        return Stream.of(data)
+                .map(ExportHistorySceneController::escapeSpecialCharacters)
+                .collect(Collectors.joining(","));
+    }
+
+    /**
+     * Escape the special characters to avoid problems in CSV files
+     *
+     * @param data The String to manage
+     * @return The String with the special characters escaped
+     */
+    public static String escapeSpecialCharacters(String data) {
+        String escapedData = data.replaceAll("\\R", " ");
+        if (data.contains(",") || data.contains("\"") || data.contains("'")) {
+            data = data.replace("\"", "\"\"");
+            escapedData = "\"" + data + "\"";
+        }
+        return escapedData;
     }
 
     @Override
@@ -107,6 +133,7 @@ public class ExportHistorySceneController extends Controller implements BackButt
 
     /**
      * Export the transaction history in a file
+     *
      * @param path  The path of the export file
      * @param isCsv If the user wants a CSV or a JSON file
      */
@@ -172,30 +199,5 @@ public class ExportHistorySceneController extends Controller implements BackButt
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Convert a String list into a CSV line
-     * @param data  A list of String to formate into a CSV line
-     * @return      The String of the CSV line
-     */
-    public static String convertToCSV(String[] data) {
-        return Stream.of(data)
-                .map(ExportHistorySceneController::escapeSpecialCharacters)
-                .collect(Collectors.joining(","));
-    }
-
-    /**
-     * Escape the special characters to avoid problems in CSV files
-     * @param data  The String to manage
-     * @return      The String with the special characters escaped
-     */
-    public static String escapeSpecialCharacters(String data) {
-        String escapedData = data.replaceAll("\\R", " ");
-        if (data.contains(",") || data.contains("\"") || data.contains("'")) {
-            data = data.replace("\"", "\"\"");
-            escapedData = "\"" + data + "\"";
-        }
-        return escapedData;
     }
 }

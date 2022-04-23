@@ -4,6 +4,7 @@ import javafx.scene.input.MouseEvent;
 
 /**
  * Interface that describes the presence of a "Language" button on the scene. Implemented by scene controllers.
+ *
  * @author Arnaud MOREAU
  */
 public interface LanguageButtonNavigator {

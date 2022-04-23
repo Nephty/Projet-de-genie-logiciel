@@ -2,6 +2,7 @@ package back.user;
 
 /**
  * An enumeration of the communications types
+ *
  * @author François VION
  */
 public enum CommunicationType {

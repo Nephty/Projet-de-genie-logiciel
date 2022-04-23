@@ -21,7 +21,7 @@ public class Profile {
      *
      * @param nationalRegistrationNumber The String of the user's national registration number
      */
-    public Profile(String nationalRegistrationNumber){
+    public Profile(String nationalRegistrationNumber) {
         // Fetch the user's information in the database
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {

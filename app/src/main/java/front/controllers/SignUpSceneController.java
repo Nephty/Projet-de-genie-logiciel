@@ -40,140 +40,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
 
     private boolean userSignedUp = false;
 
-    public void initialize() {
-        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList(Main.FR_BE_Locale.getDisplayName(), Main.EN_US_Locale.getDisplayName(), Main.NL_NL_Locale.getDisplayName(), Main.PT_PT_Locale.getDisplayName(), Main.LT_LT_Locale.getDisplayName(), Main.RU_RU_Locale.getDisplayName(), Main.DE_DE_Locale.getDisplayName(), Main.PL_PL_Locale.getDisplayName()));
-        languageComboBox.setItems(values);
-
-        passwordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
-        passwordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
-        confirmPasswordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
-        confirmPasswordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
-        // Set visible property : if the checkbox is not ticked, show the password field, else, show the password text field
-        passwordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
-        passwordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
-        confirmPasswordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
-        confirmPasswordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
-        // Set selection property : if you type something in the password field, you also type it in the password text field
-        passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
-        confirmPasswordTextField.textProperty().bindBidirectional(confirmPasswordField.textProperty());
-
-        lastNameField.textProperty().addListener((observable, oldValue, newValue) -> usernameLabel.setText("   Username : " + getUsernameFromLastNameAndNRNTextFields()));
-        NRNField.textProperty().addListener((observable, oldValue, newValue) -> usernameLabel.setText("   Username : " + getUsernameFromLastNameAndNRNTextFields()));
-    }
-
-    @FXML
-    void handleBackButtonClicked(MouseEvent event) {
-        handleBackButtonNavigation(event);
-        hideAllLabels();
-    }
-
-    @Override
-    public void handleBackButtonNavigation(MouseEvent event) {
-        Main.setScene(Flow.back());
-        if (userSignedUp) {
-            // if the user signed up, clear the form
-            // if he didn't sign up, we're saving the inputs
-            languageComboBox.setValue(null);
-            emptyAllTextFields();
-            hideAllLabels();
-            userSignedUp = false;
-        }
-    }
-
-    @Override
-    public void emulateBackButtonClicked() {
-        handleBackButtonNavigation(null);
-    }
-
-    @FXML
-    void handleSignUpButtonClicked(MouseEvent mouseEvent) {
-        signUp();
-    }
-
-    /**
-     * Checks if every field is properly filled in. Initializes the sign-up process.
-     */
-    public void signUp() {
-        String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
-                NRN = NRNField.getText(), password = passwordField.getText(),
-                passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
-
-        // Manage the "invalid xxxx" labels visibility
-        // Is the last name valid (A-Z, a-z) ? Show/hide the incorrect last name label accordingly
-        if (!isValidLastName(lastName) && !invalidLastNameLabel.isVisible()) invalidLastNameLabel.setVisible(true);
-        else if (isValidLastName(lastName) && invalidLastNameLabel.isVisible()) invalidLastNameLabel.setVisible(false);
-        // Is the first name valid (A-Z, a-z) ? Show/hide the incorrect first name label accordingly
-        if (!isValidFirstName(firstName) && !invalidFirstNameLabel.isVisible()) invalidFirstNameLabel.setVisible(true);
-        else if (isValidFirstName(firstName) && invalidFirstNameLabel.isVisible())
-            invalidFirstNameLabel.setVisible(false);
-        // Is the email valid (A-Z, a-z, 0-9, contains only one @, contains a . after the @) ? Show/hide the incorrect email label accordingly
-        if (!isValidEmail(email) && !invalidEmailLabel.isVisible()) invalidEmailLabel.setVisible(true);
-        else if (isValidEmail(email) && invalidEmailLabel.isVisible()) invalidEmailLabel.setVisible(false);
-        // Is the NRN valid (XX.XX.XX-XXX.XX format with numbers)
-        if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(true);
-        else if (isValidNRN(NRN) && invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(false);
-
-
-        // PRO TIP : if the username is invalid, it cannot be taken, so we can safely give the same layout (coordinates)
-        // the labels "invalid username" and "username taken". If the label "invalid username" shows up, it is
-        // impossible for the "username taken" label to show up and vice versa.
-
-
-        // Manage the "password does not match" label visibility
-        if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
-            passwordDoesNotMatchLabel.setVisible(true);
-        else if (passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible())
-            passwordDoesNotMatchLabel.setVisible(false);
-
-        if (chosenLanguage == null && !languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(true);
-        else if (chosenLanguage != null && languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(false);
-
-
-        // No label is visible implies that every field is properly filled in
-        if (noLabelVisible()) {
-            // Then we can create a new user
-
-            // Calculate the birthdate with NRN
-            String birthDate;
-            if(Integer.parseInt(NRN.substring(0,2)) >=30){
-                birthDate = "19" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
-            } else{
-                birthDate = "20" + NRN.substring(0,2) + "-" + NRN.substring(3,5) + "-" +NRN.substring(6,8);
-            }
-
-            Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = null;
-            String username = getUsernameFromLastNameAndNRNTextFields();
-            try {
-                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
-                        .header("Content-Type", "application/json")
-                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userId\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\",\r\n    \"birthdate\": \""+birthDate+"\"\r\n}")                        .asString();
-                // Ignore wrong data error (403)
-                if(response.getStatus() != 403){
-                    // Check the HTTP code status to inform the user if there is an error
-                    Main.errorCheck(response.getStatus());
-                }
-            } catch (UnirestException e) {
-                Main.errorCheck(408);
-            }
-            if (response != null) {
-                if (response.getStatus() == 403) {
-                    switch (response.getBody()) {
-                        case "ID":
-                            NRNTakenLabel.setVisible(true);
-                            break;
-                        case "EMAIL":
-                            emailTakenLabel.setVisible(true);
-                            break;
-                    }
-                } else {
-                    fadeInAndOutNode(3000, signedUpLabel);
-                    userSignedUp = true;
-                }
-            }
-        }
-    }
-
     /**
      * Checks if the given <code>String</code> is a valid last name.
      * Requirements :
@@ -270,6 +136,140 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
             }
         }
         return true;
+    }
+
+    public void initialize() {
+        ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList(Main.FR_BE_Locale.getDisplayName(), Main.EN_US_Locale.getDisplayName(), Main.NL_NL_Locale.getDisplayName(), Main.PT_PT_Locale.getDisplayName(), Main.LT_LT_Locale.getDisplayName(), Main.RU_RU_Locale.getDisplayName(), Main.DE_DE_Locale.getDisplayName(), Main.PL_PL_Locale.getDisplayName()));
+        languageComboBox.setItems(values);
+
+        passwordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        passwordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        confirmPasswordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        confirmPasswordField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        // Set visible property : if the checkbox is not ticked, show the password field, else, show the password text field
+        passwordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        passwordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        confirmPasswordTextField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty());
+        confirmPasswordField.visibleProperty().bind(showHidePasswordCheckBox.selectedProperty().not());
+        // Set selection property : if you type something in the password field, you also type it in the password text field
+        passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
+        confirmPasswordTextField.textProperty().bindBidirectional(confirmPasswordField.textProperty());
+
+        lastNameField.textProperty().addListener((observable, oldValue, newValue) -> usernameLabel.setText("   Username : " + getUsernameFromLastNameAndNRNTextFields()));
+        NRNField.textProperty().addListener((observable, oldValue, newValue) -> usernameLabel.setText("   Username : " + getUsernameFromLastNameAndNRNTextFields()));
+    }
+
+    @FXML
+    void handleBackButtonClicked(MouseEvent event) {
+        handleBackButtonNavigation(event);
+        hideAllLabels();
+    }
+
+    @Override
+    public void handleBackButtonNavigation(MouseEvent event) {
+        Main.setScene(Flow.back());
+        if (userSignedUp) {
+            // if the user signed up, clear the form
+            // if he didn't sign up, we're saving the inputs
+            languageComboBox.setValue(null);
+            emptyAllTextFields();
+            hideAllLabels();
+            userSignedUp = false;
+        }
+    }
+
+    @Override
+    public void emulateBackButtonClicked() {
+        handleBackButtonNavigation(null);
+    }
+
+    @FXML
+    void handleSignUpButtonClicked(MouseEvent mouseEvent) {
+        signUp();
+    }
+
+    /**
+     * Checks if every field is properly filled in. Initializes the sign-up process.
+     */
+    public void signUp() {
+        String lastName = lastNameField.getText(), firstName = firstNameField.getText(), email = emailAddressField.getText(),
+                NRN = NRNField.getText(), password = passwordField.getText(),
+                passwordConfirmation = confirmPasswordField.getText(), chosenLanguage = languageComboBox.getValue();
+
+        // Manage the "invalid xxxx" labels visibility
+        // Is the last name valid (A-Z, a-z) ? Show/hide the incorrect last name label accordingly
+        if (!isValidLastName(lastName) && !invalidLastNameLabel.isVisible()) invalidLastNameLabel.setVisible(true);
+        else if (isValidLastName(lastName) && invalidLastNameLabel.isVisible()) invalidLastNameLabel.setVisible(false);
+        // Is the first name valid (A-Z, a-z) ? Show/hide the incorrect first name label accordingly
+        if (!isValidFirstName(firstName) && !invalidFirstNameLabel.isVisible()) invalidFirstNameLabel.setVisible(true);
+        else if (isValidFirstName(firstName) && invalidFirstNameLabel.isVisible())
+            invalidFirstNameLabel.setVisible(false);
+        // Is the email valid (A-Z, a-z, 0-9, contains only one @, contains a . after the @) ? Show/hide the incorrect email label accordingly
+        if (!isValidEmail(email) && !invalidEmailLabel.isVisible()) invalidEmailLabel.setVisible(true);
+        else if (isValidEmail(email) && invalidEmailLabel.isVisible()) invalidEmailLabel.setVisible(false);
+        // Is the NRN valid (XX.XX.XX-XXX.XX format with numbers)
+        if (!isValidNRN(NRN) && !invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(true);
+        else if (isValidNRN(NRN) && invalidNRNLabel.isVisible()) invalidNRNLabel.setVisible(false);
+
+
+        // PRO TIP : if the username is invalid, it cannot be taken, so we can safely give the same layout (coordinates)
+        // the labels "invalid username" and "username taken". If the label "invalid username" shows up, it is
+        // impossible for the "username taken" label to show up and vice versa.
+
+
+        // Manage the "password does not match" label visibility
+        if (!passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && !passwordDoesNotMatchLabel.isVisible())
+            passwordDoesNotMatchLabel.setVisible(true);
+        else if (passwordMatchesAndIsNotEmpty(password, passwordConfirmation) && passwordDoesNotMatchLabel.isVisible())
+            passwordDoesNotMatchLabel.setVisible(false);
+
+        if (chosenLanguage == null && !languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(true);
+        else if (chosenLanguage != null && languageNotChosenLabel.isVisible()) languageNotChosenLabel.setVisible(false);
+
+
+        // No label is visible implies that every field is properly filled in
+        if (noLabelVisible()) {
+            // Then we can create a new user
+
+            // Calculate the birthdate with NRN
+            String birthDate;
+            if (Integer.parseInt(NRN.substring(0, 2)) >= 30) {
+                birthDate = "19" + NRN.substring(0, 2) + "-" + NRN.substring(3, 5) + "-" + NRN.substring(6, 8);
+            } else {
+                birthDate = "20" + NRN.substring(0, 2) + "-" + NRN.substring(3, 5) + "-" + NRN.substring(6, 8);
+            }
+
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = null;
+            String username = getUsernameFromLastNameAndNRNTextFields();
+            try {
+                response = Unirest.post("https://flns-spring-test.herokuapp.com/api/user")
+                        .header("Content-Type", "application/json")
+                        .body("{\r\n    \"username\": \"" + username + "\",\r\n    \"userId\": \"" + NRN + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"firstname\": \"" + firstName + "\",\r\n    \"lastname\": \"" + lastName + "\",\r\n    \"language\": \"" + chosenLanguage + "\",\r\n    \"birthdate\": \"" + birthDate + "\"\r\n}").asString();
+                // Ignore wrong data error (403)
+                if (response.getStatus() != 403) {
+                    // Check the HTTP code status to inform the user if there is an error
+                    Main.errorCheck(response.getStatus());
+                }
+            } catch (UnirestException e) {
+                Main.errorCheck(408);
+            }
+            if (response != null) {
+                if (response.getStatus() == 403) {
+                    switch (response.getBody()) {
+                        case "ID":
+                            NRNTakenLabel.setVisible(true);
+                            break;
+                        case "EMAIL":
+                            emailTakenLabel.setVisible(true);
+                            break;
+                    }
+                } else {
+                    fadeInAndOutNode(3000, signedUpLabel);
+                    userSignedUp = true;
+                }
+            }
+        }
     }
 
     /**

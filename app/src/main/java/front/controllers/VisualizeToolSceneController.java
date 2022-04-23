@@ -52,10 +52,9 @@ public class VisualizeToolSceneController extends Controller implements BackButt
     NumberAxis leftAxis;
     @FXML
     TableColumn<SubAccount, String> availableIBANColumn, availableAmountColumn, addedIBANColumn, addedAmountColumn;
-
+    ArrayList<Double> valuesHistory;
     private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
     private ObservableList<XYChart.Series<String, Double>> stackedAreaChartData = FXCollections.observableArrayList();
-    ArrayList<Double> valuesHistory;
 
     public void initialize() {
         availableAccountsTableView.setPlaceholder(new Label("No account available."));
@@ -565,7 +564,8 @@ public class VisualizeToolSceneController extends Controller implements BackButt
         ArrayList<String> copy = (ArrayList<String>) newKeySet.clone();
         if (newKeySet.size() == 0) return "";
         String lastElementOfCopy = copy.get(copy.size() - 1);
-        if (Integer.parseInt(lastElementOfCopy) <= maxValueForLowBound && !lastElementOfCopy.equals("0")) return lastElementOfCopy;
+        if (Integer.parseInt(lastElementOfCopy) <= maxValueForLowBound && !lastElementOfCopy.equals("0"))
+            return lastElementOfCopy;
         else {
             copy.remove(copy.size() - 1);
             return identifyGapLowBound(copy, maxValueForLowBound);
@@ -615,19 +615,23 @@ public class VisualizeToolSceneController extends Controller implements BackButt
                     switch (timeSpanComboBox.getValue()) {
                         case DAILY:
                             // last 30 days
-                            if (today - sendingDateToMillis < _30_DAYS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                            if (today - sendingDateToMillis < _30_DAYS_IN_MILLISECONDS)
+                                ExportHistorySceneController.exportData.add(t);
                             break;
                         case WEEKLY:
                             // last 8 weeks
-                            if (today - sendingDateToMillis < _8_WEEKS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                            if (today - sendingDateToMillis < _8_WEEKS_IN_MILLISECONDS)
+                                ExportHistorySceneController.exportData.add(t);
                             break;
                         case MONTHLY:
                             // last 6 months
-                            if (today - sendingDateToMillis < _6_MONTHS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                            if (today - sendingDateToMillis < _6_MONTHS_IN_MILLISECONDS)
+                                ExportHistorySceneController.exportData.add(t);
                             break;
                         case YEARLY:
                             // last 4 years
-                            if (today - sendingDateToMillis < _4_YEARS_IN_MILLISECONDS) ExportHistorySceneController.exportData.add(t);
+                            if (today - sendingDateToMillis < _4_YEARS_IN_MILLISECONDS)
+                                ExportHistorySceneController.exportData.add(t);
                             break;
                     }
                 }

@@ -4,7 +4,6 @@ import app.Main;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import javafx.collections.FXCollections;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ public class Request extends Communication {
 
     /**
      * Creates a request with all the needed information
+     *
      * @param swift             The String of the bank's swift
      * @param communicationType The communication type (enumeration)
      * @param date              The String of the date
@@ -36,9 +36,10 @@ public class Request extends Communication {
 
     /**
      * Fetch the request in the database
-     * @return  A list of the request
+     *
+     * @return A list of the request
      */
-    public static ArrayList<Request> fetchRequests(){
+    public static ArrayList<Request> fetchRequests() {
         // Fetch requests and put them in the list
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
@@ -61,15 +62,16 @@ public class Request extends Communication {
 
     /**
      * Parse a list of JSON into a request list
-     * @param json  The JSON to parse
-     * @return      The list of request from the JSON
+     *
+     * @param json The JSON to parse
+     * @return The list of request from the JSON
      */
-    public static ArrayList<Request> parseRequest(String json){
+    public static ArrayList<Request> parseRequest(String json) {
         ArrayList<Request> rep = new ArrayList<Request>();
         String body = json;
-        String toParse = body.substring(1,body.length() - 1);
+        String toParse = body.substring(1, body.length() - 1);
         ArrayList<String> requestList = Portfolio.JSONArrayParser(toParse);
-        if(!requestList.get(0).equals("")) {
+        if (!requestList.get(0).equals("")) {
             for (String s : requestList) {
                 JSONObject obj = new JSONObject(s);
                 // Ignore custom notifications
@@ -123,9 +125,9 @@ public class Request extends Communication {
 
         if (response != null) {
             String body = response.getBody();
-            String toParse = body.substring(1,body.length() - 1);
+            String toParse = body.substring(1, body.length() - 1);
             ArrayList<String> requestList = Portfolio.JSONArrayParser(toParse);
-            if(!requestList.get(0).equals("")) {
+            if (!requestList.get(0).equals("")) {
                 for (String s : requestList) {
                     JSONObject obj = new JSONObject(s);
                     // We exclude custom notification and alert
@@ -158,14 +160,24 @@ public class Request extends Communication {
             }
         }
         // TODO: Ecrire un truc pour l'utilisateur
-        if(!alreadySent){
+        if (!alreadySent) {
             int comType = 7;
-            switch(this.communicationType.toString()){
-                case("CREATE_ACCOUNT"): comType = 0; break;
-                case("CREATE_SUB_ACCOUNT"): comType = 1; break;
-                case("TRANSFER_PERMISSION"): comType = 2; break;
-                case("NEW_WALLET"): comType = 3; break;
-                case("DELETE_ACCOUNT"): comType = 6; break;
+            switch (this.communicationType.toString()) {
+                case ("CREATE_ACCOUNT"):
+                    comType = 0;
+                    break;
+                case ("CREATE_SUB_ACCOUNT"):
+                    comType = 1;
+                    break;
+                case ("TRANSFER_PERMISSION"):
+                    comType = 2;
+                    break;
+                case ("NEW_WALLET"):
+                    comType = 3;
+                    break;
+                case ("DELETE_ACCOUNT"):
+                    comType = 6;
+                    break;
             }
 
             // Send the request (creating a notification in the database)
@@ -175,9 +187,9 @@ public class Request extends Communication {
                 HttpResponse<String> rep = null;
                 try {
                     rep = Unirest.post("https://flns-spring-test.herokuapp.com/api/notification")
-                            .header("Authorization", "Bearer "+ Main.getToken())
+                            .header("Authorization", "Bearer " + Main.getToken())
                             .header("Content-Type", "application/json")
-                            .body("{\r\n    \"notificationType\": "+ finalComType +",\r\n    \"comments\": \""+this.content+"\",\r\n    \"status\": \"Unchecked\",\r\n    \"recipientId\": \""+this.recipientId+"\"\r\n}")
+                            .body("{\r\n    \"notificationType\": " + finalComType + ",\r\n    \"comments\": \"" + this.content + "\",\r\n    \"status\": \"Unchecked\",\r\n    \"recipientId\": \"" + this.recipientId + "\"\r\n}")
                             .asString();
                 } catch (UnirestException e) {
                     throw new RuntimeException(e);
@@ -191,31 +203,41 @@ public class Request extends Communication {
      * @return The String to display the request information
      */
     @Override
-    public String toString(){
+    public String toString() {
         String comType = "";
-        switch(this.communicationType.toString()){
-            case("CREATE_ACCOUNT"): comType = "Create account"; break;
-            case("CREATE_SUB_ACCOUNT"): comType = "Create sub account"; break;
-            case("TRANSFER_PERMISSION"): comType = "Transfer permission"; break;
-            case("NEW_WALLET"): comType = "New wallet"; break;
-            case("DELETE_ACCOUNT"): comType = "Delete account"; break;
+        switch (this.communicationType.toString()) {
+            case ("CREATE_ACCOUNT"):
+                comType = "Create account";
+                break;
+            case ("CREATE_SUB_ACCOUNT"):
+                comType = "Create sub account";
+                break;
+            case ("TRANSFER_PERMISSION"):
+                comType = "Transfer permission";
+                break;
+            case ("NEW_WALLET"):
+                comType = "New wallet";
+                break;
+            case ("DELETE_ACCOUNT"):
+                comType = "Delete account";
+                break;
         }
-        return this.date + "      "+ this.recipientId + "      " + comType + "         waiting for the bank's approbation";
+        return this.date + "      " + this.recipientId + "      " + comType + "         waiting for the bank's approbation";
     }
 
     public String getDate() {
         return date;
     }
 
-    public String getRecipientId(){
+    public String getRecipientId() {
         return this.recipientId;
     }
 
-    public String getContent(){
+    public String getContent() {
         return this.content;
     }
 
-    public CommunicationType getCommunicationType(){
+    public CommunicationType getCommunicationType() {
         return this.communicationType;
     }
 

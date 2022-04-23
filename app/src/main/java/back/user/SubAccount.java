@@ -87,7 +87,8 @@ public class SubAccount {
                 double amount = obj2.getDouble("transactionAmount");
                 String sendingDate = obj2.getString("transactionDate");
                 String message = obj2.getString("comments");
-                rep.add(new Transaction(ID, senderName, senderIBAN, receiverName, receiverIBAN, amount, sendingDate, Currencies.EUR, message));
+                boolean status = obj2.getBoolean("processed");
+                rep.add(new Transaction(ID, senderName, senderIBAN, receiverName, receiverIBAN, amount, sendingDate, Currencies.EUR, message, status));
             }
         }
         return rep;

@@ -107,4 +107,8 @@ public class Account {
     public boolean canPay() {
         return canPay;
     }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
 }

@@ -7,6 +7,7 @@ import front.animation.threads.FadeOutThread;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.Scenes;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -28,7 +29,7 @@ public class TransactionsHistorySceneController extends Controller implements Ba
     @FXML
     TableView<Transaction> transactionsHistoryTableView;
     @FXML
-    TableColumn<Transaction, String> senderNameColumn, senderIBANColumn, receiverNameColumn, receiverIBANColumn, dateColumn, amountColumn;
+    TableColumn<Transaction, String> senderNameColumn, senderIBANColumn, receiverNameColumn, receiverIBANColumn, dateColumn, amountColumn, statusColumn;
     @FXML
     Label lastUpdateTimeLabel, loadingTransactionsHistoryLabel;
 
@@ -39,6 +40,7 @@ public class TransactionsHistorySceneController extends Controller implements Ba
         receiverIBANColumn.setCellValueFactory(new PropertyValueFactory<>("receiverIBAN"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("sendingDate"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        statusColumn.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().isProcessed() ? "Yes" : "No"));
         transactionsHistoryTableView.setPlaceholder(new Label("No transaction."));
         transactionsHistoryTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         fetchTransactions();

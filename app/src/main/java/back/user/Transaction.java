@@ -17,6 +17,7 @@ public class Transaction {
     private final String sendingDate;
     private final Currencies currency;
     private final String message;
+    private final boolean processed;
 
     /**
      * Creates the Transaction object byt giving all the needed information
@@ -30,8 +31,9 @@ public class Transaction {
      * @param sendingDate  The String of the sending date
      * @param currency     The int corresponding to the type of currency
      * @param message      The String of the message
+     * @param processed    Whether the transaction has been processed or not
      */
-    public Transaction(long ID, String senderName, String senderIBAN, String receiverName, String receiverIBAN, double amount, String sendingDate, Currencies currency, String message) {
+    public Transaction(long ID, String senderName, String senderIBAN, String receiverName, String receiverIBAN, double amount, String sendingDate, Currencies currency, String message, boolean processed) {
         this.ID = ID;
         this.senderName = senderName;
         this.senderIBAN = senderIBAN;
@@ -41,6 +43,7 @@ public class Transaction {
         this.sendingDate = sendingDate;
         this.currency = currency;
         this.message = message;
+        this.processed = processed;
     }
 
 
@@ -91,5 +94,9 @@ public class Transaction {
 
     public String getMessage(){
         return this.message;
+    }
+
+    public boolean isProcessed() {
+        return processed;
     }
 }

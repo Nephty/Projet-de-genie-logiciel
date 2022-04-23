@@ -27,6 +27,7 @@
                     <TableColumn fx:id="receiverIBANColumn" prefWidth="225.0" style="-fx-alignment: CENTER;" text="%TransactionsHistoryScene.ReceiverIBANColumn" />
                     <TableColumn fx:id="dateColumn" prefWidth="150.0" style="-fx-alignment: CENTER;" text="%common.DateColumn" />
                     <TableColumn fx:id="amountColumn" prefWidth="99.0" style="-fx-alignment: CENTER;" text="%common.AmountColumn" />
+                    <TableColumn fx:id="statusColumn" prefWidth="150" style="-fx-alignment: CENTER;" text="%common.statusColumn" />
                 </columns>
             </TableView>
             <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0" prefHeight="36.0" prefWidth="326.0" style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;" text="%TransactionsHistoryScene.lastUpdateTimeLabel" />

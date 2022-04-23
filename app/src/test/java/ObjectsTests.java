@@ -67,6 +67,19 @@ public class ObjectsTests {
     }
 
     @Test
+    @DisplayName("JSON request parser")
+    public void parseRequest(){
+        String json = "[{\"notificationType\":0,\"comments\":\"\",\"isFlagged\":false,\"recipientId\":\"GEBABEBB\",\"notificationId\":85,\"date\":\"2022-04-22\",\"senderName\":\"Matos Carlos\",\"senderId\":\"01.02.03-123.00\",\"notificationTypeName\":\"CREATE_ACCOUNT\"},{\"notificationType\":4,\"comments\":\"The bank BNP hasn't created you a new account\",\"isFlagged\":false,\"recipientId\":\"01.02.03-123.00\",\"notificationId\":84,\"date\":\"2022-04-20\",\"senderName\":\"BNP\",\"senderId\":\"GEBABEBB\",\"notificationTypeName\":\"CUSTOM\"},{\"notificationType\":2,\"comments\":\"BE01020300000000\",\"isFlagged\":false,\"recipientId\":\"BEGLGLGL\",\"notificationId\":86,\"date\":\"2022-04-23\",\"senderName\":\"Matos Carlos\",\"senderId\":\"01.02.03-123.00\",\"notificationTypeName\":\"TRANSFER_PERMISSION\"}]";
+        ArrayList<Request> reqList = Request.parseRequest(json);
+        assertEquals(reqList.size(), 2);
+        assertEquals(reqList.get(0).getCommunicationType(), CommunicationType.CREATE_ACCOUNT);
+        assertEquals(reqList.get(0).getRecipientId(), "GEBABEBB");
+        assertEquals(reqList.get(1).getCommunicationType(), CommunicationType.TRANSFER_PERMISSION);
+        assertEquals(reqList.get(1).getContent(), "BE01020300000000");
+
+    }
+
+    @Test
     @DisplayName("Transaction history creation")
     public void createHistory(){
         String json = "{\"transactionTypeId\":1,\"senderIban\":\"0123456789ABCDEF\",\"recipientIban\":\"BE01010101010101\",\"currencyId\":0,\"transactionAmount\":1.0,\"transactionDate\":\"2022-04-12\",\"comments\":\"Communication\",\"senderName\":\"Musk Elon\",\"recipientName\":\"Musk Elon\",\"currencyName\":\"EUR\",\"transactionId\":19,\"processed\":true},{\"transactionTypeId\":1,\"senderIban\":\"BE12345678910118\",\"recipientIban\":\"BE01010101010101\",\"currencyId\":0,\"transactionAmount\":20.0,\"transactionDate\":\"2022-04-15\",\"comments\":\"Bonjour\",\"senderName\":\"Moreau Benoit\",\"recipientName\":\"Musk Elon\",\"currencyName\":\"EUR\",\"transactionId\":20,\"processed\":true},{\"transactionTypeId\":1,\"senderIban\":\"BE01010101010101\",\"recipientIban\":\"BE01020300000000\",\"currencyId\":0,\"transactionAmount\":10.0,\"transactionDate\":\"2022-04-22\",\"comments\":\"TestTransaction\",\"senderName\":\"Musk Elon\",\"recipientName\":\"Matos Carlos\",\"currencyName\":\"EUR\",\"transactionId\":39,\"processed\":true}";

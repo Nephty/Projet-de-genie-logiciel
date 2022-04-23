@@ -77,17 +77,26 @@ public class Bank {
         return parseSwift(response.getBody());
     }
 
+
+    /**
+     * Parse all the swift in a JSON into a String list
+     * @param json  The JSON to parse
+     * @return      The list of the String of the swifts
+     */
     public static ArrayList<String> parseSwift(String json){
         ArrayList<String> rep = new ArrayList<>();
 
         String body = json;
         body = body.substring(1, body.length() - 1);
 
-        // Parse all the banks and creates the objects
-        ArrayList<String> bankList = Portfolio.JSONArrayParser(body);
-        for (String s : bankList) {
-            JSONObject obj = new JSONObject(s);
-            rep.add(obj.getString("swift"));
+        // If there is at least one swift, it parse the list and create the objects to put them in the final list
+        if(!json.equals("")){
+            // Parse all the banks and creates the objects
+            ArrayList<String> bankList = Portfolio.JSONArrayParser(body);
+            for (String s : bankList) {
+                JSONObject obj = new JSONObject(s);
+                rep.add(obj.getString("swift"));
+            }
         }
         return rep;
     }

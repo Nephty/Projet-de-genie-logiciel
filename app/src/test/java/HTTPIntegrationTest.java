@@ -45,7 +45,6 @@ public class HTTPIntegrationTest {
             assertEquals("Matos", userTest.getLastName());
             assertEquals("01.02.03-123.00", userTest.getNationalRegistrationNumber());
         });
-
     }
 
     @Test
@@ -245,15 +244,11 @@ public class HTTPIntegrationTest {
     public void fetchRequests(){
         assertDoesNotThrow(() -> {
             ArrayList<Request> reqList = Request.fetchRequests();
-            assertEquals(reqList.size(), 1);
+            assertEquals(reqList.size(), 2);
             assertEquals(reqList.get(0).getCommunicationType(), CommunicationType.CREATE_ACCOUNT);
             assertEquals(reqList.get(0).getDate(), "2022-04-22");
             assertEquals(reqList.get(0).getContent(), "");
             assertEquals(reqList.get(0).getRecipientId(), "GEBABEBB");
         });
     }
-//
-//    @Test
-//    @DisplayName("Fetch all swifts")
-//    public void
 }

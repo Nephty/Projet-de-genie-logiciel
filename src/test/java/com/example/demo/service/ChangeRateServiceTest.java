@@ -7,7 +7,6 @@ import com.example.demo.model.CurrencyType;
 import com.example.demo.repository.ChangeRateRepo;
 import com.example.demo.repository.CurrencyTypeRepo;
 import com.example.demo.request.ChangeRateReq;
-import com.example.demo.scheduler.ChangeRateScheduler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -32,14 +31,12 @@ class ChangeRateServiceTest {
     private ChangeRateRepo changeRateRepo;
     @Mock
     private CurrencyTypeRepo currencyTypeRepo;
-    @Mock
-    private ChangeRateScheduler changeRateScheduler;
 
     private ChangeRateService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new ChangeRateService(changeRateRepo,currencyTypeRepo,changeRateScheduler);
+        underTest = new ChangeRateService(changeRateRepo,currencyTypeRepo);
     }
 
     @Test
@@ -50,9 +47,7 @@ class ChangeRateServiceTest {
         int currencyTo = 1; // USD
 
         CurrencyType eur = new CurrencyType(0,"EUR");
-        when(currencyTypeRepo.existsById(0)).thenReturn(true);
         CurrencyType usd = new CurrencyType(1,"USD");
-        when(currencyTypeRepo.existsById(1)).thenReturn(true);
 
 
         ChangeRate euroToUsd1 = new ChangeRate(
@@ -61,9 +56,6 @@ class ChangeRateServiceTest {
                 0.98,
                 Date.valueOf(LocalDate.of(2022,4,20))
         );
-
-        when(changeRateRepo.existsById(new ChangeRatePK(date,currencyFrom,currencyTo)))
-                .thenReturn(true);
 
         when(changeRateRepo.findById(new ChangeRatePK(date,currencyFrom,currencyTo)))
                 .thenReturn(Optional.of(euroToUsd1));
@@ -87,7 +79,7 @@ class ChangeRateServiceTest {
         // Then
         assertThatThrownBy(() -> underTest.getChangeRate(date,currencyFrom,currencyTo))
                 .isInstanceOf(ResourceNotFound.class)
-                .hasMessageContaining("Currency not found "+currencyFrom);
+                .hasMessageContaining("No change rate on this date "+date +" between those currencies : "+currencyFrom+" : "+currencyTo);
     }
 
     @Test

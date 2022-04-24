@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.controller.AccountAccessController;
 import com.example.demo.controller.ChangeRateController;
-import com.example.demo.exception.throwables.LittleBoyException;
 import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.AccountAccess;
 import com.example.demo.model.ChangeRate;
@@ -13,16 +12,13 @@ import com.example.demo.repository.ChangeRateRepo;
 import com.example.demo.repository.CurrencyTypeRepo;
 import com.example.demo.request.AccountAccessReq;
 import com.example.demo.request.ChangeRateReq;
-import com.example.demo.scheduler.ChangeRateScheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +34,6 @@ import java.util.stream.Collectors;
 public class ChangeRateService {
     private final ChangeRateRepo changeRateRepo;
     private final CurrencyTypeRepo currencyTypeRepo;
-    private final ChangeRateScheduler changeRateScheduler;
 
     /**
      * Gets the ChangeRate that match the params
@@ -46,29 +41,15 @@ public class ChangeRateService {
      * @param currencyFrom CurrencyId we want to change
      * @param currencyTo CurrencyId we want to get
      * @return The req body of the ChangeRate
-     * @throws ResourceNotFound If a Currency doesn't exist
+     * @throws ResourceNotFound If the changeRate doesn't exist
      */
     public ChangeRateReq getChangeRate(Date date, Integer currencyFrom, Integer currencyTo)
             throws ResourceNotFound {
-        if(!currencyTypeRepo.existsById(currencyFrom))
-            throw new ResourceNotFound("Currency not found "+currencyFrom);
-        if(!currencyTypeRepo.existsById(currencyTo))
-            throw new ResourceNotFound("Currency not found "+currencyFrom);
-
-        if (!changeRateRepo.existsById(new ChangeRatePK(date,currencyFrom,currencyTo))) {
-            if (date.equals(Date.valueOf(LocalDate.now()))){
-                // If the change doesn't exist on this date and this is today's date, the schedule wasn't ready.
-                // We fetch all the ChangeRates now?
-                changeRateScheduler.fetchAllChangeRates();
-            } else {
-                throw new ResourceNotFound(
-                        "No change rate on this date "+date +" between those currencies : "+currencyFrom+" : "+currencyTo
-                );
-            }
-        }
 
         return new ChangeRateReq(changeRateRepo.findById(new ChangeRatePK(date,currencyFrom,currencyTo))
-                .orElseThrow(LittleBoyException::new));
+                .orElseThrow(() -> new ResourceNotFound(
+                        "No change rate on this date "+date +" between those currencies : "+currencyFrom+" : "+currencyTo
+                )));
     }
 
     /**

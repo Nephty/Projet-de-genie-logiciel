@@ -225,8 +225,7 @@ public class TransactionLogService {
 
             // -- RECEIVE --
             transactionReceive.getSubAccount().setCurrentBalance(
-                    transactionReceive.getSubAccount().getCurrentBalance() +
-                            (transactionSent.getTransactionAmount() * transactionReceive.getChangeRate())
+                    transactionReceive.getSubAccount().getCurrentBalance() + transactionSent.getTransactionAmount()
             );
             transactionReceive.setProcessed(true);
 

@@ -37,8 +37,6 @@ public class    TransactionReq {
 
     private Boolean processed;
 
-    private Double changeRate;
-
     @JsonIgnore
     public boolean isPostValid() {
         return transactionTypeId != null
@@ -63,6 +61,5 @@ public class    TransactionReq {
         transactionId = transactionReceived.getTransactionId();
         comments = transactionSent.getComments();
         processed = transactionSent.getProcessed();
-        changeRate = transactionSent.getChangeRate();
     }
 }

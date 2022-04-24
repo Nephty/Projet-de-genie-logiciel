@@ -52,7 +52,7 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
      */
     public static boolean isValidLastName(String lastName) {
         if (lastName == null) return false;
-        return (!lastName.equals("") && (lastName.matches("^[a-zA-Z- ]*$")));
+        return (!lastName.equals("") && (lastName.matches("^[a-zA-Z- ]*$")) && lastName.charAt(0) != ' ');
     }
 
     /**

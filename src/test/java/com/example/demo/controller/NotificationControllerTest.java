@@ -182,7 +182,7 @@ class NotificationControllerTest {
     }
 
     @Test
-    void changeNotificationShouldThrowWhenMissingParam() throws Exception {
+    void changeNotificationShouldThrow400WhenMissingParam() throws Exception {
         // Given
         NotificationReq notificationReq = new NotificationReq();
         notificationReq.setNotificationId(1);
@@ -197,7 +197,7 @@ class NotificationControllerTest {
     }
 
     @Test
-    void changeNotificationShouldThrowWhenNotificationNotFound() throws Exception {
+    void changeNotificationShouldThrow404WhenNotificationNotFound() throws Exception {
         // Given
         NotificationReq notificationReq = new NotificationReq();
         notificationReq.setNotificationId(1);

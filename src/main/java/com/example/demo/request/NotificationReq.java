@@ -32,6 +32,17 @@ public class NotificationReq {
 
     private String notificationTypeName;
 
+    /**
+     * Check if the request body is ok for posting.
+     *
+     * <br>To post a Notification we need at least :
+     * <ul>
+     *     <li>NotificationType</li>
+     *     <li>comments</li>
+     *     <li>recipientID</li>
+     * </ul>
+     * @return true if the request body is valid for posting a notification
+     */
     @JsonIgnore
     public boolean isPostValid() {
         return notificationType != null
@@ -39,12 +50,28 @@ public class NotificationReq {
                 && recipientId != null;
     }
 
+    /**
+     * Checks if the request body is ok for modifying.
+     *
+     * <br>To modify a Notification we need at least :
+     * <ul>
+     *     <li>notification id</li>
+     *     <li>isFlagged</li>
+     * </ul>
+     * @return true if the request body is valid for modifying Notification.
+     */
     @JsonIgnore
     public boolean isPutValid() {
         return notificationId != null
                 && isFlagged != null;
     }
 
+    /**
+     * Creates a request body for Notification with a {@link Notification} object.
+     * If the notification is from a User to a Bank, it sets the sender and the recipient correctly.
+     * Same for a notification from a Bank to a User.
+     * @param notification The Notification we want to get the request body.
+     */
     public NotificationReq(Notification notification) {
         if(notification.getToBank()) {
             senderId = notification.getUserId().getUserId();

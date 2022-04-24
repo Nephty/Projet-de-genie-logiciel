@@ -2,7 +2,6 @@ package com.example.demo.scheduler;
 
 import com.example.demo.model.*;
 import com.example.demo.repository.TransactionLogRepo;
-import com.example.demo.service.NotificationService;
 import com.example.demo.service.TransactionLogService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,12 +11,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Date;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TransactionSchedulerTest {
@@ -25,20 +24,26 @@ class TransactionSchedulerTest {
     @Mock
     private TransactionLogRepo transactionLogRepo;
     @Mock
-    private NotificationService notificationService;
-    @Mock
     private TransactionLogService transactionLogService;
+    @Mock
+    private Clock clock;
 
     private TransactionScheduler underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new TransactionScheduler(transactionLogRepo,notificationService,transactionLogService);
+        underTest = new TransactionScheduler(transactionLogRepo,transactionLogService,clock);
     }
 
     @Test
     void performWithTransactionBadlyFormatted(){
         // Given
+        // Set time to monday -> Can perform transaction
+        LocalDateTime dateTime = LocalDateTime.of(2022,4,25,12,10);
+        Instant instant = ZonedDateTime.of(dateTime,ZoneId.systemDefault()).toInstant();
+        when(clock.instant()).thenReturn(instant);
+        when(clock.getZone()).thenReturn(ZoneId.systemDefault());
+
         CurrencyType currencyType = new CurrencyType(0,"EUR");
 
         User user = new User(
@@ -97,6 +102,11 @@ class TransactionSchedulerTest {
     @Test
     void canPerformDueTransactions() {
         // Given
+        // Set time to monday -> Can perform transaction
+        LocalDateTime dateTime = LocalDateTime.of(2022,4,25,12,10);
+        Instant instant = ZonedDateTime.of(dateTime,ZoneId.systemDefault()).toInstant();
+        when(clock.instant()).thenReturn(instant);
+        when(clock.getZone()).thenReturn(ZoneId.systemDefault());
 
         // -- CURRENCY --
         CurrencyType currencyType = new CurrencyType(0,"EUR");
@@ -187,9 +197,21 @@ class TransactionSchedulerTest {
 
         assertTrue(transactionLogSent.getIsSender());
         assertFalse(transactionLogReceived.getIsSender());
+    }
 
+    @Test
+    void performDueTransactionsShouldStopOnWeekend() {
+        // Given
+        // Set time to Sunday -> Can't perform transaction
+        LocalDateTime dateTime = LocalDateTime.of(2022,4,23,12,10);
+        Instant instant = ZonedDateTime.of(dateTime,ZoneId.systemDefault()).toInstant();
+        when(clock.instant()).thenReturn(instant);
+        when(clock.getZone()).thenReturn(ZoneId.systemDefault());
 
+        // when
+        underTest.performDueTransactions();
 
-
+        // Then
+        verify(transactionLogService,never()).executeTransaction(any(),any());
     }
 }

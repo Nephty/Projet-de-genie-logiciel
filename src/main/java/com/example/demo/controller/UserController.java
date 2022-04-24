@@ -21,16 +21,23 @@ import java.util.List;
 @Slf4j
 public class UserController {
 
+
     private final UserService userService;
     private final HttpServletRequest httpRequest;
 
     /**
+     * Gets a certain user.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>200 - ok</li>
+     *     <li>404 - Not found/li>
+     * </ul>
+     * Who ? the user itself and any bank that has this user
+     *
      * @param id         [param]id of the user to retrieve
      * @param isUsername [param]declare if the id provided is the nrn or the username of the user
      * @return User with matching id
-     * 200 - OK
-     * 404 - Not found
-     * Who ? the user itself and any bank that has this user
      */
     @GetMapping(value = "{id}")
     public ResponseEntity<UserReq> sendUser(@PathVariable String id, @RequestParam Boolean isUsername) {
@@ -41,8 +48,10 @@ public class UserController {
     }
 
     /**
-     * @return An array with all users
+     * Find all the user in the DB.
      * Who ? no one besides a bank for all it's user
+     *
+     * @return An array with all users
      */
     @GetMapping
     public ResponseEntity<List<UserReq>> sendAllUser() {
@@ -50,13 +59,17 @@ public class UserController {
     }
 
     /**
+     * Creates a certain user and saves it in the DB.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>201 - Created</li>
+     *     <li>400 - Bad Request/li>
+     *     <li>403 - User already exist</li>
+     * </ul>
+     * Who ? anyone
      * @param userReq [body] user to be added to the added to the DB
      * @return user to String
-     * 201 - Created
-     * 400 - Bad Request
-     * 403 - User already exist
-     * Who ? anyone
-     * What ? /
      */
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody UserReq userReq) {
@@ -67,12 +80,17 @@ public class UserController {
     }
 
     /**
+     * Modify a user.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>201 - Created</li>
+     *     <li>400 - Bad request</li>
+     *     <li>404 - Not found</li>
+     * </ul>
+     * Who ? user itself
      * @param userReq [body] user to be added to the changed in the DB
      * @return user to String
-     * 201 - Created
-     * 400 - Bad Request
-     * Who ? user itself
-     * What ? token is probably invalid
      */
     @PutMapping
     public ResponseEntity<String> changeUser(@RequestBody UserReq userReq) {

@@ -19,10 +19,14 @@ public class AccountController {
     private final AccountService accountService;
 
     /**
+     * Send a certain account.
+     * <br> Http codes :
+     * <ul>
+     *     <li>200 - ok</li>
+     *     <li>404 - Not found</li>
+     * </ul>
      * @param iban [path] iban of the requested account
      * @return account with matching iban
-     * 200 - OK
-     * 404 - Not Found
      */
     @GetMapping(value = "{iban}")
     public ResponseEntity<AccountReq> sendAccount(@PathVariable String iban) {
@@ -30,13 +34,18 @@ public class AccountController {
     }
 
     /**
+     * Creates a certain account and saves it in the DB.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>201 - Created</li>
+     *     <li>400 - Bad request</li>
+     *     <li>409 - Bad FK</li>
+     * </ul>
+     * Who ? bank
+     *
      * @param accountReq [body] account to add to the DB
      * @return account to String
-     * 201 - Created
-     * 400 - Bad Request
-     * 409 - Bad FK
-     * Who ? bank
-     * What ? create default sub account
      */
     @PostMapping
     public ResponseEntity<String> createAccount(@RequestBody AccountReq accountReq){
@@ -47,14 +56,19 @@ public class AccountController {
     }
 
     /**
+     * Modify a certain account.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>201 - Created</li>
+     *     <li>400 - Bad Request</li>
+     *     <li>404 - Not found</li>
+     *     <li>409 - Bad FK</li>
+     * </ul>
+     * Who ? the bank
+     *
      * @param accountReq [body] account to change in the DB
      * @return account to String
-     * 201 - Created
-     * 400 - Bad Request
-     * 404 - Not Found
-     * 409 - Bad FK
-     * Who ? the bank
-     * What ? /
      */
     @PutMapping
     public ResponseEntity<String> changeAccount(@RequestBody AccountReq accountReq){
@@ -65,12 +79,16 @@ public class AccountController {
     }
 
     /**
+     * Deletes a certain account.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>200 - ok</li>
+     *     <li>404 - Not found</li>
+     * </ul>
+     * Who ? the bank
      * @param iban [path] iban of the account to be deleted
      * @return iban sent
-     * 200 - OK
-     * 404 - Not Found
-     * Who ? the bank
-     * What ? delete the sub account
      */
     @DeleteMapping(value = "{iban}")
     public ResponseEntity<String> deleteAccount(@PathVariable String iban) {

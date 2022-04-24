@@ -34,6 +34,18 @@ public class AccountReq {
 
     private Boolean deleted;
 
+    /**
+     * Checks if the request body is ok for posting.
+     *
+     * <br> To post an account, we need at least :
+     * <ul>
+     *     <li>iban</li>
+     *     <li>swift</li>
+     *     <li>userID</li>
+     *     <li>accountTypeId</li>
+     * </ul>
+     * @return True if the request body is valid for posting an account.
+     */
     @JsonIgnore
     public boolean isPostValid() {
         return iban != null
@@ -42,11 +54,25 @@ public class AccountReq {
                 && accountTypeId != null;
     }
 
+    /**
+     * Checks if the request body is ok for modifying.
+     *
+     * <br> To modify an account we need at least :
+     * <ul>
+     *     <li>iban</li>
+     *     <li>accountTypeId and/or payment</li>
+     * </ul>
+     * @return true if the request body is valid for posting an account
+     */
     @JsonIgnore
     public boolean isPutValid() {
         return iban != null && (accountTypeId != null || payment != null);
     }
 
+    /**
+     * Creates a request body for account with an {@link Account} object.
+     * @param account The account we want to get the request body.
+     */
     public AccountReq(Account account) {
         iban = account.getIban();
         swift = account.getSwift().getSwift();

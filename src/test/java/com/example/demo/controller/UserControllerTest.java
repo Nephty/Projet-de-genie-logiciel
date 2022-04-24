@@ -166,7 +166,7 @@ class UserControllerTest {
     }
 
     @Test
-    void addUserShouldThrowWhenUserAlreadyExist() throws Exception{
+    void addUserShouldThrow403WhenUserAlreadyExist() throws Exception{
         // Given
         UserReq user = new UserReq(
                 "postTest",
@@ -190,7 +190,7 @@ class UserControllerTest {
     }
 
     @Test
-    void addUserShouldThrowWhenMissingParam() throws Exception{
+    void addUserShouldThrow400WhenMissingParam() throws Exception{
         // Given
         UserReq user = new UserReq(
                 "postTest",
@@ -229,24 +229,25 @@ class UserControllerTest {
     }
     
     @Test
-    void changeUserShouldThrowWhenUserNotFound() throws Exception{
+    void changeUserShouldThrow404WhenUserNotFound() throws Exception{
         // Given
         UserReq userReq = new UserReq();
         userReq.setLanguage("EN");
 
         when(userService.changeUser(eq(userReq),any()))
-                .thenThrow(new ResourceNotFound(""));
+                .thenThrow(new ResourceNotFound("Not found !"));
 
         // Then
         mockMvc.perform(put("/api/user")
                         .header("Authorization", "Bearer " + token)
                         .content(asJsonString(userReq))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$").value("Not found !"));
     }
     
     @Test
-    void changeUserShouldThrowWhenMissingParam() throws Exception {
+    void changeUserShouldThrow400WhenMissingParam() throws Exception {
         // Given
         UserReq userReq = new UserReq();
 

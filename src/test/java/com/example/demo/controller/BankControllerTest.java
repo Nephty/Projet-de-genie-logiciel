@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.throwables.ConflictException;
 import com.example.demo.exception.throwables.ResourceNotFound;
+import com.example.demo.exception.throwables.UserAlreadyExist;
 import com.example.demo.model.Bank;
 import com.example.demo.model.User;
 import com.example.demo.request.BankReq;
@@ -103,7 +104,7 @@ class BankControllerTest {
     }
 
     @Test
-    void addBankShouldThrow409WhenBankAlreadyExist() throws Exception {
+    void addBankShouldThrow403WhenBankAlreadyExist() throws Exception {
         // Given
         BankReq bankReq = new BankReq();
         bankReq.setSwift("swift");
@@ -113,15 +114,39 @@ class BankControllerTest {
         bankReq.setCountry("country");
         bankReq.setDefaultCurrencyId(0);
 
-        when(bankService.addBank(bankReq)).thenThrow(new ResourceNotFound("hello there"));
+        when(bankService.addBank(bankReq)).thenThrow(new UserAlreadyExist(UserAlreadyExist.Reason.ID));
 
         // Then
         mockMvc.perform(post("/api/bank")
                         .header("Authorization", "Bearer " + token)
                         .content(asJsonString(bankReq))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(status().isForbidden())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value("ID"));
+    }
+
+    @Test
+    void addBankShouldThrow409WhenCurrencyNotFound() throws Exception {
+        // Given
+        BankReq bankReq = new BankReq();
+        bankReq.setSwift("swift");
+        bankReq.setName("name");
+        bankReq.setPassword("pass");
+        bankReq.setAddress("address");
+        bankReq.setCountry("country");
+        bankReq.setDefaultCurrencyId(0);
+
+        when(bankService.addBank(bankReq)).thenThrow(new ConflictException("Hello there"));
+
+        // Then
+        mockMvc.perform(post("/api/bank")
+                        .header("Authorization", "Bearer " + token)
+                        .content(asJsonString(bankReq))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value("Hello there"));
     }
 
     @Test
@@ -177,14 +202,13 @@ class BankControllerTest {
                 .andExpect(jsonPath("$[1].swift").value("bank2"));
     }
 
-
     @Test
-    void changeBank() throws Exception{
+    void changeBank() throws Exception {
         // Given
         BankReq bankReq = new BankReq();
         bankReq.setPassword("test");
 
-        when(bankService.changeBank(any(),eq(bankReq))).thenReturn(new Bank(bankReq));
+        when(bankService.changeBank(any(), eq(bankReq))).thenReturn(new Bank(bankReq));
 
         // Then
         mockMvc.perform(put("/api/bank")
@@ -213,7 +237,7 @@ class BankControllerTest {
         BankReq bankReq = new BankReq();
         bankReq.setPassword("test");
 
-        when(bankService.changeBank(any(),eq(bankReq))).thenThrow(new ResourceNotFound(""));
+        when(bankService.changeBank(any(), eq(bankReq))).thenThrow(new ResourceNotFound(""));
 
         // Then
         mockMvc.perform(put("/api/bank")
@@ -230,7 +254,7 @@ class BankControllerTest {
         bankReq.setPassword("test");
         bankReq.setDefaultCurrencyId(15);
 
-        when(bankService.changeBank(any(),eq(bankReq))).thenThrow(new ConflictException(""));
+        when(bankService.changeBank(any(), eq(bankReq))).thenThrow(new ConflictException(""));
 
         // Then
         mockMvc.perform(put("/api/bank")

@@ -28,13 +28,18 @@ public class AccountAccessController {
     private final HttpServletRequest httpRequest;
 
     /**
-     * Returns a list with all the account access for a certain user
+     * Returns a list with all the account access for a certain user.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>200 - ok</li>
+     *     <li>400 - Bad request</li>
+     *     <li>404 - Not found</li>
+     * </ul>
+     * Who ? the user
      *
      * @param userId id of the user
      * @return Array of account access
-     * 200 - OK
-     * 404 - Not found
-     * Who ? the user
      */
     @GetMapping(value = "/all")
     public ResponseEntity<List<AccountAccessReq>> sendAccountAccess(
@@ -60,6 +65,18 @@ public class AccountAccessController {
         );
     }
 
+    /**
+     * Returns a list with all the Owners for a certain account.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>200 - ok</li>
+     *     <li>404 - Not found</li>
+     * </ul>
+     *
+     * @param iban iban of the account
+     * @return Array of User
+     */
     @GetMapping(value = "/all/co-owner")
     public ResponseEntity<List<User>> getAllOwners(@RequestParam String iban) {
         return new ResponseEntity<>(
@@ -70,12 +87,18 @@ public class AccountAccessController {
 
 
     /**
+     * Find a certain account access.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>200 - ok</li>
+     *     <li>404 - Not found</li>
+     * </ul>
+     * Who ? the owner of the account and the bank
+     *
      * @param userId    id of the user with the access
      * @param accountId id of the user account
      * @return account access matching params
-     * 200 - OK
-     * 404 - Not Found
-     * Who ? the owner of the account and the bank
      */
     @GetMapping(value = "{userId}/{accountId}")
     public ResponseEntity<AccountAccessReq> sendAccountAccess(
@@ -88,13 +111,19 @@ public class AccountAccessController {
     }
 
     /**
+     * Add certain access to the DB.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>201 - Created</li>
+     *     <li>400 - Bad format</li>
+     *     <li>403 - Access forbidden</li>
+     *     <li>409 - Conflict</li>
+     * </ul>
+     * Who ? the owner of the account and/or the bank
+     *
      * @param accountAccessReq [body] account access to be added to the DB
      * @return account access to String
-     * 201 - Created
-     * 400 - Bad Format
-     * 403 - Access forbidden
-     * 409 - Conflict
-     * Who ? the owner of the account and/or the bank
      */
     @PostMapping
     public ResponseEntity<String> addAccess(@RequestBody AccountAccessReq accountAccessReq) {
@@ -110,13 +139,18 @@ public class AccountAccessController {
 
 
     /**
+     * Modify certain access.
+     *
+     * <br>Http Codes :
+     * <ul>
+     *     <li>201 - Created</li>
+     *     <li>400 - Bad format</li>
+     *     <li>404 - Not found</li>
+     * </ul>
+     * Who ? the owner of the account and/or the bank.
+     *
      * @param accountAccessReq [body] account access to be changed in the DB
      * @return account access to String
-     * 201 - Created
-     * 400 - Bad Format
-     * 403 - Access forbidden
-     * 404 - Not found
-     * Who ? the owner of the account and/or the bank
      */
     @PutMapping
     public ResponseEntity<String> changeAccess(@RequestBody AccountAccessReq accountAccessReq) {
@@ -127,12 +161,18 @@ public class AccountAccessController {
     }
 
     /**
+     * Deletes certain access of the DB.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>200 - ok</li>
+     *     <li>403 - Access forbidden</li>
+     * </ul>
+     * Who ? the owner of the account and/or the bank
+     *
      * @param userId    id of the user with the access
      * @param accountId id of the user account
      * @return params sent
-     * 200 - OK
-     * 403 - Access forbidden
-     * Who ? the owner of the account and/or the bank
      */
     @DeleteMapping
     public ResponseEntity<String> deleteAccess(@RequestParam String accountId, @RequestParam String userId) {

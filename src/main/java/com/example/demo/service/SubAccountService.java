@@ -84,7 +84,7 @@ public class SubAccountService {
 
     /**
      * @param subAccountReq request made by the client
-     * @return suBaccount entity based on the request
+     * @return subAccount entity based on the request
      * @throws ConflictException if the FK provided by the client are incorrect
      */
     private SubAccount instantiateSubAccount(SubAccountReq subAccountReq) throws ConflictException {

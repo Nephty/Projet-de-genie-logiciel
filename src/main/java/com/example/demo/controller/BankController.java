@@ -25,11 +25,17 @@ public class BankController {
     private final HttpServletRequest httpRequest;
 
     /**
+     * Add a certain bank to the DB.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>201 - Created</li>
+     *     <li>400 - Bad Format</li>
+     *     <li>403 - forbidden</li>
+     *     <li>409 - Conflict</li>
+     * </ul>
      * @param bankReq bank to be added to the DB
      * @return bank to string
-     * 201- Created
-     * 400 - Bad Format
-     * 409 - Conflict
      */
     @PostMapping
     public ResponseEntity<String> addBank(@RequestBody BankReq bankReq) {
@@ -40,10 +46,15 @@ public class BankController {
     }
 
     /**
+     * Find a certain bank.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>200 - ok</li>
+     *     <li>404 - Not found</li>
+     * </ul>
      * @param swift id of the bank to retrieve
      * @return the bank with the matching id
-     * 200 - OK
-     * 404 - Not found
      */
     @GetMapping(value = "{swift}")
     public ResponseEntity<BankReq> sendBank(@PathVariable String swift) {
@@ -51,8 +62,13 @@ public class BankController {
     }
 
     /**
+     * Sends all the banks in the bank table.
+     *
+     * <br>Http codes :
+     *      * <ul>
+     *      *     <li>200 - ok</li>
+     *      * </ul>
      * @return Array with all banks
-     * 200 - OK
      */
     @GetMapping
     public ResponseEntity<List<Bank>> sendAllBanks(){
@@ -60,12 +76,17 @@ public class BankController {
     }
 
     /**
-     * @param bankReq bank to be change in the DB
+     * The sender must be a bank and the changes will be applied on the bank with the id matching the one on the token
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>201 - Created</li>
+     *     <li>400 - Bad Format</li>
+     *     <li>404 - Not found</li>
+     *     <li>409 - Bad FK</li>
+     * </ul>
+     * @param bankReq bank to be changed in the DB
      * @return saved bank to String
-     * 201 - Created
-     * 400 - Bad Format
-     * 404 - Not Found
-     * 409 - Bad FK
      */
     @PutMapping
     public ResponseEntity<String> changeBank(@RequestBody BankReq bankReq) {
@@ -81,6 +102,10 @@ public class BankController {
         );
     }
 
+    /**
+     * Returns all the customers with an account in the bank matching the token id
+     * @return List of Users
+     */
     @GetMapping("/customer")
     public ResponseEntity<List<User>> getAllBankCustomers() {
         Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());

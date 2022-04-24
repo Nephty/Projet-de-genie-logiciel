@@ -207,7 +207,7 @@ class SubAccountControllerTest {
     }
 
     @Test
-    void changeSubAccountShouldThrowWhenConflict() throws Exception {
+    void changeSubAccountShouldThrow404WhenNotFound() throws Exception {
         // Given
         SubAccountReq subAccountReq = new SubAccountReq();
         subAccountReq.setIban("iban");
@@ -216,14 +216,14 @@ class SubAccountControllerTest {
 
 
         when(subAccountService.changeSubAccount(subAccountReq))
-                .thenThrow(new ConflictException("Conflict !"));
+                .thenThrow(new ResourceNotFound("Not found !"));
 
         // Then
         mockMvc.perform(put("/api/account/sub-account")
                         .header("Authorization", "Bearer " + token)
                         .content(asJsonString(subAccountReq))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$").value("Conflict !"));
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$").value("Not found !"));
     }
 }

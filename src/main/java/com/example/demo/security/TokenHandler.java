@@ -22,6 +22,7 @@ public class TokenHandler {
 
     /**
      * Creates an access and refresh token with the data provided
+     * The access token expires after 30m
      * @param issuer path at which the token was created
      * @param role role of the client
      * @param id id of the client
@@ -31,6 +32,15 @@ public class TokenHandler {
         return createTokens(id, issuer, role, accessTokenMinBeforeExp);
     }
 
+    /**
+     * Creates an access and refresh token with the data provided
+     * Added to create a token with custom expDate for test purposes
+     * @param issuer path at which the token was created
+     * @param role role of the client
+     * @param id id of the client
+     * @param minBeforeExp time before the token expires
+     * @return A map with the access and refresh token
+     */
     public Map<String, String> createTokens(String id, String issuer, Role role, long minBeforeExp) {
         if(id == null) {
             log.error("id is null");

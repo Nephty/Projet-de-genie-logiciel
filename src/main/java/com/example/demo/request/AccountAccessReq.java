@@ -17,6 +17,16 @@ public class AccountAccessReq {
 
     private Boolean hidden;
 
+    //Response
+    private AccountReq account;
+
+    /**
+     * Default constructor for accountAccess request body
+     * @param accountId The id of the account
+     * @param userId The id of the user
+     * @param access if the user has access to the account
+     * @param hidden if the user want to hide the account in his portfolio.
+     */
     public AccountAccessReq(
             String accountId,
             String userId,
@@ -29,9 +39,18 @@ public class AccountAccessReq {
         this.hidden = hidden;
     }
 
-    //Response
-    private AccountReq account;
-
+    /**
+     * Check if the request body is ok for posting.
+     *
+     * <br>To post an account we need at least :
+     * <ul>
+     *     <li>accountId</li>
+     *     <li>userId</li>
+     *     <li>access</li>
+     *     <li>hidden</li>
+     * </ul>
+     * @return true if the request body is valid for posting an access
+     */
     @JsonIgnore
     public boolean isPostValid() {
         return accountId != null
@@ -40,11 +59,24 @@ public class AccountAccessReq {
                 && hidden != null;
     }
 
+    /**
+     * Checks if the request body is ok for modifying.
+     *
+     * <br>To modify an access we need at least :
+     * <ul>
+     *     <li>access and/or hidden</li>
+     * </ul>
+     * @return true if the request body is valid for modifying access.
+     */
     @JsonIgnore
     public boolean isPutValid() {
         return access != null || hidden != null;
     }
 
+    /**
+     * Creates a request body for access with an {@link AccountAccess} object.
+     * @param accountAccess The accountAccess we want to get the request body.
+     */
     public AccountAccessReq(AccountAccess accountAccess) {
         accountId = accountAccess.getAccountId().getIban();
         account = new AccountReq(accountAccess.getAccountId());

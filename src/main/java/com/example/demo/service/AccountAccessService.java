@@ -208,6 +208,12 @@ public class AccountAccessService {
         }
     }
 
+    /**
+     * Checks whether an account belongs to a bank
+     * @param sender param included in the httpRequest containing the sender id
+     * @param iban account to check
+     * @return true if bank owns, false otherwise
+     */
     public boolean bankOwnsAccount(Sender sender, String iban) {
         if (sender.getRole() != Role.BANK) {
             throw new AuthorizationException("Only bank can perform this request");

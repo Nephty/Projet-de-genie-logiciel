@@ -25,11 +25,15 @@ public class NotificationController {
     private final HttpServletRequest httpRequest;
 
     /**
-     * Returns an array with all the notifications for a certain user
-     * @return An array of Notifications
-     * 200 - OK
-     * 404 - Not found
+     * Returns an array with all the notifications for a certain user.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>200 - ok</li>
+     *     <li>404 - Not found</li>
+     * </ul>
      * Who ? the bank/user that made the request
+     * @return An array of Notifications
      */
     @GetMapping
     public ResponseEntity<List<NotificationReq>> sendClientNotifications() {
@@ -41,13 +45,18 @@ public class NotificationController {
 
 
     /**
+     * add a Certain notification to the DB.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>201 - Created</li>
+     *     <li>400 - Bad Request</li>
+     *     <li>409 - Bad FK</li>
+     * </ul>
+     * Who ? user matching the notification id or bank depending on the destination
+     *
      * @param notificationReq notification to add to the DB
      * @return notification to String
-     * 201 - Created
-     * 400 - Bad request
-     * 409 - Bad FK
-     * Who ? user matching the notification id or bank depending on the destination
-     * What ? /
      */
     @PostMapping
     public ResponseEntity<String> addNotification(@RequestBody NotificationReq notificationReq) {
@@ -59,11 +68,16 @@ public class NotificationController {
     }
 
     /**
+     * Deletes a notification.
+     *
+     * <br>Http codes :
+     * <ul>
+     *     <li>200 - ok</li>
+     * </ul>
+     * Who ? user or bank that owns the notification
+     *
      * @param id id of the notification to delete
      * @return notification with matching id
-     * 200 - Ok
-     * Who ? user or bank that owns the notification
-     * What ? /
      */
     @DeleteMapping(value = "{id}")
     public ResponseEntity<String> deleteNotification(@PathVariable Integer id) {
@@ -73,11 +87,16 @@ public class NotificationController {
 
 
     /**
+     * Modify a Notification.
+     *
+     * <br>Http codes.
+     * <ul>
+     *     <li>201 - Created</li>
+     *     <li>400 - Bad Request</li>
+     *     <li>404 - Not found</li>
+     * </ul>
      * @param notificationReq notification to modify in the DB.
      * @return Notification to String
-     * 201 - Created
-     * 400 - Bad Request
-     * 404 - Not Found
      */
     @PutMapping
     public ResponseEntity<String> changeNotification(

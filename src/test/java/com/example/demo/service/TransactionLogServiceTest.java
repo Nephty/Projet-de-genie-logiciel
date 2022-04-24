@@ -875,7 +875,7 @@ class TransactionLogServiceTest {
     @Test
     void canExecuteTransaction() {
         // Given
-        CurrencyType currencyType = new CurrencyType(0,"EUR");
+        CurrencyType eur = new CurrencyType(0,"EUR");
 
         Account acc = new Account();
         acc.setPayment(true);
@@ -891,7 +891,7 @@ class TransactionLogServiceTest {
                 true,
                 new TransactionType(0,"test",0.0),
                 null,
-                new SubAccount(acc,currencyType,200.0),
+                new SubAccount(acc,eur,200.0),
                 50.0,
                 false,
                 "comments"
@@ -902,7 +902,7 @@ class TransactionLogServiceTest {
                 false,
                 new TransactionType(0,"test",0.0),
                 null,
-                new SubAccount(acc2,currencyType,100.0),
+                new SubAccount(acc2,eur,100.0),
                 50.0,
                 false,
                 "comments"

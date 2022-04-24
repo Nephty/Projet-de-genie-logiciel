@@ -28,10 +28,12 @@ public class TokenController {
     private final UserService userService;
 
     private final BankService bankService;
+
     /**
-     * @param request Http request
+     * Send a new access and request token in the response body.
+     *
+     * @param request  Http request
      * @param response Http response
-     * Send a new access and request token in the response body
      */
     @GetMapping
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {

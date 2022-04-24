@@ -369,9 +369,13 @@ class AccountAccessControllerTest {
         AccountAccessReq res = new AccountAccessReq(
                 "iban",
                 "userId",
-                null,
+                true,
                 false
         );
+
+        when(accountAccessService.bankOwnsAccount(any(), eq(res.getAccountId())))
+                .thenReturn(false);
+
 
         // Then
         mockMvc.perform(post("/api/account-access/")

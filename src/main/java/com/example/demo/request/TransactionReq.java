@@ -37,6 +37,21 @@ public class    TransactionReq {
 
     private Boolean processed;
 
+    /**
+     * Check if the request body is ok for posting.
+     *
+     * <br>To post a Transaction we need at least :
+     * <ul>
+     *     <li>TransactionTypeId</li>
+     *     <li>SenderIban</li>
+     *     <li>RecipientIban</li>
+     *     <li>currencyId</li>
+     *     <li>transactionAmount</li>
+     *     <li>comments</li>
+     *     <li>processed</li>
+     * </ul>
+     * @return true if the request body is valid for posting a Transaction.
+     */
     @JsonIgnore
     public boolean isPostValid() {
         return transactionTypeId != null
@@ -48,6 +63,11 @@ public class    TransactionReq {
                 && processed == null;
     }
 
+    /**
+     * Creates a request body for Transaction with a {@link TransactionLog} object.
+     * @param transactionSent The sending transaction
+     * @param transactionReceived The receiving transaction.
+     */
     public TransactionReq(TransactionLog transactionSent, TransactionLog transactionReceived) {
         transactionTypeId = transactionSent.getTransactionTypeId().getTransactionTypeId();
         senderIban = transactionSent.getSubAccount().getIban().getIban();

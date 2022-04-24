@@ -86,7 +86,7 @@ public class TransactionLogService {
         transactionLogs.stream()
                 .filter(transactionLog -> !transactionLog.getIsSender())
                 .forEach(transactionReceived -> transactionLogs.stream()
-                        .filter(transactionLog -> transactionLog.getIsSender())
+                        .filter(TransactionLog::getIsSender)
                         .forEach(transactionSent -> {
                             if (transactionSent.getTransactionId().intValue()
                                     == transactionReceived.getTransactionId().intValue()) {
@@ -171,6 +171,8 @@ public class TransactionLogService {
 
         if (transactionSent.getTransactionTypeId().getTransactionTypeId() == 2) {
             executeTransaction(transactionSent, transactionReceived);
+            transactionSent.setProcessed(true);
+            transactionReceived.setProcessed(true);
         }
         ArrayList<TransactionLog> transactionLogs = new ArrayList<>();
         transactionLogs.add(transactionSent);
@@ -179,7 +181,12 @@ public class TransactionLogService {
         return transactionLogs;
     }
 
-
+    /**
+     * Checks whether a client has the authority and money to perform a transaction
+     * @param sender id of the client
+     * @param transactionSent transaction to be performed
+     * @throws AuthorizationException if the client is not authorized to perform the request
+     */
     private void canInstantiateTransaction(Sender sender, TransactionLog transactionSent)
             throws AuthorizationException {
         if (!transactionSent.getSubAccount().getIban().getPayment()) {
@@ -297,7 +304,6 @@ public class TransactionLogService {
         notificationService.addNotification(bankSender, notification);
     }
 
-
     private String formatReason(TransactionLog send, TransactionLog receive, String reason) {
         String res = "Transaction couldn't be executed ";
         res += "From : " + send.getSubAccount().getIban().getIban();
@@ -308,7 +314,6 @@ public class TransactionLogService {
         res += " reason : " + reason;
         return res;
     }
-
 
     /**
      * Find the maximum transactionId in the database and return the next value.

@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import static org.mockito.Mockito.when;
@@ -94,6 +95,48 @@ class SubAccountControllerTest {
                         .header("Authorization", "Bearer " + token)
                         .param("iban",iban)
                         .param("currencyId",currencyId.toString())
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$").value("Not found !"));
+    }
+
+    @Test
+    void getAllSubAccount() throws Exception {
+        // Given
+        String iban = "iban";
+
+        SubAccountReq subAccountReq = new SubAccountReq(
+                iban,
+                1,
+                200.0,
+                "EUR"
+        );
+
+        ArrayList<SubAccountReq> result = new ArrayList<>();
+        result.add(subAccountReq);
+        when(subAccountService.getAllSubAccount(iban)).thenReturn(result);
+
+        // Then
+        mockMvc.perform(get("/api/account/sub-account/all")
+                        .header("Authorization", "Bearer " + token)
+                        .param("iban",iban)
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].iban").value(iban))
+                .andExpect(jsonPath("$[0].currencyType").value("1"));
+    }
+
+    @Test
+    void getAllSubAccountShouldThrow404WhenAccountNotFound() throws Exception {
+        // Given
+        String iban = "iban";
+
+        when(subAccountService.getAllSubAccount(iban)).thenThrow(new ResourceNotFound("Not found !"));
+
+        // Then
+        mockMvc.perform(get("/api/account/sub-account/all")
+                        .header("Authorization", "Bearer " + token)
+                        .param("iban",iban)
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$").value("Not found !"));

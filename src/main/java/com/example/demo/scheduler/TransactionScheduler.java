@@ -19,7 +19,7 @@ public class TransactionScheduler extends AbstractScheduler {
     private final NotificationService notificationService;
     private final TransactionLogService transactionLogService;
 
-    @Scheduled(initialDelay = 30, fixedRate = day, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(initialDelay = minute, fixedRate = day, timeUnit = TimeUnit.SECONDS)
     public void performDueTransactions() {
         ArrayList<TransactionLog> transactionsToPerform = transactionLogRepo.findAllToExecute();
         log.info("[SCHEDULED TASK] Performing transactions (n={})", transactionsToPerform.size());

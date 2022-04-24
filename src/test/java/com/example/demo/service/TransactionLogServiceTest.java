@@ -2,14 +2,13 @@ package com.example.demo.service;
 
 import com.example.demo.exception.throwables.AuthorizationException;
 import com.example.demo.exception.throwables.ConflictException;
+import com.example.demo.exception.throwables.ResourceNotFound;
 import com.example.demo.model.*;
 import com.example.demo.model.CompositePK.AccountAccessPK;
 import com.example.demo.model.CompositePK.SubAccountPK;
 import com.example.demo.other.Sender;
-import com.example.demo.repository.AccountAccessRepo;
-import com.example.demo.repository.SubAccountRepo;
-import com.example.demo.repository.TransactionLogRepo;
-import com.example.demo.repository.TransactionTypeRepo;
+import com.example.demo.repository.*;
+import com.example.demo.request.ChangeRateReq;
 import com.example.demo.request.NotificationReq;
 import com.example.demo.request.SubAccountReq;
 import com.example.demo.request.TransactionReq;
@@ -45,6 +44,8 @@ class TransactionLogServiceTest {
     private AccountAccessRepo accountAccessRepo;
     @Mock
     private NotificationService notificationService;
+    @Mock
+    private ChangeRateService changeRateService;
 
     private TransactionLogService underTest;
 
@@ -55,7 +56,8 @@ class TransactionLogServiceTest {
                 subAccountRepo,
                 transactionTypeRepo,
                 accountAccessRepo,
-                notificationService
+                notificationService,
+                changeRateService
         );
     }
 
@@ -747,7 +749,8 @@ class TransactionLogServiceTest {
                 new SubAccount(acc,tmpType,200.0),
                 50.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         // -- To user2's account --
@@ -759,7 +762,8 @@ class TransactionLogServiceTest {
                 new SubAccount(acc2,tmpType,100.0),
                 50.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         ArrayList<TransactionLog> res = new ArrayList<>();
@@ -843,7 +847,8 @@ class TransactionLogServiceTest {
                 new SubAccount(acc,tmpType,200.0),
                 50.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         ArrayList<TransactionLog> res = new ArrayList<>();
@@ -875,7 +880,8 @@ class TransactionLogServiceTest {
     @Test
     void canExecuteTransaction() {
         // Given
-        CurrencyType currencyType = new CurrencyType(0,"EUR");
+        CurrencyType eur = new CurrencyType(0,"EUR");
+        CurrencyType usd = new CurrencyType(1,"USD");
 
         Account acc = new Account();
         acc.setPayment(true);
@@ -891,10 +897,11 @@ class TransactionLogServiceTest {
                 true,
                 new TransactionType(0,"test",0.0),
                 null,
-                new SubAccount(acc,currencyType,200.0),
+                new SubAccount(acc,eur,200.0),
                 50.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         TransactionLog transactionLogReceiver = new TransactionLog(
@@ -902,11 +909,21 @@ class TransactionLogServiceTest {
                 false,
                 new TransactionType(0,"test",0.0),
                 null,
-                new SubAccount(acc2,currencyType,100.0),
+                new SubAccount(acc2,usd,100.0),
                 50.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
+
+        // Addition for different currencies
+        ChangeRateReq tmp = new ChangeRateReq();
+        tmp.setChangeRate(1.02);
+        when(changeRateService.getChangeRate(
+                Date.valueOf(LocalDate.now()),
+                transactionLogSender.getSubAccount().getCurrencyType().getCurrencyId(),
+                transactionLogReceiver.getSubAccount().getCurrencyType().getCurrencyId()
+        )).thenReturn(tmp);
 
         // When
         underTest.executeTransaction(transactionLogSender,transactionLogReceiver);
@@ -920,13 +937,65 @@ class TransactionLogServiceTest {
         TransactionLog transactionReceiverCaptured = !transactionCaptured.get(0).getIsSender()
                 ? transactionCaptured.get(0) : transactionCaptured.get(1);
         assertTrue(transactionReceiverCaptured.getProcessed());
-        assertEquals(100+50, transactionReceiverCaptured.getSubAccount().getCurrentBalance());
+        assertEquals(100+(50*1.02), transactionReceiverCaptured.getSubAccount().getCurrentBalance());
 
         // -- SENDER --
         TransactionLog transactionSenderCaptured = transactionCaptured.get(0).getIsSender()
                 ? transactionCaptured.get(0) : transactionCaptured.get(1);
         assertTrue(transactionSenderCaptured.getProcessed());
         assertEquals(200-50,transactionSenderCaptured.getSubAccount().getCurrentBalance());
+    }
+
+    @Test
+    void executeTransactionShouldStopWhenChangeRateNotFound() {
+        // Given
+        CurrencyType eur = new CurrencyType(0,"EUR");
+        CurrencyType usd = new CurrencyType(1,"USD");
+
+        Account acc = new Account();
+        acc.setPayment(true);
+        acc.setDeleted(false);
+
+        Account acc2 = new Account();
+        acc2.setPayment(true);
+        acc2.setDeleted(false);
+
+
+        TransactionLog transactionLogSender = new TransactionLog(
+                1,
+                true,
+                new TransactionType(0,"test",0.0),
+                null,
+                new SubAccount(acc,eur,200.0),
+                50.0,
+                false,
+                "comments",
+                1.0
+        );
+
+        TransactionLog transactionLogReceiver = new TransactionLog(
+                1,
+                false,
+                new TransactionType(0,"test",0.0),
+                null,
+                new SubAccount(acc2,usd,100.0),
+                50.0,
+                false,
+                "comments",
+                1.0
+        );
+
+        when(changeRateService.getChangeRate(
+                Date.valueOf(LocalDate.now()),
+                transactionLogSender.getSubAccount().getCurrencyType().getCurrencyId(),
+                transactionLogReceiver.getSubAccount().getCurrencyType().getCurrencyId()
+        )).thenThrow(new ResourceNotFound("Not found !"));
+
+
+        // When
+        assertThatThrownBy(() -> underTest.executeTransaction(transactionLogSender,transactionLogReceiver))
+                .isInstanceOf(ResourceNotFound.class)
+                .hasMessageContaining("Not found !");
     }
     
     @Test
@@ -972,7 +1041,8 @@ class TransactionLogServiceTest {
                 new SubAccount(acc,currencyType,200.0),
                 50.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         TransactionLog transactionLogReceiver = new TransactionLog(
@@ -983,7 +1053,8 @@ class TransactionLogServiceTest {
                 new SubAccount(acc2,currencyType,100.0),
                 50.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
 
@@ -1060,7 +1131,8 @@ class TransactionLogServiceTest {
                 new SubAccount(acc,currencyType,200.0),
                 400.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         TransactionLog transactionLogReceiver = new TransactionLog(
@@ -1071,7 +1143,8 @@ class TransactionLogServiceTest {
                 new SubAccount(acc2,currencyType,100.0),
                 50.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         // When
@@ -1148,7 +1221,8 @@ class TransactionLogServiceTest {
                 new SubAccount(accSender,currencyType,200.0),
                 40.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         TransactionLog transactionLogReceiver = new TransactionLog(
@@ -1159,7 +1233,8 @@ class TransactionLogServiceTest {
                 new SubAccount(accReceiver,currencyType,100.0),
                 50.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         // When
@@ -1236,7 +1311,8 @@ class TransactionLogServiceTest {
                 new SubAccount(accSender,currencyType,200.0),
                 40.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         TransactionLog transactionLogReceiver = new TransactionLog(
@@ -1247,7 +1323,8 @@ class TransactionLogServiceTest {
                 new SubAccount(accReceiver,currencyType,100.0),
                 50.0,
                 false,
-                "comments"
+                "comments",
+                1.0
         );
 
         // When

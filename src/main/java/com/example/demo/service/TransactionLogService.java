@@ -180,6 +180,12 @@ public class TransactionLogService {
         return transactionLogs;
     }
 
+    /**
+     * Checks whether a client has the authority and money to perform a transaction
+     * @param sender id of the client
+     * @param transactionSent transaction to be performed
+     * @throws AuthorizationException if the client is not authorized to perform the request
+     */
     private void canInstantiateTransaction(Sender sender, TransactionLog transactionSent)
             throws AuthorizationException {
         if (!transactionSent.getSubAccount().getIban().getPayment()) {

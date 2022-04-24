@@ -22,6 +22,10 @@ public class AccountScheduler extends AbstractScheduler {
     private final AccountRepo accountRepo;
     private final SubAccountRepo subAccountRepo;
 
+    /**
+     * Debit account fees and credit account interest depending on the account types
+     * Execute itself every day
+     */
     @Scheduled(fixedRate = day, timeUnit = TimeUnit.SECONDS)
     public void processAccount() {
         log.info("[SCHEDULED]Started account processing");

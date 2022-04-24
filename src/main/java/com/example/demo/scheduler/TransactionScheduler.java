@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -16,11 +18,20 @@ import java.util.concurrent.TimeUnit;
 public class TransactionScheduler extends AbstractScheduler {
 
     private final TransactionLogRepo transactionLogRepo;
-    private final NotificationService notificationService;
     private final TransactionLogService transactionLogService;
 
+    /**
+     * Fetch all the transactions to be performed in the DB and execute them
+     * If a transaction can't be performed sends a notification to the user to prevent
+     * him that the transaction hasn't gone through
+     * Execute itself once per day except on the weekend
+     */
     @Scheduled(initialDelay = minute, fixedRate = day, timeUnit = TimeUnit.SECONDS)
     public void performDueTransactions() {
+        LocalDate now = LocalDate.now();
+        if(now.getDayOfWeek() == DayOfWeek.SUNDAY || now.getDayOfWeek() == DayOfWeek.SATURDAY) {
+            return;
+        }
         ArrayList<TransactionLog> transactionsToPerform = transactionLogRepo.findAllToExecute();
         log.info("[SCHEDULED TASK] Performing transactions (n={})", transactionsToPerform.size());
         if(transactionsToPerform.size() % 2 != 0) {

@@ -51,6 +51,7 @@ public class BankController {
     }
 
     /**
+     * Sends all the banks in the bank table
      * @return Array with all banks
      * 200 - OK
      */
@@ -60,7 +61,8 @@ public class BankController {
     }
 
     /**
-     * @param bankReq bank to be change in the DB
+     * The sender must be a bank and the changes will be applied on the bank with the id matching the one on the token
+     * @param bankReq bank to be changed in the DB
      * @return saved bank to String
      * 201 - Created
      * 400 - Bad Format
@@ -81,6 +83,10 @@ public class BankController {
         );
     }
 
+    /**
+     * Returns all the customers with an account in the bank matching the token id
+     * @return List of Users
+     */
     @GetMapping("/customer")
     public ResponseEntity<List<User>> getAllBankCustomers() {
         Sender sender = (Sender)httpRequest.getAttribute(Sender.getAttributeName());

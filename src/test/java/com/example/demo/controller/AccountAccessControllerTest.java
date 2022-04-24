@@ -364,25 +364,6 @@ class AccountAccessControllerTest {
     }
 
     @Test
-    void addAccessShouldThrow403WhenAccessForbidden() throws Exception {
-        // Given
-        AccountAccessReq res = new AccountAccessReq(
-                "iban",
-                "userId",
-                null,
-                false
-        );
-
-        // Then
-        mockMvc.perform(post("/api/account-access/")
-                        .header("Authorization", "Bearer " + token)
-                        .content(asJsonString(res))
-                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$").value("You don't manage this account"));
-    }
-
-    @Test
     void addAccessShouldThrow409WhenConflict() throws Exception {
         // Given
         AccountAccessReq res = new AccountAccessReq(

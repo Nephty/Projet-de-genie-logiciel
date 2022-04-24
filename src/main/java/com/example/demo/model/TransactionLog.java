@@ -74,11 +74,6 @@ public class TransactionLog {
     )
     private String comments;
 
-    @Column(
-            name = "change_rate"
-    )
-    private Double changeRate;
-
     /**
      * Custom constructor for TransactionLog with the custom Request. <br>
      * IF the date is null, set the transaction to the current date.
@@ -99,8 +94,6 @@ public class TransactionLog {
         comments = transactionReq.getComments();
 
         transactionAmount = transactionReq.getTransactionAmount();
-
-        changeRate = transactionReq.getChangeRate();
     }
 
     /**

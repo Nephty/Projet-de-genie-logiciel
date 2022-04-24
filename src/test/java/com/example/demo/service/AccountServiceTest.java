@@ -313,12 +313,12 @@ class AccountServiceTest {
                 .thenReturn(accountType);
 
         when(accountRepo.existsById(accountReq.getIban()))
-                .thenThrow(new ConflictException("Already exists !"));
+                .thenReturn(true);
 
         //then
         assertThatThrownBy(() -> underTest.addAccount(accountReq))
                 .isInstanceOf(ConflictException.class)
-                .hasMessageContaining("Already exists !");
+                .hasMessageContaining("Account already exists "+accountReq.getIban());
 
         verify(accountRepo, never()).save(any());
     }

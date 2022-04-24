@@ -74,8 +74,7 @@ class TransactionSchedulerTest {
                 new SubAccount(accSender,currencyType,200.0),
                 40.0,
                 false,
-                "comments",
-                1.0
+                "comments"
         );
 
         ArrayList<TransactionLog> transactionToPerform = new ArrayList<>();
@@ -149,8 +148,7 @@ class TransactionSchedulerTest {
                 new SubAccount(accSender,currencyType,200.0),
                 40.0,
                 false,
-                "comments",
-                1.0
+                "comments"
         );
 
         TransactionLog transactionLogReceiver = new TransactionLog(
@@ -161,8 +159,7 @@ class TransactionSchedulerTest {
                 new SubAccount(accReceiver,currencyType,100.0),
                 40.0,
                 false,
-                "comments",
-                1.0
+                "comments"
         );
 
         ArrayList<TransactionLog> transactionToPerform = new ArrayList<>();

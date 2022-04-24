@@ -42,7 +42,6 @@ public class AccountAccessService {
 
     /**
      * Creates an access and saves it in the DB.
-     *
      * @param accountAccessReq The req body to create an access ({@link AccountAccessReq#isPostValid()})
      * @return The created access.
      * @throws ConflictException  if the accountAccess already exists
@@ -56,23 +55,21 @@ public class AccountAccessService {
 
     /**
      * Changes the account and saves it in the DB.
-     *
      * @param accountAccessReq The req body to change the account ({@link AccountAccessReq#isPutValid()})
      * @return The changed access.
-     * @throws ResourceNotFound   if the account that the client tries to change doesn't exist
-     * @throws LittleBoyException if the method isn't PUT or POST
+     * @throws ResourceNotFound       if the account that the client tries to change doesn't exist
+     * @throws LittleBoyException     if the method isn't PUT or POST
      */
     public AccountAccess changeAccountAccess(AccountAccessReq accountAccessReq)
-            throws ResourceNotFound, LittleBoyException {
+            throws ResourceNotFound, LittleBoyException{
         AccountAccess accountAccess = instantiateAccountAccess(accountAccessReq, HttpMethod.PUT);
         return accountAccessRepo.save(accountAccess);
     }
 
     /**
      * Deletes access of a certain user to an account.
-     *
      * @param accountId The id of the account
-     * @param userId    The id of the user
+     * @param userId The id of the user
      */
     public void deleteAccountAccess(String accountId, String userId) {
         accountAccessRepo.deleteAccountAccessByAccountIdAndUserId(accountId, userId);
@@ -80,7 +77,7 @@ public class AccountAccessService {
 
     /**
      * @param accountId The id of the account
-     * @param userId    The id of the user
+     * @param userId The id of the user
      * @return The req body of the access.
      * @throws ResourceNotFound If the access doesn't exist
      */
@@ -94,7 +91,6 @@ public class AccountAccessService {
     /**
      * Get all access of a user to deleted accounts.
      * The list is ordered by banks.
-     *
      * @param userID The id of the User
      * @return A list of req body of the access.
      * @throws ResourceNotFound if the user doesn't exit
@@ -115,13 +111,12 @@ public class AccountAccessService {
     /**
      * Get all access of a user to hidden accounts.
      * The list is ordered by banks.
-     *
      * @param userID The id of the User
      * @return A list of req body of the access.
      * @throws ResourceNotFound if the user doesn't exit
      */
     public List<AccountAccessReq> getAccessToHiddenAccount(String userID)
-            throws ResourceNotFound {
+            throws ResourceNotFound{
         User user = userRepo.findById(userID)
                 .orElseThrow(() -> {
                     log.warn("No user with such id: " + userID);
@@ -136,13 +131,12 @@ public class AccountAccessService {
     /**
      * Get all access of a user to accounts that aren't hidden or deleted.
      * The list is ordered by banks.
-     *
      * @param userID The id of the User
      * @return A list of req body of the access.
      * @throws ResourceNotFound if the user doesn't exit
      */
     public List<AccountAccessReq> getAccountAccessByUserId(String userID)
-            throws ResourceNotFound {
+            throws ResourceNotFound{
         User user = userRepo.findById(userID)
                 .orElseThrow(() -> {
                     log.warn("No user with such id: " + userID);
@@ -156,7 +150,6 @@ public class AccountAccessService {
 
     /**
      * Return all owners of an account (all users that have access to this account)
-     *
      * @param accountId the id of the account
      * @return A List of User that have access to this account
      * @throws ResourceNotFound If the account doesn't exist

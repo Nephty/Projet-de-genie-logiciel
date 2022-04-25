@@ -162,7 +162,7 @@ public class HTTPIntegrationTest {
             ArrayList<Request> reqList2 = Request.fetchRequests(3);
             ArrayList<Request> reqList3 = Request.fetchRequests(6);
 
-            assertEquals(reqList.size(), 1);
+            assertEquals(reqList.size(), 2);
             assertEquals(reqList2.size(), 1);
             assertEquals(reqList3.size(), 0);
             assertEquals(reqList.get(0).getReason(), CommunicationType.CREATE_ACCOUNT);

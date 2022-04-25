@@ -1,0 +1,21 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007efe4dd02f21, pid=28598, tid=28611
+#
+# JRE version: OpenJDK Runtime Environment Temurin-11.0.12+7 (11.0.12+7) (build 11.0.12+7)
+# Java VM: OpenJDK 64-Bit Server VM Temurin-11.0.12+7 (11.0.12+7, mixed mode, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libjimage.so+0x3f21]  ImageStrings::find(Endian*, char const*, int*, unsigned int)+0x71
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h" (or dumping to /home/Nephty/Java/Projects/Projet-de-genie-logiciel/app/core.28598)
+#
+# If you would like to submit a bug report, please visit:
+#   https://github.com/adoptium/adoptium-support/issues
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: --add-modules=javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web --module-path=/home/Nephty/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-web/15.0.1/211583455284271f9dafce929a0051436bc35db2/javafx-web-15.0.1-linux.jar:/home/Nephty/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-fxml/15.0.1/1d2a8b3cff48cb8d83deb8aeb00226776146ebc4/javafx-fxml-15.0.1-linux.jar:/home/Nephty/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/15.0.1/11efce24b8ac1a119ec355fd7302dd1e373eb7dd/javafx-controls-15.0.1-linux.jar:/home/Nephty/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-media/15.0.1/b71c1d79148b057a903e6465c1fcb8ac8a654585/javafx-media-15.0.1-linux.jar:/home/Nephty/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-swing/15.0.1/3756a1cbf2755d7e22b5ddaa550cb717ab7e20cf/javafx-swing-15.0.1-linux.jar:/home/Nephty/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/15.0.1/6ab161d111b173da74d3754fd4017cf17d491d58/javafx-graphics-15.0.1-linux.jar:/home/Nephty/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/15.0.1/181dfd960832b85c67764d229c8c6fdba5cd5a35/javafx-base-15.0.1-linux.jar -agentlib:jdwp=transport=dt_socket,server=n,suspend=y,address=127.0.0.1:38897 -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant app.Main
+
+Host: 

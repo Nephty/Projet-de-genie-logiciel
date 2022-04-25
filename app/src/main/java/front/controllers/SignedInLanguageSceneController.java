@@ -1,6 +1,10 @@
 package front.controllers;
 
 import app.Main;
+import back.user.ErrorHandler;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import front.navigation.Flow;
 import front.navigation.navigators.BackButtonNavigator;
 import front.scenes.SceneLoader;
@@ -56,7 +60,20 @@ public class SignedInLanguageSceneController extends Controller implements BackB
     void handleSetButtonMouseClicked(MouseEvent event) {
         if (languagesTableView.getSelectionModel().getSelectedItems().size() == 1) {
             String language = languagesTableView.getSelectionModel().getSelectedItems().get(0).getDisplayName();
-            // TODO : mettre la requête ici pour changer la langue fav dans la bdd
+            Unirest.setTimeouts(0, 0);
+            HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+                HttpResponse<String> rep = null;
+                try {
+                    rep = Unirest.put("https://flns-spring-test.herokuapp.com/api/user")
+                            .header("Authorization", "Bearer "+Main.getToken())
+                            .header("Content-Type", "application/json")
+                            .body("{\r\n        \"language\": \""+language+"\"\r\n}")
+                            .asString();
+                } catch (UnirestException e) {
+                    throw new RuntimeException(e);
+                }
+                return rep;
+            });
         }
     }
 

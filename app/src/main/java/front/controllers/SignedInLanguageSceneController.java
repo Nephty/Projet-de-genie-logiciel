@@ -55,6 +55,7 @@ public class SignedInLanguageSceneController extends Controller implements BackB
     @FXML
     void handleSetButtonMouseClicked(MouseEvent event) {
         if (languagesTableView.getSelectionModel().getSelectedItems().size() == 1) {
+            String language = languagesTableView.getSelectionModel().getSelectedItems().get(0).getDisplayName();
             // TODO : mettre la requête ici pour changer la langue fav dans la bdd
         }
     }

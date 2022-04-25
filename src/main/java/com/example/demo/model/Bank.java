@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import com.example.demo.request.BankReq;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -64,9 +65,9 @@ public class Bank {
      * Modify the password of the account
      * @param bankReq Custom request for the account (only the password is used in this case)
      */
-    public void change(BankReq bankReq) {
+    public void change(BankReq bankReq, PasswordEncoder passwordEncoder) {
         if(bankReq.getPassword() != null) {
-            password = bankReq.getPassword();
+            password = passwordEncoder.encode(bankReq.getPassword());
         }
     }
 

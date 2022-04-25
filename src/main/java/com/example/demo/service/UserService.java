@@ -114,7 +114,6 @@ public class UserService implements UserDetailsService {
             throws ResourceNotFound, LittleBoyException {
         User user = instantiateUser(sender, userReq, HttpMethod.PUT);
         log.info("Changing user to {}", user);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return uRepo.save(user);
     }
 
@@ -160,7 +159,7 @@ public class UserService implements UserDetailsService {
             case PUT:
                 User user = uRepo.findById(sender.getId())
                         .orElseThrow(() -> new ResourceNotFound(sender.getId()));
-                user.change(userReq);
+                user.change(userReq, passwordEncoder);
                 //alreadyExistsCheck(user.getUserID(), user.getUsername(), user.getEmail());
                 return user;
             default:

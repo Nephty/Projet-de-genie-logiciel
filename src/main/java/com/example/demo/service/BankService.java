@@ -71,7 +71,6 @@ public class BankService {
      */
     public Bank changeBank(Sender sender, BankReq bankReq) {
         Bank bank = instantiateBank(sender, bankReq, HttpMethod.PUT);
-        bank.setPassword(passwordEncoder.encode(bank.getPassword()));
         return bankRepo.save(bank);
     }
 
@@ -155,7 +154,7 @@ public class BankService {
             case PUT:
                 bank = bankRepo.findById(sender.getId())
                         .orElseThrow(() -> new ResourceNotFound(sender.getId()));
-                bank.change(bankReq);
+                bank.change(bankReq, passwordEncoder);
                 //alreadyExistCheck(bank.getSwift(), bank.getName());
                 if (bankReq.getDefaultCurrencyId() != null) {
                     currencyType = currencyTypeRepo

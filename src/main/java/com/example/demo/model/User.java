@@ -5,6 +5,7 @@ import com.example.demo.request.UserReq;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -107,9 +108,9 @@ public class User {
      * Changes the password and/or language of the user
      * @param userReq Custom request body for creating/modifying an account.
      */
-    public void change(UserReq userReq) {
+    public void change(UserReq userReq, PasswordEncoder passwordEncoder) {
         if(userReq.getPassword() != null) {
-            password = userReq.getPassword();
+            password = passwordEncoder.encode(userReq.getPassword());
         }
         if(userReq.getLanguage() != null) {
             language = userReq.getLanguage();

@@ -159,7 +159,6 @@ public class Request extends Communication {
                 }
             }
         }
-        // TODO: Ecrire un truc pour l'utilisateur
         if (!alreadySent) {
             int comType = 7;
             switch (this.communicationType.toString()) {

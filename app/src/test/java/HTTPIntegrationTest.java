@@ -162,13 +162,13 @@ public class HTTPIntegrationTest {
             ArrayList<Request> reqList2 = Request.fetchRequests(3);
             ArrayList<Request> reqList3 = Request.fetchRequests(6);
 
-            assertEquals(reqList.size(), 2);
+            assertEquals(reqList.size(), 3);
             assertEquals(reqList2.size(), 1);
             assertEquals(reqList3.size(), 0);
             assertEquals(reqList.get(0).getReason(), CommunicationType.CREATE_ACCOUNT);
             assertEquals(reqList2.get(0).getReason(), CommunicationType.NEW_WALLET);
-            assertEquals(reqList.get(0).getSenderID(), "01.02.03-123.00");
-            assertEquals(reqList.get(0).getDate(), "2022-04-23");
+            assertEquals(reqList.get(0).getSenderID(), "00.00.00-000.00");
+            assertEquals(reqList.get(0).getDate(), "2022-04-25");
         });
     }
 

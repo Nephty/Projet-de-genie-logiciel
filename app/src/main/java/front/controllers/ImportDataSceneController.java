@@ -22,7 +22,7 @@ public class ImportDataSceneController extends Controller implements BackButtonN
     Label chooseFileLabel, importSuccessfulLabel, noPathSelectedLabel, importFileLabel;
 
     private boolean importDone = false;
-    private File selectedFile;  // TODO : is this the right class we should use ?
+    private File selectedFile;
     private boolean fileChosen = false;
     private FileChooser exportDataFileChooser;
 

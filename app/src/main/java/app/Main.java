@@ -186,7 +186,6 @@ public class Main extends Application {
         RU_RU_Locale = new Locale("ru", "RU");
         DE_DE_Locale = new Locale("de", "DE");
         PL_PL_Locale = new Locale("pl", "PL");
-        // TODO : if language = english, appLocale = english,...
 
         appLocale = EN_US_Locale;
 

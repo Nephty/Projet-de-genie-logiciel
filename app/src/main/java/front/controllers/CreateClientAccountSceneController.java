@@ -128,13 +128,11 @@ public class CreateClientAccountSceneController extends Controller implements Ba
                 }
                 return rep;
             });
-            // TODO : A vérifier
             if (response.getStatus() == 409) {
                 if (response.getBody().equals("IBAN")) {
                     invalidIBANLabel.setVisible(true);
                 }
                 if(response.getStatus() == 403){
-                    // TODO : Afficher mauvaise date de naissance
                 }
             } else {
                 if(!coOwner1.equals("")){

@@ -41,7 +41,6 @@ public class SignUpSceneController extends Controller implements BackButtonNavig
 
     public void initialize() {
         ObservableList<String> values = FXCollections.observableArrayList(Arrays.asList("EN_US", "FR_BE"));
-        // TODO : back-end : fetch all available languages and put them in the list
         languageComboBox.setItems(values);
 
         passwordTextField.managedProperty().bind(showHidePasswordCheckBox.selectedProperty());

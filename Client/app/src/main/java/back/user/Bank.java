@@ -1,0 +1,112 @@
+package back.user;
+
+import app.Main;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+/**
+ * @author François VION
+ */
+public class Bank {
+    private final String name;
+    private final String swiftCode;
+
+    /**
+     * Creates a Bank object with an HTTP request by using the swift code
+     *
+     * @param swiftCode A String of the swift code of the bank
+     */
+    public Bank(String swiftCode) {
+        this.swiftCode = swiftCode;
+
+        // Fetch the bank's details in the database
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep = null;
+            try {
+                rep = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank/" + swiftCode)
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .header("Content-Type", "application/json")
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep;
+        });
+        // Get the Bank name
+        String body = response.getBody();
+        JSONObject obj = new JSONObject(body);
+        this.name = obj.getString("name");
+    }
+
+    /**
+     * Creates a Bank object with all the needed informations
+     *
+     * @param swiftCode A String of the swift code of the bank
+     * @param name      A String of the name of the Bank
+     */
+    public Bank(String swiftCode, String name) {
+        this.swiftCode = swiftCode;
+        this.name = name;
+    }
+
+    /**
+     * Fetch all bank's swift code
+     *
+     * @return An arraylist of all swift codes
+     */
+    public static ArrayList<String> fetchAllSWIFT() {
+
+        // Fetch a list of all bank's swift in the database
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = ErrorHandler.handlePossibleError(() -> {
+            HttpResponse<String> rep2 = null;
+            try {
+                rep2 = Unirest.get("https://flns-spring-test.herokuapp.com/api/bank")
+                        .header("Authorization", "Bearer " + Main.getToken())
+                        .asString();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+            return rep2;
+        });
+        return parseSwift(response.getBody());
+    }
+
+
+    /**
+     * Parse all the swift in a JSON into a String list
+     *
+     * @param json The JSON to parse
+     * @return The list of the String of the swifts
+     */
+    public static ArrayList<String> parseSwift(String json) {
+        ArrayList<String> rep = new ArrayList<>();
+
+        String body = json;
+        body = body.substring(1, body.length() - 1);
+
+        // If there is at least one swift, it parse the list and create the objects to put them in the final list
+        if (!json.equals("")) {
+            // Parse all the banks and creates the objects
+            ArrayList<String> bankList = Portfolio.JSONArrayParser(body);
+            for (String s : bankList) {
+                JSONObject obj = new JSONObject(s);
+                rep.add(obj.getString("swift"));
+            }
+        }
+        return rep;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getSwiftCode() {
+        return this.swiftCode;
+    }
+}

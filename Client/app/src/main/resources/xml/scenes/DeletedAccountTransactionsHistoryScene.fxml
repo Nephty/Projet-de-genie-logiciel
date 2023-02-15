@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- @author Arnaud MOREAU -->
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0"
+      prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2"
+      fx:controller="front.controllers.DeletedAccountTransactionsHistorySceneController">
+    <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: rgb(125, 125, 135);">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    onKeyReleased="#handleComponentKeyReleased" prefHeight="70.0" prefWidth="1280.0">
+            <Button fx:id="backButton" layoutX="14.0" layoutY="17.0" onKeyReleased="#handleComponentKeyReleased"
+                    onMouseClicked="#handleBackButtonClicked" onMouseEntered="#handleButtonMouseEntered"
+                    onMouseExited="#handleButtonMouseExited" prefHeight="36.0" prefWidth="120.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="%common.backButton" textFill="#0a0a14">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+        </AnchorPane>
+        <AnchorPane layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    onKeyReleased="#handleComponentKeyReleased" prefHeight="650.0" prefWidth="1280.0">
+            <TableView fx:id="transactionsHistoryTableView" fixedCellSize="40.0" layoutX="30.0" layoutY="75.0"
+                       onKeyReleased="#handleComponentKeyReleased" prefHeight="550.0" prefWidth="1000.0"
+                       style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 3; -fx-border-insets: -3; -fx-border-radius: 5;">
+                <columns>
+                    <TableColumn fx:id="senderNameColumn" prefWidth="150.0" style="-fx-alignment: CENTER;"
+                                 text="%TransactionsHistoryScene.SenderNameColumn"/>
+                    <TableColumn fx:id="senderIBANColumn" prefWidth="225.0" style="-fx-alignment: CENTER;"
+                                 text="%TransactionsHistoryScene.SenderIBANColumn"/>
+                    <TableColumn fx:id="receiverNameColumn" prefWidth="150.0" style="-fx-alignment: CENTER;"
+                                 text="%TransactionsHistoryScene.ReceiverNameColumn"/>
+                    <TableColumn fx:id="receiverIBANColumn" prefWidth="225.0" style="-fx-alignment: CENTER;"
+                                 text="%TransactionsHistoryScene.ReceiverIBANColumn"/>
+                    <TableColumn fx:id="dateColumn" prefWidth="150.0" style="-fx-alignment: CENTER;"
+                                 text="%common.DateColumn"/>
+                    <TableColumn fx:id="amountColumn" prefWidth="99.0" style="-fx-alignment: CENTER;"
+                                 text="%common.AmountColumn"/>
+                    <TableColumn fx:id="statusColumn" prefWidth="150" style="-fx-alignment: CENTER;"
+                                 text="%common.statusColumn"/>
+                </columns>
+            </TableView>
+            <Label fx:id="lastUpdateTimeLabel" alignment="CENTER" layoutX="477.0" layoutY="19.0" prefHeight="36.0"
+                   prefWidth="326.0"
+                   style="-fx-background-color: rgb(230, 230, 230); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                   text="%TransactionsHistoryScene.lastUpdateTimeLabel"/>
+            <Button fx:id="exportButton" layoutX="1075.0" layoutY="175.0" onKeyReleased="#handleComponentKeyReleased"
+                    onMouseClicked="#handleExportButtonClicked" onMouseEntered="#handleButtonMouseEntered"
+                    onMouseExited="#handleButtonMouseExited" prefHeight="30.0" prefWidth="170.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="%TransactionsHistoryScene.exportButton" textFill="#0a0a14">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+            <Label fx:id="loadingTransactionsHistoryLabel" layoutX="870.0" layoutY="29.0" opacity="0.0"
+                   prefHeight="16.0" prefWidth="154.0"
+                   text="%TransactionsHistoryScene.loadingTransactionsHistoryLabel"/>
+            <Button fx:id="fetchTransactionsHistoryButton" layoutX="1075.0" layoutY="75.0"
+                    onKeyReleased="#handleComponentKeyReleased"
+                    onMouseClicked="#handleFetchTransactionsHistoryButtonClicked"
+                    onMouseEntered="#handleButtonMouseEntered" onMouseExited="#handleButtonMouseExited"
+                    prefHeight="30.0" prefWidth="170.0"
+                    style="-fx-background-color: rgb(210, 205, 200); -fx-border-color: rgb(10, 10, 20); -fx-border-width: 1.5; -fx-border-insets: -1.5; -fx-border-radius: 5;"
+                    text="%TransactionsHistoryScene.fetchTransactionsHistoryButton">
+                <effect>
+                    <InnerShadow height="5.0" offsetX="-2.5" offsetY="-2.5" radius="2.0" width="5.0"/>
+                </effect>
+            </Button>
+        </AnchorPane>
+    </Pane>
+</Pane>

@@ -1,0 +1,59 @@
+\subparagraph{Changer la langue}
+L'utilisateur peut accéder à une interface lui permettant de changer sa langue préférée. Cela mettra à jour sa langue préférée dans la base de données et adaptera la langue de l'interface. Un menu déroulant affichera chaque fichier situé dans le répertoire dédié dont le nom respecte la forme \emph{LL.json}, à savoir deux lettres déterminant la langue (par exemple \emph{fr}, \emph{en}, \emph{de}, \emph{nl}, \emph{es}...) et au format JSON.
+
+
+\subparagraph{Se connecter}
+L'utilisateur qui désire se connecter doit posséder un compte (pré-condition triviale). En entrant son nom d'utilisateur ou adresse email ainsi que son mot de passe, il peut s'identifier et accéder à son compte et ses portefeuilles.
+
+
+\subparagraph{Créer un compte}
+L'utilisateur qui ne possède pas de compte et souhaite en créer un doit passer par l'interface de création de compte. Plusieurs informations sont requises : un nom, un prénom, un numéro national au format correct, une adresse email non utilisée et au format correct, un nom d'utilisateur libre, un mot de passe et sa confirmation, ainsi qu'une langue favorite. En confirmant qu'il a enregistré son mot de passe dans une base de donnée locale et sécurisée (comme un gestionnaire de mot de passe), nous encourageons l'utilisateur à protéger son mot de passe. Si toutes les informations sont remplies correctement, il pourra créer un compte et l'utliser pour se connecter à l'application.
+
+
+\paragraph{Accès à application client, en tant que client} La seconde partie n'est accessible qu'en se connectant avec les identifiants d'un compte enregistré dans la base de données. Lors de la connexion, l'utilisateur arrive sur l'écran principal, et peut, depuis celui-ci, accéder à toutes les fonctionnalités. Après s'être connecté, le client peut effectuer plusieurs actions :
+\begin{enumerate}
+\item Accéder à la liste de ses produits financiers
+\item Introduire une demande
+\end{enumerate}
+\begin{scriptsize}
+\textit{\emph{Quitter l'application}, \emph{Changer la langue} et \emph{Se déconnecter} sont considéré comme des comportements triviaux.}
+\end{scriptsize}
+
+
+\subparagraph{Accéder à la liste de ses produits financiers}
+La liste des produits financiers de l'utilisateur s'affiche à l'écran, et les fonctionnalités sont accessibles si l'utilisateur sélectionne un produit.
+
+
+\subparagraph{Sélectionner un produit}
+Lorsque l'utilisateur a sélectionné un produit, de nouvelles fonctionnalités deviennent utilisables :
+\begin{enumerate}
+\item Modifier un portefeuille ;
+\item Effectuer un virement ;
+\item Voir l'historique d'un compte.
+\end{enumerate}
+
+
+\subparagraph{Modifier un portefeuille}
+La modification du portefeuille permet à l'utilisateur de basculer (\emph{toggle}) l'état du portefeuille sélectionner. Si le portefeuille est activé, l'utilisateur pourra le désactiver, et si le portefeuille est désactivé, l'utilisateur pourra le ré-activer. Après avoir basculé l'état du portefeuille, l'utilisateur est envoyé sur l'écran précédent, à savoir la sélection d'un portefeuille.
+
+
+\subparagraph{Effectuer un virement}
+Si l'utilisateur souhaite effectuer un virement, il en a la possibilité en accédant à cette étape du flot d'exécution. Il faut entrer un montant et l'IBAN du destinataire ; le destinataire, le message et la date sont optionnels.
+
+
+\subparagraph{Voir l'historique d'un/plusieurs compte(s)}
+Après avoir sélectionné un portefeuille, l'utlisateur peut demander à visualiser l'historique d'un des comptes associés à ce portefeuille de manière plus détaillée. Pour cela, deux techniques sont mises à sa disposition :
+\begin{enumerate}
+\item La visualisation en liste, qui affiche une liste détaillée des transactions d'un ou plusieurs comptes à intervalles de temps différentes ;
+\item La visualisation graphique qui permet d'afficher des graphiques représentant ce même historique, mais de manière plus condensée et \emph{user-friendly}. L'utilisateur peut aussi visualiser un ou plusieurs comptes, à intervalles de temps différentes.
+\end{enumerate}
+Lorsque l'utilisateur sélectionne un portefeuille, il peut afficher les comptes associés à ce dernier. Il peut ensuite sélectionner un compte et visualiser l'historique des transactions de ce compte sous forme d'une liste ou de graphiques. Il peut aussi ajouter des comptes à visualiser avec le premier compte sélectionné.
+
+
+\subparagraph{Introduire une demande}
+En retournant à l'accès à l'application en tant qu'utilisateur, le client peut aussi introduire une demande. Deux types de demandes sont supportés :
+\begin{enumerate}
+\item Demande de permission de virement : l'utilisateur peut demander à une institution la permission d'effectuer des virements depuis l'application ;
+\item Demande d'ajout de produit financier : l'utilisateur peut demander à une institution la permission d'afficher des produits financiers dans l'application.
+\end{enumerate}
+L'utilisateur peut aussi consulter l'état des demandes effectuées, à savoir : validée, refusée ou en attente.

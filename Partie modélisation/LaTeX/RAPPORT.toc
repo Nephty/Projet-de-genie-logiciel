@@ -1,0 +1,316 @@
+\babel@toc {french}{}\relax 
+\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Introduction}{5}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Répartition des tâches}{5}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Outils utilisés}{6}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}GitHub}{6}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Trello}{6}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Discord}{6}{subsection.1.3.3}%
+\contentsline {subsection}{\numberline {1.3.4}Draw.io}{6}{subsection.1.3.4}%
+\contentsline {subsection}{\numberline {1.3.5}Visual Paradigm}{6}{subsection.1.3.5}%
+\contentsline {subsection}{\numberline {1.3.6}Yakindu Statechart Tools}{6}{subsection.1.3.6}%
+\contentsline {chapter}{\numberline {2}Partie commune}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Introduction et choix de conception des diagrammes de conception UML}{8}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Use case diagrams}{8}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Interaction overview diagrams}{9}{subsection.2.1.2}%
+\contentsline {paragraph}{Authentification}{9}{section*.2}%
+\contentsline {paragraph}{Choix de conception}{10}{section*.3}%
+\contentsline {subsection}{\numberline {2.1.3}Class diagrams}{11}{subsection.2.1.3}%
+\contentsline {paragraph}{}{11}{section*.4}%
+\contentsline {subsection}{\numberline {2.1.4}Sequence diagrams}{12}{subsection.2.1.4}%
+\contentsline {paragraph}{}{12}{section*.5}%
+\contentsline {section}{\numberline {2.2}Diagrammes de conception UML : application client}{13}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Use case diagram}{13}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Interaction overview diagram}{14}{subsection.2.2.2}%
+\contentsline {subparagraph}{Changer la langue}{14}{section*.6}%
+\contentsline {subparagraph}{Se connecter}{14}{section*.7}%
+\contentsline {subparagraph}{Créer un compte}{14}{section*.8}%
+\contentsline {paragraph}{Accès à application client, en tant que client}{14}{section*.9}%
+\contentsline {subparagraph}{Accéder à la liste de ses produits financiers}{14}{section*.10}%
+\contentsline {subparagraph}{Sélectionner un produit}{14}{section*.11}%
+\contentsline {subparagraph}{Modifier un portefeuille}{14}{section*.12}%
+\contentsline {subparagraph}{Effectuer un virement}{14}{section*.13}%
+\contentsline {subparagraph}{Voir l'historique d'un/plusieurs compte(s)}{15}{section*.14}%
+\contentsline {subparagraph}{Introduire une demande}{15}{section*.15}%
+\contentsline {subsection}{\numberline {2.2.3}Class diagram}{16}{subsection.2.2.3}%
+\contentsline {paragraph}{Partie logique}{16}{section*.16}%
+\contentsline {subparagraph}{Partie commune}{16}{section*.17}%
+\contentsline {paragraph}{Partie API}{17}{section*.18}%
+\contentsline {paragraph}{Partie GUI}{18}{section*.19}%
+\contentsline {subsection}{\numberline {2.2.4}Sequence diagram}{19}{subsection.2.2.4}%
+\contentsline {paragraph}{}{19}{section*.20}%
+\contentsline {paragraph}{}{19}{section*.21}%
+\contentsline {paragraph}{}{20}{section*.22}%
+\contentsline {paragraph}{}{21}{section*.23}%
+\contentsline {paragraph}{}{22}{section*.24}%
+\contentsline {subsection}{\numberline {2.2.5}Statechart diagram}{23}{subsection.2.2.5}%
+\contentsline {paragraph}{Structure}{23}{section*.25}%
+\contentsline {paragraph}{Évènements}{23}{section*.26}%
+\contentsline {paragraph}{Méthodes}{23}{section*.27}%
+\contentsline {paragraph}{Fonctionnement}{23}{section*.28}%
+\contentsline {section}{\numberline {2.3}Diagrammes de conception UML : application institution}{24}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Use case diagram}{24}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Interaction overview diagram}{25}{subsection.2.3.2}%
+\contentsline {paragraph}{Accès à application institution financière, en tant qu'institution financière}{25}{section*.29}%
+\contentsline {subparagraph}{Afficher la liste des clients de l'institution}{25}{section*.30}%
+\contentsline {subparagraph}{Sélectionner un client}{25}{section*.31}%
+\contentsline {subparagraph}{Ajouter un client}{25}{section*.32}%
+\contentsline {subparagraph}{Exporter les données de ses clients (implémente le tri et la recherche)}{25}{section*.33}%
+\contentsline {subparagraph}{Gérer les données de l'institution}{25}{section*.34}%
+\contentsline {subparagraph}{Importer des données}{25}{section*.35}%
+\contentsline {subparagraph}{Exporter toutes les données de tous les clients}{25}{section*.36}%
+\contentsline {subparagraph}{Accéder à la liste des demandes}{25}{section*.37}%
+\contentsline {subsection}{\numberline {2.3.3}Class diagram}{27}{subsection.2.3.3}%
+\contentsline {paragraph}{}{27}{section*.38}%
+\contentsline {paragraph}{Partie logique}{27}{section*.39}%
+\contentsline {paragraph}{Partie API}{27}{section*.40}%
+\contentsline {subsection}{\numberline {2.3.4}Sequence diagram}{29}{subsection.2.3.4}%
+\contentsline {paragraph}{Introduction}{29}{section*.42}%
+\contentsline {paragraph}{Accéder à la liste des demandes}{29}{section*.43}%
+\contentsline {paragraph}{Approuver une demande}{30}{section*.44}%
+\contentsline {paragraph}{Ouvrir un produit financier}{31}{section*.45}%
+\contentsline {section}{\numberline {2.4}Modèle de données}{32}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Design du REST API}{34}{section.2.5}%
+\contentsline {paragraph}{Introduction}{34}{section*.46}%
+\contentsline {paragraph}{\textbackslash user}{35}{section*.47}%
+\contentsline {subparagraph}{\textbackslash user\textbackslash login}{35}{section*.48}%
+\contentsline {paragraph}{\textbackslash account}{35}{section*.49}%
+\contentsline {subparagraph}{\textbackslash account\textbackslash account-access}{35}{section*.50}%
+\contentsline {subparagraph}{\textbackslash account\textbackslash sub-account}{35}{section*.51}%
+\contentsline {paragraph}{\textbackslash notification}{35}{section*.52}%
+\contentsline {paragraph}{\textbackslash bank}{36}{section*.53}%
+\contentsline {subparagraph}{\textbackslash bank\textbackslash login}{36}{section*.54}%
+\contentsline {subparagraph}{\textbackslash bank\textbackslash customer}{36}{section*.55}%
+\contentsline {paragraph}{\textbackslash transaction}{36}{section*.56}%
+\contentsline {section}{\numberline {2.6}Maquette de l'interface utilisateur : application client}{37}{section.2.6}%
+\contentsline {paragraph}{Fenêtres disponibles}{37}{section*.57}%
+\contentsline {subparagraph}{Fenêtre \emph {Auth}}{37}{section*.58}%
+\contentsline {subparagraph}{Fenêtre \emph {Sign in}}{37}{section*.59}%
+\contentsline {subparagraph}{Fenêtre \emph {Sign up}}{37}{section*.60}%
+\contentsline {subparagraph}{Fenêtre \emph {Change password}}{38}{section*.61}%
+\contentsline {subparagraph}{Fenêtre \emph {Change language}}{38}{section*.62}%
+\contentsline {subparagraph}{Fenêtre \emph {Main screen}}{39}{section*.63}%
+\contentsline {subparagraph}{Fenêtre \emph {Financial products}}{39}{section*.64}%
+\contentsline {subparagraph}{Fenêtre \emph {Toggle product}}{39}{section*.65}%
+\contentsline {subparagraph}{Fenêtre \emph {Enter PIN to confirm}}{39}{section*.66}%
+\contentsline {subparagraph}{Fenêtre \emph {Details}}{40}{section*.67}%
+\contentsline {subparagraph}{Fenêtre \emph {Transaction history}}{40}{section*.68}%
+\contentsline {subparagraph}{Fenêtre \emph {Visualize history}}{40}{section*.69}%
+\contentsline {subparagraph}{Fenêtre \emph {Export history}}{40}{section*.70}%
+\contentsline {subparagraph}{Fenêtre \emph {Transfer}}{41}{section*.71}%
+\contentsline {subparagraph}{Fenêtre \emph {Requests}}{41}{section*.72}%
+\contentsline {subparagraph}{Fenêtre \emph {Request transfer permission}}{41}{section*.73}%
+\contentsline {subparagraph}{Fenêtre \emph {Request new portfolio}}{41}{section*.74}%
+\contentsline {subparagraph}{Fenêtre \emph {Requests status}}{42}{section*.75}%
+\contentsline {subparagraph}{Fenêtre \emph {Notifications}}{42}{section*.76}%
+\contentsline {paragraph}{Illustration du diagramme}{42}{section*.77}%
+\contentsline {section}{\numberline {2.7}Maquette de l'interface utilisateur : application institution}{43}{section.2.7}%
+\contentsline {paragraph}{Fenêtres disponibles}{43}{section*.78}%
+\contentsline {subparagraph}{Fenêtre \emph {Auth}}{43}{section*.79}%
+\contentsline {subparagraph}{Fenêtre \emph {Sign in}}{43}{section*.80}%
+\contentsline {subparagraph}{Fenêtre \emph {Sign up}}{43}{section*.81}%
+\contentsline {subparagraph}{Fenêtre \emph {Change password}}{44}{section*.82}%
+\contentsline {subparagraph}{Fenêtre \emph {Change language}}{44}{section*.83}%
+\contentsline {subparagraph}{Fenêtre \emph {Main screen}}{45}{section*.84}%
+\contentsline {subparagraph}{Fenêtre \emph {Clients}}{45}{section*.85}%
+\contentsline {subparagraph}{Fenêtre \emph {Add client}}{45}{section*.86}%
+\contentsline {subparagraph}{Fenêtre \emph {Details}}{45}{section*.87}%
+\contentsline {subparagraph}{Fenêtre \emph {Export data}}{46}{section*.88}%
+\contentsline {subparagraph}{Fenêtre \emph {Create client account}}{46}{section*.89}%
+\contentsline {subparagraph}{Fenêtre \emph {Requests}}{46}{section*.90}%
+\contentsline {subparagraph}{Fenêtre \emph {Transfer permission requests}}{46}{section*.91}%
+\contentsline {subparagraph}{Fenêtre \emph {Portfolio requests}}{46}{section*.92}%
+\contentsline {subparagraph}{Fenêtre \emph {Manage data}}{47}{section*.93}%
+\contentsline {subparagraph}{Fenêtre \emph {Import data}}{47}{section*.94}%
+\contentsline {paragraph}{Illustration du diagramme}{47}{section*.95}%
+\contentsline {chapter}{\numberline {3}Extension A : Gestion de cartes - Augustin \textsc {Houba}}{48}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Diagrammes de conception UML : application client}{49}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Use case diagram}{49}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Interaction overview diagram}{50}{subsection.3.1.2}%
+\contentsline {paragraph}{Introduction}{50}{section*.96}%
+\contentsline {paragraph}{Gestions de cartes}{50}{section*.97}%
+\contentsline {subparagraph}{Payer avec une carte}{50}{section*.98}%
+\contentsline {subparagraph}{Voir la liste des cartes}{50}{section*.99}%
+\contentsline {subparagraph}{Créer une carte}{51}{section*.100}%
+\contentsline {subparagraph}{Sélectionner une carte}{51}{section*.101}%
+\contentsline {subparagraph}{Voir l'historique des transactions de la carte}{51}{section*.102}%
+\contentsline {subsection}{\numberline {3.1.3}Class diagram}{52}{subsection.3.1.3}%
+\contentsline {paragraph}{Introduction}{52}{section*.103}%
+\contentsline {paragraph}{Partie Logique}{52}{section*.104}%
+\contentsline {paragraph}{Patie GUI}{53}{section*.105}%
+\contentsline {paragraph}{Partie API}{53}{section*.106}%
+\contentsline {subsection}{\numberline {3.1.4}Sequence diagram}{54}{subsection.3.1.4}%
+\contentsline {paragraph}{Introduction}{54}{section*.107}%
+\contentsline {paragraph}{Payer avec une carte}{54}{section*.108}%
+\contentsline {paragraph}{Créer une carte}{55}{section*.109}%
+\contentsline {paragraph}{Modifier une carte}{56}{section*.110}%
+\contentsline {section}{\numberline {3.2}Diagrammes de conception UML : application institution}{57}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Use case diagram}{57}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Interaction overview diagram}{57}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Class diagram}{57}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Sequence diagram}{57}{subsection.3.2.4}%
+\contentsline {section}{\numberline {3.3}Maquette de l'interface utilisateur: application client}{58}{section.3.3}%
+\contentsline {paragraph}{Introduction}{58}{section*.111}%
+\contentsline {paragraph}{Scènes modifiées}{58}{section*.112}%
+\contentsline {subparagraph}{Scène \emph {Sign In}}{58}{section*.113}%
+\contentsline {subparagraph}{Scène \emph {Main screen}}{59}{section*.114}%
+\contentsline {subparagraph}{Scène \emph {Transaction History}}{59}{section*.115}%
+\contentsline {subparagraph}{Scène \emph {Cards Management}}{59}{section*.116}%
+\contentsline {subparagraph}{Scène \emph {Credit Card}}{59}{section*.117}%
+\contentsline {subparagraph}{Scène \emph {Debit Card}}{59}{section*.118}%
+\contentsline {subparagraph}{Scène \emph {Card Pay}}{59}{section*.119}%
+\contentsline {subparagraph}{Scène \emph {Add a Debit Card}}{60}{section*.120}%
+\contentsline {subparagraph}{Scène \emph {Add a Credit Card}}{60}{section*.121}%
+\contentsline {section}{\numberline {3.4}Maquette de l'interface utilisateur: application institution}{61}{section.3.4}%
+\contentsline {paragraph}{Introduction}{61}{section*.122}%
+\contentsline {paragraph}{Scènes modifiées}{61}{section*.123}%
+\contentsline {paragraph}{Scène \emph {Requests}}{61}{section*.124}%
+\contentsline {section}{\numberline {3.5}Design du REST API}{62}{section.3.5}%
+\contentsline {paragraph}{Introduction}{62}{section*.125}%
+\contentsline {paragraph}{\textbackslash transaction}{62}{section*.126}%
+\contentsline {paragraph}{\textbackslash card}{62}{section*.127}%
+\contentsline {subparagraph}{\textbackslash card\textbackslash debit-card}{62}{section*.128}%
+\contentsline {subparagraph}{\textbackslash card\textbackslash credit-card}{62}{section*.129}%
+\contentsline {section}{\numberline {3.6}Modèle de données}{64}{section.3.6}%
+\contentsline {chapter}{\numberline {4}Extension B : Gestion de devises et virements internationaux - Cyril \textsc {Moreau}}{65}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Diagrammes de conception UML : application client}{66}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Use case diagram}{66}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Interaction overview diagram}{67}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Class diagram}{68}{subsection.4.1.3}%
+\contentsline {paragraph}{Introduction}{69}{section*.130}%
+\contentsline {paragraph}{Partie logique}{69}{section*.131}%
+\contentsline {paragraph}{Partie API}{69}{section*.132}%
+\contentsline {paragraph}{Partie GUI}{69}{section*.133}%
+\contentsline {subsection}{\numberline {4.1.4}Sequence diagram}{70}{subsection.4.1.4}%
+\contentsline {section}{\numberline {4.2}Diagrammes de conception UML : application institution}{73}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Use case diagram}{73}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Interaction overview diagram}{74}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Class diagram}{75}{subsection.4.2.3}%
+\contentsline {paragraph}{Introduction :}{76}{section*.134}%
+\contentsline {paragraph}{Partie logique}{76}{section*.135}%
+\contentsline {paragraph}{Partie API}{76}{section*.136}%
+\contentsline {paragraph}{Partie GUI}{76}{section*.137}%
+\contentsline {subsection}{\numberline {4.2.4}Sequence diagram}{77}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Modèle de données}{80}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Maquette de l'interface de l'application client}{81}{section.4.4}%
+\contentsline {paragraph}{Nouvelles fenêtres disponibles}{81}{section*.138}%
+\contentsline {paragraph}{Fenêtres modifiées}{81}{section*.139}%
+\contentsline {subparagraph}{Fenêtre Exchange rate}{81}{section*.140}%
+\contentsline {subparagraph}{Fenêtre International transfer}{81}{section*.141}%
+\contentsline {subparagraph}{Fenêtre \emph {Details}}{81}{section*.142}%
+\contentsline {subparagraph}{Fenêtre \emph {Main screen}}{81}{section*.143}%
+\contentsline {section}{\numberline {4.5}Maquette de l'interface de l'application pour une institution}{82}{section.4.5}%
+\contentsline {paragraph}{Nouvelles fenêtres disponibles}{82}{section*.144}%
+\contentsline {subparagraph}{Fenêtre \emph {AddCountryFee}}{82}{section*.145}%
+\contentsline {subparagraph}{Fenêtre \emph {ModifyCountryFee}}{82}{section*.146}%
+\contentsline {subparagraph}{Fenêtre \emph {CountryFee}}{82}{section*.147}%
+\contentsline {subparagraph}{AddSubAccount}{82}{section*.148}%
+\contentsline {chapter}{\numberline {5}Extension C : Gestion des contrats d’assurance - François \textsc {Vion}}{83}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Diagrammes de conception UML : application client}{84}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Use case diagram}{84}{subsection.5.1.1}%
+\contentsline {paragraph}{}{84}{section*.149}%
+\contentsline {subsection}{\numberline {5.1.2}Interaction overview diagram}{85}{subsection.5.1.2}%
+\contentsline {paragraph}{}{85}{section*.150}%
+\contentsline {subsection}{\numberline {5.1.3}Class diagram}{86}{subsection.5.1.3}%
+\contentsline {paragraph}{Partie logique}{86}{section*.151}%
+\contentsline {paragraph}{Partie API}{87}{section*.152}%
+\contentsline {paragraph}{Partie GUI}{87}{section*.153}%
+\contentsline {subsection}{\numberline {5.1.4}Sequence diagram}{88}{subsection.5.1.4}%
+\contentsline {paragraph}{}{88}{section*.154}%
+\contentsline {paragraph}{}{88}{section*.155}%
+\contentsline {paragraph}{}{89}{section*.156}%
+\contentsline {paragraph}{}{90}{section*.157}%
+\contentsline {paragraph}{}{91}{section*.158}%
+\contentsline {section}{\numberline {5.2}Diagrammes de conception UML : application institution}{92}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Use case diagram}{92}{subsection.5.2.1}%
+\contentsline {paragraph}{}{92}{section*.159}%
+\contentsline {subsection}{\numberline {5.2.2}Interaction overview diagram}{93}{subsection.5.2.2}%
+\contentsline {paragraph}{}{93}{section*.160}%
+\contentsline {subsection}{\numberline {5.2.3}Class diagram}{94}{subsection.5.2.3}%
+\contentsline {paragraph}{}{94}{section*.161}%
+\contentsline {subsection}{\numberline {5.2.4}Sequence diagram}{95}{subsection.5.2.4}%
+\contentsline {paragraph}{}{95}{section*.162}%
+\contentsline {section}{\numberline {5.3}Modèle de données}{96}{section.5.3}%
+\contentsline {paragraph}{}{96}{section*.163}%
+\contentsline {section}{\numberline {5.4}Maquette de l'interface utilisateur et institution}{97}{section.5.4}%
+\contentsline {paragraph}{Introduction}{97}{section*.164}%
+\contentsline {paragraph}{Fenêtres disponibles}{97}{section*.165}%
+\contentsline {paragraph}{Fenêtre \emph {Main screen}}{97}{section*.166}%
+\contentsline {paragraph}{Fenêtre \emph {Insurance main screen}}{97}{section*.167}%
+\contentsline {paragraph}{Fenêtre \emph {Informations on the insurances}}{98}{section*.168}%
+\contentsline {paragraph}{Fenêtre \emph {Submit a quote}}{98}{section*.169}%
+\contentsline {paragraph}{Fenêtre \emph {Received quotation}}{98}{section*.170}%
+\contentsline {paragraph}{Fenêtre \emph {Insurance manager}}{98}{section*.171}%
+\contentsline {paragraph}{Fenêtre \emph {Insurance history}}{99}{section*.172}%
+\contentsline {paragraph}{Fenêtre \emph {Register for insurances}}{99}{section*.173}%
+\contentsline {paragraph}{Fenêtre \emph {Car insurance registration}}{99}{section*.174}%
+\contentsline {paragraph}{Fenêtre \emph {Life insurance payment}}{99}{section*.175}%
+\contentsline {paragraph}{Fenêtre \emph {Damage insurance payment}}{100}{section*.176}%
+\contentsline {paragraph}{Fenêtre \emph {Pension savings insurance payment}}{100}{section*.177}%
+\contentsline {paragraph}{Fenêtre \emph {Payment}}{100}{section*.178}%
+\contentsline {paragraph}{Fenêtre \emph {Enter PIN to confirm}}{100}{section*.179}%
+\contentsline {paragraph}{Fenêtre \emph {Life insurance manager}}{101}{section*.180}%
+\contentsline {paragraph}{Fenêtre \emph {Withdraw}}{101}{section*.181}%
+\contentsline {paragraph}{Fenêtre \emph {Damage insurance manager}}{101}{section*.182}%
+\contentsline {paragraph}{Fenêtre \emph {Pension savings insurance manager}}{101}{section*.183}%
+\contentsline {paragraph}{Fenêtre \emph {Requests}}{101}{section*.184}%
+\contentsline {paragraph}{Fenêtre \emph {Quotations}}{102}{section*.185}%
+\contentsline {chapter}{\numberline {6}Extension D : Paiements et gestion de fraudes - Arnaud \textsc {Moreau}}{103}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Diagrammes de conception UML : application client}{104}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Use case diagram}{104}{subsection.6.1.1}%
+\contentsline {paragraph}{Structure}{104}{section*.186}%
+\contentsline {subsection}{\numberline {6.1.2}Interaction overview diagram}{105}{subsection.6.1.2}%
+\contentsline {paragraph}{Nouvelles références :}{105}{section*.187}%
+\contentsline {subparagraph}{Créer une demande de paiement via QR code}{105}{section*.188}%
+\contentsline {subparagraph}{Effectuer un paiement via QR code}{105}{section*.189}%
+\contentsline {subparagraph}{Voir l'historique des transactions suspectes}{105}{section*.190}%
+\contentsline {subparagraph}{Infirmer une suspicion de fraude}{105}{section*.191}%
+\contentsline {subparagraph}{Confirmer une suspicion de fraude}{105}{section*.192}%
+\contentsline {subparagraph}{Voir les paiements à effectuer}{105}{section*.193}%
+\contentsline {subparagraph}{Sélectionner un paiement à effectuer}{105}{section*.194}%
+\contentsline {subparagraph}{Payer avec contact}{105}{section*.195}%
+\contentsline {subparagraph}{Payer sans contact}{106}{section*.196}%
+\contentsline {subsection}{\numberline {6.1.3}Class diagram}{107}{subsection.6.1.3}%
+\contentsline {paragraph}{Structure}{107}{section*.197}%
+\contentsline {subsection}{\numberline {6.1.4}Sequence diagram}{108}{subsection.6.1.4}%
+\contentsline {paragraph}{Description}{108}{section*.198}%
+\contentsline {paragraph}{Description}{109}{section*.199}%
+\contentsline {paragraph}{Description}{110}{section*.200}%
+\contentsline {paragraph}{Description}{111}{section*.201}%
+\contentsline {paragraph}{Description}{112}{section*.202}%
+\contentsline {paragraph}{Description}{113}{section*.203}%
+\contentsline {paragraph}{Description}{114}{section*.204}%
+\contentsline {paragraph}{Description}{115}{section*.205}%
+\contentsline {paragraph}{Description}{116}{section*.206}%
+\contentsline {section}{\numberline {6.2}Diagrammes de conception UML : application institution}{117}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Use case diagram}{117}{subsection.6.2.1}%
+\contentsline {paragraph}{Structure}{117}{section*.207}%
+\contentsline {subsection}{\numberline {6.2.2}Interaction overview diagram}{118}{subsection.6.2.2}%
+\contentsline {paragraph}{Nouvelle référence :}{118}{section*.208}%
+\contentsline {subparagraph}{Modifier les limites}{118}{section*.209}%
+\contentsline {subsection}{\numberline {6.2.3}Class diagram}{119}{subsection.6.2.3}%
+\contentsline {paragraph}{Structure}{119}{section*.210}%
+\contentsline {subsection}{\numberline {6.2.4}Sequence diagram}{120}{subsection.6.2.4}%
+\contentsline {paragraph}{Description}{120}{section*.211}%
+\contentsline {section}{\numberline {6.3}Modèle de données}{121}{section.6.3}%
+\contentsline {paragraph}{Nouveaux attributs}{121}{section*.212}%
+\contentsline {subparagraph}{Table \emph {Users}}{121}{section*.213}%
+\contentsline {subparagraph}{Table \emph {Account}}{121}{section*.214}%
+\contentsline {subparagraph}{Table \emph {TransactionLog}}{121}{section*.215}%
+\contentsline {subparagraph}{Table \emph {Notification}}{121}{section*.216}%
+\contentsline {section}{\numberline {6.4}Maquette de l'interface utilisateur}{122}{section.6.4}%
+\contentsline {paragraph}{Nouvelles fenêtres disponibles}{122}{section*.217}%
+\contentsline {paragraph}{Fenêtres modifiées}{122}{section*.218}%
+\contentsline {subparagraph}{Fenêtre \emph {QR codes}}{122}{section*.219}%
+\contentsline {subparagraph}{Fenêtre \emph {Generate QR code}}{122}{section*.220}%
+\contentsline {subparagraph}{Fenêtre \emph {Read QR code}}{122}{section*.221}%
+\contentsline {subparagraph}{Fenêtre \emph {Suspicious transactions history}}{122}{section*.222}%
+\contentsline {subparagraph}{Fenêtre \emph {Due payments}}{123}{section*.223}%
+\contentsline {subparagraph}{Fenêtre \emph {Main screen}}{123}{section*.224}%
+\contentsline {paragraph}{Illustration du diagramme}{123}{section*.225}%
+\contentsline {section}{\numberline {6.5}Maquette de l'interface institution}{124}{section.6.5}%
+\contentsline {paragraph}{Nouvelles fenêtres disponibles}{124}{section*.226}%
+\contentsline {paragraph}{Fenêtres modifiées}{124}{section*.227}%
+\contentsline {subparagraph}{Fenêtre \emph {Limits}}{124}{section*.228}%
+\contentsline {subparagraph}{Fenêtre \emph {Details}}{124}{section*.229}%
+\contentsline {paragraph}{Illustration du diagramme}{124}{section*.230}%

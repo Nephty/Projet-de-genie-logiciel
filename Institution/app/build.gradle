@@ -1,0 +1,82 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Use JUnit Jupiter for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+
+    // This dependency is used by the application.
+    implementation 'com.google.guava:guava:30.1.1-jre'
+
+    testImplementation 'org.mockito:mockito-inline:4.1.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.1.0'
+
+    // Use mockito for testing .
+    implementation 'org.mockito:mockito-core:4.1.0'
+    implementation 'com.google.guava:guava:30.1.1-jre'
+
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.1'
+
+    // Unirest for http request
+    implementation 'com.mashape.unirest:unirest-java:1.4.9'
+
+    // For password change
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // JSON simple for import data
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'app.Main'
+}
+
+javafx {
+    version = "15.0.1"
+    modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media', 'javafx.swing', 'javafx.web']
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        outputs.upToDateWhen { false }
+        events "passed", "skipped", "failed"
+    }
+}
+
+jar {
+    // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
+    archiveAppendix = "Institution"
+    archiveBaseName = "PDL07"
+    archiveExtension = "jar"
+    archiveClassifier = ""
+    caseSensitive = true
+    destinationDirectory = project.file('../comp/jars')
+    includeEmptyDirs = true
+
+    manifest {
+        attributes('Manifest-Version': '1.0',
+                'Main-Class': 'org.springframework.boot.loader.JarLauncher',
+                'Start-Class': 'app.Main',
+                'Spring-Boot-Version': '2.6.3',
+                'Spring-Boot-Classes': 'BOOT-INF/classes/',
+                'Spring-Boot-Lib': 'BOOT-INF/lib/',
+                'Spring-Boot-Classpath-Index': 'BOOT-INF/classpath.idx',
+                'Spring-Boot-Layers-Index': 'BOOT-INF/layers.idx')
+    }
+}
+
+java {
+    withSourcesJar()
+}

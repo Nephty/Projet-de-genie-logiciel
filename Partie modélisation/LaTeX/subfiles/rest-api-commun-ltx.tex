@@ -1,0 +1,114 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+
+\begin{document}
+
+\paragraph{Introduction}
+
+Ce diagramme décrit le fonctionnement de l'api. Nous l'avons réalisé en se basant
+sur le use case diagramme ainsi que celui de relation-overview. On s'est permis quelques
+simplifications comme lorsqu'une réponse n'est constitué que d'un code elle est considérée 
+comme triviale et n'est donc pas représenté. En revanche si le corps de la réponse est plus
+complet (notamment pour les méthodes de login) il sera précisé.
+\newline
+\newline
+4 méthodes HTTP sont utilisées dans ce schéma:
+\begin{enumerate}
+    \item \textbf{GET}: Méthode utilisée lorsqu'il est nécessaire d'accéder à des données de la BDD.
+                        Elle prendra en général comme paramètre(s) le(s) clé(s) primaire de la table
+                        ou la recherche est effectuée.
+    \item \textbf{POST}: Méthode utilisée lorsqu'il est nécessaire de rajouter des données dans la BDD.
+                        Elle requiert en général les attributs de la table ou la création se fera.
+    \item \textbf{PUT}: Méthode utilisée lorsqu'il est nécessaire de modifier des données dans la BDD.
+                        Elle prend en paramètre le(s) clé(s) primaire de la table ou la modification est
+                        effectuée ainsi que le(s) paramètre(s) à modifier. Si ils sont plusieurs, ils seront
+                        généralement optionnel et seulement ceux précisé seront modifiés.
+    \item \textbf{DELETE}: Méthode utilisée lorsqu'il est nécessaire de supprimer des données dans la BDD.
+                            Elle prendra en général comme paramètre(s) le(s) clé(s) primaire de la table 
+                            ou la suppression est effectuée.
+\end{enumerate}
+
+\paragraph{\textbackslash user}
+    \begin{enumerate}
+        \item \textbf{GET}: Elle retournera une instance de User. Le paramètre user-id est requis.
+        \item \textbf{POST}: Cette méthode est employée lors de la création d'un nouveau compte.
+        \item \textbf{PUT}: Elle permet de modifier la langue de préférence de l'utilisateur ou le mot de passe
+                            La méthode s'adaptera en fonction des données fournies. Soit le paramètre language aura été spécifié
+                            soit les paramètres oldPassword et newPassword.
+        \item \textbf{DELETE}: Le paramètre user-id est requis cette méthode supprime simplement un user.
+    \end{enumerate}
+    \subparagraph{\textbackslash user\textbackslash login}
+        \begin{enumerate}
+            \item \textbf{GET}: Lorsqu'un user se connecte si les crédentiels entrés sont correct, elle renvoie
+                                le profil sinon elle renvoie des informations sur ce qui s'est mal déroulé.
+        \end{enumerate}
+
+
+\paragraph{\textbackslash account}
+    \begin{enumerate}
+        \item \textbf{GET}: Renvoie une instance d'un account ainsi qu'une liste de tous ses sub-accounts
+        \item \textbf{POST}: Utile pour la création d'un nouveau compte. Elle créera notamment un sub-account
+                                avec la currency par défaut de la banque associée.
+        \item \textbf{DELETE}: Suppression d'un compte ainsi que les sub-account et account-access associés
+    \end{enumerate}
+    \subparagraph{\textbackslash account\textbackslash account-access}
+        \begin{enumerate}
+            \item \textbf{POST}: Création d'un nouvel accès.
+            \item \textbf{PUT}: Modifier le statut d'un accès le paramètre write ou hidden sera spécifié. accountID
+                                et userID correspondent aux clés primaires de la table.
+            \item \textbf{DELETE}: account-id et user-id correspondent aux clés primaires de la table.
+        \end{enumerate}
+
+    \subparagraph{\textbackslash account\textbackslash sub-account}
+        \begin{enumerate}
+            \item \textbf{POST}: Crée un nouveau sub-account
+            \item \textbf{PUT}: Modifie la balance dans un account. Le paramètre amount reprrésente ce qu'il faut
+                                rajouter, il peut être négatif.
+            \item \textbf{DELETE}: Suppression d'un sub-account. Les paramètres sont les clés primaires de la table.
+        \end{enumerate}
+
+
+\paragraph{\textbackslash notification}
+    \begin{enumerate}
+        \item \textbf{GET}: Renvoie la notification correspondant à l'id
+        \item \textbf{POST}: Crée une notification. Le paramètre fromBank indique si le destinateur et la banque
+                            ou l'utilisateur ce qui sera utile pour savoir dans quelle table rajouter la notification.
+        \item \textbf{DELETE}: Suppression de la notification correspondant à l'id
+    \end{enumerate}
+
+
+\paragraph{\textbackslash bank}
+    \begin{enumerate}
+        \item \textbf{GET}: Retourne une instance de banque.
+        \item \textbf{POST}: Création d'une banque.
+        \item \textbf{DELETE}: Suppression d'une banque, swift est la clé primaire de la table.
+        \item \textbf{PUT}: Les paramètres modifiables sont password, adress, country et defaultCurrency
+    \end{enumerate}
+
+    \subparagraph{\textbackslash bank\textbackslash login}
+        \begin{enumerate}
+            \item \textbf{GET}: Lorsqu'une banque se connecte si les crédentiels entrés sont correct, elle renvoie
+                                le profil sinon elle renvoie des informations sur ce qui s'est mal déroulé.
+        \end{enumerate}
+
+    \subparagraph{\textbackslash bank\textbackslash customer}
+        \begin{enumerate}
+            \item \textbf{GET}: Renvoie la liste de tous les clients appartenant à la banque dont le swift eest
+                                passé en paramètre.
+            \item \textbf{POST}: Ajoute un nouveau client.
+            \item \textbf{DELETE}: Supprime le client (customer-id) de la bank (swift). Les paramètres sont les clés primaires.
+        \end{enumerate}
+
+
+\paragraph{\textbackslash transaction}
+    \begin{enumerate}
+        \item \textbf{GET}: Renvoie une liste des transactions d'un portefeuille qu'il en soit l'émetteur ou le receveur
+        \item \textbf{POST}: Crée une nouvelle transaction.
+    \end{enumerate}
+
+
+\end{document}

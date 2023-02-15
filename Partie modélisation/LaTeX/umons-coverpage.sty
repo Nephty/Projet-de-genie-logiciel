@@ -1,0 +1,193 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{umons-coverpage}[2010/03/19 Coverpage for thesis at umons]
+%\usepackage[colorgrid,texcoord]{eso-pic} %[2002/11/16]
+\RequirePackage[absolute]{textpos} %,noshowtext,showboxes
+\RequirePackage{calc,color}
+\RequirePackage{graphicx}
+\RequirePackage[T1]{fontenc}
+
+
+
+\makeatletter
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Part 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Defining variables and available options for building the cover page %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Definition of variables needed to produce the cover page
+
+\def\umonsAuthor#1{\gdef\@umonsAuthor{#1}}
+\def\@umonsAuthor{\@latex@warning@no@line{No \noexpand\umonsAuthor given}}
+
+\def\umonsTitle#1{\gdef\@umonsTitle{#1}}
+\def\@umonsTitle{\@latex@warning@no@line{No \noexpand\umonsTitle given}}
+
+\def\umonsSubtitle#1{\gdef\@umonsSubtitle{#1}}
+\def\@umonsSubtitle{\@latex@warning@no@line{No \noexpand\umonsSubtitle given}}
+
+\def\umonsDocumentType#1{\gdef\@umonsDocumentType{#1}}
+\def\@umonsDocumentType{\@latex@warning@no@line{No \noexpand\umonsDocumentType given}}
+
+\def\umonsSupervisor#1{\gdef\@umonsSupervisor{#1}}
+\def\@umonsSupervisor{\@latex@warning@no@line{No \noexpand\umonsSupervisor given}}
+
+\def\umonsDate#1{\gdef\@umonsDate{#1}}
+\def\@umonsDate{\@latex@warning@no@line{No \noexpand\umonsDate given}}
+
+\def\umonsFacultyName#1{\gdef\@umonsFacultyName{#1}}
+\def\@umonsFacultyName{\@latex@warning@no@line{No \noexpand\umonsFacultyName given}}
+
+\def\umonsFacultyLogo#1{\gdef\@umonsFacultyLogo{#1}}
+\def\@umonsFacultyLogo{\@latex@warning@no@line{No \noexpand\umonsFacultyLogo given}}
+
+\def\umonsFacultyPhoto#1{\gdef\@umonsFacultyPhoto{#1}}
+\def\@umonsFacultyPhoto{\@latex@warning@no@line{No \noexpand\umonsFacultyPhoto given}}
+
+
+% Faculty option. Includes faculty name, cover page picture and logo
+
+
+\DeclareOption{fpms}{%                                                                    Option for fpms students
+    \umonsFacultyName{Facult\'{e} Polytechnique}
+    \umonsFacultyLogo{umonsCharte/FPMS-Logo}
+    \umonsFacultyPhoto{umonsCharte/FPMS-Photo}
+}
+
+\DeclareOption{fs}{%                                                                      Option for fs students
+    \umonsFacultyName{Facult\'{e} des Sciences}
+    \umonsFacultyLogo{umonsCharte/FS-Logo}
+    \umonsFacultyPhoto{umonsCharte/FS-Photo}
+}
+
+\DeclareOption*{\@latex@warning@no@line{Valid options are fpms, fs, ...}}
+\ProcessOptions\relax
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Part 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Defining functions to be called upon creating the cover page %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% If starred command, displays only the minimal information
+\newcommand*{\umonsCoverPage}{\@ifstar\@umonsCoverPageReduced\@umonsCoverPageComplete}
+
+% Opening the title page
+\newcommand*{\@umonsCoverPageOpen}{
+    \begin{titlepage}%
+            \textblockorigin{0cm}{0cm}                  % Necessary for the correct positionning of logos and text blocks
+            % switch font to Helvetica (which is close to ...)
+            \fontfamily{phv}\selectfont
+            %\fontfamily{uop}\selectfont
+}
+
+% Closing the title page
+\newcommand*{\@umonsCoverPageClose}{
+    \end{titlepage}%
+    \pagestyle{empty}
+    \ \cleardoublepage     % Produces two blank pages
+    % Reset counters and fonts
+    \setcounter{page}{1}%
+    \setcounter{footnote}{0}%
+    \normalfont\normalsize%
+    \pagestyle{plain}
+}
+
+% Writing the minimal content
+\newcommand*{\@umonsCoverPageMinimalContent}{
+
+   % Block with umons logo
+    \begin{textblock*}{62mm}(82mm,11mm)                 % Defines a block of text; options: {width}{x-pos,y-pos} (positions refer to \textblockorigin)
+      \hbox{\includegraphics[width=62mm]{umonsCharte/UMONS-Logo}}
+    \end{textblock*}
+
+
+    % Blue block
+    \begin{textblock*}{130mm}(80mm,45mm)
+      \fontsize{20}{24}\selectfont
+      \noindent\colorbox[RGB]{65,95,138}{ % Defines a RGB-colored rectangle used as background
+        \begin{minipage}[c][25mm-2\fboxsep][t]{\linewidth-2\fboxsep} % Minipage containing the faculty name
+          \vspace*{2.5mm}\hspace*{1.5mm}\textcolor{white}{\@umonsFacultyName}
+        \end{minipage}}%
+    \end{textblock*}
+
+
+    % Main text block
+    \begin{textblock*}{120mm}(82mm,86mm)
+        \noindent\begin{minipage}[c][115mm-2\fboxsep][t]{\linewidth-2\fboxsep}
+
+            \fontsize{18}{22}\selectfont%					% Size for the \umonsTitle entry
+            \noindent\textcolor[gray]{0}{\@umonsTitle}\par
+
+	    \vspace{5pt}								% Spacing between the \umonsTitle and the \umonsSubtitle entries	
+
+            \fontsize{12}{14}\selectfont%					% Size for the \umonsSubtitle entry
+            \noindent\textcolor[gray]{0}{\@umonsSubtitle}\par
+
+            \vfill									% Spacing between the \umonsSubtitle and the \umonsDocumentType entries; can be switched to a \vspace{} if necessary
+
+            \fontsize{10}{12}\selectfont%					% Size for the \umonsDocumentType entry
+            \noindent\textcolor[gray]{0}{\@umonsDocumentType}
+
+            \vfill									% Spacing between the \umonsDocumentType and the \umonsAuthor entries; can be switched to a \vspace{} if necessary
+
+            \fontsize{10}{12}\selectfont%					% Size for the \umonsAuthor entry
+            \noindent\textcolor[gray]{0}{\@umonsAuthor}
+
+        \end{minipage}
+    \end{textblock*}
+
+
+    % Second text block
+    \begin{textblock*}{120mm}(82mm,250mm)%
+        \noindent\begin{minipage}[c][21mm-2\fboxsep][t]{\linewidth-2\fboxsep}%
+
+            \fontsize{10}{12}\selectfont%					% Size for the \umonsSupervisor entry
+            \noindent\textcolor[gray]{0}{\@umonsSupervisor}\par
+
+            \vfill									% Spacing between the \umonsSupervisor and the \umonsDate entries
+
+            \fontsize{10}{12}\selectfont%					% Size for the \umonsDate entry
+            \noindent\textcolor[gray]{0}{\@umonsDate}
+
+        \end{minipage}
+    \end{textblock*}
+
+
+    % Block with FPMs logo
+    \begin{textblock*}{67mm}(80mm,218mm)
+        \hbox{\includegraphics[width=66mm,height=23mm]{\@umonsFacultyLogo}}
+    \end{textblock*}
+
+
+    % Block with AUWB logo
+   % \begin{textblock*}{29mm}(80mm,273mm)
+        %\hbox{\includegraphics[width=29mm]{umonsCharte/AUWB-Logo}}
+    %\end{textblock*}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% Part 3 %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Defining functions actually producing the cover page %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Minimal content Title Page
+\newcommand*{\@umonsCoverPageReduced}[1][]{
+    \@umonsCoverPageOpen
+    \@umonsCoverPageMinimalContent
+    \@umonsCoverPageClose
+}
+
+% Full content Title Page
+\newcommand*{\@umonsCoverPageComplete}[1][\@umonsFacultyPhoto]{
+    \@umonsCoverPageOpen
+    \@umonsCoverPageMinimalContent
+
+    % Personal picture block
+    \begin{textblock*}{75mm}(0mm,83mm)
+      \hbox{\includegraphics[width=75mm,height=127mm]{#1}}
+    \end{textblock*}
+    \@umonsCoverPageClose
+}
+
+\makeatother

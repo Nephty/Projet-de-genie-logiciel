@@ -1,0 +1,37 @@
+En se basant sur le \emph{use case diagram}, il est possible d'établir un \emph{interaction overview diagram}, décrivant plutôt la structure et le \emph{flow} général d'exécution du programme. Ce diagramme ne va pas dans les détails de chaque cas d'utilisation (cette tâche est réservées à chacun des \emph{sequence diagrams} associés à chaque \emph{use case}) mais décrit plutôt le chemin que l'utilisateur peut suivre durant l'exécution de l'application, en faisant usage des fonctionnalités mises à disposition. Par exemple, au démarrage de l'application, l'utilisateur peut se connecter, afficher la liste de ses portefeuilles, afficher l'historique d'un compte et l'exporter au format JSON, puis sélectionner un nouveau portefeuille et le désactiver, et enfin se déconnecter de l'application avant de fermer cette-dernière. Il est possible de suivre ce chemin d'exécution dans l'\emph{interaction overview diagram}, et si l'on souhaite obtenir plus de détails sur le fonctionnement de l'exportation de l'historique, on peut suivre la référence au \emph{sequence diagram} associé.
+\\
+\\
+\indent Deux \emph{interaction overview diagrams} ont été réalisés. Le premier décrit l'application client, tandis que le second décrit l'application institution financière. Les deux applications sont chacunes divisées en deux parties, à savoir :
+\begin{enumerate}
+\item Application client
+\begin{enumerate}
+\item L'authentification ;
+\item L'accès à l'application en tant que client.
+\end{enumerate}
+\item  Application institution
+\begin{enumerate}
+\item L'authentification ;
+\item L'accès à l'application en tant qu'institution.
+\end{enumerate}
+\end{enumerate}
+Comme on peut le voir, chacune des application utilise le système d'authentification avec les fonctionnalités de connexion, création de compte, etc. Ensuite, chaque application aura des fonctionnalités bien distinctes.
+\begin{footnotesize}
+\indent \textit{Évidemment, si l'on crée un compte client, il ne faudra pas entrer les mêmes informations que pour un compte institution, mais le flux d'exécution reste le même.}
+\end{footnotesize}
+
+
+\paragraph{Authentification}
+Cette première partie est commune aux deux applications. Elle est accessible à tous, même aux personnes qui ne sont pas enregistrées dans la base de données ou pour qui l'application n'est pas destinée. Cette partie ne communique avec la base de données que lors de l'inscription, afin de vérifier si, par exemple, l'adresse email n'est pas déjà enregistrée dans cette-dernière, ou afin d'enregistrer un nouvel utilisateur. La seule table à laquelle l'application accèdera durant l'exécution de cette partie est la table \emph{Users}, ce qui permet d'empêcher d'accéder aux tables contenant des informations sensibles sans être connecté à son compte.
+\\
+Lors de l'ouverture de l'application, si aucune connexion n'a été enregistrée (c'est-à-dire si on accède à l'application sans s'être précédemment connecté), l'utilisateur arrive sur la fenêtre d'authentification. Depuis celle-ci, il peut effectuer plusieurs actions :
+\begin{enumerate}
+\item Changer la langue ;
+\item Se connecter ;
+\item Créer un compte.
+\end{enumerate}
+\begin{footnotesize}
+\textit{\emph{Quitter l'application} est considéré comme un comportement trivial.}
+\end{footnotesize}
+
+
+\paragraph{Choix de conception} Les deux diagrammes se basent sur deux points centraux, représentés par deux grands diamants : \emph{Authentification} et \emph{Accès à l'application en tant que client}/\emph{institution}. L'\emph{accès à l'application en tant que client}/\emph{institution} est ce qui différentie le diagramme de l'application client de celui de l'application institution. Chaque application se base sur le point central qui lui correspond, à partir duquel l'utilisateur peut prendre toutes les déicisions qu'il désire afin d'utiliser à sa guise les différentes fonctionnalités mises à sa disposition. Cette structure a été choisie puiqsu'elle concorde avec la structure qui sera implémentée graphiquement : un menu principal à partir duquel l'utilisateur peut accéder à différentes catégories, fonctionnalités... Typiquement, une flèche de \emph{Control flow} quittant le diamant \emph{Accès à l'application en tant que client} correspondra au clic d'un des boutons du menu principal (voir \emph{User Interface diagrams}), mis à part la fermeture de l'application. Par exemple, pour l'application client, \emph{Afficher les notifications} sera atteint si l'utilisateur décide d'afficher ses notifications via le bouton disponible sur l'écran principal de l'application. Un autre exemple pour l'application institution serait \emph{Accéder à la liste des demandes}. Ce point du flot d'exécution serait atteint si l'utilisateur cliquait sur le bouton lui permettant d'accéder aux demandes faites au près de l'institution.

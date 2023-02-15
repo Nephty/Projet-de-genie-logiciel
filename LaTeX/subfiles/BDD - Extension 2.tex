@@ -1,8 +1,0 @@
-Pour cette extension, de nombreux changements ont été effectués au niveau du diagramme d'entité relation.\\
-Tout d'abord, chaque compte contient plusieurs subaccounts qui sont différencier par le type de devise. Ce qui permet de créer des comptes multi-devises. 
-Si un compte n'est pas multi-devise, il ne possèdera qu'un seul subaccount.\\
-L'ajout de ces SubAccount implique quelques changement de l'entité \emph{TransactionLog} car il faut effectuer le virement depuis un subaccount vers un autre subaccount.
-C'est pour cela que les deux attributs \textit{CurrencyI\_Used} et \textit{CurrencyID\_Recipient} ont été ajouté car ils permettent de décrire de quel devise a été envoyé l'argent et vers quelle devise.
-Un attribut est également ajouté afin de connaitre le taux de conversion entre les deux devise au moment de la transaction.\\
-Une entité \emph{CountryFee} a également été ajoutée afin de connaitre les frais de virement internationaux pour chaque banque. 
-Si un utilisateur souhaite effectuer un virement vers un pays qui n'est pas dans la liste de sa banque, le virement ne peut pas être effectué.
